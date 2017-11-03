@@ -1,0 +1,34 @@
+# EventType: 25103011
+#
+# Descriptor: [Lambda_c+ -> p+ (phi(1020) -> K+ K-)]cc 
+#
+# NickName: Lc_phip,KK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for Lambda_c+ -> p+ phi(1020).
+# phi forced to K+ K-
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Yury Shcheglov
+# Email: Yury.Shcheglov@cern.ch
+# Date: 20121212
+#
+#
+
+Alias      MyPhi    phi
+ChargeConj MyPhi    MyPhi
+
+#
+Decay  Lambda_c+sig
+1.00000  MyPhi  p+              PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+
+#
+Decay MyPhi
+  1.000         K+    K-           VSS;
+Enddecay
+End

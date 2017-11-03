@@ -1,0 +1,49 @@
+# EventType: 11144201
+#
+# Descriptor: {[[B0]nos -> (chi_c1(1P) -> gamma (J/psi(1S) -> mu+ mu- )) K+ pi-]cc, [[B0]os -> (chi_c1(1P) -> gamma (J/psi(1S) -> mu+ mu-)) K- pi+]cc}
+#
+# NickName: Bd_chic1Kpi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 -> chi_c1 K pi phase space MC to study efficiencies over the Dalitz plot
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Antonio Augusto Alves Jr
+# Email: aalvesju@cern.ch
+# Date: 20130118
+#
+
+#
+#
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi    MyJ/psi
+
+Alias      Mychi_c1   chi_c1
+ChargeConj Mychi_c1 Mychi_c1
+
+# B0 -> chi_c1 K+ pi-
+
+Decay B0sig
+  1.000        Mychi_c1   K+ pi-      PHSP;
+Enddecay
+Decay anti-B0sig
+  1.000        Mychi_c1   K- pi+      PHSP;
+Enddecay
+
+# chi_c1 -> gamma J/psi
+
+Decay Mychi_c1
+ 1.000     MyJ/psi  gamma  VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+
+# J/psi -> mu+ mu-
+
+Decay MyJ/psi
+  1.000        mu+       mu-         PHOTOS  VLL;
+Enddecay
+
+#
+End

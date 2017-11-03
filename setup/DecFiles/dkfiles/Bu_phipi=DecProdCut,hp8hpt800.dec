@@ -1,0 +1,32 @@
+# EventType: 12103072
+#
+# Descriptor: [B+ -> phi pi+]cc
+#
+# NickName: Bu_phipi=DecProdCut,hp8hpt800
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2Phih
+#
+# Documentation: Phi forced to K+K-,phase space decay, decay products in acceptance, p(bach)>8GeV, pt(bach)>800MeV
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Fred Blanc
+# Email: fred.blanc@epfl.ch
+# Date: 20121007
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B+sig
+1.000      MyPhi  pi+   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

@@ -1,0 +1,29 @@
+# EventType: 26104080
+#
+# Descriptor: {[Xi_c0 -> p+ K- K- pi+]cc}
+#
+# NickName: Xic0_pKKpi=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Xi_c0 forced to p+ K- K- pi+ with phase space decay model,
+#                daughters required to fly with LHCb acceptance
+#                Unlike some other Xic decay files, e.g. 25103010, we don't
+#                need to reassign the Lambda_c+ mass because Pythia 8 actually
+#                includes Xi_c now, whereas Pythia 6 did not.
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# CPUTime: < 1 min
+# Responsible: Alex Pearce
+# Email:       alex.pearce@cern.ch
+# Date:        20150120
+
+
+Decay Xi_c0sig
+  1.000 p+ K- K- pi+ PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+
+End

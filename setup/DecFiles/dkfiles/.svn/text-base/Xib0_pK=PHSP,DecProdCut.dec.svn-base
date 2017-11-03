@@ -1,0 +1,29 @@
+# EventType:  16102041
+#
+# Descriptor: [Xi_b0 -> p+ K-]cc
+#
+# NickName:   Xib0_pK=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  Decay file for Xi_b0 -> p+ K- 
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Oliver Gruenberg
+# Email:       oliver.gruenberg@cern.ch
+# Date:        20140414
+# CPUTime:     3min
+#
+##############
+
+Decay Xi_b0sig
+1.00000  p+ K- PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+
+##############
+
+End
+

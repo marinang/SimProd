@@ -1,0 +1,54 @@
+# EventType: 12573061
+# 
+# Descriptor: [B- -> (D0 -> K- e+ nu_e) mu- anti-nu_mu]cc
+#
+# NickName: Bu_D0munu,Kenu=VisibleInAcceptance,HighVisMass
+# Cuts: LoKi::GenCutTool/HighVisMass
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool(LoKi__GenCutTool ,'HighVisMass')
+# #
+# tightCut = gen.SignalRepeatedHadronization.HighVisMass
+# tightCut.Decay   = '[^(B- => ^(D0 => ^K- ^e+ ^nu_e) ^mu- ^nu_mu~)]CC'
+# tightCut.Cuts    =    {
+#     '[K-]cc'     : "inAcc",
+#     '[e+]cc'     : "inAcc",
+#     '[mu-]cc'    : "inAcc",
+#     '[B-]cc'     : "visMass" }
+# tightCut.Preambulo += [
+#     "inAcc   = in_range ( 0.005 , GTHETA , 0.400 ) " ,
+#     "visMass  = ( ( GMASS ( 'e+' == GABSID , 'mu-' == GABSID, 'K-' == GABSID ) ) > 4500 * MeV ) " ]
+# EndInsertPythonCode
+#
+# Documentation: background for B -> K e mu LFV search
+# selected to have a visible mass larger than 4.5 GeV
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Francesco Polci 
+# Email: francesco.polci@cern.ch
+# Date: 20170823
+# CPUTime: 15min
+#
+
+Alias      MyD0         D0
+Alias      MyAntiD0     anti-D0
+ChargeConj MyD0         MyAntiD0
+
+
+Decay B-sig
+  1.000        MyD0 mu- anti-nu_mu             PHOTOS HQET2 1.18 1.074;
+Enddecay
+CDecay B+sig
+#
+Decay MyD0
+  1.000    K-   e+  nu_e   PHOTOS ISGW2; 
+Enddecay
+CDecay MyAntiD0
+#
+End
+#

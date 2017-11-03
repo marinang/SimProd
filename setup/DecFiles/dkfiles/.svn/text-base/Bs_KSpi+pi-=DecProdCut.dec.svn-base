@@ -1,0 +1,120 @@
+# EventType: 13204101
+#
+# Descriptor: {[Bs => KS pi+ pi-]cc}
+#
+# NickName: Bs_KSpi+pi-=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: resonant structure
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Krzysztof Sobczak
+# Email: monteil@in2p3.fr
+# Date: 20111025
+#
+Alias 		my_K*+		K*+
+Alias		my_K*-		K*-
+ChargeConj	my_K*+		my_K*-
+Alias		my_K_0*+	K_0*+
+Alias		my_K_0*-	K_0*-
+ChargeConj	my_K_0*+	my_K_0*-
+Alias		my_K'*+		K'*+
+Alias		my_K'*-		K'*-
+ChargeConj	my_K'*+		my_K'*-
+Alias		my_K_2*+	K_2*+
+Alias		my_K_2*-	K_2*-
+ChargeConj	my_K_2*+	my_K_2*-
+Alias		my_K''*+	K''*+
+Alias		my_K''*-	K''*-
+ChargeConj	my_K''*+	my_K''*-
+Alias		my_rho0		rho0
+ChargeConj 	my_rho0		my_rho0
+Alias		my_rho(2S)0		rho(2S)0
+ChargeConj 	my_rho(2S)0		my_rho(2S)0
+Alias		my_rho(3S)0		rho(3S)0
+ChargeConj 	my_rho(3S)0		my_rho(3S)0
+Alias		my_omega	omega
+ChargeConj	my_omega	my_omega
+Alias		my_f_0		f_0
+ChargeConj	my_f_0		my_f_0
+Alias		my_f'_0		f'_0
+ChargeConj	my_f'_0		my_f'_0
+Alias		my_K_S0		K_S0
+#
+#
+#
+Decay B_s0sig
+0.092				my_K*- 			pi+			SVS;
+0.206				my_K_0*- 		pi+			PHSP;
+0.015				my_K'*-			pi+			SVS;
+0.011				my_K_2*- 		pi+			STS;
+0.018				my_K''*- 		pi+			SVS;
+#
+0.180				my_rho0	 		my_K_S0		SVS;
+0.028				my_rho(2S)0	 		my_K_S0		SVS;
+0.034				my_rho(3S)0	 		my_K_S0		SVS;
+0.012				my_omega		my_K_S0		SVS;
+0.210				my_K_S0			my_f_0		PHSP;
+0.039				my_K_S0			my_f'_0		PHSP;
+#
+0.156				my_K_S0		pi-		pi+		PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay my_K*-
+1.0				my_K_S0			pi-		VSS;
+Enddecay
+CDecay my_K*+
+#
+Decay my_K_0*-
+1.0				my_K_S0			pi-		PHSP;
+Enddecay
+CDecay my_K_0*+
+#
+Decay my_K'*-
+1.0				my_K_S0			pi-		VSS;
+Enddecay
+CDecay my_K'*+
+#
+Decay my_K_2*-
+1.0				my_K_S0			pi-		TSS;
+Enddecay
+CDecay my_K_2*+
+#
+Decay my_K''*-
+1.0				my_K_S0			pi-		VSS;
+Enddecay
+CDecay my_K''*+	
+#
+Decay my_rho0
+1.0				pi+				pi-		VSS;
+Enddecay
+#
+Decay my_rho(2S)0
+1.0				pi+				pi-		VSS;
+Enddecay
+#
+Decay my_rho(3S)0
+1.0				pi+				pi-		VSS;
+Enddecay
+#
+Decay my_omega
+1.0				pi+				pi-		VSS;
+Enddecay
+#
+Decay my_f_0
+1.0				pi+				pi-		PHSP;
+Enddecay
+#
+Decay my_f'_0
+1.0				pi+				pi-		PHSP;
+Enddecay
+#
+Decay my_K_S0
+1.0				pi+				pi-		PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,26 @@
+# EventType:  13102402
+#
+# Descriptor:  {[Bs => K- K+ pi0]cc}
+#
+# NickName:  Bs_K-K+pi0=PHSP
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation:  Phasespace
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested:  Yes
+# Responsible:  S. Monteil
+# Email:  monteil@in2p3.fr
+# Date: 20101028
+#
+
+#
+Decay B_s0sig
+1.000			K-		K+		pi0			PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+#
+End

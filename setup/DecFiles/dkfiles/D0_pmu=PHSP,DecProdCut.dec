@@ -1,0 +1,26 @@
+# EventType:   22112011
+#
+# Descriptor:  [D0 -> p+ mu-]cc
+#
+# NickName:    D0_pmu=PHSP,DecProdCut
+#
+# Cuts:  DaughtersInLHCb
+#
+# Documentation:  Decay file for D0 -> p+ mu-
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: yes
+# Responsible: Oliver Grunberg
+# Email: oliver.gruenberg@googlemail.com
+# Date: 20111025
+#
+
+Decay D0sig
+1.00000  p+ mu-		PHSP;
+Enddecay
+CDecay anti-D0sig
+
+###################
+
+End

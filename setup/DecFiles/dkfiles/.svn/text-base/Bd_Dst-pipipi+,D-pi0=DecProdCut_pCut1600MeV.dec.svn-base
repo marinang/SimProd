@@ -1,0 +1,66 @@
+# EventType: 11266401
+#
+# Descriptor: {[[B0]nos -> (D*2010)- -> (D- => K+ pi- pi-) (pi0 -> gamma gamma)) pi+ pi- pi+]cc, [[B0]os -> (D*(2010)+ -> (D+ -> K- pi+ pi+) (pi0 -> gamma gamma)) pi- pi+ pi-]cc}
+#
+# NickName: Bd_Dst-pipipi+,D-pi0=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: D*- --> D- pi0, D- --> K+ pi- pi- Dalitz Decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: S. Blusk
+# Email: sblusk@syr.edu
+# Date: 20111008
+#
+Alias      MyD*-       D*-
+Alias      MyD*+       D*+
+ChargeConj MyD*+       MyD*-
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+Decay B0sig
+0.72    Mya_1+ MyD*-                     SVV_HELAMP 0.200 0.0 0.866 0.0 0.458 0.0; 
+0.13   MyD*-  Myf_2  pi+                PHSP;
+0.10   MyD*-  rho0  pi+                  PHSP;
+0.05   MyD*-  pi+ pi-  pi+               PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+  1.000        MyD- pi0                    VSS;
+Enddecay
+CDecay MyD*+
+#
+# D_DALITZ includes resonances contributions (K*(892), K*(1430), K*(1680))
+Decay MyD-
+  1.000    K+        pi-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Myf_2
+  1.0000  pi+ pi-                                  TSS ;
+Enddecay
+
+#
+#
+End
+

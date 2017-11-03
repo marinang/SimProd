@@ -1,0 +1,27 @@
+# EventType: 13102231
+#
+# NickName: Bs_KKgamma=phsp,DecProdCut
+#
+# Descriptor: B_s0 ->  K+ K- gamma 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B_s0->K+K-gamma decay, phase-space, Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Olivier Deschamps
+# Email: odescham@in2p3.fr
+# Date: 20131015
+#
+#
+
+#
+Decay B_s0sig
+  1.000       K+ K- gamma                   PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+#

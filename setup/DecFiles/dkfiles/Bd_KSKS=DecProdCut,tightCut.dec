@@ -1,0 +1,54 @@
+# EventType: 11104143
+#
+# Descriptor: [B0 -> (KS0 -> pi+ pi-) (KS0 -> pi+ pi-)]cc
+#
+# NickName: Bd_KSKS=DecProdCut,tightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[^(B0 ==> ^(KS0 -> ^pi+ ^pi-) ^(KS0 -> ^pi+ ^pi-))]CC'
+# tightCut.Cuts      =    {
+#     '[B0]cc'    : ' goodB     ' , 
+#     'KS0'   : ' goodKs ' , 
+#     '[pi+]cc'   : ' goodTrack ' }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.000 , GTHETA , 0.400 ) ' , 
+#     'goodB     = ( GP > 15 * GeV )   & inAcc            ' , 
+#     'goodTrack = ( GP >  1.6 * GeV )       ' , 
+#     'goodKs   = ( GP >  4 * GeV) & (GPT >  300 * MeV ) & inAcc              ' ] 
+#
+# EndInsertPythonCode
+#
+# Documentation: B0 -> K0S(-> pi- pi+) K0S(->pi+ pi-) phase space decay model
+# K0s decaying into pi- pi+
+# All final-state products in the acceptance, plus extra cuts on p and pt
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Tested: Yes
+# Responsible: Markward BRITSCH
+# Email: markward@mpi-hd.mpg.de
+# Date: 20130404
+#
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+#
+Decay B0sig
+  1.000    MyK0s        MyK0s         PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK0s
+  1.000    pi+          pi-           PHSP;
+Enddecay
+#
+End
+#

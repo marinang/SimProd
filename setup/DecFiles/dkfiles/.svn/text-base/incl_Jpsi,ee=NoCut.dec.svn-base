@@ -1,0 +1,23 @@
+# EventType: 24152000
+#
+# Descriptor: J/psi(1S) -> e+ e- {,gamma} {,gamma}
+#
+# NickName: incl_Jpsi,ee=NoCut
+#
+# Cuts: None
+#
+# Documentation: Jpsi decay to e+, e-, radiative mode included, no generator level cuts
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20110909
+#
+Decay J/psisig
+  1.000         e+        e-        PHOTOS VLL;
+Enddecay
+#
+End
+#

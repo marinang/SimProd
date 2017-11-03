@@ -1,0 +1,24 @@
+# EventType: 13112001
+#
+# Descriptor: [B_s0 -> mu+ mu-]cc
+#
+# NickName: Bs_mumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Franciole da Cunha Marinho
+# Email: Diego.Martinez.Santos@cern.ch
+# Date: 20111011
+#
+Decay B_s0sig
+  1.000       mu+     mu-              PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+

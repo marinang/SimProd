@@ -1,0 +1,44 @@
+# EventType: 11198000
+# 
+# Descriptor: [B0 -> D+ D- K*0]cc
+# 
+# NickName: Bd_DDKst0,Kpipi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay File for B0 -> D+ D- K*0 , D+ and D- forced to decay into Kpipi DDalitz
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: renato quagliani
+# Email: renato.quagliani@student.unife.it
+# Date: 20140711
+# CPUTime : <1min
+
+Alias My_K*0    K*0
+Alias My_anti-K*0    anti-K*0
+Alias My_D+   D+
+Alias My_D-   D-
+ChargeConj My_D- My_D+
+ChargeConj My_K*0 My_anti-K*0
+
+
+Decay My_D-
+  1.0 K+ pi- pi- D_DALITZ;
+Enddecay
+CDecay My_D+
+
+Decay My_K*0                                  
+  1.0 K+ pi- VSS;                               
+Enddecay             
+CDecay My_anti-K*0
+
+Decay B0sig
+  1.0 My_D+ My_D- My_K*0 PHSP;
+Enddecay
+CDecay anti-B0sig
+
+#
+End
+#

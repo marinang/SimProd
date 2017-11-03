@@ -1,0 +1,42 @@
+# EventType: 34512105
+#
+# Descriptor: K_S0 -> pi+ mu- nu_mu~
+#
+# NickName: Ks_pimunu=TightCut
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# Documentation: K_S0 -> pi+ mu- nu, tight generator cut
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = 'KS0 -> pi+ mu- nu_mu~'
+# tightCut.Preambulo += [
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "from GaudiKernel.SystemOfUnits import meter, GeV" ,
+#     "decay = in_range ( -1 * meter,            GFAEVX ( GVZ, 100 * meter ),                    1 * meter ) ",
+# ]
+# tightCut.Cuts      =    {
+#     'KS0'  : ' decay ',
+#                         }
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler 
+# Email: Marc-Olivier.Bettler@cern.ch
+# Date: 20120113
+#
+Decay K_S0sig
+  0.5       pi+      mu-      anti-nu_mu              PHSP;
+  0.5       pi-      mu+      nu_mu              PHSP;	
+Enddecay
+#
+End

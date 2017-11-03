@@ -1,0 +1,46 @@
+# EventType: 13166113
+#
+# Descriptor: {[[B_s0]nos -> (D~0 -> (KS0 -> pi+ pi-) pi+ pi-) (phi(1020) -> K+ K-)]cc, [[B_s0]os -> (D0 -> (KS0 -> pi+ pi-) pi+ pi- ) (phi(1020) -> K- K+)]cc}
+#
+# NickName: Bs_D0phi,KSpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: CP violation
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime:< 1 min
+# Responsible: Tisserand Vincent
+# Email: tisserav@lapp.in2p3.fr	
+# Date: 20170502
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias      MyPhi       phi
+ChargeConj MyPhi       MyPhi
+Alias myK_S0 K_S0
+ChargeConj myK_S0 myK_S0
+#
+Decay B_s0sig
+  1.000     MyPhi       Myanti-D0               SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myanti-D0
+  1.000      myK_S0  pi+ pi-       D_DALITZ;
+Enddecay
+CDecay MyD0
+#
+Decay MyPhi
+  1.000        K+        K-                     VSS;
+Enddecay
+#
+Decay myK_S0
+  1.000     pi+  pi-  PHSP;
+Enddecay
+#
+End
+

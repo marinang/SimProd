@@ -1,0 +1,53 @@
+# EventType: 13164496
+# 
+# Descriptor: {[[B_s0]nos -> (D_s1(2536)- -> (D*(2007)~0 -> (D~0 -> K+ pi-) pi0 ) K- )  K+ ]cc, [[B_s0]os -> (D_s1(2536)+ -> (D*(2007)0 -> (D0 -> K- pi+) pi0 ) K+ )  K- ]cc}
+# 
+# NickName: Bs_Ds2536K,Dst0K,D0pi0,Kpi=DecProdCut,SVS,VVS_SWAVE
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: 
+# B_s0 decays to Ds1(2356) (D*(2007) K-) K+  with D*(2007) decays to D0 (Kpi) pi0 
+# Daughters in LHCb accpetance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Nicolas Aurelien Deleage
+# Email: nicolas.deleage@cern.ch
+# Date: 20150204
+# CPUTime : < 1 min
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+#
+Alias      MyD*0       D*0
+Alias      Myanti-D*0  anti-D*0
+ChargeConj MyD*0       Myanti-D*0
+#
+Alias      MyD'_s1-      D'_s1-
+Alias      MyD'_s1+      D'_s1+
+ChargeConj MyD'_s1+      MyD'_s1-
+#
+Decay B_s0sig
+1.000      MyD'_s1-    K+    SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD'_s1-
+1.000      Myanti-D*0    K-    VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD'_s1+
+#
+Decay MyD*0
+1.000    MyD0  pi0     VSS;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD0
+1.000    K-   pi+    PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End

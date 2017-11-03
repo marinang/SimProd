@@ -1,0 +1,34 @@
+# EventType: 27175001
+#
+# Descriptor: [D*(2010)+ -> (D0 -> {mu+ mu- mu+ mu-}) pi+]cc
+#
+# NickName: Dst_D0pi,mumumumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: the D*(2010)+ -> (D0 -> mu^+ mu^- mu^+ mu^-) pi+ decay in the phase space approach
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Indrek Sepp (Imperial College, London)
+# Email: insepp@cern.ch
+# Date: 20120430
+#
+	
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0	
+	
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+   1.000   mu+  mu-  mu+  mu-   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End

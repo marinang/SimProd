@@ -1,0 +1,38 @@
+# EventType: 28102003
+#
+# Descriptor: psi(S1S) -> p+ p~- 
+#
+# NickName: incl_psi2S,pp=Pt1.8GeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode: 
+# from Configurables import LoKi__GenCutTool as GenCutTool 
+# #
+# Generation().SignalPlain.addTool( GenCutTool , 'TightCut' ) 
+# Generation().SignalPlain.TightCut.Decay = "psi(2S) => ^p+ ^p~-"
+# Generation().SignalPlain.TightCut.Cuts = {
+#     'p+'  : ' ( GPT > 1.8 * GeV ) & inAcc ',
+#     'p~-' : ' ( GPT > 1.8 * GeV ) & inAcc '
+#     }
+# Generation().SignalPlain.TightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ]
+# EndInsertPythonCode
+#
+# Documentation: psi(2S) decay to p+ p- with phase space model, daughters in accpetance, and both proton PT>1.8 GeV
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jibo He
+# Email: Jibo.He@cern.ch
+# Date: 20120524
+#
+#
+Decay psi(2S)sig
+  1.000         p+        anti-p-        PHSP;
+Enddecay
+#
+End
+#

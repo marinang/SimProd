@@ -1,0 +1,26 @@
+# EventType: 13102003
+#
+# Descriptor: [B_s0 -> K- K+]cc
+#
+# NickName: Bs_K+K-=CPV,tightCut
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: Hb2hh
+#
+# Documentation: CP Violation, cuts in Hb2hh.opts
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Stefano Perazzini 
+# Email: stefano.perazzini@cern.ch
+# Date: 20111112
+#
+Decay B_s0sig
+  1.000       K+     K-    SSD_CP 20.e12 0.1 1.0 0.04 9.6 -0.8 8.4 -0.6;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+

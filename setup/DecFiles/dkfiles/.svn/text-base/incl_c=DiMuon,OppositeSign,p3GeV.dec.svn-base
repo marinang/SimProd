@@ -1,0 +1,22 @@
+# EventType: 20072001
+#
+# Descriptor: pp => [<Xc>]cc ...
+#
+# NickName: incl_c=DiMuon,OppositeSign,p3GeV
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: DiLeptonInAcceptance
+#
+# ExtraOptions: DiMuonOppositeSignP3GeV
+#
+# Documentation: Di-muon filter, OppositeSign, min P 3GeV for both,
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler
+# Email: marc-olivier.bettler@cern.ch
+# Date: 20111214
+#
+End
+#

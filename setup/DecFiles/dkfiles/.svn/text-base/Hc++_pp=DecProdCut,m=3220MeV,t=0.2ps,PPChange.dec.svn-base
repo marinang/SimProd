@@ -1,0 +1,31 @@
+# EventType: 26302021 
+#
+# NickName: Hc++_pp=DecProdCut,m=3220MeV,t=0.2ps,PPChange
+#
+# Descriptor: {[Sigma_c++ -> p+ p+]cc, [Sigma_c++ -> p+ p+ K- pi+]cc}
+#
+# Cuts: DaughtersInLHCb
+#
+# Sample: SignalRepeatedHadronization
+#
+# ParticleValue: "Sigma_c++ 85 4222 2.0 3.220 2.e-13 Sigma_c++ 4222 0." , "Sigma_c~-- 86 -4222 -2.0 3.220 2.e-13 anti-Sigma_c-- -4222 0."
+#
+# Documentation: a search for a hypothetical long-lived hexa-quark state Hc++ with one c-quark and baryon number +-2. 
+# A mass below Lambda_c+p threshold ensures decay via weak interaction. 
+#
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Ivan Polyakov
+# Email:       Ivan.Polyakov@<no-spam>cern.ch
+# Date:        20170306
+# CPUTime:     <1min 
+#
+Decay Sigma_c++sig
+  0.500    p+ p+         PHSP ;
+  0.500    p+ p+ K- pi+  PHSP ;
+Enddecay
+CDecay anti-Sigma_c--sig
+#
+End

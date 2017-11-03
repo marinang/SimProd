@@ -1,0 +1,54 @@
+# EventType: 11110010
+#
+# Descriptor:  {[[B0]nos -> mu+ (tau- -> pi+ pi- pi- nu_tau) (K*(892)0 -> K+ pi-)]cc, [[B0]nos -> (tau+ -> pi+ pi- pi+ anti-nu_tau) mu- (K*(892)0 -> K+ pi-)]cc, [[B0]os -> mu- (tau+ -> pi+ pi- pi+ anti-nu_tau) (K*(892)~0 -> K- pi+)]cc, [[B0]os -> (tau- -> pi+ pi- pi- nu_tau) mu+ (K*(892)~0 -> K- pi+)]cc}
+#
+# NickName: Bd_Ksttaumu,3pi=DecProdCut,tauolababar,phsp
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: Bd decay to K* tau mu
+# K* decays to Kpi final state.
+# Tau lepton decay in the 3-prong charged pion mode using the Tauola BaBar model.
+# All final-state products in the acceptance.
+# Same as 11716010, but with different tau decay model
+# Same as 11110011, but with phase-space decay for B
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Kristof De Bruyn
+# Email: debruyn@cppm.in2p3.fr
+# Date: 20161110
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+Alias         MyK*0      K*0
+Alias         Myanti-K*0 anti-K*0
+ChargeConj    MyK*0      Myanti-K*0
+#
+Decay B0sig
+  0.500       MyK*0      Mytau+     mu-        PHSP;
+  0.500       MyK*0      mu+        Mytau-     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000       K+         pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Mytau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+End

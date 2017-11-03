@@ -1,0 +1,43 @@
+# EventType: 15104350
+#
+# Descriptor: [Lambda_b0 -> K+ K- (Sigma0 -> (Lambda0 -> p+ pi-) gamma)]cc
+#
+# NickName: Lb_Sigma0KK,Lambdag,ppi=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Sigma0 forced to Lambda0 gamma, Lambda0 forced to p pi, daughters in acceptance
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Daniel O'Hanlon
+# Email: daniel.ohanlon@cern.ch
+# Date: 20140612
+#
+Alias MyLambda0       Lambda0
+Alias Myanti-Lambda0  anti-Lambda0
+ChargeConj MyLambda0  Myanti-Lambda0
+#
+Alias MySigma0       Sigma0
+Alias Myanti-Sigma0  anti-Sigma0
+ChargeConj MySigma0  Myanti-Sigma0
+#
+Decay Lambda_b0sig
+  1.000    MySigma0    K+    K-    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda0
+  1.000    p+   pi-    PHSP;
+Enddecay
+CDecay Myanti-Lambda0
+#
+Decay MySigma0
+  1.0000    MyLambda0  gamma   PHSP;
+Enddecay
+CDecay Myanti-Sigma0
+#
+End

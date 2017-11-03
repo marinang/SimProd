@@ -1,0 +1,110 @@
+# EventType: 11198010
+#
+# Descriptor: [B0 -> (D*(2010)- -> (anti-D0 -> K+ pi+ pi- pi-) pi-) (D+ -> K- pi+ pi+ ) ]cc
+#
+#
+# NickName: Bd_DstD,D0K3pi,Dkpipi=CPV,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation().SignalRepeatedHadronization.TightCut
+#tightCut.Decay = '^[ [B0]cc => ^( D*(2010)- => ^(D~0 -> ^K+ ^pi- ^pi+ ^pi-) ^pi-) ^(D+ => ^K- ^pi+ ^pi+)  ]CC'
+##
+
+#tightCut.Preambulo += [
+#    'inAcc        = (in_range(0.005, GTHETA, 0.400))',
+#    'from GaudiKernel.SystemOfUnits import millimeter',
+#    'goodh        = (GPT > 100 * MeV)  & (GP > 1.0 *GeV) & inAcc',
+#    'goodD        = (GINTREE( (GPT > 450 * MeV ) & (GP > 4.5 * GeV ) ) ) ',
+#    'goodB        = (GINTREE( (GPT > 1500 * MeV ) & (GP > 9.5 * GeV ) ) ) & (GTIME > 0.05 * millimeter) & ( GCHILD( GPT , "D*(2010)-" == GABSID) + GCHILD(GPT ,"D+" == GABSID)  > 4.5 * GeV) '
+#    ]
+#tightCut.Cuts = {
+#   '[B0]cc'       : 'goodB' ,
+#   '[D~0]cc'      : 'goodD' ,
+#   '[D+]cc'       : 'goodD' ,
+#   '[K+]cc'       : 'goodh' ,
+#   '[pi+]cc'      : 'goodh'
+#   }
+# EndInsertPythonCode
+#
+# Documentation:  B0 decay to D*D with CPV in B0 decay and Dalitz decay model for D decay. 
+# Daughters in LHCb.
+#
+# P(1) = deltaM = 0.51e12				(HFAG March 2014)
+# P(2) = dg/g = 0 						(HFAG March 2014)
+# P(3) = |q/p| = 1 						(no mixing CPV in B0)
+# P(4) = arg(q/p) = -0.818				(HFAG March 2014, B02DstD, World Average Belle & BaBar, arg(q/p)=-2beta)
+# P(5) = |Af| = 1.0
+# P(6) = arg(Af) = 0.
+# P(7) = |Abarf| = -1.0
+# P(8) = arg(Abarf) = 0.
+#
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: B khanji
+# Email: basem.khanji@cern.ch
+# Date: 20151016
+# CPUTime: < 2 min
+
+# -------------------------
+# THEN DEFINE THE D+ AND D-
+# -------------------------
+Alias      MyD+  D+
+Alias      MyD-  D-
+ChargeConj MyD+  MyD-
+
+# -------------------------
+# THEN DEFINE THE D*+ AND D*-
+# -------------------------
+Alias      MyD*+       D*+
+Alias      MyD*-       D*-
+ChargeConj MyD*+       MyD*-
+
+# -------------------------
+# THEN DEFINE THE D0 AND D~0
+# -------------------------
+Alias       MyD0        D0
+Alias       Myanti-D0   anti-D0
+ChargeConj  MyD0        Myanti-D0
+
+# ---------------
+# DECAY OF THE B0
+# ---------------
+Decay B0sig
+	1.000         MyD*-    MyD+ SSD_CP 0.51e12 0.0 1.0 -0.818 1.0 0. -1.0 0.;
+Enddecay
+CDecay anti-B0sig
+
+# ---------------
+# DECAY OF THE D*-
+# ---------------
+Decay MyD*-
+  1.000        Myanti-D0 pi- 				VSS;
+Enddecay
+CDecay MyD*+
+
+# ---------------
+# DECAY OF THE D~0
+# ---------------
+Decay Myanti-D0
+  1.000        K+    pi+    pi-     pi-     PHSP;
+Enddecay
+CDecay MyD0
+
+# ---------------
+# DECAY OF THE D+
+# ---------------
+Decay MyD+
+  1.000  K- pi+ pi+      PHSP;
+Enddecay
+CDecay MyD-
+#
+End
+

@@ -1,0 +1,346 @@
+# EventType: 25960000
+#
+# Descriptor: [Lambda_c+ -> ...]cc
+#
+# NickName: Lc,incl
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Lambda_c -> hadronic modes
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Anton Poluektov
+# Email: a.o.poluektov@<nospam>warwick.ac.uk
+# Date: 20110120
+#
+
+Alias My_anti-Sigma*-        anti-Sigma*-
+Alias My_K*0                 K*0
+Alias My_Lambda0             Lambda0
+Alias My_Delta0              Delta0
+Alias My_K*-                 K*-
+Alias My_anti-Sigma*0        anti-Sigma*0
+Alias My_K*+                 K*+
+Alias My_anti-K*0            anti-K*0
+Alias My_rho0                rho0
+Alias My_Xi-                 Xi-
+Alias My_eta                 eta
+Alias My_Xi*0                Xi*0
+Alias My_Sigma+              Sigma+
+Alias My_anti-Sigma-         anti-Sigma-
+Alias My_Sigma*+             Sigma*+
+Alias My_anti-Sigma+         anti-Sigma+
+Alias My_Sigma-              Sigma-
+Alias My_anti-Delta--        anti-Delta--
+Alias My_K_S0                K_S0
+Alias My_omega               omega
+Alias My_anti-Delta-         anti-Delta-
+Alias My_phi                 phi
+Alias My_anti-Delta0         anti-Delta0
+Alias My_Delta++             Delta++
+Alias My_K0                  K0
+Alias My_anti-K0             anti-K0
+Alias My_f_0                 f_0
+Alias My_Sigma0              Sigma0
+Alias My_anti-Xi+            anti-Xi+
+Alias My_anti-Sigma0         anti-Sigma0
+Alias My_Sigma*0             Sigma*0
+Alias My_anti-Lambda0        anti-Lambda0
+Alias My_eta'                eta'
+Alias My_Delta+              Delta+
+Alias My_anti-Xi*0           anti-Xi*0
+
+
+ChargeConj My_K*0 My_anti-K*0    
+ChargeConj My_Lambda0 My_anti-Lambda0 
+ChargeConj My_Delta0 My_anti-Delta0 
+ChargeConj My_K*- My_K*+         
+ChargeConj My_anti-Sigma*0 My_Sigma*0 
+ChargeConj My_Xi- My_anti-Xi+    
+ChargeConj My_Xi*0 My_anti-Xi*0  
+ChargeConj My_Sigma+ My_anti-Sigma- 
+ChargeConj My_Sigma*+ My_anti-Sigma*- 
+ChargeConj My_Sigma- My_anti-Sigma+ 
+ChargeConj My_anti-Delta-- My_Delta++ 
+ChargeConj My_anti-Delta- My_Delta+ 
+ChargeConj My_K0 My_anti-K0      
+ChargeConj My_Sigma0 My_anti-Sigma0 
+
+
+
+Decay My_Delta+
+  0.98219585  n0 pi+                                   PHSP ;
+  0.01780415  gamma p+                                 PHSP ;
+Enddecay
+
+
+Decay My_Delta++
+  1.00000000  p+ pi+                                   PHSP ;
+Enddecay
+
+
+Decay My_Delta0
+  1.00000000  p+ pi-                                   PHSP ;
+Enddecay
+
+
+Decay My_K*+
+  0.99139780  My_K0 pi+                                VSS ;
+  0.00860220  K+ gamma                                 VSP_PWAVE ;
+Enddecay
+
+
+Decay My_K*-
+  0.99139780  My_anti-K0 pi-                           VSS ;
+  0.00860220  K- gamma                                 VSP_PWAVE ;
+Enddecay
+
+
+Decay My_K*0
+  0.99896082  K+ pi-                                   VSS ;
+  0.00103918  My_K0 gamma                              VSP_PWAVE ;
+Enddecay
+
+
+Decay My_K0
+  1.00000000  My_K_S0                                  PHSP ;
+Enddecay
+
+
+Decay My_K_S0
+  1.00000000  pi+ pi-                                  PHSP ;
+Enddecay
+
+
+Decay My_Lambda0
+  0.99596133  p+ pi-                                   PHSP ;
+  0.00272883  gamma n0                                 PHSP ;
+  0.00130984  gamma p+ pi-                             PHSP ;
+Enddecay
+
+
+Decay Lambda_c+sig
+  0.34949111  p+ My_anti-K*0                           PHSP ;
+  0.10439547  p+ My_anti-K0                            PHSP ;
+  0.08991890  My_Delta++ My_K*-                        PHSP ;
+  0.08651830  My_Delta++ K-                            PHSP ;
+  0.04875883  My_Lambda0 pi+                           PHSP ;
+  0.04623682  My_Sigma0 pi+                            PHSP ;
+  0.04203347  My_Lambda0 K+                            PHSP ;
+  0.02621767  p+ My_rho0                               PHSP ;
+  0.02539443  My_Sigma+ My_rho0                        PHSP ;
+  0.02219367  My_Sigma*+ My_rho0                       PHSP ;
+  0.01748718  My_Xi*0 K+                               PHSP ;
+  0.01681339  My_Sigma0 K+                             PHSP ;
+  0.01573139  p+ My_f_0                                PHSP ;
+  0.01472231  My_Delta+ My_anti-K*0                    PHSP ;
+  0.01310883  My_Delta++ pi-                           PHSP ;
+  0.01301707  My_Delta0 pi+                            PHSP ;
+  0.01153300  My_Lambda0 My_K*+                        PHSP ;
+  0.00846293  My_Sigma+ My_K*0                         PHSP ;
+  0.00838807  p+ My_phi                                PHSP ;
+  0.00764810  My_Delta+ My_anti-K0                     PHSP ;
+  0.00493083  My_Sigma*+ My_K*0                        PHSP ;
+  0.00441768  My_Delta+ My_rho0                        PHSP ;
+  0.00439641  My_Sigma+ My_K0                          PHSP ;
+  0.00386069  p+ My_eta'                               PHSP ;
+  0.00373947  My_Sigma+ My_eta'                        PHSP ;
+  0.00304639  My_Sigma*0 pi+                           PHSP ;
+  0.00256152  My_Sigma*+ My_K0                         PHSP ;
+  0.00130105  My_Delta+ My_eta'                        PHSP ;
+  0.00076160  My_Sigma*0 K+                            PHSP ;
+  0.00060301  p+ My_eta                                PHSP ;
+  0.00058407  My_Sigma+ My_eta                         PHSP ;
+  0.00044046  p+ My_omega                              PHSP ;
+  0.00042663  My_Sigma+ My_omega                       PHSP ;
+  0.00037285  My_Sigma*+ My_omega                      PHSP ;
+  0.00020896  My_Sigma*0 My_K*+                        PHSP ;
+  0.00020321  My_Delta+ My_eta                         PHSP ;
+  0.00007422  My_Delta+ My_omega                       PHSP ;
+Enddecay
+
+
+Decay My_Sigma*+
+  1.00000000  My_Lambda0 pi+                           PHSP ;
+Enddecay
+
+
+Decay My_Sigma*0
+  0.50015491  My_Sigma+ pi-                            PHSP ;
+  0.49984509  My_Sigma- pi+                            PHSP ;
+Enddecay
+
+
+Decay My_Sigma+
+  0.99752220  n0 pi+                                   PHSP ;
+  0.00247780  gamma p+                                 PHSP ;
+Enddecay
+
+
+Decay My_Sigma-
+  1.00000000  n0 pi-                                   PHSP ;
+Enddecay
+
+
+Decay My_Sigma0
+  1.00000000  gamma My_Lambda0                         PHSP ;
+Enddecay
+
+
+Decay My_Xi*0
+  1.00000000  My_Xi- pi+                               PHSP ;
+Enddecay
+
+
+Decay My_Xi-
+  1.00000000  My_Lambda0 pi-                           PHSP ;
+Enddecay
+
+
+Decay My_anti-Delta-
+  0.98219585  anti-n0 pi-                              PHSP ;
+  0.01780415  anti-p- gamma                            PHSP ;
+Enddecay
+
+
+Decay My_anti-Delta--
+  1.00000000  anti-p- pi-                              PHSP ;
+Enddecay
+
+
+Decay My_anti-Delta0
+  1.00000000  anti-p- pi+                              PHSP ;
+Enddecay
+
+
+Decay My_anti-K*0
+  0.99896082  K- pi+                                   VSS ;
+  0.00103918  My_anti-K0 gamma                         VSP_PWAVE ;
+Enddecay
+
+
+Decay My_anti-K0
+  1.00000000  My_K_S0                                  PHSP ;
+Enddecay
+
+
+Decay My_anti-Lambda0
+  0.99596133  anti-p- pi+                              PHSP ;
+  0.00272883  anti-n0 gamma                            PHSP ;
+  0.00130984  anti-p- gamma pi+                        PHSP ;
+Enddecay
+
+
+Decay anti-Lambda_c-sig
+  0.34949111  anti-p- My_K*0                           PHSP ;
+  0.10439547  anti-p- My_K0                            PHSP ;
+  0.08991890  My_anti-Delta-- My_K*+                   PHSP ;
+  0.08651830  My_anti-Delta-- K+                       PHSP ;
+  0.04875883  My_anti-Lambda0 pi-                      PHSP ;
+  0.04623682  My_anti-Sigma0 pi-                       PHSP ;
+  0.04203347  My_anti-Lambda0 K-                       PHSP ;
+  0.02621767  anti-p- My_rho0                          PHSP ;
+  0.02539443  My_anti-Sigma- My_rho0                   PHSP ;
+  0.02219367  My_anti-Sigma*- My_rho0                  PHSP ;
+  0.01748718  My_anti-Xi*0 K-                          PHSP ;
+  0.01681339  My_anti-Sigma0 K-                        PHSP ;
+  0.01573139  anti-p- My_f_0                           PHSP ;
+  0.01472231  My_anti-Delta- My_K*0                    PHSP ;
+  0.01310883  My_anti-Delta-- pi+                      PHSP ;
+  0.01301707  My_anti-Delta0 pi-                       PHSP ;
+  0.01153300  My_anti-Lambda0 My_K*-                   PHSP ;
+  0.00846293  My_anti-Sigma- My_anti-K*0               PHSP ;
+  0.00838807  anti-p- My_phi                           PHSP ;
+  0.00764810  My_anti-Delta- My_K0                     PHSP ;
+  0.00493083  My_anti-Sigma*- My_anti-K*0              PHSP ;
+  0.00441768  My_anti-Delta- My_rho0                   PHSP ;
+  0.00439641  My_anti-Sigma- My_anti-K0                PHSP ;
+  0.00386069  anti-p- My_eta'                          PHSP ;
+  0.00373947  My_anti-Sigma- My_eta'                   PHSP ;
+  0.00304639  My_anti-Sigma*0 pi-                      PHSP ;
+  0.00256152  My_anti-Sigma*- My_anti-K0               PHSP ;
+  0.00130105  My_anti-Delta- My_eta'                   PHSP ;
+  0.00076160  My_anti-Sigma*0 K-                       PHSP ;
+  0.00060301  anti-p- My_eta                           PHSP ;
+  0.00058407  My_anti-Sigma- My_eta                    PHSP ;
+  0.00044046  anti-p- My_omega                         PHSP ;
+  0.00042663  My_anti-Sigma- My_omega                  PHSP ;
+  0.00037285  My_anti-Sigma*- My_omega                 PHSP ;
+  0.00020896  My_anti-Sigma*0 My_K*-                   PHSP ;
+  0.00020321  My_anti-Delta- My_eta                    PHSP ;
+  0.00007422  My_anti-Delta- My_omega                  PHSP ;
+Enddecay
+
+
+Decay My_anti-Sigma*-
+  1.00000000  My_anti-Lambda0 pi-                      PHSP ;
+Enddecay
+
+
+Decay My_anti-Sigma*0
+  0.50015491  My_anti-Sigma- pi+                       PHSP ;
+  0.49984509  My_anti-Sigma+ pi-                       PHSP ;
+Enddecay
+
+
+Decay My_anti-Sigma+
+  1.00000000  anti-n0 pi+                              PHSP ;
+Enddecay
+
+
+Decay My_anti-Sigma-
+  0.99752220  anti-n0 pi-                              PHSP ;
+  0.00247780  anti-p- gamma                            PHSP ;
+Enddecay
+
+
+Decay My_anti-Sigma0
+  1.00000000  gamma My_anti-Lambda0                    PHSP ;
+Enddecay
+
+
+Decay My_anti-Xi*0
+  1.00000000  My_anti-Xi+ pi-                          PHSP ;
+Enddecay
+
+
+Decay My_anti-Xi+
+  1.00000000  My_anti-Lambda0 pi+                      PHSP ;
+Enddecay
+
+
+Decay My_eta
+  1.00000000  gamma pi+ pi-                            PHSP ;
+Enddecay
+
+
+Decay My_eta'
+  0.99826587  My_rho0 gamma                            SVP_HELAMP 1.0 0.0 1.0 0.0 ;
+  0.00173413  My_omega gamma                           SVP_HELAMP 1.0 0.0 1.0 0.0 ;
+Enddecay
+
+
+Decay My_f_0
+  1.00000000  pi+ pi-                                  PHSP ;
+Enddecay
+
+
+Decay My_omega
+  0.91071429  pi+ pi-                                  VSS ;
+  0.08928571  gamma pi+ pi-                            PHSP ;
+Enddecay
+
+
+Decay My_phi
+  0.99956385  K+ K-                                    VSS ;
+  0.00043615  My_f_0 gamma                             PHSP ;
+Enddecay
+
+
+Decay My_rho0
+  1.00000000  pi+ pi-                                  VSS ;
+Enddecay
+
+End

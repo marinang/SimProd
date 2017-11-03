@@ -1,0 +1,30 @@
+# EventType: 12103061
+#
+# Descriptor: [B+ -> phi K+]cc
+#
+# NickName: Bu_phiK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phi forced to K+K-, phase space decay, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Fred Blanc
+# Email: fred.blanc@epfl.ch
+# Date: 20121007
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B+sig
+1.000      MyPhi  K+   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

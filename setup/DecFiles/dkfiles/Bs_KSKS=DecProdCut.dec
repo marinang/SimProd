@@ -1,0 +1,34 @@
+# EventType: 13104101
+#
+# Descriptor: [B_s0 -> (KS0 -> pi+ pi-) (KS0 -> pi+ pi-)]cc 
+#
+# NickName: Bs_KSKS=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: BS0 -> K0S(-> pi- pi+) K0S(->pi+ pi-) phase space decay model
+# K0s decaying into pi- pi+
+# All final-state products in the acceptance
+# EndDocumentation
+#
+# PhysicsWG: QCD
+#
+# Tested: Yes
+# Responsible: Florin MACIUC
+# Email: florin.maciuc@mpi-hd.mpg.de
+# Date: 20111128
+#
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+#
+Decay B_s0sig
+  1.000    MyK0s        MyK0s         PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyK0s
+  1.000    pi+          pi-           PHSP;
+Enddecay
+#
+End
+#

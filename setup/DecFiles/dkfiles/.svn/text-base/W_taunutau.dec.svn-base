@@ -1,0 +1,23 @@
+# EventType: 42300000
+#
+# Descriptor: pp -> [W+ -> tau+ nu_tau]cc ... 
+#
+# NickName: W_taunutau
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 4*GeV LeptonIsFromMother true NumberOfbquarks -1
+# ExtraOptions: Wtaunu
+#
+# Documentation: 1 lepton with pT > 4 GeV 
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Tara Shears Wenchao Zhang
+# Email: Wenchao.Zhang@cern.ch
+# Date: 20110926
+#
+End
+#
+

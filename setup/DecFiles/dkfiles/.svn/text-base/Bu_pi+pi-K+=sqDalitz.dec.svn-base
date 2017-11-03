@@ -1,0 +1,24 @@
+# EventType: 12103023
+#
+# Descriptor: [B+ -> pi+ pi- K+]cc
+#
+# NickName: Bu_pi+pi-K+=sqDalitz
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Flat in square Dalitz
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Aurelien Martens
+# Email: aurelien.martens@lpnhe.in2p3.fr
+# Date: 20121007
+#
+Decay B+sig
+1.000       pi+     pi-     K+     FLATSQDALITZ;
+Enddecay
+CDecay B-sig
+#
+End
+

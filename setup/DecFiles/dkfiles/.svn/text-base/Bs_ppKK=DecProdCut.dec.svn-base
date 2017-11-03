@@ -1,0 +1,24 @@
+# EventType: 13104061
+#
+# Descriptor: [B_s0 -> p+ p~- K+ K-]cc
+#
+# NickName: Bs_ppKK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Tested: yes
+# Responsible: Roberta Cardinale
+# Email: roberta.cardinale@cern.ch
+# Date: 20130925
+#
+Decay B_s0sig
+  1.0000       p+       anti-p-  K+ K-              PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End

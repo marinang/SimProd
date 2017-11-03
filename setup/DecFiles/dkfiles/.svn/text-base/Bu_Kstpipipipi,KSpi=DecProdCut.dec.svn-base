@@ -1,0 +1,39 @@
+# EventType: 12107110
+#
+# Descriptor: [B+ -> (K*(892)+ -> (K_S0 -> pi+ pi-) pi+) pi+ pi- pi+ pi- ]cc
+#
+# NickName: Bu_Kstpipipipi,KSpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ forced to K*(892)+ pi+ pi- pi+ pi-, K*(892)+ forced to K_S0 pi+
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Jackson Smith
+# Email: jackson.smith@cern.ch
+# Date: 20150908
+#
+Alias        MyK*+     K*+
+Alias        MyK*-     K*-
+ChargeConj   MyK*+     MyK*-
+Alias       MyK_S0  K_S0
+ChargeConj  MyK_S0  MyK_S0
+#
+Decay B+sig
+1.000     MyK*+    pi+     pi-     pi+     pi-    PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyK*+
+1.000  MyK_S0  pi+                          VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK_S0
+1.0000  pi+  pi-                            PHSP;
+Enddecay
+#
+End

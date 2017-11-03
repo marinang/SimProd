@@ -1,0 +1,26 @@
+# EventType: 12103260
+#
+# NickName: Bu_pppigamma=DecProdCut
+#
+# Descriptor: [B+ -> p+ anti-p- pi+ gamma]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ -> p pbar pi+ gamma decay; decay products in acceptance
+# EndDocumentation
+#
+# CPUTime: <1min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Paula Alvarez
+# Email: paula.alvarez@cern.ch
+# Date: 20160602
+#
+Decay B+sig
+  1.000    p+    anti-p-    pi+    gamma    PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+#

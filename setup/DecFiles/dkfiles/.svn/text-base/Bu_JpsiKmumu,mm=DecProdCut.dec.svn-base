@@ -1,0 +1,33 @@
+# EventType: 12145060
+#
+# Descriptor: [B+ -> (J/psi(1S) -> mu+ mu- ) K+ mu+ mu+]cc
+#
+# NickName: Bu_JpsiKmumu,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay B+ -> JPSI(-> MU+ MU-) K+ MU+ MU-
+# EndDocumentation
+#
+# Tested: Yes
+# Responsible: Indrek Sepp
+# Date: 20121220
+#
+# PhysicsWG: RD
+#
+# Email: insepp@cern.ch
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Decay B+sig
+  1.000     MyJ/psi  K+  mu+  mu-         PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+End
+

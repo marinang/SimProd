@@ -1,0 +1,35 @@
+# EventType: 13104015
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bs_phiphi=flatLT
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2PhiPhi
+#
+# Documentation: phi forced to K+ K-, decay products in acceptance
+# No direct CPV
+# Flat lifetime model
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Sean Benson
+# Email: sean.benson@cern.ch
+# Date: 20130906
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_s0sig
+  1.0000       MyPhi     MyPhi    PHSPFLATLIFETIME 12;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

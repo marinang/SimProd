@@ -1,0 +1,41 @@
+# EventType: 13396010
+#
+# NickName: Bs_DD,Kpipi,KKpi=DDALITZ,DecProdCut
+#
+# Descriptor: [B_s0-> ((D+ -> K- pi+ pi+) || (D+ -> K- K+ pi+)) ((D- -> K+ pi- pi-) || (D- -> K+ K- pi-))]cc
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#    Decay file for B_s decay to D+D- with Dalitz decay model for D decay
+# EndDocumentation
+#
+# Date:   20170302
+#
+# Responsible: Dennis van Elten
+# Email: dennis.vanelten@tu-dortmund.de
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+# CPUTime: < 1 min
+	
+Alias       MyD+    D+
+Alias       MyD-    D-
+ChargeConj  MyD+    MyD-
+
+
+
+Decay B_s0sig
+    1.0000        MyD+    MyD-       PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+
+
+Decay MyD+
+    0.3 K- K+ pi+                   D_DALITZ;
+    0.7 K- pi+ pi+                  D_DALITZ;
+Enddecay
+CDecay MyD-
+
+#
+End

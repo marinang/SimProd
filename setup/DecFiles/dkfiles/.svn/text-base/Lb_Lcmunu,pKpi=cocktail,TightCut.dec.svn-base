@@ -1,0 +1,81 @@
+# EventType: 15874001
+#
+# Descriptor: [ Lambda_b0 ==>  (Lambda_c+ ==> p+ K- pi+)  mu- anti_nu_mu   ]cc
+#
+# NickName: Lb_Lcmunu,pKpi=cocktail,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime:  3 min
+#
+# Documentation: Lb -> Lc mu nu_mu with Lc->p K pi.  Includes acceptance, P and PT cuts on the p and mu. 
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut  = Generation().SignalPlain.TightCut
+#tightCut.Decay = "[ Lambda_b0 ==>  (Lambda_c+ ==> ^p+ K- pi+)  ^mu- nu_mu~ ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV",
+# "pmuPX = GCHILD(GPX,('p+' == GABSID )) + GCHILD(GPX,('mu-' == GABSID))",
+# "pmuPY = GCHILD(GPY,('p+' == GABSID )) + GCHILD(GPY,('mu-' == GABSID))",
+# "pmuPT2 = pmuPX * pmuPX + pmuPY * pmuPY"
+#  ]
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 950 * MeV ) & (GP > 14600 * MeV)" ,
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GPT > 1450 * MeV) &  (GP > 4900 * MeV) ",
+#'[Lambda_b0]cc' : "pmuPT2 > 1960000"
+#   }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: William Sutcliffe
+# Email: william.lawrence.sutcliffe@cern.ch
+# Date:   20140417
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Decay Lambda_b0sig
+  1.0    MyLambda_c+        mu-  anti-nu_mu     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+# BR = 1
+Decay MyLambda_c+
+# Lc->pKpi:
+  0.02800         p+      K-      pi+          PHSP;
+  0.016         p+      Myanti-K*0           PHSP;
+  0.00860         Delta++ K-                   PHSP;
+  0.00414         MyLambda(1520)0 pi+          PHSP;  
+Enddecay
+CDecay Myanti-Lambda_c-
+# BR = 1
+#
+# 
+#
+Decay MyK*0
+  1.0      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+#
+Decay MyLambda(1520)0
+  1.0   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+#
+End

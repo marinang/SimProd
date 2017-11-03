@@ -1,0 +1,42 @@
+# EventType: 12203302
+#
+# Descriptor: [B+ -> (K*+ -> (K_S0 -> pi+ pi-) pi+) gamma]cc
+#
+# NickName: Bu_Kstgamma,Kst=KSpi,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: [B+ -> (K*+ -> (K_S0 -> pi+ pi-) pi+) gamma]cc
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Ricardo Vazquez Gomez
+# Email: rvazquez@cern.ch
+# Date: 20140501
+#
+
+Alias      MyK*+      K*+
+Alias      MyK*-      K*-
+Alias      MyKs       K_S0
+ChargeConj MyK*+      MyK*-
+ChargeConj MyKs       MyKs
+#
+Decay B+sig
+1.000      MyK*+  gamma         SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay MyK*+
+1.000      MyKs   pi+           VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyKs
+1.000      pi+    pi-           PHSP;
+Enddecay
+#
+End
+
+

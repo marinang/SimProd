@@ -1,0 +1,65 @@
+# EventType: 13164621
+#
+# Descriptor: {[[B_s0]nos -> (D_s1(2460)- -> (D*_s- -> gamma (D_s- => K- K+ pi-)) (pi0 -> gamma gamma) ) pi+]cc, [[B_s0]os -> (D_s1(2460)+ -> (D*_s+ -> gamma (D_s+ => K- K+ pi+)) (pi0 -> gamma gamma)) pi-]cc}
+#
+# NickName: Bs_Ds2460pi,Dsstpi0,Dsgamma,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation:
+# B_s0 decay to Ds1(2460) (Ds*- (D_s- (KKpi) pi0) pi+ ) pi+ with Dalitz decay model for D_s- decay.
+# Daughters in LHCb.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20140713
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s1+    D_s1+
+Alias      MyD_s1-    D_s1-
+ChargeConj MyD_s1-    MyD_s1+
+#
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      Mypi0     pi0
+ChargeConj Mypi0     Mypi0
+#
+Decay B_s0sig
+  1.000     MyD_s1-      pi+          SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s1- 
+  1.000     MyD_s*- Mypi0               PHSP;
+Enddecay
+CDecay MyD_s1+
+#
+#
+Decay MyD_s*-
+  1.000   MyD_s-  gamma               VSP_PWAVE;
+Enddecay
+CDecay MyD_s*+
+#
+Decay MyD_s-
+  1.000        K-        K+        pi-             D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+#
+Decay Mypi0 
+  1.000      gamma   gamma   PHSP;
+Enddecay  
+#
+End
+

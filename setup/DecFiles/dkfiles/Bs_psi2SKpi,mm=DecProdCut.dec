@@ -1,0 +1,34 @@
+# EventType: 13144081 
+#
+# Descriptor: {[[B_s0]nos -> (psi(2S) -> mu+ mu-) K+ pi-]cc, [[B_s0]os -> (psi(2S) -> mu+ mu-) K- pi+]cc}
+# NickName: Bs_psi2SKpi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B_s0 -> psi(2S) K pi phase space MC to study efficiencies over the Dalitz plot
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Matt Needham
+# Email: Matthew.Needham@cern.ch
+# Date: 20130912
+#
+
+#
+#
+Alias      Mypsi2s    psi(2S)
+ChargeConj Mypsi2s    Mypsi2s
+#
+Decay B_s0sig
+  1.000         Mypsi2s   K+ pi-          PHSP;
+Enddecay
+Decay anti-B_s0sig
+  1.000         Mypsi2s   K- pi+     PHSP;
+Enddecay
+#
+Decay Mypsi2s
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+#
+End

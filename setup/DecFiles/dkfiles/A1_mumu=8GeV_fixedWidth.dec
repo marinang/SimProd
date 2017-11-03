@@ -1,0 +1,25 @@
+# EventType: 40112013
+#
+# Descriptor: pp -> (A1 -> mu mu) ... 
+#
+# NickName: A1_mumu=8GeV_fixedWidth
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 2 LeptonPtMin 1*GeV LeptonIsFromMother true MotherOfLepton {"H_30"} NumberOfbquarks -1
+#
+# ExtraOptions: A1mumu_fixedWidth
+# ParticleValue: "H_30 89 36 0.0 8.0 5.485e-21 A0 36 8.0"
+#
+# Documentation: 2 lepton with pT > 1 GeV and FSR activated, fixed width to 1.2e-04
+# EndDocumentation
+#
+# PhysicsWG: Exotica 
+# CPUTime: < 1 s
+# Tested: Yes
+# Responsible: Carlos Vazquez Sierra
+# Email: carlos.vazquez@cern.ch
+# Date: 20160506
+#
+End
+#

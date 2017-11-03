@@ -1,0 +1,52 @@
+# EventType: 17574250
+#
+# Descriptor: [B_s1(L)0 -> K- (B*+ ->(B+ -> D~0 mu+ nu_mu) gamma)]cc
+#
+# NickName: Bs1_BstK,D0MuNu,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Decay file for Bs1 -> (B*+ -> (B+ -> (D~0 -> K+ pi-) mu+ nu_mu)) K-, DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Matthew Rudolph
+# Email: matthew.scott.rudolph@cern.ch
+# Date: 20160418
+#
+#
+Alias MyBstar B*+
+Alias MyantiBstar B*-
+ChargeConj MyBstar  MyantiBstar
+Alias      MyB      B+
+Alias      MyantiB  B-
+ChargeConj MyB      MyantiB
+Alias      MyD      D0
+Alias      MyantiD  anti-D0
+ChargeConj MyD      MyantiD
+#
+Decay B_s10sig
+1.0000    MyBstar   K-              VVS_PWAVE 0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s10sig
+#
+Decay MyBstar
+1.000    MyB  gamma                       VSP_PWAVE;
+Enddecay
+CDecay MyantiBstar
+#
+Decay MyB
+1.0000     MyantiD  mu+ nu_mu         PHOTOS  ISGW2;
+Enddecay
+CDecay MyantiB
+#
+Decay MyD
+1.0000     K-  pi+      PHOTOS PHSP;
+Enddecay
+CDecay MyantiD
+#
+End
+#

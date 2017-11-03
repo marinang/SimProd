@@ -1,0 +1,49 @@
+# EventType: 16104161
+# 
+# Descriptor: [ Xi_bc0 -> (Lambda0 -> p+ pi-) (phi(1020) -> K+ K-) ]cc
+#
+# NickName: Xibc_LambdaPhi=DecProdCut,m=6.9GeV,t=0.4ps
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# ParticleValue: " Xi_bc0 522 5142 0.0 6.90000000 0.400000e-12 Xi_bc0 5142 0.00000000", " Xi_bc~0 523 -5142 0.0 6.90000000 0.400000e-12 anti-Xi_bc0 -5142 0.00000000"
+#
+# Documentation: decay file of [ Xi_bc^0 -> (Lambda0 -> p+ pi-) (phi(1020) -> K+ K- ) ]cc
+# using dedicated GenXicc package for production, cuts with XiccDaughtersInLHCb, phase space decay model used. 
+# Lambda_c resonances included.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Jibo He
+# Email: jibo.he@cern.ch
+# Date: 20161028
+#
+#
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+#
+Alias      MyPhi    phi
+ChargeConj MyPhi    MyPhi
+#
+Decay Xi_bc0sig
+  1.00   MyLambda    MyPhi      PHSP;
+Enddecay
+CDecay anti-Xi_bc0sig
+#
+Decay MyLambda
+  1.000    p+        pi-       PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+Decay MyPhi
+  1.000         K+          K-           VSS;
+Enddecay
+#
+End
+

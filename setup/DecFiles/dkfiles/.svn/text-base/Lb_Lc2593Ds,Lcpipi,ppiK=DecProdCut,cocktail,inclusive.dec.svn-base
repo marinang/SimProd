@@ -1,0 +1,64 @@
+# EventType: 15295003
+# Descriptor: [Lambda_b0 -> D_s- (Lambda_c(2593)+ -> (Sigma_c0 -> (Lambda_c+ -> p+ K- pi+) pi-) pi+)]cc
+# 
+# NickName: Lb_Lc2593Ds,Lcpipi,ppiK=DecProdCut,cocktail,inclusive
+# Cuts: LHCbAcceptance
+# Documentation: Decay Lambda_b0 -> D_s- ( Lambda_c(2595)+ -> (Sigma_c0 -> (Lambda_c+ -> ^p+  ^K- ^pi+ ) pi-) pi+) including intermediate states. D inclusive decays are considered
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Anna Lupato, Marcin Chrzaszcz, Elena Graverini
+# Email: alupato@cern.ch, mchrzasz@cern.ch, elena.graverini@cern.ch
+# Date: 20160118
+# CPUTime: <1 min
+#
+Alias MyLambda_c(2593)+ Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)- anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+ Myanti-Lambda_c(2593)-
+#
+Alias MyLambda_c(2625)+       Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+  Myanti-Lambda_c(2625)-
+#
+Alias      MyLambda_c+         Lambda_c+
+Alias      MyLambda_c-	       anti-Lambda_c-
+ChargeConj MyLambda_c+         MyLambda_c-
+#
+Alias MySigma_c++       Sigma_c++
+Alias Myanti-Sigma_c--  anti-Sigma_c--
+ChargeConj MySigma_c++  Myanti-Sigma_c--
+#
+Alias MySigma_c0       Sigma_c0
+Alias Myanti-Sigma_c0  anti-Sigma_c0
+ChargeConj MySigma_c0  Myanti-Sigma_c0
+#
+Decay Lambda_b0sig
+  1.0000    MyLambda_c(2593)+       D_s-        PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c(2593)+
+  0.36363636   MySigma_c++         pi-         PHSP;
+  0.36363636   MySigma_c0          pi+         PHSP;
+  0.27272727   MyLambda_c+         pi+    pi-  PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+#
+Decay MySigma_c++
+  1.0000    MyLambda_c+  pi+                   PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MySigma_c0
+1.0000    MyLambda_c+  pi-                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+#
+Decay MyLambda_c+
+  1.0000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+End

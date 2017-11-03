@@ -1,0 +1,154 @@
+# EventType: 13202401
+#
+# Descriptor: {[Bs => K- pi+ pi0]cc}
+#
+# NickName: Bs_K-pi+pi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: resonant structure
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Krzysztof Sobczak
+# Email: sobczak@clermont.in2p3.fr
+# Date: 20111013
+#
+Alias	    my_K*+		K*+
+Alias		my_K*-		K*-
+ChargeConj	my_K*+		my_K*-
+Alias		my_K_0*+	K_0*+
+Alias		my_K_0*-	K_0*-
+ChargeConj	my_K_0*+	my_K_0*-
+Alias		my_K'*+		K'*+
+Alias		my_K'*-		K'*-
+ChargeConj	my_K'*+		my_K'*-
+Alias		my_K_2*+	K_2*+
+Alias		my_K_2*-	K_2*-
+ChargeConj	my_K_2*+	my_K_2*-
+Alias		my_K''*+	K''*+
+Alias		my_K''*-	K''*-
+ChargeConj	my_K''*+	my_K''*-
+#
+Alias 		my_anti-K*0		anti-K*0
+Alias		my_K*0			K*0
+ChargeConj	my_anti-K*0		my_K*0
+Alias		my_anti-K_0*0	anti-K_0*0
+Alias		my_K_0*0		K_0*0
+ChargeConj	my_anti-K_0*0	my_K_0*0
+Alias		my_anti-K'*0	anti-K'*0
+Alias		my_K'*0			K'*0
+ChargeConj	my_anti-K'*0	my_K'*0
+Alias		my_anti-K_2*0	anti-K_2*0
+Alias		my_K_2*0		K_2*0
+ChargeConj	my_anti-K_2*0	my_K_2*0
+Alias		my_anti-K''*0	anti-K''*0
+Alias		my_K''*0		K''*0
+ChargeConj	my_anti-K''*0	my_K''*0
+#
+Alias		my_rho+			rho+
+Alias		my_rho-			rho-
+ChargeConj 	my_rho+			my_rho-
+Alias		my_rho(2S)+		rho(2S)+
+Alias		my_rho(2S)-		rho(2S)-
+ChargeConj  my_rho(2S)+		my_rho(2S)-
+Alias		my_rho(3S)+		rho(3S)+
+Alias		my_rho(3S)-		rho(3S)-
+ChargeConj 	my_rho(3S)+		my_rho(3S)-
+#
+#
+#
+Decay B_s0sig
+0.060			my_K*- 			pi+			SVS;
+0.134			my_K_0*- 		pi+			PHSP;
+0.010			my_K'*-			pi+			SVS;
+0.007			my_K_2*- 		pi+			STS;
+0.011			my_K''*- 		pi+			SVS;
+#
+0.119			my_anti-K*0		pi0			SVS;
+0.267			my_anti-K_0*0	pi0			PHSP;
+0.020			my_anti-K'*0	pi0			SVS;
+0.014			my_anti-K_2*0 	pi0			STS;
+0.023			my_anti-K''*0 	pi0			SVS;
+#
+0.179			my_rho+			K-			SVS;
+0.028			my_rho(2S)+		K-			SVS;
+0.034			my_rho(3S)+		K-			SVS;
+#
+0.094			K-		pi+		pi0			PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+#
+#
+Decay my_K*-
+1.0				K-				pi0		VSS;
+Enddecay
+CDecay my_K*+
+#
+Decay my_K_0*-
+1.0				K-				pi0		PHSP;
+Enddecay
+CDecay my_K_0*+
+#
+Decay my_K'*-
+1.0				K-				pi0		VSS;
+Enddecay
+CDecay my_K'*+
+#
+Decay my_K_2*-
+1.0				K-				pi0		TSS;
+Enddecay
+CDecay my_K_2*+
+#
+Decay my_K''*-
+1.0				K-				pi0		VSS;
+Enddecay
+CDecay my_K''*+	
+#
+#
+#
+Decay my_anti-K*0
+1.0				K-				pi+		VSS;
+Enddecay
+CDecay my_K*0
+#
+Decay my_anti-K_0*0
+1.0				K-				pi+		PHSP;
+Enddecay
+CDecay my_K_0*0
+#
+Decay my_anti-K'*0
+1.0				K-				pi+		VSS;
+Enddecay
+CDecay my_K'*0
+#
+Decay my_anti-K_2*0
+1.0				K-				pi+		TSS;
+Enddecay
+CDecay my_K_2*0
+#
+Decay my_anti-K''*0
+1.0				K-				pi+		VSS;
+Enddecay
+CDecay my_K''*0	
+#
+#
+#
+Decay my_rho+
+1.0				pi+				pi0		VSS;
+Enddecay
+CDecay my_rho-
+#
+Decay my_rho(2S)+
+1.0				pi+				pi0		VSS;
+Enddecay
+CDecay my_rho(2S)-
+#
+Decay my_rho(3S)+
+1.0				pi+				pi0		VSS;
+Enddecay
+CDecay my_rho(3S)-
+#
+End

@@ -1,0 +1,50 @@
+# EventType: 15568001
+#
+# Descriptor: [Lb_b0 => (Lb_c(2625)+ -> ((Lambda_c+ -> p+ K- pi+) pi+ pi-) tau- anti-nu_tau]cc
+#
+# NickName: Lb_Lc2625TauNu,pKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lc(2625) tau nu  with Lc(2625)->Lc pi pi, Lc->p K pi,
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Conor Fitzpatrick
+# Email: conor.fitzpatrick@cern.ch
+# Date:   20120705
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias MyLambda_c(2625)+       Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+  Myanti-Lambda_c(2625)-
+#
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau- MyTau+
+#
+Decay Lambda_b0sig
+  1.0    MyLambda_c(2625)+  MyTau- anti-nu_tau    PHOTOS   BaryonPCR  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c(2625)+
+  1.00000      MyLambda_c+         pi+    pi-  PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyTau-
+  1.000     pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay MyTau+
+
+End

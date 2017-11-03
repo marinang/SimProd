@@ -1,0 +1,31 @@
+# EventType: 21123420
+#
+# Descriptor: [D+ ==> (phi(1020) ==> e- e+) pi+ pi0]CC
+#
+# NickName: D+_phipipi0,ee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces a D+ to ( phi ->e+ e- ) pi+ pi0
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Niklas Nolte
+# Email: niklas.nolte@cern.ch
+# Date: 20170306
+# CPUTime: < 1m
+
+Alias       my_phi   phi
+ChargeConj  my_phi   my_phi
+#
+Decay  D+sig
+1.000    my_phi     pi+     pi0							  PHOTOS PHSP;
+Enddecay
+CDecay D-sig
+#
+Decay  my_phi
+  1.0000       e-    e+              PHOTOS VLL;
+Enddecay
+#
+End

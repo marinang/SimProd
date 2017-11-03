@@ -1,0 +1,35 @@
+# EventType: 11164076
+#
+# Descriptor: {[[B0]nos => K+ pi- (D~0 -> K+ pi-)]cc, [[B0]os => K- pi+ (D0 -> K- pi+)]cc}
+#
+# NickName: Bd_D0Kpi,Kpi=sqDalitz-KpiD,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 decay with flat square Dalitz model with m' from Kpi, daughters in acceptance 
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mark Whitehead
+# Email: mwhitehe@cern.ch
+# Date: 20140916
+#
+
+Alias MyD0       D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+
+
+Decay B0sig
+1.0   K+ pi- Myanti-D0              FLATSQDALITZ;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD0
+1.0   K-  pi+                        PHSP;
+Enddecay
+CDecay Myanti-D0
+
+End

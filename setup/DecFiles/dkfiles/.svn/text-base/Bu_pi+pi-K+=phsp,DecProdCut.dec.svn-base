@@ -1,0 +1,24 @@
+# EventType: 12103022
+#
+# Descriptor: [B+ -> pi+ pi- K+]cc
+#
+# NickName: Bu_pi+pi-K+=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decay to pi+, pi- and K+ with phase space model, all daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Pascal David, Michal Kreps
+# Email: M.Kreps@warwick.ac.uk
+# Date: 20110909
+#
+Decay B+sig
+1.000       pi+     pi-     K+     PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+

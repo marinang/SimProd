@@ -1,0 +1,41 @@
+# EventType: 12175050
+#
+# Descriptor: [B+ -> (D_s+ -> K+ K- pi+) (J/psi -> mu+ mu-)]cc
+#
+# NickName: Bu_Ds+Jpsi,KKpi,mm=DDALITZ,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+->Ds+Jpsi
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Igor Babuschkin
+# Email: igor.babuschkin@cern.ch
+# Date: 20150326
+#
+#
+Alias        MyD_s+       D_s+
+Alias        MyD_s-       D_s-
+ChargeConj   MyD_s+       MyD_s-
+Alias        MyJ/psi      J/psi
+ChargeConj   MyJ/psi      MyJ/psi
+#
+Decay B+sig
+  1.     MyD_s+      MyJ/psi          PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD_s+
+  1.      K+   K-    pi+              D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyJ/psi
+  1.      mu+        mu-              PHOTOS VLL;              
+Enddecay
+#
+End
+#

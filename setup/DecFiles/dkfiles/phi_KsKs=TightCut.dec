@@ -1,0 +1,52 @@
+# EventType: 39104100 
+#
+# Descriptor: [phi -> (K_S0 -> pi+ pi-) (K_S0 -> pi+ pi-)]
+#
+# NickName: phi_KsKs=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ ^(phi(1020) -> ^(KS0 -> ^pi+ ^pi-) ^(KS0 -> ^pi+ ^pi-)) ]CC'
+# tightCut.Cuts      =    {
+#     '[pi+]cc' : ' goodPi ' ,
+#     'KS0' : ' goodKs ' ,
+#     'phi(1020)' : ' goodPhi ' }
+# tightCut.Preambulo += [
+#     'inAcc = in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#     'goodPi = ( GPT > 0.225 * GeV ) & (GP > 1.9 * GeV) & inAcc ' ,
+#     'goodKs = inAcc ' ,
+#     'goodPhi = (GPT > 0.35 * GeV) & inAcc' ]
+#
+# EndInsertPythonCode
+#
+# Documentation: 
+#    phi(1020) -> KS0 KS0 with tight cuts
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Jon Harrison, Wojciech Krzemien
+# Email: jonathan.harrison@manchester.ac.uk, wojciech.krzemien@ncbj.gov.pl
+# Date: 20150706
+#
+Alias myK_S0 K_S0
+ChargeConj myK_S0 myK_S0
+
+Decay 		phisig
+  1.000       	myK_S0     	myK_S0	VSS;
+Enddecay
+
+Decay 		myK_S0
+  1.000       	pi+     	pi-	PHSP;
+Enddecay
+#
+End

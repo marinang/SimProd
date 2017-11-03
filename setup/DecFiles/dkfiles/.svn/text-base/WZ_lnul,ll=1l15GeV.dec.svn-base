@@ -1,0 +1,22 @@
+# EventType: 42923002
+#
+# Descriptor: pp -> ([W+ -> l nu_l]cc) (Z0 -> l+ l-) ... 
+#
+# NickName: WZ_lnul,ll=1l15GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 15*GeV LeptonIsFromMother true NumberOfbquarks -1
+#
+# ExtraOptions: WZlnulll=1l15GeV
+#
+# Documentation: One lepton from W and Z decay with pT > 15 GeV 
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Marek Sirendi
+# Email: marek.sirendi@cern.ch
+# Date: 20130813
+End
+#

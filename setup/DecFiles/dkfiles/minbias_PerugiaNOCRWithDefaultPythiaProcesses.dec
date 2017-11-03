@@ -1,0 +1,20 @@
+# EventType: 30001324
+#
+# Descriptor: pp => ?
+#
+# NickName: minbias_PerugiaNOCRWithDefaultPythiaProcesses
+#
+# Cuts: None
+#
+# ExtraOptions: PerugiaNOCR_DefaultPythiaProcesses
+#
+# Documentation: NOCR perugia tune with the default PYTHIA processes only
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Raluca Muresan
+# Email: raluca.muresan@cern.ch
+# Date: 20111031
+#
+End

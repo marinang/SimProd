@@ -1,0 +1,86 @@
+# EventType: 12265027
+#
+# Descriptor: [B+ -> (D~0 -> K+ K-) pi+ pi- pi+]cc
+#
+# NickName: Bu_D0pipipi,KK-withf2=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Justin Garofoli, Steven Blusk
+# Email: justing@physics.syr.edu
+# Date: 20130801
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+#
+Alias      MyD_10     D_10
+Alias      Myanti-D_10     anti-D_10
+ChargeConj MyD_10     Myanti-D_10
+#
+Alias      MyD*-     D*-
+Alias      MyD*+     D*+
+ChargeConj MyD*+     MyD*-
+#
+Alias      MyD_2*0    D_2*0 
+Alias Myanti-D_2*0    anti-D_2*0 
+ChargeConj MyD_2*0    Myanti-D_2*0
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+#
+Decay B+sig
+  0.66  Mya_1+ Myanti-D0                       SVS;
+  0.08   Myanti-D0 rho0 pi+                    PHSP;
+  0.12   Myanti-D0 Myf_2 pi+                    PHSP;
+  0.09   Myanti-D_10 pi+                       SVS;
+  0.04   Myanti-D_2*0 pi+                      STS;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D0
+  1.000        K+        K-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyD_10
+  0.7    MyD*+  pi-                         VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+  0.3    MyD0  pi- pi+                      PHSP;
+Enddecay
+CDecay Myanti-D_10
+#
+Decay MyD*+
+  1.00    MyD0  pi+                        VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD_2*0
+  0.7    MyD*+  pi-                        TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+  0.3    MyD0  pi- pi+                      PHSP;
+Enddecay
+CDecay Myanti-D_2*0
+#
+Decay Myf_2
+  1.0000  pi+ pi-                                  TSS ;
+Enddecay
+
+End
+

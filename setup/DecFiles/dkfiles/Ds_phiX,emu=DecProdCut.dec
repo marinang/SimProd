@@ -1,0 +1,39 @@
+# EventType: 23712012
+#
+# Descriptor: [[D_s+ --> (phi(1020) ==> e- mu+) ...]CC, [D_s+ --> (phi(1020) ==> e+ mu-) ...]CC]
+#
+# NickName: Ds_phiX,emu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces a Ds+ to ( phi ->e+ mu- ) X 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Stefanie Reichert
+# Email: stefanie.reichert@cern.ch
+# Date: 20160518
+# CPUTime: < 1m
+#
+Alias       my_phi   phi
+ChargeConj  my_phi   my_phi
+#
+Decay  D_s+sig
+  0.024900000 my_phi     e+      nu_e                            PHOTOS  ISGW2 ;
+  0.018309605 my_phi     mu+     nu_mu                           PHOTOS  ISGW2 ;
+  0.084000000 my_phi     rho+                                    PHOTOS SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0 ;
+  0.045000000 my_phi     pi+                                     PHOTOS SVS ; 
+  0.000152453 my_phi     K+                                      PHOTOS SVS ; 
+  0.007622650 my_phi     pi+     pi0                             PHOTOS PHSP ;
+  0.012100000 my_phi     pi+     pi-     pi+                     PHOTOS PHSP ;
+  0.003811325 my_phi     pi+     pi0     pi0                     PHOTOS PHSP ;
+Enddecay
+CDecay D_s-sig
+#
+Decay  my_phi
+  0.5000       e-    mu+              PHOTOS VLL;
+  0.5000       e+    mu-              PHOTOS VLL;
+Enddecay
+#
+End

@@ -1,0 +1,59 @@
+# EventType: 12245003
+#
+# Descriptor: [B+ -> (J/psi(1S) -> mu+ mu-) K+ K- pi+]cc
+#
+# NickName: Bu_JpsiKKpi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:   B+ decay to J/psiKKpi [50% K*K, 20% f0 pi, 20% f2pi & 10% NR)
+# EndDocumentation
+#
+# PhysicsWG:   Onia 
+# Tested:      Yes
+# Responsible: Vanya BELYAEV
+# Email:       Ivan.Belyaev@itep.ru
+# Date:        20130912
+#
+
+#
+Alias       MyJ/psi        J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+Alias       MyK*0              K*0
+Alias       Myanti-K*0    anti-K*0
+ChargeConj  MyK*0       Myanti-K*0
+
+Alias       Myf_0         f_0
+ChargeConj  Myf_0       Myf_0
+
+Alias       Myf_2         f_2
+ChargeConj  Myf_2       Myf_2
+
+#
+Decay       B-sig
+  0.500     MyJ/psi MyK*0 K-   PHSP ;
+  0.200     MyJ/psi Myf_0 pi-  PHSP ;
+  0.200     MyJ/psi Myf_2 pi-  PHSP ;
+  0.100     MyJ/psi K+ K- pi-  PHSP ;
+Enddecay
+CDecay      B+sig
+#
+Decay       MyJ/psi
+  1.0000    mu+  mu-           VLL  ;
+Enddecay
+#
+Decay       MyK*0
+  1.000     K+  pi-            VSS  ;
+Enddecay
+CDecay      Myanti-K*0
+#
+Decay       Myf_0
+  1.000     K+  K-             PHSP ; 
+Enddecay
+#
+Decay       Myf_2
+  1.000     K+  K-             TSS  ; 
+Enddecay
+#
+End

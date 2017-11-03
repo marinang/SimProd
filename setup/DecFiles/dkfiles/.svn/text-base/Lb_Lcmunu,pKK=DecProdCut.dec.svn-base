@@ -1,0 +1,42 @@
+# EventType: 15674000
+#
+# Descriptor: {[Lambda_b0 -> (Lambda_c+ => p+ K+ K-) mu- nu_mu~]cc}
+#
+# NickName: Lb_Lcmunu,pKK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lc mu nu_mu with Lc -> p K K
+#                Lc+ forced to p+ K+ K-, p+ phi
+#                phi forced to K+ K-
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Alex Pearce
+# Email:       alex.pearce@cern.ch
+# Date:        20121120
+
+Alias MyLambda_c+       Lambda_c+
+Alias MyLambda_c-       anti-Lambda_c-
+
+ChargeConj MyLambda_c+  MyLambda_c-
+
+Alias Myphi phi
+
+Decay Lambda_b0sig
+  0.050000 MyLambda_c+ mu- anti-nu_mu PHOTOS BaryonPCR 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay Myphi
+  0.489000 K+ K- VSS;
+Enddecay
+
+Decay MyLambda_c+
+  0.000770 p+ K+ K- PHSP;
+  0.000820 p+ Myphi PHSP;
+Enddecay
+CDecay MyLambda_c-
+
+End

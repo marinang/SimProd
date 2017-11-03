@@ -1,0 +1,22 @@
+# EventType: 42122002
+#
+# Descriptor: pp -> (Z0/gamma* -> e+ e- {,gamma} {,gamma}) ... 
+#
+# NickName: Zg_ee=PHOTOS
+#
+# Cuts: PythiaHiggsType                                                        
+#                                                                              
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 4*GeV LeptonIsFromMother true MotherOfLeptonMinMass 40*GeV NumberOfbquarks -1                                  
+# ExtraOptions: Zgee=PHOTOS
+#
+# Documentation: 1 lepton with pT > 4 GeV, invariant mass>40GeV, and PHOTOS activated
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Myfanwy Liles
+# Email: mliles@cern.ch
+# Date: 20121024
+#
+End
+#

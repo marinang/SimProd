@@ -1,0 +1,77 @@
+# EventType: 27165176
+#
+# Descriptor: [D*(2010)+ -> (D0 -> (KS0 -> pi+ pi-) K+ K-) pi+]cc
+#
+# NickName: Dst_D0pi,KSKK=mix,TrackingCut
+#
+# Cuts: LoKi::GenCutTool/TrackingCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TrackingCut' )
+# trackingCut = gen.SignalPlain.TrackingCut
+# trackingCut.Decay     = '^[ D*(2010)+ -> ^( D0 => ^( KS0 => ^pi+ ^pi- ) ^K+ ^K- ) ^pi+]CC'
+# trackingCut.Preambulo += [
+#     'GVZ = LoKi.GenVertices.PositionZ() ' ,
+#     'from GaudiKernel.SystemOfUnits import millimeter ',
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ',
+#     'goodKaon    = (GP > 9000) ',
+#     'goodD0    = ( GPT > 2200 * MeV) & (GTIME > 0.075 * millimeter) ',
+#     'goodDst   = (GPT > 3000 * MeV)  ',
+# ]
+# trackingCut.Cuts      =    {
+#     '[K+]cc'    : 'inAcc & goodKaon',
+#     '[D0]cc'    : 'goodD0',
+#     '[D*(2010)+]cc' : 'goodDst',
+#     }
+# EndInsertPythonCode
+#
+# See hep-ex/0507026 -- Antimo models the data as:
+# From conditions database / particle table:
+#
+# Documentation: Inclusive production of D*+. D* is forced to decay to D0 pi+, then D0 to (KS K+ K-) with a simple resonant
+# model, then KS to (pi+ pi-) as phase space. Decay products in acceptance.
+# EndDocumentation
+
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Patrick Owen
+# Email: patrickowen22@gmail.com
+# Date: 20130703
+
+
+
+Alias my-D0      D0
+Alias my-anti-D0 anti-D0
+Alias my-K_S0    K_S0
+
+ChargeConj my-D0   my-anti-D0
+ChargeConj my-K_S0 my-K_S0
+
+# Mixing and CPV in mixing parameters.
+Define x    0.01
+Define y    0.01
+Define reqp 1.00
+Define imqp 0.00
+
+
+
+# Vector D*.
+Decay D*+sig
+1.0000    my-D0  pi+              VSS;
+Enddecay
+CDecay D*-sig
+
+Decay my-D0
+1.0000    my-K_S0  K+   K-        D0MIXDALITZ x y reqp imqp;
+Enddecay
+CDecay my-anti-D0
+
+Decay my-K_S0
+1.0000    pi+  pi-                PHSP;
+Enddecay
+
+End

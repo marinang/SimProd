@@ -1,0 +1,48 @@
+# EventType: 13164427
+#
+# Descriptor: {[[B_s0]nos -> (D*(2007)~0 -> (D~0 -> K+ K-) (pi0 -> gamma gamma) ) (K*(892)~0 ->K- pi+) ]cc, [[B_s0]os -> (D*(2007)0 -> (D0 -> K- K+) (pi0 -> gamma gamma) ) (K*(892)0 ->K+ pi-) ]cc} 
+#
+# NickName: Bs_Dst0Kst0,D0pi0,KK=DecProdCut,HELAMP001
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K*0 forced to K+ pi-, D0 forced to K+ K-, Dst0 forced to D0 pi0
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20120403
+#
+Alias MyK*0      K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0 Myanti-K*0
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+#
+Decay B_s0sig
+1.000      Myanti-D*0         Myanti-K*0                SVV_HELAMP  0.0 0.0 0.0 0.0 1.0 0.0; 
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD*0
+1.000    MyD0  pi0                        VSS;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD0
+  1.000        K-        K+                    PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyK*0
+  1.000    K+         pi-         VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End

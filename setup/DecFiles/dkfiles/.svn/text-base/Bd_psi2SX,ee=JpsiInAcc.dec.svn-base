@@ -1,0 +1,190 @@
+# EventType: 11453012
+#
+# Descriptor: { [B0 => (psi(2S) -> e+ e-) X]cc }
+#
+# NickName: Bd_psi2SX,ee=JpsiInAcc
+#
+# Cuts: SelectedDaughterInLHCb
+#
+# ExtraOptions: CharmoniumInAcc
+#
+# Documentation: Bd->psi(2S) and K1, K1' or K2 with electrons in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Luca Pescatore
+# Email: luca.pescatore@cern.ch
+# Date: 20160310
+# CPUTime: < 1min
+#
+Alias MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+
+Alias MyK0 K0
+Alias Myanti-K0 anti-K0
+ChargeConj MyK0 Myanti-K0
+
+Alias MyK_2*0 K_2*0
+Alias Myanti-K_2*0 anti-K_2*0
+ChargeConj MyK_2*0 Myanti-K_2*0
+
+Alias Myeta eta
+ChargeConj Myeta Myeta
+
+Alias Myomega omega
+ChargeConj Myomega Myomega
+
+Alias Mypsi(2S) psi(2S)
+ChargeConj Mypsi(2S) Mypsi(2S)
+
+Alias Mypsi(3770) psi(3770)
+ChargeConj Mypsi(3770) Mypsi(3770)
+
+Alias MyK*+ K*+
+Alias MyK*- K*-
+ChargeConj MyK*+ MyK*-
+
+Alias MyK*0 K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0 Myanti-K*0
+
+Alias MyK'_10 K'_10
+Alias Myanti-K'_10 anti-K'_10
+ChargeConj MyK'_10 Myanti-K'_10
+
+Alias MyK_10 K_10
+Alias Myanti-K_10 anti-K_10
+ChargeConj MyK_10 Myanti-K_10
+
+Decay MyK0
+ 1.0000  K_S0                              PHSP ;
+Enddecay
+
+Decay MyK*+
+ 0.4993  MyK0       pi+                    VSS ;
+ 0.4993  K+         pi0                    VSS ;
+ 0.0015  K+         gamma                  VSP_PWAVE ;
+Enddecay
+
+Decay MyK*0
+ 0.7993  K+         pi-                    VSS ;
+ 0.1995  MyK0       pi0                    VSS ;
+ 0.0012  MyK0       gamma                  VSP_PWAVE ;
+Enddecay
+
+Decay Myeta
+ 0.5913  gamma      gamma                  PHSP ;
+ 0.3386  pi-        pi+        pi0         ETA_DALITZ ;
+ 0.0701  gamma      pi-        pi+         PHSP ;
+Enddecay
+
+Decay Myomega
+ 0.8901  pi-        pi+        pi0         OMEGA_DALITZ ;
+ 0.0852  pi0        gamma                  VSP_PWAVE ;
+ 0.0222  pi-        pi+                    VSS ;
+ 0.0020  pi+        pi-        gamma       PHSP ;
+ 0.0005  Myeta      gamma                  VSP_PWAVE ;
+Enddecay
+
+Decay Myanti-K0
+ 1.0000  K_S0                              PHSP ;
+Enddecay
+
+Decay Myanti-K*0
+ 0.7993  K-         pi+                    VSS ;
+ 0.1995  Myanti-K0  pi0                    VSS ;
+ 0.0012  Myanti-K0  gamma                  VSP_PWAVE ;
+Enddecay
+
+Decay MyK*-
+ 0.4993  Myanti-K0  pi-                    VSS ;
+ 0.4993  K-         pi0                    VSS ;
+ 0.0015  K-         gamma                  VSP_PWAVE ;
+Enddecay
+
+Decay MyK'_10
+ 0.5849  MyK*+        pi-                  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.3594  MyK*0        pi0                  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0278  rho-       K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0093  MyK0       pi+        pi-         PHSP ;
+ 0.0070  rho0       MyK0                   VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0069  Myomega    MyK0                   VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0047  MyK0       pi0        pi0         PHSP ;
+Enddecay
+
+Decay Myanti-K'_10
+ 0.5849  MyK*-        pi+                  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.3594  Myanti-K*0   pi0                  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0278  rho+       K-                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0093  Myanti-K0  pi+        pi-         PHSP ;
+ 0.0070  rho0       Myanti-K0              VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0069  Myomega    Myanti-K0              VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0047  Myanti-K0  pi0        pi0         PHSP ;
+Enddecay
+
+Decay Myanti-K_2*0
+ 0.4407  K-         pi+                    TSS ;
+ 0.1492  MyK*-        pi+                  TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0 ;
+ 0.1105  Myanti-K0  pi0                    TSS ;
+ 0.0932  Myanti-K*0   pi0                  TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0 ;
+ 0.0786  rho+       K-                     TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0 ;
+ 0.0599  Myanti-K*0   pi0        pi0       PHSP ;
+ 0.0480  MyK*-        pi+        pi0       PHSP ;
+ 0.0200  rho0       Myanti-K0              TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0 ;
+Enddecay
+
+Decay MyK_2*0
+ 0.4407  K+         pi-                    TSS ;
+ 0.1492  MyK*+        pi-                  TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0 ;
+ 0.1105  MyK0       pi0                    TSS ;
+ 0.0932  MyK*0        pi0                  TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0 ;
+ 0.0786  rho-       K+                     TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0 ;
+ 0.0599  MyK*0        pi0        pi0       PHSP ;
+ 0.0480  MyK*+        pi-        pi0       PHSP ;
+ 0.0200  rho0       MyK0                   TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0 ;
+Enddecay
+
+Decay MyJ/psi
+ 1.0000  e+        e-                    PHOTOS VLL ;
+Enddecay
+
+Decay MyK_10
+ 0.3796  rho-       K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.1686  K+         pi-        pi0         PHSP ;
+ 0.0979  MyK0       pi+        pi-         PHSP ;
+ 0.0965  MyK*+        pi-                  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0949  rho0       MyK0                   VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0744  Myomega    MyK0                   VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0602  MyK*0        pi0                  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0279  MyK0       pi0        pi0         PHSP ;
+Enddecay
+
+Decay Mypsi(2S)
+ 1.0000  e+        e-                    PHOTOS VLL ;
+Enddecay
+
+Decay B0sig
+0.6919 Mypsi(2S)  MyK_10            			PHSP ; 
+0.2500 Mypsi(2S)  MyK_2*0                     PHSP ;
+0.0581 Mypsi(2S)  MyK'_10                SVV_HELAMP 0.5 0.0 1.0 0.0 0.5 0.0 ;
+Enddecay
+
+Decay Myanti-K_10
+ 0.3796  rho+       K-                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.1686  K-         pi+        pi0         PHSP ;
+ 0.0979  Myanti-K0  pi+        pi-         PHSP ;
+ 0.0965  MyK*-        pi+                  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0949  rho0       Myanti-K0              VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0744  Myomega    Myanti-K0              VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0602  Myanti-K*0   pi0                  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+ 0.0279  Myanti-K0  pi0        pi0         PHSP ;
+Enddecay
+
+Decay anti-B0sig
+0.6928 Mypsi(2S)  Myanti-K_10            		 PHSP ; 
+0.2496 Mypsi(2S)  Myanti-K_2*0                   PHSP ;
+0.0576 Mypsi(2S)  Myanti-K'_10                SVV_HELAMP 0.5 0.0 1.0 0.0 0.5 0.0 ;
+Enddecay
+
+End

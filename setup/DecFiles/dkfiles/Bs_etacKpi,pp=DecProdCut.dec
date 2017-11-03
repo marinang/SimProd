@@ -1,0 +1,34 @@
+# EventType: 13134080
+# 
+# Descriptor: [B_s0 -> (eta_c(1S) -> p+ p~-) K+ pi-]cc
+# 
+# NickName: Bs_etacKpi,pp=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay Products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Giovanni Cavallero
+# Email: giovanni.cavallero@cern.ch
+# Date: 20150624
+# CPUTime: < 1min 
+#
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+#
+Decay B_s0sig
+  1.000 Myetac K+ pi- PHOTOS PHSP;
+Enddecay
+#
+Decay anti-B_s0sig
+  1.000 Myetac K- pi+ PHOTOS PHSP;
+Enddecay
+#
+Decay Myetac
+  1.000 p+ anti-p- PHOTOS PHSP;
+Enddecay
+#
+End

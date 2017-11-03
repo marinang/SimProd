@@ -1,0 +1,26 @@
+# EventType: 11102004
+#
+# Descriptor: {[[B0]nos -> K+ pi-]cc, [[B0]os -> K- pi+]cc}
+#
+# NickName: Bd_K+pi-=CPV,tightCut
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: Hb2hh 
+#
+# Documentation: Direct CP violation, cuts documented in Hb2hh.opts
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: yes
+# Responsible: Stefano Perazzini 
+# Email: stefano.perazzini@cern.ch
+# Date: 20111112
+#
+Decay B0sig
+  1.000        K+       pi-               SSD_DirectCP  -0.1 ;
+Enddecay
+CDecay anti-B0sig
+#
+End
+

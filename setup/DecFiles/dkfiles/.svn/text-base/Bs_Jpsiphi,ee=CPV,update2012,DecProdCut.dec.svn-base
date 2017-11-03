@@ -1,0 +1,51 @@
+# EventType: 13154001
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> e+ e- {,gamma} {,gamma}) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bs_Jpsiphi,ee=CPV,update2012,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: 
+# Includes radiative mode, CP violation, different lifetimes, decay. 
+# Updated values for the amplitudes and betas as measured by LHCb in 2012.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Varvara Batozskaya
+# Email: Varvara.Batozskaya@cern.ch
+# Date: 20141119
+#
+# CPUTime: 2 min
+#
+Define betas  -0.035
+Define Apara   0.480
+Define Azero   0.722
+Define Aperp   0.499
+Define pApara  3.30
+Define pAzero  0.0
+Define pAperp  3.07
+#
+Alias      MyJ/psi  J/psi
+Alias      MyPhi    phi
+ChargeConj MyJ/psi  MyJ/psi
+ChargeConj MyPhi    MyPhi
+#
+Decay B_s0sig
+  1.000         MyJ/psi     MyPhi        PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp;
+#
+Enddecay
+Decay anti-B_s0sig
+  1.000         MyJ/psi     MyPhi        PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         e+         e-          PHOTOS VLL;
+Enddecay
+#
+Decay MyPhi
+  1.000         K+          K-           VSS;
+Enddecay
+End
+

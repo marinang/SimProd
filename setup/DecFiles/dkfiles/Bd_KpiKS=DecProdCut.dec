@@ -1,0 +1,32 @@
+# EventType: 11104131
+#
+# Descriptor: {[B0 -> K+ pi- (KS0 -> pi+ pi-)]cc, [B0 -> K- pi+ (KS0 -> pi+ pi-)]cc}
+#
+# NickName: Bd_KpiKS=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Non resonant, K0s forced into pi+ pi-, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Tom Latham
+# Email: T.Latham@warwick.ac.uk 
+# Date: 20101203
+#
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+#
+Decay B0sig
+  0.500        K+     pi-      MyKs        PHSP;
+  0.500        K-     pi+      MyKs        PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKs
+  1.000        pi+      pi-                 PHSP;
+Enddecay
+#
+End
+

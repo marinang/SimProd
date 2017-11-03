@@ -1,0 +1,33 @@
+# EventType: 11264002
+#
+# Descriptor: {[[B0]nos -> (D- => K+ pi- pi-) pi+]cc, [[B0]os -> (D+ => K- pi+ pi+) pi-]cc}
+#
+# NickName: Bd_D-pi+,kpipiFLATLT=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes resonances in D- decay and flat lifetime
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Paolo Gandini
+# Email: paolo.gandini@cern.ch
+# Date: 20130712
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+#
+Decay B0sig
+  1.000     MyD-      pi+          PHSPFLATLIFETIME 12;
+Enddecay
+CDecay anti-B0sig
+# D_DALITZ includes resonances contributions (K*(892), K*(1430), K*(1680))
+Decay MyD-
+  1.000    K+        pi-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End
+

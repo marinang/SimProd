@@ -1,0 +1,26 @@
+# EventType: 18112021
+#
+# Descriptor: Upsilon(3S) -> mu+ mu- {,gamma} {,gamma}
+#
+# NickName: incl_Upsilon3S,mm=DecProdCut
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon(3S) decay to mu+ mu-, radiative mode included, Upsilon(3S) daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: M Needham
+# Email: Matthew.Needham@cern.ch
+# Date: 20110909
+#
+#
+Decay Upsilon(3S)sig
+  1.000         mu+        mu-        VLL;
+Enddecay
+#
+End
+#

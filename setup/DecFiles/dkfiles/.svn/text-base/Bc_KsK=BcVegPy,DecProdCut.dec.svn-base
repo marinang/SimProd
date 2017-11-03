@@ -1,0 +1,33 @@
+# EventType: 14103101
+#
+# Descriptor: [B_c+ -> K+ (KS0 -> pi+ pi-)]cc
+#
+# NickName: Bc_KsK=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: decay file for Bc-> KS K+, using BcVegPy and cuts of BcDaughtersInLHCb, K0s forced into pi+ pi-.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Aurelien Martens
+# Email: Aurelien.Martens@cern.ch
+# Date: 20130318
+#
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+#
+Decay B_c+sig
+  1.000        K+     MyKs        PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyKs
+  1.000        pi+      pi-                 PHSP;
+Enddecay
+#
+End
+

@@ -1,0 +1,24 @@
+# EventType: 34512100
+#
+# Descriptor: K_S0 -> pi+ mu- nu_mu~
+#
+# NickName: Ks_pimunu
+#
+# Cuts: None
+#
+# Documentation: No generator level cuts
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Diego Martinez Santos
+# Email: Diego.Martinez.Santos@cern.ch
+# Date: 20120109
+#
+Decay K_S0sig
+  0.5       pi+      mu-      anti-nu_mu              PHSP;
+  0.5       pi-      mu+      nu_mu              PHSP;	
+Enddecay
+#
+End
+

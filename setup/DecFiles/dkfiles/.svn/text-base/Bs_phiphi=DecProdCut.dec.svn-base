@@ -1,0 +1,31 @@
+# EventType: 13104011
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bs_phiphi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: No direct CPV, There is mixing-induced CPV, but within the SM, the phase of q/p cancels with the weak phases in the penguin decay diagram; hence the total weak phase is zero (indeed control by the 1st parameter)
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Ivan Belyaev
+# Email: ibelyaev@mail.cern.ch
+# Date: 20111013
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_s0sig
+  1.0000       MyPhi     MyPhi    PVV_CPLH 0 1 0.506 2.40 0.7007 0.0 0.502 2.39;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

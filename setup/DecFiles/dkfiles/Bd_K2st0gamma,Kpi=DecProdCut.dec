@@ -1,0 +1,35 @@
+# EventType: 11102241
+#
+# NickName: Bd_K2st0gamma,Kpi=DecProdCut
+#
+# Descriptor: {[ [B0]nos ->  (K*_2(1430)0 ->  K+ pi-) gamma ]cc , [[B0]os -> (K*_2(1430)~0 ->  K- pi+) gamma]cc}
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0->K*_2(1430)0 gamma decay, K*_2(1430)0 -> K+pi- decay, Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Olivier Deschamps
+# Email: odescham@in2p3.fr
+# Date: 20131015
+#
+#
+Alias      MyK_2*0       K_2*0
+Alias      Myanti-K_2*0  anti-K_2*0
+ChargeConj Myanti-K_2*0  MyK_2*0
+
+#
+Decay B0sig
+  1.000       MyK_2*0   gamma                   HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK_2*0
+  1.0000         K+        pi-                   TSS;
+Enddecay
+CDecay Myanti-K_2*0
+#
+End
+#

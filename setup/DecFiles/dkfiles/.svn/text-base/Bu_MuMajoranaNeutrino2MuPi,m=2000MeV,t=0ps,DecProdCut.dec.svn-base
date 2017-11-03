@@ -1,0 +1,60 @@
+# $Id: Bu_MuMajoranaNeutrino2MuPi,m=2000MeV,t=0ps,DecProdCut.dec  $
+#
+# This is the decay file for the decay B+ -> Majorana_Neutrino (-> Mu+ Pi-) Mu+, with CC preserving same sign muon
+#
+# EventType: 12113014
+#
+# Descriptor: [B+ ->  (Higgs0 -> mu+ pi-) mu+]cc
+#
+# NickName: Bu_MuMajoranaNeutrino2MuPi,m=2000MeV,t=0ps,DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+# from Configurables import Gauss, PrintMCTree, PrintMCDecayTreeTool, HistogramPersistencySvc, NTupleSvc, DumpHepMCDecay, DumpHepMCTree, GaussMonitor__CheckLifeTimeHepMC, GaussMonitor__CheckLifeTimeMC, GiGa, GiGaPhysListModular, GiGaHiggsParticles, GenerationToSimulation, PythiaProduction
+#
+# ParticlePropertySvc().Particles = [ "H_10 87 25 0.0000 2.0000 0.0000 Higgs0 25 0.0000" ]
+# ApplicationMgr().ExtSvc += [ ParticlePropertySvc() ]
+#
+# gigaHiggsPart = GiGaHiggsParticles()
+# gigaHiggsPart.Higgses = ["H_10"] # H_10, H_20, H_30
+# GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]
+# EndInsertPythonCode
+#
+#
+# Documentation: File for B+ -> Majorana_Neutrino (-> Mu+ Pi-) Mu+, with CC preserving same sign muon
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes 
+# Responsible: Meriem Boubdir
+# Email: meriem.boubdir@physik.rwth-aachen.de
+# Date: 20160711  
+# CPUTime: <1min 
+#
+Alias      MyHNL  Higgs0
+Alias      Myanti-HNL  Higgs0
+#
+#
+Decay B+sig
+  1.000    MyHNL  mu+    PHSP;
+Enddecay
+#
+Decay B-sig
+  1.000    Myanti-HNL  mu-    PHSP;
+Enddecay
+#
+#
+Decay MyHNL
+  1.000    mu+    pi-    PHSP;
+Enddecay
+#
+Decay Myanti-HNL
+  1.000    mu-    pi+    PHSP;
+Enddecay
+#
+#
+End
+#

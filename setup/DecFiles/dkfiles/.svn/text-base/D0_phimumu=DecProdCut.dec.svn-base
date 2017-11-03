@@ -1,0 +1,35 @@
+# EventType: 22114001
+#
+# Descriptor: [D0 -> phi mu+ mu-]cc
+#
+# NickName: D0_phimumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible:     Viaud
+# Email: viaud@lal.in2p3.fr
+# Date: 20111014
+#
+#
+Alias       my_phi   phi
+ChargeConj  my_phi   my_phi
+#
+
+Decay D0sig
+  1.000   my_phi  mu+ mu-  PHSP;
+Enddecay
+CDecay anti-D0sig
+
+#
+Decay my_phi
+  1.000 K+  K-    VSS;  
+Enddecay
+
+#
+End
+

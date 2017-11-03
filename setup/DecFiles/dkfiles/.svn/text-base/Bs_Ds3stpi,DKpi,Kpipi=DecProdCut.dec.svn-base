@@ -1,0 +1,51 @@
+# EventType: 13166043
+#
+# Descriptor: {[[B_s0]nos -> ( D*_s2- -> ( D-=> K+ pi- pi- ) (K*(982)~0 -> K- pi+) ) pi+ ]cc, [[B_s0]os -> ( D*_s2+ -> ( D+=> K- pi+ pi+ ) (K*(982)0 -> K+ pi-) ) pi- ]cc}
+#
+# NickName: Bs_Ds3stpi,DKpi,Kpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "D*_s2+ 174 435 1.0 2.8605 3.291061e-023 D_s2*+ 435 0.053","D*_s2- 178 -435 -1.0 2.8605 3.291061e-023 D_s2*- -435 0.053"
+#
+# Documentation:  B_s0 decay to the D-K-pi+pi+ final state, with a Dalitz model decay of the D-. D*_s2 used to represent the Ds3* state. 
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mark Whitehead
+# Email: mwhitehe@cern.ch
+# Date: 20150311
+#
+Alias      MyD-     D-
+Alias      MyD+     D+
+ChargeConj MyD+     MyD-
+Alias      MyD_s3*+ D_s2*+
+Alias      MyD_s3*- D_s2*-
+ChargeConj MyD_s3*+ MyD_s3*-
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Decay B_s0sig
+  1.000     MyD_s3*-   pi+   PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s3*+
+  1.000     MyD+   MyK*0   PHSP;
+Enddecay
+CDecay MyD_s3*-
+#
+Decay MyD+
+  1.000     K-        pi+       pi+   D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+Decay MyK*0
+  1.000     K+   pi-   PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+End

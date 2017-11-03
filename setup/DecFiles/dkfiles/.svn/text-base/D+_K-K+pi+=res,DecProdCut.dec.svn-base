@@ -1,0 +1,28 @@
+# $Id: D+_K-K+pi+=res,DecProdCut.dec 89808 2011-09-09  $
+#
+# This is a decay file for D+ -> K- K+ pi+
+#
+# EventType:  21263002
+#
+# Descriptor: [D+ -> K- K+ pi+]cc
+#
+# NickName: D+_K-K+pi+=res,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, Dalitz decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm
+#
+# Tested: Yes
+# Responsible: Hamish Gordon
+# Email: h.gordon1@{nospam}physics.ox.ac.uk
+# Date: 20110909
+#
+Decay D+sig
+  1.000        K-        K+        pi+             D_DALITZ;
+Enddecay
+CDecay D-sig
+#
+End

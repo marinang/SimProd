@@ -1,0 +1,22 @@
+# EventType: 42112022
+#
+# Descriptor: pp -> (Z0 -> mu+ mu-) + jet ... 
+#
+# NickName: Z_mumujet=l17
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 17*GeV LeptonIsFromMother true NumberOfbquarks -1
+# ExtraOptions: Zmumujet
+#
+# Documentation: 1 lepton with pT > 17 GeV
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Rhorry Gauld
+# Email: r.gauld1@physics.ox.ac.uk
+# Date: 20130524
+#
+End
+#

@@ -1,0 +1,24 @@
+# EventType: 13102021
+#
+# Descriptor: [B_s0 -> pi+ pi-]cc
+#
+# NickName: Bs_pi+pi-=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Stefano Perazzini
+# Email: stefano.perazzini@cern.ch
+# Date: 20111112
+#
+Decay B_s0sig
+  1.0000       pi+       pi-                PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+

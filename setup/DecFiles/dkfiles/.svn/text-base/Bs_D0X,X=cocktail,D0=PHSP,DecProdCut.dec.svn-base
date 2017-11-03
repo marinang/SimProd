@@ -1,0 +1,45 @@
+#
+# EventType: 13466023
+#
+# Descriptor: [Bs -> (D0b -> pi- pi+ pi- pi+) X]cc
+#
+# NickName: Bs_D0X,X=cocktail,D0=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Low mass background Bs -> D0b[pi- pi+ pi- pi+] X decays of the B+ -> D0b[pi- pi+ pi- pi+] h+ signal channel. The D0b decays via phasespace. This file is intended to be expanded upon as the data sample increases to allow more low mass backgrounds to be considered.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Claire
+# Email: Claire.Prouve@cern.ch
+# Date: 20170314
+#
+
+Alias		My_D0		D0
+Alias		My_anti-D0	anti-D0
+Alias           My_K*0    K*0                                 
+Alias           My_anti-K*0    anti-K*0
+ChargeConj	My_D0		My_anti-D0
+ChargeConj      My_K*0 My_anti-K*0
+
+Decay B_s0sig
+0.2   My_anti-D0  K- pi+        PHSP;
+0.42   My_anti-K*0	My_anti-D0	SVS;
+Enddecay
+CDecay anti-B_s0sig
+
+Decay My_K*0
+1.0 K+ pi- VSS;
+Enddecay                                   
+CDecay My_anti-K*0 
+
+
+Decay My_D0
+1.0   pi+ pi- pi+ pi-	PHSP;
+Enddecay
+CDecay My_anti-D0
+
+End

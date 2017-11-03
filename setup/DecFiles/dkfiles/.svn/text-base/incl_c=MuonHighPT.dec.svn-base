@@ -1,0 +1,34 @@
+# EventType: 20011000
+#
+# Descriptor: pp => [<Xc>]cc ...
+#
+# NickName: incl_c=MuonHighPT
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/MuonCut
+#
+# InsertPythonCode:                                                                    
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "MuonCut" )
+# MuonCut = Generation().MuonCut                                                      
+# MuonCut.Code = " ( count ( isGoodMuon ) > 0 ) "                                          
+#                                                                                         
+# MuonCut.Preambulo += [                                                                                          
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodMuon     =  ( ('mu+' == GABSID ) & (GPT > 4 * GeV) & ( GTHETA < 400 * mrad ) )"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: c inclusive events with high Muon PT
+# EndDocumentation
+#
+# CPUTime: 67 s (2.08 times the speed of a 2.8 GHz Xeon)
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date:   20140901
+#
+End
+

@@ -1,0 +1,30 @@
+# EventType: 23103110
+#
+# Descriptor: [Ds+ -> (KS0 -> pi+ pi-) K+]cc
+#
+# NickName: Ds+_KsK+=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: C. Jones
+# Email: christopher.rob.jones@<nospam>cern.ch
+# Date: 20091027
+#
+Alias        MyK0s   K_S0
+ChargeConj   MyK0s   MyK0s
+#
+Decay D_s+sig
+  1.000        MyK0s         K+              PHSP;
+Enddecay
+CDecay D_s-sig
+#
+Decay MyK0s
+  1.000        pi+           pi-             PHSP;
+Enddecay
+#
+End

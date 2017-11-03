@@ -1,0 +1,47 @@
+# EventType: 14143402
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) (rho(770)+ -> pi+ (pi0 -> gamma gamma))]cc
+#
+# NickName: Bc_Jpsirho,mm=WeightedBcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to Jpsi(to mu+ mu-{,gamma} {,gamma} ) and rho with SVV_HELAMP model, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Liang Zhong
+# Email: zhong-l09@mails.tsinghua.edu.cn
+# Date: 20110909
+#
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+Alias      MyRho+     rho+
+Alias      MyRho-     rho-
+ChargeConj MyRho+ MyRho-
+Alias      Mypi0  pi0
+ChargeConj Mypi0  Mypi0
+#
+Decay B_c+sig
+  1.000     MyJ/psi   MyRho+             SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000     mu+       mu-             PHOTOS   VLL;
+Enddecay
+#
+Decay MyRho+
+  1.000   pi+    Mypi0              VSS;
+Enddecay
+CDecay MyRho-
+#
+Decay Mypi0
+  1.000   gamma      gamma          PHSP;
+Enddecay
+#
+End
+

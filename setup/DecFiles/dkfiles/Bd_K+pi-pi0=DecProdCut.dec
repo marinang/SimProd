@@ -1,0 +1,62 @@
+# $Id: Bd_K+pi-pi0=DecProdCut.dec 89808 2010-10-12 10:17:29Z robbep $
+#
+# This is the decay file for the decay B0 -> K+ pi- pi0
+#
+# EventType: 11202401
+#
+# Descriptor: {[[B0]nos => K+ pi- (pi0 -> gamma gamma)]cc, [[B0]os => K- pi+ (pi0 -> gamma gamma)]cc}
+#
+# NickName: Bd_K+pi-pi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Tested: Yes
+# Date: 20051107
+#
+# Responsible: Olivier Deschamps
+# PhysicsWG: BnoC
+# Email: Olivier.Deschamps@cern.ch
+# Documentation: pi0 forced to gamma gamma, resonant structure. Decay prodcuts in acceptance
+#
+#
+Alias      Mypi0      pi0
+ChargeConj Mypi0      Mypi0
+Alias      MyK*+      K*+
+Alias      MyK*-      K*-
+ChargeConj MyK*+      MyK*-
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+Alias      Myrho+     rho+
+Alias      Myrho-     rho-
+ChargeConj Myrho+     Myrho-
+#
+Decay B0sig
+  0.00000390        MyK*+      pi-              SVS;
+  0.0000099         Myrho-     K+               SVS;
+  0.00000113        MyK*0      Mypi0            SVS;
+  0.000002          K+         pi-       Mypi0  PHSP;     
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*+
+  1.000        K+         Mypi0            VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK*0
+  1.000        K+         pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Myrho+
+  1.000        pi+        Mypi0            VSS;
+Enddecay
+CDecay Myrho-
+#
+Decay Mypi0
+  1.000        gamma      gamma            PHSP;
+Enddecay
+#
+End
+

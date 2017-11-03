@@ -1,0 +1,41 @@
+# EventType: 13196002
+# 
+# Descriptor: [B_s0 -> D0 D_s- K+]cc
+# NickName: Bs_D0DsK,Kpi,Kpipi=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay File for B_s0 -> D0 D_s- K+ with D0 -> Kpi and Ds -> KKpi DDalitz
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: renato quagliani
+# Email: renato.quagliani@student.unife.it
+# Date: 20140725
+#
+# CPUTime: <1min
+Alias My_D0 D0
+Alias My_anti-D0 anti-D0
+Alias My_D_s- D_s-
+Alias My_D_s+ D_s+
+ChargeConj My_D_s- My_D_s+ 
+ChargeConj My_D0 My_anti-D0
+
+Decay My_D0
+  1.0 K- pi+ PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay My_D_s-
+  1.0 K+ K- pi- D_DALITZ;
+Enddecay
+CDecay My_D_s+
+  
+Decay B_s0sig
+  1.0 My_D0 My_D_s- K+ PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+#

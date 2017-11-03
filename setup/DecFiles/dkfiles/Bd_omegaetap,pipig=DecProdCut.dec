@@ -1,0 +1,44 @@
+# EventType: 11104601
+# 
+# Descriptor: [B0 -> (eta' -> pi+ pi- gamma ) (omega(782) -> pi+ pi- (pi0 -> gamma gamma) )]cc 
+# 
+# NickName: Bd_omegaetap,pipig=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  Eta' decays to pi+pi-gamma, omega to pi+ pi- pi0
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: BnoC 
+# Tested: Yes
+# Responsible: James Mccarthy
+# Email: james.mccarthy@cern.ch
+# Date: 20141028
+#
+Alias      MyOmega     omega
+ChargeConj MyOmega     MyOmega
+Alias      MyPiz       pi0
+ChargeConj MyPiz       MyPiz
+Alias      MyEtap      eta'
+ChargeConj MyEtap      MyEtap
+#
+Decay B0sig
+  1.000    MyOmega     MyEtap        PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyOmega
+  1.000       pi+     pi-    MyPiz       OMEGA_DALITZ;
+Enddecay
+#
+Decay MyEtap
+  1.000         pi+   pi-   gamma        PHSP;
+Enddecay
+#
+Decay MyPiz
+  1.000    gamma   gamma            PHSP;
+Enddecay
+#
+End
+#

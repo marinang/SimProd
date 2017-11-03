@@ -1,0 +1,43 @@
+# EventType: 26104180
+#
+# Descriptor: [Xi_c0 -> (Xi- ->(Lambda0 -> p+ pi-) pi-) pi+]cc
+#
+# NickName: Xic_Xipi=DecProdCut
+#
+# Cuts: LHCbAcceptance
+# CPUTime : < 1min
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Luis Miguel Garcia
+# Email:       luis.miguel.garcia.martin@cern.ch
+# Date:        20160414
+#
+#
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+#
+Alias      MyXim      Xi-
+Alias      MyAntiXip  anti-Xi+
+ChargeConj MyXim      MyAntiXip
+#
+Decay Xi_c0sig
+  1.0  MyXim  pi+  PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+Decay MyXim
+  1.000     MyLambda0   pi-      HELAMP   0.521  0.0  0.854  0.0;
+Enddecay
+CDecay anti-Xi_c0
+#
+Decay MyLambda0
+  1.000   p+          pi-        HELAMP 0.906 0.0		 0.423 0.0;
+Enddecay
+CDecay MyAntiLambda0
+#
+End

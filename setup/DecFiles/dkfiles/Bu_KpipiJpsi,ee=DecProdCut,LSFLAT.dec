@@ -1,0 +1,48 @@
+# EventType: 12155020
+#
+# NickName: Bu_KpipiJpsi,ee=DecProdCut,LSFLAT
+# Descriptor: [[B+]cc => (K_1(1270)+ => K+ pi+ pi-) (J/psi(1S) => e+ e-)]CC
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ - >K_1(1270)+ (J/Psi(1S) -> e+e-) decay with K_1(1270)+ -> K+ pi+ pi- decay. The Kpipi system is modelled with a flat lineshape. 
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Stefanie Reichert
+# Email: stefanie.reichert@cern.ch
+# Date: 20160311
+# CPUTime: < 1min
+#
+Alias MyKpipiK-  K_1-
+Alias MyKpipiK+  K_1+ 
+ChargeConj MyKpipiK+ MyKpipiK-
+#
+Alias MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+LSFLAT MyKpipiK+
+ChangeMassMin MyKpipiK+ 1.1
+ChangeMassMax MyKpipiK+ 2.4
+#
+LSFLAT MyKpipiK-
+ChangeMassMin MyKpipiK- 1.1
+ChangeMassMax MyKpipiK- 2.4
+#
+#
+Decay B+sig
+  1.000    MyKpipiK+ MyJ/psi     PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyKpipiK+
+1.000    K+     pi-    pi+       PHSP;
+Enddecay
+CDecay MyKpipiK-
+#
+Decay MyJ/psi
+  1.0000       e-    e+          VLL;
+Enddecay
+#
+End
+#

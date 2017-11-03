@@ -1,0 +1,32 @@
+# EventType: 18114020
+#
+# Descriptor: Upsilon(3S) -> (Upsilon(1S) -> mu+ mu-) pi+ pi- 
+#
+# NickName: incl_Upsilon3S,Upsilon1Spipi=DecProdCut,fix
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon(3S) decay to Upsilon(1S)(to mu+ mu- {,gamma} {,gamma}) pi+ pi- with phase space model, all daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Giulia Manca, Helena Pikhartova, Patrick Robbe
+# Email: Giulia.Manca@cern.ch
+# Date: 20140630
+# CPUTime: < 1 min
+#
+Alias      MyUpsilon Upsilon
+ChargeConj MyUpsilon MyUpsilon
+
+Decay Upsilon(3S)sig
+  1.000     MyUpsilon    pi+        pi-        PHSP;
+Enddecay
+#
+Decay MyUpsilon
+  1.000     mu+  mu-                        VLL;
+Enddecay
+End
+#

@@ -1,0 +1,43 @@
+# EventType: 11134060
+#
+# Descriptor: [B0 -> (chi_c2(1P) -> pi+ pi-) (K*(892)0 -> K+ pi-) ]cc
+#
+# NickName: Bd_chic2Kst,pipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Chi_c2(1P) forced to pi+ pi- 
+#                K* forced into K+ pi-, daughters in acceptance.
+# EndDocumentation
+# 
+# PhysicsWG: B2Ch
+# Tested: Yes
+# CPUTime:< 1 min
+# Responsible: Matthew Needham
+# Email: Matthew.Needham@cern.ch
+# Date: 20150119
+#
+
+Alias      MyK*0      K*0
+Alias      Mychi_c2   chi_c2
+Alias      Myanti-K*0 anti-K*0
+ChargeConj Mychi_c2   Mychi_c2
+ChargeConj MyK*0      Myanti-K*0
+
+#
+Decay B0sig
+  1.0000       MyK*0     Mychi_c2              PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000        K+        pi-                 VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Mychi_c2
+  1.0     pi+   pi-                  PHSP;
+Enddecay
+#
+End
+

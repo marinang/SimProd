@@ -1,0 +1,36 @@
+# EventType: 12573060
+# 
+# Descriptor: [B- -> (D0 -> K- e+ nu_e) mu- anti-nu_mu]cc
+#
+# NickName: Bu_D0munu,Kenu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: background for B -> K e mu LFV search
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Francesco Polci 
+# Email: francesco.polci@cern.ch
+# Date: 20170823
+# CPUTime: <1min
+#
+
+Alias      MyD0         D0
+Alias      MyAntiD0     anti-D0
+ChargeConj MyD0         MyAntiD0
+
+
+Decay B-sig
+  1.000        MyD0 mu- anti-nu_mu             PHOTOS HQET2 1.18 1.074;
+Enddecay
+CDecay B+sig
+#
+Decay MyD0
+  1.000    K-   e+  nu_e   PHOTOS ISGW2; 
+Enddecay
+CDecay MyAntiD0
+#
+End
+#

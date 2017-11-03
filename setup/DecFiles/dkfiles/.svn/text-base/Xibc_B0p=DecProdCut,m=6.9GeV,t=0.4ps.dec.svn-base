@@ -1,0 +1,49 @@
+# EventType: 16165063
+# 
+# Descriptor: [ Xi_bc+ -> (B0 -> (D- -> K+ pi- pi-) pi+) p+ ]cc
+# 
+# NickName: Xibc_B0p=DecProdCut,m=6.9GeV,t=0.4ps
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# ParticleValue: " Xi_bc+ 532 5242 1.0 6.90000000 0.400000e-12 Xi_bc+ 5242 0.00000000", " Xi_bc~- 533 -5242 -1.0 6.90000000 0.400000e-12 anti-Xi_bc- -5242 0.00000000"
+#
+# Documentation: Xibc -> B0 p, B0 -> D- pi+ with D -> K pi pi, decay products in acceptance. DDalitz model
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Steve Blusk
+# Email: sblusk@syr.edu
+# Date: 20160621
+#
+
+Alias MyB0       B0
+Alias Myanti-B0  anti-B0
+ChargeConj MyB0  Myanti-B0
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+#
+
+Decay Xi_bc+sig
+  1.00   MyB0  p+                  PHSP;
+Enddecay
+CDecay anti-Xi_bc-sig
+
+Decay MyB0
+1.000        MyD- pi+     PHSP;
+Enddecay
+CDecay Myanti-B0
+#
+
+Decay MyD-
+  1.000    K+        pi-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+
+End

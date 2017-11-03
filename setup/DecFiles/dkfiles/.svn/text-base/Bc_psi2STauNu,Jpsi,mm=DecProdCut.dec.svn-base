@@ -1,0 +1,54 @@
+# EventType: 14547001
+#
+# Descriptor: [B_c+ -> (psi (Jpsi -> mu+ mu-) X) (tau+ -> pi+ pi+ pi- anti-nu_tau) nu_tau]cc
+#
+# NickName: Bc_psi2STauNu,Jpsi,mm=DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0.0 NeutralThetaMax 3.14 ChargedThetaMax 0.5
+#
+# Documentation: Bc+ to Psi tau, Psi (Jpsi -> mumu) X, tau forced to 3pi nu final state. Signal Channel.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Christian Elsasser
+# Email: elsasser@cern.ch
+# Date: 20131019
+#
+
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau- MyTau+
+
+Alias      Mypsi  psi(2S)
+ChargeConj Mypsi  Mypsi
+
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+
+Decay B_c+sig
+  1.000       Mypsi       MyTau+        nu_tau             PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi
+  0.336000000 MyJ/psi   pi+     pi-                             VVPIPI;
+  0.177300000 MyJ/psi   pi0     pi0                             VVPIPI; 
+  0.032800000 MyJ/psi   eta                                     PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+  0.001300000 MyJ/psi   pi0                                     PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-           PHOTOS VLL;
+Enddecay
+#
+Decay MyTau-
+  1.000     pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

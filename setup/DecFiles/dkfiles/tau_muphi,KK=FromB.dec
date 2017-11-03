@@ -1,0 +1,54 @@
+# EventType: 31113045
+#
+# Descriptor: [tau- -> mu- (phi(1020) -> K+ K-)]cc
+#
+# NickName: tau_muphi,KK=FromB
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ ^(tau- -> ^mu- (phi(1020) -> ^K+ ^K-)) ]CC'
+# tightCut.Cuts      =    {
+#     '[mu+]cc'  : ' goodMuon ' , 
+#     '[K+]cc'  : ' goodKaon ' , 
+#     '[tau+]cc' : ' goodTau  ' }
+# tightCut.Preambulo += [
+#     'inAcc    = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodMuon = ( GPT > 0.25 * GeV ) & ( GP > 2.5 * GeV ) & inAcc ' , 
+#     'goodKaon = ( GPT > 0.25 * GeV ) & ( GP > 2.5 * GeV ) & inAcc ' , 
+#     'goodTau  = ~GHAS (GCHARM, HepMC.ancestors) ' ]
+#
+# EndInsertPythonCode
+#
+# Documentation: 
+#    tau- -> mu- phi(K+ K-) from prompt b quarks only  
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# Tested: Yes
+# Responsible: Eduardo Rodrigues, Jon Harrison
+# Email: eduardo.rodrigues@cern.ch, jonathan.harrison@hep.manchester.ac.uk
+# Date: 20130925
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay tau-sig
+  1.000       mu-  MyPhi              PHSP;
+Enddecay
+CDecay tau+sig
+#
+#
+Decay MyPhi
+  1.000        K+        K-            VSS;
+Enddecay
+#
+#
+End

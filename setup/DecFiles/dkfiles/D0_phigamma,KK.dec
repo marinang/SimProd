@@ -1,0 +1,33 @@
+# EventType: 22162200
+# This is the decay file for the decay D0 -> phi (-> K+ K-) GAMMA
+# Descriptor: [D0 -> (phi(1020) -> K+ K-) (gamma)]cc
+#
+# NickName: D0_phigamma,KK
+#
+# Cuts: None
+#
+# Documentation: D0 -> phi(-> K+ K- ) gamma
+# phi decaying into K+ K-
+# EndDocumentation 
+#
+# PhysicsWG: RD
+#
+# Tested: Yes
+# Responsible: Fatima Soomro
+# Email: Fatima.Soomro@cern.ch
+# Date: 20120328
+#
+Alias      Myphi   phi
+ChargeConj Myphi   Myphi
+#
+Decay D0sig
+  1.000  Myphi        gamma      SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-D0sig
+#
+Decay Myphi
+  1.000     K+    K-            VSS;
+Enddecay
+#
+End
+

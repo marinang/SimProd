@@ -1,0 +1,56 @@
+# EventType: 13106201
+#
+# Descriptor: {[B_s0 -> (K*(892)+ -> K+ pi0) (K*(892)- -> (KS0 -> pi+ pi-) pi-) ]cc, [B_s0 -> (K*(892)- -> K- pi0) (K*(892)+ -> (KS0 -> pi+ pi-) pi+) ]cc}
+#
+# NickName: Bs_KstKst,Kpi0,KSpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K* forced to decay in to KS0 pi, KS0 forced to decay
+# into pi+ pi-, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: David Dossett
+# Email: d.a.dossett@warwick.ac.uk
+# Date: 20130129
+#
+#
+Alias      Mypi0        pi0
+Alias      MyKs         K_S0
+Alias      MyK*+Kspi    K*+
+Alias      MyK*-Kspi    K*-
+Alias      MyK*+Kpi0    K*+
+Alias      MyK*-Kpi0    K*-
+ChargeConj Mypi0        Mypi0
+ChargeConj MyKs         MyKs
+ChargeConj MyK*+Kspi    MyK*-Kspi
+ChargeConj MyK*+Kpi0    MyK*-Kpi0
+
+Decay B_s0sig
+ 0.5    MyK*+Kspi    MyK*-Kpi0    SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+ 0.5    MyK*+Kpi0    MyK*-Kspi    SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyK*+Kspi
+ 1.000    MyKs    pi+    VSS;
+Enddecay
+CDecay MyK*-Kspi
+#
+Decay MyK*+Kpi0
+ 1.000    K+    Mypi0    VSS;
+Enddecay
+CDecay MyK*-Kpi0
+#
+Decay MyKs
+ 1.000    pi+    pi-    PHSP;
+Enddecay
+#
+Decay Mypi0
+ 1.000    gamma     gamma    PHSP;
+Enddecay
+#
+End
+#

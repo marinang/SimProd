@@ -1,0 +1,42 @@
+# EventType: 13596000
+# 
+# Descriptor: [B_s0 -> K+ (D0 -> K- mu+ nu_mu) (D_s- -> K+ K- pi-)]cc
+# NickName: Bs_D0DsK,Kmunu,KKpi=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay File for B_s0 -> D0 D_s- K+ with D0 -> KmunuX and Ds -> KKpi DDalitz.
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Brice Maurin
+# Email: brice.maurin@cern.ch
+# Date: 20151204
+#
+Alias My_D0 D0
+Alias My_anti-D0 anti-D0
+ChargeConj My_D0 My_anti-D0
+#
+Alias My_D_s- D_s-
+Alias My_D_s+ D_s+
+ChargeConj My_D_s- My_D_s+ 
+#
+Decay My_D0
+  1.0 K- mu+ nu_mu PHOTOS ISGW2;
+Enddecay
+CDecay My_anti-D0
+
+Decay My_D_s-
+  1.0 K+ K- pi- D_DALITZ;
+Enddecay
+CDecay My_D_s+
+  
+Decay B_s0sig
+  1.0 My_D0 My_D_s- K+ PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+#

@@ -1,0 +1,47 @@
+# EventType: 17146051
+#
+# Descriptor: [B_s1(L)0 -> (B_s0 -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) (phi(1020) -> K+ K-) ) pi+ pi-]
+#
+# NickName: Bs1_Bspipi,Jpsiphi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ExtraOptions: Bstst_Dstst
+# ParticleValue: "B_s1(L)0 211 10533 0.0 5.8294 0.658e-021 B_s10 10533 0.005", "B_s1(L)~0 215 -10533 0.0 5.8294 0.658e-021 anti-B_s10 -10533 0.005"
+#
+# Documentation: Bs Spectroscopy
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:     Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20110623
+#
+Alias MyBs     B_s0
+Alias MyantiBs anti-B_s0
+ChargeConj MyBs      MyantiBs
+Alias MyJ/psi J/psi
+Alias Myphi phi
+#
+Decay B_s10sig
+1.0000     MyBs    pi+   pi-      PHSP;
+Enddecay
+CDecay anti-B_s10sig
+#
+Decay MyBs
+1.0000   MyJ/psi   Myphi                SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyantiBs
+#
+Decay MyJ/psi
+  1.000         mu+          mu-           PHOTOS VLL;
+Enddecay
+#
+Decay Myphi
+  1.000         K+          K-           VSS;
+Enddecay
+#
+#
+#
+End

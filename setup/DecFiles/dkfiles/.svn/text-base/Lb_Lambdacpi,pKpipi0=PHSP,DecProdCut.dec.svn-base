@@ -1,0 +1,32 @@
+# EventType: 15164410
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p K+ pi- pi0) pi-]cc
+#
+# NickName: Lb_Lambdacpi,pKpipi0=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lc pi with Lc -> p K pi pi0. Phase space model.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Stefano Gallorini
+# Email: stefano.gallorini@cern.ch
+# Date: 20131120
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        pi-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+  pi0   PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+End
+#

@@ -1,0 +1,35 @@
+# EventType: 11314000
+#
+# Descriptor:  {[[B0]nos -> mu+ e- (K*(892)0 -> K+ pi-)]cc, [[B0]nos -> e+ mu- (K*(892)0 -> K+ pi-)]cc, [[B0]os -> mu- e+ (K*(892)~0 -> K- pi+)]cc, [[B0]os -> e- mu+ (K*(892)~0 -> K- pi+)]cc}
+#
+# NickName: Bd_Kstemu=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B to K*(->K pi) e mu  decay. Daughters in acceptance.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Francesco Polci
+# Email: francesco.polci@cern.ch
+# Date: 20141202
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Decay B0sig
+  0.500        MyK*0    e+    mu-            BTOSLLBALL 6;
+  0.500        MyK*0    mu+    e-            BTOSLLBALL 6;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000        K+       pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

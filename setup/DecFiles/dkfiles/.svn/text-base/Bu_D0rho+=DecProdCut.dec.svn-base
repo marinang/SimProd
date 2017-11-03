@@ -1,0 +1,45 @@
+# EventType: 12463421
+#
+# Descriptor: [B+ -> (D~0 -> h+ h- (pi0))(rho(770)+ -> pi+ pi0)]cc
+#
+# NickName: Bu_D0rho+=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: 
+#   background for radiative decays
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email: cedric.potterat@cern.ch
+# Date: 20121212
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+#
+Alias      Myrho+     rho+
+Alias      Myrho-     rho-
+ChargeConj Myrho+     Myrho-
+#
+Decay B-sig
+  1.000        Myrho-     MyD0              SVS;
+Enddecay
+CDecay B+sig
+#
+Decay MyD0
+  0.7183        K+        pi-     pi0       PHSP;
+  0.2005        K+        pi-               PHSP;
+  0.0739        pi+       pi-     pi0       PHSP;
+  0.0072        pi+       pi-               PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay Myrho-
+  1.000        pi-        pi0            VSS;
+Enddecay
+CDecay Myrho+
+#
+End

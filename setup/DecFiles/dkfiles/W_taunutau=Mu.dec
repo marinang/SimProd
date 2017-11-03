@@ -1,0 +1,22 @@
+# EventType: 42300001
+#
+# Descriptor: pp -> [W+ -> tau+ nu_tau -> anti-nu_tau mu+ nu_mu]cc ... 
+#
+# NickName: W_taunutau=Mu
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 10*GeV LeptonIsFromMother true NumberOfbquarks -1
+# ExtraOptions: Wtaunu=Mu
+#
+# Documentation: 1 muon with pT > 10 GeV 
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Philip Ilten
+# Email: philten@cern.ch
+# Date: 20131020
+#
+End
+#

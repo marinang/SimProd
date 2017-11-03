@@ -1,0 +1,40 @@
+# EventType: 13304402
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) eta_prime]cc
+#
+# NickName: Bs_phietap,KK=PhiInAcc
+#
+# Cuts: SelectedDaughterInLHCb
+#
+# ExtraOptions: PhiInAcc
+#
+# Documentation: Includes radiative mode, No CP violation, phi in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: J. Maratas
+# Email: maratas@clermont.in2p3.fr
+# Date: 20130416
+#
+Alias       MyPhi    phi
+Alias       MyEta'   eta'
+ChargeConj  MyPhi    MyPhi
+ChargeConj  MyEta'   MyEta'
+#
+Decay B_s0sig
+  1.000         MyPhi       MyEta'          SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000         K+          K-              VSS;
+Enddecay
+#
+Decay MyEta'
+  0.434         eta         pi+        pi-  PHSP;
+  0.293         rho0        gamma           SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+#
+End
+

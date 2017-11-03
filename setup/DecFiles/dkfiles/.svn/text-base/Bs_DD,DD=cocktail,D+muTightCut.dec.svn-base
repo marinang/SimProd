@@ -1,0 +1,168 @@
+# EventType: 13994401
+#
+# Descriptor: [[B_s0] ==> (D_2*- -> (D+ -> K- pi+ pi+) pi0) (D_s+ -> mu+ nu_mu)]cc
+#
+# NickName: Bs_DD,DD=cocktail,D+muTightCut
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[B_s0 ==> ^((Charm) -> ^mu+ nu_mu ... ) ^(D- -> ^K+ ^pi- ^pi-) {X} {X} {X} {X} {X} {X} {X} ]CC"
+# tightCut.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import mrad" ,
+# "FilterD = GNINTREE (GCHARM, HepMC.parents)",
+# "FromD   = 1 == FilterD",
+# "BCut = (GTHETA < 400.0*mrad)"
+#
+#]
+#tightCut.Cuts    =    {
+# '[mu+]cc'     : "FromD",
+# '[B_s0]cc'    : "BCut"
+#}
+#
+# EndInsertPythonCode
+#
+# Documentation: Sum of B_s0 decaying to two D mesons, one D decaying semileptonically. Filtered for a final state with D+ mu.
+#                Background for B2DmunuX analyses.
+#
+# EndDocumentation
+#
+# CPUTime: <4min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Scott Ely
+# Email: seely@syr.edu
+# Date:   20160406
+#
+Alias        MyD0		D0
+Alias        MyAntiD0    	anti-D0
+ChargeConj   MyD0	 	MyAntiD0
+#
+Alias	     MyD*0		D*0
+Alias	     MyAntiD*0		anti-D*0
+ChargeConj   MyD*0		MyAntiD*0
+#
+Alias        MyD+		D+
+Alias	     MyD-		D-		
+ChargeConj   MyD+		MyD-
+#
+Alias        MyD_s+		D_s+
+Alias	     MyD_s-		D_s-		
+ChargeConj   MyD_s+		MyD_s-		
+#
+Alias	     MyD_1+		D_1+
+Alias	     MyD_1-		D_1-
+ChargeConj   MyD_1+		MyD_1-
+#
+Alias	     MyD*+		D*+
+Alias	     MyD*-		D*-		
+ChargeConj   MyD*+		MyD*-
+#
+Alias	     MyD_2*+		D_2*+
+Alias	     MyD_2*-		D_2*-		
+ChargeConj   MyD_2*+		MyD_2*-
+#
+Alias        MyD_s*+		D_s*+
+Alias	     MyD_s*-		D_s*-		
+ChargeConj   MyD_s*+		MyD_s*-
+#
+Alias	     MyD'_1+		D'_1+
+Alias	     MyD'_1-		D'_1-		
+ChargeConj   MyD'_1+		MyD'_1-
+#
+Decay B_s0sig
+ 0.00120	MyD'_1-		MyD_s+		SVS;
+ 0.00240	MyD'_1-		MyD_s*+		SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+ 0.00480	MyD_1-		MyD_s+		SVS;
+ 0.00480	MyD_1-		MyD_s*+		SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+ 0.00840	MyD_2*-		MyD_s+		STS;
+ 0.00800	MyD_2*-		MyD_s*+		PHSP;
+
+ 0.00300	MyD_s*+		MyD*-		anti-K*0 	PHSP;
+ 0.00500	MyD_s*+		MyD-		anti-K*0 	PHSP;
+ 0.00250	MyD_s+		MyD*-		anti-K*0 	PHSP;
+ 0.00250	MyD_s+		MyD-		anti-K*0 	PHSP;
+
+ 0.0024      MyD_s+        MyD-          pi0        anti-K0     PHSP;
+ 0.0048      MyD_s+        MyD-          pi+        K-          PHSP;
+
+ 0.0024      MyD_s*+       MyD-          pi0        anti-K0     PHSP;
+ 0.0048      MyD_s*+       MyD-          pi+        K-          PHSP;
+
+ 0.00030     MyD-		MyD+		pi0	K0	PHSP;	
+ 0.00070     MyD-		MyD0		pi+	K0	PHSP;
+ 0.00030     MyD-		MyD+		pi-	K+	PHSP;
+ 0.00070     MyD-		MyD0		pi0	K+	PHSP;
+ 
+ 0.00030	MyD*-		MyD+		pi0	K0	PHSP;	
+ 0.00070	MyD*-		MyD0		pi+	K0	PHSP;
+ 0.00030	MyD*-		MyD+		pi-	K+	PHSP;
+ 0.00070	MyD*-		MyD0		pi0	K+	PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD0
+ 0.333          K-      mu+     nu_mu   PHOTOS ISGW2;
+ 0.0192         K*-     mu+     nu_mu  PHOTOS ISGW2;
+ 0.000076       K_1-    mu+     nu_mu  PHOTOS ISGW2;
+ 0.00110        K_2*-   mu+     nu_mu  PHOTOS ISGW2;
+ 0.00238        pi-     mu+     nu_mu  PHOTOS PHSP;
+ 0.00040        K-      pi0     mu+    nu_mu  PHOTOS PHSP;
+ 0.03930        K-      pi+                   PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD0
+#
+Decay MyD*0
+ 0.619          MyD0    pi0             VSS;
+ 0.381          MyD0    gamma           VSP_PWAVE;
+Enddecay
+CDecay MyAntiD*0
+#
+Decay MyD_2*+
+ 0.10300        MyD*+   pi0             TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+ 0.22900        MyD+    pi0             TSS;
+Enddecay
+CDecay MyD_2*-
+#
+Decay MyD'_1+
+ 0.33333        MyD*+   pi0             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD'_1+
+#
+Decay MyD*+
+ 0.30700        MyD+    pi0             VSS;
+ 0.01600        MyD+    gamma           VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD_s*+
+ 0.93500        MyD_s+  gamma           VSP_PWAVE;
+ 0.05800        MyD_s+  pi0             VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s+
+  0.00206       anti-K0 mu+     nu_mu            PHOTOS ISGW2;
+  0.00076       anti-K*0        mu+     nu_mu    PHOTOS ISGW2;
+  0.00556       mu+             nu_mu            PHOTOS SLN;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD+
+  0.09460       K-        pi+   pi+             PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+Decay MyD_1+
+0.3333    MyD*+		 pi0            VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.6667    MyD*0	 	 pi+            VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyD_1-
+#
+End
+

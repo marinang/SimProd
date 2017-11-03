@@ -1,0 +1,32 @@
+# EventType: 23513201 
+#
+# Descriptor: [D_s+ => ( eta => gamma mu+ mu- ) mu+ nu_mu]cc 
+#
+# NickName: Ds_etamunu,gmm=Eta2MuMuGamma,DecProdCut
+#           
+# Cuts: DaughtersInLHCb 
+#
+# Documentation: This is a decay file for Ds+ to ( eta -> gamma mu+ mu- ) mu+  numu 
+# Forces a Ds+ to ( eta -> gamma mu+ mu- ) mu+  numu 
+# EndDocumentation 
+#
+# PhysicsWG: RD 
+#
+# Tested: Yes 
+# Responsible: Marcin Chrzaszcz 
+# Email: mchrzasz@cern.ch 
+# Date: 20110220
+#
+Alias       my_eta   eta
+ChargeConj  my_eta   my_eta
+#
+Decay  D_s+sig
+  1.000     my_eta   mu+   nu_mu     PHOTOS  ISGW2; 
+Enddecay
+CDecay D_s-sig
+#
+Decay  my_eta
+  1.000      mu+   mu-  gamma   ETA2MUMUGAMMA;
+Enddecay
+#
+End

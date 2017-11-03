@@ -1,0 +1,46 @@
+# EventType: 11100012
+#
+# Descriptor: [B_0 -> (tau+ -> pi+ pi- pi+ anti-nu_tau) (tau- -> pi+ pi- pi- nu_tau)]cc
+#
+# NickName: Bd_tautau,pipipinu=DecProdCut,TightCut,tauolacleo
+#
+
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+
+# Documentation: Bd decay to 2 tau leptons with a phasespace model.
+# Both tau leptons decay in the 3-prong charged pion mode using the Tauola Cleo model.
+# All final-state products in the acceptance.
+# Same as 11506000, but with different tau decay model
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Kristof De Bruyn
+# Email: debruyn@cppm.in2p3.fr
+# Date: 20161025
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 0
+Define TauolaBR1 1.0
+#
+Alias         Mytau+   tau+
+Alias         Mytau-   tau-
+ChargeConj    Mytau+   Mytau-
+#
+Decay B0sig
+  1.000       Mytau+   Mytau-       PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mytau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+#       
+End

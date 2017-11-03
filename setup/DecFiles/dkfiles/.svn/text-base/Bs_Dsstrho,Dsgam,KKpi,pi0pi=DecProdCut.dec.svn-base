@@ -1,0 +1,53 @@
+# EventType: 13266601
+#
+# Descriptor: {[[B_s0]nos -> (D*_s- -> {gamma (D_s-=> K+ K- pi-), pi0 (D_s- => K+ K- pi-)}) (rho(770)+ ->  pi+ pi0 )]cc, [[B_s0]os -> (D*_s+ -> {gamma (D_s+=> K+ K- pi+), pi0 (D_s+ => K+ K- pi+)}) (rho(770)- -> pi- pi0)]cc}
+# 
+#
+# NickName: Bs_Dsstrho,Dsgam,KKpi,pi0pi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  B_s0 decay to Ds*- (D_s- (KKpi) gamma/pi0) rho+ with Dalitz decay model for D_s- decay, rho+ decay to pi0  pi+.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Agnieszka Oblakowska-Mucha
+# Email: Agnieszka.Oblakowska-Mucha@cern.ch
+# Date: 20111105
+
+Alias      MyD_s*-    D_s*-
+Alias      MyD_s*+    D_s*+
+ChargeConj MyD_s*+    MyD_s*-
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+Alias      MyRho+     rho+
+Alias      MyRho-     rho-
+ChargeConj MyRho+    MyRho-
+#
+
+Decay B_s0sig
+  1.000     MyRho+    MyD_s*-  SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s*-
+0.942     MyD_s-       gamma        VSP_PWAVE;
+0.058     MyD_s-       pi0          VSS;
+Enddecay
+CDecay MyD_s*+
+#
+Decay MyD_s-
+  1.000        K-        K+        pi-   D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+Decay MyRho+
+  1.000   pi+    pi0              VSS;
+Enddecay
+CDecay MyRho-
+
+#
+End
+

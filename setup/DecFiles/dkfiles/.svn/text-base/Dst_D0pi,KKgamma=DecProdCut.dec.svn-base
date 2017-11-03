@@ -1,0 +1,44 @@
+# EventType:  27163201
+# This is the decay file for the decay D*+ -> ( D0 -> phi (-> K+ K-) GAMMA ) pi+
+# Descriptor: [D*(2010)+ -> ( D0 -> (phi(1020) -> K+ K-) gamma ) pi+]cc
+#
+# NickName: Dst_D0pi,KKgamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Dst-> (D0 -> phi(-> K+ K- ) gamma ) pi+
+# D0 decaying into phi gamma
+# phi decaying into K+ K-
+# All final-state products in the acceptance.
+# EndDocumentation 
+#
+# PhysicsWG: Charm
+#
+# Tested: Yes
+# Responsible: Fatima Soomro
+# Email: Fatima.Soomro@cern.ch
+# Date: 20120425
+#
+Alias myD0 D0
+Alias myantiD0 anti-D0
+ChargeConj myD0 myantiD0
+Alias      Myphi   phi
+ChargeConj Myphi   Myphi
+#
+Decay D*+sig
+  1.000 myD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay myD0
+  1.0  Myphi        gamma      SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay myantiD0
+
+#
+Decay Myphi
+  1.000     K+    K-        VSS;
+Enddecay
+#
+End
+

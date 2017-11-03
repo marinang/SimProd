@@ -1,0 +1,39 @@
+# EventType: 10934000
+#
+# Descriptor: J/psi(1S) -> p+ p~- pi+ pi- 
+#
+# NickName: incl_b=Jpsi,pppipi,InAcc
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2JpsiFilter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2JpsiFilter" )
+# SignalFilter = Generation().b2JpsiFilter
+# SignalFilter.Code = " has(isB2cc)"
+# SignalFilter.Preambulo += [
+#  "isB2cc = ((GDECTREE('(Beauty & LongLived) --> J/psi(1S) ...')))"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: b-Jpsi decay to p p pi pi, keep only particles in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jibo HE
+# Email: jibo.he@cern.ch
+# Date: 20160806
+#
+#
+Decay J/psi
+  1.000   p+   anti-p-  pi+   pi-     PHSP;
+Enddecay
+#
+End
+#
+

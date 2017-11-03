@@ -1,0 +1,34 @@
+# EventType: 42112013
+#
+# Descriptor: pp -> (Z0/gamma* -> mu+ mu-) ...
+#
+# NickName: DrellYan_mumu=60GeV
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/TwoMuonsFromDYInAcc
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "TwoMuonsFromDYInAcc" )
+# muonsInAcc = Generation().TwoMuonsFromDYInAcc
+# muonsInAcc.Code = " count ( isDYWithMuonInAcc ) > 0 "
+# muonsInAcc.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#     , "isMuonInAcc   = ( ( GABSID == 13 )  & ( GPT > 1.0*GeV ) & ( GTHETA < 400.0*mrad ) & ( ( GSTATUS == 1 ) | ( GSTATUS == 999 ) ))"
+#     , "isDYWithMuonInAcc = ( ( GNINTREE(  isMuonInAcc , 4 ) > 1 ) )"
+#     ]
+# EndInsertPythonCode
+#
+# ExtraOptions: DrellYanmumu60GeV
+#
+# Documentation: 2 lepton with pT > 1 GeV and FSR activated
+# EndDocumentation
+#
+# PhysicsWG: Exotica 
+# Tested: Yes
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date: 20130903
+#
+End
+#

@@ -1,0 +1,32 @@
+# EventType: 13144071
+#
+# Descriptor: {[[B_s0]nos -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) K+ pi-]cc, [[B_s0]os -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) K- pi+]cc}
+#
+# NickName: Bs_JpsiKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Rafael Coutinho
+# Email: rsilvaco@cern.ch
+# Date: 20120905
+#
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi    MyJ/psi
+#
+Decay B_s0sig
+  1.000        MyJ/psi   K+ pi-      PHSP;
+Enddecay
+Decay anti-B_s0sig
+  1.000        MyJ/psi   K- pi+      PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000        mu+       mu-         PHOTOS  VLL;
+Enddecay
+#
+End

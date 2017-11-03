@@ -1,0 +1,22 @@
+# EventType: 42100002
+#
+# Descriptor: pp -> [Z0/gamma* -> tau+ tau- -> anti-nu_tau e+ nu_e tau-]cc ...    
+#
+# NickName: Zg_tautau40GeV=e
+#
+# Cuts: PythiaHiggsType                                                        
+#                                                                              
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 10*GeV LeptonIsFromMother true NumberOfbquarks -1                                  
+# ExtraOptions: Zgtautau=e
+#
+# Documentation: At least 1 electron with pT > 10 GeV,invariant mass of tau pair > 40GeV
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Marek Sirendi
+# Email: sirendi@hep.phy.cam.ac.uk
+# Date: 20131022
+#
+End
+#

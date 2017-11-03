@@ -1,0 +1,45 @@
+# EventType: 14545404
+#
+# Descriptor: [B_c+ -> (JPsi -> mu+ mu-) (tau+ -> pi+ pi+ pi- pi0 anti-nu_tau) nu_tau]cc
+#
+# NickName: Bc_JpsiTauNu,pipipipi0nu=DecProdCut_neutralsEta
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0.0 NeutralThetaMax 3.14
+#
+# Documentation: Bc+ to JPsi tau, JPsi -> mumu, tau forced to 3pi pi0 nu final state. Background/Signal Channel.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Christian Elsasser
+# Email: elsasser@cern.ch
+# Date: 20130214
+#
+
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau- MyTau+
+
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+
+
+Decay B_c+sig
+  1.000       MyJ/psi       MyTau+        nu_tau             PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000         mu+       mu-           PHOTOS VLL;
+Enddecay
+#
+Decay MyTau-
+  1.000     pi-     pi-      pi+   pi0   nu_tau              PHSP;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

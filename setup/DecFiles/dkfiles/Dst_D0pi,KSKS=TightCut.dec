@@ -1,0 +1,63 @@
+# EventType: 27165173
+#
+# Descriptor: [D*(2010)+ -> (D0 -> (KS0 -> pi+ pi-) (KS0 -> pi+ pi-)) pi+]cc
+#
+# NickName: Dst_D0pi,KSKS=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# #gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# #tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut = gen.SignalPlain.TightCut
+# #tightCut.Decay     = '[^D*(2010)+ ==> (^(D0 ==> ^(KS0 -> ^pi+ ^pi-) ^(KS0 -> ^pi+ ^pi-))^pi+)]CC'
+# tightCut.Decay     = '^[ D*(2010)+ ==> ^( D0 ==> ^( KS0 => ^pi+ ^pi- ) ^( KS0 => ^pi+ ^pi- ) ) ^pi+]CC'
+# tightCut.Cuts      =    {
+#     '[D*(2010)+]cc'    : ' goodDst     ' , 
+#     '[D0]cc'    : ' goodD     ' , 
+#     'KS0'   : ' goodKs ' } 
+# #    '[pi+]cc'   : ' goodTrack ' }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.010 , GTHETA , 0.300 ) ' , 
+#     'goodDst     = ( GP > 20 * GeV ) & (GCHILD(GTHETA,2) > 0.01) & (GCHILD(GTHETA,2) < 0.3)     ' , 
+#     'goodD     = ( GP > 10 * GeV ) & switch(GCHILD(GPT,1) < GCHILD(GPT,2), (GCHILD(GPT,1) > 300) & (GCHILD(GPT,2) > 800), (GCHILD(GPT,1) > 800) & (GCHILD(GPT,2) > 300)) & inAcc            ' , 
+#     'goodTrack = ( GP >  2.0 * GeV ) & (GPT >  100 * MeV )       ' , 
+#     'goodKs   = ( GP >  4 * GeV) & inAcc & (GFAEVX( abs( GVZ  ) , 0 ) < 2500 * mm) & (GCHILD(GPT,1) > 100 * MeV) &  (GCHILD(GPT,2) > 100 * MeV) &  (GCHILD(GP,1) > 2.0 * GeV) &  (GCHILD(GP,2)  > 2.0 * GeV)        ' ] 
+#
+# EndInsertPythonCode
+#
+# Documentation: tight cuts for filtered production
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Markward Britsch
+# Email: markward@mpi-hd.mpg.de
+# Date: 20130503
+#
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+#
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+#
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+#
+Decay MyD0
+  1.0   MyK0s        MyK0s   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+Decay MyK0s
+  1.000    pi+          pi-           PHSP;
+Enddecay
+End

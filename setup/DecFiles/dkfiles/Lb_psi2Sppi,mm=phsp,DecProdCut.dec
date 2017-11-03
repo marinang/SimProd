@@ -1,0 +1,33 @@
+# EventType: 15144032
+#
+# Descriptor: [Lambda_b0 -> p+ pi- (psi(2S) => mu+ mu-)]cc
+#
+# NickName: Lb_psi2Sppi,mm=phsp,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to three-body p+pi- psi(2S) with psi(2S) to dimuons.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Vanya Belyaev
+# Email:       Ivan.Belyaev@itep.ru
+# Date:        20160804
+#
+Alias      Mypsi2S         psi(2S)
+ChargeConj Mypsi2S       Mypsi2S
+#
+Decay Lambda_b0sig
+  1.000    Mypsi2S  p+ pi-               PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mypsi2S
+  1.000     mu+  mu-                     VLL;
+Enddecay
+#
+End
+#

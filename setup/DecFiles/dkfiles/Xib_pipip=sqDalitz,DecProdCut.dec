@@ -1,0 +1,26 @@
+# EventType: 16103032
+#
+# Descriptor: [Xi_b-  -> pi- pi- p+]cc
+#
+# NickName: Xib_pipip=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Flat on square Dalitz plot, decay products in acceptance
+# EndDocumentation
+#
+# CPUTime: < 1 min 
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Abhijit Mathad
+# Email: amathad@cern.ch
+# Date: 20150417
+#
+#
+Decay Xi_b-sig
+  1.000        pi-      pi-      p+      FLATSQDALITZ;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+End
+

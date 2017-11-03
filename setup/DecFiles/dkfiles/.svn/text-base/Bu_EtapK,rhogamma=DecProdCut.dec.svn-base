@@ -1,0 +1,42 @@
+# EventType: 12103213 
+# 
+# Descriptor: [B+ -> K+ (eta' -> (rho0 -> pi+ pi-) gamma)]cc
+# 
+# NickName: Bu_EtapK,rhogamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: etaprime to rho0gamma(SVP_HELAMP). No CP Violation. Daughters in LHCb.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Sebastiana Giani
+# Email: sebastiana.giani@epfl.ch
+# Date: 20150706
+# CPUTime: < 1 min
+
+Alias       myeta'  eta'
+Alias       myrho0  rho0
+ChargeConj  myeta'  myeta'
+ChargeConj  myrho0  myrho0
+
+
+#
+Decay B+sig
+  1.000     K+    myeta'      PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay   myeta'
+  1.000    myrho0    gamma      SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+#
+Decay   myrho0
+  1.000     pi+     pi-          VSS;
+Enddecay
+#
+End
+
+
+

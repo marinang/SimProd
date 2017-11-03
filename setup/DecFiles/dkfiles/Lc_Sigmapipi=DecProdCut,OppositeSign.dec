@@ -1,0 +1,25 @@
+# EventType: 25102050
+#
+# Descriptor: [Lambda_c+ -> Sigma+ pi+ pi- ]cc
+#
+# NickName: Lc_Sigmapipi=DecProdCut,OppositeSign
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: < 1 min
+#
+# Documentation: N/A
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Louis Henry
+# Email: louis.henry@cern.ch
+# Date: 20170205
+#
+#
+Decay Lambda_c+sig
+  1.000    Sigma+    pi+    pi-    PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+#
+End

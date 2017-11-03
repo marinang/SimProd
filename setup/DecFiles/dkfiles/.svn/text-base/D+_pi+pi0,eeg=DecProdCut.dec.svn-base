@@ -1,0 +1,31 @@
+# EventType: 21123401
+#
+# Descriptor: [D- -> pi- (pi0 -> e+ e- gamma)]cc 
+#
+# NickName: D+_pi+pi0,eeg=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Inclusive production of D+. D+ forced to decay to pi+ pi0 as phase space, then pi0 to (e+ e- gamma) as 'PI0_DALITZ'. Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Brian Meadows 
+# Email: meadowbt@ucmail.uc.edu
+# Date: 20121207
+#
+Alias      MyPi0        pi0
+ChargeConj MyPi0        MyPi0
+#
+Decay D-sig
+  1.00   MyPi0   pi-           PHSP;
+Enddecay
+CDecay D+sig
+#
+Decay MyPi0
+  1.00    e+  e- gamma        PI0_DALITZ;
+Enddecay
+#
+End
+#

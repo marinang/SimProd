@@ -1,0 +1,36 @@
+# EventType: 12143200
+#
+# Descriptor: [B+ -> K+ (chi_c0(1P) -> gamma (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}))]cc
+#
+# NickName: Bu_chic1K,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20110212
+#
+Alias      Mychi_c1 chi_c1
+ChargeConj Mychi_c1 Mychi_c1
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Decay B+sig
+  1.000     Mychi_c1  K+                   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay Mychi_c1 
+  1.000     MyJ/psi  gamma  VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+End

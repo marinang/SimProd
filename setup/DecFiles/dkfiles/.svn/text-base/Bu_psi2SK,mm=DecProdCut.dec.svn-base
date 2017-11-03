@@ -1,0 +1,31 @@
+# EventType: 12143020
+#
+# Descriptor: [B+ -> K+ (psi(2S) -> ( mu+ mu- {,gamma} {,gamma})]cc 
+#
+# NickName: Bu_psi2SK,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes 
+# Responsible: Neus Lopez March
+# Email: neus.lopezmarch@epfl.ch
+# Date: 20110214
+#
+Alias      Mypsi2S  psi(2S)
+ChargeConj Mypsi2S  Mypsi2S
+#
+Decay B+sig
+  1.000   Mypsi2S  K+   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay Mypsi2S
+ 1.000         mu+          mu-         PHOTOS VLL; 
+Enddecay
+#
+End
+

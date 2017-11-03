@@ -1,0 +1,49 @@
+# EventType: 18214033
+#
+# Descriptor: Upsilon(4S) -> ({Upsilon(1S),Upsilon(2S),Upsilon(3S)} -> mu+ mu-) mu+ mu-
+#
+# NickName: Xbbbb_Upsilonmumu,mumu=DecProdCut,18.83GeV
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon4S
+#
+# Documentation: Xbbbb (Mass 18.83 GeV/c2) decay to Upsilon(1S,2S,3S)(to mu+ mu-) mu+ mu- with phase space model, all daughters in acceptance;
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:  Daniel Craik
+# Email: dcraik@cern.ch
+# Date: 20170403
+# CPUTime: < 1 min
+#
+# ParticleValue: " Upsilon(4S)   849   300553   0.0  18.83 5.485e-22       Upsilon(4S)       300553   0.000000e+000"
+#
+Alias      MyUpsilon1S        Upsilon
+ChargeConj MyUpsilon1S        MyUpsilon1S
+Alias      MyUpsilon2S        Upsilon(2S)
+ChargeConj MyUpsilon2S        MyUpsilon2S
+Alias      MyUpsilon3S        Upsilon(3S)
+ChargeConj MyUpsilon3S        MyUpsilon3S
+#
+Decay Upsilon(4S)sig
+  0.333     MyUpsilon1S    mu+ mu-        PHSP;
+  0.333     MyUpsilon2S    mu+ mu-        PHSP;
+  0.333     MyUpsilon3S    mu+ mu-        PHSP;
+Enddecay
+#
+Decay MyUpsilon1S
+  1.000     mu+  mu-                        VLL;
+Enddecay
+#
+Decay MyUpsilon2S
+  1.000     mu+  mu-                        VLL;
+Enddecay
+#
+Decay MyUpsilon3S
+  1.000     mu+  mu-                        VLL;
+Enddecay
+#
+End
+#

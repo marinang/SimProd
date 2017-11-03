@@ -1,0 +1,61 @@
+# EventType: 12203221
+#
+# NickName: Bu_K1gamma,Kpipi=mK1270,DecProdCut
+#
+# Descriptor: [ B+ -> (K_1(1270)+ -> (X ->  K+ pi- pi+)) gamma ]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+->K_1(1270)+ gamma decay, K_1(1270)+ -> XX-> K+pi+pi- decay, Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email: cedric.potterat@cern.ch
+# Date: 20120813
+#
+Alias      MyK1_1270_+   K_1+ 
+Alias      MyK1_1270_-   K_1-
+ChargeConj MyK1_1270_+   MyK1_1270_-
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+Alias MyOmega omega
+ChargeConj MyOmega MyOmega
+#
+Alias      MyK*1430_0       K_0*0
+Alias      Myanti-K*1430_0  anti-K_0*0
+ChargeConj Myanti-K*1430_0  MyK*1430_0
+#
+Decay B+sig
+  1.000        MyK1_1270_+     gamma               SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay MyK1_1270_+
+  0.21075        MyK*0        pi+                    VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.41491        rho0         K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.00554        MyOmega      K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.36881        MyK*1430_0   pi+                    VSS;
+Enddecay
+CDecay MyK1_1270_-
+#
+Decay MyK*0
+  1.000        K+        pi-                    VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyOmega
+  1.000        pi+        pi-                   VSS;
+Enddecay
+#
+Decay MyK*1430_0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay Myanti-K*1430_0
+#
+End
+#

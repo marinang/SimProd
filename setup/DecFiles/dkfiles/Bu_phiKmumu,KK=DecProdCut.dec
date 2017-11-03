@@ -1,0 +1,37 @@
+# EventType: 12145052
+#
+# Descriptor: [B+ -> (phi -> K+ K-) K+ mu+ mu-]cc
+#
+# NickName: Bu_phiKmumu,KK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B -> phi K mu mu, phi-> KK
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Sam Hall
+# Email: shall@cern.ch
+# Date: 20130621
+
+
+Alias       MyPhi       phi
+ChargeConj  MyPhi       MyPhi
+
+
+#  PDG Id = 521
+Decay B+sig
+ 1.0000   MyPhi K+ mu+ mu-          PHSP;
+Enddecay
+CDecay B-sig
+
+
+#  PDG Id = 333
+Decay MyPhi
+ 1.0000    K+ K-                 VSS;
+Enddecay
+
+
+
+End

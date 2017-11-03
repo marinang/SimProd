@@ -1,0 +1,58 @@
+# EventType: 36515100
+#
+# Descriptor: [Omega- -> (Xi*0 -> (Xi-  -> (Lambda0 -> p+ pi-)  pi-) pi+) anti-nu_mu  mu-]cc
+#
+# NickName: Omega_XiStarmunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Omega- decay to Xi*0 anti-nu_mu  mu-  for phase space decay model, with Xi*0 decaying in Xi- pi+ , Xi- to Lambda0 pi-,  and Lambda0 decaying into p+ pi-. DaughtersInLHCb cut.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+#
+# Tested: Yes
+# Responsible: Jessica Prisciandaro
+# Email: jessica.prisciandaro@cern.ch
+# Date: 20170704
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj MyLambda	 Myanti-Lambda
+#
+#
+Alias      MyXi          Xi-
+Alias      Myanti-Xi     anti-Xi+
+ChargeConj MyXi          Myanti-Xi
+#
+#
+Alias      MyXi*         Xi*0
+Alias      Myanti-Xi*    anti-Xi*0
+ChargeConj MyXi*         Myanti-Xi*
+#
+
+
+Decay Omega-sig
+      1.000	MyXi*	mu-	anti-nu_mu	PHSP;
+Enddecay
+CDecay anti-Omega+sig
+#
+Decay MyXi*
+      1.000	MyXi	pi+	PHSP;
+Enddecay
+CDecay Myanti-Xi*
+#
+Decay MyXi
+      1.000     MyLambda    pi-     PHSP;
+Enddecay
+CDecay Myanti-Xi
+#
+Decay MyLambda
+      1.000     p+    pi-     PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+
+End

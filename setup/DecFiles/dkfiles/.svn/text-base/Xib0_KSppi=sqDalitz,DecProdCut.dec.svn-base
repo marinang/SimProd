@@ -1,0 +1,32 @@
+# EventType: 16104141
+#
+# Descriptor: [Xi_b0  -> (KS0 -> pi+ pi-) p+ pi-]cc
+#
+# NickName: Xib0_KSppi=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Flat on square Dalitz plot, K0s forced into pi+ pi-, 
+# decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Rafael Coutinho
+# Email: rsilvaco@cern.ch
+# Date: 20130131
+#
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+#
+Decay Xi_b0sig
+  1.000        MyKs     p+      pi-        FLATSQDALITZ;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyKs
+  1.000        pi+      pi-                 PHSP;
+Enddecay
+#
+End
+

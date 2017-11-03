@@ -1,0 +1,131 @@
+# EventType: 15876011
+#
+# Descriptor: [ Lambda_b0 ==>  (Lambda(2593)+ -> (Sigma_c++ -> (Lambda_c+ ==> p+ K- pi+ ) pi+)  pi-) mu- anti-nu_mu   ]cc
+#
+# NickName: Lb_Lcmunu,Lc2593,pKpi=cocktail,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime:  3 min
+#
+# Documentation: Lb -> Lc2593 mu nu_mu, Lc2593 -> Lc X and  Lc-> p K pi. Includes Acceptence, P and PT cuts on p and mu. 
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut  = Generation().SignalPlain.TightCut
+#tightCut.Decay = "[ Lambda_b0 ==>  (Lambda_c+ ==> ^p+ K- pi+)  ^mu- nu_mu~ {X} {X} {X} {X} {X}  ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV",
+# "pmuPX = GCHILD(GPX,('p+' == GABSID )) + GCHILD(GPX,('mu-' == GABSID))",
+# "pmuPY = GCHILD(GPY,('p+' == GABSID )) + GCHILD(GPY,('mu-' == GABSID))",
+# "pmuPT2 = pmuPX * pmuPX + pmuPY * pmuPY"
+#  ]
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 950 * MeV ) & (GP > 14600 * MeV)" ,
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GPT > 1450 * MeV) &  (GP > 4900 * MeV) ",
+#'[Lambda_b0]cc' : "pmuPT2 > 1960000"
+#   }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: William Sutcliffe
+# Email: william.lawrence.sutcliffe@cern.ch
+# Date:   20140417
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias MyLambda_c(2593)+       Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)-  anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+  Myanti-Lambda_c(2593)-
+#
+Alias MyLambda_c(2625)+       Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+  Myanti-Lambda_c(2625)-
+#
+Alias MySigma_c+       Sigma_c+
+Alias Myanti-Sigma_c-  anti-Sigma_c-
+ChargeConj MySigma_c+  Myanti-Sigma_c-
+#
+Alias MySigma_c++       Sigma_c++
+Alias Myanti-Sigma_c--  anti-Sigma_c--
+ChargeConj MySigma_c++  Myanti-Sigma_c--
+#
+Alias MySigma_c0       Sigma_c0
+Alias Myanti-Sigma_c0  anti-Sigma_c0
+ChargeConj MySigma_c0  Myanti-Sigma_c0
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Decay Lambda_b0sig
+  1.0    MyLambda_c(2593)+  mu-  anti-nu_mu     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+# BR = 1
+Decay MyLambda_c+
+  
+# Lc->pKpi decays from the PDG:
+  0.02800         p+      K-      pi+          PHSP;
+  0.016         p+      Myanti-K*0           PHSP;
+  0.00860         Delta++ K-                   PHSP;
+  0.018         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+# BR = 1
+Decay MyLambda_c(2593)+
+  0.24000      MySigma_c++         pi-         PHSP;
+  0.24000      MySigma_c0          pi+         PHSP;
+  0.18000      MyLambda_c+         pi+    pi-  PHSP;
+  0.24000      MySigma_c+          pi0         PHSP;
+  0.09000      MyLambda_c+         pi0    pi0  PHSP;
+  0.01000      MyLambda_c+         gamma       PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+Decay MyLambda_c(2625)+
+  0.66000      MyLambda_c+         pi+    pi-  PHSP;
+  0.33000      MyLambda_c+         pi0         PHSP;
+  0.01000      MyLambda_c+         gamma       PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MySigma_c++
+  1.0000    MyLambda_c+  pi+                   PHSP;
+Enddecay
+CDecay Myanti-Sigma_c-- 
+#
+Decay MySigma_c+
+1.0000    MyLambda_c+  pi0                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c-
+#
+Decay MySigma_c0
+1.0000    MyLambda_c+  pi-                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+# 
+#
+Decay MyK*0
+  0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyLambda(1520)0
+  0.23   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+#
+End

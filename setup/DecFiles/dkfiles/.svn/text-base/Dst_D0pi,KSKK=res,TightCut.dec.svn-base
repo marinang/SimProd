@@ -1,0 +1,117 @@
+# EventType: 27165109
+#
+# Descriptor: [D*(2010)+ -> (D0 -> (KS0 -> pi+ pi-) K+ K-) pi+]cc
+#
+# NickName: Dst_D0pi,KSKK=res,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ D*(2010)+ -> ^( D0 => ^( KS0 => ^pi+ ^pi- ) ^K+ ^K- ) ^pi+]CC'
+# tightCut.Preambulo += [
+#     'GVZ = LoKi.GenVertices.PositionZ() ' ,
+#     'from GaudiKernel.SystemOfUnits import millimeter ',
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ',
+#     'goodD0    = ( GPT > 2000 * MeV) & (GTIME > 0.075 * millimeter) & (GFAEVX( abs( GVZ  ) , 0 )  <  8000.0 * millimeter ) ',
+#     'kaoncuts  = ( GNINTREE( ("K+" == GABSID ) & (GP > 1500 * MeV) , 4) > 1.5 )',
+#     'pioncuts  = ( GNINTREE( ("pi+" == GABSID ) & (GP > 1500 * MeV) , 4) > 1.5 )',
+#     'goodKS    = ( GFAEVX( abs( GVZ  ) , 0 )  <  800.0 * millimeter ) ',
+#     'goodDst   = ( (GPT > 1500 * MeV) & (GPT < (3 * GP / 10)) & (GPT > (7*GP/300 - 7/3)) ) ',
+#     'trigger   = ( GNINTREE( (("pi+" == GABSID) | ("K+" == GABSID)) & (GPT > 1400 * MeV ) & (GP > 2700 * MeV) , 4)  > 0.5) ',
+# ]
+# tightCut.Cuts      =    {
+#     '[pi+]cc'   : 'inAcc',
+#     '[K+]cc'    : 'inAcc',
+#     '[D0]cc'    : 'goodD0 & pioncuts & trigger',
+#     '[D*(2010)+]cc' : 'goodDst',
+#     'KS0'       : 'goodKS',
+#     }
+# EndInsertPythonCode
+#
+# See hep-ex/0507026 -- Antimo models the data as:
+# From conditions database / particle table:
+#
+# Documentation: Inclusive production of D*+. D* is forced to decay to D0 pi+, then D0 to (KS K+ K-) with a simple resonant
+# model, then KS to (pi+ pi-) as phase space. Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Tomas Pilar
+# Email: t.pilar@warwick.ac.uk
+# Date: 20120911
+
+# Ran SCANPDF over 1000000 events -- result was:
+#
+# Sampling 1000000 points to find maximum
+# Found maximum 4.403232
+# Increase to   5.283879
+#
+# ... so to be extra-safe (considering the presence of a
+# sharp phi resonance) I've bumped it up to 6.0
+
+# Set the thresholds explicitly, even though I suspect they are
+# not respected by the PTO3P decay model:
+ChangeMassMin  a_00  0.987354
+ChangeMassMin  a_0+  0.991291
+ChangeMassMin  a_0-  0.991291
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.0 myK_S0 K+ K- PTO3P
+     MAXPDF   6.0
+     # SCANPDF 1000000
+
+     # If you want to add a non-resonant/flat, coherent component, it goes in like this:
+     #AMPLITUDE    PHASESPACE
+     #COEFFICIENT  POLAR_RAD   0.1    0.0
+
+     # K0bar a0(980)0 -- sub-threshold and has to be NBW else EvtGen crashes
+     AMPLITUDE    RESONANCE   BC     a_00
+                  ANGULAR     AC
+                  TYPE        NBW
+     COEFFICIENT  POLAR_RAD   1.0    0.0
+
+     # K0bar phi(1020) -- using relativistic Zemach propagator
+     AMPLITUDE    RESONANCE   BC     phi
+                  ANGULAR     AC
+                  TYPE        RBW_ZEMACH
+     COEFFICIENT  POLAR_RAD   0.437  1.91
+
+     # K- a0(980)+ -- sub-threshold and has to be NBW else EvtGen crashes
+     AMPLITUDE    RESONANCE   AB     a_0+
+                  ANGULAR     CA
+                  TYPE        NBW
+     COEFFICIENT  POLAR_RAD   0.460  3.59
+
+     # K0bar f0(1400) -- using relativistic Zemach propagator
+     AMPLITUDE    RESONANCE   BC     f'_0
+                  ANGULAR     AC
+                  TYPE        RBW_ZEMACH
+     COEFFICIENT  POLAR_RAD   0.435  -2.65
+   ;
+Enddecay
+CDecay MyantiD0
+
+# Force Ks -> pi+ pi- to save generating unhelpful events:
+Decay myK_S0
+1.000     pi+  pi-                      PHSP;
+Enddecay
+
+End

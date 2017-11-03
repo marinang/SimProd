@@ -1,0 +1,43 @@
+# EventType: 10163001
+#
+# Descriptor: D*(2010)+ -> pi+ (D0 -> K- pi+ )
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2dst3piFilter
+
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2dst3piFilter" )
+# SignalFilter = Generation().b2dst3piFilter
+# SignalFilter.Code = " has(isB2cc)"
+# SignalFilter.Preambulo += [
+#  "isB2cc = ((GDECTREE('(Beauty & LongLived) --> D*(2010)+ pi- pi+  pi-  ...')))"
+#    ]
+# EndInsertPythonCode
+#
+# NickName: incl_b=Dst,piD0,Kpi,plus3pi,InAcc
+# Documentation: Inclusive D*3pi events from b decays
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Guy Wormser
+# Email: guy.wormser@cern.ch
+# Date: 20141009
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+Decay MyD0
+  1.0   K-  pi+    PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End

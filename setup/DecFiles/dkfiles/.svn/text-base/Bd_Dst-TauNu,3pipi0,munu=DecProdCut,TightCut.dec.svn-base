@@ -1,0 +1,65 @@
+# EventType: 11572410
+#
+# Descriptor: [B0 -> (D*(2010)- ->(D- -> pi- pi+ pi- pi0  ) pi0) (tau+ ->   mu+  nu_mu  anti-nu_tau ) nu_tau]cc
+#
+# NickName: Bd_Dst-TauNu,3pipi0,munu=DecProdCut,TightCut
+#
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+
+#
+# Documentation: Bd to D* tau nu, with D* to D- pi0, D0 to 3pipi0 final state, and also tau forced to mu nu final state. Background channel for Bs to tau tau.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Justine Serrano
+# Email: serrano@cppm.in2p3.fr
+# Date: 20131118
+#
+Alias      MyD*-       D*-
+Alias      MyD*+       D*+
+ChargeConj MyD*+       MyD*-
+#
+Alias 		MyD+ 		D+
+Alias  		MyD-		D-
+ChargeConj	MyD+		MyD-
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau- MyTau+
+
+Decay B0sig
+  1.00        MyD*-     MyTau+        nu_tau             ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  0.15   pi-  pi+  pi-  pi0              PHSP;
+  0.60   Mya_1- pi0              SVS;
+  0.25   rho- rho0              SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyD+
+#  
+Decay MyD*-
+  1.000        MyD-  pi0                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyTau-
+  1.00     mu-   nu_tau    anti-nu_mu        PHOTOS  TAULNUNU;
+Enddecay
+CDecay MyTau+
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+End
+#

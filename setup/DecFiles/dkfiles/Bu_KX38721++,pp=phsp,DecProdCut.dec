@@ -1,0 +1,34 @@
+# EventType: 12103081
+#
+# Descriptor: [B+ -> K+ (X_1(3872) ->  p+ p~-)]cc
+#
+# NickName: Bu_KX38721++,pp=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decay to X_1(3872)(-> p+ anti-p-) and K+ with phase space model, all daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: yes
+# Responsible: Roberta Cardinale
+# Email: roberta.cardinale@cern.ch
+# Date: 20131003
+#
+
+Alias      MyX_1(3872) X_1(3872)
+ChargeConj MyX_1(3872) MyX_1(3872)
+#
+#
+#
+Decay B+sig
+  1.000    MyX_1(3872) K+     PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyX_1(3872)
+1.00000  p+ anti-p-     PHSP;
+Enddecay
+#
+End
+#

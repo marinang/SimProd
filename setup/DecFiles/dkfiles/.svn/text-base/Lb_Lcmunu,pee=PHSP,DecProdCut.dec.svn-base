@@ -1,0 +1,35 @@
+# EventType: 15574060
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ e+ e-) anti-nu_mu mu-]cc
+#
+# NickName: Lb_Lcmunu,pee=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lc mu nu_mu with Lc -> p e e
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Luca Pescatore
+# Email:       luca.pescatore@cern.ch
+# Date:        20161118
+# CPUTime:     2 min
+#
+
+Alias MyLambda_c+       Lambda_c+
+Alias MyLambda_c-       anti-Lambda_c-
+
+ChargeConj MyLambda_c+  MyLambda_c-
+
+Decay Lambda_b0sig
+  1.0000 MyLambda_c+ mu- anti-nu_mu PHOTOS BaryonPCR 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyLambda_c+
+  1.0000    p+ e+ e- PHSP;
+Enddecay
+CDecay MyLambda_c-
+
+End

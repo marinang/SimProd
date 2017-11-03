@@ -1,0 +1,56 @@
+# EventType: 13166001
+#
+# Descriptor: {[[B_s0]nos -> (D_s- => K+ K- pi-) (a_1+ -> (anti-K*0 -> K- pi+) K+ )]cc, [[B_s0]os -> (D_s+ => K- K+ pi+) (a_1- -> (K*0 -> K+ pi-) K- )]cc}
+#
+# NickName: Bs_Dsa1,KKpi,KKpi=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Decay products in acceptance, Ds Dalitz, a1 -->K*K-->KKpi
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Steven Blusk
+# Email: sblusk@syr.edu
+# Date: 20111011
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+#
+#
+Decay B_s0sig
+  1.0      Mya_1+        MyD_s-                 SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s-
+  1.0000     K+    K-     pi-                   D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Mya_1-
+  1.000   MyK*0 K-                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1+
+#
+End
+

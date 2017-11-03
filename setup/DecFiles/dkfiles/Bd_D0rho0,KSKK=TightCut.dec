@@ -1,0 +1,73 @@
+# EventType: 11166163 
+# 
+# Descriptor: [[([B0]nos -> ^(D~0 -> ^(KS0 -> ^pi+ ^pi-) ^K+ ^K-) ^(rho(770)0 -> ^pi+ ^pi-))]CC, [([B0]os -> ^(D0  -> ^(KS0 -> ^pi+ ^pi-) ^K+ ^K-) ^(rho(770)0 -> ^pi+ ^pi-))]CC]
+# 
+# NickName: Bd_D0rho0,KSKK=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation().SignalRepeatedHadronization.TightCut
+#tightCut.Decay = '^[Beauty-> ^(D~0 => ^(KS0 => ^pi+ ^pi-) ^K+ ^K-) ^(rho(770)0 =>^pi+ ^pi-) ]CC'
+#tightCut.Preambulo += [
+#    'GVZ = LoKi.GenVertices.PositionZ()',
+#    'from GaudiKernel.SystemOfUnits import millimeter',
+#    'inAcc        = (in_range(0.005, GTHETA, 0.400))',
+#    'goodB0       = (GP > 50000 * MeV) & (GPT > 5000 * MeV) & (GTIME > 0.105 * millimeter)',
+#    'goodD0       = (GP > 20000 * MeV) & (GPT >  300 * MeV)',
+#    'goodrho      = (GP > 12000 * MeV) & (GPT >  800 * MeV)',
+#    'goodKS       = (GP >  6000 * MeV) & (GFAEVX(abs(GVZ),0) < 2400.0 * millimeter)',
+#    'goodDDaugK   = (GNINTREE( ("K+"==GABSID) & (GP > 1000 * MeV) & inAcc, 1) > 1.5)',
+#    'goodKsDaugPi = (GNINTREE( ("pi+"==GABSID) & (GP > 2000 * MeV) & inAcc, 1) > 1.5)',
+#    'goodrhoDaugPi  = (GNINTREE( ("pi+"==GABSID) & (GP > 2000 * MeV) & (GPT > 98 * MeV) & inAcc, 1) > 1.5)',
+#]
+#tightCut.Cuts = {
+#    'Beauty'          : 'goodB0', 
+#    '[D0]cc'          : 'goodD0 & goodDDaugK',
+#    '[rho(770)0]cc'   : 'goodrho & goodrhoDaugPi',
+#    '[KS0]cc'         : 'goodKS & goodKsDaugPi'
+#    }
+#EndInsertPythonCode
+#
+# Documentation: K0s forced into pi+ pi-, D0 decay without resonance, Generator level cuts
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 1 min
+# Responsible: Faye Cheung
+# Email: faye.cheung@cern.ch 
+# Date: 20141003
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias myK_S0      K_S0
+ChargeConj myK_S0 myK_S0
+Alias My_rho0 rho0
+ChargeConj My_rho0 My_rho0
+#
+Decay B0sig
+  1.000        My_rho0     Myanti-D0              SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD0
+  1.000     myK_S0 K+  K-        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay myK_S0
+  1.000 pi+ pi-                     PHSP;
+Enddecay
+#
+Decay My_rho0
+  1.000 pi+ pi-                    VSS;
+Enddecay
+#
+End
+#

@@ -1,0 +1,39 @@
+# EventType: 12145150 
+#
+## Descriptor: [B+ -> (J/psi(1S) -> mu+ mu-) (KS0 -> pi+ pi-) pi+]cc
+#
+# NickName: Bu_JpsiKSpi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: 3 min
+#
+# Documentation: B+ -> J/psi K0S pi+ phase space MC with decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email: biplabdey@yahoo.com
+# Date: 20141020
+#
+#
+#
+Alias      MyJ/psi    J/psi
+Alias      MyKs         K_S0
+ChargeConj MyJ/psi    MyJ/psi
+ChargeConj MyKs         MyKs
+#
+Decay B+sig
+  1.000        MyJ/psi   MyKs pi+      PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyKs
+  1.000         pi+       pi-            PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000        mu+       mu-         PHOTOS  VLL;
+Enddecay
+#
+End

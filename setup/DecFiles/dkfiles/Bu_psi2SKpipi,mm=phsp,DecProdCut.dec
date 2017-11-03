@@ -1,0 +1,35 @@
+# EventType: 12145071
+#
+# Descriptor: [B+ -> (psi(2S) -> mu+ mu-) K+ pi+ pi-]cc
+#
+# NickName: Bu_psi2SKpipi,mm=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: B+ -> psi(2S) K+ pi+ pi- phsp decay, psi(2S) -> mu+ mu-, Includes radiative mode, all daughters in acceptance
+# EndDocumentation
+# 
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Emanuele Santovetti
+# Email: emanuele.santovetti@gmail.com
+# Date: 20150408
+
+Alias Mypsi(2S) psi(2S)
+ChargeConj Mypsi(2S) Mypsi(2S)
+
+#  PDG Id = 521
+Decay B+sig
+  1.0000   Mypsi(2S) K+ pi+ pi-         PHSP;
+Enddecay
+CDecay B-sig
+
+#  PDG Id = 100443
+Decay Mypsi(2S)
+  1.0000   mu+   mu-                PHOTOS VLL;
+Enddecay
+
+
+End

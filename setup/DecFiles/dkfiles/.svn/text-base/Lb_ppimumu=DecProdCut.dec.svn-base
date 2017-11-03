@@ -1,0 +1,24 @@
+# EventType: 15114021
+#
+# Descriptor: [Lambda_b0 -> p+ pi- mu+ mu-]cc
+#
+# NickName: Lb_ppimumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phase space decay, decay products in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Eluned Smith
+# Email: eluned.anne.smith@cern.ch
+# Date: 20141030
+#
+Decay Lambda_b0sig
+  1.000    p+   pi-  mu+ mu-        PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

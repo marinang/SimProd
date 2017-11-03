@@ -1,0 +1,51 @@
+# EventType: 15196110
+#
+# Descriptor: [Lambda_b0 -> (psi(3770) ->  (D0 -> K- pi+) (D0bar -> K+ pi-) ) (Lambda0 -> p+ pi-)]cc
+#
+# NickName: Lb_psi3770Lambda,D0D0bar,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda_b0 decays to psi(3770) Lambda0. psi(3770) forced to decay to D0 D0bar, with D0 to K- pi+. Daughters in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Michele Veltri
+# Email: michele.veltri@uniurb.it
+# Date: 20141027
+#
+#
+Alias MyD0                 D0
+Alias Myanti-D0       anti-D0
+ChargeConj MyD0     Myanti-D0
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+#
+Alias Mypsi3770      psi(3770)
+ChargeConj Mypsi3770 Mypsi3770
+#
+Decay MyD0
+  1.000         K-         pi+                  PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay Mypsi3770
+ 1.000         MyD0        Myanti-D0            VSS;
+Enddecay
+#
+Decay MyLambda
+  1.000     p+      pi-                       PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+Decay Lambda_b0sig
+  1.000     Mypsi3770   MyLambda      PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+

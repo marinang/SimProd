@@ -1,0 +1,21 @@
+# EventType: 56000000
+#
+# Descriptor: gamma => ? 
+#
+# NickName: gamma,fixE=CaloAcc
+#
+# Cuts: LHCbAcceptance
+#
+# Momentum: 1.0*GeV 5.0*GeV  10.0*GeV  16.8*GeV  33.8*GeV  50.0*GeV  100.0*GeV  168.0*GeV
+#
+# Documentation: Decay file for (particle gun) gammas of different energies in Calorimeters acceptance
+# EndDocumentation
+#
+# PhysicsWG: Sim
+# Tested: Yes
+# Responsible:     Gloria Corti
+# Email: gloria.corti@cern.ch
+# Date:   20090207
+#
+End
+#

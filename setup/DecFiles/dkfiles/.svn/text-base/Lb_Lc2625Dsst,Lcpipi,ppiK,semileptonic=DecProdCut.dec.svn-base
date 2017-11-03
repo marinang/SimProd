@@ -1,0 +1,99 @@
+# EventType: 15896201
+# Descriptor: [Lambda_b0 -> (D_s*- -> (D_s- -> (tau- -> mu- anti-nu_mu nu_tau) anti-nu_tau) gamma) (Lambda_c(2625)+ -> (Lambda_c+ -> p+ K- pi+) pi+ pi-)]cc
+# NickName: Lb_Lc2625Dsst,Lcpipi,ppiK,semileptonic=DecProdCut
+# Cuts: LHCbAcceptance
+#
+# Documentation: Decay Lambda_b0 -> ( Lambda_c(2625)+ -> (Lambda_c+ -> ^p+  ^K- ^pi+ )pi+ pi-) D_s*-.(Semi)Leptonic Ds decays.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Anna Lupato
+# Email: anna.lupato@cern.ch
+# Date: 20160119
+# CPUTime: <1 min
+#
+#
+Alias MyLambda_c(2625)+       Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+  Myanti-Lambda_c(2625)-
+#
+Alias      MyLambda_c+         Lambda_c+
+Alias      MyLambda_c-	       anti-Lambda_c-
+ChargeConj MyLambda_c+         MyLambda_c-
+#
+Alias      MyD_s*-    D_s*-
+Alias      MyD_s*+    D_s*+
+ChargeConj MyD_s*-    MyD_s*+
+#
+#
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Decay Lambda_b0sig
+  1.0000    MyLambda_c(2625)+       MyD_s*-        PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c(2625)+
+1.000000 MyLambda_c+ pi+     pi-                           PHSP; 
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MyD_s*-
+  0.935   MyD_s-       gamma     VSP_PWAVE;
+  0.058   MyD_s-       pi0       VSS;
+Enddecay
+CDecay MyD_s*+
+#
+Decay MyD_s-
+  0.0249  phi     mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.0267  eta     mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.0099  eta'    mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.0037  K0      mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.0018  MyK*0     mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.0020  f_0     mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.00556 mu-     anti-nu_mu                              PHOTOS  SLN; 
+  0.0555  Mytau-    anti-nu_tau                             SLN; 
+Enddecay
+CDecay MyD_s+
+#
+Decay MyLambda_c+
+  0.02800         p+      K-      pi+          PHSP;
+  0.01065         p+      Myanti-K*0           PHSP;
+  0.00860         Delta++ K-                   PHSP;
+  0.00414         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+Decay Mytau-
+  0.1736       mu-  anti-nu_mu   nu_tau        TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+Decay MyK*0
+  0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyLambda(1520)0
+  0.23   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End
+
+

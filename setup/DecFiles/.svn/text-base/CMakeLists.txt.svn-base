@@ -1,0 +1,16 @@
+################################################################################
+# Package: DecFiles
+################################################################################
+gaudi_subdir(DecFiles v30r5)
+
+# Note: this works only when built from within the project
+#       DecFilesTests
+include(DecFilesTestsRunConfigScript)
+
+# Note: this effects only the configuration process (not the runtime)
+set(ENV{DECFILESROOT} ${CMAKE_CURRENT_SOURCE_DIR})
+
+DecFilesTestsConfigScript(create_options.py)
+DecFilesTestsConfigScript(listNewEvtTypes.py)
+
+gaudi_env(SET DECFILESOPTS \${DECFILESROOT}/options)

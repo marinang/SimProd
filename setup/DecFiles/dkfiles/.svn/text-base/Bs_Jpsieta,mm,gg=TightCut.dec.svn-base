@@ -1,0 +1,61 @@
+# EventType: 13142403
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) (eta -> gamma gamma)]cc
+#
+# NickName: Bs_Jpsieta,mm,gg=TightCut
+#
+# Documentation: no CP violation, tigth cuts for daughters
+# EndDocumentation
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = ' Beauty  -> ^( J/psi(1S) => ^mu+ ^mu-)  ^( eta -> ^gamma ^gamma )'
+# tightCut.Cuts      =    {
+#     'eta'       : ' goodX0    ' ,
+#     'gamma'     : ' goodGamma ' ,
+#     '[mu+]cc'   : ' goodMuon  ' , 
+#     'J/psi(1S)' : ' goodPsi   ' }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5      ' , 
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5      ' , 
+#     'goodX0    =   GPT > 2.25 * GeV                  ' , 
+#     'goodMuon  = ( GPT > 500  * MeV ) & ( GP > 6 * GeV )     & inAcc   ' , 
+#     'goodPion  = ( GPT > 100  * MeV )                        & inAcc   ' , 
+#     'goodGamma = ( 0 < GPZ ) & ( 150 * MeV < GPT ) & inEcalX & inEcalY ' ,
+#     'goodPsi   = ( GPT > 500  * MeV ) & in_range ( 1.8 , GY , 4.5 )    ' ]
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vanya Belyaev
+# Email:       Ivan.Belyaev@cern.ch
+# Date: 20111209
+#
+Alias       MyJ/psi  J/psi
+Alias       MyEta    eta
+ChargeConj  MyJ/psi  MyJ/psi
+ChargeConj  MyEta    MyEta
+#
+Decay B_s0sig
+  1.000         MyJ/psi     MyEta        SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.000         mu+         mu-          PHOTOS VLL;
+Enddecay
+#
+Decay MyEta
+  1.000         gamma       gamma        PHSP;
+Enddecay
+End
+

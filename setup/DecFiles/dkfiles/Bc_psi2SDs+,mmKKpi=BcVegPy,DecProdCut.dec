@@ -1,0 +1,48 @@
+# EventType: 14175002
+# 
+# Descriptor: [B_c+ -> (psi(2S) -> mu+ mu-) (D_s+ -> ( phi(1020) -> K+ K-) pi+ )]cc
+# 
+# NickName: Bc_psi2SDs+,mmKKpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: decay of Bc+ -> psi(2S) (-> mu+ mu-) Ds+ (-> phi (-> K+ K-) pi+),
+#  using BcVegPy generator and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Yiming Li
+# Email: yiming.li@cern.ch
+# Date: 20130827
+#
+Alias      Mypsi2S   psi(2S)
+ChargeConj Mypsi2S   Mypsi2S
+Alias      MyPhi     phi
+ChargeConj MyPhi     MyPhi
+Alias      MyDs+     D_s+
+Alias      MyDs-     D_s-
+ChargeConj MyDs+     MyDs-
+#
+Decay B_c+sig
+  1.000    Mypsi2S   MyDs+      PHOTOS SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi2S
+  1.000    mu+       mu-        PHOTOS VLL;
+Enddecay
+#
+Decay MyDs+
+  1.000    MyPhi     pi+        PHOTOS SVS;
+Enddecay
+CDecay MyDs-
+#
+Decay MyPhi
+  1.000    K+        K-         VSS;
+Enddecay
+#
+End
+#

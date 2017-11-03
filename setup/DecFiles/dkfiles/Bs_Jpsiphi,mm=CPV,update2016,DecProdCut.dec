@@ -1,0 +1,55 @@
+# EventType: 13144011
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu-) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bs_Jpsiphi,mm=CPV,update2016,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: 
+# Includes radiative mode, CP violation, different lifetimes, decay. 
+# Updated values for the amplitudes, lifetimes and betas as in HFAG 2016 summer averages and LHCb, PRL 114, 041801 (2015).
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Carlos Vazquez Sierra
+# Email: carlos.vazquez@cern.ch
+# Date: 20161021
+# CPUTime: < 1 min
+#
+# Re-define lifetimes (overrules ParticlePropertyTable)
+# ParticleValue: "B_s0H  99996  530  0.0  5.36677  1.6075e-12  B_s0H  0  0.00", "B_s0L  99997  350  0.0  5.36677  1.4134e-12  B_s0L  0  0.00"
+#
+Define betas   0.015
+Define Apara   0.475
+Define Azero   0.724
+Define Aperp   0.500
+Define pApara  3.26
+Define pAzero  0.0
+Define pAperp  3.08
+#
+Alias      MyJ/psi  J/psi
+Alias      MyPhi    phi
+ChargeConj MyJ/psi  MyJ/psi
+ChargeConj MyPhi    MyPhi
+#
+Decay B_s0sig
+  1.000         MyJ/psi     MyPhi        PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp;
+#
+Enddecay
+Decay anti-B_s0sig
+  1.000         MyJ/psi     MyPhi        PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+         mu-          PHOTOS VLL;
+Enddecay
+#
+Decay MyPhi
+  1.000         K+          K-           VSS;
+Enddecay
+End
+
+
+

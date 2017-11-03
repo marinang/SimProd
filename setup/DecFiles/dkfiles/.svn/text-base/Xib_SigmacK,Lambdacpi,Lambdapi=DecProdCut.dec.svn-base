@@ -1,0 +1,52 @@
+# EventType: 16165130
+#
+# Descriptor: [Xi_b- -> (Sigma_c0 -> (Lambda_c+ -> Lambda0 pi+) pi-) K-]cc
+#
+# NickName: Xib_SigmacK,Lambdacpi,Lambdapi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance, Sigma_c0 forced to Lambda_c+ pi, Lambda_c+ forced to Lambda0 pi
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Daniel O'Hanlon
+# Email:  daniel.ohanlon@cern.ch
+# Date: 20140930
+#
+Alias      MySigma_c0       Sigma_c0
+Alias      Myanti-Sigma_c0  anti-Sigma_c0
+ChargeConj MySigma_c0       Myanti-Sigma_c0
+#
+Alias      MyLambda_c+      Lambda_c+
+Alias      MyLambda_c-      anti-Lambda_c-
+ChargeConj MyLambda_c+      MyLambda_c-
+#
+Alias      MyLambda      Lambda0
+Alias      MyantiLambda  anti-Lambda0
+ChargeConj MyLambda      MyantiLambda
+#
+Decay Xi_b-sig
+  1.0    MySigma_c0 K-        PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MySigma_c0
+  1.0    MyLambda_c+ pi-       PHSP;
+Enddecay
+CDecay MySigma_c0
+#
+Decay MyLambda_c+
+  1.0   MyLambda pi+           PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+Decay MyLambda
+  1.0   p+ pi-                 PHSP;
+Enddecay
+CDecay MyLambda
+#
+End
+

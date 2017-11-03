@@ -1,0 +1,25 @@
+# EventType: 24312001
+#
+# Descriptor: J/psi(1S) -> e+ mu-
+#
+# NickName: incl_Jpsi,emu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Jpsi decay to e+, mu-
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Max Schlupp
+# Email: max.schlupp@cern.ch
+# Date: 20160119
+#
+Decay J/psisig
+  0.5000       e-    mu+              PHOTOS VLL;
+  0.5000       e+    mu-              PHOTOS VLL;
+Enddecay
+#
+End
+#

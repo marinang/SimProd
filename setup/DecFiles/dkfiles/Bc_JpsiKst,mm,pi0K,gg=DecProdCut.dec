@@ -1,0 +1,53 @@
+# EventType: 14143411
+#
+# Descriptor: [B_c+ -> (Jpsi -> mu+ mu-) (K*+ -> (pi0 -> gamma gamma) K+ )]cc
+#
+# NickName: Bc_JpsiKst,mm,pi0K,gg=DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Bc+ to JPsi K*+, JPsi -> mumu, K*+ -> K+ pi0
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Zhenwei Yang
+# Email: zhenwei.yang@cern.ch
+# Date: 20160122
+#
+
+Alias           MyPi0           pi0 
+ChargeConj      MyPi0           MyPi0
+
+Alias           MyK*+           K*+
+Alias           MyK*-           K*-
+ChargeConj      MyK*+           MyK*- 
+
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+
+
+Decay B_c+sig
+  1.00000000    MyJ/psi       MyK*+                   SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000         mu+       mu-           PHOTOS VLL;
+Enddecay
+#
+Decay MyK*+
+  1.000000000   MyPi0 K+                        VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyPi0
+  1.00000000   gamma   gamma            PHSP;
+Enddecay
+#   
+End
+#

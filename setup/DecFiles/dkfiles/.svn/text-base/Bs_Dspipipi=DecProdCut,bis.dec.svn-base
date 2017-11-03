@@ -1,0 +1,63 @@
+# EventType: 13266002
+#
+# Descriptor: {[[B_s0]nos -> (D_s- => K+ K- pi-) pi+ pi- pi+]cc, [[B_s0]os -> (D_s+ => K- K+ pi+) pi- pi+ pi-]cc}
+#
+# NickName: Bs_Dspipipi=DecProdCut,bis
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes resonances in Ds decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Steven Blusk
+# Email: sblusk@syr.edu
+# Date: 20101013
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias      Myphi      phi
+ChargeConj Myphi      Myphi
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+#
+Decay B_s0sig
+  0.70      Mya_1+        MyD_s-                 SVS;
+  0.30      MyD_s-        rho0        pi+        PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s-
+  0.017712   Myphi pi-                SVS;
+  0.009     K+    K-     pi-          PHSP;
+  0.022     MyK*0 K-                  SVS;
+Enddecay
+CDecay MyD_s+
+#
+Decay Myphi
+  1.000 K+   K-                    VSS;
+Enddecay
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+#
+End
+

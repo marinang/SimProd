@@ -1,0 +1,35 @@
+# EventType: 13264031
+#
+# Descriptor: {[[B_s0]nos -> (D_s- => K+ K- pi-) K+]cc, [[B_s0]os -> (D_s+ => K- K+ pi+) K-]cc}
+#
+# NickName: Bs_DsK,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# B_s0 decay to D_s- (KKpi) K+ with Dalitz decay model for D_s- decay.
+# Daughters in LHCb.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Paul Szczypka
+# Email: paul.szczypka@{nospam}cern.ch
+# Date: 20110927
+#    
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Decay B_s0sig
+  1.000     MyD_s-     K+      PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s-
+  1.000        K-        K+        pi-             D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+End
+

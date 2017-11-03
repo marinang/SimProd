@@ -1,0 +1,35 @@
+# EventType:  41900008
+# 
+# Descriptor: pp => (t => b ...) (t~ => b~ ...) ... 
+# 
+# NickName: ttbar_gg_2l15GeV
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/TwoLepFromTop
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "TwoLepFromTop" )
+# tracksInAcc = Generation().TwoLepFromTop
+# tracksInAcc.Code = " ( ( count ( isGoodWPlusLepton ) > 0 ) & ( count ( isGoodWMinusLepton ) > 0 ) ) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodWPlusLepton  = ( ( 'W+' == GID ) & GINTREE( GLEPTON & GCHARGED & ( GTHETA < 400.0*mrad ) & ( GPT > 15*GeV ) ) )"
+#    , "isGoodWMinusLepton  = ( ( 'W-' == GID ) & GINTREE( GLEPTON & GCHARGED & ( GTHETA < 400.0*mrad ) & ( GPT > 15*GeV ) ) )"
+#    ]
+# EndInsertPythonCode
+#
+# ExtraOptions: Top_ttbar_gg_notau
+#
+#
+# Documentation:  2 leptons (not tau) in LHCb acceptance with pt > 15 GeV
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Ben Mcskelly
+# Email: bmcskell@cern.ch
+# Date: 20130528
+#
+End
+#

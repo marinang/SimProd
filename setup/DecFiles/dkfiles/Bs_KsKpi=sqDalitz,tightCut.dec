@@ -1,0 +1,34 @@
+# EventType: 13304103
+#
+# Descriptor: {[B_s0 -> K+ pi- (KS0 -> pi+ pi-)]cc, [B_s0 -> K- pi+ (KS0 -> pi+ pi-)]cc}
+#
+# NickName: Bs_KsKpi=sqDalitz,tightCut
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2KShh
+#
+# Documentation: Flat square Dalitz plot, K0s forced into pi+ pi-, tight cut in B2KShh
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Aurelien Martens
+# Email: aurelien.martens@lpnhe.in2p3.fr
+# Date: 20120710
+#
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+#
+Decay B_s0sig
+  0.500        K+     pi-      MyKs        FLATSQDALITZ;
+  0.500        K-     pi+      MyKs        FLATSQDALITZ;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyKs
+  1.000        pi+      pi-                 PHSP;
+Enddecay
+#
+End
+

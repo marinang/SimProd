@@ -1,0 +1,25 @@
+# EventType: 32101200
+#
+# Descriptor: [Sigma+ -> p+ gamma]cc
+#
+# NickName: Sigma+_pgamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Sigma+-> p+ gamma with phase space model, DaughtersInLHCb cut.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Francesco Dettori 
+# Email: francesco.dettori@cern.ch
+# Date: 20151022
+# CPUTime: < 1 min
+#
+Decay       Sigma+sig
+  1.000         p+        gamma        PHSP;
+Enddecay
+CDecay anti-Sigma-sig
+#
+End
+#

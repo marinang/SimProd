@@ -1,0 +1,105 @@
+# EventType: 13496001
+#
+# Descriptor: { [ B_s0 -> (D_s+ -> pi+ pi+ pi-)  (D_s- -> pi+ pi- pi-)] cc }
+#
+# NickName: Bs_DD,3body=cocktail,TracksInAcc
+#
+# Cuts: DaughtersInLHCb
+#
+# ExtraOptions: TracksInAcc
+#
+# Documentation: Possible Background for B -> tau tau, i.e. B decaying into D(s*)+ D(s*),
+# with further decay of D(s*)+ into three charged and one neutral particle.
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# Tested: Yes
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date: 20110705
+#
+Alias 		MyD_s+ 		D_s+
+Alias		MyD_s-		D_s-
+ChargeConj	MyD_s+		MyD_s-
+
+Alias 		MyD_s*+ 	D_s*+
+Alias		MyD_s*-		D_s*-
+ChargeConj	MyD_s*+		MyD_s*-
+
+Alias 		MyD'_s1+ 	D'_s1+
+Alias		MyD'_s1-	D'_s1-
+ChargeConj	MyD'_s1+	MyD'_s1-
+
+Alias 		MyD_s0*+ 	D_s0*+
+Alias		MyD_s0*-	D_s0*-
+ChargeConj	MyD_s0*+	MyD_s0*-
+
+Alias 		MyD_s1+ 	D_s1+
+Alias		MyD_s1-		D_s1-
+ChargeConj	MyD_s1+		MyD_s1-
+
+Alias 		MyD+ 		D+
+Alias		MyD-		D-
+ChargeConj	MyD+		MyD-
+
+Alias 		MyD*+ 		D*+
+Alias		MyD*-		D*-
+ChargeConj	MyD*+		MyD*-
+
+Alias		MyPhi		phi
+ChargeConj      MyPhi		MyPhi
+
+Alias           Myrho+          rho+
+Alias           Myrho-          rho-
+ChargeConj      Myrho+          Myrho-
+
+Alias           Myeta           eta
+ChargeConj      Myeta           Myeta
+
+Alias           Myomega         omega
+ChargeConj      Myomega         Myomega
+
+#
+Decay B_s0sig
+  0.0086   	MyD_s-      	MyD_s+	     	PHSP;
+  0.0099   	MyD_s*+     	MyD_s-      	SVS;
+  0.0099  	MyD_s*-     	MyD_s+      	SVS;
+  0.0197  	MyD_s*-    	  MyD_s*+     	SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;  
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+  0.04162       MyPhi   Myrho+                  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+  0.01614       Myeta   pi+                     PHSP;
+  0.00265       Myomega pi+                     SVS;
+  0.13357       Myrho+  Myeta                   SVS;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.942		      MyD_s+  gamma		  VSP_PWAVE;
+  0.058         MyD_s+  pi0 			VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyPhi
+  1.00          K-      K+   			VSS;
+Enddecay
+#
+Decay Myeta
+  0.2273        pi-     pi+ pi0                 ETA_DALITZ;
+  0.0460        pi-     pi+ gamma               PHSP;
+Enddecay
+#
+Decay Myomega
+  1.00          pi-     pi+ pi0                 OMEGA_DALITZ;
+Enddecay
+#
+Decay Myrho+
+  1.00          pi+     pi0                     VSS;
+Enddecay
+CDecay Myrho-
+#
+End
+#

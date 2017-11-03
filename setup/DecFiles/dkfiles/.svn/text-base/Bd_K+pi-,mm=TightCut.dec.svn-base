@@ -1,0 +1,65 @@
+# EventType: 11512004
+#
+# Descriptor: [B0 -> (K+ -> mu+ nu_mu) (pi- -> mu- nu_mu~)]CC
+#
+# NickName: Bd_K+pi-,mm=TightCut
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# Documentation: B0 -> K+pi- with both daugthers forced to decay 
+# to muons before the muon system.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalRepeatedHadronization.setProp('MaxNumberOfRepetitions', 5000 )
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[ Beauty -> ^(K+ -> ^mu+ nu_mu) ^(pi- -> ^mu- nu_mu~ )]CC'
+# tightCut.Preambulo += [
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "from GaudiKernel.SystemOfUnits import meter, GeV" ,
+#     "decay = in_range ( -1 * meter,            GFAEVX ( GVZ, 100 * meter ),                    10 * meter ) ",
+# #   "decay = in_range ( -1 * meter , monitor ( GFAEVX ( GVZ, 100 * meter ) , '  decay-Z\n' ) , 10 * meter ) ",
+#     "inAcc = in_range ( 0.0075, GTHETA, 0.400 ) " , 
+# ]
+# tightCut.Cuts      =    {
+#     '[K+]cc'   : ' decay & inAcc ',
+#     '[pi+]cc'  : ' decay & inAcc ',
+# #   '[mu+]cc'  : " 3 * GeV < monitor ( GP , '  mu P\n' )" , 
+#     '[mu+]cc'  : " 3 * GeV < GP " , 
+#                         }
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler
+# Email: marc-olivier.bettler@cern.ch
+# Date: 20120113
+#
+Alias       MyK+   K+
+Alias       MyK-   K-
+Alias       MyPi-  pi-
+Alias       MyPi+  pi+
+
+ChargeConj  MyK+   MyK-
+ChargeConj  MyPi-  MyPi+
+#
+Decay B0sig
+  1.000        MyK+       MyPi-            PHSP;
+Enddecay
+CDecay anti-B0sig
+##
+Decay MyK+
+  1.000         mu+       nu_mu            PHSP;
+Enddecay
+CDecay MyK-
+#
+Decay MyPi-
+  1.000         mu-       anti-nu_mu       PHSP;
+Enddecay
+CDecay MyPi+
+End

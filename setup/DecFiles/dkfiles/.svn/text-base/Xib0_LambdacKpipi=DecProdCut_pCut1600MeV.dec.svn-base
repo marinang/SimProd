@@ -1,0 +1,67 @@
+# EventType: 16266041
+#
+# Descriptor: [Xi_b0 -> (Lambda_c+ -> p K+ pi-) K- pi+ pi-]cc
+#
+# NickName: Xib0_LambdacKpipi=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Several intermediate resonances included 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: S. Blusk
+# Email:  sblusk@syr.edu
+# Date: 20140110
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+#
+Alias MyLambda_c(2880)+ Lambda_c(2880)+
+Alias Myanti-Lambda_c(2880)- anti-Lambda_c(2880)-
+ChargeConj MyLambda_c(2880)+ Myanti-Lambda_c(2880)-
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+#
+#
+Decay Xi_b0sig
+  0.20   Sigma_c++  K- pi-                  PHSP;
+  0.12   Sigma_c*++  K- pi-                 PHSP;
+  0.04   Sigma_c0  K- pi+                   PHSP;
+  0.05   Sigma_c*0  K- pi+                  PHSP;
+  0.25   MyLambda_c+  Myanti-K*0 pi-        PHSP;
+  0.18   MyLambda_c+  K- rho0               PHSP;
+  0.11   MyLambda_c+  K- pi+ pi-            PHSP;
+  0.05   MyLambda_c(2880)+  K-              PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyLambda_c+
+  0.0086  Delta++ K-                                      PHSP;
+  0.0160  p+      Myanti-K*0                              PHSP;
+  0.0254  p+      K-      pi+                             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda_c(2880)+
+  1.0      MyLambda_c+         pi+    pi-               PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2880)-
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+
+
+End
+

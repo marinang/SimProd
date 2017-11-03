@@ -1,0 +1,60 @@
+# EventType: 11164002
+#
+# Descriptor: [[B0]cc -> (D- => K+ pi- pi-) pi+]cc
+#
+# NickName: Bd_D-pi+,Kpipi=CPV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+# 
+# Documentation: CP violation (sin(2beta+gamma)), with decay products in acceptance, the strong phase difference is assumed to be small (near 0 degrees)  
+# P(1) = deltaM = 0.510e12				(HFAG March 2014)
+# P(2) = dg/g = 0 						(HFAG March 2014)
+# P(3) = |q/p| = 1 						(no mixing CPV in B0)
+# P(4) = arg(q/p) = -0.764				(CKMfitter, fit results as of Moriond14, arg(q/p)=phi=-2beta, measurement of sin(2beta))
+# P(5) = |Af| = 0.0849					(Af = A_w*lambda_w^2*(1-lambda_w^2/2)*a_1*e^(i*Delta_1))
+# P(6) = arg(Af) = 0.002278							
+# P(7) = |Abarf| = 0.00137				(Abarf = -A_w*lambda_w^4*sqrt(rho_w^2+eta_w^2)*a_2*e^(i*(-gamma+Delta_2)))
+# P(8) = arg(Abarf) = -1.128958				
+# P(9) = |Afbar| = 0.00137				(Afbar = -A_w*lambda_w^4*sqrt(rho_w^2+eta_w^2)*a_2*e^(i*(gamma+Delta_2)))
+# P(10) = arg(Afbar) = 1.3145			
+# P(11) = |Abarfbar| = 0.0849			(Abarfbar = A_w*lambda_w^2*(1-lambda_w^2/2)*a_1*e^(i*Delta_1))
+# P(12) = arg(Abarfbar) = 0.002278		
+#
+#
+# Using:
+# 	a_1			= 2.1076	(arxiv:0705.1575v2, 14Nov2007)
+#	a_2			= 1.7426	(arxiv:0705.1575v2, 14Nov2007)
+#	Delta_1		= 0.02278	(arxiv:0705.1575v2, 14Nov2007)
+# 	Delta_2		= 0.0927726	(arxiv:0705.1575v2, 14Nov2007, due to the sign, shifted for 180 degrees)
+# 	A_w			= 0.813		(CKMfitter, fit results as of Moriond14)	
+# 	lambda_w	= 0.22551	(CKMfitter, fit results as of Moriond14)
+#	rho_w		= 0.1489	(CKMfitter, fit results as of Moriond14)
+#	eta_w		= 0.342		(CKMfitter, fit results as of Moriond14)
+#   gamma		= 1.22173	(CKMfitter, fit results as of Moriond14, direct measurement)
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Alex Birnkraut
+# Email: a.birnkraut@cern.ch
+# Date: 20150210
+# 
+Alias 		MyD-	D-
+Alias 		MyD+ 	D+
+ChargeConj	MyD+	MyD-
+# 
+Decay B0sig
+  1.000		MyD-	pi+		SSD_CP 0.51e12 0.0 1.0 -0.764 0.0849 0.002278 0.00137 -1.128958 0.00137 1.3145 0.0849 0.002278;
+Enddecay
+Decay anti-B0sig
+  1.000		MyD-	pi+		SSD_CP 0.51e12 0.0 1.0 -0.764 0.0849 0.002278 0.00137 -1.128958 0.00137 1.3145 0.0849 0.002278;
+Enddecay
+#
+Decay MyD-
+  1.000		K+		pi-		pi-		PHSP;
+Enddecay
+CDecay MyD+
+#
+End

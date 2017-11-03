@@ -1,0 +1,48 @@
+# EventType: 13264001
+#
+# Descriptor: {[[B_s0]nos -> (D_s- => K+ K- pi-) pi+]cc, [[B_s0]os -> (D_s+ => K- K+ pi+) pi-]cc}
+#
+# NickName: Bs_Dspi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes resonances in Ds decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: E. Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date: 20040420
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+Alias      Myphi      phi
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj Myanti-K*0 MyK*0
+ChargeConj Myphi      Myphi
+#
+Decay B_s0sig
+  1.000     MyD_s-     pi+      PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s-
+  0.017712   Myphi pi-                 SVS;
+  0.009     K+    K-     pi-          PHSP;
+  0.022     MyK*0 K-                  SVS;
+Enddecay
+CDecay MyD_s+
+#
+Decay Myphi
+  1.000 K+   K-                    VSS;
+Enddecay
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+End
+

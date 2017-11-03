@@ -1,0 +1,57 @@
+# EventType: 11246021
+#
+# Descriptor: {[B0 -> (J/psi(1S) -> mu+ mu-) (K*(892)0 -> K+ pi-) pi+ pi-]cc, [B0 -> (psi(2S) -> (J/psi(1S) -> mu+ mu-) pi+ pi-) (K*(892)0 -> K+ pi-)]cc}
+#
+# NickName: Bd_JpsiKstpipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 to Jpsi K*0 pi pi including contribution of psi(2S)
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jianchun Wang
+# Email: Jianchun.Wang@cern.ch
+# Date: 20110622
+#
+
+Alias       MyPsi(2S)   psi(2S)
+ChargeConj  MyPsi(2S)   MyPsi(2S)
+
+Alias       MyJ/psi     J/psi
+ChargeConj  MyJ/psi     MyJ/psi
+
+Alias       MyK*0        K*0
+Alias       Myanti-K*0   anti-K*0
+ChargeConj  MyK*0        Myanti-K*0
+
+
+#  PDG Id = 511
+Decay B0sig
+  0.4000   MyPsi(2S)   MyK*0              PHSP;
+  0.6000   MyJ/psi     MyK*0   pi+   pi-  PHSP;
+Enddecay
+CDecay anti-B0sig
+
+
+#  PDG Id = 100443
+Decay MyPsi(2S)
+  1.0000   MyJ/psi  pi+  pi-        VVPIPI;
+Enddecay
+
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   mu+   mu-                PHOTOS VLL;
+Enddecay
+
+
+#  PDG Id = 313
+Decay MyK*0
+  1.00000   K+   pi-               VSS;
+Enddecay
+CDecay Myanti-K*0
+
+
+End

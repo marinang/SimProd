@@ -1,0 +1,34 @@
+# EventType: 12103008
+#
+# Descriptor: [B+ -> (Delta++ -> p+ pi+) anti-p-]cc
+# NickName: Bu_pDeltatoppi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Delta++ forced into p pi, decay with generic phase space  
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: hicheur@cbpf.br
+# Date:  20140219
+#
+Alias      MyDelta++      Delta++
+Alias      MyantiDelta-- anti-Delta--
+ChargeConj MyDelta++      MyantiDelta--
+
+Decay B+sig
+  1.000 MyDelta++ anti-p- PHSP;
+Enddecay
+CDecay B-sig
+
+
+Decay MyDelta++  
+  1.000   p+ pi+        PHSP;              
+Enddecay
+CDecay MyantiDelta--
+
+End
+#

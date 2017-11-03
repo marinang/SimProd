@@ -1,0 +1,33 @@
+# EventType: 15574020
+#
+# Descriptor: {[Lambda_b0 -> (Lambda_c+ => p+ mu+ mu-) mu- nu_mu~]cc}
+#
+# NickName: Lb_Lcmunu,pmumu=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lc mu nu_mu with Lc -> p mu mu
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Liang Zhong
+# Email:       liang.zhong@cern.ch
+# Date:        20131012
+
+Alias MyLambda_c+       Lambda_c+
+Alias MyLambda_c-       anti-Lambda_c-
+
+ChargeConj MyLambda_c+  MyLambda_c-
+
+Decay Lambda_b0sig
+  1.0000 MyLambda_c+ mu- anti-nu_mu PHOTOS BaryonPCR 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyLambda_c+
+  1.0000    p+ mu+ mu- PHSP;
+Enddecay
+CDecay MyLambda_c-
+
+End

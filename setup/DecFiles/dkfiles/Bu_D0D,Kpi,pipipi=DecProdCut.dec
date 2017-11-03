@@ -1,0 +1,45 @@
+# EventType: 12195042
+#
+# Descriptor: [B+ -> (D+ -> pi+ pi- pi+) (anti-D0 -> K+ pi-)]cc
+#
+# NickName: Bu_D0D,Kpi,pipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible:     T. Hadavizadeh
+# Email: tom.hadavizadeh@physics.ox.ac.uk
+# Date:   20150709
+#
+Alias             MyD+       D+
+Alias             MyD-       D-
+ChargeConj        MyD+       MyD-
+
+Alias             MyD0       D0
+Alias             Myanti-D0  anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+Decay B+sig
+  1.000           MyD+       Myanti-D0       PHSP;
+Enddecay
+CDecay B-sig
+
+Decay MyD+
+  1.000           pi+     pi-     pi+        PHSP;
+Enddecay
+CDecay MyD-
+
+Decay Myanti-D0
+  1.000           K+        pi-              PHSP;
+Enddecay
+CDecay MyD0
+
+
+#
+End
+

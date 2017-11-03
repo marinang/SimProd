@@ -1,0 +1,59 @@
+# EventType: 17444082
+#
+# Descriptor: [B*_s20 ->  (B+ -> K+ (J/psi(1S) -> mu+ mu-)) K-]cc, [B*_s20 ->  (B+ -> pi+ (anti-D0 -> K+ pi-)) K-]cc, [B*_s20 ->  ( B*+ -> (B+ -> K+ (J/psi(1S) -> mu+ mu- )) gamma ) K-]cc, [B_s2*0 -> K- (B*+ -> (B+ -> (anti-D0 -> K+ pi-) pi+) gamma)]cc
+#
+# NickName: Bsstst_BuK,JpsiK,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "B*_s20 212 535 0.0 6.0729600 4.113825e-22 B_s2*0 535 0.000000", "B*_s2~0 216 -535 0.0 6.0729600 4.113825e-22 anti-B_s2*0 -535 0.000000"
+#
+# Documentation: Bs** Spectroscopy
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:     Yuezhe Yao
+# Email: yuezhe.yao@cern.ch
+# Date: 20171012
+# CPUTime: <1min
+#
+Alias MyBstar B*+
+Alias MyantiBstar B*-
+ChargeConj MyBstar  MyantiBstar
+Alias MyB     B+
+Alias MyantiB     B-
+ChargeConj MyB      MyantiB
+Alias MyJpsi  J/psi
+Alias MyD0  D0
+Alias MyantiD0  anti-D0
+ChargeConj MyD0 MyantiD0
+#
+Decay B_s2*0sig
+0.5    MyB   K-              TSS;
+0.5    MyBstar  K-           TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay anti-B_s2*0sig
+#
+Decay MyBstar
+1.0000    MyB  gamma                       VSP_PWAVE;
+Enddecay
+CDecay MyantiBstar
+#
+Decay MyB
+0.5    MyJpsi    K+                         SVS;
+0.5    MyantiD0  pi+                        PHSP;
+Enddecay
+CDecay MyantiB
+#
+Decay MyJpsi
+1.000   mu+  mu-               PHOTOS   VLL;
+Enddecay
+#
+Decay MyantiD0
+1.0000    K+  pi-                         PHSP;
+Enddecay
+CDecay MyD0
+#
+#
+End

@@ -1,0 +1,26 @@
+# EventType: 13512010
+#
+# Descriptor: {[[B_s0] => K- nu_mu mu+]cc, [B_s~0] => K+ anti-nu_mu mu+]cc
+#
+# NickName: Bs_Kmunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay B_s0 -> K- mu+ nu_mu
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Alessandra Borgia
+# Email: aborgia@syr.edu
+# Date: 20120111
+Alias      MyK-      K-
+Alias      MyK+      K+
+ChargeConj MyK+      MyK-
+Decay B_s0sig
+1.000 MyK-    mu+  nu_mu        PHOTOS ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+#

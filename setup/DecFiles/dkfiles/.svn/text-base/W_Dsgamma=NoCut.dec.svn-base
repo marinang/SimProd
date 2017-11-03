@@ -1,0 +1,61 @@
+# EventType: 42163200
+#
+# Descriptor: pp -> [W+ -> (D_s+ -> K+ K- pi+) gamma]cc ...
+#
+# NickName: W_Dsgamma=NoCut
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/ParsInAcc
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut 
+# Generation().addTool( LoKi__FullGenEventCut, "ParsInAcc" ) 
+# ParsInAcc = Generation().ParsInAcc
+#
+# ParsInAcc.Code = " ( count ( isGoodW ) > 0 ) "
+#
+# ParsInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV"
+#     ,"GY           =  LoKi.GenParticles.Rapidity ()               "
+#     ,"isGoodW     = ((  'W+' == GABSID ) & (GY > 0))" 
+#     ]
+#
+# Generation().DecayTool = ""
+# Generation().Special.DecayTool = ""
+#
+#from Configurables import Generation
+#from Gaudi.Configuration import *
+#
+#Generation().PileUpTool = "FixedLuminosityForRareProcess"
+#
+#importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+#
+#from Configurables import Special, Pythia8Production
+#
+#Generation().addTool( Special )
+#Generation().Special.addTool( Pythia8Production )
+#
+#Generation().Special.Pythia8Production.Commands += [
+#"SpaceShower:rapidityOrder = off", 
+#"WeakSingleBoson:ffbar2W = on",
+#"24:addChannel = 1 1. 101 431 22", 
+#"24:onMode = off", 
+#"24:onIfAny = 431", 
+#"431:addChannel = 1 1. 101 321 -321 211",
+#"431:onMode = off",##"431:onIfMatch = 321 -321 211",
+#"431:onIfMatch = 321 -321 211",
+#                                        ]
+#
+# EndInsertPythonCode
+#
+# Documentation: W boson rare decay, with Ds+ forced into K+ K- Pi+, decay products in acceptance
+# EndDocumnetation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Hang Yin, Menglin Xu
+# Email: hyin@cern.ch, menglin.xu@cern.ch
+# Date: 20160416
+#
+End
+

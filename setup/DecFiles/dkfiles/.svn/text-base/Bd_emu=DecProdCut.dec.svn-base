@@ -1,0 +1,24 @@
+# EventType: 11112011
+#
+# Descriptor: {[B0 -> e- mu+]cc, [B0 -> e+ mu-]cc}
+#
+# NickName: Bd_emu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Ulrik Egede
+# Email: eduardo.rodrigues@{nospam}cern.ch
+# Date: 20111013
+#
+Decay B0sig
+  0.5000       e-    mu+              PHSP;
+  0.5000       e+    mu-              PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End

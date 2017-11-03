@@ -1,0 +1,60 @@
+# EventType: 11364601
+#  
+# Descriptor: {[[B0]nos -> (D*_s- -> {gamma (D_s- => (phi -> K+ K-) (rho- -> pi- pi0)), pi0 (D_s- => (phi -> K+ K-) (rho- -> pi- pi0))}) pi+]cc, [[B0]os -> (D*_s+ -> {gamma (D_s+ => (phi -> K+ K-) (rho+ -> pi+ pi0)), pi0 (D_s+ => (phi -> K+ K-) (rho+ -> pi+ pi0))}) pi-]cc}
+# 
+# NickName: Bd_Dsstpi,phirho=SVV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# B0 -> Ds*- pi+ with Ds*- -> Ds- gamma/pi0 and Ds- -> phi(KK) rho-(pipi0). SVV_HELAMP decay model for Ds- decay
+# Daughters in LHCb.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Stefano Gallorini
+# Email: stefano.gallorini@cern.ch
+# Date: 20131120
+#
+Alias      MyD_s*-    D_s*-
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+Alias      Myphi      phi
+Alias      Myrho-     rho-
+Alias      Myrho+     rho+
+ChargeConj MyD_s*-    MyD_s*+
+ChargeConj MyD_s-     MyD_s+
+ChargeConj Myphi      Myphi
+ChargeConj Myrho+     Myrho-
+
+
+#
+Decay B0sig
+  1.000    MyD_s*-     pi+       SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s*-
+  0.942   MyD_s-       gamma     VSP_PWAVE;
+  0.058   MyD_s-       pi0       VSS;
+Enddecay
+CDecay MyD_s*+
+#
+Decay MyD_s-
+  1.000     Myphi    Myrho-          SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; 
+Enddecay
+CDecay MyD_s+
+#
+Decay Myrho-
+  1.000     pi-     pi0            VSS;
+Enddecay
+CDecay Myrho+
+#
+Decay Myphi
+  1.000     K+      K-             VSS;
+Enddecay
+#
+End
+#

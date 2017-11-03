@@ -1,0 +1,40 @@
+# EventType: 11164111
+#
+# Descriptor: {[[B0]nos -> (D- -> KS0 pi-) pi+]cc, [[B0]os -> (D+ -> KS0 pi+) pi-]cc}
+#
+# NickName: Bd_D-pi+,Kspi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# B0 decay to D- (KSpi) pi+
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Aurelien Martens
+# Email: aurelien.martens@{nospam}cern.ch
+# Date: 20120918
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+#
+Decay B0sig
+  1.000     MyD-      pi+          PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  1.000    MyK0s    pi-          PHSP;
+Enddecay
+CDecay MyD+
+#
+Decay MyK0s
+  1.000    pi+          pi-           PHSP;
+Enddecay
+#
+End
+

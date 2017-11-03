@@ -1,0 +1,42 @@
+# EventType: 13196024
+# 
+# Descriptor: [B_s0 -> K- (D+ -> K- pi+ pi+) (D~0 -> K+ pi-)]cc
+# NickName: Bs_D0DK,KPi,KPiPi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay File for B_s0 -> D~0 D+ K- with D0 -> Kpi and D -> Kpipi DDalitz. Bs forced flat in Dalitz
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# Date: 20140808
+#
+Alias My_D0 D0
+Alias My_anti-D0 anti-D0
+ChargeConj My_D0 My_anti-D0
+#
+Alias My_D- D-
+Alias My_D+ D+
+ChargeConj My_D- My_D+ 
+#
+Decay My_anti-D0
+  1.0 K+ pi- PHSP;
+Enddecay
+CDecay My_D0
+
+Decay My_D+
+  1.0 K- pi+ pi+ D_DALITZ;
+Enddecay
+CDecay My_D-
+  
+Decay B_s0sig
+  1.0 My_anti-D0 My_D+ K- PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+#

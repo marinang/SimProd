@@ -1,0 +1,36 @@
+# EventType: 42100200
+#
+# Descriptor: pp -> (Z0gamma -> b b~ gamma {,gamma} {,gamma}) ... 
+#
+# NickName: Zgamma_bb=PHOTOS
+#
+# Cuts: None                                                                                  
+# FullEventCuts: LoKi::FullGenEventCut/ParsInAcc
+#                                                                                             
+# InsertPythonCode:                                                                           
+# from Configurables import LoKi__FullGenEventCut                                             
+# Generation().addTool( LoKi__FullGenEventCut, "ParsInAcc" )                               
+# ParsInAcc = Generation().ParsInAcc
+# ParsInAcc.Code = " ( count ( isGoodZ ) > 0 ) "
+#                                                                          
+# ParsInAcc.Preambulo += [                                                                  
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"                                     
+#    , "isGoodZ     = ((  'Z0' == GABSID ) & (GNINTREE( GBEAUTY & ( GTHETA < 400.0*mrad )) > 1))" 
+#    ]                                                                                        
+# EndInsertPythonCode                                                           
+#
+# ExtraOptions: Zgammabb=PHOTOS
+#
+# Documentation: b, bbar in the acceptance and PHOTOS activated
+# EndDocumentation
+#
+# CPUTime: 2 s (1.34 times the speed of a 2.8 GHz Xeon)
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date: 20140829
+#
+End
+#

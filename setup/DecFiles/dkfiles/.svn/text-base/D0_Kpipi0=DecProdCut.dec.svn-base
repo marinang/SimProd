@@ -1,0 +1,24 @@
+# EventType: 22262001
+#
+# Descriptor: [D0 -> K- pi+ pi0]cc
+#
+# NickName: D0_Kpipi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Dalitz mode including some intermediate resonances,
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Dmitry Golubkov
+# Email: olivier.deschamps@cern.ch
+# Date: 20111025
+#
+Decay D0sig
+  1.0   K-  pi+ pi0  D_DALITZ;
+Enddecay
+CDecay anti-D0sig
+#
+End
+

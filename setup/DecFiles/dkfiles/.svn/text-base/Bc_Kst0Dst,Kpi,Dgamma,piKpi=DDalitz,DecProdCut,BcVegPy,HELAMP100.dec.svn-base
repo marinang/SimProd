@@ -1,0 +1,55 @@
+# EventType: 14165212
+#
+# Descriptor: [B_c+ -> (D*+ -> (D+ -> pi+ K- pi+) gamma) (K*0 -> K+ pi-)]cc
+#
+# NickName: Bc_Kst0Dst,Kpi,Dgamma,piKpi=DDalitz,DecProdCut,BcVegPy,HELAMP100
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance, D Dalitz Decay, Dst forced to Ds gamma, HELAMP forced to 100
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible:     T. Hadavizadeh
+# Email: tom.hadavizadeh@cern.ch
+# Date: 20170310
+#
+Alias      MyD+         D+
+Alias      MyD-         D-
+ChargeConj MyD+         MyD-
+
+Alias      MyD*+        D*+
+Alias      MyD*-        D*-
+ChargeConj MyD*+        MyD*-
+
+Alias      MyKst0       K*0
+Alias      Myanti-Kst0  anti-K*0
+ChargeConj MyKst0       Myanti-Kst0
+
+Decay B_c+sig
+  1.000     MyKst0       MyD*+                      SVV_HELAMP  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay B_c-sig
+
+Decay MyD*+
+  1.000     MyD+        gamma                       VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+
+Decay MyD+
+  1.000     pi+         K-          pi+             D_DALITZ;
+Enddecay
+CDecay MyD-
+
+Decay MyKst0
+  1.000     K+          pi-                         VSS;
+Enddecay
+CDecay Myanti-Kst0
+
+#
+End
+

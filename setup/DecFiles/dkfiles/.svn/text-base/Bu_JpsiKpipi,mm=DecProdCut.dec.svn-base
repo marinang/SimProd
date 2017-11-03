@@ -1,0 +1,90 @@
+# EventType: 12245021
+#
+# Descriptor: {[B+ -> (psi(2S) -> (J/psi(1S) -> mu+ mu-) pi+ pi-) K+]cc,[B+ -> (X_1(3872) -> (J/psi(1S) -> mu+ mu-) pi+ pi-) K+]cc,[B+ -> (J/psi -> mu+ mu-) (K_1+ -> (K*(892)0 -> K+ pi-) pi+)]cc,[B+ -> (J/psi -> mu+ mu-) (K_1+ -> (K_0*0 -> K+ pi-) pi+)]cc,[B+ -> (J/psi -> mu+ mu-) (K_1+ -> (rho0 -> pi+ pi-) K+)]cc}
+#
+# NickName: Bu_JpsiKpipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: 20% B+ decay to psi(2S)(to Jpsi(to mu+ mu- {,gamma} {,gamma}) pi+ pi-), K+ with SVS model, 0.9% B+ decay to X_1(3872)(to Jpsi(to mu+ mu- {,gamma} {,gamma}) pi+ pi-) with SVS model, 79.1% B+ decay to Jpsi(to mu+ mu- {,gamma} {,gamma}), K_1+, all daughters in acceptance
+# EndDocumentation
+# 
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Jianchun Wang
+# Email: jwang@physics.syr.edu
+# Date: 20110909
+
+Alias       MyX_1(3872)  X_1(3872)
+ChargeConj  MyX_1(3872)  MyX_1(3872)
+
+Alias       MyPsi(2S)    psi(2S)
+ChargeConj  MyPsi(2S)    MyPsi(2S)
+
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+
+Alias       MyK_1+       K_1+
+Alias       MyK_1-       K_1-
+ChargeConj  MyK_1+       MyK_1-
+
+Alias       MyK*0        K*0
+Alias       Myanti-K*0   anti-K*0
+ChargeConj  MyK*0        Myanti-K*0
+
+Alias       MyK_0*0      K_0*0
+Alias       Myanti-K_0*0 anti-K_0*0
+ChargeConj  MyK_0*0      Myanti-K_0*0
+
+
+#  PDG Id = 521
+Decay B+sig
+  0.2000   MyPsi(2S)     K+         SVS;
+  0.0090   MyX_1(3872)   K+         SVS;
+  0.7910   MyJ/psi       MyK_1+     SVV_HELAMP 0.5 0.0 1.0 0.0 0.5 0.0;
+Enddecay
+CDecay B-sig
+
+
+#  PDG Id = 100443
+Decay MyPsi(2S)
+  1.0000   MyJ/psi   pi+   pi-      VVPIPI;
+Enddecay
+
+
+#  PDG Id = 
+Decay MyX_1(3872)
+  1.0000   MyJ/psi   pi+   pi-      VVPIPI;
+Enddecay
+
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   mu+   mu-                PHOTOS VLL;
+Enddecay
+
+
+#  PDG Id = 10323
+Decay MyK_1+
+  0.2119   MyK*0     pi+            VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.4172   rho0      K+             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.3709   MyK_0*0   pi+            VSS;
+Enddecay
+CDecay MyK_1-
+
+
+#  PDG Id = 323
+Decay MyK*0
+  1.0000   K+   pi-                 VSS;
+Enddecay
+CDecay Myanti-K*0
+
+
+#  PDG Id = 10311
+Decay MyK_0*0
+  1.0000   K+   pi-                 PHSP;
+Enddecay
+CDecay Myanti-K_0*0
+
+
+End

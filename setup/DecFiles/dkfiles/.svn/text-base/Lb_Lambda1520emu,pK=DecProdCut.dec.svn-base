@@ -1,0 +1,40 @@
+# EventType: 15314000
+#
+# Descriptor: {[Lambda_b0 ->  e- mu+  (Lambda(1520)0 -> p+ K-)]cc,[Lambda_b0 ->  e+ mu- (Lambda(1520)0 -> p+ K-)]cc}
+#
+# NickName: Lb_Lambda1520emu,pK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for Lambda_b0 -> Lambda(1520)(-> p+ K-) e+ mu- (LFV,PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Ryan Calladine
+# Email: ryan.calladine@cern.ch
+# Date: 20170131
+#
+# $Id$
+#
+#
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+#
+Decay Lambda_b0sig
+  0.5   MyLambda(1520)0 e+  mu- PHOTOS PHSP;
+  0.5   MyLambda(1520)0 e-  mu+ PHOTOS PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda(1520)0
+1.000   p+          K-        PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End
+#

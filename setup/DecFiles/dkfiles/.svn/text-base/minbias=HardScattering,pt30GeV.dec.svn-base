@@ -1,0 +1,24 @@
+# EventType: 30000030
+#
+# Descriptor: pp => ?
+#
+# NickName: minbias=HardScattering,pt30GeV
+#
+# Cuts: None
+#
+# InsertPythonCode:
+# from Configurables import PythiaProduction
+# Generation().MinimumBias.addTool( PythiaProduction )
+# Generation().MinimumBias.PythiaProduction.Commands += ["pysubs ckin 3 30."]
+# EndInsertPythonCode
+#
+# Documentation: minimum bias with at least 1 parton of pt > 30GeV
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Celeste Satriano
+# Email: satriano@cern.ch
+# Date:   20120329
+#
+End

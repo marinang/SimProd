@@ -1,0 +1,37 @@
+# EventType: 27363001
+#
+# Descriptor: [D*(2010)+ -> (D0 -> {K+ pi-, K- pi+, K+ K-, pi+ pi-}) pi+]cc
+#
+# NickName: Dst_D0pi,hh=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20111114
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  0.0390   K-  pi+   PHSP;
+  0.00395   K+  K-    PHSP;
+  0.0014   pi+ pi-   PHSP;
+  0.00015  K+  pi-   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End
+

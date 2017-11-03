@@ -1,0 +1,54 @@
+# $Id: $
+#
+# This is a decay file for the SCS mode Ds+ -> pi- pi+ pi+
+#
+# EventType: 23103011
+#
+# Descriptor: [D_s+ -> pi- pi+ pi+]cc
+#
+# NickName: Ds+_pi-pi+pi+=res,DecProdCut,pt10GeV
+#
+# Cuts: LoKi::GenCutTool/MinPTAndDaughtersInLHCb
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'MinPTAndDaughtersInLHCb' )
+# minPTAndDaughtersInLHCb = gen.SignalPlain.MinPTAndDaughtersInLHCb
+# minPTAndDaughtersInLHCb.Decay     = '^[D_s+ => ^pi- ^pi+ ^pi+]CC'
+# minPTAndDaughtersInLHCb.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import MeV ',
+#     'inAcc     = in_range ( 0.010 , GTHETA , 0.400 ) ',
+#     'DPT       = ( GPT > 10000 * MeV )'
+# ]
+# minPTAndDaughtersInLHCb.Cuts      =    {
+#     '[pi+]cc'         : 'inAcc',
+#     '[K+]cc'          : 'inAcc',
+#     '[D_s+]cc'        : 'DPT',
+#     }
+#
+# EndInsertPythonCode
+#
+#
+# Documentation:
+#   Intended to be a copy of Ds+_pi-pi+pi+=res,DecProdCut.dec that requires
+#   that the D_s+ has PT > 10 GeV.
+#   Decay products in acceptance, Dalitz decay model.
+# EndDocumentation
+#
+# CPUTime: 3 min
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Patrick Spradlin
+# Email: NOSPAM_patrick.spradlin@cern.ch
+# Date: 20150630
+#
+Decay D_s+sig
+  1.000        pi-        pi+        pi+             D_DALITZ;
+Enddecay
+CDecay D_s-sig
+#
+End

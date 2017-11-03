@@ -1,0 +1,31 @@
+# EventType: 13102411
+#
+# Descriptor: {[[B_s0]nos -> K+ K- (pi0 -> gamma gamma)]cc, [[B_s0]os -> K- K+ (pi0 -> gamma gamma)]cc}
+#
+# NickName: Bs_K+K-pi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Tested: Yes
+# Date: 20120822
+#
+# Responsible: Lars Eklund
+# PhysicsWG: BnoC
+# Email: Lars.Eklund@cern.ch
+# Documentation: pi0 forced to gamma gamma, flat phase space. Decay prodcuts in acceptance
+#
+#
+Alias      Mypi0      pi0
+ChargeConj Mypi0      Mypi0
+#
+Decay B_s0sig
+  1.0          K+         K-       Mypi0  PHSP;     
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mypi0
+  1.000        gamma      gamma            PHSP;
+Enddecay
+#
+End
+

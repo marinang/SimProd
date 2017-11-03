@@ -1,0 +1,52 @@
+# EventType: 13166160
+#
+# Descriptor: {[[B_s0]nos => (K_S0 -> pi+ pi-) (D*(2010)- -> (D~0 -> K+ pi-) pi-) pi+]cc, [[B_s0]os => (K_S0 -> pi+ pi-) (D*(2010)+ -> (D0 -> K- pi+) pi+) pi-]cc}
+#
+# NickName: Bs_Dst-KSpi,D0pi,Kpi=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B_s0 decay with flat square Dalitz model, daughters in acceptance.
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mark Whitehead
+# Email: mwhitehe
+# Date: 20150619
+#
+
+Alias MyD0   D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0   Myanti-D0
+#
+Alias MyD*- D*-
+Alias MyD*+ D*+
+ChargeConj MyD*+ MyD*-
+#
+Alias MyKS   K_S0
+ChargeConj MyKS   MyKS
+#
+Decay B_s0sig
+0.33  MyD*- MyKS pi+              FLATSQDALITZ;
+0.33  MyKS pi+ MyD*-              FLATSQDALITZ;
+0.33  pi+ MyD*- MyKS              FLATSQDALITZ;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD*-
+1.000    Myanti-D0  pi-                        VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myanti-D0
+1.0   K+  pi-                        PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay MyKS
+1.0 pi+ pi-    PHSP;
+Enddecay
+#
+End

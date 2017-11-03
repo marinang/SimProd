@@ -1,0 +1,172 @@
+# This is the decay file for the decay B0 => (D*- => (D0 bar => KS pi+ pi-) pi-) mu+ nu_mu
+#
+# EventType: 11876100
+#
+# Descriptor: {[[B0]nos => nu_mu mu+ (D*(2010)- => (D~0 -> (KS0 -> pi+ pi-) pi+ pi-) pi-)]cc, [[B0]os => anti_nu_mu mu- (D*(2010)+ => (D0 -> (KS0 -> pi+ pi-) pi+ pi-) pi+)]cc}
+#
+# NickName: Bd_Dstmunu,KSpipi=cocktail,hqet,D0muInAcc,BRcorr1
+#
+# Cuts: ListOfDaughtersInLHCb
+#
+# ExtraOptions: D0muInAcc
+#
+# Documentation: Sum of D* mu nu_mu X and D* tau nu_tau X; D*+ forced into D0 pi+, D0 forced into KSpipi, D0 
+# and muon in LHCb acceptance.Force the tau- into mu-  nu_tau  anti-nu_mu.
+# EndDocumentation 
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Chris Thomas
+# Email: c.thomas2@{nospam}physics.ox.ac.uk
+# Date: 20130424
+#
+##############
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyD0         D0
+Alias      MyAntiD0     anti-D0
+ChargeConj MyD0         MyAntiD0
+#
+Alias      MyD*-        D*-
+Alias      MyD*+        D*+
+ChargeConj MyD*-        MyD*+
+#
+Alias      MyD_10         D_10
+Alias      MyAntiD_10     anti-D_10
+ChargeConj MyD_10         MyAntiD_10
+#
+Alias      MyD_1+         D_1+
+Alias      MyD_1-         D_1-
+ChargeConj MyD_1+         MyD_1-
+#
+Alias      MyD_0*+         D_0*+
+Alias      MyD_0*-         D_0*-
+ChargeConj MyD_0*+         MyD_0*-
+#
+Alias      MyD_0*0         D_0*0
+Alias      MyAntiD_0*0     anti-D_0*0
+ChargeConj MyD_0*0         MyAntiD_0*0
+#
+Alias      MyD'_10         D'_10
+Alias      MyAntiD'_10     anti-D'_10
+ChargeConj MyD'_10         MyAntiD'_10
+#
+Alias      MyD'_1+         D'_1+
+Alias      MyD'_1-         D'_1-
+ChargeConj MyD'_1+         MyD'_1-
+#
+Alias      MyD_2*+         D_2*+
+Alias      MyD_2*-         D_2*-
+ChargeConj MyD_2*+         MyD_2*-
+#
+Alias      MyD_2*0         D_2*0
+Alias      MyAntiD_2*0     anti-D_2*0
+ChargeConj MyD_2*0         MyAntiD_2*0
+#
+Decay B0sig 
+# FORM FACTORS as per HFAG PDG10
+  0.0501   MyD*-        mu+  nu_mu         PHOTOS  HQET 1.20 1.426 0.818 0.908;
+  0.0005640  MyD_0*-    mu+  nu_mu         PHOTOS  ISGW2;
+  0.0006500  MyD'_1-    mu+  nu_mu         PHOTOS  ISGW2;
+  0.0017494  MyD_1-     mu+  nu_mu         PHOTOS  ISGW2;
+  0.0006198  MyD_2*-    mu+  nu_mu         PHOTOS  ISGW2;
+  0.000462   MyD*-  pi0  mu+  nu_mu        PHOTOS  GOITY_ROBERTS;
+  0.000645   MyD*-  pi0 pi0   mu+  nu_mu   PHOTOS  PHSP;
+  0.002451   MyD*-  pi+ pi-   mu+  nu_mu   PHOTOS  PHSP;
+  0.002604   MyD*-    Mytau+ nu_tau        PHOTOS  ISGW2;
+  0.000082   MyD_1-   Mytau+ nu_tau        PHOTOS  ISGW2;
+  0.000027   MyD_0*-   Mytau+ nu_tau       PHOTOS  ISGW2;
+  0.000056   MyD'_1-   Mytau+ nu_tau       PHOTOS  ISGW2;
+  0.000041   MyD_2*-   Mytau+ nu_tau       PHOTOS  ISGW2;
+  #
+Enddecay
+CDecay anti-B0sig
+#
+SetLineshapePW MyD_1+ MyD*+ pi0 2
+SetLineshapePW MyD_1- MyD*- pi0 2
+SetLineshapePW MyD_10 MyD*+ pi- 2
+SetLineshapePW MyAntiD_10 MyD*- pi+ 2
+#
+SetLineshapePW MyD_2*+ MyD*+ pi0 2
+SetLineshapePW MyD_2*- MyD*- pi0 2
+SetLineshapePW MyD_2*0 MyD*+ pi- 2
+SetLineshapePW MyAntiD_2*0 MyD*- pi+ 2
+#
+Decay MyD_0*+ 
+0.04     MyD*+ pi0 pi0                     PHOTOS PHSP;
+0.08     MyD*+ pi+ pi-                     PHOTOS PHSP;
+Enddecay
+CDecay MyD_0*-
+#
+Decay MyD_0*0
+0.08    MyD*+ pi- pi0                      PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_0*0
+#
+Decay MyD'_1+
+0.250     MyD*+ pi0                        PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD'_1-
+#
+Decay MyD'_10
+0.500    MyD*+ pi-                         PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAntiD'_10
+#
+Decay MyD_1+
+0.200    MyD*+ pi0                         PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.0208    MyD_0*0 pi+                      PHOTOS PHSP;
+0.0156    MyD_0*+ pi0                      PHOTOS PHSP;
+Enddecay
+CDecay MyD_1-
+#
+Decay MyD_10
+0.400    MyD*+ pi-                         PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.0312    MyD_0*+ pi-                      PHOTOS PHSP;
+0.0104    MyD_0*0 pi0                      PHSP;
+Enddecay
+CDecay MyAntiD_10
+#
+Decay MyD_2*+
+0.087    MyD*+ pi0                         PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+0.0117    MyD_0*0 pi+                      PHOTOS PHSP;
+0.0088    MyD_0*+ pi0                      PHOTOS PHSP;
+0.004     MyD*+ pi0 pi0                    PHOTOS PHSP;
+0.008     MyD*+ pi+ pi-                    PHOTOS PHSP;
+Enddecay
+CDecay MyD_2*-
+#
+Decay MyD_2*0
+0.173    MyD*+ pi-                         PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+0.0176    MyD_0*+ pi-                      PHOTOS PHSP;
+0.0059    MyD_0*0 pi0                      PHSP;
+0.008     MyD*+ pi- pi0                    PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_2*0
+#
+Decay MyD*-
+1.0       MyAntiD0   pi-                   VSS;
+Enddecay
+CDecay MyD*+
+#
+# Force Ks -> pi+ pi- to save generating unhelpful events:
+Decay myK_S0
+1.000     pi+  pi-                      PHSP;
+Enddecay
+#
+Decay MyD0
+  1.000   myK_S0  pi+ pi-                              PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD0
+#
+Decay Mytau-
+  1.00      mu-  nu_tau  anti-nu_mu        PHOTOS TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+End

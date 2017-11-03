@@ -1,0 +1,59 @@
+# EventType: 23513007
+#
+# Descriptor: [D_s+ -> ( tau+ -> mu+ (phi(1020) -> K+ K- )) nu_tau ]cc
+#
+# NickName: Ds_taunu,muphi=FromD
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ D_s+ -> ( ^(tau+ -> ^mu+ (phi(1020) -> ^K+ ^K-) ) ) nu_tau ]CC'
+# tightCut.Cuts      =    {
+#     '[mu+]cc'  : ' goodMuon ' , 
+#     '[K+]cc'  : ' goodKaon ' , 
+#     '[tau+]cc' : ' goodTau  ' }
+# tightCut.Preambulo += [
+#     'inAcc    = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodMuon = ( GPT > 0.25 * GeV ) & ( GP > 2.5 * GeV ) & inAcc ' , 
+#     'goodKaon = ( GPT > 0.25 * GeV ) & ( GP > 2.5 * GeV ) & inAcc ' , 
+#     'goodTau  = ~GHAS (GBEAUTY, HepMC.ancestors) ' ]
+#
+# EndInsertPythonCode
+#
+# Documentation:  
+#   Forces a Ds+ to ( tau+ -> mu+ phi(K+ K-) ) nu_tau from c quarks only  
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Eduardo Rodrigues, Jon Harrison
+# Email: eduardo.rodrigues@cern.ch, jonathan.harrison@hep.manchester.ac.uk
+# Date: 20130925
+#
+Alias myTau+ tau+
+Alias myTau- tau-
+ChargeConj myTau+ myTau-
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+
+Decay  D_s+sig
+  1.000       myTau+   nu_tau    	SLN;
+Enddecay
+CDecay D_s-sig
+#
+Decay myTau+
+  1.000       mu+ MyPhi              PHSP;
+Enddecay
+CDecay myTau-
+#
+Decay MyPhi
+  1.000        K+        K-            VSS;
+Enddecay
+#
+End

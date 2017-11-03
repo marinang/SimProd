@@ -1,0 +1,40 @@
+# EventType: 15144103
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) (J/psi(1S) -> mu+ mu- {,gamma} {,gamma})]cc
+#
+# NickName: Lb_JpsiLambda,mm=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: yes
+#
+# Documentation: Lambda0 forced into p pi, includes radiative mode
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Eric Conte (LPC Clermont)
+# Email:  jean.wicht@cern.ch
+# Date: 20111025
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Decay Lambda_b0sig
+  1.000    MyLambda          MyJ/psi                 PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000   p+          pi-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

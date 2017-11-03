@@ -1,0 +1,34 @@
+# EventType: 14133000
+# 
+# Descriptor: [B_c+ -> (eta_c(1S) -> p+ p~-) pi+]cc
+# 
+# NickName: Bc_etacpi,pp=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Using BcVegPy generator and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: yes
+# Responsible: Roberta Cardinale
+# Email: roberta.cardinale@ge.infn.it
+# Date: 20130925
+#
+#
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+#
+Decay B_c+sig
+  1.000 Myetac pi+ PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay Myetac
+  1.000 p+ anti-p- PHSP;
+Enddecay
+#
+End
+#

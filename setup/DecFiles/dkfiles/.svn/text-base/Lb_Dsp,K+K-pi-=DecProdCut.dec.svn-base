@@ -1,0 +1,38 @@
+# EventType: 15164041
+# NickName: Lb_Dsp,K+K-pi-=DecProdCut
+# Descriptor: [Lambda_b0 -> (D_s- -> K+ K- pi-) p+]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda_b^0 -> Ds^- p (daughters in LHCb)
+# EndDocumentation:
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+#
+# Responsible: Suvayu Ali
+# Email: Suvayu.Ali@{nospam}cern.ch
+# Date:   20111002
+#
+#
+
+# Define my particles (Ds)
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+# Lb -> Ds p
+Decay Lambda_b0sig
+  1.0000    MyD_s-     p+            PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+# Ds
+Decay MyD_s-
+  1.0000    K+    K-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD_s+
+
+#
+End
+#

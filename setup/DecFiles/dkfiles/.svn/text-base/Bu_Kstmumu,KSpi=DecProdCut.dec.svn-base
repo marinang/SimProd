@@ -1,0 +1,41 @@
+# $Id: Bu_Kstmumu,KSpi=DecProdCut.dec 129164 2011-09-18 12:38:47Z robbep $
+#
+# EventType: 12115102
+#
+# Descriptor: [B+ -> mu+ mu- (K*+ -> K0S pi+)]cc
+#
+# NickName: Bu_Kstmumu,KSpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K*+ forced into Ks0 pi+, Ks0 forced into pi+ pi-
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Patrick Owen
+# Email: patrickowen22@gmail.com
+# Date: 20110921
+#
+Alias      MyKst+    K*+
+Alias      MyKst-    K*-
+ChargeConj MyKst+    MyKst-
+Alias      MyKs     K_S0
+ChargeConj MyKs     MyKs
+#
+Decay B+sig
+  1.000        MyKst+     mu+     mu-     BTOSLLBALL;
+Enddecay
+CDecay B-sig
+#
+Decay MyKst+
+  1.000        MyKs      pi+             VSS;
+Enddecay
+CDecay MyKst-
+#
+Decay MyKs
+  1.000       pi+      pi-      PHSP;
+Enddecay
+#
+End
+#

@@ -1,0 +1,54 @@
+# EventType: 12155100
+#
+# Descriptor: [B+ -> (J/psi(1S) -> e+ e-) (K*+ -> (K_S0 -> pi+ pi-) pi+)]cc
+#
+# NickName: Bu_JpsiKst,ee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: [B+ -> (J/psi(1S) -> e+ e-) (K*+ -> (K_S0 -> pi+ pi-) pi+)]cc
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Harry Cliff
+# Email: harry.victor.cliff@cern.ch
+# Date: 20170302
+# CPUTime: <1min
+#
+Define PKHplus  0.159
+Define PKHzero  0.775
+Define PKHminus 0.612
+Define PKphHplus  1.563
+Define PKphHzero  0.0
+Define PKphHminus 2.712
+#
+Alias      MyJ/psi    J/psi
+Alias      MyK*+      K*+
+Alias      MyK*-      K*-
+Alias      MyKs       K_S0
+ChargeConj MyK*+      MyK*-
+ChargeConj MyJ/psi  MyJ/psi
+ChargeConj MyKs       MyKs
+#
+Decay B+sig
+1.000     MyJ/psi  MyK*+             SVV_HELAMP PKHplus PKphHplus PKHzero PKphHzero PKHminus PKphHminus;
+Enddecay
+Decay B-sig
+1.000     MyJ/psi  MyK*-             SVV_HELAMP PKHminus PKphHminus PKHzero PKphHzero PKHplus PKphHplus;
+Enddecay
+#
+Decay MyJ/psi
+1.000   e+  e-                       PHOTOS  VLL;
+Enddecay
+#
+Decay MyK*+
+1.000      MyKs  pi+                        VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyKs
+1.000      pi+  pi-                  PHSP;
+Enddecay
+#
+End

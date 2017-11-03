@@ -1,0 +1,71 @@
+# EventType: 13134011
+# 
+# Descriptor: [B_s0 -> (J/psi(1S) -> p+ p~-) (phi(1020) -> K+ K-)]cc
+# 
+# NickName: Bs_Jpsiphi,pp=DecProdCut,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[B_s0 -> (J/psi(1S) -> p+ p~-) (phi(1020) -> K+ K-)]CC'
+# tightCut.Cuts      =    {
+#     '[B_s0]cc'   : ' goodB  ' , 
+#     '[p+]cc'   : ' goodProton  ' , 
+#     '[K+]cc'    : ' goodKaon  ' , 
+#     '[pi+]cc'   : ' goodPion  ' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns',
+#     'from GaudiKernel.PhysicalConstants import c_light',
+#     'inAcc = in_range( 0.005, GTHETA, 0.400)',
+#     'goodProton  = ( GPT > 250  * MeV ) & inAcc' , 
+#     'goodKaon  = ( GPT > 150  * MeV )  & inAcc' , 
+#     'goodPion  = ( GPT > 150  * MeV ) & inAcc' ,
+#     'goodB  = ( GCTAU > 0.1e-3 * ns * c_light)' ]
+#
+#EndInsertPythonCode
+#
+# Documentation: Tight generator level cuts applied for all final state particles
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Giulio Dujany
+# Email: giulio.dujany@cern.ch
+# Date: 20150611
+# CPUTime: < 1 min
+#
+#
+Define betas -0.035
+Define Apara 0.480
+Define Azero 0.722
+Define Aperp 0.499
+Define pApara 3.30
+Define pAzero 0.0
+Define pAperp 3.07
+#
+Alias MyPhi phi
+Alias MyJpsi J/psi
+ChargeConj MyPhi MyPhi
+ChargeConj MyJpsi MyJpsi
+#
+Decay B_s0sig
+  1.000   MyJpsi    MyPhi     PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp; 
+Enddecay
+Decay anti-B_s0sig
+1.000      MyJpsi   MyPhi     PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp;
+Enddecay
+#
+Decay MyPhi
+  1.000 K+ K- VSS;
+Enddecay
+Decay MyJpsi
+  1.000 p+ anti-p- VLL;
+Enddecay
+End
+#

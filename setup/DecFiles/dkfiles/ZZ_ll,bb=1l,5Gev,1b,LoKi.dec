@@ -1,0 +1,35 @@
+# EventType: 42912005
+#
+# Descriptor: pp -> (Z0 -> l+ l-) (Z0 -> b b~) ... 
+#
+# NickName: ZZ_ll,bb=1l,5Gev,1b,LoKi
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/HiggsTypeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "HiggsTypeCut" )
+# tracksInAcc = Generation().HiggsTypeCut
+# tracksInAcc.Code = " ( (count ( isGoodBZ ) > 0) & (count ( isGoodLeptonZ ) > 0 ) ) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodBZ     = ((  'Z0' == GABSID ) & (GNINTREE( GBEAUTY & ( GTHETA < 400.0*mrad )) > 1))"
+#    , "isGoodLeptonZ   = ((  'Z0' == GABSID ) & (GNINTREE( GLEPTON & ( GTHETA < 400.0*mrad ) & (GPT > 5*GeV), 1)>0 ) )"
+#    ]
+# EndInsertPythonCode
+#
+# ExtraOptions: ZZllbb
+#
+# Documentation: 1 lepton with pT > 5 GeV and 2 b quarks in LHCb Acc
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date: 20150508
+#
+End
+#

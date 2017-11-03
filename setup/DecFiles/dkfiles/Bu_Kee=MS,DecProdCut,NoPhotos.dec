@@ -1,0 +1,41 @@
+# EventType: 12123005
+#
+# Descriptor: [B+ -> K+ e+ e-]cc
+#
+# NickName: Bu_Kee=MS,DecProdCut,NoPhotos
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: the B+ -> K+ ell^+ ell^- decay with the transition form factors 
+# from the paper D.Melikhov, B.Stech, PRD62, 014006 (2000).
+# Input parameters --  mu        - the scale parameter (in GeV's);
+#                      res_swch  - resonant switching parametr:
+#                      ias       - switching parametr for \alpha_s(M_Z) value:
+#                      Wolfenstein parameterization for CKM matrix:
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:     Eugenia Price
+# Email: eugenia.phobe.price@cern.ch
+# Date: 20160311
+#
+Define mu 5.0
+Define Nf 5
+Define res_swch 0
+Define ias 1
+Define A 0.88
+Define lambda 0.227
+Define barrho 0.22
+Define bareta 0.34
+noPhotos
+#
+Decay B+sig
+  1.000        K+     e+     e-     BTOSLLMS mu Nf res_swch ias A lambda barrho bareta;
+Enddecay
+CDecay B-sig
+#
+End
+#

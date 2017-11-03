@@ -1,0 +1,25 @@
+# EventType: 31113007 
+#
+# Descriptor: [tau+ -> anti-p- mu+ mu+]cc
+#
+# NickName: tau+_anti-p-mu+mu+=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model and decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# Tested: Yes
+# Responsible: Jonathan HARRISON
+# Email: jon.harrison@cern.ch
+# Date: 20110929
+#
+Decay tau+sig
+  1.000		anti-p- mu+ mu+		PHSP;
+Enddecay
+CDecay tau-sig
+#
+#
+End

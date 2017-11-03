@@ -1,0 +1,41 @@
+#EventType: 13104181
+#
+# Descriptor: {[B_s0 -> K- (K*(892)+ -> pi+ (KS0 -> pi+ pi-) )]cc,[B_s0 -> K+ (K*(892)- -> pi- (KS0 -> pi+ pi-) )]cc}
+#
+# NickName: Bs_KstK,KSpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K* forced into KS0 pi, KS0 forced into pi+ pi-, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: David Dossett
+# Email: d.a.dossett@warwick.ac.uk
+# Date: 20121206
+#
+Alias      MyKs     K_S0
+Alias      MyK*+    K*+
+Alias      MyK*-    K*-
+ChargeConj MyKs     MyKs
+ChargeConj MyK*+    MyK*-
+#
+Decay B_s0sig
+ 0.500    MyK*+    K-    SVS;
+ 0.500    MyK*-    K+    SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyK*+
+ 1.000    MyKs    pi+    VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyKs
+ 1.000    pi+    pi-    PHSP;
+Enddecay
+#
+End
+#
+

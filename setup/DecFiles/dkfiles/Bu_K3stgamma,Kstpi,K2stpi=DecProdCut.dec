@@ -1,0 +1,50 @@
+# EventType: 12401228 
+#
+# Descriptor: [B+ -> (K_3*+ -> rho0 K+) gamma ]cc
+# NickName: Bu_K3stgamma,Kstpi,K2stpi=DecProdCut
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K*3(1780) forced to K+ pi- pi+, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Stefanie Reichert
+# Email:       stefanie.reichert@cern.ch
+# Date:        20170116
+# CPUTime: < 1min  
+#
+Alias         MyK3       K_3*+
+Alias         Myanti-K3  K_3*-
+ChargeConj    Myanti-K3  MyK3
+Alias         MyK*0         K*0
+Alias         Myanti-K*0    anti-K*0
+ChargeConj    MyK*0         Myanti-K*0
+Alias         MyK2*0        K_2*0
+Alias         Myanti-K2*0   anti-K_2*0
+ChargeConj    MyK2*0         Myanti-K2*0
+#
+Decay B+sig
+  1.000       MyK3  gamma                 PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyK3
+  0.20        MyK*0        pi+            PHSP;
+  0.16        MyK2*0       pi+            PHSP;
+  0.31        rho0         K+             PHSP;
+Enddecay
+CDecay Myanti-K3
+#
+Decay MyK*0
+1.000         K+           pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK2*0
+1.000         K+           pi-            TSS;
+Enddecay
+CDecay Myanti-K2*0
+#
+End
+

@@ -1,0 +1,55 @@
+# EventType: 40114040
+#
+# Descriptor: Higgs'0 -> (A0 -> mu+ mu-) (A0 -> mu+ mu-)
+# NickName: Higgs_AA_mumumumu,mH=50GeV,mA=10GeV,tA=0ps,Hnarrow,Anarrow
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/TwoMuonsFromA1InAcceptance
+# Production: Pythia8
+#
+# Documentation:
+# Higgs->2A1->4mu. Simulated using Pythia's H_30 and H_20 particles redefined
+# for our needs, modified from originial 40114000 by Xabier Cid Vidal.
+# EndDocumentation
+#
+# InsertPythonCode:
+# from Gaudi.Configuration import *
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool(LoKi__FullGenEventCut, "TwoMuonsFromA1InAcceptance")
+# tracksInAcc = Generation().TwoMuonsFromA1InAcceptance
+# tracksInAcc.Code = "count(isGoodDVfromA1) > 1"
+# tracksInAcc.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#       "isA1 = ('H_30' == GID)",
+#       "isGoodDVDaughterMu = ((~GVEV) & (GTHETA < 400.0*mrad) "
+#       "& ('mu+' == GABSID))",
+#       "isGoodDVfromA1 = (isA1 & (GNINTREE(isGoodDVDaughterMu, 4) > 1))"]
+# from Gaudi.Configuration import importOptions
+# importOptions("$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py")
+# from Configurables import Pythia8Production
+# Generation().Special.addTool(Pythia8Production)
+# Generation().Special.Pythia8Production.Commands += [
+#     "Higgs:useBSM = on", "HiggsBSM:allH2 = on", "35:mWidth = 1.60e-03",
+#     "35:m0 = 50.0", "35:doForceWidth = true", "35:doExternalDecay = true"]
+# EndInsertPythonCode
+#
+# ParticleValue: "H_20 88 35 0.0 50.0 2.06e-21 Higgs'0 35 0.0e+00", "H_30 89 36 0.0 10 1e-20 A0 36 0.0e+00"
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Philip Ilten
+# Email: philten@cern.ch
+# Date: 20161215
+# CPUTime: < 1 min
+#
+Alias MyA A0
+ChargeConj MyA MyA
+
+Decay Higgs'0
+1.000 MyA MyA PHSP;
+Enddecay
+
+Decay MyA
+1.000 mu+ mu- PHSP;
+Enddecay
+
+End

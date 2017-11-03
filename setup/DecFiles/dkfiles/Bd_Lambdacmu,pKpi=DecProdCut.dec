@@ -1,0 +1,76 @@
+# EventType: 11274030 
+# 
+# Descriptor: [B0 -> (Lambda_c+ -> p+ K- pi+) mu-]cc
+# 
+# NickName: Bd_Lambdacmu,pKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 -> Lc mu, Lc to p K pi. 
+# The B0 is forced to decay with baryon number violation to to Lambda_c- mu-.
+# The Lambda_c is forced to the p+ K- pi+ final state, through several intermediate resonances.
+# All charged final state tracks are required to be within the LHCb acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: 4 min
+# Responsible: Nikita Beliy
+# Email: nikita.beliy@cern.ch
+# Date: 20161206
+#
+
+# Define Lambda_c
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+
+# Define Lambda(1520)0
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+
+# Define K*0
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+
+# Define Delta++
+Alias      MyDelta++      Delta++
+Alias      Myanti-Delta-- anti-Delta--
+ChargeConj MyDelta++      Myanti-Delta--
+
+# Define B0 decay
+Decay B0sig
+1.000        MyLambda_c+ mu-     PHSP;
+Enddecay
+CDecay anti-B0sig
+
+# Define Lambda_c+ decay
+# Branching ratios from PDG 2016
+Decay MyLambda_c+
+0.03500 p+              K-         pi+ PHSP;
+0.01980 p+              Myanti-K*0     PHSP;
+0.01090 MyDelta++       K-             PHSP;
+0.02200 MyLambda(1520)0 pi+            PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+    
+# Define Lambda(1520)0 decay
+Decay MyLambda(1520)0
+1.000 p+ K- PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+    
+# Define K*0 decay
+Decay MyK*0
+1.000 K+ pi- VSS;
+Enddecay
+CDecay Myanti-K*0
+    
+# Define Delta++ decay
+Decay MyDelta++
+1.000 p+ pi+ PHSP;
+Enddecay
+CDecay Myanti-Delta--
+End

@@ -1,0 +1,31 @@
+# EventType: 12101401
+# NickName: Bu_K+pi0=DecProdCut
+# Descriptor: [B+ -> K+ (pi0 -> gamma gamma)]cc
+#
+# Documentation: B+ to K+ pi0 with pi0 forced to two photons, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Cuts: DaughtersInLHCb
+#
+# Responsible: Jason Emory Andrews
+# Email: jea@umd.edu
+#
+# Tested: Yes
+# Date: 20130910
+#
+Alias      Mypi0    pi0
+ChargeConj Mypi0    Mypi0
+#
+Decay B+sig
+  1.000 K+ Mypi0      PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Mypi0
+  1.000 gamma	gamma PHSP;
+Enddecay
+#
+End
+#

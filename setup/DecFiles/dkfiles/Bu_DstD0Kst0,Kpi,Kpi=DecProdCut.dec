@@ -1,0 +1,62 @@
+# EventType: 12197021
+# 
+# Descriptor: [B+ -> D*(2010)+ anti-D0 K*0]cc with D* forced to (D0->Kpi) pi+  and K* into Kpi
+# 
+# NickName: Bu_DstD0Kst0,Kpi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:Decay File For B+- ->D+- D0 K*0
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: renato quagliani
+# Email: renato.quagliani@student.unife.it
+# Date: 20140725
+# CPUTime: <1min
+Alias My_D*+ D*+
+Alias My_D*- D*-
+Alias My_D0 D0
+Alias My_anti-D0 anti-D0
+Alias My_D+ D+
+Alias My_D- D-
+Alias My_K*0    K*0                                 
+Alias My_anti-K*0    anti-K*0    
+ChargeConj My_D0 My_anti-D0
+ChargeConj My_D+ My_D-
+ChargeConj My_D*+ My_D*-
+ChargeConj My_K*0 My_anti-K*0
+
+#D*+ Decay
+Decay My_D*+
+  1.0 My_D0 pi+ VSS;
+Enddecay
+CDecay My_D*-
+
+#D+ Decay                                         
+Decay My_D+                                        
+  1.0 K- pi+ pi+ D_DALITZ;                                            
+Enddecay                               
+CDecay My_D-           
+
+
+#D0 Decay            
+Decay My_anti-D0                                             
+  1.0 K+ pi- PHSP;                                               
+Enddecay                                          
+CDecay My_D0   
+
+#K*0 Decay
+Decay My_K*0                                         
+  1.0 K+ pi- VSS;                                                 
+Enddecay                                    
+CDecay My_anti-K*0   
+
+Decay B+sig
+  1.0 My_D*+ My_anti-D0 My_K*0 PHSP; 
+Enddecay
+CDecay B-sig
+#
+End
+#

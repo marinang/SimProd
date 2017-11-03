@@ -1,0 +1,46 @@
+# EventType: 13104041
+#
+# Descriptor: [B_s0 -> (K*(892)0 -> K+ pi-) (K*_0(1430)~0 -> K- pi+)]cc
+#
+# NickName: Bs_Kst0K0st0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K*(892)0 decaying into K+ pi-, 
+# K*_0(1430)~0 decaying into K- pi+,
+# daughters in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Paula Alvarez
+# Email: paula.alvarez@usc.es
+# Date: 20121107
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+Alias      MyK_0*0       K_0*0
+Alias      Myanti-K_0*0  anti-K_0*0
+ChargeConj Myanti-K*0  MyK*0
+ChargeConj Myanti-K_0*0  MyK_0*0
+# 
+Decay B_s0sig
+  1.000    MyK*0    Myanti-K_0*0   SVS; 
+Enddecay
+#
+Decay anti-B_s0sig
+  1.000    Myanti-K*0    MyK_0*0   SVS; 
+Enddecay
+# 
+Decay MyK*0
+  1.000     K+    pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK_0*0
+  1.000     K+    pi-            PHSP;
+Enddecay
+CDecay Myanti-K_0*0
+#
+End
+#

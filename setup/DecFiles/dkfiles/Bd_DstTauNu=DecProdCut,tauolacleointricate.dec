@@ -1,0 +1,60 @@
+# EventType: 11160003
+#
+# Descriptor: [B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (tau+ -> pi+ pi+ pi- anti-nu_tau) nu_tau]cc
+#
+# NickName: Bd_DstTauNu=DecProdCut,tauolacleointricate
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd to D* tau nu.
+# D* decays to D0 pi and D0 to Kpi final state.
+# Tau lepton decays in the 3-prong charged pion mode using the Tauola Cleo intricate model.
+# All final-state products in the acceptance.
+# Same as 11536011, but with different tau decay model
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Kristof De Bruyn
+# Email: debruyn@cppm.in2p3.fr
+# Date: 20161025
+#
+
+# Tauola steering options
+Define TauolaCurrentOption -1
+Define TauolaBR1 1.0
+#
+Alias         MyD0       D0
+Alias         anti-MyD0  anti-D0
+ChargeConj    MyD0       anti-MyD0
+Alias         MyD*+      D*+
+Alias         MyD*-      D*-
+ChargeConj    MyD*+      MyD*-
+Alias         MyTau+     tau+
+Alias         MyTau-     tau-
+ChargeConj    MyTau+     MyTau-
+#
+Decay B0sig
+  1.000       MyD*-      MyTau+   nu_tau   ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*+
+  1.000       MyD0       pi+      VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.0000      K-         pi+      PHSP;
+Enddecay
+CDecay anti-MyD0
+#    
+Decay MyTau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

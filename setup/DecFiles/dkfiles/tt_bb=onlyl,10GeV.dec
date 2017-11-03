@@ -1,0 +1,22 @@
+# EventType: 41900002
+#
+# Descriptor: pp => (t => b ...) (t~ => b~ ...) ... 
+#
+# NickName: tt_bb=onlyl,10GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 10*GeV LeptonIsFromMother true NumberOfbquarks 0 MotherOfThebquarks "t"
+# ExtraOptions: Top
+#
+# Documentation: One lepton in acceptance with pT > 10 GeV
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email: stephane.tourneur@epfl.ch
+# Date: 20070220
+#
+End
+#

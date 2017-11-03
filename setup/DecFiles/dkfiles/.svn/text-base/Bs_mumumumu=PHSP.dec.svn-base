@@ -1,0 +1,25 @@
+# EventType: 13114024
+#
+# Descriptor: {[[B_s0]os -> mu+ mu- mu + mu-]cc, [[B_s0]nos -> mu- mu+ mu+ mu-]cc}
+#
+# NickName: Bs_mumumumu=PHSP
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Decay generation using n-bodies phase space.
+#                Input parameters NO eny input parameters
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (M.V.Lomonosov Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch
+# Date: 20111014
+#
+#
+Decay B_s0sig
+   1.000   mu+  mu-  mu+  mu-   PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End

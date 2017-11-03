@@ -1,0 +1,35 @@
+*
+* Preliminary Oxford Cabibbo favoured K3pi model
+* version 11 10/11/2013
+*
+
+RandomSeed   5
+
+"Phases given in"       "rad"
+"Event Pattern"         421 -321 211 211 -211
+
+"Nevents"               10000
+
+"IntegPrecision"        2.0e-3
+"IntegMethod"           "efficient"
+
+D0->K(1)(1270)bar-(->K(0)*(1430)bar0(->pi+,K-),pi-),pi+_Re    2    1.27091    0.1    0    0
+D0->K(1)(1270)bar-(->K(0)*(1430)bar0(->pi+,K-),pi-),pi+_Im    2    -0.549553    0.1    0    0
+D0->K(1)(1270)bar-(->K*(892)bar0(->pi+,K-),pi-),pi+_Re    2    0.420816    0.1    0    0
+D0->K(1)(1270)bar-(->K*(892)bar0(->pi+,K-),pi-),pi+_Im    2    -0.0116394    0.1    0    0
+D0->K-,pi+,pi+,pi-_Re    2    -12.3491    0.1    0    0
+D0->K-,pi+,pi+,pi-_Im    2    -11.3415    0.1    0    0
+D0->NonResS0(->K-,pi+),rho(770)0(->pi+,pi-)_Re    2    0.229301    0.1    0    0
+D0->NonResS0(->K-,pi+),rho(770)0(->pi+,pi-)_Im    2    -5.74256    0.1    0    0
+D0->NonResS0(->pi+,pi-),K*(892)bar0(->K-,pi+)_Re    2    1.50167    0.1    0    0
+D0->NonResS0(->pi+,pi-),K*(892)bar0(->K-,pi+)_Im    2    15.2569    0.1    0    0
+D0->a(1)(1260)+(->rho(770)0(->pi+,pi-),pi+),K-_Re    2    8.25297    0.1    0    0
+D0->a(1)(1260)+(->rho(770)0(->pi+,pi-),pi+),K-_Im    2    19.5089    0.1    0    0
+RHO_OMEGAD0->K(1)(1270)bar-(->rho(770)0(->pi+,pi-),K-),pi+_Re    2    -21.5552    0.1    0    0
+RHO_OMEGAD0->K(1)(1270)bar-(->rho(770)0(->pi+,pi-),K-),pi+_Im    2    20.5748    0.1    0    0
+RHO_OMEGAD0->K*(892)bar0(->K-,pi+),rho(770)0(->pi+,pi-)_Re    2    -41.1472    0.1    0    0
+RHO_OMEGAD0->K*(892)bar0(->K-,pi+),rho(770)0(->pi+,pi-)_Im    2    -12.7078    0.1    0    0
+RHO_OMEGAD0->a(1)(1260)+(->rho(770)0(->pi+,pi-),pi+),K-_Re    2    90.317    0.1    0    0
+RHO_OMEGAD0->a(1)(1260)+(->rho(770)0(->pi+,pi-),pi+),K-_Im    2    -16.774    0.1    0    0
+RHO_OMEGAD0[D]->K*(892)bar0(->K-,pi+),rho(770)0(->pi+,pi-)_Re    2    76.0031    0.1    0    0
+RHO_OMEGAD0[D]->K*(892)bar0(->K-,pi+),rho(770)0(->pi+,pi-)_Im    2    61.0426    0.1    0    0

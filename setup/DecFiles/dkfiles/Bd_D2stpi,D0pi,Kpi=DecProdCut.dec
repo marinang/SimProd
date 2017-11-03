@@ -1,0 +1,43 @@
+# EventType: 11164042
+#
+# Descriptor: {[[B0]nos => pi+ (D_2*- -> pi- (D~0 -> K+ pi-))]cc, [[B0]os => pi- (D_2*+ -> pi+ (D0 -> K- pi+))]cc}
+#
+# NickName: Bd_D2stpi,D0pi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 decay forced to D_2*- pi+, D_2*- forced to D~0 pi-, D~0 forced to K+ pi-, daughters in acceptance 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Daniel Craik 
+# Email: dcraik
+# Date: 20141003
+# CPUTime: < 1 min
+#
+
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+Alias      MyD_2*-     D_2*-
+Alias      MyD_2*+     D_2*+
+ChargeConj MyD0        Myanti-D0
+ChargeConj MyD_2*+     MyD_2*-
+
+
+Decay B0sig
+1.0   MyD_2*- pi+                    STS;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD_2*+
+1.0   MyD0  pi+                      TSS;
+Enddecay
+CDecay MyD_2*-
+
+Decay MyD0
+1.0   K-  pi+                        PHSP;
+Enddecay
+CDecay Myanti-D0
+
+End

@@ -1,0 +1,68 @@
+# EventType: 16275062
+# 
+# Descriptor: [ Xi_bc+ -> (Lambda_c+ -> p+ K- pi+)  (J/psi -> mu+ mu-) ]cc
+#
+# NickName: Xibc_LcJpsi,pKpi-res,mm=DecProdCut,m=6.9GeV,t=0.4ps
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# ParticleValue: " Xi_bc+ 532 5242 1.0 6.90000000 0.400000e-12 Xi_bc+ 5242 0.00000000", " Xi_bc~- 533 -5242 -1.0 6.90000000 0.400000e-12 anti-Xi_bc- -5242 0.00000000"
+#
+# Documentation: decay file of Xi_bc^+ -> (Lambda_c+ -> p K- pi+)  (J/psi -> mu+ mu-)
+# using dedicated GenXicc package for production, cuts with XiccDaughtersInLHCb, phase space decay model used. 
+# Xi_bc decay time changed to 0.4ps to be in range of theoretical predictions
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: S. Blusk
+# Email: sblusk@syr.edu
+# Date: 20160622
+#
+
+Alias MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+
+Alias      MyDelta++  Delta++
+Alias      Myanti-Delta--  anti-Delta--
+ChargeConj MyDelta++  Myanti-Delta--
+
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Decay Xi_bc+sig
+  1.00   MyLambda_c+  MyJ/psi                  PHSP;
+Enddecay
+CDecay anti-Xi_bc-sig
+#
+Decay MyLambda_c+
+  0.008600000 MyDelta++ K-                                      PHSP;
+  0.010700000 p+      Myanti-K*0                              PHSP;
+  0.025400000 p+      K-      pi+                             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyDelta++
+1.0000    p+  pi+                     PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyJ/psi
+ 1.0000  mu+        mu-                    PHOTOS VLL ;
+Enddecay
+
+End
+

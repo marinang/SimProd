@@ -1,0 +1,90 @@
+# EventType: 27265101
+#
+# Descriptor: [D*(2010)+ -> (D0 -> (KS0 -> pi+ pi-) K+ K-) pi+]cc
+#
+# NickName: Dst_D0pi,KSKK=res,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# See hep-ex/0507026 -- Antimo models the data as:
+# From conditions database / particle table:
+#
+# Documentation: Inclusive production of D*+. D* is forced to decay to D0 pi+, then D0 to (KS K+ K-) with a simple resonant 
+# model, then KS to (pi+ pi-) as phase space. Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Mat Charles
+# Email: m.charles1@physics.ox.ac.uk
+# Date: 20091027
+
+# Ran SCANPDF over 1000000 events -- result was:
+#
+# Sampling 1000000 points to find maximum
+# Found maximum 4.403232
+# Increase to   5.283879
+#
+# ... so to be extra-safe (considering the presence of a
+# sharp phi resonance) I've bumped it up to 6.0
+
+# Set the thresholds explicitly, even though I suspect they are
+# not respected by the PTO3P decay model:
+ChangeMassMin  a_00  0.987354
+ChangeMassMin  a_0+  0.991291
+ChangeMassMin  a_0-  0.991291
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.0 myK_S0 K+ K- PTO3P
+     MAXPDF   6.0
+     # SCANPDF 1000000
+
+     # If you want to add a non-resonant/flat, coherent component, it goes in like this:
+     #AMPLITUDE    PHASESPACE
+     #COEFFICIENT  POLAR_RAD   0.1    0.0
+
+     # K0bar a0(980)0 -- sub-threshold and has to be NBW else EvtGen crashes
+     AMPLITUDE    RESONANCE   BC     a_00
+                  ANGULAR     AC
+                  TYPE        NBW
+     COEFFICIENT  POLAR_RAD   1.0    0.0
+
+     # K0bar phi(1020) -- using relativistic Zemach propagator
+     AMPLITUDE    RESONANCE   BC     phi
+                  ANGULAR     AC
+                  TYPE        RBW_ZEMACH
+     COEFFICIENT  POLAR_RAD   0.437  1.91
+
+     # K- a0(980)+ -- sub-threshold and has to be NBW else EvtGen crashes
+     AMPLITUDE    RESONANCE   AB     a_0+
+                  ANGULAR     CA
+                  TYPE        NBW
+     COEFFICIENT  POLAR_RAD   0.460  3.59
+
+     # K0bar f0(1400) -- using relativistic Zemach propagator
+     AMPLITUDE    RESONANCE   BC     f'_0
+                  ANGULAR     AC
+                  TYPE        RBW_ZEMACH
+     COEFFICIENT  POLAR_RAD   0.435  -2.65     
+   ;
+Enddecay
+CDecay MyantiD0
+
+# Force Ks -> pi+ pi- to save generating unhelpful events:
+Decay myK_S0
+1.000     pi+  pi-                      PHSP;
+Enddecay
+
+End
+

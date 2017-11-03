@@ -1,0 +1,24 @@
+# EventType: 11112001
+#
+# Descriptor: [B0 -> mu+ mu-]cc
+#
+# NickName: Bd_mumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: decay products in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Giampiero Mancinelli
+# Email: giampi@cppm.in2p3.fr
+# Date: 20111011
+#
+Decay B0sig
+ 1.000       mu+     mu-              PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+

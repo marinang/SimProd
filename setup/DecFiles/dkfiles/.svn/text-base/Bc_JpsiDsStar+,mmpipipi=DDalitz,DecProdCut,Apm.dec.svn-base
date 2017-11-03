@@ -1,0 +1,55 @@
+# EventType: 14375213
+# 
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu-) (D_s*+ -> (D_s+ -> pi+ pi- pi+) gamma/pi0) ]cc
+# 
+# NickName: Bc_JpsiDsStar+,mmpipipi=DDalitz,DecProdCut,Apm
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# CPUTime: < 1 min 
+#
+# Documentation: Bc decay to J/psi (mu mu) Ds*+ (pi pi pi) with ++/-- decay product helicities, with Dalitz decay model for D_s+ decay  
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Nikita Beliy
+# Email: nikita.beliy@cern.ch
+# Date: 20160117
+#
+#
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi    MyJ/psi
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+ChargeConj MyD_s+     MyD_s-
+#
+Decay B_c+sig
+  1.000    MyJ/psi    MyD_s*+                           PHOTOS SVV_HELAMP 1.0 0.0 0.0 0.0 1.0 0.0 ;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyD_s*+
+  0.94200  MyD_s+      gamma                            PHOTOS VSP_PWAVE ;
+  0.05800  MyD_s+      pi0                              PHOTOS VSS ;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyJ/psi
+  1.000    mu+        mu-       PHOTOS VLL ;
+Enddecay
+#
+Decay MyD_s+
+  1.000        pi+        pi-        pi+             D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End
+#

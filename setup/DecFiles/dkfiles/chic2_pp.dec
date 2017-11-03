@@ -1,0 +1,23 @@
+# EventType: 28102052
+#
+# Descriptor: [chi_c2 -> p+ p~-]
+#
+# NickName: chic2_pp
+#
+# Cuts: None
+#
+# Documentation: chi_c2(1P) particle gun with decay to p+ p~-.  chi_c2(1P)
+# momentum sampled from pt-pz distribution generated with SuperCHIC.
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Scott Stevenson
+# Email: scott.stevenson@cern.ch
+# Date: 20140212
+
+Decay chi_c2sig
+    1.00000    p+    anti-p-    PHSP;
+Enddecay
+
+End

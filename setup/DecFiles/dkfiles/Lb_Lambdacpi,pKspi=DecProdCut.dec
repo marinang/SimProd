@@ -1,0 +1,39 @@
+# EventType: 15100009
+# NickName: Lb_Lambdacpi,pKspi=DecProdCut
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ Ks) pi-]cc
+#
+# Documentation: Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+#
+# Cuts: DaughtersInLHCb
+#
+# Responsible:  Luigi Li Gioi
+# Email: luigi.li.gioi@cern.ch
+#
+# Tested: Yes
+# Date: 20111020
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+Alias      MyKs       K_S0
+ChargeConj MyKs       MyKs
+
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        pi-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000    p+      MyKs              PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyKs
+  1.000   pi+     pi-         PHSP;
+Enddecay
+#
+End
+#

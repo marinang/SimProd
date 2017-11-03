@@ -1,0 +1,47 @@
+# EventType: 12103404
+#
+# Descriptor: [B+ -> (rho(770)+ -> pi+ (pi0 -> gamma gamma)) (rho(770)0 -> pi+ pi-)]cc
+#
+# NickName: Bu_rho+rho0=eqPol,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: equal polarization, daughters in acceptance, pi0 forced into gamma gamma
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Jason Emory Andrews
+# Email: jea@umd.edu
+# Date: 20151020
+# CPUTime: < 1 min
+#
+Alias      Mypi0  pi0
+ChargeConj Mypi0  Mypi0
+Alias      Myrho+ rho+
+Alias      Myrho- rho-
+ChargeConj Myrho+ Myrho-
+Alias      Myrho0 rho0
+ChargeConj Myrho0 Myrho0
+#
+Decay B+sig
+  1.000     Myrho+     Myrho0            SVV_HELAMP 0.8121 1.39 0.57735 0. 0.08462 -0.74;
+Enddecay
+Decay B-sig
+  1.000     Myrho-     Myrho0            SVV_HELAMP 0.8121 1.39 0.57735 0. 0.08462 -0.74;
+Enddecay
+#
+Decay Myrho+
+  1.000     pi+        Mypi0             VSS;
+Enddecay
+CDecay Myrho-
+#
+Decay Myrho0
+  1.000     pi+        pi-               VSS;
+Enddecay
+#
+Decay Mypi0
+  1.000     gamma      gamma             PHSP;
+Enddecay
+#
+End

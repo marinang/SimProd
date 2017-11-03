@@ -1,0 +1,107 @@
+# EventType: 13784200
+#
+# Descriptor: {[[B_s0]nos => (D_s*- => D_s- gamma) nu_e e+]cc, [[B_s0]os => (D_s*+ => D_s+ gamma) anti_nu_e e-]cc}
+#
+# NickName: Bs_Dsenu=cocktail,hqet2,DseInAcc
+#
+# Cuts: ListOfDaughtersInLHCb
+#
+# CPUTime:  1 min
+#
+# InsertPythonCode:
+#
+# from Configurables import Generation, SignalRepeatedHadronization, ListOfDaughtersInLHCb
+# Generation().addTool( SignalRepeatedHadronization )
+# Generation().SignalRepeatedHadronization.addTool( ListOfDaughtersInLHCb ) 
+# Generation().SignalRepeatedHadronization.ListOfDaughtersInLHCb.DaughtersPIDList = [ 431 , 11 ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Sum of D(*(*))_s e nu_mu and D(*(*))_s e nu_tau, includes resonances in Ds decay
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: William Sutcliffe
+# Email: william.lawrence.sutcliffe@.cern.ch
+# Date: 20140417
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      MyD_s1+    D_s1+
+Alias      MyD_s1-    D_s1-
+ChargeConj MyD_s1-    MyD_s1+
+#
+Alias      MyD'_s1+   D'_s1+
+Alias      MyD'_s1-   D'_s1-
+ChargeConj MyD'_s1-   MyD'_s1+
+#
+Alias      MyD_s0*+   D_s0*+
+Alias      MyD_s0*-   D_s0*-
+ChargeConj MyD_s0*+   MyD_s0*-
+#
+Alias      Mytau+     tau+
+Alias      Mytau-     tau-
+ChargeConj Mytau+     Mytau-
+#
+Decay B_s0sig
+  #such that the Ds*/Ds = 2.42 and the Ds**/(AllDs) = 0.172
+  0.0210   MyD_s-     e+    nu_e      PHOTOS  HQET2 1.17 1.074;
+  0.0510   MyD_s*-    e+    nu_e       PHOTOS  HQET2 1.16 1.37 0.845 0.921;
+  0.0070   MyD_s0*-   e+    nu_e       PHOTOS  ISGW2;
+  0.0040   MyD_s1-    e+    nu_e       PHOTOS  ISGW2;
+  0.0040   MyD'_s1-   e+    nu_e       PHOTOS  ISGW2;
+  # correct for the fact that we force tau -> e anti_nu_e nu_tau (17.85%)
+  0.00142  MyD_s-     Mytau+   nu_tau    PHOTOS ISGW2;
+  0.00279  MyD_s*-    Mytau+   nu_tau    PHOTOS ISGW2;
+  0.00032  MyD'_s1-   Mytau+   nu_tau    PHOTOS ISGW2;
+  0.00032  MyD_s0*-   Mytau+   nu_tau    PHOTOS ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+  0.055     K+    K-     pi+          PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.942   MyD_s+  gamma               PHOTOS VSP_PWAVE;
+  0.058   MyD_s+  pi0                 PHOTOS VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s1+
+  0.71   MyD_s*+ pi0                  PHOTOS PHSP;
+  0.033  MyD_s+  pi+ pi-              PHOTOS PHSP;
+  0.017  MyD_s+  pi0 pi0              PHOTOS PHSP;
+Enddecay
+CDecay MyD_s1-
+#
+Decay MyD_s0*+
+  0.900   MyD_s+   pi0                 PHOTOS PHSP;
+  0.050   MyD_s*+  gamma               PHOTOS PHSP;
+  0.033   MyD_s+   pi+ pi-             PHOTOS PHSP;
+  0.017   MyD_s+   pi0 pi0             PHOTOS PHSP;
+Enddecay
+CDecay MyD_s0*-
+#
+Decay MyD'_s1+
+  0.480   MyD_s0*+ pi0                PHOTOS PHSP;
+  0.180   MyD_s+   gamma              PHOTOS PHSP;
+  0.043   MyD_s+   pi+ pi-            PHOTOS PHSP;
+  0.022   MyD_s+   pi0 pi0            PHOTOS PHSP;  
+Enddecay
+CDecay MyD'_s1-
+#
+Decay Mytau+
+  0.1731     e+  nu_e   anti-nu_tau  PHOTOS  TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

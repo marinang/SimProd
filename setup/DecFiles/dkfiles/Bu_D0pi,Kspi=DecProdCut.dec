@@ -1,0 +1,38 @@
+# EventType: 12163511
+#
+# Descriptor: [B+ -> (D~0 -> (KS0 -> pi+ pi-) pi0) pi+]cc
+#
+# NickName: Bu_D0pi,Kspi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K0s forced into pi+ pi-, D0 forced into K0s pi0, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Aurelien Martens
+# Email: aurelien.martens@cern.ch
+# Date: 20120920
+#
+Alias MyD0        D0
+Alias Myanti-D0   anti-D0
+Alias myK_S0  K_S0
+ChargeConj        MyD0       Myanti-D0
+ChargeConj myK_S0 myK_S0
+##
+Decay B+sig
+1.000     Myanti-D0  pi+               PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+1.000     myK_S0 pi0       PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay myK_S0
+1.000     pi+  pi-                      PHSP;
+Enddecay
+#
+End

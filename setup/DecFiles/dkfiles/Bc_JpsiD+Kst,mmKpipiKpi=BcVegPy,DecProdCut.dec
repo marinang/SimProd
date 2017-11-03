@@ -1,0 +1,52 @@
+# EventType: 14177020
+# 
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu-) (D+ -> K- pi+ pi+) (K*(892)0 -> K+ pi-)]cc
+# 
+# NickName: Bc_JpsiD+Kst,mmKpipiKpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Bc decay to J/psi (mu mu) D+ (K- pi+ pi+) K* decay. Charged daughters in the acceptance 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Yiming Li
+# Email: yiming.li@cern.ch
+# Date: 20150107
+#
+Alias      MyJ/psi     J/psi
+ChargeConj MyJ/psi     MyJ/psi
+Alias      MyD+       D+
+Alias      MyD-       D-
+ChargeConj MyD+       MyD-
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj MyK*0       Myanti-K*0
+#
+Decay B_c+sig
+  1.000  MyJ/psi    MyD+  MyK*0   PHSP ;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000  mu+        mu-            PHOTOS VLL ;
+Enddecay
+#
+Decay MyD+
+  1.000  K- pi+ pi+                D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+Decay MyK*0
+  1.000  K+         pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+#

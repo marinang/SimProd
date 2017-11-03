@@ -1,0 +1,25 @@
+# $Id: incl_b=DiMuon,Both,p3GeV.dec 89808 2010-10-12 10:17:29Z robbep $
+#
+# EventType: 10012004
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b=DiMuon,Both,p3GeV
+# 
+# FullEventCuts: DiLeptonInAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# ExtraOptions: DiMuonBothSignP3GeV
+# 
+# Documentation: Di-muon filter, no sign requirement, min P 3GeV for both, i
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Thomas BLAKE
+# Email: tblake@cern.ch
+# Date:   20090910
+#
+End
+#

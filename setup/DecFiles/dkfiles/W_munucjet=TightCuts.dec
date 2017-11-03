@@ -1,0 +1,36 @@
+# EventType: 42971001
+#
+# Descriptor: pp -> [W+ -> mu+ nu_mu]cc +c-jet ... 
+#
+# NickName: W_munucjet=TightCuts
+#
+# Cuts: None
+#
+# FullEventCuts: LoKi::FullGenEventCut/HiggsTypeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "HiggsTypeCut" )
+# tracksInAcc = Generation().HiggsTypeCut
+# tracksInAcc.Code = " ((count ( isGoodLeptonW ) >0) & (count ( isGoodCharm)>0)) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#     , "isGoodCharm     = ((  'W+' == GABSID ) & GINTREE( GLEPTON & ( GTHETA < 400.0*mrad ) & (GPT > 4*GeV)))"
+#    , "isGoodLeptonW   = ((  'c' == GABSID ) & GINTREE( GCHARM & ( GTHETA < 400.0*mrad ) & (GPT > 0*GeV)))"
+#    ]
+# EndInsertPythonCode
+#
+# ExtraOptions: Wmunucjet
+#
+# Documentation: 1 lepton with pT > 4 GeV 
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Albert Bursche
+# Email: bursche@cern.ch
+# Date: 20120605
+#
+End
+#
+

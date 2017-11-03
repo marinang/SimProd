@@ -1,0 +1,36 @@
+# EventType: 13114008
+#
+# Descriptor: [B_s0 -> (f_0(980) -> pi+ pi-) mu+ mu-]cc
+#
+# NickName: Bs_f0mumu,pipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B_s0 -> (f_0(980) -> pi+ pi-) mu+ mu- (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Alias Myf_0 f_0
+ChargeConj Myf_0 Myf_0
+#
+Decay B_s0sig
+ 1.0  Myf_0 mu+ mu- PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myf_0
+ 1.0  pi+ pi- PHSP;
+Enddecay
+
+End
+#

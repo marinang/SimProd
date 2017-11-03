@@ -1,0 +1,44 @@
+# EventType: 12165081
+# 
+# Descriptor:  [B+ -> (D*(2010)- -> (D~0 -> K+ pi-) pi- ) K+ pi+ ]cc
+# 
+# NickName: Bu_Dst-K+pi+,D0pi-,Kpi=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D*- forced to D0 pi-, decay products in acceptance
+# Generated flat in the square Dalitz plot 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Donal Hill
+# Email: donal.hill@cern.ch
+# Date: 20140219
+#
+#
+
+Alias      MyD0   D0
+Alias      Myanti-D0   anti-D0
+ChargeConj MyD0   Myanti-D0
+Alias MyD*- D*-
+Alias MyD*+ D*+
+ChargeConj MyD*+ MyD*-
+#
+Decay B+sig
+1.000      MyD*-    K+    pi+                FLATSQDALITZ; 
+Enddecay
+CDecay B-sig
+#
+Decay MyD*-
+1.000    Myanti-D0  pi-                        VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myanti-D0
+  1.000        K+   pi-                       PHSP;
+Enddecay
+CDecay MyD0
+#
+End

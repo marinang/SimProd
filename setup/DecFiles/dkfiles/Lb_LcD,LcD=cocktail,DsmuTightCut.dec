@@ -1,0 +1,166 @@
+# EventType: 15998002
+#
+# Descriptor: [[Lambda_b0] ==> (Lambda_c(2595)+ -> (Lambda_c+ -> (Lambda0 -> p+ pi-) mu+ nu_mu) pi+ pi-) (D_s*- -> (D_s- -> K+ K- pi-))]cc
+#
+# NickName: Lb_LcD,LcD=cocktail,DsmuTightCut
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = "[Lambda_b0 ==> ^((Charm) -> ^mu+ nu_mu ... ) ^(D_s- -> ^K- ^K+ ^pi-) {X} {X} {X} {X} {X} {X} {X} ]CC"
+# tightCut.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import mrad" ,
+# "FilterD = GNINTREE (GCHARM, HepMC.parents)",
+# "FromD   = 1 == FilterD",
+# "BCut = (GTHETA < 400.0*mrad)"
+#
+#]
+#tightCut.Cuts    =    {
+# '[mu+]cc'       : "FromD",
+# '[Lambda_b0]cc' : "BCut"
+#}
+#
+# EndInsertPythonCode
+#
+# Documentation: Sum of Lambda_b0 decaying to two D mesons or one Lc and one D, one charm decaying semileptonically. Filtered for a final state with Lcmu.
+# 		 For background study of Lb2LcmunuX modes
+#
+# EndDocumentation
+#
+# CPUTime: < 4min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Scott Ely
+# Email: seely@syr.edu
+# Date:   20160621
+#
+Alias	     MyD+		D+
+Alias	     MyD-		D-
+ChargeConj   MyD+		MyD-
+#
+Alias	     MyD*+		D*+
+Alias	     MyD*-		D*-
+ChargeConj   MyD*+		MyD*-
+#
+Alias        MyD_s+		D_s+
+Alias	     MyD_s-		D_s-		
+ChargeConj   MyD_s+		MyD_s-		
+#
+Alias	     MyD_s1+		D_s1+
+Alias	     MyD_s1-		D_s1-		
+ChargeConj   MyD_s1+		MyD_s1-
+#
+Alias        MyD_s*+		D_s*+
+Alias	     MyD_s*-		D_s*-		
+ChargeConj   MyD_s*+		MyD_s*-
+#
+Alias	     MyD_s0*+		D_s0*+
+Alias	     MyD_s0*-		D_s0*-
+ChargeConj   MyD_s0*+		MyD_s0*-
+#
+Alias	     MyLambda_c+	Lambda_c+
+Alias	     MyLambda_c-	anti-Lambda_c-
+ChargeConj   MyLambda_c+	MyLambda_c-
+#
+Alias	     MyLambda_c(2593)+	Lambda_c(2593)+
+Alias	     MyLambda_c(2593)-	anti-Lambda_c(2593)-
+ChargeConj   MyLambda_c(2593)+	MyLambda_c(2593)-
+#
+Alias	     MyLambda_c(2625)+	Lambda_c(2625)+
+Alias	     MyLambda_c(2625)-	anti-Lambda_c(2625)-
+ChargeConj   MyLambda_c(2625)+	MyLambda_c(2625)-
+#
+Alias	     MyLambda0		Lambda0
+Alias	     MyAntiLambda0	anti-Lambda0
+ChargeConj   MyLambda0		MyAntiLambda0
+#
+Decay Lambda_b0sig
+ 0.01100	MyLambda_c+		MyD_s-	PHSP;
+ 0.00740	MyLambda_c(2593)+	MyD_s-	PHSP;
+ 0.00800	MyLambda_c+		MyD_s*-	PHSP;
+ 0.01770	MyLambda_c(2593)+	MyD_s*-	PHSP;
+
+ 0.00600	MyLambda_c(2625)+	MyD_s-	PHSP;
+ 0.00760	MyLambda_c(2625)+	MyD_s*-	PHSP;
+ 
+ 0.00170	MyD_s-		MyD+		PHSP;
+ 0.00170	MyD*+		MyD_s-		PHSP;
+ 0.00170	MyD_s*-		MyD+		PHSP;
+ 0.00170	MyD_s*-		MyD*+		PHSP;
+
+ 0.00500	MyLambda_c+	MyD_s-		pi0	PHSP;
+ 0.00800	MyLambda_c+	MyD_s0*-		PHSP;
+ 0.00800	MyLambda_c+	MyD_s1-			PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyD+
+  0.05280       anti-K*0        mu+     nu_mu   PHOTOS ISGW2;
+  0.09200       anti-K0         mu+     nu_mu   PHOTOS ISGW2;
+  0.00277       anti-K_10       mu+     nu_mu   PHOTOS ISGW2;
+  0.00293       anti-K_2*0      mu+     nu_mu   PHOTOS ISGW2;
+  0.00292       K-   pi+        mu+     nu_mu   PHOTOS PHSP;
+  0.00120       anti-K0   pi0   mu+     nu_mu   PHOTOS PHSP;
+Enddecay
+CDecay MyD-
+#
+Decay MyD_s*+
+ 0.93500        MyD_s+  gamma           VSP_PWAVE;
+ 0.05800        MyD_s+  pi0             VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyLambda_c(2593)+
+ 0.67		MyLambda_c+	pi+	pi-	PHSP;
+Enddecay
+CDecay MyLambda_c(2593)-
+#
+Decay MyLambda0
+ 0.63900	p+	pi-	PHSP;
+ 0.00084	p+	pi-	gamma	PHSP;
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay MyLambda_c+
+ 0.0270		MyLambda0	mu+		nu_mu	PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+Decay MyLambda_c(2625)+
+ 0.67777        MyLambda_c+     pi+     pi-     PHSP;
+Enddecay
+CDecay MyLambda_c(2625)-
+#
+Decay MyD_s*+
+ 0.93500        MyD_s+  gamma           VSP_PWAVE;
+ 0.05800        MyD_s+  pi0             VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s+
+  0.00206       anti-K0 mu+     nu_mu            PHOTOS ISGW2;
+  0.00076       anti-K*0        mu+     nu_mu    PHOTOS ISGW2;
+  0.00556       mu+             nu_mu            PHOTOS SLN;
+  0.05450       K+      K-      pi+              PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s1+
+ 0.48000        MyD_s*+  pi0             PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+ 0.18000        MyD_s+   gamma           VSP_PWAVE;
+ 0.04300        MyD_s+   pi+    pi-      PHSP;
+ 0.0037         MyD_s0*+ gamma           PHSP;
+Enddecay
+CDecay MyD_s1-
+#
+Decay MyD_s0*+
+ 1.00000        MyD_s+  pi0     PHSP;
+Enddecay
+CDecay MyD_s0*-
+#
+End

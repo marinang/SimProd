@@ -1,0 +1,50 @@
+# EventType: 11104090
+#
+# Descriptor: [B0 -> K+ pi- pi+ pi-]cc
+#
+# NickName: Bd_Kpipipi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay   = "[^(B0 -> ^K+ ^pi- ^pi+ ^pi-)]CC"
+# tightCut.Preambulo += [
+#     "CS    = LoKi.GenChild.Selector",
+#     'inAcc = in_range ( 0.010 , GTHETA , 0.400 )' ,
+#     'm12 = GMASS(CS(1),CS(2))',
+#     'm34 = GMASS(CS(3),CS(4))',
+#     'm14 = GMASS(CS(1),CS(4))',
+#     'm23 = GMASS(CS(2),CS(3))']
+# tightCut.Cuts    =    {
+#     '[K+]cc'    : "inAcc",
+#     '[pi-]cc'   : "inAcc",
+#     '[B0]cc'    : "( ( (  m12  < 1.25 * GeV ) & ( m34 < 1.25 * GeV ) ) | ( ( m14 < 1.25 * GeV ) & ( m23 < 1.25 * GeV ) ) )" }
+# 
+# EndInsertPythonCode
+#
+# Documentation:
+# B0 decaying into K+ pi- pi+ pi-
+# Daughters in acceptance.
+# Maximum m(K\pi) and m(\pi\pi) of 1.25 GeV
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Maria Vieites Diaz
+# Email: maria.vieites.diaz@cern.ch
+# Date: 20150330
+# CPUTime: 5 min
+#
+Decay B0sig
+1.000 K+ pi- pi+ pi-  PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#
+

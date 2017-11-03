@@ -1,0 +1,35 @@
+# EventType: 13264022
+#
+# Descriptor: {[[B_s0]nos -> (D_s- => K+ K- pi-) pi+]cc, [[B_s0]os -> (D_s+ => K- K+ pi+) pi-]cc}
+#
+# NickName: Bs_Dspi,KKpiFLATLT=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# B_s0 decay to D_s- (KKpi) pi+ with Dalitz decay model for D_s- decay and flat lifetime
+# DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Paolo GAndini
+# Email: paolo.gandini@cern.ch
+# Date: 20130712
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Decay B_s0sig
+  1.000     MyD_s-     pi+      PHSPFLATLIFETIME 12;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s-
+  1.000        K-        K+        pi-             D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+End
+

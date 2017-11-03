@@ -1,0 +1,77 @@
+# EventType: 27265109
+#
+# Descriptor: [D*(2010)+ -> (D0 -> (KS0 -> pi+ pi-) K+ K-) pi+]cc
+#
+# NickName: Dst_D0pi,KSKK=nomix,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ D*(2010)+ -> ^( D0 => ^( KS0 => ^pi+ ^pi- ) ^K+ ^K- ) ^pi+]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter ',
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ',
+#     'goodD0    = ( GPT > 2000 * MeV) & (GTIME > 0.075 * millimeter) & (GFAEVX( abs( GVZ  ) , 0 )  <  8000.0 * millimeter ) ',
+#     'kaoncuts  = ( GNINTREE( ("K+" == GABSID ) & (GP > 1500 * MeV) , 4) > 1.5 )',
+#     'pioncuts  = ( GNINTREE( ("pi+" == GABSID ) & (GP > 1500 * MeV) , 4) > 1.5 )',
+#     'goodKS    = ( GFAEVX( abs( GVZ  ) , 0 )  <  800.0 * millimeter ) ',
+#     'goodDst   = ( (GPT > 1500 * MeV) & (GPT < (3 * GP / 10)) & (GPT > (7*GP/300 - 7/3)) ) ',
+#     'trigger   = ( GNINTREE( (("pi+" == GABSID) | ("K+" == GABSID)) & (GPT > 1400 * MeV ) & (GP > 2700 * MeV) , 4)  > 0.5) ',
+# ]
+# tightCut.Cuts      =    {
+#     '[pi+]cc'   : 'inAcc',
+#     '[K+]cc'    : 'inAcc',
+#     '[D0]cc'    : 'goodD0 & pioncuts & trigger',
+#     '[D*(2010)+]cc' : 'goodDst',
+#     'KS0'       : 'goodKS',
+#     }
+# EndInsertPythonCode
+#
+# Documentation: Inclusive production of D*+. D* is forced to decay to D0 pi+, then D0 to (Ks K+ K-)
+#    as D0MIXDALITZ model with no mixing, then Ks to (pi+ pi-) flat. Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Tomas Pilar
+# Email: t.pilar@warwick.ac.uk
+# Date: 20120911
+
+
+Alias my-D0      D0
+Alias my-anti-D0 anti-D0
+Alias my-K_S0    K_S0
+
+ChargeConj my-D0   my-anti-D0
+ChargeConj my-K_S0 my-K_S0
+
+# Mixing and CPV in mixing parameters.
+Define x    0.00
+Define y    0.00
+Define reqp 1.00
+Define imqp 0.00
+
+
+
+# Vector D*.
+Decay D*+sig
+1.0000    my-D0  pi+              VSS;
+Enddecay
+CDecay D*-sig
+
+Decay my-D0
+1.0000    my-K_S0  K+   K-        D0MIXDALITZ x y reqp imqp;
+Enddecay
+CDecay my-anti-D0
+
+Decay my-K_S0
+1.0000    pi+  pi-                PHSP;
+Enddecay
+
+End

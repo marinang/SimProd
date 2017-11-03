@@ -1,0 +1,81 @@
+# EventType: 13166103 
+# 
+# Descriptor: {[[B_s0]nos -> (D~0 => (KS0 -> pi+ pi-) pi+ pi-)(K*(892)~0 ->K- pi+) ]cc,[[B_s0]os ->(D0 => (KS0 -> pi+ pi-) pi+ pi-)(K*(892)0 ->K+ pi-) ]cc} 
+# 
+# NickName: Bs_D0Kst,KSpipi=B-SVS,D-PHSP,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation().SignalRepeatedHadronization.TightCut
+#tightCut.Decay = '^[Beauty-> ^(D~0 => ^(KS0 => ^pi+ ^pi-) ^pi+ ^pi-) ^(K*(892)~0 =>^K- ^pi+) ]CC'
+#tightCut.Preambulo += [
+#    'GVZ = LoKi.GenVertices.PositionZ()',
+#    'from GaudiKernel.SystemOfUnits import millimeter',
+#    'inAcc        = (in_range(0.005, GTHETA, 0.400))',
+#    'goodB0       = (GP > 50000 * MeV) & (GPT > 5000 * MeV) & (GTIME > 0.105 * millimeter)',
+#    'goodD0       = (GP > 20000 * MeV) & (GPT >  300 * MeV)',
+#    'goodKst      = (GP > 12000 * MeV) & (GPT >  800 * MeV)',
+#    'goodKS       = (GP >  6000 * MeV) & (GFAEVX(abs(GVZ),0) < 2400.0 * millimeter)',
+#    'goodDDaugPi  = (GNINTREE( ("pi+"==GABSID) & (GP > 1000 * MeV) & inAcc, 1) > 1.5)',
+#    'goodKsDaugPi = (GNINTREE( ("pi+"==GABSID) & (GP > 2000 * MeV) & inAcc, 1) > 1.5)',
+#    'goodKstPi  = (GNINTREE( ("pi+"==GABSID) & (GP > 2000 * MeV) & (GPT > 98 * MeV) & inAcc, 1) > 0.5)',
+#    'goodKstK   = (GNINTREE( ("K+"==GABSID) & (GP > 2000 * MeV) & (GPT > 98 * MeV) & inAcc, 1) > 0.5)',
+#]
+#tightCut.Cuts = {
+#    'Beauty'          : 'goodB0', 
+#    '[D0]cc'          : 'goodD0 & goodDDaugPi',
+#    '[K*(892)0]cc'    : 'goodKst & goodKstPi & goodKstK',
+#    '[KS0]cc'         : 'goodKS & goodKsDaugPi'
+#    }
+#EndInsertPythonCode
+#
+#
+# Documentation: K*0 forced to K+ pi-, D~0 forced to (Kshort-> pi pi) pi+ pi-, 
+#                Phase Space model for D decay,
+#                Only favoured mode for Bs->DK* (SVS model)
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Alexis Vallier
+# Email: vallier@lal.in2p3.fr
+# Date: 20130610
+#
+#
+Alias MyK*0      K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0 Myanti-K*0
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias MyKs K_S0
+ChargeConj MyKs MyKs
+#
+Decay B_s0sig
+  # SVS model
+  1.000    Myanti-K*0      Myanti-D0   SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+# PhaseSpace model in D0 decay
+Decay MyD0
+  1.000    MyKs       pi-         pi+          PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyK*0
+  1.000    K+         pi-         VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyKs
+  1.000    pi+        pi-         PHSP;
+Enddecay
+#
+End
+#

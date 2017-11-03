@@ -1,0 +1,99 @@
+# EventType: 12245402
+#
+# Descriptor: [B+ ==> K+ ([J/psi(1S), psi(2S), X(3872)] => mu+ mu-) (eta => pi+ pi- pi0)]cc
+#
+# NickName: Bu_JpsietaK,mm,pipipi=TightCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[ B+  ==>  ^K+ ^( (J/psi(1S) | psi(2S)) => ^mu+ ^mu-) ^(eta => ^pi+ ^pi- ^pi0) ]CC'
+# tightCut.Cuts      =    {
+#     'gamma'               : ' goodGamma ' ,
+#     '[mu+]cc'             : ' goodMuon  ' , 
+#     '[K+]cc'              : ' goodKaon  ' ,
+#     '[pi+]cc'             : ' goodPion  ' , 
+#     'J/psi(1S) | psi(2S)' : ' goodPsi   ' ,
+#     'eta'                 : ' goodEta   ' }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) & in_range(1.8, GETA, 5.2)            ' , 
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5                                            ' ,
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5                                            ' , 
+#     'inEcalHole = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 )' ,
+#     'goodMuon  = ( GPT > 490  * MeV ) & ( GP > 5.4 * GeV )             & inAcc             ' , 
+#     'goodKaon  = ( GPT > 140  * MeV ) & in_range(2.9*GeV, GP, 210*GeV) & inAcc             ' , 
+#     'goodPion  = ( GPT > 140  * MeV ) & in_range(2.9*GeV, GP, 210*GeV) & inAcc             ' , 
+#     'goodGamma = ( 0 < GPZ ) & ( 140 * MeV < GPT ) & inEcalX & inEcalY & ~inEcalHole       ' ,
+#     'goodPsi   = in_range ( 1.8 , GY , 4.5 )                                               ' ,
+#     'goodEta   = ( GPT > 590  * MeV )                                                      ' ]
+#
+#
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GPT/GeV" , 0.0 , 20.0 , 40  )
+# tightCut.YAxis = ( "GY     " , 2.0 ,  4.5 , 10  )
+#
+# EndInsertPythonCode
+#
+# Documentation: B+ -> psi eta K, where psi = J/psi or psi(2S) -> mu mu
+#                and eta -> pi pi pi. Includes radiative mode.
+#                The generator level cuts are applied to increase
+#                the statistics by a factor of ~3.5
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1min
+# Responsible: D Savrina
+# Email: Daria.Savrina@cern.ch
+# Date: 20170724
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Alias      MyPsi(2S)   psi(2S)
+ChargeConj MyPsi(2S) MyPsi(2S)
+#
+Alias      MyPsi1(2S)   psi(2S)
+ChargeConj MyPsi1(2S) MyPsi1(2S)
+#
+Alias      MyX3872    X_1(3872)
+ChargeConj MyX3872    MyX3872
+#
+Alias       MyEta    eta
+ChargeConj  MyEta    MyEta
+#
+Decay B+sig
+  0.425     MyJ/psi     MyEta K+                   PHSP;
+  0.050     MyPsi1(2S)        K+                   SVS;
+  0.025     MyX3872           K+                   SVS;
+  0.500     MyPsi(2S)   MyEta K+                   PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MyPsi(2S)
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MyPsi1(2S)
+  1.000     MyJ/psi    MyEta              PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0; #[Reconstructed PDG2011];
+Enddecay
+#
+Decay MyX3872
+  1.000     MyJ/psi    MyEta              PHSP;
+Enddecay
+#
+Decay MyEta
+  1.000         pi-         pi+          pi0        ETA_DALITZ;
+Enddecay
+End
+

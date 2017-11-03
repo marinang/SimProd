@@ -1,0 +1,40 @@
+# EventType: 12123433
+#
+# Descriptor: [B+ -> (rho+ -> pi+ pi0) e+ e-]cc
+#
+# NickName: Bu_rhoee,pipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ -> (rho+ -> pi+ pi0) e+ e- (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Alias Myrho+ rho+
+Alias Myrho- rho-
+ChargeConj Myrho+ Myrho-
+#
+Decay B+sig
+ 1.0     Myrho+       e+    e- PHOTOS PHSP;
+Enddecay
+Decay B-sig
+ 1.0     Myrho-       e+    e- PHOTOS PHSP;
+Enddecay
+#
+Decay Myrho+
+ 1.0 pi+ pi0 VSS; 
+Enddecay
+CDecay Myrho-
+#
+End
+#

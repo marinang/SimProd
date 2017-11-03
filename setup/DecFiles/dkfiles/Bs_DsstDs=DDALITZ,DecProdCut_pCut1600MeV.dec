@@ -1,0 +1,52 @@
+# EventType: 13296206
+#
+# Descriptor: [B_s0 -> (D*_s+ -> (pi0,Gamma) (D_s+ -> K+ K- pi+)) (D_s- => K+ K- pi-)]cc
+#
+# NickName: Bs_DsstDs=DDALITZ,DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Bs0 -> Ds*Ds with Ds decays via D_Dalitz
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Justin Garofoli
+# Email: justing@physics.syr.edu
+# Date: 20111013
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+ChargeConj MyD_s+     MyD_s-
+
+# ---------------
+# Decay of the Bs
+# ---------------
+Decay B_s0sig
+  1.000     MyD_s*+     MyD_s-      SVS;
+Enddecay
+CDecay anti-B_s0sig
+
+# -----------------
+# Decay of the Ds*+
+# -----------------
+Decay MyD_s*+
+  0.942     MyD_s+  gamma      VSP_PWAVE;
+  0.058     MyD_s+  pi0        VSS;
+Enddecay
+CDecay MyD_s*-
+
+# ---------------
+# Decay of the Ds
+# ---------------
+Decay MyD_s+
+  1.0     K+         K-        pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+End

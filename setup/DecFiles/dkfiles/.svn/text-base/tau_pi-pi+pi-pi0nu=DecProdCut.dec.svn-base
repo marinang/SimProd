@@ -1,0 +1,33 @@
+# EventType: 31503410
+#
+# Descriptor: [tau- -> pi- pi+ pi- (pi0 -> gamma gamma) nu_tau]cc
+#
+# NickName: tau_pi-pi+pi-pi0nu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Tau lepton decay in 3 pions and a pi0 with a phasespace model.
+# pi0 forced to gamma gamma and decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# Tested: Yes
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date:   20110414
+#
+Alias      Mypi0      pi0
+ChargeConj Mypi0      Mypi0
+#
+Decay tau-sig
+1.000   nu_tau   pi-   pi+   pi-    Mypi0    PHSP;
+Enddecay
+CDecay tau+sig
+#
+#
+Decay Mypi0
+1.000   gamma   gamma    PHSP;
+Enddecay
+#
+End

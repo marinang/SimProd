@@ -1,0 +1,24 @@
+# EventType: 13100211 
+#
+# Descriptor: {[B_s0 -> gamma gamma]cc}
+#
+# NickName: Bs_gammagamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for Bs -> gamma gamma 
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Sean Benson
+# Email:  sean.benson@cern.ch
+# Date: 20140320
+# Date: 20140320
+# CPUTime:< 1 min
+#
+Decay B_s0sig
+	1.000	gamma	gamma	PHSP;
+Enddecay
+CDecay anti-B_s0sig
+End

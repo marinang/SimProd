@@ -1,0 +1,40 @@
+# EventType: 28102062
+#
+# Descriptor: eta_c(1S) -> p+ p~- 
+#
+# NickName: incl_etac,pp=Pt0.9GeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ExtraOptions: etac
+#
+# InsertPythonCode: 
+# from Configurables import LoKi__GenCutTool as GenCutTool 
+# #
+# Generation().SignalPlain.addTool( GenCutTool , 'TightCut' ) 
+# Generation().SignalPlain.TightCut.Decay = "eta_c(1S) => ^p+ ^p~-"
+# Generation().SignalPlain.TightCut.Cuts = {
+#     'p+'  : ' ( GPT > 0.9 * GeV ) & inAcc ',
+#     'p~-' : ' ( GPT > 0.9 * GeV ) & inAcc '
+#     }
+# Generation().SignalPlain.TightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ]
+# EndInsertPythonCode
+#
+# Documentation: etac decay to p+ p- with phase space model, daughters in accpetance, and both proton PT>0.9 GeV
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jibo He
+# Email: Jibo.He@cern.ch
+# Date: 20120524
+#
+#
+Decay eta_csig
+  1.000         p+        anti-p-        PHSP;
+Enddecay
+#
+End
+#

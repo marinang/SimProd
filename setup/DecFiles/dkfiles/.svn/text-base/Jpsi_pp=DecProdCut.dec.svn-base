@@ -1,0 +1,24 @@
+# EventType: 24102000
+#
+# Descriptor: J/psi(1S) -> p+ p- 
+#
+# NickName: Jpsi_pp=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Jpsi decay to p+ p- with phase space model, daughters in accpetance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Sergey Barsuk
+# Email: sergey.barsuk@cern.ch
+# Date: 20110909
+#
+#
+Decay J/psisig
+  1.000         p+        anti-p-        PHSP;
+Enddecay
+#
+End
+#

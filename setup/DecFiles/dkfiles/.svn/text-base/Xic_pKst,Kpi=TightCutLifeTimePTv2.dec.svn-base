@@ -1,0 +1,149 @@
+# EventType: 25103033
+#
+# Descriptor: [Lambda_c+ -> (K*(892)~0 -> K- pi+) p+]cc 
+#
+# NickName: Xic_pKst,Kpi=TightCutLifeTimePTv2
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Decay file for Lambda_c+ -> p+ K*(892)~0.
+# K*(892)~0 forced to K- pi+
+# v2 used more loose TAU and PT cuts
+# Instead of Xi_c+  will be used the Lambda_c+
+#  with the corrected mass  M=2468
+#
+# ParticleValue: "Lambda_c+  62  4122  1.0  2.468 4.400000e-013 Lambda_c+  4122  0","Lambda_c~-  63 -4122 -1.0  2.468 4.400000e-013  anti-Lambda_c-  -4122   0."
+
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation()
+# signal     = generation.SignalPlain
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[Lambda_c+ ==>  ^p+ ^(K*(892)~0 ->^K- ^pi+)]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity ()               ' ,
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack    =  ( GPT > 300. * MeV ) & ( GP  > 3.0 * GeV )   ' ,
+#     'goodTrack    =  inAcc & inEta & fastTrack                   ' ,
+#     'longLived    =  150. * micrometer < GTIME                    ' ,
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )         ' ,
+#     'goodLc       =  inY & longLived     & ( GPT > 2.0 * GeV )   ' ,
+#     'Bancestors   =  GNINTREE ( GBEAUTY , HepMC.ancestors )      ' ,
+#     'notFromB     =  0 == Bancestors                             ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[Lambda_c+]cc'  : 'goodLc & notFromB ' ,
+#     '[K+]cc'         : 'goodTrack ' ,
+#     '[pi+]cc'        : 'goodTrack ' ,
+#     '[p+]cc'         : 'goodTrack & ( GP > 9. * GeV ) '
+#     }
+# EndInsertPythonCode
+#
+
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Yury Shcheglov
+# Email: Yury.Shcheglov@cern.ch
+# Date: 20140108
+#
+#
+
+Alias MyK*0      K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0 Myanti-K*0
+
+#
+Decay  Lambda_c+sig
+1.00000  p+ Myanti-K*0             PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+
+Decay Myanti-K*0
+  1.000    K-       pi+         VSS;
+Enddecay
+CDecay MyK*0
+#
+##### Overwrite forbidden decays
+Decay Lambda_c(2593)+
+  0.096585366 Sigma_c++ pi-                                   PHSP; 
+  0.096585366 Sigma_c0 pi+                                    PHSP; 
+  0.000000000 Lambda_c+ pi+     pi-                           PHSP;
+  0.096585366 Sigma_c+ pi0                                    PHSP;
+  0.000000000 Lambda_c+ pi0     pi0                           PHSP; 
+  0.000000000 Lambda_c+ gamma                                 PHSP; 
+  0.240000000 Sigma_c*++ pi-                                  PHSP; 
+  0.240000000 Sigma_c*0 pi+                                   PHSP; 
+Enddecay
+Decay anti-Lambda_c(2593)-
+  0.096585366 anti-Sigma_c-- pi+                              PHSP; 
+  0.096585366 anti-Sigma_c0 pi-                               PHSP; 
+  0.000000000 anti-Lambda_c- pi-     pi+                      PHSP; 
+  0.096585366 anti-Sigma_c- pi0                               PHSP; 
+  0.000000000 anti-Lambda_c- pi0     pi0                      PHSP;
+  0.000000000 anti-Lambda_c- gamma                            PHSP; 
+  0.240000000 anti-Sigma_c*-- pi+                             PHSP; 
+  0.240000000 anti-Sigma_c*0 pi-                              PHSP; 
+Enddecay
+#
+ChangeMassMin Sigma_c0 2.42976
+ChangeMassMin anti-Sigma_c0 2.42976
+ChangeMassMin Sigma_c*0 2.4261
+ChangeMassMin anti-Sigma_c*0 2.4261
+ChangeMassMin Sigma_c+ 2.42822
+ChangeMassMin anti-Sigma_c- 2.42822
+ChangeMassMin Sigma_c*+ 2.4875
+ChangeMassMin anti-Sigma_c*- 2.4875
+ChangeMassMin Sigma_c++ 2.42702
+ChangeMassMin anti-Sigma_c-- 2.42702
+ChangeMassMin Sigma_c*++ 2.4264
+ChangeMassMin anti-Sigma_c*-- 2.4264
+#
+Decay Sigma_c0
+  1.0000    p+ K- pi+  pi-                     PHSP;
+Enddecay
+Decay anti-Sigma_c0
+  1.0000    anti-p- K+ pi- pi+                     PHSP;
+Enddecay
+#
+Decay Sigma_c+
+  1.0000    p+ K- pi+  pi0                     PHSP;
+Enddecay
+Decay anti-Sigma_c-
+  1.0000    anti-p- K+ pi- pi0                     PHSP;
+Enddecay
+#
+Decay Sigma_c++
+  1.0000    p+ K- pi+  pi+                     PHSP;
+Enddecay
+Decay anti-Sigma_c--
+  1.0000    anti-p- K+ pi- pi-                     PHSP;
+Enddecay
+#
+Decay Sigma_c*0
+  1.0000    p+ K- pi+  pi-                     PHSP;
+Enddecay
+CDecay anti-Sigma_c*0
+#
+Decay Sigma_c*+
+  1.0000    p+ K- pi+  pi0                     PHSP;
+Enddecay
+CDecay anti-Sigma_c*-
+#
+Decay Sigma_c*++
+  1.0000    p+ K- pi+  pi+                     PHSP;
+Enddecay
+CDecay anti-Sigma_c*--
+####
+
+End
+#
+
+

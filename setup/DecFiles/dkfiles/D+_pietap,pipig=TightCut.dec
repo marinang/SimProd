@@ -1,0 +1,48 @@
+# EventType: 21103230
+#
+# Descriptor: [D- -> pi- (eta' -> pi+ pi- gamma)]cc 
+#
+# NickName: D+_pietap,pipig=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ D+ -> ^pi+ ( eta_prime -> ^pi+ ^pi- gamma )]CC'
+# tightCut.Cuts      =    {
+#     '[pi+]cc' : ' inAcc & piCuts',
+#     '[D+]cc'  : 'Dcuts' }
+# tightCut.Preambulo += [
+#     'inAcc  = in_range ( 0.005, GTHETA, 0.400 ) ' , 
+#     'piCuts = ( (GPT > 200 * MeV) & ( GP > 600 * MeV))',
+#     'Dcuts  = (GPT > 1000 * MeV)' ]
+# EndInsertPythonCode
+#
+# Documentation: D+ forced to decay to pi+ eta_prime, then eta_prime to (pi+ pi- gamma) with generator level cuts. 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Tom Hadavizadeh 
+# Email: tom.hadavizadeh@cern.ch
+# Date: 20150120
+#
+Alias      MyEta'        eta'
+ChargeConj MyEta'        MyEta'
+#
+Decay D-sig
+  1.00    pi- MyEta'           PHSP;
+Enddecay
+CDecay D+sig
+#
+Decay MyEta'
+  1.00    pi+  pi- gamma        PHSP;
+Enddecay
+#
+End
+#

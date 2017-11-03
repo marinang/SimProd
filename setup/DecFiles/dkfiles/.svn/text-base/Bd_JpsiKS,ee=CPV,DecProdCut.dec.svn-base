@@ -1,0 +1,46 @@
+# EventType: 11154100
+#
+# Descriptor: [B0 -> (KS0 -> pi+ pi-) (J/psi(1S) -> e+ e-) ]cc
+#
+# NickName: Bd_JpsiKS,ee=CPV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: CP violation (sin2beta), with decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Ramon Niet
+# Email: ramon.niet@cern.ch
+# Date: 20141030
+# CPUTime: < 1 min
+#
+# P(1) = deltaM = 0.502e12
+# P(2) = dg/g = 0
+# P(3) = |q/p| = 1
+# P(4) = arg(q/p) = -0.775
+# P(5) = |Af| = 1.0
+# P(6) = arg(Af) = 0.
+# P(7) = |Abarf| = -1.0 
+# P(8) = arg(Abarf) = 0.
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+Alias      MyKs     K_S0
+ChargeConj MyKs     MyKs
+#
+Decay B0sig
+  1.000    MyKs     MyJ/psi   SSD_CP 0.502e12 0.0 1.0 -0.775 1.0 0. -1.0 0.;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKs
+  1.000         pi+       pi-            PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         e+       e-            PHOTOS VLL;
+Enddecay
+End
+

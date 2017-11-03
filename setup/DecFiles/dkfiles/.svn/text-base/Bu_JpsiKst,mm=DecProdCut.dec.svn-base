@@ -1,0 +1,49 @@
+# EventType: 12145101
+#
+# Descriptor: [B+ -> (J/psi(1S) -> mu+ mu-) (K*+ -> K0S pi+)]cc
+#
+# NickName: Bu_JpsiKst,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: [B+ -> (J/psi(1S) -> mu+ mu-) (K*+ -> K0S pi+)]cc
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Ulrik Egede
+# Email: patrickowen22@gmail.com
+# Date: 20111013
+#
+Define PKHplus  0.159
+Define PKHzero  0.775
+Define PKHminus 0.612
+Define PKphHplus  1.563
+Define PKphHzero  0.0
+Define PKphHminus 2.712
+#
+Alias      MyJ/psi    J/psi
+Alias      MyK*+      K*+
+Alias      MyK*-      K*-
+Alias      MyKs       K_S0
+ChargeConj MyK*+      MyK*-
+ChargeConj MyJ/psi  MyJ/psi
+ChargeConj MyKs       MyKs
+#
+Decay B+sig
+1.000     MyJ/psi  MyK*+             SVV_HELAMP PKHplus PKphHplus PKHzero PKphHzero PKHminus PKphHminus;
+Enddecay
+Decay B-sig
+1.000     MyJ/psi  MyK*-             SVV_HELAMP PKHminus PKphHminus PKHzero PKphHzero PKHplus PKphHplus;
+Enddecay
+#
+Decay MyJ/psi
+1.000   mu+  mu-                       PHOTOS  VLL;
+Enddecay
+#
+Decay MyK*+
+1.000      MyKs  pi+                        VSS;
+Enddecay
+CDecay MyK*-
+#
+End

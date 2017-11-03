@@ -1,0 +1,66 @@
+# EventType: 13364217
+#
+# Descriptor: {[[B_s0]cc -> (D*_s- -> {gamma (D_s- => pi+ pi- pi-), pi0 (D_s- => pi+ pi- pi-)} K+)]cc}
+#
+# NickName: Bs_DsstK,pipipi=CPV,DDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 minute
+#
+# Documentation:
+# B_s0 decay to Ds*- (D_s- (KKpi) gamma/pi0 ) K+ with CPV in Bs0 decay and Dalitz decay model for D_s- decay.
+# Daughters in LHCb.
+#
+# P(1) = deltaM        = 17.757e12              (HFAG Fall 2014)
+# P(2) = -dg/g         = -0.122                 (HFAG Fall 2014, with constraints, dg=gH-gL in contrast to dg defined in SSD_CP code)
+# P(3) = |q/p|         = 1                      (no mixing CPV in Bs)
+# P(4) = arg(q/p)      = -0.0363                (CKMfitter, fit results as of Moriond14, arg(q/p)=phis=-2betas)
+# P(5) = |Af|          = 1                      (No direct measurements/predictions, set to 1 to ensure correct relations)
+# P(6) = arg(Af)       = 1.2776                 (=gamma_CKM+Pi, as for DsK)
+# P(7) = |Abarf|       = 0.37                   (=|lambda_f|, lambda_f = (q/p)*(Abarf/Af),gives correct relations)
+# P(8) = arg(Abarf)    = 0.1745                 (=delta, the strong phase difference)
+# P(9) = |Afbar|       = 0.37                   (=|lambda_f|, lambda_f = (q/p)*(Abarf/Af))
+# P(10)= arg(Afbar)    = 0.1745                 (=delta, the strong phase difference)
+# P(11)= |Abarfbar|    = 1                      (=|Af|, no CPT violation)
+# P(12)= arg(Abarfbar) = -1.2776                (=-gamma_CKM, this leads to correct relative phases)
+#
+# Using:
+#   gamma_CKM  = 1.2776           (CKMfitter, fit results as of Summer 2014, direct measurement 73.2 degrees)
+#   delta      = 0.1745           (=10.0 degrees, assuming a small strong phase difference)
+#   |lambda_f| = r_Dsk = 0.37     (expectation from CKM matrix elements, assume r_DsK=r_DsstK)
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes 
+# Responsible: A. Bertolin
+# Email: bertolin@pd.infn.it
+# Date: 20150415
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Decay B_s0sig
+1.000     MyD_s*-     K+      SSD_CP 17.757e12 -0.122 1.0 -0.0363 1.0 1.2776 0.37 0.1745 0.37 0.1745 1.0 -1.2776;
+Enddecay
+Decay anti-B_s0sig
+1.000     MyD_s*-     K+      SSD_CP 17.757e12 -0.122 1.0 -0.0363 1.0 1.2776 0.37 0.1745 0.37 0.1745 1.0 -1.2776;
+Enddecay
+#
+Decay MyD_s*-
+  0.942     MyD_s-       gamma        VSP_PWAVE;
+  0.058     MyD_s-       pi0          VSS;
+Enddecay
+CDecay MyD_s*+
+#
+Decay MyD_s-
+  1.000        pi+       pi-       pi-             D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+End
+#

@@ -1,0 +1,47 @@
+# EventType: 13134050
+# 
+# Descriptor: [B_s0 -> (J/psi(1S) -> pi+ pi-) (phi(1020) -> K+ K-)]cc
+# 
+# NickName: Bs_Jpsiphi,pipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, J/psi forced into pi+pi-, phi forced into K+,K-
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# CPUTime:< 1 min
+# Responsible: Matthew Needham
+# Email: Matthew.Needham@cern.ch
+# Date: 20150119
+#
+#
+Define betas -0.035
+Define Apara 0.480
+Define Azero 0.722
+Define Aperp 0.499
+Define pApara 3.30
+Define pAzero 0.0
+Define pAperp 3.07
+#
+Alias MyPhi phi
+Alias MyJpsi J/psi
+ChargeConj MyPhi MyPhi
+ChargeConj MyJpsi MyJpsi
+#
+Decay B_s0sig
+  1.000   MyJpsi    MyPhi     PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp; 
+Enddecay
+Decay anti-B_s0sig
+1.000      MyJpsi   MyPhi     PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp;
+Enddecay
+#
+Decay MyPhi
+  1.000 K+ K- VSS;
+Enddecay
+Decay MyJpsi
+  1.000 pi+ pi- VSS;
+Enddecay
+End
+#

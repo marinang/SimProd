@@ -1,0 +1,48 @@
+# EventType: 11144015
+#
+# Descriptor: [B0 -> (J/psi(1S) -> mu+ mu-) (rho0 -> mu+ mu-)]cc
+#
+# NickName: B0_Jpsirho,4mu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#                Decay model is SVV_HELAMP.
+#                Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch
+# Date:  20140126
+#
+#
+Define Hp 0.159
+Define Hz 0.775
+Define Hm 0.612
+Define pHp 1.563
+Define pHz 0.0
+Define pHm 2.712
+#
+Alias      MyJ/psi    J/psi
+Alias      Myrho0      rho0
+ChargeConj Myrho0      Myrho0
+ChargeConj MyJ/psi    MyJ/psi
+#
+Decay B0sig
+  1.000         MyJ/psi   Myrho0     SVV_HELAMP Hp pHp Hz pHz Hm pHm;
+Enddecay
+Decay anti-B0sig
+  1.000         MyJ/psi   Myrho0     SVV_HELAMP Hm pHm Hz pHz Hp pHp;
+Enddecay
+#
+#
+Decay Myrho0
+  1.000        mu+        mu-               PHOTOS VLL;
+Enddecay
+Decay MyJ/psi
+  1.000        mu+        mu-               PHOTOS VLL;
+Enddecay
+#
+End

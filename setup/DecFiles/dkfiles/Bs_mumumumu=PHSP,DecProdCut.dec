@@ -1,0 +1,28 @@
+# EventType: 13114020 
+#
+# Descriptor: [B_s0 -> mu+ mu- mu+ mu-]cc
+#
+# NickName: Bs_mumumumu=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: the B_s0 -> mu^+ mu^- mu^+ mu^- decay in the phase space approach 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch
+# Date: 20111013
+#
+
+
+
+Decay B_s0sig
+   1.000   mu+  mu-  mu+  mu-   PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+

@@ -1,0 +1,48 @@
+# EventType: 12583001
+#
+# Descriptor: [B+ -> (My_anti-D0 -> X) X]cc
+#
+# NickName: Bu_D0enu,Kpi=cocktail,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Low mass background B+ -> D0[ K/pi X] X decays.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Luca Pescatore
+# Email: luca.pescatore@cern.ch
+# Date: 20150820
+# CPUTime: < 1 min
+#
+	
+Alias           My_D0           D0
+Alias           My_anti-D0      anti-D0
+ChargeConj      My_D0           My_anti-D0
+	
+# B+->D0 BR from PDG (then renormalised to 1)
+# B+ -> D0 e nu 0.02270
+# B+ -> D0 pi   0.00481
+# B+ -> D0 K    0.00037
+
+Decay B+sig
+0.17253         My_anti-D0     pi+              PHSP;
+0.01327         My_anti-D0     K+               PHSP;
+0.81420         My_anti-D0     e+ nu_e          PHOTOS  ISGW2;
+Enddecay
+CDecay B-sig
+
+# D0 BR from PDG (then renormalised to 1)
+# D0 -> K e nu 0.0355
+# D0 -> K e nu 0.0289
+# D0 -> K pi   0.0388
+
+Decay My_D0
+0.368        K+        pi-                    PHOTOS   PHSP;
+0.344        K+        e-      nu_e           PHOTOS   ISGW2;
+0.280        pi+       e-      nu_e           PHOTOS   ISGW2;
+Enddecay
+CDecay My_anti-D0
+	
+End

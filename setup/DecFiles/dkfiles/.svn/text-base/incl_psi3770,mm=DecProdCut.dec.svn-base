@@ -1,0 +1,23 @@
+# EventType: 28142070
+#
+# Descriptor: psi(3770) -> mu+ mu- 
+#
+# NickName: incl_psi3770,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: psi(3770) daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Yiming Li
+# Email: yiming.li@cern.ch
+# Date: 20130524
+#
+Decay psi(3770)sig
+  1.000         mu+        mu-        VLL;
+Enddecay
+#
+End
+#

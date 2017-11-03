@@ -1,0 +1,23 @@
+# EventType: 42971000
+#
+# Descriptor: pp -> [W+ -> mu+ nu_mu]cc +c-jet ... 
+#
+# NickName: W_munucjet
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 4*GeV LeptonIsFromMother true NumberOfbquarks -1
+# ExtraOptions: Wmunucjet
+#
+# Documentation: 1 lepton with pT > 4 GeV 
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Albert Bursche
+# Email: bursche@cern.ch
+# Date: 20111207
+#
+End
+#
+

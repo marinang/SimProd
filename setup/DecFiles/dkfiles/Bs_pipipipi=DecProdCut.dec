@@ -1,0 +1,25 @@
+# EventType: 13104070
+#
+# Descriptor: [B_s0 -> pi+ pi- pi+ pi-]cc
+#
+# NickName: Bs_pipipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance.
+# CPUTime: <1 min
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Tested: yes
+# Responsible: Marc Grabalosa
+# Email: mgrabalo@cern.ch
+# Date: 20141121
+#
+Decay B_s0sig
+  1.0000       pi+ pi-  pi+ pi-              PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End

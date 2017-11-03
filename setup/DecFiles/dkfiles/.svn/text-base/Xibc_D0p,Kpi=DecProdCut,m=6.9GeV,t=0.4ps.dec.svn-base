@@ -1,0 +1,45 @@
+# EventType: 16163060
+# 
+# Descriptor: [ Xi_bc+ -> (D0 -> K- pi+) p+ ]cc
+#
+# NickName: Xibc_D0p,Kpi=DecProdCut,m=6.9GeV,t=0.4ps
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# ParticleValue: " Xi_bc+ 532 5242 1.0 6.90000000 0.400000e-12 Xi_bc+ 5242 0.00000000", " Xi_bc~- 533 -5242 -1.0 6.90000000 0.400000e-12 anti-Xi_bc- -5242 0.00000000"
+#
+# Documentation: decay file of Xi_bc^+ -> (D0 -> K- pi+) p+ 
+# using dedicated GenXicc package for production, cuts with XiccDaughtersInLHCb, phase space decay model used. 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: S. Blusk
+# Email: sblusk@syr.edu
+# Date: 20160622
+#
+
+#Alias      Xi_bc0sig         Xi_bc0
+#Alias      anti-Xi_bc0sig    anti-Xi_bc0
+#ChargeConj Xi_bc0sig         anti-Xi_bc0sig
+
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+#
+Decay Xi_bc+sig
+  1.00   MyD0  p+                    PHSP;
+Enddecay
+CDecay anti-Xi_bc-sig
+#
+Decay MyD0
+  1.000        K-        pi+                    PHSP;
+Enddecay
+CDecay Myanti-D0
+
+End
+

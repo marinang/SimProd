@@ -1,0 +1,24 @@
+# EventType: 13104071
+#
+# Descriptor: [B_s0 -> p+ p~- pi+ pi-]cc
+#
+# NickName: Bs_pppipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Tested: yes
+# Responsible: Alessandro Pistone
+# Email: alessandro.pistone@cern.ch
+# Date: 20140123
+#
+Decay B_s0sig
+  1.0000       p+       anti-p-  pi+ pi-              PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End

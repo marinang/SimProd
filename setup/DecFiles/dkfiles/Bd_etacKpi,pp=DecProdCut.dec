@@ -1,0 +1,33 @@
+# EventType: 11134000
+# 
+# Descriptor: {[ B0 -> (eta_c(1S) -> p+ p~-) K+ pi-]cc}
+# 
+# NickName: Bd_etacKpi,pp=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: DecayProducts in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: yes
+# Responsible: Roberta Cardinale
+# Email: roberta.cardinale@ge.infn.it
+# Date: 20130925
+#
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+#
+Decay B0sig
+  1.000 Myetac K+ pi- PHSP;
+Enddecay
+Decay anti-B0sig
+  1.000 Myetac K- pi+ PHSP;
+Enddecay
+#
+Decay Myetac
+  1.000 p+ anti-p- PHSP; 
+Enddecay
+#
+End
+#

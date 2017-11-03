@@ -1,0 +1,37 @@
+# EventType: 14543006
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu-) mu+ nu_mu]cc
+#
+# NickName: Bc_Jpsimunu,mm=BcVegPy,ffEbert,DiLeptonInAcc
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: ChargedThetaMin 0. ChargedThetaMax 10. NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# FullEventCuts: DiLeptonInAcceptance 
+#
+# Documentation: Bc decay to Jpsi(to mu+ mu-), mu+ and nu_mu with form factor model by Ebert et al [PhysRevD.68.094020]. Radiative mode included. Dilepton in acceptance. The algorithm BcVegPy is weighted.
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Michele Veltri 
+# Email: michele.veltri@uniurb.it
+# Date: 20121211
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Decay B_c+sig
+  1.000         MyJ/psi   mu+   nu_mu   PHOTOS BC_VMN 2;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000         mu+       mu-           PHOTOS VLL;
+Enddecay
+#
+End
+
+

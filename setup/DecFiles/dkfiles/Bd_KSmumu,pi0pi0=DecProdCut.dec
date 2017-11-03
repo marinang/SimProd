@@ -1,0 +1,32 @@
+# EventType: 11112410
+#
+# Descriptor: [B0 -> (K_S0 -> pi0 pi0) mu+ mu-]cc
+#
+# NickName: Bd_KSmumu,pi0pi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Ks0 forced to pi0 pi0
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Sam Cunliffe
+# Email: sam.cunliffe@cern.ch
+# Date: 20140319
+#
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+#
+Decay B0sig
+  1.000        MyKs     mu+     mu-      BTOSLLBALL;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKs
+  1.000        pi0      pi0              PHSP;
+Enddecay
+#
+End
+#

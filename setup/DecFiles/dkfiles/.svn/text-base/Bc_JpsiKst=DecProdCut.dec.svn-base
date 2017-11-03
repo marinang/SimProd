@@ -1,0 +1,51 @@
+# EventType: 14545002
+#
+# Descriptor: [B_c+ -> (JPsi -> mu+ mu-) (K*+ -> (K_S0 -> pi+ pi-) pi+ )]cc
+#
+# NickName: Bc_JpsiKst=DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc+ to JPsi K*+, JPsi -> mumu, K*+ -> K_S0 -> pi+ pi-.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Christian Elsasser
+# Email: elsasser@cern.ch
+# Date: 20130214
+#
+
+Alias           MyK_S0          K_S0
+ChargeConj      MyK_S0          MyK_S0
+
+Alias           MyK*+           K*+
+Alias           MyK*-           K*-
+ChargeConj      MyK*+           MyK*- 
+
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+
+
+Decay B_c+sig
+  1.00000000    MyJ/psi       MyK*+                   SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000         mu+       mu-           PHOTOS VLL;
+Enddecay
+#
+Decay MyK*+
+  1.000000000   MyK_S0  pi+                        VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK_S0
+  1.00000000   pi+     pi-                                     PHSP;
+Enddecay
+#   
+End
+#

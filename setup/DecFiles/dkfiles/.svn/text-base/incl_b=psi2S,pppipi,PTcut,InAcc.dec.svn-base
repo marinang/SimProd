@@ -1,0 +1,47 @@
+# EventType: 10934011
+#
+# Descriptor: psi(2S) -> p+ p~- pi+ pi- 
+#
+# NickName: incl_b=psi2S,pppipi,PTcut,InAcc
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/b2psi2SFilter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2psi2SFilter" )
+# SignalFilter = Generation().b2psi2SFilter
+# SignalFilter.Code = " has(isB2ccTcuts)"
+# SignalFilter.Preambulo += [
+#  "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#  "inAcc = (in_range(  0.010 , GTHETA , 0.400 ))",
+#  "isB2cc = ((GDECTREE('(Beauty & LongLived) --> psi(2S) ...')))",
+#  "frompsi = 0 != GNINTREE('psi(2S)'== GABSID , HepMC.ancestors )",
+#  "ppcuts = (GINTREE( (('p+' == GID ) & (GPT > 250) & inAcc & frompsi) ) )",
+#  "pmcuts = (GINTREE( (('p~-' == GID ) & (GPT > 250) & inAcc & frompsi) ) )",
+#  "pipcuts = (GINTREE( (('pi+' == GID ) & (GPT > 200) & inAcc & frompsi) ) )",
+#  "pimcuts = (GINTREE( (('pi-' == GID ) & (GPT > 200) & inAcc & frompsi) ) )",
+#  "isB2ccTcuts = (isB2cc & ppcuts & pmcuts & pipcuts & pimcuts)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: b-psi2S decay to p p pi pi, keep only particles in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jingyi XU
+# Email: jingyi.xu@cern.ch
+# Date: 20170326
+#
+#
+Decay psi(2S)
+  1.000   p+   anti-p-  pi+   pi-     PHSP;
+Enddecay
+#
+End
+#
+

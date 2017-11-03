@@ -1,0 +1,36 @@
+# EventType: 10010035
+#
+# Descriptor: pp => [<Xb>]cc ...
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2KmuSSFilterPPTcuts
+
+#
+# CPUTime: 71 s (9.9 times the speed of a 2.8 GHz Xeon)
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2KmuSSFilterPPTcuts" )
+# SignalFilter = Generation().b2KmuSSFilterPPTcuts
+# SignalFilter.Code = " has(isB2KmuSSPPTcuts)"
+# SignalFilter.Preambulo += [
+#  "from GaudiKernel.SystemOfUnits import  GeV",
+#  "isB2KmuRawSS = (GBEAUTY & (GDECTREE('[(Beauty & LongLived) --> K+ mu+  ...]CC')))",
+# "isnotmuonfromKL  = ~(GBEAUTY & GDECTREE('[(Beauty & LongLived) --> ([KL0 -> mu+...]CC) ...]CC'))",
+#  "mucuts = (GINTREE ( (('mu-' == GABSID ) & (GP > 5 * GeV) &  (GPT > 1 * GeV)) ) )",
+#  "Kcuts = (GINTREE ( ( ('K+' == GABSID ) & (GP > 7 * GeV) & (GPT > 0.3 * GeV)) ) )",
+# "isB2KmuSSPPTcuts          = ( isB2KmuRawSS  & isnotmuonfromKL & mucuts & Kcuts)"
+#    ]
+# EndInsertPythonCode
+#
+# NickName: incl_b=KmuSS,PPTcuts,InAcc
+# Documentation: Inclusive Kmu events from b decays
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: hicheur@if.ufrj.br
+# Date: 20160302
+#
+End
+

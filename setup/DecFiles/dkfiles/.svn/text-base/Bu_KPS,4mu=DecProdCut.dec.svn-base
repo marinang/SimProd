@@ -1,0 +1,60 @@
+# EventType: 12115011
+#
+# Descriptor: [B+ -> K+ (A0 -> mu+ mu-)(Higgs'0 -> mu+ mu-)]cc
+#
+# NickName: Bu_KPS,4mu=DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# 
+# Documentation: File for the decay of Bs-meson to the scalar and pseudoscalar
+#                sgoldstinos Bu^+_ -> K+ (P -> mu+ mu+) (S -> mu+ mu-).
+#                For details see S.V.Demidov and D.S.Gorbunov, PRD85, 077701 (2012).
+#                i) Parameters of the pseudoscalar sgoldstino "P"
+#                   M_P     = 0.214 GeV;
+#                   TLIFE_P = 5.0*10^{-12} sec;
+#                   GAMMA_P = 1/TLIFE_P = 1.3*10^{-13} GeV;
+#                   ID_P    = H_30 and A0.
+#               ii) Parameters of the scalar sgoldstino "S"
+#                   M_S     = 3.0 GeV (large Br for this decay!);
+#                   TLIFE_S = 5.0*10^{-12} sec = TLIFE_P;
+#                   GAMMA_S = 1/TLIFE_S = 1.3*10^{-13} GeV.
+#                   ID_S    = H_20 and Higgs'0.
+# EndDocumentation
+#
+# ParticleValue: "H_20  88  35  0.0  3.0  5.0e-12  Higgs'0  35  0.0" , "H_30  89  36  0.0  0.214   5.0e-12   A0   36    0.0"
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch 
+# Date:   20140725
+# CPUTime: <1min
+
+#
+Alias      MySUSYP    A0
+Alias      MySUSYS    Higgs'0
+ChargeConj MySUSYP    MySUSYP
+ChargeConj MySUSYS    MySUSYS
+#
+#
+Decay B+sig
+  1.0000     K+  MySUSYP   MySUSYS  PHSP;
+Enddecay
+#
+Decay B-sig
+  1.0000     K-  MySUSYP   MySUSYS  PHSP;
+Enddecay
+#
+#
+Decay MySUSYP
+  1.000         mu+      mu-       SLL;             
+Enddecay
+#
+#
+Decay MySUSYS
+  1.000         mu+      mu-       SLL;             
+Enddecay
+#
+End
+#

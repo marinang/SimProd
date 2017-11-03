@@ -1,0 +1,75 @@
+# EventType: 12203212
+#
+# NickName: Bu_K2stgamma,Kpipi=mK1430,HighPtGamma,DecProdCut
+#
+# Descriptor: [ B+ -> (K_2*(1430)+ -> (X ->  K+ pi- pi+)) gamma ]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation().BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: B+->K_2*(1430)+ gamma decay, K_2*(1430)+ -> X -> K+pi+pi- decay, Decay products in acceptance, with gamma PT > 1.5
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email:  cedric.potterat@.cern.ch
+# Date: 20130809
+#
+
+Alias      MyK2*_1430_+   K_2*+ 
+Alias      MyK2*_1430_-   K_2*-
+ChargeConj MyK2*_1430_+   MyK2*_1430_-
+
+
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+
+Alias MyOmega omega
+ChargeConj MyOmega MyOmega
+
+#
+Decay B+sig
+  1.000        MyK2*_1430_+     gamma               HELAMP 1.0 0.0 1.0 0.0;
+
+Enddecay
+CDecay B-sig
+
+#
+
+#
+Decay MyK2*_1430_+
+  0.848            MyK*0        pi+                    TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+  0.1495           rho0         K+                     TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+  0.0025           MyOmega      K+                     TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK2*_1430_-
+
+#
+Decay MyK*0
+  1.000        K+        pi-                    VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+
+#
+Decay MyOmega
+  1.000        pi+        pi-                    VSS;
+Enddecay
+
+End
+#

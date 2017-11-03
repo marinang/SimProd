@@ -1,0 +1,34 @@
+# EventType: 11264030
+#
+# Descriptor: {[[B0]nos -> (D- => K+ K- pi-) pi+]cc, [[B0]os -> (D+ => K- K+ pi+) pi-]cc}
+#
+# NickName: Bd_D-pi+,KKpi
+#
+# Cuts: None
+#
+# Documentation:
+# B0 decay to D- (KKpi) pi+ with Dalitz decay model for D- decay.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Paul Szczypka
+# Email: paul.szczypka@{nospam}cern.ch
+# Date: 20110927
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+#
+Decay B0sig
+  1.000     MyD-      pi+          PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  1.000    K+        K-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End
+

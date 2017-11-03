@@ -1,0 +1,42 @@
+# EventType:   15174001
+#
+# Descriptor:  [Lambda_b0 -> D_s+(-> K+ K- pi+) mu-]cc
+#
+# NickName:    Lb_Dsmu,KKpi=phsp,DecProdCut
+#
+# Cuts:  DaughtersInLHCb
+#
+# Documentation:  Decay file for Lambda_b0 -> D_s+(-> K+ K- pi+) mu-
+#                 D_s+ forced to K+ K- pi+
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested:  yes
+# Responsible:  Oliver Grunberg
+# Email:  oliver.gruenberg@googlemail.com 
+# Date:    20111025
+#
+
+Alias MyDs+ D_s+
+Alias MyDs- D_s-
+
+ChargeConj MyDs+ MyDs-
+
+###################
+
+Decay Lambda_b0sig
+1.00000  MyDs+ mu-		PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+###################
+
+Decay MyDs+
+1.00000  K+ K- pi+		PHSP;
+Enddecay
+CDecay MyDs-
+
+###################
+
+
+End

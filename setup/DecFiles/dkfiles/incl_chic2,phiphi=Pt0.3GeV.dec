@@ -1,0 +1,45 @@
+# EventType: 28104053
+#
+# Descriptor: chi_c2(1P) -> ( phi(1020) -> K+ K- ) ( phi(1020) -> K+ K- ) 
+#
+# NickName: incl_chic2,phiphi=Pt0.3GeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode: 
+# from Configurables import LoKi__GenCutTool as GenCutTool 
+# #
+# Generation().SignalPlain.addTool( GenCutTool , 'TightCut' ) 
+# Generation().SignalPlain.TightCut.Decay = "chi_c2(1P) => ^( phi(1020) => ^K+ ^K-) ^( phi(1020) => ^K+ ^K- )"
+# Generation().SignalPlain.TightCut.Cuts = {
+#     'K+' : ' ( GPT > 0.3 * GeV ) & inAcc ',
+#     'K-' : ' ( GPT > 0.3 * GeV ) & inAcc '
+#     }
+# Generation().SignalPlain.TightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ]
+# EndInsertPythonCode
+#
+# Documentation: chi_c2 decay to phi phi, daughters in accpetance, and the four Kaons all with PT>0.3 GeV
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jibo He
+# Email: Jibo.He@cern.ch
+# Date: 20120524
+#
+#
+Alias   Myphi  phi
+ChargeConj  Myphi   Myphi
+
+Decay chi_c2sig
+  1.000         Myphi  Myphi      PHSP;
+Enddecay
+Decay Myphi
+  1.000  K+      K-    VSS; 
+Enddecay
+#
+End
+#
+

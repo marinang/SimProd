@@ -1,0 +1,35 @@
+# EventType: 12103402
+#
+# Descriptor: [B+ ->  p+ p~- (rho+ -> pi+ pi0) ]cc
+#
+# NickName: Bu_pprho+=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+-> p+ p~- rho+ (->pi+ pi0)
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: hicheur@cbpf.br
+# Date: 20130421
+#
+
+Alias      Myrho+      rho+
+Alias      Myrho-      rho-
+ChargeConj Myrho+      Myrho-
+
+#
+Decay B+sig
+  1.000         p+   anti-p-   Myrho+          PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Myrho+
+  1.000         pi+        pi0            VSS;
+Enddecay
+CDecay Myrho-
+#
+End
+

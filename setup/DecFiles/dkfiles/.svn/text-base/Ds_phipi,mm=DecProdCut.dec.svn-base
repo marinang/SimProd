@@ -1,0 +1,30 @@
+# EventType: 23173001
+#
+# Descriptor: [D_s+ => ( phi(1020) => mu+ mu- ) pi+]cc
+#
+# NickName: Ds_phipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces a Ds+ to ( phi -> mu+ mu- ) pi+ 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Vanya BELYAEV
+# Email: ibelyaev@mail.cern.ch
+# Date: 20111013
+#
+Alias       my_phi   phi
+ChargeConj  my_phi   my_phi
+#
+Decay  D_s+sig
+  1.000     my_phi   pi+    PHOTOS SVS ;
+Enddecay
+CDecay D_s-sig
+#
+Decay  my_phi
+  1.000     mu+      mu-    PHOTOS VLL ;
+Enddecay
+#
+End

@@ -1,0 +1,60 @@
+# EventType: 17444232 
+#
+# Descriptor: [B_1(H)0 ->  ( B*+ -> (B+ -> K+ (J/psi(1S) -> mu+ mu- )) gamma ) K-]cc, [B_1(H)0 ->  ( B*+ -> (B+ -> (D~0 -> K+ pi-) pi+ ) gamma ) K-]cc
+#
+# NickName: Bststprime10_Bstpi,JpsiK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "B_1(L)0  203  10513  0.0  6.23000000  0.6582121e-024  B_10  10513  0.750000", "B_1(L)~0  207  -10513  0.0  6.23000000  0.6582121e-024  anti-B_10  -10513  0.750000"
+#
+# Documentation: 
+# B** Spectroscopy
+# Study of efficicency in a large Bpi mass range
+# No decay flag for B_1(H)0. B_1(L)0 is used instead.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:     Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20131004
+#
+Alias MyBstar B*+
+Alias MyantiBstar B*-
+ChargeConj MyBstar  MyantiBstar
+Alias MyB     B+
+Alias MyantiB     B-
+ChargeConj MyB      MyantiB
+Alias MyJpsi  J/psi
+Alias MyD0  D0
+Alias MyantiD0  anti-D0
+ChargeConj MyD0 MyantiD0
+#
+Decay B_10sig
+1.000   MyBstar  pi-           VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay anti-B_10sig
+#
+Decay MyBstar
+1.0000    MyB  gamma                       VSP_PWAVE;
+Enddecay
+CDecay MyantiBstar
+#
+Decay MyB
+0.5    MyJpsi    K+                         SVS;
+0.5    MyantiD0  pi+                        PHSP;
+Enddecay
+CDecay MyantiB
+#
+Decay MyJpsi
+1.000   mu+  mu-               PHOTOS   VLL;
+Enddecay
+#
+Decay MyantiD0
+1.000    K+  pi-                         PHSP;
+Enddecay
+CDecay MyD0
+#
+#
+End

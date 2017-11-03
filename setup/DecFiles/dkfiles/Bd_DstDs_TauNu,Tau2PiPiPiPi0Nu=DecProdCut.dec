@@ -1,0 +1,88 @@
+# EventType: 11696410
+#
+# Descriptor: {[B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (D_s+ -> nu_tau (tau+ -> pi+ pi+ pi- pi0 anti-nu_tau))]cc, [B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (D_s*+ -> gamma (D_s+ -> nu_tau (tau+ -> pi+ pi+ pi- pi0 anti-nu_tau)))]cc, [B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (D_s*+ -> pi0 (D_s+ -> nu_tau (tau+ -> pi+ pi+ pi- pi0 anti-nu_tau)))]cc}
+#
+# NickName: Bd_DstDs_TauNu,Tau2PiPiPiPi0Nu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd to D* Ds, with the Ds to tau nu final state, and tau to 3pi pi0 nu final state.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Donal HIll
+# Email: donal.hill@cern.ch
+# Date: 20130221
+#
+
+
+# -------------------------
+# DEFINE THE D_s+-
+# -------------------------
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+# -------------------------
+# DEFINE THE D_s*+-
+# -------------------------
+Alias MyD_s*+ D_s*+
+Alias MyD_s*- D_s*-
+ChargeConj MyD_s*+ MyD_s*-
+
+# -------------------------
+# THEN DEFINE THE TAU
+# -------------------------
+Alias MyTau+ tau+
+Alias MyTau- tau-
+ChargeConj MyTau+ MyTau-
+
+# -------------------------
+# THEN DEFINE THE D*+ AND D*-
+# -------------------------
+Alias      MyD*+  D*+
+Alias      MyD*-  D*-
+ChargeConj MyD*+  MyD*-
+
+# -------------------------
+# THEN DEFINE THE D0
+# -------------------------
+Alias      MyD0  D0
+Alias      Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+
+Decay B0sig
+  0.308       MyD*-    MyD_s+               SVS;
+  0.692       MyD*-    MyD_s*+              SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*+
+  1.000    MyD0      pi+                 VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.0000      K-     pi+                PHSP;
+Enddecay
+CDecay Myanti-D0
+#   
+Decay MyD_s+
+  1.000     MyTau+      nu_tau            SLN;
+Enddecay
+CDecay MyD_s-
+# 
+Decay MyTau-
+  1.000     pi-     pi-      pi+     pi0     nu_tau                PHSP;
+Enddecay
+CDecay MyTau+
+#  
+Decay MyD_s*+
+  0.942     MyD_s+      gamma             VSP_PWAVE;
+  0.058     MyD_s+      pi0               VSS;
+Enddecay
+CDecay MyD_s*-
+#  
+End
+#

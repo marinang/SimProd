@@ -1,0 +1,36 @@
+# EventType: 11104191
+#
+# Descriptor: {[[B0]nos -> (rho -> pi+ pi-) (KS0 -> pi+ pi-) gamma]cc, [[B0]os -> (rho -> pi+ pi-) (KS0 -> pi+ pi-) gamma]cc}
+#
+# NickName: Bd_rhoKSgamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: daughters in acceptance. KSO and rho into pi+ pi-
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email: cedric.potterat@cern.ch
+# Date: 20130118
+#
+Alias      MyK0s  K_S0
+ChargeConj MyK0s  MyK0s
+Alias      Myrho  rho0
+ChargeConj Myrho  Myrho
+#
+Decay B0sig
+  1.000   Myrho    MyK0s      gamma         PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK0s
+  1.000   pi+         pi-       PHSP;
+Enddecay
+#
+Decay Myrho
+  1.000   pi+         pi-       VSS;
+Enddecay
+#
+End

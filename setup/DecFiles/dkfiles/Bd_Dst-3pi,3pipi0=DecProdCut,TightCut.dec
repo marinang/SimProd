@@ -1,0 +1,68 @@
+# EventType: 11462402
+# 
+# Descriptor: [[B0] -> (D*(2010)- -> (D- ->  pi+ pi- pi- pi0) pi0) pi+ pi- pi+]cc
+# 
+# NickName: Bd_Dst-3pi,3pipi0=DecProdCut,TightCut
+#
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+#
+#
+# Documentation: Possible Background for B -> tau tau, B to D* 3pi, with D* to D- pi0 and D to pipipipi0
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Justine Serrano
+# Email: serrano@cppm.in2p3.fr
+# Date: 20130924
+#
+#
+#
+Alias      MyD*-       D*-
+Alias      MyD*+       D*+
+ChargeConj MyD*+       MyD*-
+#
+Alias 		MyD+ 		D+
+Alias		MyD-		D-
+ChargeConj	MyD+		MyD-
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+#
+Decay B0sig
+0.70   MyD*- Mya_1+                      SVV_HELAMP 0.200 0.0 0.866 0.0 0.458 0.0; 
+0.13   MyD*-  Myf_2  pi+                PHSP;
+0.12   MyD*-  rho0  pi+                  PHSP;
+0.05   MyD*-  pi+ pi- pi+                PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  0.15   pi-  pi+  pi-  pi0              PHSP;
+  0.60   Mya_1- pi0              SVS;
+  0.25   rho- rho0              SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyD+
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyD*-
+  1.000        MyD- pi0                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myf_2
+  1.0000  pi+ pi-                               TSS ;
+Enddecay
+#
+End

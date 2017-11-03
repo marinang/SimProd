@@ -1,0 +1,38 @@
+# EventType: 14163011
+# 
+# Descriptor:  [B_c+ -> (D0 -> K- pi+) pi+]cc
+# 
+# NickName: Bc_D0pi,Kpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Daughters in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Donal Hill
+# Email: donal.hill@cern.ch
+# Date: 20140310
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+Decay B_c+sig
+  1.000     MyD0  pi+       PHSP;
+Enddecay
+CDecay B_c-sig
+
+Decay MyD0
+  1.000        K-        pi+                    PHSP;
+Enddecay
+CDecay Myanti-D0
+
+
+#
+End
+

@@ -1,0 +1,45 @@
+# EventType: 13112202
+#
+# Descriptor: [B_s0 -> gamma mu+ mu-]cc
+#
+# NickName: Bs_gammamumu=FSR,DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# 
+# Documentation: 
+#     FSR contribution only
+#     Input parameters mu         - the scale parameter (in GeV's)
+#                      Nf         - number of "effective" flavors (for b-quark Nf=5) 
+#                      sr         - state radiation type
+#                      res_swch   - resonant switching parametr
+#                      ias        - switching parametr for \alpha_s(M_Z) value
+#                      Wolfenstein parameterization for CKM matrix
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch 
+# Date:   20141210
+# CPUTime: <1min
+#
+Define mu 5.0
+Define Nf 5
+Define sr 1
+Define res_swch 1
+Define ias 1
+Define Egamma 0.02
+Define A 0.814
+Define lambda 0.2254
+Define barrho 0.117
+Define bareta 0.353
+#
+#
+Decay B_s0sig
+   1.000    gamma   mu+   mu-   BSTOGLLISRFSR mu Nf sr res_swch ias Egamma A lambda barrho bareta;
+Enddecay
+CDecay anti-B_s0sig
+
+End
+#

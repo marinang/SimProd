@@ -1,0 +1,47 @@
+# EventType: 36105100
+# 
+# Descriptor: [Omega- -> (Xi- ->(Lambda0->p+ pi-)pi-) pi+ pi-]cc
+# 
+# NickName: Omega_XiPiPi=DecProdCut
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Omega forced through Xi- pi pi, then Xi forced to Lambda pi, with Lambda -> p pi exclusively, LHCb acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Adam Davis
+# Email: adavis@cern.ch
+# Date: 20140822
+# CPUTime: < 1 min
+#
+#Alias      Omega-sig       Omega-
+#Alias      anti-Omega+sig       anti-Omega+ 
+#ChargeConj Omega-sig       anti-Omega+sig
+#
+Alias      MyXi-          Xi-
+Alias      MyXi+          anti-Xi+
+ChargeConj MyXi-          MyXi+
+#
+Alias      MyLambda       Lambda0
+Alias      Myanti-Lambda  anti-Lambda0
+ChargeConj Myanti-Lambda  MyLambda
+#
+Decay Omega-sig
+1.000      MyXi-   pi+   pi-    PHSP;
+Enddecay
+CDecay anti-Omega+sig
+#
+Decay MyXi-
+1.000      MyLambda     pi-    PHSP;
+Enddecay
+CDecay MyXi+
+#
+Decay MyLambda
+1.000      p+           pi-    PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

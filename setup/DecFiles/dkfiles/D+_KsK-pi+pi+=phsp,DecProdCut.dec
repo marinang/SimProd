@@ -1,0 +1,30 @@
+# EventType: 21105120
+#
+# Descriptor: [D+ -> (KS0 -> pi+ pi-) K- pi+ pi+]cc
+#
+# NickName: D+_KsK-pi+pi+=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Hamish Gordon
+# Email: hamish.gordon@<nospam>cern.ch
+# Date: 20120724
+#
+Alias        MyK0s   K_S0
+ChargeConj   MyK0s   MyK0s
+#
+Decay D+sig
+  1.000        MyK0s         K- pi+ pi+              PHSP;
+Enddecay
+CDecay D-sig
+#
+Decay MyK0s
+  1.000        pi+           pi-             PHSP;
+Enddecay
+#
+End

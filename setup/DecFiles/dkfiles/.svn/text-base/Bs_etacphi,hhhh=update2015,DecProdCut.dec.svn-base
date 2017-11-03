@@ -1,0 +1,82 @@
+# EventType: 13466011
+#
+# Descriptor: [B_s0 ->  (phi -> K+ K-) (eta_c -> (anti-K*0 -> K- pi+) K+ pi-)]cc
+#
+# NickName: Bs_etacphi,hhhh=update2015,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Eta_c(1S) forced to 4 charged tracks,
+#                either from resonant intermediate states or 
+#                from direct decays to non-resonant 4 charged tracks;
+#                phi forced into K+ K-, daughters in acceptance.
+#                Branching ratios updated to PDG 2014,
+#                The total BR of the eta_c(1S) -> 4h is (4.48 +/- 0.55) %
+# EndDocumentation
+# 
+# PhysicsWG:   B2Ch
+# Tested:      Yes
+# Responsible: Morgan Martin
+# Email:       morgan.martin@cern.ch
+# Date:        20150429
+#
+Alias       MyPhi       phi
+Alias       Myeta_c     eta_c
+Alias       MyRho0      rho0
+Alias       MyK*0       K*0
+Alias       Myanti-K*0  anti-K*0
+Alias       Myf_2       f_2
+Alias       Myf'_2      f'_2
+ChargeConj  MyRho0      MyRho0
+ChargeConj  MyPhi       MyPhi
+ChargeConj  Myeta_c     Myeta_c
+ChargeConj  Myf_2       Myf_2
+ChargeConj  Myf'_2      Myf'_2
+#
+Decay B_s0sig
+  1.0000    MyPhi       Myeta_c             SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myeta_c
+  0.00600   MyRho0      MyRho0              SVV_HELAMP 1.0 0.0 0.0 0.0 -1.0 0.0;
+  0.00237   MyK*0       Myanti-K*0          SVV_HELAMP 1.0 0.0 0.0 0.0 -1.0 0.0 ;
+  0.01000   MyK*0       K-  pi+             PHSP;
+  0.01000   Myanti-K*0  K+  pi-             PHSP;
+  0.00176   MyPhi       MyPhi               SVV_HELAMP 1.0 0.0 0.0 0.0 -1.0 0.0;
+  0.00980   Myf_2       Myf_2               PHSP;
+  0.00970   Myf_2       Myf'_2              PHSP;
+  0.00970   pi+   pi-   pi+   pi-           PHSP;
+  0.00147   K+    K-    K+    K-            PHSP;
+  0.00690   K+    K-    pi+   pi-           PHSP;
+Enddecay
+#
+Decay MyPhi
+  1.000     K+    K-                        VSS;
+Enddecay
+#
+Decay MyK*0
+  1.0000    K+    pi-                       VSS;
+Enddecay
+#
+Decay Myanti-K*0
+  1.0000    K-    pi+                       VSS;
+Enddecay
+#
+Decay MyRho0
+  1.0000    pi+   pi-                       VSS;
+Enddecay
+#
+Decay Myf_2
+  0.5650    pi+   pi-                       TSS;
+  0.0230    K+    K-                        TSS;
+Enddecay
+#
+Decay Myf'_2
+  0.4439    K+    K-                        TSS;
+  0.0055    pi+   pi-                       TSS;
+Enddecay
+#
+End

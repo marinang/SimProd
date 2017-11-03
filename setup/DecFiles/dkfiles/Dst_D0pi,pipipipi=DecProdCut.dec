@@ -1,0 +1,34 @@
+# EventType: 27165002
+#
+# Descriptor: [D*(2010)+ -> (D0 -> {pi+ pi- pi+ pi-}) pi+]cc
+#
+# NickName: Dst_D0pi,pipipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Matt Coombes
+# Email: mcoombes@cern.ch
+# Date: 20110725
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.000 pi+ pi- pi+ pi- PHSP;  
+Enddecay
+CDecay MyantiD0
+#
+End
+

@@ -1,0 +1,60 @@
+# EventType: 11198002
+# 
+# Descriptor: [B0 -> D*(2010)+ D*(2010)- K*0]cc
+# 
+# NickName: Bd_DstDstKst0,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay File for B0 -> D*+ D*- K*0 with D*->D0pi,D0->Kpi,K*->Kpi
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: renato quagliani
+# Email: renato.quagliani@student.unife.it
+# Date: 20140725
+# CPUTime: <1min
+Alias My_D+    D+
+Alias My_D-    D-
+Alias My_K*0    K*0
+Alias My_anti-K*0    anti-K*0
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+Alias My_D*+  D*+
+Alias My_D*-  D*-
+ChargeConj My_D- My_D+
+ChargeConj My_D*- My_D*+
+ChargeConj My_anti-D0 My_D0
+ChargeConj My_K*0 My_anti-K*0
+
+#D*- Decay
+Decay My_D*-
+  1.0 My_anti-D0 pi-  VSS;
+Enddecay
+CDecay My_D*+
+
+#D0 Decay
+Decay My_D0
+  1.0 K- pi+ PHSP;
+Enddecay
+CDecay My_anti-D0
+
+
+Decay My_K*0
+  1.0 K+ pi-  VSS;
+Enddecay
+CDecay My_anti-K*0
+
+#B0 Decay
+Decay B0sig
+  1.0 My_D*- My_D*+ My_K*0 PHSP;
+Enddecay
+CDecay anti-B0sig
+
+#
+End
+#
+
+
+

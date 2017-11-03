@@ -1,0 +1,58 @@
+# EventType: 13244410
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu-) (phi(1020) -> pi+ pi- pi0) ]cc
+#
+# NickName: Bs_Jpsiphi,mm,pipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: no CP violation, phi forced to pi+ pi- pi0, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# CPUTime:< 1 min
+# Responsible: Sevda Esen
+# Email: sevda.esen@cern.ch
+# Date: 20160413
+#
+Alias      MyJ/psi  J/psi
+Alias      MyPhi    phi
+Alias      Myrho0      rho0
+Alias      Myrho+      rho+
+Alias      Myrho-      rho-
+ChargeConj MyJ/psi  MyJ/psi
+ChargeConj MyPhi    MyPhi
+ChargeConj Myrho0      Myrho0
+ChargeConj Myrho+      Myrho-
+
+#
+Decay B_s0sig
+  1.000         MyJ/psi     MyPhi        SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+Decay anti-B_s0sig
+  1.000         MyJ/psi     MyPhi        SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+          mu-           PHOTOS VLL;
+Enddecay
+#
+Decay MyPhi
+  0.278   Myrho+ pi-                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.278   Myrho0 pi0                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.278   Myrho- pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.166   pi+  pi- pi0                    PHSP;
+Enddecay
+#
+Decay Myrho0
+  1.000         pi+        pi-            VSS;
+Enddecay
+#
+Decay Myrho+
+  1.000         pi+        pi0            VSS;
+Enddecay
+CDecay Myrho-
+#
+End
+

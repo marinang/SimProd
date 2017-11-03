@@ -1,0 +1,91 @@
+# EventType: 13244203
+#
+# Descriptor: [Bs0 ->  ( [chi_c1(1P) , chi_c2(1P)] -> (J/psi(1S) -> mu+ mu-) gamma ) ( phi(1020) => K+ K- ) ]cc
+#
+# NickName: Bs_chicphi,JpsigKK,mm=TightCutGY
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[ B_s0  ->  ( Meson -> ^( J/psi(1S) => ^mu+ ^mu-) ^gamma ) (phi(1020) => ^K+ ^K-) ]CC'
+# tightCut.Cuts      =    {
+#     'gamma'     : ' goodGamma ' ,
+#     '[mu+]cc'   : ' goodMuon  ' , 
+#     '[K+]cc'    : ' goodKaon  ' , 
+#     'J/psi(1S)' : ' goodPsi   ' }
+# tightCut.Preambulo += [  "GY = LoKi.GenParticles.Rapidity()" ]
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5      ' , 
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5      ' , 
+#     'goodMuon  = ( GPT > 500  * MeV ) & ( GP > 6 * GeV )     & inAcc   ' , 
+#     'goodKaon  = ( GPT > 150  * MeV )                        & inAcc   ' , 
+#     'goodPion  = ( GPT > 150  * MeV )                        & inAcc   ' , 
+#     'goodGamma = ( 0 < GPZ ) & ( 150 * MeV < GPT ) & inEcalX & inEcalY ' ,
+#     'goodPsi   = ( GPT > 500  * MeV ) & in_range ( 1.8 , GY , 4.5 )    ' ]
+#
+# EndInsertPythonCode
+#
+# Documentation:  
+#   Bs0 -> chi_cJ(1P) K+ decays, followed by chi_cJ(1P) -> J/psi gamma. 
+#   Tight generator level cuts are applied for all final state particles,  
+#   which effectively increases the statistics with the factor of ~2
+#   Redefined GY to correct rapidity definition in old LOKI version.
+# EndDocumentation
+#
+# PhysicsWG:   Onia
+# Tested:      Yes
+# Responsible: Vanya Belyaev
+# Email:       Ivan.Belyaev@itep.ru
+# Date:        20130228
+#
+Alias      Mychi_c1   chi_c1
+ChargeConj Mychi_c1 Mychi_c1
+Alias      Mychi_c2   chi_c2
+ChargeConj Mychi_c2 Mychi_c2
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Alias      MyPhi      phi
+ChargeConj MyPhi    MyPhi
+#
+Define Hp 0.159
+Define Hz 0.775
+Define Hm 0.612
+Define pHp 1.563
+Define pHz 0.0
+Define pHm 2.712
+#
+Decay B_s0sig
+  0.50     Mychi_c1     MyPhi        SVV_HELAMP Hp pHp Hz pHz Hm pHm;
+  0.50     Mychi_c2     MyPhi        PHSP ;
+Enddecay
+CDecay anti-B_s0sig
+#
+#Decay Mychi_c0
+#  1.000     MyJ/psi  gamma  PHSP ;
+#Enddecay
+#
+Decay Mychi_c1 
+  1.000     MyJ/psi  gamma  VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay Mychi_c2 
+  1.000     MyJ/psi  gamma  PHSP ;
+Enddecay
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MyPhi
+  1.000         K+          K-           VSS;
+Enddecay
+
+End

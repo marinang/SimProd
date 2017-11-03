@@ -1,0 +1,203 @@
+# This is the decay file for the decay B+ => (D_10 => (D*+ => (D0 => K- pi+ pi- pi+) pi+) pi-) mu+ nu_mu
+#
+# EventType: 12877031
+# 
+# Descriptor: [B- -> (D_10 -> MyD*+ pi-) anti-nu_mu mu-]cc
+# 
+# NickName: Bu_Dstmunu,Kpipipi=cocktail,AMPGEN,TightCut
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[ B- ==> ^( D*(2010)+ -> ^( D0 -> ^K- ^pi+ ^pi+ ^pi- ) ^pi+ {gamma} {gamma} {gamma} {gamma} ) ^mu- [nu_mu]CC {X} {X} {X} {X} {X} ]CC"
+#
+# tightCut.Preambulo += [
+#   "from LoKiCore.functions import in_range"  ,
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#   "inAcc = in_range(0.005,GTHETA,0.4)"
+#  ]
+#
+# tightCut.Cuts = {
+#   '[mu+]cc'       : "inAcc & (GPT > 1.00 * GeV) & (GP > 3.0 * GeV )",
+#   '[pi+]cc'       : "inAcc & (GPT > 0.10 * GeV) ",
+#   '[K+]cc'        : "inAcc & (GPT > 0.25 * GeV) & (GP > 1.8 * GeV )",
+#   '[D0]cc'        : "(GPT > 1.6 * GeV) & (GCHILD(GPT,2) > 0.25 * GeV) & (GCHILD(GP,2) > 1.8 * GeV ) & (GCHILD(GPT,3) > 0.25 * GeV) & (GCHILD(GP,3) > 1.8 * GeV ) & (GCHILD(GPT,4) > 0.25 * GeV) & (GCHILD(GP,4) > 1.8 * GeV )",
+# }
+# EndInsertPythonCode
+
+#
+# Documentation: Sum of B+ -> D* mu nu_mu X and B+ -> D* tau nu_tau X, tau forced to mu nu_mu tau_nu, D* forced to D0 pi, D0 forced to Kpipipi. D0 decays via LHCb preliminary Cabibbo favoured model using MINT. D0 and muon in LHCb acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Tim Evans
+# Email: timothy.david.evans@cern.ch
+# Date: 20141113
+# CPUTime: < 1 min
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyD*-        D*-
+Alias      MyD*+        D*+
+ChargeConj MyD*-        MyD*+
+#
+Alias      MyD0         D0
+Alias      Myanti-D0    anti-D0
+ChargeConj MyD0         Myanti-D0
+#
+Alias      MyD_10         D_10
+Alias      MyAntiD_10     anti-D_10
+ChargeConj MyD_10         MyAntiD_10
+#
+Alias      MyD_1+         D_1+
+Alias      MyD_1-         D_1-
+ChargeConj MyD_1+         MyD_1-
+#
+Alias      MyD_0*+         D_0*+
+Alias      MyD_0*-         D_0*-
+ChargeConj MyD_0*+         MyD_0*-
+#
+Alias      MyD_0*0         D_0*0
+Alias      MyAntiD_0*0     anti-D_0*0
+ChargeConj MyD_0*0         MyAntiD_0*0
+#
+Alias      MyD'_10         D'_10
+Alias      MyAntiD'_10     anti-D'_10
+ChargeConj MyD'_10         MyAntiD'_10
+#
+Alias      MyD'_1+         D'_1+
+Alias      MyD'_1-         D'_1-
+ChargeConj MyD'_1+         MyD'_1-
+#
+Alias      MyD_2*+         D_2*+
+Alias      MyD_2*-         D_2*-
+ChargeConj MyD_2*+         MyD_2*-
+#
+Alias      MyD_2*0         D_2*0
+Alias      MyAntiD_2*0     anti-D_2*0
+ChargeConj MyD_2*0         MyAntiD_2*0
+#
+Decay B-sig
+  0.003268   MyD_10      mu-  anti-nu_mu      PHOTOS  ISGW2;               
+  0.0013     MyD'_10     mu-  anti-nu_mu      PHOTOS  ISGW2;               
+  0.001065   MyD_2*0     mu-  anti-nu_mu      PHOTOS  ISGW2;               
+  0.000376   MyD_0*0     mu-  anti-nu_mu      PHOTOS  ISGW2;               
+  0.000938   MyD*+  pi-  mu-  anti-nu_mu      PHOTOS  GOITY_ROBERTS;       
+  0.001247   MyD*+  pi0 pi-  mu-  anti-nu_mu  PHOTOS  PHSP;       
+  0.000153   MyD_10   Mytau- anti-nu_tau      ISGW2;
+  0.000018   MyD_0*0   Mytau- anti-nu_tau     ISGW2;
+  0.000113   MyD'_10   Mytau- anti-nu_tau     ISGW2;
+  0.000071   MyD_2*0   Mytau- anti-nu_tau     ISGW2;
+Enddecay
+CDecay B+sig
+#
+SetLineshapePW MyD_1+ MyD*+ pi0 2
+SetLineshapePW MyD_1- MyD*- pi0 2
+SetLineshapePW MyD_10 MyD*+ pi- 2
+SetLineshapePW MyAntiD_10 MyD*- pi+ 2
+#
+SetLineshapePW MyD_2*+ MyD*+ pi0 2
+SetLineshapePW MyD_2*- MyD*- pi0 2
+SetLineshapePW MyD_2*0 MyD*+ pi- 2
+SetLineshapePW MyAntiD_2*0 MyD*- pi+ 2
+#
+
+
+#------------------------------------------------------------
+# D** decays
+#------------------------------------------------------------
+
+Decay MyD_0*+ 
+  0.04     MyD*+ pi0 pi0                     PHOTOS PHSP;
+  0.08     MyD*+ pi+ pi-                     PHOTOS PHSP;
+Enddecay
+CDecay MyD_0*-
+
+Decay MyD_0*0
+  0.08     MyD*+ pi- pi0                     PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_0*0
+
+Decay MyD'_1+ 
+  0.250    MyD*+ pi0                         PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD'_1-
+
+Decay MyD'_10
+  0.500    MyD*+ pi-                         PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAntiD'_10
+
+Decay MyD_1+
+  0.200     MyD*+ pi0                        PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+  0.0208    MyD_0*0 pi+                      PHOTOS PHSP;
+  0.0156    MyD_0*+ pi0                      PHOTOS PHSP;
+Enddecay
+CDecay MyD_1-
+
+Decay MyD_10
+  0.400     MyD*+ pi-                        PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+  0.0312    MyD_0*+ pi-                      PHOTOS PHSP;
+  0.0104    MyD_0*0 pi0                      PHSP;
+Enddecay
+CDecay MyAntiD_10
+
+Decay MyD_2*+
+  0.087     MyD*+ pi0                        PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+  0.0117    MyD_0*0 pi+                      PHOTOS PHSP;
+  0.0088    MyD_0*+ pi0                      PHOTOS PHSP;
+  0.004     MyD*+ pi0 pi0                    PHOTOS PHSP;
+  0.008     MyD*+ pi+ pi-                    PHOTOS PHSP;
+Enddecay
+CDecay MyD_2*-
+
+Decay MyD_2*0
+  0.173       MyD*+ pi-                      PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+  0.0176      MyD_0*+ pi-                    PHOTOS PHSP;
+  0.0059      MyD_0*0 pi0                    PHSP;
+  0.008       MyD*+ pi- pi0                  PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_2*0
+
+#------------------------------------------------------------
+# D* decays
+#------------------------------------------------------------
+
+## Force D* to decay to D0 pi
+Decay MyD*-
+  1.000     Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+
+#------------------------------------------------------------
+# D0 decays
+#------------------------------------------------------------
+
+## Force D0 to decay to K3pi
+noPhotos 
+Decay Myanti-D0
+# D0 decays favourably to K3pi
+# Uses MINT model v12 (LHCb preliminary)
+  1.000     K+ pi- pi- pi+                   LbAmpGen DtoKpipipi_v1;
+Enddecay
+CDecay MyD0
+
+#------------------------------------------------------------
+# tau decays
+#------------------------------------------------------------
+
+# Force tau to decay to mu nu_mu nu_tau
+Decay Mytau-
+  1.00      mu-  nu_tau  anti-nu_mu        PHOTOS TAULNUNU;
+Enddecay
+CDecay Mytau+
+
+End
+#

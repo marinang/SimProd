@@ -1,0 +1,48 @@
+# EventType: 12165193
+#
+# Descriptor: [B+ -> (D~0 -> pi+ pi-) (K*(892)+ -> (Ks -> pi+ pi-) pi+)]cc
+#
+# NickName: Bu_D0Kst+,pipi,KSpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Vincent Tisserand
+# Email: tisserav@lapp.in2p3.fr
+# Date: 20140924
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+Alias	   	MyK*+	K*+
+Alias	   	MyK*-  	K*-
+ChargeConj	MyK*+	MyK*-
+Alias MyK_S0  K_S0
+
+#
+Decay B+sig
+  1.000     MyK*+  MyD0              SVS;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+  1.000        pi+       pi-              PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyK*+
+  1.000		MyK_S0	pi+		VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK_S0
+1.0000  pi+ pi-                         PHSP;
+Enddecay
+#
+End

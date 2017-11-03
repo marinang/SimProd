@@ -1,0 +1,394 @@
+# EventType: 27260200
+#
+# Descriptor: This is the decay file for the background study for D*+ -> D0(D0->K- pi+ pi- pi+) pi+
+#
+# NickName: incl_Dstplus_D0ToAllExceptK3pi
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Inclusive D*+ decay by defaul,D0 forced not decay to final states K- pi+ pi+ pi- 
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible:     Zhou Xing, Alessandra Borgia
+# Email: zhxing@syr.edu, aborgia@syr.edu
+# Date:  20110701
+#
+
+
+#################
+
+Alias      MyD0             D0
+Alias      Myanti-D0        anti-D0
+ChargeConj MyD0             Myanti-D0
+
+
+Decay D*+sig
+  0.6770   MyD0   pi+                        VSS;
+  0.3070    D+  pi0                        VSS;
+  0.0160    D+  gamma                       VSP_PWAVE;
+Enddecay
+
+Decay D*-sig
+  0.6770    Myanti-D0 pi-                        VSS;
+  0.3070    D-  pi0                        VSS;
+  0.0160    D-  gamma                       VSP_PWAVE;
+Enddecay
+
+
+
+
+
+Decay MyD0
+0.02228   K*-  e+  nu_e           PHOTOS   ISGW2;
+0.03598   K-   e+  nu_e           PHOTOS   ISGW2;
+0.00089   K_1-  e+  nu_e           PHOTOS   ISGW2;
+0.00150   K_2*- e+  nu_e           PHOTOS   ISGW2;
+0.00288   pi-  e+  nu_e           PHOTOS   ISGW2;
+0.00202   rho- e+  nu_e           PHOTOS   ISGW2;
+0.02970   anti-K0  pi-  e+  nu_e  PHOTOS   PHSP;
+0.01990   K-  pi0  e+  nu_e       PHOTOS   PHSP;
+#
+0.02085   K*-  mu+ nu_mu          PHOTOS  ISGW2;
+0.03350   K-   mu+ nu_mu          PHOTOS  ISGW2;
+0.00089   K_1-  mu+ nu_mu          PHOTOS  ISGW2;
+0.00150   K_2*- mu+ nu_mu          PHOTOS  ISGW2;
+0.00244   pi-  mu+ nu_mu            PHOTOS  ISGW2;
+0.00220   rho- mu+ nu_mu            PHOTOS  ISGW2;
+0.00110   anti-K0  pi-  mu+  nu_mu  PHOTOS   PHSP;
+0.00060   K-  pi0  mu+  nu_mu       PHOTOS   PHSP;
+#
+0.03900   K-  pi+                         PHSP;
+#
+0.01238   K_S0   pi0                            PHSP;
+0.01210   K_L0   pi0                            PHSP;
+0.00000   anti-K0   pi0                         PHSP;
+#
+0.00415   K_S0   eta                            PHSP;
+0.00415   K_L0   eta                            PHSP;
+0.00000   anti-K0   eta                         PHSP;
+#
+0.00980   K_S0   eta'                           PHSP;
+0.00980   K_L0   eta'                           PHSP;
+0.00000   anti-K0   eta'                        PHSP;
+#
+0.01190   omega   K_S0                           SVS;
+0.01190   omega   K_L0                           SVS;
+0.00000   omega   anti-K0                        SVS;
+#
+0.00175   anti-K*0 eta                         SVS;
+0.00100   anti-K*0 eta'                        SVS;
+#0.08130   a_1+ K-                          SVS;
+0.07380   K*- rho+                        SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+#0.01685   anti-K*0 rho0                   SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+#0.01250   anti-K*0 omega                  SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+
+
+# the Dalitz mode below includes K*bar(892)0 pi0, 
+# K*(892)- pi+, and K- rho(770)+ resonances
+
+0.14050   K-  pi+  pi0                    D_DALITZ;
+0.00724   K*BR pi0                        SVS;
+#0.01246   K_1- pi+                         SVS;
+0.00710   anti-K_10 pi0                         SVS;
+
+
+#
+# the Dalitz mode below includes K*(892)- pi+ and Kbar0 rho(770)0 resonances
+# LHCb PR 09 Apr 2004 split into KS/KL
+0.03040   K_S0   pi+   pi-                      D_DALITZ;
+0.03040   K_L0   pi+   pi-                      D_DALITZ;
+0.00000   anti-K0   pi+  pi-                    D_DALITZ;
+#
+0.00483   K_S0   pi0   pi0                      PHSP;
+0.00483   K_L0   pi0   pi0                      PHSP;
+0.00000   anti-K0   pi0  pi0                    PHSP;
+#
+#0.02550   anti-K*0 pi+  pi-                    PHSP;
+0.01160   anti-K*0 pi0  pi0                    PHSP;
+0.01000   K*- pi+  pi0                    PHSP;
+0.00680   K-  rho+ pi0                    PHSP;
+#0.00579   K-  pi+  rho0                   PHSP;
+#0.01900   K-  pi+  omega                   PHSP;
+0.01000   K-  pi+  eta                    PHSP;
+0.00807   K-  pi+  eta'                   PHSP;
+#0.01958   K-  pi+  pi+   pi-              PHSP;
+#
+0.01100   K_S0   pi+   pi-   pi0                PHSP;
+0.01100   K_L0   pi+   pi-   pi0                PHSP;
+0.00000   anti-K0   pi+  pi-   pi0              PHSP;
+#
+# K- pi+ pi0 pi0 is (15 +/- 5)% in the PDG, but we decrease it to 
+# have everything add to 1 and get enough neutral kaons:
+#0.02575  K-  pi+  pi0   pi0              PHSP;
+#
+#0.0143   anti-K0   pi0  pi0   pi0              PHSP;
+0.00000   K-  pi+  pi+   pi-   pi0        PHSP;
+0.00380   K-  pi+  pi0   pi0   pi0        PHSP;
+#
+0.00293   K_S0   pi+   pi-   pi+   pi-          PHSP;
+0.00293   K_L0   pi+   pi-   pi+   pi-          PHSP;
+0.00000   anti-K0   pi+  pi-   pi+   pi-        PHSP;
+# 
+#0.0638   anti-K0   pi+  pi-   pi0   pi0        PHSP;
+#0.0192   anti-K0   pi+  pi-   pi0   pi0   pi0  PHSP;
+#
+0.00222   phi   K_S0                            SVS;
+0.00222   phi   K_L0                            SVS;
+0.00000   phi anti-K0                           SVS;
+#
+0.00304   K_S0   K+   K-                        PHSP;
+0.00304   K_L0   K+   K-                        PHSP;
+0.00000   anti-K0   K+   K-                     PHSP;
+#
+0.00100   K_S0 K_S0  K_S0                    PHSP;
+0.00395   K+  K-                          PHSP;
+0.00040   K_S0 K_S0                         PHSP;
+0.00040   K_L0 K_L0                         PHSP;
+0.00040   K*0 anti-K0                           SVS;
+#
+0.00010   anti-K*0   K_S0                     SVS;
+0.00010   anti-K*0   K_L0                     SVS;
+0.00000   anti-K*0 K0                         SVS;
+#
+0.00053   K*- K+                          SVS;
+0.00149   K*+ K-                          SVS;
+0.00140   anti-K*0 K*0                         SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+0.00078   phi pi0                         SVS;
+0.00110   phi pi+  pi-                    PHSP;
+0.00247   K+  K-   pi+  pi-               PHSP;
+0.00300   K+  K-   pi0  pi0               PHSP;
+#
+0.00137   K_S0   K_S0   pi+   pi-               PHSP;
+0.00137   K_L0   K_L0   pi+   pi-               PHSP;
+0.00000   anti-K0   K0   pi+  pi-               PHSP;
+#
+0.00150   anti-K0   K0   pi0  pi0               PHSP;
+#
+0.00140   pi+ pi-                         PHSP;
+0.00082   pi0 pi0                         PHSP;
+0.00060   eta pi0                         PHSP;
+0.00100   eta'  pi0                       PHSP;
+0.00100   eta eta                         PHSP;
+0.00992   rho+ pi-                        SVS;
+0.00504   rho- pi+                        SVS;
+0.00380   rho0 pi0                        SVS;
+0.00132   pi+  pi-  pi0                   PHSP;
+0.00010   pi0  pi0  pi0                   PHSP;
+0.00750   pi+  pi+  pi-  pi-              PHSP;
+0.00917   pi+  pi-  pi0  pi0              PHSP;
+0.00435   pi+  pi-  pi+  pi-  pi0         PHSP;
+0.00600   pi+  pi-  pi0  pi0  pi0         PHSP;
+0.00046   pi+  pi-  pi+  pi-  pi+  pi-    PHSP;
+#
+# Doubly Cabibbo suppressed decays:
+0.00015   pi-  K+                         PHSP;
+0.00014   pi-  K*+                        PHSP;
+0.00030   pi-  K+  pi0                    PHSP;
+#0.00027   K+   pi-   pi+   pi-            PHSP;
+# PR LHCb - 19 Apr. 2004 Add D0 -> mu+ mu-
+0.00000   mu+   mu-                PHSP;
+#
+# March 2009 New Modes
+0.00016   phi   eta                          PHSP;
+0.02160   anti-K*0   pi+   pi-   pi0         PHSP;
+0.00024   K-   pi+   pi-   pi+   pi-   pi+   PHSP;
+0.00070   K+   K-   pi0                      PHSP;
+0.00370   K+   K-   pi+   pi-   pi0          PHSP;
+0.00023   K+   K-   K-   pi+                 PHSP;
+#
+0.00400   K_S0   eta   pi0                   PHSP;
+0.00400   K_L0   eta   pi0                   PHSP;
+0.00000   anti-K0   eta   pi0                PHSP;
+#
+0.00260   K_S0   K+   pi-                    PHSP;
+0.00260   K_L0   K+   pi-                    PHSP;
+0.00000   anti-K0   K+   pi-                 PHSP;
+#
+0.00365   K_S0   K-  pi+                     PHSP;
+0.00365   K_L0   K-  pi+                     PHSP;
+0.00000   K0   K-   pi+                      PHSP;
+#
+0.00032   K_S0   K_S0   K+   pi-             PHSP;
+0.00032   K_L0   K_L0   K+   pi-             PHSP;
+0.00000   anti-K0   K0   K+   pi-            PHSP;
+#
+0.00032   K_S0   K_S0   K-   pi+             PHSP;
+0.00032   K_L0   K_L0   K-   pi+             PHSP;
+0.00000   anti-K0   K0   K-   pi+            PHSP;
+Enddecay
+
+Decay Myanti-D0
+0.02228   K*+  e-  anti-nu_e          PHOTOS   ISGW2;
+0.03598   K+   e-  anti-nu_e          PHOTOS   ISGW2;
+0.00089   K_1+  e-  anti-nu_e          PHOTOS   ISGW2;
+0.00150   K_2*+ e-  anti-nu_e          PHOTOS   ISGW2;
+0.00288   pi+  e-  anti-nu_e          PHOTOS   ISGW2;
+0.00202   rho+ e-  anti-nu_e          PHOTOS   ISGW2;
+0.02970   K0  pi+  e-  anti-nu_e      PHOTOS   PHSP;
+0.01990   K+  pi0  e-  anti-nu_e      PHOTOS   PHSP;
+#
+0.02085   K*+  mu- anti-nu_mu         PHOTOS  ISGW2;
+0.03350   K+   mu- anti-nu_mu        PHOTOS  ISGW2;
+0.00089   K_1+  mu- anti-nu_mu         PHOTOS  ISGW2;
+0.00150   K_2*+ mu- anti-nu_mu        PHOTOS  ISGW2;
+0.00244   pi+  mu- anti-nu_mu         PHOTOS  ISGW2;
+0.00220   rho+ mu- anti-nu_mu         PHOTOS  ISGW2;
+0.00110   K0  pi+  mu-  anti-nu_mu    PHOTOS   PHSP;
+0.00060   K+  pi0  mu-  anti-nu_mu    PHOTOS   PHSP;
+#
+0.03900   K+  pi-                         PHSP;
+#
+0.01238   K_S0   pi0                            PHSP;
+0.01210   K_L0   pi0                            PHSP;
+0.00000   K0   pi0                              PHSP;
+#
+0.00415   K_S0   eta                            PHSP;
+0.00415   K_L0   eta                            PHSP;
+0.00000   K0   eta                              PHSP;
+#
+0.00980   K_S0   eta'                           PHSP;
+0.00980   K_L0   eta'                           PHSP;
+0.00000   K0   eta'                             PHSP;
+#
+0.01190   omega   K_S0                           SVS;
+0.01190   omega   K_L0                           SVS;
+0.00000   omega   K0                             SVS;
+#
+0.00175   K*0 eta                         SVS;
+0.00100   K*0 eta'                        SVS;
+#0.08130   a_1- K+                          SVS;
+0.07380   K*+ rho-                        SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+#0.01685   K*0 rho0                        SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+#0.01250   K*0 omega                        SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+# the Dalitz mode below includes K*(892)0 pi0, K*(892)+ pi-, and K+ rho(770)- resonances
+0.14050   K+  pi-  pi0                    D_DALITZ;
+0.00724   K*0R pi0                        SVS;
+#0.01246   K_1+ pi-                         SVS;
+0.00710   K_10 pi0                         SVS;
+# the Dalitz mode below includes K*(892)+ pi- and K0 rho(770)0 resonances
+# LHCb PR 09 Apr 2004, split into KS/KL
+0.00000   K0  pi+  pi-                    D_DALITZ;
+0.03040   K_S0  pi+  pi-                  D_DALITZ;
+0.03040   K_L0  pi+  pi-                  D_DALITZ;
+#
+0.00483   K_S0   pi0   pi0               PHSP;
+0.00483   K_L0   pi0   pi0               PHSP;
+0.00000   K0  pi0  pi0                   PHSP;
+#
+#0.02550   K*0 pi+  pi-                    PHSP;
+0.01160   K*0 pi0  pi0                    PHSP;
+0.01000   K*+ pi-  pi0                    PHSP;
+0.00680   K+  rho- pi0                    PHSP;
+#0.00579   K+  pi-  rho0                   PHSP;
+#0.01900   K+  pi-  omega                   PHSP;
+0.01000   K+  pi-  eta                    PHSP;
+0.00807   K+  pi-  eta'                   PHSP;
+#0.01958   K+  pi-  pi+   pi-              PHSP;
+#
+0.01100   K_S0   pi+   pi-   pi0         PHSP;
+0.01100   K_L0   pi+   pi-   pi0         PHSP;
+0.00000   K0  pi+  pi-   pi0             PHSP;
+#
+# K+ pi- pi0 pi0 is (15 +/- 5)% in the PDG, but we decrease it to 
+# have everything add to 1 and get enough neutral kaons:
+#0.02575  K+  pi-  pi0   pi0              PHSP;
+#
+#0.0143   K0  pi0  pi0   pi0              PHSP;
+0.00000   K+  pi-  pi+   pi-   pi0        PHSP;
+0.00380   K+  pi-  pi0   pi0   pi0        PHSP;
+#
+0.00293   K_S0   pi+   pi-   pi+   pi-    PHSP;
+0.00293   K_L0   pi+   pi-   pi+   pi-    PHSP;
+0.00000   K0  pi+  pi-   pi+   pi-        PHSP;
+#
+#0.0638   K0   pi-  pi+   pi0   pi0        PHSP;
+#0.0192   K0   pi-  pi+   pi0   pi0   pi0  PHSP;
+#
+0.00222   phi K_S0                        SVS;
+0.00222   phi K_L0                        SVS;
+0.00000   phi K0                          SVS;
+#
+0.00304   K_S0   K+   K-                  PHSP;
+0.00304   K_L0   K+   K-                  PHSP;
+0.00000   K0  K+   K-                     PHSP;
+#
+0.00100   K_S0 K_S0  K_S0                    PHSP;
+0.00395   K+  K-                          PHSP;
+0.00040   K_S0 K_S0                         PHSP;
+0.00040   K_L0 K_L0                         PHSP;
+0.00040   anti-K*0 K0                          SVS;
+#
+0.00010   K*0   K_S0                            SVS;
+0.00010   K*0   K_L0                            SVS;
+0.00000   K*0 anti-K0                           SVS;
+#
+0.00053   K*+ K-                          SVS;
+0.00149   K*- K+                          SVS;
+0.00140   K*0 anti-K*0                         SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+0.00078   phi pi0                         SVS;
+0.00110   phi pi+  pi-                    PHSP;
+0.00247   K+  K-   pi+  pi-               PHSP;
+0.00300   K+  K-   pi0  pi0               PHSP;
+#
+0.00137   K_S0   K_S0   pi+   pi-               PHSP;
+0.00137   K_L0   K_L0   pi+   pi-               PHSP;
+0.00000   anti-K0   K0   pi+  pi-               PHSP;
+#
+0.00150   anti-K0   K0   pi0  pi0               PHSP;
+#
+0.00140   pi+ pi-                         PHSP;
+0.00082   pi0 pi0                         PHSP;
+0.00060   eta pi0                         PHSP;
+0.00100   eta'  pi0                       PHSP;
+0.00100   eta eta                         PHSP;
+0.00992   rho+ pi-                        SVS;
+0.00504   rho- pi+                        SVS;
+0.00380   rho0 pi0                        SVS;
+0.00132   pi+  pi-  pi0                   PHSP;
+0.00010   pi0  pi0  pi0                   PHSP;
+0.00750   pi+  pi+  pi-  pi-              PHSP;
+0.00917   pi+  pi-  pi0  pi0              PHSP;
+0.00435   pi+  pi-  pi+  pi-  pi0         PHSP;
+0.00600   pi+  pi-  pi0  pi0  pi0         PHSP;
+0.00046   pi+  pi-  pi+  pi-  pi+  pi-    PHSP;
+#
+# Doubly Cabibbo suppressed decays:
+0.00015   pi+  K-                         PHSP;
+0.00014   pi+  K*-                        PHSP;
+0.00030   pi+  K-  pi0                    PHSP;
+#0.00027   K-   pi+  pi+  pi-              PHSP;
+# PR LHCb - 19 Apr. 2004 Add anti-D0 -> mu+ mu-
+0.00000   mu-   mu+                PHSP;
+#
+# March 2009 New Modes
+0.00016   phi   eta                          PHSP;
+0.02160   K*0   pi+   pi-   pi0              PHSP;
+0.00024   K+   pi-   pi-   pi+   pi-   pi+   PHSP;
+0.00070   K+   K-   pi0                      PHSP;
+0.00370   K+   K-   pi+   pi-   pi0          PHSP;
+0.00023   K+   K+   K-   pi-                 PHSP;
+#
+0.00400   K_S0   eta   pi0                   PHSP;
+0.00400   K_L0   eta   pi0                   PHSP;
+0.00000   K0   eta   pi0                     PHSP;
+#
+0.00260   K_S0   K-   pi+                    PHSP;
+0.00260   K_L0   K-   pi+                    PHSP;
+0.00000   K0   K-   pi+                      PHSP;
+#
+0.00365   K_S0   K+  pi-                     PHSP;
+0.00365   K_L0   K+  pi-                     PHSP;
+0.00000   anti-K0   K+   pi-                 PHSP;
+#
+0.00032   K_S0   K_S0   K+   pi-             PHSP;
+0.00032   K_L0   K_L0   K+   pi-             PHSP;
+0.00000   anti-K0   K0   K+   pi-            PHSP;
+#
+0.00032   K_S0   K_S0   K-   pi+             PHSP;
+0.00032   K_L0   K_L0   K-   pi+             PHSP;
+0.00000   anti-K0   K0   K-   pi+            PHSP;
+Enddecay
+#
+End

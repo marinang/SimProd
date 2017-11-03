@@ -1,0 +1,34 @@
+# EventType: 22164110
+#
+# Descriptor: [D0 -> (KS0 -> pi+ pi-) (KS0 -> pi+ pi-)]cc
+#
+# NickName: D0_KSKS=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D0 -> K_S0(-> pi- pi+) K_S0(-> pi- pi+) phase space decay model
+# K0s decaying into pi- pi+
+# All final-state products in the acceptance
+# EndDocumentation
+#
+# PhysicsWG: QCD
+#
+# Tested: Yes
+# Responsible: Florin MACIUC
+# Email: florin.maciuc@mpi-hd.mpg.de
+# Date: 20111128
+#
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+#
+Decay D0sig
+  1.0   MyK0s        MyK0s   PHSP;
+Enddecay
+CDecay anti-D0sig
+#
+Decay MyK0s
+  1.000    pi+          pi-           PHSP;
+Enddecay
+#
+End
+

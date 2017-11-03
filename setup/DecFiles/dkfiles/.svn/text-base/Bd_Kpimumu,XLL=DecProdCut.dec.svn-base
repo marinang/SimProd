@@ -1,0 +1,36 @@
+# EventType: 11114015
+#
+# Descriptor: {[[B0]nos -> mu+ mu- K+ pi-]cc, [[B0]os -> mu- mu+ K- pi+]cc}
+#
+# NickName: Bd_Kpimumu,XLL=DecProdCut
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+# CPUTime: 3 min
+#
+# Documentation: 
+# Uses the custom XLL generator for acceptance studies
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalRepeatedHadronization.setProp('MaxNumberOfRepetitions', 5000)
+# EndInsertPythonCode
+#
+#
+# PhysicsWG:  RD
+# Tested: Yes
+# Responsible:  Biplab Dey
+# Email: biplab.dey@cern.ch
+# Date: 20161121
+#
+#
+Decay B0sig
+  1.000        mu+     mu-    K+        pi-            XLL 0;
+Enddecay
+CDecay anti-B0sig
+#
+#
+End
+#

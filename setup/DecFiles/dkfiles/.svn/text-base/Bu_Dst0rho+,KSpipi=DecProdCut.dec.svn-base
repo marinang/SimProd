@@ -1,0 +1,64 @@
+# EventType: 12365521
+#
+# Descriptor: [B+ -> (D*(2010)~0 -> (D~0 -> (KS0 -> pi+ pi-) pi+ pi-) {pi0, gamma}) rho(770)+(-> pi+ pi0)]cc
+#
+# NickName: Bu_Dst0rho+,KSpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D*+  bkg. K0s forced into pi+ pi-, D0 decay without resonance, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Anton Poluektov
+# Email: A.O.Poluektov@warwick.ac.uk
+# Date: 20110305
+#
+
+Alias MyD*0       D*0
+Alias Myanti-D*0  anti-D*0
+ChargeConj MyD*0  Myanti-D*0
+Alias        MyRho+     rho+
+Alias        MyRho-     rho-
+ChargeConj   MyRho+     MyRho-
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias myK_S0      K_S0
+ChargeConj myK_S0 myK_S0
+##
+Decay B+sig
+  1.000     Myanti-D*0  MyRho+               SVV_HELAMP 0.283 1.13 0.932 0.0 0.228 0.95 ;
+Enddecay
+CDecay B-sig
+#
+Decay MyD*0
+0.6190    MyD0  pi0                        VSS;
+0.3810    MyD0  gamma                       VSP_PWAVE;
+Enddecay
+Decay Myanti-D*0
+0.6190    Myanti-D0  pi0                       VSS;
+0.3810    Myanti-D0  gamma                      VSP_PWAVE;
+Enddecay
+#
+#
+Decay MyRho+
+  1.00000000  pi+ pi0                                  VSS ;
+Enddecay
+Decay MyRho-
+  1.00000000  pi- pi0                                  VSS ;
+Enddecay
+#
+#
+Decay MyD0
+1.000     myK_S0 pi+  pi-        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay myK_S0
+1.000     pi+  pi-               PHSP;
+Enddecay
+#
+End
+

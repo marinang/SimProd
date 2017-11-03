@@ -1,0 +1,62 @@
+# EventType: 12103240
+#
+# NickName: Bu_Kpipigamma=HighPtGamma,TightCut,mKpipiFlat
+#
+# Descriptor: [B+ -> (K_1+ -> K+ pi- pi+) gamma]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[B+ => ^( K_1(1270)+ -> ^K+ ^pi- ^pi+) ^gamma]CC'
+# tightCut.Cuts      =    {
+#     '[B+]cc'    : ' goodB     ' , 
+#     '[K+]cc'    : ' goodTrack ' , 
+#     '[pi+]cc'   : ' goodTrack ' , 
+#     'gamma'     : ' goodGamma ' }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 )       ' ,
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5            ' ,
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5            ' ,
+#     'goodB     = ( GBEAUTY )                               ' ,
+#     'goodTrack = ( GPT >  250. * MeV ) & inAcc             ' ,
+#     'goodGamma = ( GPT > 2000. * MeV ) & inEcalX & inEcalY ' ]
+# EndInsertPythonCode
+#
+# Documentation: B+->K+pi+pi-gamma decay, Kpipi flat for mass less than 2 GeV; decay products in acceptance; gamma_PT > 2.*GeV
+# EndDocumentation
+#
+# CPUTime: <1min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Karim Trabelsi, Giovanni Veneziano
+# Email: karim.trabelsi@epfl.ch, giovanni.veneziano@cern.ch
+# Date: 20150521
+#
+Alias MyKpipiK-  K_1-
+Alias MyKpipiK+  K_1+ 
+ChargeConj MyKpipiK+ MyKpipiK-
+
+LSFLAT MyKpipiK+
+ChangeMassMin MyKpipiK+ 0.7
+ChangeMassMax MyKpipiK+ 2.0
+
+LSFLAT MyKpipiK-
+ChangeMassMin MyKpipiK- 0.7
+ChangeMassMax MyKpipiK- 2.0
+
+#
+Decay B+sig
+  1.000    MyKpipiK+ gamma     SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay MyKpipiK+
+1.000    K+     pi-    pi+     PHSP;
+Enddecay
+CDecay MyKpipiK-
+End
+#

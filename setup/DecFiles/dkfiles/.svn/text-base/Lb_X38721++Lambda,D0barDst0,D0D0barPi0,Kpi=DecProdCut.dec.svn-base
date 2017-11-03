@@ -1,0 +1,64 @@
+# EventType: 15296500
+#
+# Descriptor: [Lambda_b0 -> (X_1(3872) ->  (D0 -> K- pi+) (anti-D*0 -> (anti-D0 -> K+ pi-) pi0) ) (Lambda0 -> p+ pi-)]cc
+#
+# NickName: Lb_X38721++Lambda,D0barDst0,D0D0barPi0,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda_b0 decays to X_1(3872) Lambda0. X_1(3872) forced to decay to D*0 D0bar, with D0 to K- pi+. Daughters in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Simone Stracka
+# Email: simone.stracka@cern.ch
+# Date: 20141024
+# CPUTime: 2 min 
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias       MyX_1(3872)  X_1(3872)
+ChargeConj  MyX_1(3872)  MyX_1(3872)
+Alias      MyantiD0    anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        MyantiD0
+Alias MyD*0 D*0
+Alias MyantiD*0 anti-D*0
+ChargeConj MyD*0 MyantiD*0
+
+#
+Decay Lambda_b0sig
+  1.000     MyX_1(3872)   MyLambda      PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyX_1(3872)
+  0.500         MyD*0      MyantiD0         VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+  0.500         MyantiD*0      MyD0         VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay MyD*0
+  1.000         MyD0      pi0                       VSS;  
+Enddecay
+#
+Decay MyantiD*0
+  1.000         MyantiD0  pi0                       VSS;
+Enddecay
+#
+Decay MyD0
+  1.000         K-         pi+                      PHSP; 
+Enddecay
+#
+Decay MyantiD0
+  1.000         K+         pi-                      PHSP; 
+Enddecay
+#
+Decay MyLambda
+  1.000     p+      pi-                       PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

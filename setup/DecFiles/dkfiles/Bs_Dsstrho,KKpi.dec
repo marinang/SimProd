@@ -1,0 +1,61 @@
+# EventType: 13264630
+#
+# Descriptor: {[[B_s0]nos -> (D*_s- -> {gamma (D_s- => K+ K- pi-), pi0 (D_s- => K+ K- pi-)}) rho+]cc, [[B_s0]os -> (D*_s+ -> {gamma (D_s+ => K- K+ pi+), pi0 (D_s+ => K- K+ pi+)}) rho-]cc}
+#
+# NickName: Bs_Dsstrho,KKpi
+#
+# Cuts: None
+#
+# Documentation:
+# B_s0 decay to Ds*- (D_s- gamma/pi0) rho+ (pi+ pi0) with Dalitz decay model for D_s- decay.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Paul Szczypka
+# Email: paul.szczypka@{nospam}cern.ch
+# Date: 20110927
+#
+Alias      My_D_s*+    D_s*+
+Alias      My_D_s*-    D_s*-
+ChargeConj My_D_s*+    My_D_s*-
+Alias      My_D_s1-    D_s1-
+Alias      My_D_s1+    D_s1+
+ChargeConj My_D_s1+    My_D_s1-
+Alias      My_D_s+     D_s+
+Alias      My_D_s-     D_s-
+ChargeConj My_D_s+     My_D_s-
+Alias      My_rho+     rho+
+Alias      My_rho-     rho-
+ChargeConj My_rho+ My_rho-
+#
+Decay B_s0sig
+  0.03812282  My_D_s*- My_rho+                         SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0 ;
+  0.01143685  My_D_s1- My_rho+                         SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0 ;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay My_D_s*-
+  0.942   My_D_s-           gamma     VSP_PWAVE;
+  0.058   My_D_s-           pi0       VSS;
+Enddecay
+CDecay My_D_s*+
+#
+Decay My_D_s1-
+  0.80000000  My_D_s*- pi0                             PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+  0.20000000  My_D_s- gamma                            VSP_PWAVE ;
+Enddecay
+CDecay My_D_s1+
+#
+Decay My_D_s-
+  1.000        K+        K-        pi-             D_DALITZ;
+Enddecay 
+CDecay My_D_s+
+#
+Decay My_rho+
+  1.00000000  pi+ pi0                                  VSS ;
+Enddecay
+CDecay My_rho-
+#
+End
+#

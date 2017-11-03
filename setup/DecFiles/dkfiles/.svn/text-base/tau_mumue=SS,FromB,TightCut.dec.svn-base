@@ -1,0 +1,46 @@
+# EventType: 31113012
+#
+# Descriptor: [tau- -> mu- mu- e+]cc
+#
+# NickName: tau_mumue=SS,FromB,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 5 min
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ ^(tau- -> ^mu- ^mu- ^e+) ]CC'
+# tightCut.Cuts      =    {
+#     '[e+]cc'  : ' goodElectron ' ,
+#     '[mu+]cc'  : ' goodMuon ' , 
+#     '[tau+]cc' : ' goodTau  ' }
+# tightCut.Preambulo += [
+#     'inAcc    = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodElectron = ( GPT > 0.20 * GeV ) & ( GP > 2.0 * GeV ) & inAcc ' ,
+#     'goodMuon = ( GPT > 0.20 * GeV ) & ( GP > 2.0 * GeV ) & inAcc ' , 
+#     'goodTau  = ~GHAS (GCHARM, HepMC.ancestors) ' ]
+#
+# EndInsertPythonCode
+#
+# Documentation: 
+#   tau+ -> mu+ mu+ e- from prompt b quarks only  
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marcin Chrzaszcz, Jon Harrison
+# Email:  mchrzasz@cern.ch,  jonathan.harrison@hep.manchester.ac.uk
+# Date:   20141113
+#
+Decay tau-sig
+  1.000       mu-  mu- e+              PHSP;
+Enddecay
+CDecay tau+sig
+#
+End

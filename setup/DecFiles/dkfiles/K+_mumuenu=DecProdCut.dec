@@ -1,0 +1,23 @@
+# EventType: 37513010
+#
+# Descriptor: [ K+ -> mu+ mu- e+ nu_e]cc
+#
+# NickName: K+_mumuenu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces a K+ to mu+ mu- e+ nu_e
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:   Kristian Zarebski
+# Email: kristian.alexander.zarebski@cern.ch
+# Date:   20160524
+# CPUTime: < 1min
+Decay       K+sig
+  1.000      mu+ mu- e+ nu_e     PHSP;
+Enddecay
+CDecay K-sig
+#
+End

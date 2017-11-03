@@ -1,0 +1,21 @@
+# EventType: 10022001
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b=DiElectron
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: DiLeptonInAcceptance
+# Sample: RepeatDecay.Inclusive
+# ExtraOptions: DiElectron
+#
+# Documentation: Di-electron filter
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Flavio Archilli 
+# Email: flavio.archilli@cern.ch
+# Date: 20120518
+#
+End

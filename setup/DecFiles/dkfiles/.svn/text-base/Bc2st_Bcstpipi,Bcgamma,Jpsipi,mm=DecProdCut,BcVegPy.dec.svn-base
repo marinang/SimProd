@@ -1,0 +1,51 @@
+# EventType: 14145290
+#
+# Descriptor: [B_c+ -> (B*+ -> (B+ -> (J/psi(1S) -> mu+ mu-) pi+ ) gamma ) pi+ pi-]cc
+#
+# NickName: Bc2st_Bcstpipi,Bcgamma,Jpsipi,mm=DecProdCut,BcVegPy
+#
+# Production: BcVegPy
+# ExtraOptions: Bc2sstarVegPyOpts
+# Cuts: BcDaughtersInLHCb
+
+# ParticleValue: "B_c+ 77 541 1.0  6.89000000   9.192903e-21 B_c+ 541 0.00036", "B_c- 78 -541 -1.0  6.89000000   9.192903e-21 B_c- -541 0.00036", "B+ 71 521 1.0  6.27400000   5.090000e-13  B+ 521 0.00000000", "B- 72 -521 -1.0  6.27400000   5.090000e-13 B- -521 0.00000000", "B*- 187 -523 -1.0 6.34100000   8.227648e-18 B*- -523  0.000004", "B*+ 188 523 1.0 6.34100000   8.227648e-18 B*+ 523  0.000004"
+
+# Documentation: Bc* Spectroscopy, B_c used instead of B_c2s
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:     Piotr Morawski
+# Email: piotr.morawski@cern.ch
+# Date: 20141116
+# CPUTime: <1 min
+#
+Alias MyBcst         B*+
+Alias MyantiBcst     B*-
+ChargeConj MyBcst    MyantiBcst
+Alias MyBc           B+
+Alias MyantiBc       B-
+ChargeConj MyBc      MyantiBc
+Alias MyJ/psi        J/psi
+#
+Decay B_c+sig
+1.0000     MyBcst    pi+   pi-      PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyBcst
+1.0000     MyBc    gamma      VSP_PWAVE;
+Enddecay
+CDecay MyantiBcst
+#
+Decay MyBc
+1.0000   MyJ/psi   pi+                SVS;
+Enddecay
+CDecay MyantiBc
+#
+Decay MyJ/psi
+  1.000         mu+          mu-           PHOTOS VLL;
+Enddecay
+#
+End
+#

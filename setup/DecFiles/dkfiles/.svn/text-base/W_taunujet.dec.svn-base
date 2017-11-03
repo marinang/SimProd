@@ -1,0 +1,24 @@
+# EventType: 42300010
+#
+# Descriptor: pp -> [W+ -> tau+ nu_mu]cc +jet ... 
+#
+# NickName: W_taunujet
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 4*GeV LeptonIsFromMother true NumberOfbquarks -1
+# ExtraOptions: Wtaunujet
+#
+# Documentation: tau-lepton with pT > 4 GeV, wide acceptance cut via PythiaHiggsType.
+# [ckhurewa@20150720]: Adjust tau decay to use Pythia's instead of EvtGen.
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Karol Hennessy  Wenchao Zhang
+# Email: Wenchao.Zhang@cern.ch
+# Date: 20110926
+#
+End
+#
+

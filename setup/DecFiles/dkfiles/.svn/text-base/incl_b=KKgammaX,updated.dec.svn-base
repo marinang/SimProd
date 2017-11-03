@@ -1,0 +1,42 @@
+# EventType: 10002203
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b=KKgammaX,updated
+#
+# Cuts: LHCbAcceptance
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation().BRadiativeCut
+# radCut.Code = " has(myB)"
+# radCut.Preambulo += [
+#    "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#  , "inCaloAcc    = (in_range(  0.030 , abs ( GPX/GPZ ) , 0.300 ) |  in_range(  0.030 , abs ( GPY/GPZ ) , 0.250 ))"
+#  , "inAcc        = (in_range(  0.030 , GTHETA , 0.400 ))"
+#  , "HighPtNeut   = (((('gamma' == GABSID) | ('pi0' == GABSID) )& (GPT >2.0*GeV) & inCaloAcc))"
+#  , "NGoodGPi0    = (GINTREE(HighPtNeut))"
+#  , "NGoodKp      = (GINTREE((  (('K-' == GID) )& (GPT >0.3*GeV) & inAcc)))"
+#  , "NGoodKm      = (GINTREE((  (('K+' == GID) )& (GPT >0.3*GeV) & inAcc)))" 
+#  , "NGoodKK      = ((NGoodKp)&(NGoodKm))"
+#  , "isnotB2phig  = ((~GDECTREE('(Beauty & LongLived) -> (phi(1020) -> K+ K-) gamma')))"
+#  , "isnotB2phiKg = ((~GDECTREE('[B+ -> (phi(1020) -> K+ K-) K+ gamma]CC')))"
+#  , "isnotB2K1g   = ((~GDECTREE('[B+ -> K_1(1270)+ gamma]CC')))"
+#  , "isGoodB      = ((GDECTREE('(Beauty & LongLived) --> K+ K- ...')))"
+#  , "myB          = ( isGoodB  & NGoodGPi0 & NGoodKK & isnotB2phig & isnotB2K1g & isnotB2phiKg )"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: b inclusive events with high pt gamma and (KK)0
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:  Cedric Potterat	
+# Email: cedric.potterat@cern.ch
+# Date: 20130818
+#
+End

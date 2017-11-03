@@ -1,0 +1,44 @@
+# EventType: 14545012
+#
+# Descriptor: [B_c+ -> (JPsi -> mu+ mu-) (tau+ -> K+ pi+ pi- anti-nu_tau) nu_tau]cc
+#
+# NickName: Bc_JpsiTauNu,Kpipinu=DecProdCut,ffKiselev
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc+ to JPsi tau, JPsi -> mumu, tau forced to K 2pi nu final state. Signal Channel. The Bc decay is described with the form factor model by Kiselev [arXiv:hep-ph/0211021]
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Christian Elsasser
+# Email: elsasser@cern.ch
+# Date: 20131019
+#
+
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau- MyTau+
+
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+
+
+Decay B_c+sig
+  1.000       MyJ/psi       MyTau+        nu_tau             PHOTOS BC_VMN 1;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000         mu+       mu-           PHOTOS VLL;
+Enddecay
+#
+Decay MyTau-
+  1.000 nu_tau 	K- 	pi+	 pi- 	PYTHIA 21;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

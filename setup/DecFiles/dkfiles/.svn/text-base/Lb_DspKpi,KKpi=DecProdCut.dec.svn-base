@@ -1,0 +1,65 @@
+# EventType: 15366013 
+#
+# Descriptor: [Lambda_b0 -> (D_s+ => K+ K- pi+)  p K- pi+]cc
+#
+# NickName: Lb_DspKpi,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb 
+#
+# CPUTime: < 1 min
+#
+# Documentation:  Lambda_b0 decay to Ds, p, K, pi
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible:   Mengzhen Wang
+# Email: mengzhen.wang@cern.ch
+# Date:  20170722 
+#
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+Alias      MyPhi      phi
+Alias      MyAnti-K*0 anti-K*0
+Alias      MyK*0      K*0
+ChargeConj MyK*0      MyAnti-K*0
+ChargeConj MyPhi      MyPhi
+
+# ---------------
+# DECAY OF THE Lb
+# ---------------
+Decay  Lambda_b0sig
+  1.000     MyD_s+    p+ K- pi-            PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+# -----------------
+# DECAY OF THE DS+-
+# -----------------
+Decay MyD_s+
+  0.017712  MyPhi      pi+               SVS;
+  0.009     K+         K-        pi+     PHSP;
+  0.022     MyAnti-K*0 K+                SVS;
+Enddecay
+CDecay MyD_s-
+
+# ----------------
+# DECAY OF THE PHI
+# ----------------
+Decay MyPhi
+  1.000    K+    K-                      VSS;
+Enddecay
+
+# ---------------------
+# DECAY OF THE ANTI-K*0
+# ---------------------
+Decay MyAnti-K*0
+  1.000    K-    pi+                     VSS;
+Enddecay
+CDecay MyK*0
+
+
+#
+End
+

@@ -1,0 +1,39 @@
+# EventType: 11104105
+#
+# Descriptor: [B0 -> (eta_prime -> rho0 gamma) (rho0 -> pi+ pi-)]cc
+#
+# NickName: Bd_etaprho0,rhogamma=DecProdCut
+# Cuts: DaughtersInLHCb
+#
+# Documentation: No CP violation
+# EndDocumentation
+#
+# Tested: Yes
+# Responsible: Marc Grabalosa
+# Date: 20130207
+# PhysicsWG: BnoC
+# Email: mgrabalo@lxplus.cern.ch
+#
+
+Alias      MyEta'  eta'
+ChargeConj MyEta'  MyEta'
+
+Alias      MyRho   rho0
+ChargeConj MyRho   MyRho
+
+#
+Decay B0sig
+  1.000        MyEta'    MyRho                PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyEta'
+  1.000        rho0            gamma               SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+#
+Decay MyRho
+  1.000        pi+      pi-               VSS;	
+Enddecay
+#
+End
+

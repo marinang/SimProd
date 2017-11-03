@@ -1,0 +1,36 @@
+# EventType: 12165026
+#
+# Descriptor: [B+ -> (D_s+ -> K+ pi- pi+)  K+ K-]cc
+#
+# NickName: Bu_Ds+K+K-,Kpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible:     T. Hadavizadeh
+# Email: tom.hadavizadeh@physics.ox.ac.uk
+# Date:   20170424
+#
+Alias      MyD_s+  D_s+
+Alias      MyD_s-  D_s-
+ChargeConj MyD_s+  MyD_s-
+
+Decay B+sig
+  1.000      K+  K-      MyD_s+      PHSP;
+Enddecay
+CDecay B-sig
+
+Decay MyD_s+
+  1.000  K+ pi- pi+                 PHSP;
+Enddecay
+CDecay MyD_s-
+
+
+#
+End
+

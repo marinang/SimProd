@@ -1,0 +1,24 @@
+# EventType: 12105411
+#
+# Descriptor: [B+ -> K+ pi+ pi+ pi- pi- pi0]cc
+#
+# NickName: Bu_Kpipipipipi0=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1min
+# Responsible: Luiz Oliveira
+# Email: lsilvade@cern.ch
+# Date: 20140311
+#
+Decay B+sig
+1.000	K+	pi+	pi+	pi-	pi-	pi0	PHSP;
+Enddecay
+CDecay B-sig
+#
+End

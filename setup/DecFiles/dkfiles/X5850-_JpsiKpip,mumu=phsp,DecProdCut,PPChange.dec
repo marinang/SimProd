@@ -1,0 +1,42 @@
+# EventType: 16145034
+#
+# Descriptor: [Xi_b- -> (J/psi(1S) -> mu+ mu-) K- pi+ anti-p-]cc
+#
+# NickName: X5850-_JpsiKpip,mumu=phsp,DecProdCut,PPChange
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "Xi_b-  122  5132  -1.0  5.850 1.5e-012      Xi_b-   5132  0.00000000", "Xi_b~+  123  -5132  1.0  5.850  1.5e-012 anti-Xi_b+  -5132  0.00000000"
+
+# Documentation: [X5850- -> (J/psi(1S) -> mu+ mu-) K- pi+ anti-p-] PHSP
+# Decfile for resonance X5850- -> Jpsi K- pi+ anti-p-, where X5850 might be a pentaquark.
+# Xi_b- is used for this unknown particle. Its mass is around 5850+/-40 MeV. 
+# PHSP is used for the decay.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Aravindhan V. (Syracuse University)
+# Email:  arvenkat@syr.edu
+# Date: 20161222
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+
+#
+Decay Xi_b-sig
+  1.000    MyJ/psi  K-  pi+  anti-p-  PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+
+
+End
+#

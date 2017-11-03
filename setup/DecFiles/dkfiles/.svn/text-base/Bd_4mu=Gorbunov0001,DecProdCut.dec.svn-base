@@ -1,0 +1,42 @@
+# EventType: 11114052 
+#
+# Descriptor: [B0 -> mu+ mu- mu+ mu-]cc
+#
+# NickName: Bd_4mu=Gorbunov0001,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: the B0 -> mu^+ mu^- mu^+ mu^- decay based on HyperCP-model
+#                S.V.Demidov, D.S.Gorbunov, arXiv:1112.5230;
+#                D.S.Gorbunov, NPB602 (2001), pp.213-237. 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch
+# Date:  20120604
+#
+Define mS     2.5
+Define mP     0.214
+Define gammaS 0.0001
+Define gammaP 0.0001
+Define mLiiLR 1.0
+Define Fc     1.0
+Define mD23LL 450.0
+Define mD23RR 0.0
+Define mD32LL 450.0
+Define mD32RR 0.0
+Define mD13LL 380.0
+Define mD13RR 0.0
+Define mD31LL 380.0
+Define mD31RR 0.0
+#
+Decay B0sig
+   1.000   mu+  mu-  mu+  mu-   BQTOLLLLHYPERCP mS mP gammaS gammaP mLiiLR Fc mD23LL mD23RR mD32LL mD32RR mD13LL mD13RR mD31LL mD31RR;
+Enddecay
+CDecay anti-B0sig
+#
+End
+

@@ -1,0 +1,50 @@
+# EventType: 14145002
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) pi+ pi- pi+]cc
+#
+# NickName: Bc_Jpsipipipi,mm=WeightedBcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to Jpsi(to mu+ mu- {,gamma} {,gamma} ) pi+ pi- pi+ with VVPIPI model, daughters in acceptance. The algorithm BcVegPy is weighted
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Jianchun Wang
+# Email: jwang@physics.syr.edu
+# Date: 20110909
+#
+Alias       MyPsi(2S)   psi(2S)
+ChargeConj  MyPsi(2S)   MyPsi(2S)
+Alias       MyJ/psi     J/psi
+ChargeConj  MyJ/psi     MyJ/psi
+Alias       Mya_1+      a_1+
+Alias       Mya_1-      a_1-
+ChargeConj  Mya_1+      Mya_1-
+
+#  PDG Id = 541
+Decay B_c+sig
+  0.2000   MyPsi(2S)   pi+                 SVS;
+  0.8000   MyJ/psi     Mya_1+              SVV_HELAMP 0.458 0.0 0.866 0.0 0.200 0.0;
+Enddecay
+CDecay B_c-sig
+
+#  PDG Id = 100443
+Decay MyPsi(2S)
+  1.0000   MyJ/psi  pi+  pi-       VVPIPI;
+Enddecay
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   mu+   mu-               PHOTOS   VLL;
+Enddecay
+
+#  PDG Id = 20213
+Decay Mya_1+
+  1.0000   rho0 pi+                VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+End

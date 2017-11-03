@@ -1,0 +1,33 @@
+# EventType: 11164093
+#
+# Descriptor: [B0 -> (Lambda_c- -> p~- K+ pi-) p+ ]cc
+#
+# NickName: Bd_Lambdacp,pbarKpi=DecProdCut 
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation: Includes radiative mode, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Rafael Coutinho
+# Email: rsilvaco@cern.ch
+# Date: 20120905
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Decay B0sig
+  1.00   Myanti-Lambda_c-  p+                  PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End
+

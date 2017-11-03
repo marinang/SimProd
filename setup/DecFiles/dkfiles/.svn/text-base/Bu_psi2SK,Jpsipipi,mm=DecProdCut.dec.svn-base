@@ -1,0 +1,37 @@
+# EventType: 12145020
+#
+# Descriptor: [B+ -> K+ (psi(2S) -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) pi+ pi-)]cc 
+#
+# NickName: Bu_psi2SK,Jpsipipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Nicola Mangiafave
+# Email: nicola.mangiafave@gmail.com
+# Date: 20090630
+#
+Alias      Mypsi(2S)  psi(2S)
+Alias      MyJ/psi  J/psi
+ChargeConj Mypsi(2S)  Mypsi(2S)
+ChargeConj MyJ/psi  MyJ/psi
+#
+Decay B+sig
+  1.000   Mypsi(2S)  K+   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay Mypsi(2S)
+  1.000         MyJ/psi         pi+   pi-         VVPIPI;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+         mu-     PHOTOS     VLL;
+Enddecay
+#
+End
+

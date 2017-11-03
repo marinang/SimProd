@@ -1,0 +1,45 @@
+# EventType: 13246011
+#
+# Descriptor: {[B_s0 -> (J/psi(1S) -> mu+ mu-) pi+ pi+ pi- pi-]cc,[B_s0 -> (psi(2S) -> (J/psi(1S) -> mu+ mu-) pi+ pi-) pi+ pi-]cc}
+#
+# NickName: Bs_Jpsipipipipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bs to Jpsi 4 pi including contribution of psi(2S)
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jianchun Wang
+# Email: Jianchun.Wang@cern.ch
+# Date: 20110622
+#
+Alias       MyPsi(2S)   psi(2S)
+ChargeConj  MyPsi(2S)   MyPsi(2S)
+
+Alias       MyJ/psi     J/psi
+ChargeConj  MyJ/psi     MyJ/psi
+
+
+#  PDG Id = 531
+Decay B_s0sig
+  0.2500   MyPsi(2S)   pi+   pi-                PHSP;
+  0.7500   MyJ/psi     pi+   pi+   pi-   pi-    PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+
+#  PDG Id = 100443
+Decay MyPsi(2S)
+  1.0000   MyJ/psi  pi+  pi-        VVPIPI;
+Enddecay
+
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   mu+   mu-                PHOTOS VLL;
+Enddecay
+
+
+End

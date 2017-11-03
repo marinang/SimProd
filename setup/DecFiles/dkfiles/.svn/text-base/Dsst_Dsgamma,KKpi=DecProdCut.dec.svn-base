@@ -1,0 +1,36 @@
+# EventType: 27163221
+#
+# Descriptor: [D*_s+ -> (D_s+ -> K+ K- pi+) gamma ]cc
+#
+# NickName: Dsst_Dsgamma,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Resolution studies
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:     Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20130724
+#
+Alias MyD_s- D_s-
+Alias MyD_s+ D_s+
+ChargeConj MyD_s+ MyD_s-
+#
+#Alias D_s*-sig D_s*-
+#Alias D_s*+sig D_s*+
+#ChargeConj D_s*+sig D_s*-sig
+#
+Decay D_s*+sig
+1.0000     MyD_s+  gamma                          VSP_PWAVE;
+Enddecay
+CDecay D_s*-sig
+#
+Decay MyD_s+
+  1.000        K-        K+        pi+             D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End

@@ -1,0 +1,48 @@
+# EventType: 15102203
+#
+# Descriptor: [Lambda_b0 -> (Lambda(1520)0 -> p+ K-) gamma]cc
+#
+# NickName: Lb_gammaLambda1520=HighPtGamma,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation().BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: Lambda(1520)0 forced into p K, decay with pol and hig pt gamma > 1.5       
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email:  cedric.potterat@.cern.ch
+# Date: 20130809
+#
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+
+
+Decay Lambda_b0sig
+  1.000      MyLambda(1520)0         gamma PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyLambda(1520)0  
+  1.000   p+          K-        PHSP;              
+Enddecay
+CDecay Myanti-Lambda(1520)0  
+
+End
+#

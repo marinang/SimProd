@@ -1,0 +1,35 @@
+# EventType: 11512400
+#
+# Descriptor: [B0 -> (rho- -> pi- pi0) mu+ nu_mu]cc
+#
+# NickName: Bd_rhomunu,pipi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay B0 -> rho-(->pi- pi0) mu+ nu_mu
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Adlene Hicheur
+# Email: hicheur@if.ufrj.br
+# Date: 20151105
+#
+Alias      MyRho+     rho+
+Alias      MyRho-     rho-
+ChargeConj MyRho+ MyRho-
+#
+#
+Decay B0sig
+1.000 MyRho-    mu+  nu_mu        PHOTOS ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyRho-
+1.000     pi- pi0             VSS;
+Enddecay
+CDecay MyRho+
+#
+End
+#

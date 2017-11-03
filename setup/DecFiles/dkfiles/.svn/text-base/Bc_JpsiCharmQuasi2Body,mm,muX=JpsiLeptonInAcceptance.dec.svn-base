@@ -1,0 +1,178 @@
+#EventType: 14873620
+#
+# Descriptor: { [B_c+ -> (D_s1+ -> (D_s*+ -> (D_s+ -> eta mu+ nu_mu) gamma) pi0) (J/psi -> mu+ mu-)]cc }
+#
+# NickName: Bc_JpsiCharmQuasi2Body,mm,muX=JpsiLeptonInAcceptance
+#
+# Production: BcVegPy
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: ChargedThetaMin 0. ChargedThetaMax 10. NeutralThetaMin 0. NeutralThetaMax 10.
+# FullEventCuts: JpsiLeptonInAcceptance
+#
+# InsertPythonCode:
+#from Configurables import JpsiLeptonInAcceptance
+#Generation().addTool( JpsiLeptonInAcceptance )
+#Generation().JpsiLeptonInAcceptance.JpsiLepPMin = 0
+#Generation().JpsiLeptonInAcceptance.BachLepPMin = 0
+#Generation().JpsiLeptonInAcceptance.PreselMass = False
+#Generation().JpsiLeptonInAcceptance.PreselDoca = False
+# EndInsertPythonCode
+#
+# Documentation: Bc+ to Jpsi excited Ds** (D_s0*/D_s1/D'_s1/D_s2*), where the D_s meson decays leptonically or semileptonically with a final state containing a mu. Radiative mode included. TightCut.
+# EndDocumentation
+#
+# PhysicsWG:   B2SL
+# Tested:      Yes
+# CPUTime: < 1 min                                                              
+# Responsible: Jack Wimberley
+# Email:       jack.wimberley@cern.ch
+# Date:        20160108
+#
+Alias      MyTau+     tau+
+Alias      MyTau-     tau-
+ChargeConj MyTau+     MyTau-
+#
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi    MyJ/psi
+#
+Alias      MyD+       D+
+Alias      MyD-       D-
+ChargeConj MyD+       MyD-
+#
+Alias      MyD0       D0
+Alias      Myanti-D0  anti-D0
+ChargeConj MyD0       Myanti-D0
+#
+Alias      MyD*+     D*+
+Alias      MyD*-     D*-
+ChargeConj MyD*+     MyD*-
+#
+Alias      MyD*0     D*0
+Alias      Myanti-D*0     anti-D*0
+ChargeConj MyD*0     Myanti-D*0
+#
+Alias      MyD_s+      D_s+
+Alias      MyD_s-      D_s-
+ChargeConj MyD_s+      MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      MyD_s1+    D_s1+
+Alias      MyD_s1-    D_s1-
+ChargeConj MyD_s1+    MyD_s1-
+#
+Alias      MyD'_s1+    D'_s1+
+Alias      MyD'_s1-    D'_s1-
+ChargeConj MyD'_s1+    MyD'_s1-
+#
+Alias      MyD_s0*+    D_s0*+
+Alias      MyD_s0*-    D_s0*-
+ChargeConj MyD_s0*+    MyD_s0*-
+#
+Alias      MyD_s2*+    D_s2*+
+Alias      MyD_s2*-    D_s2*-
+ChargeConj MyD_s2*+    MyD_s2*-
+#
+Decay MyTau+
+  1.00000  mu+         nu_mu         anti-nu_tau        PHOTOS TAULNUNU;
+Enddecay
+CDecay MyTau-
+#
+Decay MyJ/psi
+  1.00000  mu+         mu-                              PHOTOS VLL;
+Enddecay
+#
+Decay MyD+
+  0.00236  mu+         nu_mu                            PHOTOS SLN;
+  0.00083  MyTau+      nu_tau                           PHOTOS SLN;
+  0.56954  anti-K0     mu+           nu_mu              PHOTOS ISGW2;
+  0.32686  anti-K*0    mu+           nu_mu              PHOTOS ISGW2;
+  0.01271  anti-K_10   mu+           nu_mu              PHOTOS ISGW2;
+  0.01308  anti-K_2*0  mu+           nu_mu              PHOTOS ISGW2;
+  0.01238  K-          pi+           mu+     nu_mu      PHOTOS PHSP;
+  0.00619  anti-K0     pi0           mu+     nu_mu      PHOTOS PHSP;
+  0.02411  pi0         mu+           nu_mu              PHOTOS ISGW2;
+  0.00667  eta         mu+           nu_mu              PHOTOS ISGW2;
+  0.00123  eta'        mu+           nu_mu              PHOTOS ISGW2;
+  0.01486  rho0        mu+           nu_mu              PHOTOS ISGW2;
+  0.00918  omega       mu+           nu_mu              PHOTOS ISGW2;
+Enddecay
+CDecay MyD-
+#
+Decay MyD0
+  0.58760  K-          mu+           nu_mu              PHOTOS ISGW2;
+  0.33907  K*-         mu+           nu_mu              PHOTOS ISGW2;
+  0.04207  pi-         mu+           nu_mu              PHOTOS ISGW2;
+  0.03126  rho-        mu+           nu_mu              PHOTOS ISGW2;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyD*+
+  0.42227  MyD0        pi+                              PHOTOS VSS;
+  0.54911  MyD+        pi0                              PHOTOS VSS;
+  0.02862  MyD+        gamma                            PHOTOS VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD*0
+  0.619000000 MyD0      pi0                                     VSS;
+  0.381000000 MyD0      gamma                                   VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD_s+
+  0.07299  mu+        nu_mu                             PHOTOS SLN;
+  0.11696  MyTau+     nu_tau                            PHOTOS SLN;
+  0.28030  phi        mu+        nu_mu                  PHOTOS ISGW2;
+  0.31424  eta        mu+        nu_mu                  PHOTOS ISGW2;
+  0.11247  eta'       mu+        nu_mu                  PHOTOS ISGW2;
+  0.04366  anti-K0    mu+        nu_mu                  PHOTOS ISGW2;
+  0.02227  anti-K*0   mu+        nu_mu                  PHOTOS ISGW2;
+  0.03711  f_0        mu+        nu_mu                  PHOTOS ISGW2;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.94200  MyD_s+      gamma                            PHOTOS VSP_PWAVE;
+  0.05800  MyD_s+      pi0                              PHOTOS VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s0*+
+# 0.5000   D+ K0                            PHSP;
+# 0.5000   D0 K+                           PHSP;
+1.000      MyD_s+ pi0                        PHSP;
+Enddecay
+CDecay MyD_s0*-
+#
+Decay MyD_s1+
+0.80000  MyD_s*+ pi0                       PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.20000  MyD_s+ gamma                       VSP_PWAVE;
+Enddecay
+CDecay MyD_s1-
+#
+Decay MyD'_s1+
+0.6158   MyD*+ K0                            VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.3842   MyD*0 K+                            VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyD'_s1-
+#
+Decay MyD_s2*+
+0.0437    MyD*+ K0                         TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+0.0273    MyD*0 K+                         TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+0.2564    MyD+  K0                         TSS;
+0.6726    MyD0  K+                         TSS;
+Enddecay
+CDecay MyD_s2*-
+#
+Decay B_c+sig
+  0.1000  MyJ/psi    MyD_s0*+                           PHOTOS SVS;
+  0.8153  MyJ/psi    MyD_s1+                            PHOTOS SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+  0.0651  MyJ/psi    MyD'_s1+                           PHOTOS SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+  0.0197  MyJ/psi    MyD_s2*+                           PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+End

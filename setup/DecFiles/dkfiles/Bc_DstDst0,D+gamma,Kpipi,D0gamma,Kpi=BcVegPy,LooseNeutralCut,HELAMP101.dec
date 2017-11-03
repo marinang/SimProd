@@ -1,0 +1,65 @@
+# EventType: 14195250
+#
+# Descriptor: [ B_c+ => (D*(2010)+ => (D+ -> K- pi+ pi+) gamma) (D*(2007)~0 => (D~0 => K+ pi-) gamma) ]cc
+#
+# NickName: Bc_DstDst0,D+gamma,Kpipi,D0gamma,Kpi=BcVegPy,LooseNeutralCut,HELAMP101
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# Documentation: Daughters in LHCb Acceptance. Loose angular acceptance on neutrals.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: A. Tully
+# Email: alison.tully@cern.ch
+# Date: 20170815
+#
+Alias      MyD*+    D*+
+Alias      MyD*-    D*-
+ChargeConj MyD*+    MyD*-
+
+Alias      MyD+    D+
+Alias      MyD-    D-
+ChargeConj MyD+    MyD-
+
+Alias      Myanti-D*0    anti-D*0
+Alias      MyD*0    D*0
+ChargeConj Myanti-D*0    MyD*0
+
+Alias      MyD0        D0
+Alias      Myanti-D0   anti-D0
+ChargeConj MyD0        Myanti-D0
+
+
+Decay B_c+sig
+  1.000     MyD*+       Myanti-D*0       SVV_HELAMP 1.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay B_c-sig
+
+Decay MyD*+
+  1.000     MyD+    gamma     VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+
+Decay MyD+
+  1.000     K-        pi+        pi+    D_DALITZ;
+Enddecay
+CDecay MyD-
+
+Decay Myanti-D*0
+  1.000     Myanti-D0    gamma    VSP_PWAVE;
+Enddecay
+CDecay MyD*0
+
+Decay Myanti-D0
+  1.000     K+        pi-    PHSP;
+Enddecay
+CDecay MyD0
+
+#
+End

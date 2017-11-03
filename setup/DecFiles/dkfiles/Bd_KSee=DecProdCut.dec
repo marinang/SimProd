@@ -1,0 +1,32 @@
+# EventType: 11124101
+#
+# Descriptor: [B0 -> (K_S0 -> pi+ pi-) e+ e- ]cc
+#
+# NickName: Bd_KSee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Ks0 forced to pi+ pi-
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Harry Cliff
+# Email: harry.victor.cliff@cern.ch
+# Date: 20150618
+# CPUTime: <1min
+#
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+
+Decay B0sig
+  1.000        MyKs     e+     e-      BTOSLLBALL;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKs
+  1.000        pi+      pi-              PHSP;
+Enddecay
+#
+End
+#

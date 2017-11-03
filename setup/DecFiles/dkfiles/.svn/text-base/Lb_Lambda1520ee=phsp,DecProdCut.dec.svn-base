@@ -1,0 +1,35 @@
+# EventType: 15124001
+#
+# Descriptor: [Lambda_b0 -> (Lambda(1520)0 -> p+ K-) e+ e-]cc
+#
+# NickName: Lb_Lambda1520ee=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda(1520)0 forced into p K, decay with generic phase space       
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes 
+# Responsible: Michal Kreps 
+# Email: M.Kreps@warwick.ac.uk
+# Date: 20141004
+#
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+
+Decay Lambda_b0sig
+  1.000    MyLambda(1520)0         e+   e- PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyLambda(1520)0  
+  1.000   p+          K-        PHSP;              
+Enddecay
+CDecay Myanti-Lambda(1520)0
+
+End
+#

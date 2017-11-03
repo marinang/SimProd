@@ -1,0 +1,31 @@
+# EventType: 13102413
+#
+# Descriptor: {[[B_s0]nos -> K+ K- (pi0 -> gamma gamma)]cc, [[B_s0]os -> K- K+ (pi0 -> gamma gamma)]cc}
+#
+# NickName: Bs_K+K-pi0=sqDalitz
+#
+# Cuts: LHCbAcceptance
+#
+# Tested: Yes
+# Date: 20121022
+#
+# Responsible: Regis Lefevre
+# PhysicsWG: BnoC
+# Email: rlefevre@cern.ch
+# Documentation: flat in square Dalitz, pi0 forced to gamma gamma, LHCbAcceptance.
+#
+#
+Alias      Mypi0      pi0
+ChargeConj Mypi0      Mypi0
+#
+Decay B_s0sig
+  1.0          K+         K-       Mypi0  FLATSQDALITZ;     
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mypi0
+  1.000        gamma      gamma            PHSP;
+Enddecay
+#
+End
+

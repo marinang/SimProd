@@ -1,0 +1,69 @@
+# EventType: 12267014
+#
+# Descriptor: [B- -> (Sigma_c0 -> (Lambda_c+ -> p+ K- pi+ ) pi-) pi- pi+ anti-p-]cc
+#
+# NickName: Bu_Sigmac0pipip,Lcpi,pKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay B- -> (Sigma_c0 -> (Lambda_c+ -> p+ K- pi+) pi-) pi- pi+ anti-p-
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Claudia Vacca
+# Email: claudia.vacca@cern.ch
+# Date: 20160209
+#CPUTime: < 1 min
+#
+
+#Define Sigma_c*0
+Alias MySigma_c0 Sigma_c0
+Alias Myanti-Sigma_c0 anti-Sigma_c0
+ChargeConj MySigma_c0 Myanti-Sigma_c0
+
+#Define Lambda_c
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+#Define Lambda(1520)0
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+
+#Define K*0
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+
+#
+Decay B-sig
+  1.000     MySigma_c0  pi- pi+ anti-p-          PHSP;
+Enddecay
+CDecay B+sig
+#
+Decay MySigma_c0
+  1.0000    MyLambda_c+  pi-                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+#
+# BR = 1
+Decay MyLambda_c+
+  0.02800         p+      K-      pi+          PHSP;
+  0.01600         p+      Myanti-K*0             PHSP;
+#  0.00860         Delta++ K-                   PHSP;
+  0.01800         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda(1520)0
+  1.000   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0 
+#
+Decay Myanti-K*0
+  1.000      K-  pi+                          VSS;
+Enddecay
+CDecay MyK*0
+End

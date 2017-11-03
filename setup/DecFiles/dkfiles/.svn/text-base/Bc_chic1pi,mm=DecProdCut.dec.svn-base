@@ -1,0 +1,40 @@
+# EventType: 14143201
+#
+# Descriptor: [B_c+ -> ( chi_c1(1P) -> (J/psi(1S) -> mu+ mu- )  gamma ) pi+ ]cc 
+#
+# NickName: Bc_chic1pi,mm=DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation:  Bc->chic1 pi+, forced into chic1 to J/psi gamma and J/psi->mu+ mu-, using BcVegPy generator and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG:   Onia
+# Tested:      Yes
+# Responsible: Vanya BELYAEV
+# Email:       Ivan.Belyaev@<no-spam>itep.ru
+# Date:        20140507
+# CPUTime:     <1min 
+#
+Alias      MyJ/psi      J/psi
+ChargeConj MyJ/psi    MyJ/psi
+Alias      Mychi_c1    chi_c1
+ChargeConj Mychi_c1  Mychi_c1
+#
+Decay B_c+sig
+  1.000    Mychi_c1   pi+   SVS ;
+Enddecay
+CDecay B_c-sig
+#
+Decay  Mychi_c1 
+  1.000    MyJ/psi    gamma  VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay  MyJ/psi
+  1.000     mu+       mu-    VLL ;
+Enddecay
+#
+End
+

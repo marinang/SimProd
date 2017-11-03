@@ -1,0 +1,40 @@
+# EventType: 12145070
+#
+# Descriptor: [B+ -> (J/psi(1S) -> mu+ mu-) K+ pi+ pi-]cc
+#
+# NickName: Bu_JpsiKpipi,mm=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: B+ -> J/psi(1S) K+ pi+ pi- phsp decay, J/psi -> mu+ mu-, all daughters in acceptance
+# EndDocumentation
+# 
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Philippe dArgent
+# Email: p.dargent@cern.ch
+# Date: 20140312
+
+
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+
+
+#  PDG Id = 521
+Decay B+sig
+  1.0000   MyJ/psi K+ pi+ pi-         PHSP;
+Enddecay
+CDecay B-sig
+
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   mu+   mu-                PHOTOS VLL;
+Enddecay
+
+
+
+
+End

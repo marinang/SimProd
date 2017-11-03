@@ -1,0 +1,85 @@
+# EventType: 11166320
+#
+# Descriptor: [B0 -> (rho0 -> pi+ pi-) (anti-D*0 -> (anti-D0 -> (K_S0 -> pi+ pi-) pi+ pi-) gamma)]cc
+#
+# NickName: Bd_Dst0rho0,D0gamma,KSpipi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation().SignalRepeatedHadronization.TightCut
+#tightCut.Decay = '^[B0 => ^(D*(2007)~0 -> ^(D~0 => ^(KS0 => ^pi+ ^pi-) ^pi+ ^pi-) ^gamma ) ^(rho(770)0 => ^pi+ ^pi-)]CC'
+#tightCut.Preambulo += [
+#    'GVZ = LoKi.GenVertices.PositionZ()',
+#    'from GaudiKernel.SystemOfUnits import millimeter',
+#    'inAcc        = (in_range(0.010, GTHETA, 0.400))',
+#    'goodB       = (GP > 32500 * MeV) & (GPT > 2000 * MeV) & (GTIME > 0.060 * millimeter)',
+#    'goodDstar0       = (GP >  20000 * MeV) & (GPT > 2500 * MeV)',
+#    'goodD0       = (GP >  17500 * MeV) & (GPT > 2000 * MeV)',
+#    'goodD0Pi  = (GNINTREE( ("pi+"==GABSID) & (GP > 1000 * MeV) & (GPT > 50 * MeV) & inAcc, 1) > 1.5)',
+#    'goodKSPi  = (GNINTREE( ("pi+"==GABSID) & (GPT >  50 * MeV) & (GP >  1900 * MeV) & inAcc, 1) > 1.5)',
+#    'goodKS       = (GP >  3500 * MeV) & (GPT > 250 * MeV) ',
+#    'goodRho0Pi = (GNINTREE( ("pi+"==GABSID) & (GP > 4500 * MeV) & (GPT > 400 * MeV) & inAcc, 1) > 0.5)',
+#    'goodGamma = (GNINTREE( ("gamma"==GABSID) & ( (abs(GPX/GPZ) < 0.315)  &  (abs(GPY/GPZ) < 0.255) & ((abs( GPX/GPZ ) > 0.019)  |  (abs(GPY/GPZ) > 0.019))) , 1) > 0.5)'
+#]
+#tightCut.Cuts = {
+#    '[B0]cc'          : 'goodB',
+#    '[D*(2007)0]cc'   : 'goodDstar0 & goodGamma',
+#    '[rho(770)0]cc'   : 'goodRho0Pi',
+#    '[D0]cc'          : 'goodD0 & goodD0Pi',
+#    '[KS0]cc'         : 'goodKS & goodKSPi',
+#    }
+#EndInsertPythonCode
+#
+# Documentation: B0 forced to D*0 rho0, D*0 forced to D0 gamma, D0 forced PHSP decay to KS pi+ pi-
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Nathan Jurik
+# Email: nathan.jurik@cern.ch
+# Date: 20160913
+# CPUTime: <1min
+#
+Alias MyD*0       D*0
+Alias Myanti-D*0  anti-D*0
+ChargeConj MyD*0  Myanti-D*0
+Alias      MyD0        D0
+Alias      Myanti-D0   anti-D0
+ChargeConj MyD0        Myanti-D0
+Alias myK_S0      K_S0
+ChargeConj myK_S0 myK_S0
+Alias MyRho0      rho0
+ChargeConj MyRho0 MyRho0
+##
+Decay B0sig
+  1.000     Myanti-D*0  MyRho0               PHSP ;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Myanti-D*0
+1.0000    Myanti-D0  gamma                       PHSP;
+Enddecay
+CDecay MyD*0
+#
+#
+Decay Myanti-D0
+1.000     myK_S0 pi+  pi-        PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay myK_S0
+1.000     pi+  pi-               PHSP;
+Enddecay
+#
+#
+Decay MyRho0
+  1.00000000  pi+ pi-                                  PHSP ;
+Enddecay
+#
+End
+

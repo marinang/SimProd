@@ -1,0 +1,33 @@
+# EventType: 15144052 
+#
+# Descriptor: [Lambda_b0 -> (J/psi(1S) -> mu+ mu-) p+ K-]cc
+#
+# NickName: Lb_JpsipK,mm=XLL,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+# CPUTime: 3 min
+#
+# Documentation: Lambda_b0 to three-body p+K-J/psi with J/psi to dimuons. Custom XLL generator.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Biplab Dey 
+# Email:  biplab.dey@cern.ch
+# Date: 20170509
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Decay Lambda_b0sig
+  1.000    MyJ/psi  p+ K-               XLL 2;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                    PHOTOS  VLL;
+Enddecay
+#
+End
+#

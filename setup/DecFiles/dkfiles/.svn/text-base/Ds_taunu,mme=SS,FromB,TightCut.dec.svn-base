@@ -1,0 +1,56 @@
+# EventType: 23513009
+#
+# Descriptor: [D_s+ -> ( tau+ -> mu+ mu+ e- ) nu_tau ]cc
+#
+# NickName: Ds_taunu,mme=SS,FromB,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ D_s+ -> ( ^(tau+ -> ^mu+ ^mu+ ^e-) ) nu_tau ]CC'
+# tightCut.Cuts      =    {
+#     '[e-]cc'  : ' goodElectron ' , 
+#     '[mu+]cc'  : ' goodMuon ' , 
+#     '[tau+]cc' : ' goodTau  ' }
+# tightCut.Preambulo += [
+#     'inAcc    = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodElectron = ( GPT > 0.20 * GeV ) & ( GP > 2.0 * GeV ) & inAcc ' , 
+#     'goodMuon = ( GPT > 0.20 * GeV ) & ( GP > 2.0 * GeV ) & inAcc ' , 
+#     'goodTau  = GHAS (GBEAUTY, HepMC.ancestors) ' ]
+#
+# EndInsertPythonCode
+#
+# Documentation:  
+#   Forces a Ds+ to ( tau+ -> mu+ e- mu+ ) nu_tau from b quarks only  
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Marcin Chrzaszcz, Jon Harrison
+# Email: mchrzasz@cern.ch, jonathan.harrison@hep.manchester.ac.uk 
+# Date: 20141113
+#
+Alias myTau+ tau+
+Alias myTau- tau-
+ChargeConj myTau+ myTau-
+
+Decay  D_s+sig
+  1.000     myTau+   nu_tau    	SLN;
+Enddecay
+CDecay D_s-sig
+#
+Decay myTau+
+  1.000       mu+ e- mu+              PHSP;
+Enddecay
+CDecay myTau-
+#
+End
+

@@ -1,0 +1,34 @@
+# EventType: 41900006
+#
+# Descriptor: pp => (t => b ...) (t~ => b~ ...) ... 
+#
+# NickName: ttbar_gg_1l17GeV
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/OneLepFromTop
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "OneLepFromTop" )
+# tracksInAcc = Generation().OneLepFromTop
+# tracksInAcc.Code = " ( ( count ( isGoodBfromT ) > 1 ) & ( count ( isGoodLepton ) > 0 ) ) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodBfromT   = ( (  6 == GABSID ) & GINTREE( GBEAUTY ) )"
+#    , "isGoodLepton   = ( ( 'W+' == GABSID ) & GINTREE( GLEPTON & GCHARGED & ( GTHETA < 400.0*mrad ) & ( GPT > 17*GeV ) ) )"
+#    ]
+# EndInsertPythonCode
+#
+#
+# ExtraOptions: Top_ttbar_gg
+#
+# Documentation:  1 lepton within LHCb acceptance with pT greater than 17GeV. (also require 2bs from gg->ttbar)
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Rhorry Gauld
+# Email: r.gauld1@physics.ox.ac.uk
+# Date: 20130515
+#
+End

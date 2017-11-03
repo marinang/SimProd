@@ -1,0 +1,23 @@
+# EventType: 46000050
+#
+# Descriptor: pp -> ( (X -> ~chi_10 -> (l q q, l l l), X -> ~chi_1+ -> (l q q, l l l), X -> ~chi_1- -> (l q q, l l l)) + jet ... )
+#
+# NickName: BRpVGaugino_m0800_m324000
+#
+# Cuts: PythiaLSP
+#
+# ParticleTable: AMSB_m0800_m324000
+# SUSYModel: AMSB_m0800_m324000
+#
+# Documentation: Neutralinos from SUSY (AMSB) with Bilinear Rp violation in all final states, m0=800GeV, m3/2=4TeV
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Neal Gauvin 
+# Email: stephane.tourneur@epfl.ch
+# Date: 20091002
+#
+End
+#
+#

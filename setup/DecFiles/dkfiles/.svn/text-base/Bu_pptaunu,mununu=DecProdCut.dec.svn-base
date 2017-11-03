@@ -1,0 +1,36 @@
+# EventType: 12513060
+#
+# Descriptor: [B- -> p+ anti-p- (tau- -> mu- anti-nu_mu nu_tau) anti-nu_tau]cc
+#
+# NickName: Bu_pptaunu,mununu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# 
+# CPUTime: < 1 min
+#
+# Documentation: phase space decay, decay products in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2SL 
+# Tested: Yes
+# Responsible: Matthew Tilley
+# Email: matthew.james.tilley@cern.ch
+# Date: 20160324
+#
+#
+Alias Mytau- tau-
+Alias Mytau+ tau+
+ChargeConj Mytau- Mytau+
+
+Decay B-sig
+  1.000    p+  anti-p-  Mytau-  anti-nu_tau    PHOTOS  PHSP;
+Enddecay
+CDecay B+sig
+#
+Decay Mytau-
+  0.1741    mu-  anti-nu_mu  nu_tau    PHOTOS  TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+End
+#

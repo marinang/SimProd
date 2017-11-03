@@ -1,0 +1,35 @@
+# EventType: 14543010 
+#
+# Descriptor: [B_c+ => (J/psi(1S) => mu+ mu-) mu+ nu_mu]CC
+#
+# NickName: Bc_JpsiMuNu,mm=BcVegPy,ffEbert
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+
+# Documentation: Bc+ to J/psi mu, J/psi -> mumu. Form factor model by Ebert et al., doi:10.1103/PhysRevD.82.034032. Radiative mode included. BcDaughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Jack Wimberley
+# Email: jack.wimberley@cern.ch
+# Date: 20140109
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Decay MyJ/psi
+  1.00000  mu+        mu-                               PHOTOS VLL ;
+Enddecay
+#
+Decay B_c+sig
+  1.00000  MyJ/psi    mu+            nu_mu              PHOTOS BC_VMN 2;
+Enddecay
+CDecay B_c-sig
+#
+End
+
+
+

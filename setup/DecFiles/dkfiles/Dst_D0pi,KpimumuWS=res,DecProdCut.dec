@@ -1,0 +1,63 @@
+# EventType: 27215001
+
+# Descriptor: [D*(2010)+ -> (D0 => {K+ pi- mu+ mu-}) pi+]cc
+#
+# NickName: Dst_D0pi,KpimumuWS=res,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# ParticleValue: "rho(770)0_nocut 1033 200113 0.0 0.771100 4.411610e-024 rho0_nocut 200113 0.0e+00","omega(782)_nocut 1036 200223  0.0 0.782570 7.798723e-023 omega_nocut 200223 0.0"
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Olga Kochebina
+# Email: kochebin@lal.in2p3.fr
+# Date: 20120919
+#
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Alias Myomega omega_nocut
+ChargeConj Myomega Myomega
+
+Alias Myrho0 rho0_nocut
+ChargeConj Myrho0 Myrho0
+
+Alias Myanti-K*0 anti-K*0
+Alias MyK*0   K*0
+ChargeConj Myanti-K*0  MyK*0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  0.16  K+ pi-  mu+ mu-  PHSP;
+  0.16  K+ pi- Myomega PHSP;
+  0.16  K+ pi- Myrho0 PHSP;
+  0.16  MyK*0 mu+ mu- PHSP;
+  0.16  MyK*0 Myomega   SVV_HELAMP  1.0 0.0 1.7 0.0 1.0 0.0;
+  0.16  Myrho0 MyK*0   SVV_HELAMP  1.0 0.0 1.7 0.0 1.0 0.0;
+Enddecay
+CDecay MyantiD0
+
+
+Decay Myomega
+  1.000 mu+  mu-    VLL;
+Enddecay
+
+Decay Myrho0
+  1.000 mu+  mu-    VLL;
+Enddecay
+
+Decay MyK*0
+  1.000        K+        pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+
+#
+End

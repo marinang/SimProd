@@ -1,0 +1,62 @@
+# EventType: 15466000
+# 
+# Descriptor: [Lambda_b0 -> (Sigma_c0->(Lambda_c+ -> p+ K- pi+) pi-)anti-p- p+ ]cc
+# 
+# NickName: Lb_Sigma_c0ppbar,pKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lc p pbar pi with Lc -> p K pi, decay products in acceptance. Includes K*0 resonance in Lambda_c decay
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Mengzhen Wang
+# Email: mengzhen.wang@cern.ch
+# Date: 20161019
+#
+Alias MySigma_c0 Sigma_c0
+Alias Myanti-Sigma_c0 anti-Sigma_c0
+ChargeConj MySigma_c0 Myanti-Sigma_c0
+#
+Alias MySigma_c*0 Sigma_c*0
+Alias Myanti-Sigma_c*0 anti-Sigma_c*0
+ChargeConj MySigma_c*0 Myanti-Sigma_c*0
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Decay Lambda_b0sig
+0.500        MySigma_c0   p+ anti-p-      PHSP;
+0.500        MySigma_c*0  p+ anti-p-    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MySigma_c0
+  1.000         MyLambda_c+  pi-     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+#
+Decay MySigma_c*0
+  1.000         MyLambda_c+  pi-     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c*0
+#
+Decay MyLambda_c+
+ 0.008600000 Delta++ K-                                      PHSP;
+ 0.010700000 p+      Myanti-K*0                              PHSP;
+ 0.025400000 p+      K-      pi+                             PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+  1.000      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+End

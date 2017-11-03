@@ -1,0 +1,69 @@
+# EventType: 16265021
+#
+# Descriptor: [Sigma_b+ -> (Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) pi-) p+]cc
+#
+# NickName: Xib6858_Lbp,pKpi=DecProdCut,PPChange
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: " Sigma_b+   110   5222  1.0  6.858  1.00000e-019       Sigma_b+   5222  1.000000e-004", " Sigma_b~-  111  -5222  -1.0  6.858  1.000000e-019  anti-Sigma_b-  -5222  1.000000e-004"
+#
+# Documentation: Decay of surrogate particle Xib6858 -> Lambda_b0 p+ with Lambda_b0 -> Lambda_c+ pi- and Lambda_c+ --> p+ K- pi+
+#
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: F. Toriello
+# Email:  fetoriel@syr.edu
+# Date: 20160617
+#
+Alias MyLambda_b0 Lambda_b0
+Alias Myanti-Lambda_b0 anti-Lambda_b0
+ChargeConj MyLambda_b0 Myanti-Lambda_b0
+
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+
+Alias MyDelta++ Delta++
+Alias Myanti-Delta-- anti-Delta--
+ChargeConj MyDelta++ Myanti-Delta--
+
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+#
+Decay Sigma_b+sig
+  1.0    MyLambda_b0  p+                  PHSP;
+Enddecay
+CDecay anti-Sigma_b-sig
+#
+
+Decay MyLambda_b0
+  1.000    MyLambda_c+        pi-     PHSP;
+Enddecay
+CDecay Myanti-Lambda_b0
+
+Decay MyLambda_c+
+  0.548         p+      K-      pi+          PHSP;
+  0.195         p+      Myanti-K*0           PHSP;
+  0.180         MyDelta++   K-               PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#                                                                                              
+Decay MyK*0
+  1.000      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+
+Decay MyDelta++
+ 1.00 p+  pi+                       PHSP;
+Enddecay
+CDecay  Myanti-Delta--
+#                                                                                                       
+
+
+End

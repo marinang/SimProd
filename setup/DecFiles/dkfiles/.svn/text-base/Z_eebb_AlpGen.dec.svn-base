@@ -1,0 +1,40 @@
+# EventType: 42922000
+#                                                                               
+# Descriptor: pp -> (Z-> el el) (b b~)...
+#                                                                               
+# NickName: Z_eebb_AlpGen
+# Cuts: None                                                                    
+#                                                                               
+# InsertPythonCode:
+# Generation.AlpGenDict = {
+# 'alpgen_nevxiter' : 100000,
+# 'alpgen_niter' : 2,
+# 'alpgen_nwgtev' : 1000000,
+# 'alpgen_FileLabel' : "zbb",
+# 'alpgen_njets' : 0, #number of light jets
+# 'alpgen_etabmin' : 1.596,
+# 'alpgen_ptbmin' : 3.0,
+# 'alpgen_drbmin' : 0.1,
+# 'alpgen_etabmax' : 10.0,
+# 'alpgen_eta1lmin' : 1.596,
+# 'alpgen_ptlmin' : 10.0,
+# 'alpgen_drlmin' : 0.,
+# 'alpgen_etalmax' : 10.0,
+# 'alpgen_izdecmode' : 1,
+# 'alpgen_ndns' : 9,
+# }
+#
+# EndInsertPythonCode
+#                                                                               
+# Documentation: 2 b-quark in the LHCb Acc, 1 lepton in LHCb acceptance with pt > 10 GeV applied by AlpGen directly when used as production
+# EndDocumentation                                                              
+#                                                                               
+# PhysicsWG: Exotica                                                            
+# Tested: Yes                                                                   
+# CPUTime: < 1 min                                                              
+# Responsible: Xabier Cid Vidal                                                 
+# Email: xabier.cid.vidal@cern.ch                                               
+# Date: 20150508                                                                
+#                                                                               
+End
+#

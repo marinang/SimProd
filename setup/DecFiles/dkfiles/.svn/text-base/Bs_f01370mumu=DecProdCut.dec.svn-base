@@ -1,0 +1,31 @@
+# EventType: 13114013
+#
+# Descriptor: [B_s0 -> mu+ mu- (f_0(1370) -> pi+ pi-)]cc
+#
+# NickName: Bs_f01370mumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:    The decay in the phase space approach
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email:       Nikolai.Nikitine@cern.ch
+# Date:        20120608
+#
+Alias      Myf_0    f'_0
+ChargeConj Myf_0    Myf_0
+ChangeMassMin Myf_0 0
+#
+#
+Decay B_s0sig
+  1.000   Myf_0  mu+  mu-         PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myf_0
+  1.000         pi+       pi-     PHSP;
+Enddecay
+End

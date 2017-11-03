@@ -1,0 +1,43 @@
+# EventType: 13146030
+#
+# Descriptor: [B_s0 -> (X_1(3872) -> (J/psi(1S) -> mu+ mu-) (rho0 -> pi+ pi-)) K+ K-]cc
+#
+# NickName: Bs_X3872KK,Jpsirho,mm=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B_s0 decays to X_1(3872)(to Jpsi(to mu+ mu-) and rho0(to pi+ pi-)) and K+ K- with phase space model
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Bin Gui
+# Email: bgui@syr.edu
+# Date: 20130107
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+Alias       Myrho0       rho0
+ChargeConj  Myrho0       Myrho0
+Alias       MyX_1(3872)  X_1(3872)
+ChargeConj  MyX_1(3872)  MyX_1(3872)
+#
+Decay B_s0sig
+  1.0000   MyX_1(3872) K+ K-        PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyX_1(3872)
+  1.0000   MyJ/psi  Myrho0          PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.0000   mu+   mu-                PHSP;
+Enddecay
+#
+Decay Myrho0
+  1.0000   pi+   pi-                PHSP;
+Enddecay
+#
+End
+#

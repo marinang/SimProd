@@ -1,0 +1,27 @@
+# EventType: 21113003
+#
+# Descriptor: [D+ -> K- mu+ mu+]cc
+#
+# NickName: D+_K-mu+mu+=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible:     Viaud
+# Email: viaud@lal.in2p3.fr
+# Date: 20111014
+#
+
+
+Decay D+sig
+  1.000   K-  mu+ mu+  PHSP;
+Enddecay
+CDecay D-sig
+
+#
+End
+

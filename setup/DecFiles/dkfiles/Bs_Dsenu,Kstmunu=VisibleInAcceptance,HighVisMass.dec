@@ -1,0 +1,63 @@
+# EventType: 13574085
+# 
+# Descriptor: [B_s0 -> (D_s- -> (anti-K*0 -> K- pi+) mu- anti-nu_mu) e+ nu_e]cc
+#
+# NickName: Bs_Dsenu,Kstmunu=VisibleInAcceptance,HighVisMass
+# Cuts: LoKi::GenCutTool/HighVisMass
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool(LoKi__GenCutTool ,'HighVisMass')
+# #
+# tightCut = gen.SignalRepeatedHadronization.HighVisMass
+# tightCut.Decay   = '[^(B_s0 => ^(D_s- => ^(K*(892)~0 => ^K- ^pi+) ^mu- ^nu_mu~) ^e+ ^nu_e)]CC'
+# tightCut.Cuts    =    {
+#     '[K+]cc'     : "inAcc",
+#     '[pi-]cc'    : "inAcc",
+#     '[e+]cc'     : "inAcc",
+#     '[mu-]cc'     : "inAcc",
+#     '[B_s0]cc'     : "visMass" }
+# tightCut.Preambulo += [
+#     "inAcc   = in_range ( 0.005 , GTHETA , 0.400 ) " ,
+#     "visMass  = ( ( GMASS ( 'e+' == GID , 'mu-' == GID, 'K+' == GABSID, 'pi+' == GABSID ) ) > 4500 * MeV ) " ]
+# EndInsertPythonCode
+#
+# Documentation: background for B0 -> K* e mu LFV search
+# selected to have a visible mass larger than 4.5 GeV
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Stefania Ricciardi 
+# Email: stefania.ricciardi@stfc.ac.uk
+# Date: 20170706
+# CPUTime: <60min
+#
+
+Alias MyK*0   K*0 
+Alias Myanti-K*0 anti-K*0 
+ChargeConj MyK*0  Myanti-K*0 
+
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+Decay B_s0sig
+  1.000        MyD_s- e+ nu_e   PHOTOS ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s-
+1.000         Myanti-K*0 mu- anti-nu_mu PHOTOS ISGW2;
+Enddecay
+CDecay MyD_s+
+#
+Decay Myanti-K*0  
+1.000          K- pi+         VSS;
+Enddecay           
+CDecay MyK*0
+#
+End
+#

@@ -1,0 +1,34 @@
+# EventType: 15164011
+#
+# Descriptor: [Lambda_b0 -> (D0 -> K- pi+) p+ pi- ]cc
+#
+# NickName: Lb_D0ppi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D0 forced into K- pi+, phase space decay for Lambda_b0
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Anton Poluektov
+# Email: a.o.poluektov@warwick.ac.uk
+# Date: 20101208
+#
+Alias      MyD0          D0
+Alias      Myanti-D0     anti-D0
+ChargeConj MyD0          Myanti-D0
+#
+Decay Lambda_b0sig
+  1.000    MyD0  p+ pi-               PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyD0
+  1.000   K-     pi+                  PHSP;
+Enddecay
+CDecay Myanti-D0
+
+#
+End
+#

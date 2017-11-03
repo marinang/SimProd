@@ -1,0 +1,21 @@
+# EventType: 60002054
+#
+# Descriptor: p Xe131[0.0] => ?
+#
+# NickName: beamGasVelo,2=Xenon
+#
+# Cuts: None
+#
+# Production: Hijing
+# ExtraOptions: Beam2GasVeLo
+#
+# Documentation: Beam2-Xenon gas in the VELO
+# EndDocumentation
+#
+# PhysicsWG: Sim
+# Tested: Yes
+# Responsible: Massimiliano Ferro-Luzzi
+# Email: Massimiliano.Ferro-Luzzi@cern.ch
+# Date: 20130712
+#
+End

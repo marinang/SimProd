@@ -1,0 +1,26 @@
+# EventType: 22114002
+#
+# Descriptor: [D0 -> pi+ pi- mu+ mu-]cc
+#
+# NickName: D0_pipimumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible:     Viaud
+# Email: viaud@lal.in2p3.fr
+# Date: 20111014
+#
+
+Decay D0sig
+  1.000   pi+ pi-  mu+ mu-  PHSP;
+Enddecay
+CDecay anti-D0sig
+
+#
+End
+

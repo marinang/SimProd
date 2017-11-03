@@ -1,0 +1,32 @@
+# EventType: 13144042
+#
+# Descriptor: [B_s0 -> (psi(2S) -> mu+ mu-) K+ K-]
+#
+# NickName: Bs_psi2SKK,mm=FullPHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: 3 min
+#
+# Documentation: B_s0 decays to psi(2S)(to mu+ mu-) and K+ K- with phase space model
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email: biplabdey@yahoo.com
+# Date: 20150301
+#
+Alias       Mypsi(2S)   psi(2S)
+ChargeConj  Mypsi(2S)   Mypsi(2S)
+#
+Decay B_s0sig
+  1.0000   Mypsi(2S) K+ K-          PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mypsi(2S)
+  1.0000   mu+   mu-        PHSP;
+Enddecay
+#
+End
+#

@@ -1,0 +1,42 @@
+# EventType: 12573400
+#
+# Descriptor: [B+ -> (anti-D*0 -> (anti-D0 -> K+ mu- anti-nu_mu) pi0) pi+ ]cc
+#
+# NickName: Bu_Dst0pi,D0pi0,Kmunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Tom Hadavizadeh
+# Email: tom.hadavizadeh@physics.ox.ac.uk
+# Date: 20150901
+#
+Alias       MyD0        D0
+Alias       Myanti-D0   anti-D0
+ChargeConj  MyD0        Myanti-D0
+Alias       Myanti-D*0  anti-D*0
+Alias       MyD*0       D*0
+ChargeConj  Myanti-D*0  MyD*0
+
+#
+Decay B+sig
+  1.000     Myanti-D*0      pi+                 SVS;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D*0
+  1.000     Myanti-D0       pi0                 VSS;
+Enddecay
+CDecay MyD*0
+#
+Decay Myanti-D0
+  1.000     K+              mu-    anti-nu_mu   PHOTOS  ISGW2;
+Enddecay
+CDecay MyD0
+#
+End

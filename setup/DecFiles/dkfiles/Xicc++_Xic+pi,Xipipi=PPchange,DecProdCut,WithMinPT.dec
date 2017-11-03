@@ -1,0 +1,91 @@
+# EventType: 26166121
+#
+# Descriptor: [ Sigma_c++ -> ( Xi_c+ -> ( Xi- -> ( Lambda0 -> p+ pi- ) pi- ) pi+ pi+ ) pi+ ]CC
+#
+# NickName: Xicc++_Xic+pi,Xipipi=PPchange,DecProdCut,WithMinPT
+#
+# Cuts: LoKi::GenCutTool/DaughtersInLHCbAndWithMinPT
+#
+# Sample: SignalRepeatedHadronization
+#
+# ParticleValue: " Sigma_c++              85        4222   2.0      3.50000000      3.330000e-13                 Sigma_c++        4222      0.00000000", " Sigma_c~--             86       -4222  -2.0      3.50000000      3.330000e-13            anti-Sigma_c--       -4222      0.00000000"
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'DaughtersInLHCbAndWithMinPT' )
+# daughtersInLHCbAndWithMinPT = gen.SignalRepeatedHadronization.DaughtersInLHCbAndWithMinPT
+# daughtersInLHCbAndWithMinPT.Decay     = '^[ Sigma_c++ -> ^( Xi_c+ -> ^( Xi- -> ^( Lambda0 -> ^p+ ^pi- ) ^pi- ) ^pi+ ^pi+ ) ^pi+ ]CC'
+# daughtersInLHCbAndWithMinPT.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import MeV ',
+#     'inAcc     = in_range ( 0.010 , GTHETA , 0.400 ) ',
+#     'protP     = ( GP > 8000 * MeV )',
+#     'xiccpT    = ( GPT > 2000 * MeV )'
+# ]
+# daughtersInLHCbAndWithMinPT.Cuts      =    {
+#     '[pi+]cc'         : 'inAcc',
+#     '[p+]cc'          : 'inAcc & protP',
+#     '[Sigma_c++]cc'   : 'xiccpT',
+#     }
+#
+# Generation().SignalRepeatedHadronization.SignalPIDList = [ 4222, -4222 ]
+# EndInsertPythonCode
+#
+#
+# Documentation: decay file of Xi_cc++ -> ( Xi_c+ -> ( Xi- -> ( Lambda0 -> p+ pi- ) pi- ) pi+ pi+ ) pi+
+# Both Xi_cc++ and Xi_c+ decay via PHSP model.
+# Uses PYTHIA instead of the dedicated GenXicc generator.
+# Sigma_c++ is used to represent Xi_cc++ because of the small cross-section fo
+# Xi_cc++ production in PYTHIA.
+# Sigma_c++ mass and mean lifetime are redefined to
+#   MASS = 3.5 GeV
+#   TLIFE = 3.330000e-13 sec
+# All stable descendents of Xicc are required to be in the acceptance of LHCb 
+# and the Xicc PT is required to be larger than 2000 MeV. 
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Liang Zhong, Patrick Spradlin
+# Email: liang.zhong@cern.ch, NOSPAM_patrick.spradlin@cern.ch
+# Date: 20140930
+#
+Alias      MyXi_c+        Xi_c+
+Alias      Myanti-Xi_c-   anti-Xi_c-
+ChargeConj MyXi_c+        Myanti-Xi_c-
+#
+Alias      MyXi-          Xi-
+Alias      Myanti-Xi+     anti-Xi+
+ChargeConj MyXi-          Myanti-Xi+
+#
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+#
+Decay Sigma_c++sig
+  1.00     MyXi_c+      pi+                 PHSP;
+Enddecay
+CDecay anti-Sigma_c--sig
+#
+Decay MyXi_c+
+  1.000    MyXi-        pi+       pi+       PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+#
+Decay MyXi-
+  1.000    MyLambda0    pi-                 PHSP;
+Enddecay
+CDecay Myanti-Xi+
+#
+Decay MyLambda0
+  1.000    p+           pi-                 PHSP;
+Enddecay
+CDecay Myanti-Lambda0
+#
+End
+#

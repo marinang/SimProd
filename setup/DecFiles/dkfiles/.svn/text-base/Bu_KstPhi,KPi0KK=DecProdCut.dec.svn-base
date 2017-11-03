@@ -1,0 +1,38 @@
+# EventType: 12103412
+# NickName: Bu_KstPhi,KPi0KK=DecProdCut
+# Descriptor: [B+-> (K*+ -> K+ pi0) (phi -> K+ K-)]cc
+#
+# Documentation: K*+ forced into K+ pi0, Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# Cuts: DaughtersInLHCb
+#
+# 
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:  Cédric Potterat
+# Email: cedric.potterat@cern.ch
+# Date: 20120819
+#
+Alias      MyKst+    K*+
+Alias      MyKst-    K*-
+ChargeConj MyKst+    MyKst-
+Alias      Myphi     phi
+ChargeConj Myphi     Myphi
+#
+Decay B+sig
+  1.000   Myphi     MyKst+       SVV_HELAMP  1.0 0.0 1.7 0.0 1.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay Myphi
+  1.000  K+      K-          VSS;
+Enddecay
+#
+Decay MyKst+
+  1.000  K+ pi0             VSS;
+Enddecay
+CDecay MyKst-
+#
+End
+#

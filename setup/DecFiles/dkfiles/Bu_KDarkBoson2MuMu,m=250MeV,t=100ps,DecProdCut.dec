@@ -1,0 +1,66 @@
+# $Id: Bu_KDarkBoson2MuMu,m=250MeV,t=100ps,DecProdCut.dec  $
+#
+# This is the decay file for the decay B+ -> DARK BOSON (-> MU+ MU-) K+ 
+#
+# EventType: 12113095
+#
+# Descriptor: [B+ -> K+ (Higgs0 -> mu+ mu-)]cc
+#
+# NickName: Bu_KDarkBoson2MuMu,m=250MeV,t=100ps,DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# InsertPythonCode:
+#from Gauss.Configuration import *
+#from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+#from Configurables import Gauss, PrintMCTree, PrintMCDecayTreeTool, HistogramPersistencySvc, NTupleSvc, DumpHepMCDecay, DumpHepMCTree, GaussMonitor__CheckLifeTimeHepMC, GaussMonitor__CheckLifeTimeMC, GiGa, GiGaPhysListModular, GiGaHiggsParticles, GenerationToSimulation, PythiaProduction
+#
+#
+#
+#ParticlePropertySvc().Particles = [ "H_10     87      25  0.0        0.250   1.0000e-10      Higgs0   25   0.000000e+000" ]
+#ApplicationMgr().ExtSvc    += [ ParticlePropertySvc() ]
+#
+#gigaHiggsPart = GiGaHiggsParticles()
+#gigaHiggsPart.Higgses = ["H_10"] # H_10, H_20, H_30
+#GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]#
+#
+#
+#
+#EndInsertPythonCode
+#
+#
+# 
+# Documentation: File for B+ -> Dark Boson (-> mu mu) K+ 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Ricardo Vazquez Gomez
+# Email: rvazquez@cern.ch 
+# Date:   20140205
+# CPUTime: <1min
+
+#
+Alias MyDB    Higgs0
+
+ChargeConj MyDB  MyDB
+
+#
+Decay MyDB
+  1.000         mu+      mu-       PHSP;             
+Enddecay
+#
+
+#
+Decay B+sig
+  1.000         K+  MyDB           PHSP;
+Enddecay
+CDecay B-sig
+
+#Decay B-sig
+#  1.000         K-  MyDB           BTOSLLBALL;
+#Enddecay
+#
+
+End
+#

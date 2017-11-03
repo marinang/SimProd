@@ -1,0 +1,52 @@
+# EventType: 16204042
+#
+# Descriptor: [ Xi_b0 -> p+ K- K+ K- ]cc
+#
+# NickName: Xib0_pKKK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Jan Mickelle Maratas
+# Email: maratas@clermont.in2p3.fr
+# Date: 20150105
+#
+Alias      MyLambda(1520)0                   Lambda(1520)0
+Alias      Myanti-Lambda(1520)0              anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0                   Myanti-Lambda(1520)0
+#
+Alias      MyPhi                             phi
+ChargeConj MyPhi                             MyPhi
+#
+Alias      Myf'_2                            f'_2
+ChargeConj Myf'_2                            Myf'_2
+#
+Decay Xi_b0sig
+  0.350    p+          K-       K+       K-  PHSP;
+  0.325    MyLambda(1520)0      MyPhi        PHSP;
+  0.325    MyLambda(1520)0      Myf'_2       PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyLambda(1520)0
+  1.000    p+          K-                    PHSP;
+Enddecay
+#
+Decay Myanti-Lambda(1520)0
+  1.000    anti-p-     K+                    PHSP;
+Enddecay
+#
+Decay MyPhi
+  1.000    K+          K-                    VSS;
+Enddecay
+#
+Decay Myf'_2
+  1.000    K+          K-                    TSS;
+Enddecay
+#
+End

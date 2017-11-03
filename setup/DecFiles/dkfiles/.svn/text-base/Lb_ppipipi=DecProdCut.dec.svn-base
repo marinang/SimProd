@@ -1,0 +1,62 @@
+# EventType: 15204010
+#
+# Descriptor: [ Lambda_b0 -> p+ pi- pi+ pi- ]cc
+#
+# NickName: Lb_ppipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in acceptance
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import LHCb__ParticlePropertySvc
+# LHCb__ParticlePropertySvc().Particles = [ 
+#  ###                    GEANTID   PDGID   CHARGE   MASS(GeV)       TLIFE(s)             EVTGENNAME           PYTHIAID   MAXWIDTH
+#  "N(1520)0              404        1214   0.0      1.52000000      5.723584e-24              N(1520)0        0          0.00",
+#  "N(1520)~0             405       -1214   0.0      1.52000000      5.723584e-24         anti-N(1520)0        0          0.00",
+# ]
+# EndInsertPythonCode
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: 3 min
+# Responsible: Jan Mickelle Maratas
+# Email: maratas@clermont.in2p3.fr
+# Date: 20140426
+#
+Alias      MyRho0                            rho0
+ChargeConj MyRho0                            MyRho0
+#
+Alias      Myf_2                             f_2
+ChargeConj Myf_2                             Myf_2
+#
+Alias      MyN(1520)0                        N(1520)0
+Alias      Myanti-N(1520)0                   anti-N(1520)0
+ChargeConj MyN(1520)0                        Myanti-N(1520)0
+#
+Decay Lambda_b0sig
+  0.350    p+          pi-      pi+     pi-  PHSP;
+  0.325    MyN(1520)0  MyRho0                PHSP;
+  0.325    MyN(1520)0  Myf_2                 PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyN(1520)0
+  1.000    p+          pi-                   PHSP;
+Enddecay
+#
+Decay Myanti-N(1520)0
+  1.000    anti-p-     pi+                   PHSP;
+Enddecay
+#
+Decay MyRho0
+  1.000    pi+         pi-                   VSS;
+Enddecay
+#
+Decay Myf_2
+  1.000    pi+         pi-                   TSS;
+Enddecay
+#
+End

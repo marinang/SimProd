@@ -1,0 +1,33 @@
+# EventType: 25113010
+# 
+# Descriptor: [Lambda_c+ -> p+ (phi(1020) -> mu- mu+)]cc
+# 
+# NickName: Lc_pphi,mumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: PHSP MODEL.
+# 		 Normalization channel for Lc -> p mu mu
+#                
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Marcin Chrzaszcz, Mariusz Witek
+# Email:       mchrzasz@cern.ch, mariusz.witek@ifj.edu.pl
+# Date:        20150517
+# CPUTime: <1min
+#
+Alias      MyPhi    phi
+ChargeConj MyPhi    MyPhi
+
+Decay Lambda_c+sig
+  1.00000         p+      MyPhi     PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+Decay  MyPhi
+  1.000     mu+      mu-    PHOTOS VLL ;
+Enddecay
+ 
+#
+End

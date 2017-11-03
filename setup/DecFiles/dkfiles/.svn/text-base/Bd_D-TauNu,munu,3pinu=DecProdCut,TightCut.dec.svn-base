@@ -1,0 +1,47 @@
+# EventType: 11574000
+#
+# Descriptor: [B0 -> (D- -> mu- anti-nu_mu ) (tau+ ->  pi+  pi+  pi- anti-nu_tau ) nu_tau]cc
+#
+# NickName: Bd_D-TauNu,munu,3pinu=DecProdCut,TightCut
+#
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+
+#
+# Documentation: Bd to D tau, with  D0 to munu final state, and also tau forced to pipipi nu final state. Background channel for Bs to tau tau.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Justine Serrano
+# Email: serrano@cppm.in2p3.fr
+# Date: 20131023
+#
+
+Alias 		MyD+ 		D+
+Alias		MyD-		D-
+ChargeConj	MyD+		MyD-
+
+
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau- MyTau+
+
+Decay B0sig
+  1.00       MyD-       MyTau+        nu_tau             ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  1.0   mu- anti-nu_mu              SLN;
+Enddecay
+CDecay MyD+
+#  
+Decay MyTau-
+  1.00      pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay MyTau+
+#
+End
+#

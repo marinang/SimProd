@@ -1,0 +1,22 @@
+# EventType: 40911012
+#
+# Descriptor: pp -> {[W+ -> {mu+ nu_mu, e+ nu_e}]cc, (Z0 -> {mu+ mu-, e+ e-})} (H_10 -> b anti-b) 
+#
+# NickName: Higgs_bb=mH120GeV,1l,5GeV,1b
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 5*GeV LeptonIsFromMother true NumberOfbquarks 1 
+# ParticleValue: "H_10 87 25 0.0 120.000 9.400e-026 Higgs0 25 0.000e+000"
+# ExtraOptions: Higgs
+#
+# Documentation: MHiggs=120 GeV, 1 b-quark in the LHCb Acc, 1 lepton in LHCb acceptance with pt > 5 GeV
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email: stephane.tourneur@epfl.ch
+# Date: 20110305
+#
+End

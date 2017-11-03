@@ -1,0 +1,21 @@
+# EventType: 60001010
+#
+# Descriptor: p Ne20[0.0] => ?
+#
+# NickName: beamGasVelo,1=Neon
+#
+# Cuts: None
+#
+# Production: Hijing
+# ExtraOptions: Beam1GasVeLo
+#
+# Documentation: Beam1-neon gas in the VELO
+# EndDocumentation
+#
+# PhysicsWG: Sim
+# Tested: Yes
+# Responsible: Massimiliano Ferro-Luzzi
+# Email: Massimiliano.Ferro-Luzzi@cern.ch
+# Date: 20130712
+#
+End

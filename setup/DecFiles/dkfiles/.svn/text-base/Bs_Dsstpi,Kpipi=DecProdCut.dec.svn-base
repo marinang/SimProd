@@ -1,0 +1,45 @@
+# EventType: 13364231
+#
+# Descriptor: {[[B_s0]cc -> (D*_s- -> {gamma (D_s- => pi+ pi- K-), pi0 (D_s- => pi+ pi- K-)} pi+)]cc}
+#
+# NickName: Bs_Dsstpi,Kpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 minute
+#
+# Documentation:
+# B_s0 decay to Ds*- (D_s- (Kpipi) gamma/pi0) pi+ with Dalitz decay model for D_s- decay.
+# Daughters in LHCb.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Alessandro Bertolin
+# Email: alessandro.bertolin@pd.infn.it
+# Date: 20150727
+#
+Alias      MyD_s*-    D_s*- 
+Alias      MyD_s-     D_s-
+Alias      MyD_s*+    D_s*+
+ChargeConj MyD_s*+    MyD_s*-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Decay B_s0sig
+  1.000     MyD_s*-      pi+          SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s*- 
+  0.942     MyD_s-       gamma        VSP_PWAVE;
+  0.058     MyD_s-       pi0          VSS;
+Enddecay
+CDecay MyD_s*+
+#
+Decay MyD_s-
+  1.000       pi+       pi-       K-       D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+End

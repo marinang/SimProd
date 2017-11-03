@@ -1,0 +1,104 @@
+# EventType: 12265441
+#
+# Descriptor: [B+ -> (D*(2007)~0 ->(D~0 -> K+ pi- pi- pi+) gamma ) pi+ pi- pi+]cc
+#
+# NickName: Bu_Dst0pipipi,K3pi=DecProdCut,tightcut
+#
+#
+# Cuts:  LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[B+ ==> ^(D~0 ==> ^K+ ^pi- ^pi- ^pi+ )  ^pi+ ^pi- ^pi+]CC'
+# tightCut.Preambulo += [
+#     'GVZ = LoKi.GenVertices.PositionZ() ' ,
+#     'from GaudiKernel.SystemOfUnits import millimeter',
+#     'inAcc        = (in_range (0.005, GTHETA, 0.400))',
+#     'goodpi       = (GNINTREE ( ("pi+" == GABSID) & (GP > 2000 * MeV) & (GPT > 250 * MeV) & inAcc, 4) > 5.5)',
+# ]
+# tightCut.Cuts      =    {
+#     '[B+]cc'        : ' goodpi'
+#     }
+# EndInsertPythonCode#
+#
+# Documentation:  Possible Background for B -> tau tau, B to D* 3pi, with D*->D0 pi0/ gamma,and D to K pi pi pi 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Justine Serrano
+# Email: serrano@cppm.in2p3.fr
+# Date: 20131003
+#
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+#
+Alias MyK*0        K*0
+Alias Myanti-K*0   anti-K*0
+ChargeConj MyK*0   Myanti-K*0
+#
+Alias MyK_1-       K_1-
+Alias MyK_1+       K_1+
+ChargeConj MyK_1-  MyK_1+
+#
+Alias Myomega      omega
+ChargeConj Myomega Myomega
+#
+Decay B+sig
+  0.70   Myanti-D*0 Mya_1+                       SVV_HELAMP 0.458 0.0 0.866 0.0 0.200 0.0;
+  0.13   Myanti-D*0 Myf_2 pi+                   PHSP;
+  0.12   Myanti-D*0 rho0 pi+                     PHSP;
+  0.05   Myanti-D*0 pi+ pi- pi+                  PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+  0.0036      Mya_1+       K-            SVS;
+  0.0106      Myanti-K*0   rho0          SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+  0.0029      MyK_1-       pi+           SVS;
+  0.0160      Myanti-K*0   pi+   pi-     PHSP;
+  0.0051      K-  pi+   rho0             PHSP;
+  0.0189      K-  pi+  pi+  pi-          PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Myf_2
+  1.0000  pi+ pi-                                  TSS ;
+Enddecay
+
+Decay MyD*0
+0.381    MyD0  gamma                       VSP_PWAVE;
+0.619    MyD0  pi0                       VSS;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyK*0
+  1.0000      K+        pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+
+End
+

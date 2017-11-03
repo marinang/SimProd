@@ -1,0 +1,24 @@
+# EventType: 13102031
+#
+# Descriptor: [B_s0 -> p+ p~-]cc
+#
+# NickName: Bs_pp=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date: 20080515
+#
+Decay B_s0sig
+  1.0000       p+       anti-p-                PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End

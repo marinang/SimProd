@@ -1,0 +1,38 @@
+#EventType: 49001000
+#
+#Descriptor: pp => ?
+#
+#NickName: minbias=HardQCD,pt18GeV
+#
+# CPUTime: < 1 min
+#
+#Cuts: None
+#FullEventCuts: LoKi::FullGenEventCut/HighPtPiKInAcc
+#
+# Production: Pythia8
+#
+#ExtraOptions: HardQCD_minbias
+#InsertPythonCode:
+#from Configurables import LoKi__FullGenEventCut
+#Generation().addTool(LoKi__FullGenEventCut, 'HighPtPiKInAcc')
+#cutTool = Generation().HighPtPiKInAcc
+#cutTool.Code = 'count(HighPtPiKInAcc) > 0'
+#cutTool.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import ns, GeV, mrad',
+#    'GPT = LoKi.GenParticles.TransverseMomentum()',
+#    'isPiK = ((GABSID == 211) | (GABSID ==321))',
+#    'highPT = ((GTHETA < 400.0*mrad) & (GPT > 18*GeV))',
+#    'HighPtPiKInAcc = ((isPiK) & (highPT))'
+#    ]
+#EndInsertPythonCode
+#
+#Documentation: minimum bias with a pion or kaon with pt > 18 GeV in the acceptance
+#EndDocumentation
+#
+#PhysicsWG: EW
+#Tested: Yes
+#Responsible: Stephen Farry
+#Email: stephen.farry@cern.ch
+#Date: 20140724
+#
+End

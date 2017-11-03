@@ -1,0 +1,44 @@
+# EventType: 17574080
+#
+# Descriptor: [B_s2*0 -> K- (B+ -> D~0 mu+ nu_mu)]cc
+#
+# NickName: Bs2st_BuK,D0MuNu,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Decay file for Bs** -> (B+ -> (D~0 -> K+ pi-) mu+ nu_mu) K-, DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Matthew Rudolph
+# Email: matthew.scott.rudolph@cern.ch
+# Date: 20160418
+#
+#
+Alias      MyB      B+
+Alias      MyantiB  B-
+ChargeConj MyB      MyantiB
+Alias      MyD      D0
+Alias      MyantiD  anti-D0
+ChargeConj MyD      MyantiD
+#
+Decay B_s2*0sig
+1.0000    MyB   K-              TSS;
+Enddecay
+CDecay anti-B_s2*0sig
+#
+Decay MyB
+1.0000     MyantiD  mu+ nu_mu         PHOTOS  ISGW2;
+Enddecay
+CDecay MyantiB
+#
+Decay MyD
+1.0000     K-  pi+      PHOTOS PHSP;
+Enddecay
+CDecay MyantiD
+#
+End
+#

@@ -1,0 +1,51 @@
+# EventType: 16104063
+# 
+# Descriptor: [ Xi_bc0 -> (Delta0 -> p+ pi-) ( K*(892)~0-> K- pi+ ) ]cc
+#
+# NickName: Xibc_Delta0Kst=DecProdCut,m=6.9GeV,t=0.4ps
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# ParticleValue: " Xi_bc0 522 5142 0.0 6.90000000 0.400000e-12 Xi_bc0 5142 0.00000000", " Xi_bc~0 523 -5142 0.0 6.90000000 0.400000e-12 anti-Xi_bc0 -5142 0.00000000"
+#
+# Documentation: decay file of [ Xi_bc^0 -> (Delta0 -> p+ pi-) ( K*(892)~0-> K- pi+ ) ]cc
+# using dedicated GenXicc package for production, cuts with XiccDaughtersInLHCb, phase space decay model used. 
+# Lambda_c resonances included.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Jibo He
+# Email: jibo.he@cern.ch
+# Date: 20161028
+#
+#
+#
+Alias      MyDelta      Delta0
+Alias      Myanti-Delta anti-Delta0
+ChargeConj Myanti-Delta MyDelta
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Decay Xi_bc0sig
+  1.00   MyDelta   Myanti-K*0      PHSP;
+Enddecay
+CDecay anti-Xi_bc0sig
+#
+Decay MyDelta
+  1.000    p+        pi-       PHSP;
+Enddecay
+CDecay Myanti-Delta
+#
+Decay MyK*0
+  1.000         K+        pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

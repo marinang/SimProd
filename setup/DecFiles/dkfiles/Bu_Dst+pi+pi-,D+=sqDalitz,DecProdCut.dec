@@ -1,0 +1,43 @@
+# EventType: 12365400
+#
+# Descriptor: [B+ -> ( D*(2010)+ -> {(D+ =>  K- pi+ pi+) pi0, (D+ =>  K- pi+ pi+) gamma} ) pi+ pi- ]cc
+#
+# NickName: Bu_Dst+pi+pi-,D+=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D+ forced to K- pi+ pi+, D*+ forced to D+ pi0 or D+ gamma. 
+# Generated flat in the square Dalitz plot
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mark Whitehead
+# Email: m.p.whitehead@warwick.ac.uk
+# Date: 20150420
+#
+Alias      MyD-   D-
+Alias      MyD+   D+
+ChargeConj MyD+   MyD-
+Alias MyD*- D*-
+Alias MyD*+ D*+
+ChargeConj MyD*+ MyD*-
+#
+Decay B+sig
+1.000      MyD*+    pi+    pi-                FLATSQDALITZ; 
+Enddecay
+CDecay B-sig
+#
+Decay MyD*+
+0.95    MyD+  pi0                        VSS;
+0.05    MyD+  gamma                      VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD+
+  1.000        K-   pi+  pi+           D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+End

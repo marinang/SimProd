@@ -1,0 +1,49 @@
+# EventType: 16175061
+# 
+# Descriptor: [ Xi_bc+ -> (Xi_c+ -> p K- pi+)  (J/psi -> mu+ mu-) ]cc
+#
+# NickName: Xibc_XicJpsi,pKpimm=DecProdCut,m=6.9GeV,t=0.4ps
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# ParticleValue: " Xi_bc+ 532 5242 1.0 6.90000000 0.400000e-12 Xi_bc+ 5242 0.00000000", " Xi_bc~- 533 -5242 -1.0 6.90000000 0.400000e-12 anti-Xi_bc- -5242 0.00000000"
+#
+# Documentation: decay file of Xi_bc^+ -> (Xi_c+ -> p K- pi+)  (J/psi -> mu+ mu-)
+# using dedicated GenXicc package for production, cuts with XiccDaughtersInLHCb, phase space decay model used. 
+# Xi_bc decay time changed to 0.4ps to be in range of theoretical predictions
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Sebastian Schneider
+# Email: sebastian5.schneider@tu-dortmund.de
+# Date: 20160324
+#
+
+Alias MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+
+Alias MyXi_c+ Xi_c+
+Alias Myanti-Xi_c- anti-Xi_c-
+ChargeConj MyXi_c+ Myanti-Xi_c-
+#
+Decay Xi_bc+sig
+  1.00   MyXi_c+  MyJ/psi                  PHSP;
+Enddecay
+CDecay anti-Xi_bc-sig
+#
+Decay MyXi_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+#
+
+Decay MyJ/psi
+ 1.0000  mu+        mu-                    PHOTOS VLL ;
+Enddecay
+
+End
+

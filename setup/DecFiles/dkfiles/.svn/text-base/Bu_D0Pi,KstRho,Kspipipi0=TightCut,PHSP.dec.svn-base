@@ -1,0 +1,93 @@
+# EventType: 12165525
+#
+# Descriptor: [B+ -> (anti-D0 -> ((K*+ -> (K_S0 -> pi+ pi-) pi+) (rho- -> (pi- (pi0 -> gamma gamma))))) pi+]cc
+#
+# NickName: Bu_D0Pi,KstRho,Kspipipi0=TightCut,PHSP
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[B+ -> ^(D~0 ==> ^(K*(892)+ -> ^(KS0 ==> ^pi+ ^pi-) ^pi+) ^(rho(770)- -> ^pi- ^(pi0 ==> ^gamma ^gamma))) ^pi+]CC'
+# tightCut.Preambulo += [
+#     'GVZ = LoKi.GenVertices.PositionZ() ' ,
+#     'from GaudiKernel.SystemOfUnits import millimeter',
+#     'inAcc        = (in_range (0.005, GTHETA, 0.400))',
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5      ' ,
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5      ' ,
+#     'goodB        = (GP > 7500 * MeV) & (GPT > 1500 * MeV) & (GTIME > 0.105 * millimeter)',
+#     'goodD        = (GP > 4000 * MeV) & (GPT > 400 * MeV)',
+#     'goodKS       = (GNINTREE(("KS0"==GABSID) & (GP >  4000 * MeV) & (GPT >  400 * MeV) & (GFAEVX(abs(GVZ), 0) < 2500.0 * millimeter))>0.5)',
+#     'goodDaugPi  = (GNINTREE (("pi+" == GABSID) & (GP > 750 * MeV) & inAcc, 1) > 0.5)',
+#     'goodKsDaugPi = (GNINTREE (("pi+" == GABSID) & (GP > 500 * MeV) & inAcc, 1) > 1.5)',
+#     'goodBachPi   = (GNINTREE (("pi+" == GABSID) & (GP > 5000 * MeV) & (GPT > 500 * MeV) & inAcc, 1) > 0.5)',
+#     'goodPi0      =  (GNINTREE( ("pi0"==GABSID) & (GP > 750 * MeV) & (GPT > 300 * MeV) & inAcc, 1) > 0.5)',
+#    'goodPi0Gamma = (GNINTREE( ("gamma"==GABSID) & (GP > 750 * MeV) & (GPT > 400 * MeV) & inEcalX  & inEcalY  & inAcc, 1) > 1.5)'
+# ]
+# tightCut.Cuts      =    {
+#     '[B+]cc'         : 'goodB  & goodBachPi',
+#     '[D0]cc'         : 'goodD',
+#     '[rho(770)-]cc'   :   'goodDaugPi  & goodPi0',
+#     '[K*(892)+]cc'   :   'goodDaugPi  & goodKS',
+#     '[KS0]cc'        : 'goodKsDaugPi',
+#     '[pi0]cc'        : 'goodPi0Gamma'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: B decays to D0pi, D0 decays to KSpipipi0 throught K*- and rho+ resonance PHSP, KS decays to pi+pi-, pi0 decays to gamma gamma 
+# all decay products , and including gammas, in acceptance and tight cuts
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Vincent Tisserand
+# Email: tisserav@lapp.in2p3.fr
+# Date: 20170407
+#
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+Alias MyK_S0 K_S0
+Alias Mypi0 pi0
+Alias MyRho+ rho+
+Alias MyK*- K*-
+Alias MyRho- rho-
+Alias MyK*+ K*+
+ChargeConj      MyK*+           MyK*- 
+ChargeConj      MyRho+           MyRho- 
+ChargeConj MyD0 Myanti-D0
+ChargeConj MyK_S0 MyK_S0
+##
+Decay B+sig
+1.000     Myanti-D0  pi+  PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+1.000     MyK*-  MyRho+                          PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyK*-
+1.000 MyK_S0 pi-       VSS;
+Enddecay
+CDecay MyK*+
+#
+Decay MyRho+
+1.000 Mypi0 pi+  VSS;
+Enddecay
+CDecay MyRho-
+#
+Decay MyK_S0
+1.000     pi+  pi-  PHSP;
+Enddecay
+#
+Decay Mypi0
+1.0000  gamma gamma                         PHSP;
+Enddecay
+#
+End

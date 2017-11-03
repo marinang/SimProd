@@ -1,0 +1,52 @@
+# EventType: 34124015
+#
+# Descriptor: K_S0 -> pi+ pi- e+ e-
+#
+# NickName: KS_pipiee=TightCut,rho
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: K_S0 -> pi+ pi- e+ e-, tight generator cut
+#  * KS0 endvertex z in [-1m,1m]
+#  * KS0 endvertex radial cut at 30mm
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = 'KS0 -> pi+ pi- e+ e-'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import meter, millimeter, GeV" ,
+#     "GVX = LoKi.GenVertices.PositionX() " ,
+#     "GVY = LoKi.GenVertices.PositionY() " ,
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "vx    = monitor( GFAEVX ( GVX, 100 * meter )  , ' vx-Ks\n')  " ,    
+#     "vy    = monitor( GFAEVX ( GVY, 100 * meter )  , ' vy-Ks\n')  " ,
+#     "rho2  = monitor(          vx**2 + vy**2       , ' rho2-Ks\n')" ,
+#     "rhoK  = monitor( rho2 < (30 * millimeter )**2 , ' rhoCut\n') " , 
+#     "decay = monitor( in_range ( -1 * meter, monitor( GFAEVX ( GVZ, 100 * meter ), ' SVZ-Ks\n'), 1 * meter ), ' SVZCut\n') ",
+# ]
+# tightCut.Cuts      =    {
+#     'KS0'  : ' decay & rhoK',
+#                         }
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler
+# Email: Marc-Olivier.Bettler@cern.ch
+# Date: 20140522
+#
+Decay K_S0sig
+  1.000       pi+ pi- e+ e-    PHSP;
+Enddecay
+#
+End
+

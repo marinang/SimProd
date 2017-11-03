@@ -1,0 +1,34 @@
+# EventType: 13104013
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bs_phiphi=CDFAmp,DecProdCut,hpt400
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2PhiPhi
+#
+# Documentation: phi forced to K+ K-, decay products in acceptance
+# No direct CPV, uses CDF result hep-ex:1107.4999v1, pt>400MeV on the daughters
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Sean Benson
+# Email: sean.benson@cern.ch
+# Date: 20120303
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_s0sig
+  1.0000       MyPhi     MyPhi    PVV_CPLH 0 1 0.536 2.71 0.590 0.0 0.604 2.39;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

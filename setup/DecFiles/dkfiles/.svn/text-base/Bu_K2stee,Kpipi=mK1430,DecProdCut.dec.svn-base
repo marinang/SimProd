@@ -1,0 +1,62 @@
+# EventType: 12425011
+#
+# NickName: Bu_K2stee,Kpipi=mK1430,DecProdCut
+#
+# Descriptor: [ B+ -> (K_2*(1430)+ -> (X ->  K+ pi- pi+)) gamma ]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+->K_2*(1430)+ e+ e- decay, K_2*(1430)+ -> X -> K+pi+pi- decay, Decay products in acceptance
+# EndDocumentation
+#
+# CPUTime: < 1min
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Luca Pescatore
+# Email: luca.pescatore@cern.ch
+# Date: 20160122
+
+Alias      MyK2*_1430_+   K_2*+ 
+Alias      MyK2*_1430_-   K_2*-
+ChargeConj MyK2*_1430_+   MyK2*_1430_-
+
+
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+
+Alias MyOmega omega
+ChargeConj MyOmega MyOmega
+
+#
+Decay B+sig
+  1.000        MyK2*_1430_+     e+   e-             PHSP;
+Enddecay
+CDecay B-sig
+
+#
+
+#
+Decay MyK2*_1430_+
+  0.4970           MyK*0        pi+                    TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+  0.1751           rho0         K+                     TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+  0.0584           MyOmega      K+                     TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+  0.2696           MyK*0        pi+    pi0             PHSP;
+Enddecay
+CDecay MyK2*_1430_-
+
+#
+Decay MyK*0
+  1.000        K+        pi-                    VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+
+#
+Decay MyOmega
+  1.000        pi+        pi-                    VSS;
+Enddecay
+
+End
+#

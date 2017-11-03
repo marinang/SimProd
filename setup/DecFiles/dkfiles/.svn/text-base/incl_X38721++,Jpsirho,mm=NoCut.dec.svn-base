@@ -1,0 +1,39 @@
+# EventType: 28144012
+#
+# Descriptor: X_1(3872) -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) (rho(770)0 -> pi+ pi- {,gamma} {,gamma})
+#
+# NickName: incl_X38721++,Jpsirho,mm=NoCut
+#
+# Cuts: None
+#
+# ExtraOptions: X3872_1PP
+#
+# Documentation: No generator level cut
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20101012
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Alias      Myrho0  rho0
+ChargeConj Myrho0  Myrho0
+#
+#
+Decay X_1(3872)sig
+  1.000          MyJ/psi  Myrho0  HELAMP 0.707107 0. 0.707107 0. 0.707107 0. 0. 0. -0.707107 0. -0.707107 0. -0.707107 0.;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+   mu-   PHOTOS VLL;
+Enddecay
+#
+Decay Myrho0
+  1.000 pi+ pi-  VSS;
+Enddecay
+#
+End
+#

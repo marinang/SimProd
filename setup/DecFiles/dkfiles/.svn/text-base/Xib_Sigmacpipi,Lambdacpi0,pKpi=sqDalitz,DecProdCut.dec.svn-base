@@ -1,0 +1,43 @@
+# EventType: 16165434
+#
+# Descriptor: [Xi_b- -> (Sigma_c(2455)+ -> pi0 (Lambda_c+ -> p K- pi+)) pi- pi-]cc
+#
+# NickName: Xib_Sigmacpipi,Lambdacpi0,pKpi=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Generate flat over the SDP 
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: M. Whitehead
+# Email:  mwhitehe@cern.ch
+# Date: 20140814
+#
+Alias      MyLambda_c+      Lambda_c+
+Alias      MyLambda_c-      anti-Lambda_c-
+ChargeConj MyLambda_c+      MyLambda_c-
+#
+Alias      MySigma_c+       Sigma_c+
+Alias      MySigma_c-       anti-Sigma_c-
+ChargeConj MySigma_c+       MySigma_c-
+#
+Decay Xi_b-sig
+  1.0    pi-  pi-  MySigma_c+  FLATSQDALITZ;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MySigma_c+
+  1.0    MyLambda_c+ pi0            PHSP;
+Enddecay
+CDecay MySigma_c-
+#
+Decay MyLambda_c+
+  1.0   p+  K-  pi+            PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+End
+

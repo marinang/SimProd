@@ -1,0 +1,45 @@
+# EventType: 12100004
+# NickName: Bu_KstPhi,KsPi+K+K-=DecProdCut
+# Descriptor: [B+-> (K*+ -> Ks pi+) (phi -> K+ K-)]cc
+#
+# Documentation: K* forced into Ks pi, Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Cuts: DaughtersInLHCb
+#
+# Responsible:  Luigi Li Gioi
+# Email: luigi.li.gioi@cern.ch
+#
+# Tested: Yes
+# Date: 20111020
+#
+Alias      MyKst+    K*+
+Alias      MyKst-    K*-
+ChargeConj MyKst+    MyKst-
+Alias      MyKs      K_S0
+ChargeConj MyKs      MyKs
+Alias      Myphi     phi
+ChargeConj Myphi     Myphi
+#
+Decay B+sig
+  1.000   Myphi     MyKst+       SVV_HELAMP  1.0 0.0 1.7 0.0 1.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay Myphi
+  1.000  K+      K-          VSS;
+Enddecay
+#
+Decay MyKst+
+  1.000  MyKs pi+             VSS;
+Enddecay
+CDecay MyKst-
+#
+Decay MyKs
+  1.000   pi+     pi-         PHSP;
+Enddecay
+#
+End
+#

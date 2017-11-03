@@ -1,0 +1,82 @@
+# EventType: 26168160
+#
+# Descriptor: [ Xi_cc++ -> ( Xi_c+ -> ( Xi- -> ( Lambda0 -> p+ pi- ) pi+ ) pi+ pi+ ) pi+ pi- pi+ ]cc
+#
+# NickName: Xicc++_Xic+pipipi,Xipipi=DecProdCut,WithMinPT
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+#
+# GenXiccListOfCommands = [ 
+#   "subopen ichange 1"
+#  ,"upcom pmb 1.85"
+#  ,"upcom pmc 1.85"
+#]
+# Generation().Special.addTool( GenXiccProduction , name = "GenXiccProduction" )
+# Generation().Special.GenXiccProduction.Commands += GenXiccListOfCommands
+#
+# from Configurables import LHCb__ParticlePropertySvc
+# LHCb__ParticlePropertySvc().Particles = [
+# ### The mass of Xi_cc++ can not be set here. The value 3.7 is just for consistency.
+# ###                  GEANTID       PDGID  CHARGE      MASS(GeV)        TLIFE(s)               EVTGENNAME    PYTHIAID        MAXWIDTH
+#     "Xi_cc++             506        4422     2.0            3.7       4.50e-013                  Xi_cc++        4422   0.000000e+000",
+#     "Xi_cc~--            507       -4422    -2.0            3.7       4.50e-013             anti-Xi_cc--       -4422   0.000000e+000"
+# ]
+#
+# EndInsertPythonCode
+#
+# Documentation: decay file of Xi_cc++ -> ( Xi_c+ -> ( Xi- -> ( Lambda0 -> p+ pi- ) pi+ ) pi+ pi+ ) pi+ pi- pi+,
+# using dedicated GenXicc package for production, phase space decay model used, 
+# all daughters of Xicc are required to be in the acceptance of LHCb 
+# and the Xicc PT is required to be larger than 2000 MeV. 
+# EndDocumentation
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Liang Zhong
+# Email: liang.zhong@cern.ch
+# Date: 20140211
+#
+#Alias	   Xi_cc++sig        Xi_cc++
+#Alias	   anti-Xi_cc--sig   anti-Xi_cc--
+#ChargeConj Xi_cc++sig		 anti-Xi_cc--sig
+#
+Alias      MyXi_c+        Xi_c+
+Alias      Myanti-Xi_c-   anti-Xi_c-
+ChargeConj MyXi_c+        Myanti-Xi_c-
+#
+Alias      MyXi-          Xi-
+Alias      Myanti-Xi+     anti-Xi+
+ChargeConj MyXi-          Myanti-Xi+
+#
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+#
+Decay Xi_cc++sig
+  1.00     MyXi_c+      pi+       pi-       pi+      PHSP;
+Enddecay
+CDecay anti-Xi_cc--sig
+#
+Decay MyXi_c+
+  1.000    MyXi-        pi+       pi+       PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+#
+Decay MyXi-
+  1.000    MyLambda0    pi-                 PHSP;
+Enddecay
+CDecay Myanti-Xi+
+#
+Decay MyLambda0
+  1.000    p+           pi-                 PHSP;
+Enddecay
+CDecay Myanti-Lambda0
+#
+End
+

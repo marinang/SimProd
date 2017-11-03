@@ -1,0 +1,66 @@
+# EventType: 11246502
+#
+# Descriptor: [B0 => J/psi(1S) KS0 pi+ pi- pi0]cc
+#
+# NickName: Bd_JpsiKspipipi,mm=DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: final states Jpsi KS0 pi+ pi- pi0, via K_1(1270)0 and some intermediate resonances
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: M M Reid
+# Email: mreid@cern.ch
+# Date: 20121001
+#
+Alias		my_K_S0		K_S0
+ChargeConj	my_K_S0	    	my_K_S0
+
+Alias      	my_J/psi    	J/psi
+ChargeConj 	my_J/psi    	my_J/psi
+
+Alias		my_rho		rho0
+ChargeConj 	my_rho    	my_rho
+
+Alias       	my_K1_1270      K_10
+Alias		my_anti_K1_1270 anti-K_10
+ChargeConj  	my_K1_1270      my_anti_K1_1270
+
+Alias       	my_omega        omega
+ChargeConj 	my_omega    	my_omega
+#
+Decay B0sig
+0.5		my_J/psi	my_K_S0		pi-	pi+	pi0	PHSP;
+0.5             my_J/psi        my_K1_1270      pi0            		PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+#
+Decay my_J/psi
+1.0         	mu+		mu-    			        		VLL;
+Enddecay
+#
+Decay my_omega
+1.0             pi-             pi+                             		VSS ;
+Enddecay
+#
+Decay my_rho
+1.0             pi-             pi+                             		VSS ;
+Enddecay
+#
+Decay my_K1_1270
+0.36           my_K_S0         pi+             pi-              		PHSP ;
+0.35           my_rho          my_K_S0                          		VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+0.29           my_omega        my_K_S0                          		VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+Enddecay
+#
+Decay my_K_S0
+1.0	       pi+	       pi-			                        PHSP;
+Enddecay
+#
+End 
+

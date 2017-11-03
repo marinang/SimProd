@@ -1,0 +1,50 @@
+# EventType: 11166101
+#
+# Descriptor: {[[B0]nos -> (D~0 => (KS0 -> pi+ pi-) pi+ pi-) (K*(892)0 -> K+ pi-)]cc, [[B0]os -> (D0 => (KS0 -> pi+ pi-) pi+ pi-) (K*(892)~0 -> K- pi+)]cc}
+#
+# NickName: Bd_D0Kst,KSpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes interferences in decay with gamma(default value see DECAY.DEC) , 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Stefania Ricciardi
+# Email: stefania.ricciardi@stfc.ac.uk
+# Date: 20040721
+#
+Alias MyD0       D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+Alias MyK*0      K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0 Myanti-K*0
+Alias MyKs       K_S0
+ChargeConj MyKs  MyKs
+#
+Decay B0sig
+  # parameters are gamma (rad) delta (rad) |A|
+  # use here the parameter gamma defined in DECAY.DEC
+  1.000    MyK*0      Myanti-D0   BTODDALITZCPK gamma 0.1 0.9;
+Enddecay
+CDecay anti-B0sig
+#
+# D_DALITZ model includes resonances in D0 decay
+Decay MyD0
+  1.000    MyKs       pi-         pi+          D_DALITZ;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyK*0
+  1.000    K+         pi-         VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyKs
+  1.000    pi+        pi-         PHSP;
+Enddecay
+#
+End
+#

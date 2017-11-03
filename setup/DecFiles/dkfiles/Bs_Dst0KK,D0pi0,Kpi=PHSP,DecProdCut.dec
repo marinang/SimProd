@@ -1,0 +1,42 @@
+# EventType: 13164408
+#
+# Descriptor: {[[B_s0]nos => K+ K- (D*(2007)~0 -> (D~0 -> K+ pi-) (pi0 -> gamma gamma) )]cc, [[B_s0]os => K- K+ (D*(2007)0 -> (D0 -> K- pi+) (pi0 -> gamma gamma))]cc}
+#
+# NickName: Bs_Dst0KK,D0pi0,Kpi=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B_s0 decay with phase space model, daughters in accpetance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Nicolas Deleage
+# Email: nicolas.deleage@cern.fr
+# Date: 20130130
+#
+Alias MyD*0	 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+Alias MyD0       D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+
+Decay B_s0sig
+1.0   Myanti-D*0 K+ K-              PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+Decay MyD*0
+1.0   MyD0  pi0                        PHSP;
+Enddecay
+CDecay Myanti-D*0
+
+Decay MyD0
+1.0   K-  pi+                        PHSP;
+Enddecay
+CDecay Myanti-D0
+
+End
+
+

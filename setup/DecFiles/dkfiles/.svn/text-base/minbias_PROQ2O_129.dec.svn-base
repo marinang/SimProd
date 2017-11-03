@@ -1,0 +1,24 @@
+# $Id: minbias_PROQ2O_129.dec $
+#
+# Date:   20110614
+#
+# EventType: 30001129
+#
+# Cuts: None
+#
+# Descriptor: pp => ?
+#
+# NickName: minbias_PROQ2O_129
+#
+# ExtraOptions: PROQ2O_129
+#
+# Documentation: Professor Q2-ordered tune
+# EndDocumentation
+#
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Mihai Straticiuc
+# Email: mihai.straticiuc@cern.ch
+#
+End

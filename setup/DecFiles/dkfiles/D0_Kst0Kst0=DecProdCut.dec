@@ -1,0 +1,38 @@
+# EventType: 22164000
+#
+# Descriptor: [D0 -> (K*(892)~0 -> K- pi+) (K*(892)0 -> K+ pi-)]cc
+#
+# NickName: D0_Kst0Kst0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D0 -> K*B(-> K- pi+) K*0(->K+ pi-)
+# K* decaying into K+ pi-, no polarization
+# All final-state products in the acceptance.
+# EndDocumentation 
+#
+# PhysicsWG: QCD
+#
+# Tested: Yes
+# Responsible: Florin MACIUC
+# Email: florin.maciuc@mpi-hd.mpg.de
+# Date: 20111128
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+Decay D0sig
+  1.000  MyK*0        Myanti-K*0      SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;   
+Enddecay
+Decay anti-D0sig
+  1.000  Myanti-K*0        MyK*0      SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+#
+Decay MyK*0
+  1.000     K+    pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

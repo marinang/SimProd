@@ -1,0 +1,44 @@
+# EventType: 11164414
+#
+# Descriptor: {[[B0]nos -> pi+ (D*(2010)- -> pi0 (D- -> K+ K- pi-))]cc, [[B0]os -> pi- (D*(2010)+ -> pi+ (D+ -> K- K+ pi+))]cc}
+#
+# NickName: Bd_Dst-pi+,D-pi0,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# B0 decay to D*- (D-pi0) pi- with Dalitz decay model for D- decay.
+# Daughters in LHCb.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Paul Szczypka
+# Email: paul.szczypka@{nospam}cern.ch
+# Date: 20110927
+#
+Alias             MyD*-       D*-
+Alias             MyD*+       D*+
+Alias             MyD-        D-
+Alias             MyD+        D+
+ChargeConj        MyD+        MyD-
+ChargeConj        MyD*+       MyD*-
+#
+Decay B0sig
+1.000        MyD*-     pi+                    SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+1.000        MyD-      pi0                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD-
+  1.000        K-        K+        pi-             D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End
+
+

@@ -1,0 +1,31 @@
+# EventType: 12153201 
+#
+# Descriptor: [B+ -> K+ (J/psi(1S) -> e+ e- gamma)]cc
+#
+# NickName: Bu_JpsiK,eegamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Francesco Polci
+# Email: francesco.polci@cern.ch
+# Date: 20170731
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Decay B+sig
+  1.000    MyJ/psi K+      SVS;
+Enddecay
+CDecay B-sig
+#
+Decay MyJ/psi
+  1.000    e+ e- gamma          PHOTOS PHSP;
+Enddecay
+#
+End
+#

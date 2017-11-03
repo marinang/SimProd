@@ -1,0 +1,34 @@
+# EventType: 18112261
+#
+# Descriptor: chi_b1(1P) -> (Upsilon -> mu+ mu-) gamma
+#
+# NickName: incl_chib11P,Upsilongamma,mumu=UpsInAcc
+#
+# Cuts: UpsilonDaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Charged daughters of the Upsilons in the acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Sasha Mazurov
+# Email: alexander.mazurov@cern.ch
+# Date: 20121210
+#
+#
+Alias      myUpsilon        Upsilon
+ChargeConj myUpsilon        myUpsilon
+#
+Decay chi_b1sig
+1.000    myUpsilon gamma            VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay myUpsilon
+1.000     mu+    mu-                VLL;
+Enddecay
+#
+End
+#

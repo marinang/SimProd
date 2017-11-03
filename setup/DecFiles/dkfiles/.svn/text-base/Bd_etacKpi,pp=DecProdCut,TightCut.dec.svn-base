@@ -1,0 +1,60 @@
+# EventType: 11134001
+# 
+# Descriptor: {[ B0 -> (eta_c(1S) -> p+ p~-) K+ pi-]CC}
+# 
+# NickName: Bd_etacKpi,pp=DecProdCut,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[ B0 -> ( eta_c(1S) => ^p+ ^p~- ) ^K+ ^pi- ]CC'
+# tightCut.Cuts      =    {
+#     '[B0]cc'   : ' goodB  ' , 
+#     '[p+]cc'   : ' goodProton  ' , 
+#     '[K+]cc'    : ' goodKaon  ' , 
+#     'eta_c(1S)' : ' goodEtac ',
+#     '[pi+]cc'   : ' goodPion  ' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns',
+#     'from GaudiKernel.PhysicalConstants import c_light',
+#     'inAcc = in_range( 0.005, GTHETA, 0.400)',
+#     'goodProton  = ( GPT > 250  * MeV ) & inAcc' , 
+#     'goodKaon  = ( GPT > 150  * MeV )  & inAcc' , 
+#     'goodPion  = ( GPT > 150  * MeV ) & inAcc' ,
+#     'goodEtac  = in_range( 1.8, GY, 4.5)' ,
+#     'goodB  = ( GCTAU > 0.1e-3 * ns * c_light)' ]
+#
+#EndInsertPythonCode
+#
+# Documentation: Tight generator level cuts applied for all final state particles
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: yes
+# Responsible: Roberta Cardinale
+# Email: roberta.cardinale@ge.infn.it
+# Date: 20140808
+# CPUTime: < 1 min
+#
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+#
+Decay B0sig
+  1.000 Myetac K+ pi- PHOTOS PHSP;
+Enddecay
+Decay anti-B0sig
+  1.000 Myetac K- pi+ PHOTOS PHSP;
+Enddecay
+#
+Decay Myetac
+  1.000 p+ anti-p- PHOTOS PHSP; 
+Enddecay
+#
+End
+#

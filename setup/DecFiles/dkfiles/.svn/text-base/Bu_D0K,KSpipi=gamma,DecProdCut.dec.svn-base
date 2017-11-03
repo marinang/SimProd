@@ -1,0 +1,47 @@
+# EventType: 12165106
+#
+# Descriptor: [B+ -> (D~0 -> (KS0 -> pi+ pi-) pi+ pi-) K+]cc
+#
+# NickName: Bu_D0K,KSpipi=gamma,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Charged B to D K, where D could be D0 or anti-D0. Interference of
+#                   D0/anti-D0 is taken into account by means of gamma, delta and rB.
+#                   D decays to Ks pi+ pi-. Decay products in acceptance.
+#
+# PhysicsWG:   B2OC
+# Tested:      Yes
+# Responsible: Jordi Garra Ticó
+# Email:       jordi.garra.tico@cern.ch
+# Date:        20120220
+
+Alias      my-D0        D0
+Alias      my-anti-D0   anti-D0
+Alias      my-KS        K_S0
+
+ChargeConj my-D0        my-anti-D0
+ChargeConj my-KS        my-KS
+
+# CPV parameters.
+Define gamma 1.22 # 70º
+Define delta 2.27 # 130º
+Define rB    0.10
+
+
+
+Decay B+sig
+1.000     my-anti-D0 K+        BTODDALITZCPK gamma delta rB;
+Enddecay
+CDecay B-sig
+
+Decay my-D0
+1.000     my-KS pi+ pi-        D0GAMMADALITZ;
+Enddecay
+CDecay my-anti-D0
+
+Decay my-KS
+1.000     pi+  pi-             PHSP;
+Enddecay
+
+End

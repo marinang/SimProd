@@ -1,0 +1,63 @@
+# EventType: 27162412
+#
+# Descriptor: [D*0 -> (D0 -> K- pi+) (pi0 -> gamma gamma)]cc
+#
+# NickName: Dst0_D0pi0,Kpi=TightCut
+#
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation()
+#gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalPlain.TightCut
+#tightCut.Decay = '^[D*(2007)0 -> ^(D0 ==> ^K- ^pi+) ^(pi0 ==> ^gamma ^gamma)]CC'
+#tightCut.Preambulo += [
+#    'inAcc        = (in_range(0.010, GTHETA, 0.300))',
+#    'goodD0       = (GP >  4000 * MeV) & (GPT > 400 * MeV)',
+#    'goodDstar0       = (GP >  4000 * MeV) & (GPT > 400 * MeV)',
+#    'goodPi0      =   (GP >  400 * MeV) &  (GPT >  200 * MeV)',
+#    'goodD0Pi  = (GNINTREE( ("pi+"==GABSID) & (GP > 1000 * MeV) & (GPT > 300 * MeV) & inAcc, 1) > 0.5)',
+#    'goodD0K  = (GNINTREE( ("K-"==GABSID) & (GP > 1000 * MeV) & (GPT > 300 * MeV) & inAcc, 1) > 0.5)',
+#    'goodPi0Gamma = (GNINTREE( ("gamma"==GABSID) & ( GPT > 200*MeV ) & (  (abs(GPX/GPZ) < 0.315)  &  (abs(GPY/GPZ) < 0.255) & ((abs( GPX/GPZ ) > 0.019)  |  (abs(GPY/GPZ) > 0.019))), 1) > 1.5)'
+#]
+#tightCut.Cuts = {
+#    '[D*(2007)0]cc'          : 'goodDstar0',
+#    '[D0]cc'          : 'goodD0 & goodD0Pi & goodD0K',
+#    '[pi0]cc'         : 'goodPi0 & goodPi0Gamma' 
+#    }
+#EndInsertPythonCode
+#
+# Documentation: All Decay products down to stable particles in fibal state in acceptance and D*0 to D0 pi0 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Vincent Tisserand
+# Email: tisserav@lapp.in2p3.fr
+# Date: 20140110
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias Mypi0 pi0
+##
+Decay D*0sig
+1. MyD0  Mypi0    VSS;
+Enddecay
+CDecay anti-D*0sig
+#
+Decay MyD0
+1.     K-  pi+        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay Mypi0
+1.  gamma gamma      PHSP;
+Enddecay
+#
+End
+

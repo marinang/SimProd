@@ -1,0 +1,52 @@
+# EventType: 34102107
+#
+# Descriptor: K_S0 -> pi+ pi-
+#
+# NickName: Ks_pipi=TightCut,rho
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# Documentation: K_S0 -> pi+ pi-, tight generator cut
+#  * KS0 endvertex wrt production z < 0.8 m
+#  * KS0 endvertex wrt production radial cut at 38mm
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = 'KS0 -> pi+ pi-'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import meter, millimeter, GeV" ,
+#     "GVX = LoKi.GenVertices.PositionX() " ,
+#     "GVY = LoKi.GenVertices.PositionY() " ,
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "vx    = GFAEVX ( GVX, 100 * meter ) " ,    
+#     "vy    = GFAEVX ( GVY, 100 * meter ) " ,
+#     "vz    = GFAEVX ( GVZ, 100 * meter ) " ,
+#     "rho2  = vx**2 + vy**2 " ,
+#     "rhoK  = rho2 < (38 * millimeter )**2 " , 
+#     "decay = vz   < (0.8 * meter ) ",
+# ]
+# tightCut.Cuts      =    {
+#     'KS0'  : ' decay & rhoK',
+#                         }
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Giacomo Graziani
+# Email: Giacomo.Graziani@cern.ch
+# Date:  20150528
+#
+Decay K_S0sig
+  1.000       pi+     pi-              PHSP;
+Enddecay
+#
+End
+

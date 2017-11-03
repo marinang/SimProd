@@ -1,0 +1,54 @@
+# EventType: 27265005
+#
+# Descriptor: [D*+ -> (D0 -> K- K+ K- pi+) pi+]cc
+#
+# NickName: Dst_D0pi,KKKpi_Res=DecProdCut,CutsForDstar
+#
+# Cuts: DaughtersInLHCbAndCutsForDstar
+# CutsOptions: D0PtCuts 3000*MeV DaughtersPtMinCut 250*MeV DaughtersPMinCut 3000*MeV
+#
+# Documentation: D*+ forced to decay to D0 pi+. D0->KKKpi decay resonances are taken from FOCUS paper: Phys. Let. B575 (2003) 190-197. Cuts on D0 daughters.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Thomas Rex Hampson
+# Email: t.r.hampson@bristol.ac.uk
+# Date: 20131110
+#
+
+Alias MyD0         D0
+Alias Myanti-D0    anti-D0
+ChargeConj MyD0    Myanti-D0
+
+Alias MyPhi phi
+
+Alias MyK*0 K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0 Myanti-K*0
+
+Decay D*+sig
+  1.000 MyD0 pi+  VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  0.48 MyPhi Myanti-K*0 SVV_HELAMP 1.0 0.0 1.7 0.0 1.0 0.0;
+  0.18 MyPhi K- pi+ PHSP;
+  0.20 Myanti-K*0 K- K+ PHSP;
+  0.15 K- K+ K- pi+ PHSP;
+Enddecay
+CDecay Myanti-D0
+
+Decay MyK*0
+  1.0000      K+        pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+
+Decay MyPhi
+  1.000 K+ K- VSS;
+Enddecay
+
+#
+End
+#

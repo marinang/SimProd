@@ -1,0 +1,67 @@
+# EventType: 11266017
+#
+# Descriptor: {[[B0]nos -> (D_1(2420)~0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi- ) pi+) pi+ pi-]cc, [[B0]os -> (D_1(2420)0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+ ) pi-) pi- pi+]cc, [[B0]nos -> (D_1(H)~0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi- ) pi+) pi+ pi-]cc, [[B0]os -> (D_1(H)0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+ ) pi-) pi- pi+]cc}
+#
+# NickName: Bd_D_10rho0,Dstpi,D0pi-=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 -> D_10 rho0, with D_10 -> D*+ pi-, D*+ -> D0 pi+ and D0 -> K- pi+. Background mode for B2XTauNu analyses. Uses relative fractions of B- decays to D_1(2420)0 and D_1(H)0 in DECAY.DEC (none explicitly listed for B0 -> D_1(2420)0 rho0 so use those from B- -> D_1(2420)0 tau nu)
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Donal Hill
+# Email: donal.hill@cern.ch
+# Date: 20130415
+#
+Alias MyD*+       D*+
+Alias MyD*-       D*-
+ChargeConj MyD*+  MyD*-
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias MyD_10         D_10
+Alias Myanti-D_10    anti-D_10
+ChargeConj MyD_10     Myanti-D_10
+Alias MyD'_10         D'_10
+Alias Myanti-D'_10    anti-D'_10
+ChargeConj MyD'_10     Myanti-D'_10
+Alias      Myrho0  rho0
+ChargeConj Myrho0  Myrho0
+#
+SetLineshapePW MyD_10 MyD*+ pi- 2
+SetLineshapePW Myanti-D_10 MyD*- pi+ 2
+#
+Decay B0sig
+  0.0020        Myanti-D'_10 Myrho0               SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+  0.0013        Myanti-D_10 Myrho0                SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_10
+1.000    D*+ pi-                        VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay Myanti-D_10
+#
+Decay MyD'_10
+1.000    D*+ pi-                        VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Myanti-D'_10
+#
+Decay MyD*-
+1.000        Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myanti-D0
+1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay Myrho0
+  1.000 pi+ pi-  VSS;
+Enddecay
+#
+End
+#

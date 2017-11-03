@@ -1,0 +1,28 @@
+# EventType: 12113024
+#
+# Descriptor: [B+ -> pi+ mu+ mu-]cc
+#
+# NickName: Bu_pimumu=btosllball05,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: BTosll Ball model using updated 2005 calculation
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Alex Shires
+# Email: ashires@cern.ch
+# Date: 20140417
+#
+Decay B+sig
+  1.000        pi+     mu+     mu-     BTOSLLBALL 6 ;
+Enddecay
+Decay B-sig
+  1.000        pi-     mu+     mu-     BTOSLLBALL 6 ;
+Enddecay
+#
+End
+#                          

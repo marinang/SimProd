@@ -1,0 +1,33 @@
+# EventType: 12164000
+#
+# Descriptor: [B+ -> (anti-Sigma_c-- -> anti-Lambda_c- pi-) pi+ pi+ p+]cc
+#
+# NickName: Bu_Sigmacpipip,Lcpi=NoCut
+#
+# Cuts: None
+#
+# Documentation: This is the decay file for the decay B+ -> (anti-Sigma_c-- -> anti-Lambda_c- pi-) pi+ pi+ p+
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Andrea Contu
+# Email: acontu@cern.ch
+# Date: 20120524
+#
+#
+Alias MySigma_c++ Sigma_c++
+Alias Myanti-Sigma_c-- anti-Sigma_c--
+ChargeConj MySigma_c++ Myanti-Sigma_c--
+#
+Decay B+sig
+  1.000     Myanti-Sigma_c--   pi+   pi+   p+          PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MySigma_c++
+  1.0000    Lambda_c+  pi+                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+End

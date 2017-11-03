@@ -1,0 +1,47 @@
+# EventType: 12103009
+#
+# Descriptor: [B+ -> pi+ pi+ pi-]cc
+#
+# NickName: Bu_pi+pi+pi-=sqDalitz,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# 
+# CPUTime: < 1 min 
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[ B+ => ^pi+ ^pi+ ^pi-]CC'
+# tightCut.Preambulo += [
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "from GaudiKernel.SystemOfUnits import millimeter" ,
+#     "inAcc = in_range ( 0.010, GTHETA, 0.400 ) " , 
+#     "daughcuts = ( (GPT > 90 * MeV) & ( GP > 1400 * MeV))",
+#     "Bcuts = ( (GPT > 1000 * MeV) & ( GP > 17000 * MeV))"
+# ]
+# tightCut.Cuts      =    {
+#     '[pi+]cc'  : ' inAcc & daughcuts',
+#     '[B+]cc'   : 'Bcuts'
+#                         }
+# EndInsertPythonCode
+#
+# Documentation: Decay products in acceptance, squared dalitz decay model, P and PT cuts on B and daughters
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Andre Massafferri
+# Email: massafferri@cbpf.br
+# Date: 20140607
+#
+Decay B+sig
+1.000       pi+     pi+     pi-     FLATSQDALITZ;
+Enddecay
+CDecay B-sig
+#
+End
+

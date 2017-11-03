@@ -1,0 +1,23 @@
+# EventType: 34124003
+#
+# Descriptor: K_S0 -> pi+ pi- e+ e-
+#
+# NickName: KS_pipiee
+#
+# Cuts: None
+#
+# Documentation: K_S0 -> pi+ pi- e+ e-, no generator level cuts.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler
+# Email: Marc-Olivier.Bettler@cern.ch
+# Date: 20131025
+#
+Decay K_S0sig
+  1.000       pi+ pi- e+ e-    PHSP;
+Enddecay
+#
+End
+

@@ -1,0 +1,51 @@
+# EventType: 12297022
+# NickName: Bu_D20D0pi=DecProdCut
+# Descriptor: {[B+ -> D*_2(2460)0 D~0 pi+]cc,[B+ -> D*_2(2460)~0 D0 pi+]cc}
+#
+# Cuts: DaughtersInLHCb
+# 
+# Documentation: 
+#   Decay file for B+- -> D_2^0 D0 pi+-
+# EndDocumentation
+# 
+# Date:   20121212
+#
+# Responsible: Sebastian Neubert
+# Email: sebastian.neubert@cern.ch
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+Alias My_D+   D+
+Alias My_D-   D-
+Alias My_D20  D_2*0
+Alias My_anti-D20  anti-D_2*0
+
+ChargeConj My_anti-D0 My_D0
+ChargeConj My_D- My_D+
+ChargeConj My_D20 My_anti-D20
+
+Decay My_D0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay My_D-
+  1.0 K+ pi- pi- D_DALITZ;
+Enddecay
+CDecay My_D+
+
+Decay My_D20
+  1.0 D+ pi- PHSP;
+Enddecay
+CDecay My_anti-D20
+
+Decay B+sig
+  0.5 My_anti-D20 My_D0 pi+ PHSP;
+  0.5 My_D20 My_anti-D0 pi+ PHSP;
+Enddecay
+CDecay B-sig
+
+End

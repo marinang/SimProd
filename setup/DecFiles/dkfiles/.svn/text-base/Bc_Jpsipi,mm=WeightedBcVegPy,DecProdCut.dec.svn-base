@@ -1,0 +1,33 @@
+# EventType: 14143013
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) pi+]cc
+#
+# NickName: Bc_Jpsipi,mm=WeightedBcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to Jpsi(to mu+ mu- {,gamma} {,gamma} ) and pi with phase space model. The algorithm BcVegPy is weighted
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Jibo He
+# Email: jibo.he@cern.ch
+# Date: 20110909
+#
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+#
+Decay B_c+sig
+  1.000     MyJ/psi   pi+             SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000     mu+       mu-             PHOTOS   VLL;
+Enddecay
+#
+End
+#

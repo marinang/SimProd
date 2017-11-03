@@ -1,0 +1,56 @@
+# EventType: 11103501
+#
+# Descriptor: {[B0-> (rho+ -> pi+ pi0) (K*(892)- -> (KS0 -> pi+ pi-) pi-)]cc, [B0-> (rho- -> pi- pi0) (K*(892)+ -> (KS0 -> pi+ pi-) pi+)]cc}
+#
+# NickName: Bd_Kstrho,KSpi,pipi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K* forced into KS0 pi, rho forced into pi pi0,
+# KS0 then forced into pi+ pi-, Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible:  David Dossett
+# Email: d.a.dossett@warwick.ac.uk
+# Date: 20130129
+#
+#
+Alias      Mypi0       pi0
+Alias      Myrho+      rho+
+Alias      Myrho-      rho-
+Alias      MyKs        K_S0
+Alias      MyK*+       K*+
+Alias      MyK*-       K*-
+ChargeConj MyK*+       MyK*-
+ChargeConj Myrho+      Myrho-
+ChargeConj MyKs        MyKs
+ChargeConj Mypi0       Mypi0
+#
+Decay B0sig
+ 0.500    Myrho+    MyK*-    SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+ 0.500    Myrho-    MyK*+    SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Myrho-
+ 1.000    Mypi0       pi-      VSS;
+Enddecay
+CDecay Myrho+
+#
+Decay MyK*+
+ 1.000    MyKs      pi+      VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyKs
+ 1.000    pi+       pi-      PHSP;
+Enddecay
+#
+Decay Mypi0
+ 1.000    gamma     gamma    PHSP;
+Enddecay
+#
+End
+#

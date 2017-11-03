@@ -1,0 +1,79 @@
+# EventType: 11296633
+#
+# Descriptor: [B0 -> (Ds*+ -> Pi0/Gamma (Ds+ -> K+ K- Pi+)) (D*+ -> pi0 (D+ -> K+Pi+Pi-))]cc
+#
+# NickName: Bd_DsstDst=DDALITZ,DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation:  B0->Ds*D*, DsD decay via DD*+ forced into D0 pi+, Ds* -> Ds(Pi0,Gamma)_Dalitz
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Justin Garofoli
+# Email: justing@physics.syr.edu
+# Date: 20111013
+#
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+Alias MyD_s*+ D_s*+
+Alias MyD_s*- D_s*-
+ChargeConj MyD_s*+ MyD_s*-
+Alias MyD- D-
+Alias MyD+ D+
+ChargeConj MyD+ MyD-
+
+# -------------------------
+# THEN DEFINE THE D*+ AND D*-
+# -------------------------
+Alias             MyD*-       D*-
+Alias             MyD*+       D*+
+ChargeConj        MyD*+       MyD*-
+
+# ---------------
+# DECAY OF THE B0
+# ---------------
+Decay B0sig
+  1.000     MyD*-    MyD_s*+            SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;
+Enddecay
+CDecay anti-B0sig
+
+# -----------------
+# DECAY OF THE DS+-
+# -----------------
+Decay MyD_s+
+  1.0     K+         K-        pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+# -----------------
+# Decay of the Ds*+
+# -----------------
+Decay MyD_s*+
+  0.942     MyD_s+  gamma      VSP_PWAVE;
+  0.058     MyD_s+  pi0        VSS;
+Enddecay
+CDecay MyD_s*-
+
+# ---------------
+# DECAY OF THE D*-
+# ---------------
+Decay MyD*-
+0.950       MyD- pi0                    VSS;
+0.050       MyD- gamma                  VSP_PWAVE;
+Enddecay
+CDecay MyD*+
+#
+# ---------------
+# DECAY OF THE D-
+# ---------------
+Decay MyD-
+  1.000  K+ pi- pi-                 D_DALITZ;
+Enddecay
+CDecay MyD+
+End
+

@@ -1,0 +1,29 @@
+# EventType: 11112422
+#
+# Descriptor: [B0 -> pi0 mu+ mu-]cc
+#
+# NickName: Bd_pimumu=DecProdCut
+#
+# Cuts:  DaughtersInLHCb
+#
+# Documentation: Decay file for B0 -> pi0 mu+ mu-  (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id%
+#
+Decay B0sig
+ 1.     pi0   mu-    mu+   PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

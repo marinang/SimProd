@@ -1,0 +1,28 @@
+# EventType: 12113022
+#
+# Descriptor: [B+ -> pi+ mu+ mu-]cc
+#
+# NickName: Bu_pimumu=btosllball,DiLeptonInAcc
+#
+# Cuts: None
+#
+# FullEventCuts: DiLeptonInAcceptance 
+#
+# Documentation: Bu decay as background for rare channels with dimuon in the final state. BTosll Ball model
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Francesco Dettori
+# Email: Francesco.Dettori@cern.ch
+# Date: 20120322
+#
+Decay B+sig
+  1.000        pi+     mu+     mu-     BTOSLLBALL;
+Enddecay
+Decay B-sig
+  1.000        pi-     mu+     mu-     BTOSLLBALL;
+Enddecay
+#
+End
+#                          

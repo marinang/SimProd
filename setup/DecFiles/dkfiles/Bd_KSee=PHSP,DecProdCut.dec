@@ -1,0 +1,36 @@
+# EventType: 11124100
+#
+# Descriptor: [B0 -> K0S e+ e-]cc
+#
+# NickName: Bd_KSee=PHSP,DecProdCut
+#
+# Cuts:  DaughtersInLHCb
+#
+# Documentation: Decay file for B0 -> K0S e+ e-  (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id%
+#
+Alias      MyKs K_S0
+ChargeConj MyKs MyKs
+#
+Decay B0sig
+ 1.0     MyKs   e-    e+   PHOTOS PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKs
+ 1.0     pi+  pi- PHSP;
+Enddecay
+#
+End
+#

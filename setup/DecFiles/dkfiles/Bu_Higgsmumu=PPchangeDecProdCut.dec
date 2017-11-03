@@ -1,0 +1,57 @@
+
+# EventType: 12513070
+#
+# Descriptor: [B+ -> mu+ mu- (Higgs+ -> mu+ nu_mu)]cc
+#
+# NickName: Bu_Higgsmumu=PPchangeDecProdCut
+#
+# Cuts: DaughtersInLHCb
+# 
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+# from Configurables import Gauss, PrintMCTree, PrintMCDecayTreeTool, HistogramPersistencySvc, NTupleSvc, DumpHepMCDecay, DumpHepMCTree, GaussMonitor__CheckLifeTimeHepMC, GaussMonitor__CheckLifeTimeMC, GiGa, GiGaPhysListModular, GiGaHiggsParticles, GenerationToSimulation, PythiaProduction
+#
+#
+#
+# ParticlePropertySvc().Particles = ["H_10     87  25  1.0  0.1    1.295693e-26      Higgs0   25   0.0",
+#                                    "H_20     88  35  -1.0  0.1    1.295693e-26      Higgs'0   35   0.0"]
+#
+#
+# ApplicationMgr().ExtSvc    += [ ParticlePropertySvc() ]
+# gigaHiggsPart = GiGaHiggsParticles()
+# gigaHiggsPart.Higgses = ["H_10","H_20"]
+# GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]
+#
+# EndInsertPythonCode
+# 
+#
+# Documentation: This is to generate a more realistic MC of B+ -> mu+ mu- mu+ nu_mu using intermediate W boson line particle (Higgs) that is  forced to mu+ nu_mu
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Slavomira Stefkova
+# Email: s.stefkova14@imperial.ac.uk
+# Date: 20150512
+# CPUTime: <1min
+#
+Alias      MyKst+    Higgs0
+Alias      MyKst-    Higgs'0
+#
+Decay B+sig
+1.000        MyKst+     mu+     mu-     BTOSLLBALL;
+Enddecay
+Decay B-sig
+1.000        MyKst-     mu+     mu-     BTOSLLBALL;
+Enddecay
+#
+Decay MyKst+
+1.000        mu+      nu_mu             PHSP;
+Enddecay
+Decay MyKst-
+1.000        mu-      anti-nu_mu             PHSP;
+Enddecay
+#
+End
+#

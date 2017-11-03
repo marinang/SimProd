@@ -1,0 +1,54 @@
+# EventType: 11166183
+#
+# Descriptor: [B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi- ) (K*(892)+ -> (KS0 -> pi+ pi-) pi+)]cc
+#
+# NickName: Bd_DstKst,D0pi,Kspi=DecProdCut,HELAMP100
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd forced to D* K*, D* forced to D0 pi, HELAMP 100
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Anita Nandi
+# Email: anita.katharine.nandi@cern.ch
+# Date: 20150731
+#	
+Alias MyD*+       D*+
+Alias MyD*-       D*-
+ChargeConj MyD*+  MyD*-
+Alias        MyK*+     K*+
+Alias        MyK*-     K*-
+ChargeConj   MyK*+     MyK*-
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias MyK_S0  K_S0
+#
+Decay B0sig
+1.000        MyK*+     MyD*-               SVV_HELAMP  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+1.000        Myanti-D0  pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myanti-D0
+1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay MyK*+
+1.000  MyK_S0  pi+                                VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK_S0
+1.000  pi+ pi-                         PHSP;
+Enddecay
+#
+End

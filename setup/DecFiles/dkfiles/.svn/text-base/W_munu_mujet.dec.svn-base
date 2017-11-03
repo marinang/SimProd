@@ -1,0 +1,23 @@
+# EventType: 42311012
+#
+# Descriptor: pp -> [W+ -> mu+ nu_mu]cc + [jet -> mu- ...]cc ...
+#
+# NickName: W_munu_mujet
+#
+# Cuts: PythiaHiggsType
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 17*GeV LeptonIsFromMother true NumberOfbquarks -1
+#
+# ExtraOptions: W_munu_mujet
+#
+# Documentation: 1 muon with pT > 17 GeV, another muon of PT>4 GeV, DPHI(mu,mu)>2.5
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: 10 mins
+# Responsible: Chitsanu Khurewathanakul
+# Email: chitsanu.khurewathanakul@cern.ch
+# Date: 20160905
+#
+End
+#

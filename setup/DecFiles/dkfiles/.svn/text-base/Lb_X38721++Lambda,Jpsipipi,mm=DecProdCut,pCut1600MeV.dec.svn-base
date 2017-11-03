@@ -1,0 +1,47 @@
+# EventType: 15146102
+#
+# Descriptor: [Lambda_b0 -> (X_1(3872) -> (J/psi(1S) -> mu+ mu-) pi+ pi-) (Lambda0 -> p+ pi-)]cc
+#
+# NickName: Lb_X38721++Lambda,Jpsipipi,mm=DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Lambda_b0 decay to X_1(3872) -> (Jpsi -> mu+ mu-) pi+ pi- and Lambda0 forced into p pi, all daughters in acceptance with minimum p.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: M M Reid
+# Email: mreid@cern.ch
+# Date: 20130228
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+Alias      MyX_1(3872) X_1(3872)
+ChargeConj MyX_1(3872) MyX_1(3872)
+#
+Decay Lambda_b0sig
+  1.000     MyX_1(3872) 	MyLambda      PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyX_1(3872)
+  1.000	    MyJ/psi 	pi+	   pi-        PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000     mu+	    mu-                       VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000     p+      pi-                       PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

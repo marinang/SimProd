@@ -1,0 +1,49 @@
+# EventType: 15166000
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p K+ pi-) anti-p p+ pi-]cc
+#
+# NickName: Lb_Lambdacppbarpi=PHSP,DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: phase space decay, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: S. Blusk
+# Email: sblusk@syr.edu
+# Date: 20120411
+#
+
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Decay Lambda_b0sig
+  1.0    MyLambda_c+        anti-p- p+ pi-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+#
+Decay MyLambda_c+
+  0.008600000 Delta++ K-                                      PHSP;
+  0.010700000 p+      Myanti-K*0                              PHSP;
+  0.025400000 p+      K-      pi+                             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+#  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

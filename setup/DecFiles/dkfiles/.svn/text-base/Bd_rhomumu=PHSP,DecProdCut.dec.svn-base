@@ -1,0 +1,33 @@
+# EventType: 11114025 
+#
+# Descriptor: {[[B0]nos -> mu+ mu- (rho0 -> pi+ pi-)]cc, [[B0]os -> mu- mu+ (rho0 -> pi- pi+)]cc}
+#
+# NickName: Bd_rhomumu=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: the B_d^0 -> rho^0 ell^+ ell^- decay in the phase space approach 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch
+# Date: 20111028
+#
+Alias      MyRho0   rho0
+ChargeConj MyRho0   MyRho0
+#
+Decay B0sig
+  1.000        MyRho0     mu+     mu-   PHSP;
+Enddecay                           			 						
+CDecay anti-B0sig
+#
+Decay MyRho0
+  1.000        pi+        pi-                    PHSP;
+Enddecay
+#
+End
+#
+

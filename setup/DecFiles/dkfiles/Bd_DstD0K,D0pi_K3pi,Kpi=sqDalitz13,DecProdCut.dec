@@ -1,0 +1,55 @@
+# EventType: 11198043
+#
+# Descriptor: [B0 -> (D*(2010)- -> (D~0 -> K+ pi- pi- pi+) pi-) D0 K+]cc
+#
+# NickName: Bd_DstD0K,D0pi_K3pi,Kpi=sqDalitz13,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay File for B0 -> D*(2010)- D0 K+ +c.c in LHCb Acceptance, D0 forced to decay into Kpi and D* into D0 (that goes into K3pi) pi. B decay forced flat in 1-3 sq Dalitz plot.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Pavol Stefko
+# Email: pavol.stefko@cern.ch
+# Date: 20161011
+# CPUTime: < 1 min
+#
+Alias My_D0   				D0
+Alias My_anti-D0 			anti-D0
+Alias My_D+   				D+
+Alias My_D-   				D-
+Alias My_D*+  				D*+
+Alias My_D*-  				D*-
+Alias My_D0_fromDst 		D0
+Alias My_anti-D0_fromDst 	anti-D0
+ChargeConj My_D*- 			My_D*+
+ChargeConj My_anti-D0 		My_D0
+ChargeConj My_anti-D0_fromDst 	My_D0_fromDst
+
+#D0 decay
+Decay My_D0
+  1.0 K- pi+   					PHSP;
+Enddecay
+CDecay My_anti-D0
+
+#D*- Decay
+Decay My_D*-
+  1.0 My_anti-D0_fromDst pi-  	VSS;
+Enddecay
+CDecay My_D*+
+
+#D0 from Dstar Decay
+Decay My_D0_fromDst
+  1.0 K- pi+ pi+ pi-  			PHSP;
+Enddecay
+CDecay My_anti-D0_fromDst
+
+#B0 Decay
+Decay B0sig
+   1.0 My_D*- K+ My_D0 FLATSQDALITZ;
+Enddecay
+CDecay anti-B0sig
+
+End

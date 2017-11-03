@@ -1,0 +1,24 @@
+# EventType: 12115003
+#
+# Descriptor: [B+ -> K+ K+ K- mu+ mu-]cc
+#
+# NickName: Bu_3Kmumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+->K+K+K-Mu+Mu- 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:   Sam Hall
+# Email: shall@cern.ch
+# Date: 20121218
+#
+Decay B+sig
+  1.000     K+    K+    K-    mu+    mu-          PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+#

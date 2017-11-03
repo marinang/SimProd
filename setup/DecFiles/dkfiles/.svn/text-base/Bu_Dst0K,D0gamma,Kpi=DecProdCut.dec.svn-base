@@ -1,0 +1,44 @@
+# EventType: 12163231 
+# 
+# Descriptor: [B- -> (D*0 -> (D0 -> K- pi+) gamma) K-]cc
+# 
+# NickName: Bu_Dst0K,D0gamma,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D*0 forced to D0 gamma
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Donal Hill
+# Email: donal.hill@cern.ch
+# Date: 20140218
+#
+#
+Alias MyD*0       D*0
+Alias Myanti-D*0  anti-D*0
+ChargeConj MyD*0  Myanti-D*0
+Alias MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj MyD0   Myanti-D0
+##
+Decay B-sig
+  1.000     MyD*0  K-               SVS;
+Enddecay
+CDecay B+sig
+#
+Decay MyD*0
+1.000    MyD0  gamma                        VSP_PWAVE;
+Enddecay
+Decay Myanti-D*0
+1.000    Myanti-D0  gamma                       VSP_PWAVE;
+Enddecay
+#
+Decay MyD0
+  1.000     K-  pi+        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End

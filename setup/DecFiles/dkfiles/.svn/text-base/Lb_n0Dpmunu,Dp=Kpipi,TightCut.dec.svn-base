@@ -1,0 +1,65 @@
+# EventType: 15575000 
+#
+# Descriptor: [Lambda_b0 -> (D+ -> K- pi+ pi+) mu- anti-nu_mu n0]cc 
+#
+# NickName: Lb_n0Dpmunu,Dp=Kpipi,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalPlain.addTool( LoKi__GenCutTool,'TightCut')
+# tightCut = Generation().SignalPlain.TightCut
+# tightCut.Decay = '^[ [Lambda_b0]cc => ^(D+ ==> ^K- ^pi+ ^pi+) ^n0 ^mu- ^nu_mu~ ]CC'
+# #
+# tightCut.Preambulo += [
+#     'inAcc        = (in_range(0.005, GTHETA, 0.400))',
+#     'GVZ = LoKi.GenVertices.PositionZ()',
+#     'from GaudiKernel.SystemOfUnits import millimeter',
+#     'goodMu       = (GPT > 700 * MeV)  & (GP > 2.0*GeV) & inAcc',
+#     'goodK        = (GPT > 300 * MeV)  & (GP > 2.0*GeV) & inAcc',
+#     'goodpi       = (GPT > 300 * MeV)  & (GP > 2.0*GeV) & inAcc',
+#     'goodD        = (GPT > 1200 * MeV)',
+#     'goodB        = (GFAEVX(abs(GVZ), 0) - GFAPVX(abs(GVZ), 0) > .5 * millimeter)'
+#     ]
+# tightCut.Cuts = {
+#     '[Lambda_b0]cc': 'goodB',
+#     '[D-]cc'        : 'goodD',
+#     '[K+]cc'       : 'goodK',
+#     '[pi+]cc'      : 'goodpi',
+#     '[mu+]cc'      : 'goodMu'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: lambdab2DplusMuNu background sample with tight cuts on p, pT and Vz for Asld and Dmd analysis in Bd2DplusMuNu channel
+# EndDocumentation
+#
+# 
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Basem KHANJI
+# Email: basem.khanji@cern.ch
+# Date: 20140924
+# CPUTime: < 2 min
+
+Alias      MyDp       D+
+Alias      MyDm       D-
+
+ChargeConj MyDp       MyDm
+#
+Decay Lambda_b0sig
+1.0      n0 MyDp mu- anti-nu_mu PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+
+Decay MyDp
+  1.0      K- pi+ pi+ PHSP;
+Enddecay
+CDecay MyDm
+
+End
+
+

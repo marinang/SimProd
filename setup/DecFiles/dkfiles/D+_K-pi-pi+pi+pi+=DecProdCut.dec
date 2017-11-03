@@ -1,0 +1,39 @@
+# EventType: 21265000
+#
+# Descriptor: [D+ => K- pi- pi+ pi+ pi+]cc
+#
+# NickName: D+_K-pi-pi+pi+pi+=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# See table 2 of hep-ex/0211056v2 (Phys.Lett.B561:225-232,2003):
+#
+# Documentation: Decay products in acceptance, simple decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Mat Charles
+# Email: matthew.charles@<nospam>cern.ch
+# Date: 20100514
+#
+Alias MyKstar K*0
+Alias MyKstarBar anti-K*0
+ChargeConj MyKstar MyKstarBar
+#
+Decay D+sig
+  0.09    K-  pi-  pi+  pi+  pi+       PHSP;
+  0.21    MyKstarBar  pi-  pi+  pi+    PHSP;
+  0.30    K-  rho0  pi+  pi+           PHSP;
+  0.40    MyKstarBar  rho0  pi+        PHSP;
+Enddecay
+CDecay D-sig
+#
+Decay MyKstar
+0.6657      K+  pi-                        VSS;
+Enddecay
+Decay MyKstarBar
+0.6657      K-  pi+                        VSS;
+Enddecay
+#
+End

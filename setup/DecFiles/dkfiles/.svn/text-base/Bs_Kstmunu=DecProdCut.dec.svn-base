@@ -1,0 +1,46 @@
+# EventType: 13514011
+#
+# Descriptor: {[[B_s0] => (K*(892)+ => (KS0 => pi+ pi-) pi-) nu_mu mu+]cc, [B_s~0] => (K*(892)- => (KS0 => pi+ pi-) pi+) anti-nu_mu mu+]cc
+#
+# NickName: Bs_Kstmunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay Bs0 -> K*-(->Ks0(->pi+pi-)pi-) mu+ nu_mu
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Alessandra Borgia
+# Email: aborgia@syr.edu
+# Date: 20111017
+#
+Alias      MyK*-      K*-
+Alias      MyK*+      K*+
+ChargeConj MyK*+      MyK*-
+Alias      MyK_0      K0
+Alias      MyK_0~     anti-K0
+ChargeConj MyK_0      MyK_0~
+Alias      MyK_S0     K_S0
+#
+#
+Decay B_s0sig
+1.000 MyK*-    mu+  nu_mu        PHOTOS ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyK*-
+1.000     MyK_0 pi-             VSS;
+Enddecay
+CDecay MyK*+
+#
+Decay MyK_0
+1.000     MyK_S0                PHSP;
+Enddecay
+#
+Decay MyK_S0
+1.000     pi+  pi-              PHSP;
+Enddecay
+#
+End
+#

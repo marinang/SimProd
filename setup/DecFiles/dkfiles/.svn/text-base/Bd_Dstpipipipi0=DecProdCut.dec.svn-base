@@ -1,0 +1,44 @@
+# EventType: 11136011
+#
+# Descriptor: [B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) pi+ pi+ pi- pi0]cc
+#
+# NickName: Bd_Dstpipipipi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd to D* 4pi, with D* to pi D0 and D0 to Kpi. Background Channel.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Anne Keune, Alessandra Borgia
+# Email: Anne.Keune@cern.ch, aborgia@syr.edu
+# Date: 20110401
+#
+
+
+Alias             MyD0        D0
+Alias             anti-MyD0   anti-D0
+ChargeConj        MyD0        anti-MyD0
+
+Alias         MyD*+   D*+
+Alias         MyD*- D*-
+ChargeConj    MyD*+ MyD*-
+
+Decay B0sig
+  1.000       MyD*-    pi+    pi+   pi-   pi0           PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*+
+  1.000     MyD0      pi+                 VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.0000      K-     pi+     PHSP;
+Enddecay
+CDecay anti-MyD0
+#    
+End
+#

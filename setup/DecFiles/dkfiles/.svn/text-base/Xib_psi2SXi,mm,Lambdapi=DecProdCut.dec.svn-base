@@ -1,0 +1,50 @@
+# EventType: 16145136
+#
+# Descriptor: [Xi_b- -> (Xi- -> (Lambda0 -> p+ pi-) pi-) (psi(2S) -> mu+ mu-)]cc
+#
+# NickName: Xib_psi2SXi,mm,Lambdapi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: psi2S force to go to mu mu, Xib forced to go to Xi pi,  Xi forced to go Lambda pi, Lambda forces to go to p pi, includes radiative mode.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Patrick Mackowiak
+# Email: patrick.mackowiak@cern.ch
+# CPUTime: <1min
+# Date: 20170213
+#
+Alias	MyXi	Xi-
+Alias	Myanti-Xi anti-Xi+
+ChargeConj Myanti-Xi MyXi
+#
+Alias	MyLambda	Lambda0
+Alias	Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+#
+Alias	Mypsi2S	psi(2S)
+ChargeConj Mypsi2S	Mypsi2S
+#
+Decay Xi_b-sig
+1.000	MyXi	Mypsi2S	PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay Mypsi2S
+1.000	mu+	mu-	PHOTOS VLL;
+Enddecay
+#
+Decay MyXi
+1.000	MyLambda	pi-	PHSP;
+Enddecay
+CDecay Myanti-Xi
+#
+Decay MyLambda
+1.000	p+	pi-	PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

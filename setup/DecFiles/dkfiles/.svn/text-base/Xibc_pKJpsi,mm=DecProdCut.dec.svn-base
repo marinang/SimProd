@@ -1,0 +1,43 @@
+# EventType: 16144060
+# 
+# Descriptor: [ Xi_bc0 -> p K-  (J/psi -> mu+ mu-) ]cc
+#
+# NickName: Xibc_pKJpsi,mm=DecProdCut
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# Documentation: decay file of Xi_bc^0 -> p K- (J/psi -> mu+ mu-)
+# using dedicated GenXicc package for production, cuts with XiccDaughtersInLHCb, phase space decay model used. 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Giacomo Graziani
+# Email: graziani@fi.infn.it
+# Date: 20150528
+#
+
+#Alias      Xi_bc0sig         Xi_bc0
+#Alias      anti-Xi_bc0sig    anti-Xi_bc0
+#ChargeConj Xi_bc0sig         anti-Xi_bc0sig
+
+
+Alias MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+
+#
+Decay Xi_bc0sig
+  1.00   p+ K-  MyJ/psi                  PHSP;
+Enddecay
+CDecay anti-Xi_bc0sig
+#
+
+Decay MyJ/psi
+ 1.0000  mu+        mu-                    PHOTOS VLL ;
+Enddecay
+
+End
+

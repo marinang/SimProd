@@ -1,0 +1,49 @@
+# EventType: 11164410
+#
+# Descriptor: {[[B0]nos -> (D- => K+ pi- pi-) (K*(892)+ -> K+ (pi0 -> gamma gamma))]cc, [[B0]os -> (D+ => K- pi+ pi+) (K*(892)+ -> K- (pi0 -> gamma gamma)]cc} 
+#
+# NickName: Bd_D-Kst+,Kpipi,Kpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: 
+# K*+ forced to K+ pi0, using Dalitz decay model for D- decay 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Piotr Morawski
+# Email: piotr.morawski@cern.ch
+# Date: 20111007
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+Alias      Mypi0       pi0
+ChargeConj Mypi0       Mypi0
+Alias      MyK*+       K*+
+Alias      MyK*-       K*-
+ChargeConj MyK*+       MyK*-
+#
+Decay B0sig
+  1.000     MyK*+       MyD-        SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  1.000        K+        pi-        pi-             D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay Mypi0
+  1.000     gamma       gamma              PHSP;
+Enddecay
+#
+Decay MyK*+
+  1.000     K+          pi0                VSS;
+Enddecay
+CDecay MyK*-
+#
+End
+#
+

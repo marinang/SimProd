@@ -1,0 +1,30 @@
+# EventType: 12153001
+#
+# Descriptor: [B+ -> K+ (J/psi(1S) -> e+ e-)]cc
+#
+# NickName: Bu_JpsiK,ee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Flavio Archilli
+# Email: flavio.archilli@cern.ch
+# Date: 20120503
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Decay B+sig
+  1.000    MyJ/psi K+      SVS;
+Enddecay
+CDecay B-sig
+#
+Decay MyJ/psi
+  1.000    e+ e-           PHOTOS VLL;
+Enddecay
+#
+End
+#

@@ -1,0 +1,47 @@
+# EventType: 15512015
+#
+# Descriptor: [Lambda_b0 -> p+ mu- anti-nu_mu]cc
+#
+# NickName: Lb_pmunu=TightCut,LCSR
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 1 min
+#
+# Documentation: Decay file for Lb->pmunu using LCSR form factor predicitons. Includes acceptance, P and PT cuts on the proton and muon.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut  = Generation().SignalPlain.TightCut
+# tightCut.Decay = "[ Lambda_b0 => ^p+ ^mu- nu_mu~  ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV" , 
+# "pmuPX = GCHILD(GPX,('p+' == GABSID )) + GCHILD(GPX,('mu-' == GABSID))",
+# "pmuPY = GCHILD(GPY,('p+' == GABSID )) + GCHILD(GPY,('mu-' == GABSID))",
+# "pmuPT2 = pmuPX * pmuPX + pmuPY * pmuPY"
+#  ]
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 950 * MeV ) & (GP > 14600 * MeV)" ,#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GPT > 1450 * MeV) &  (GP > 5000 * MeV) ",
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GPT > 1450 * MeV) &  (GP > 4900 * MeV) ",
+#   }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL 
+# Tested: Yes
+# Responsible: William Sutcliffe
+# Email: william.lawrence.sutcliffe@cern.ch
+# Date: 20140313 
+#
+#
+
+Decay Lambda_b0sig
+  1.000    p+     mu-  anti-nu_mu   PHOTOS   Lb2plnuLCSR  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

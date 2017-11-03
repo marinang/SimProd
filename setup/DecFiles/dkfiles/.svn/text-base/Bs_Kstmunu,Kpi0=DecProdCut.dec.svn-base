@@ -1,0 +1,35 @@
+# EventType: 13512400
+#
+# Descriptor: [B_s0 => (K*(892)- => K- pi0) nu_mu mu+]cc
+#
+# NickName: Bs_Kstmunu,Kpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay Bs0 -> K*-(->K- pi0) mu+ nu_mu
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Michael Kolpin
+# Email: michael.kolpin@cern.ch
+# Date: 20150701
+#
+Alias      MyKst-      K*-
+Alias      MyKst+      K*+
+ChargeConj MyKst-      MyKst+
+#
+#
+Decay B_s0sig
+1.000 MyKst-    mu+  nu_mu        PHOTOS ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyKst-
+1.000     K- pi0             VSS;
+Enddecay
+CDecay MyKst+
+#
+End
+#

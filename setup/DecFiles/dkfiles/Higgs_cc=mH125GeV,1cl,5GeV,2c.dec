@@ -1,0 +1,38 @@
+# EventType: 40911018
+#
+# Descriptor: pp -> {[W+ -> {mu+ nu_mu, e+ nu_e}]cc, (Z0 -> {mu+ mu-, e+ e-})} (H_10 -> c anti-c) 
+#
+# NickName: Higgs_cc=mH125GeV,1cl,5GeV,2c
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/HiggsTypeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "HiggsTypeCut" )
+# tracksInAcc = Generation().HiggsTypeCut
+# tracksInAcc.Code = " ( (count ( isGoodHiggs ) > 0) & ((count ( isGoodLeptonW ) + count ( isGoodLeptonZ ))>0)) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodHiggs     = ((  'H_10' == GABSID ) & (GNINTREE( GCHARM & ( GTHETA < 400.0*mrad )) > 1))"
+#    , "isGoodLeptonW   = ((  'W+' == GABSID ) & GINTREE( GLEPTON & GCHARGED & ( GTHETA < 400.0*mrad ) & (GPT > 5*GeV)))"
+#    , "isGoodLeptonZ   = ((  'Z0' == GABSID ) & GINTREE( GLEPTON & ( GTHETA < 400.0*mrad ) & (GPT > 5*GeV)))"
+#    ]
+# EndInsertPythonCode
+#
+# ParticleValue: "H_10 87 25 0.0 125.000 9.400e-026 Higgs0 25 0.000e+000"
+# ExtraOptions: Higgs_cc
+#
+# Documentation: MHiggs=125 GeV, 2 c-quark in the LHCb Acc, 1 charged lepton in LHCb acceptance with pt > 5 GeV
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date: 20150313
+#
+End
+#

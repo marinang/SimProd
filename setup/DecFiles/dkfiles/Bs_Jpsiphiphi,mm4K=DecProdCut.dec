@@ -1,0 +1,40 @@
+# EventType: 13146011
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu-) (phi(1020) -> K+ K-) (phi(1020) -> K+ K-) ]cc
+#
+# NickName: Bs_Jpsiphiphi,mm4K=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  Bs decay to J/psi(mu+ mu-) phi(K+ K-) phi(K+ K-) all the decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Emanuele Santovetti
+# Email: emanuelesantovetti@gmail.com
+# Date: 20121218
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+Alias       MyPhi        phi
+ChargeConj  MyPhi        MyPhi
+#
+#
+#
+Decay B_s0sig
+  1.0   MyJ/psi   MyPhi   MyPhi   PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.0000   mu+   mu-   VLL;
+Enddecay
+#
+Decay MyPhi
+  1.0000   K+   K-   VSS;
+Enddecay
+#
+#
+End

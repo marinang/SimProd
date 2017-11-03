@@ -1,0 +1,50 @@
+# EventType: 27265103
+#
+# Descriptor: [D*(2010)+ -> (D0 -> (KS0 -> pi+ pi-) pi+ pi-) pi+]cc
+#
+# NickName: Dst_D0pi,KSpipi=mix_rbw,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Inclusive production of D*+. D* is forced to decay to D0 pi+, then D0 to (Ks pi+ pi-)
+#    as D0MIXDALITZ model with    mixing, then Ks to (pi+ pi-) flat. Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Jordi Garra Ticó
+# Email: jordi.garra.tico@cern.ch
+# Date: 20120216
+
+
+Alias my-D0      D0
+Alias my-anti-D0 anti-D0
+Alias my-K_S0    K_S0
+
+ChargeConj my-D0   my-anti-D0
+ChargeConj my-K_S0 my-K_S0
+
+# Mixing and CPV in mixing parameters.
+Define x    0.01
+Define y    0.01
+Define reqp 1.00
+Define imqp 0.00
+Define doKm 0
+
+
+# Vector D*.
+Decay D*+sig
+1.0000    my-D0  pi+              VSS;
+Enddecay
+CDecay D*-sig
+
+Decay my-D0
+1.0000    my-K_S0  pi+  pi-       D0MIXDALITZ x y reqp imqp doKm;
+Enddecay
+CDecay my-anti-D0
+
+Decay my-K_S0
+1.0000    pi+  pi-                PHSP;
+Enddecay
+
+End

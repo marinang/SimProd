@@ -1,0 +1,38 @@
+# EventType: 12103490
+#
+# NickName: Bu_a10K+,pipip0=DecProdCut
+#
+# Descriptor: [B+ -> K+ (a_10 -> pi+ pi- pi0)]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+->a_1(1260)0 K+ decay,  a_1(1260)0-> pi+pi-pi0 decay, Decay products in acceptance
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Sebastiana Gianì
+# Email: sebastiana.giani@cern.ch
+# Date: 20160510
+#
+
+Alias      MyA1_1260  a_10
+ChargeConj MyA1_1260  MyA1_1260
+
+Decay B+sig
+1.000      MyA1_1260   K+                SVS;
+Enddecay
+
+CDecay B-sig
+#
+
+
+Decay MyA1_1260
+ 1.000   pi+ pi- pi0                      PHSP;
+Enddecay
+#
+
+
+End
+#

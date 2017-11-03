@@ -1,0 +1,26 @@
+# EventType: 11102005
+#
+# Descriptor: {[[B0]nos -> K+ pi-]cc, [[B0]os -> K- pi+]cc}
+#
+# NickName: Bd_K+pi-=CPV2017,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Direct CP violation and decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Cameron Dean 
+# Email: cameron.dean@cern.ch
+# Date: 20170123
+#
+Decay B0sig
+  1.000        K+       pi-               SSD_DirectCP  -0.082 ;
+Enddecay
+CDecay anti-B0sig
+#
+End
+

@@ -1,0 +1,46 @@
+# EventType: 13112211
+#
+# Descriptor: {[B_s0 -> gamma e- mu+]cc, [B_s0 -> gamma e+ mu-]cc}
+#
+# NickName: Bs_gammaemu=ISRandFSR,DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# 
+# Documentation: 
+#     ISR and FSR contributions 
+#     Input parameters mu         - the scale parameter (in GeV's)
+#                      Nf         - number of "effective" flavors (for b-quark Nf=5) 
+#                      sr         - state radiation type
+#                      res_swch   - resonant switching parametr
+#                      ias        - switching parametr for \alpha_s(M_Z) value
+#                      Wolfenstein parameterization for CKM matrix
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Meril Reboud
+# Email: meril.reboud@{nospam}cern.ch
+# Date: 20160725
+# CPUTime: <1min
+#
+Define mu 5.0
+Define Nf 5
+Define sr 2
+Define res_swch 1
+Define ias 1
+Define Egamma 0.02
+Define A 0.814
+Define lambda 0.2254
+Define barrho 0.117
+Define bareta 0.353
+#
+#
+Decay B_s0sig
+   0.500    gamma   e-   mu+   BSTOGLLISRFSR mu Nf sr res_swch ias Egamma A lambda barrho bareta;
+   0.500    gamma   e+   mu-   BSTOGLLISRFSR mu Nf sr res_swch ias Egamma A lambda barrho bareta;
+Enddecay
+CDecay anti-B_s0sig
+
+End
+#

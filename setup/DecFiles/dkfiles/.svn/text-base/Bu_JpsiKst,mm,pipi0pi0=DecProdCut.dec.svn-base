@@ -1,0 +1,55 @@
+# EventType: 12143501
+#
+# Descriptor: [B+ -> (J/psi -> mu+ mu-) (K*+ -> (K_S0 -> pi0 pi0) pi+)]cc
+#
+# NickName: Bu_JpsiKst,mm,pipi0pi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: [B+ -> (J/psi -> mu+ mu-) (K*+ -> (K_S0 -> pi0 pi0)  pi+)]cc
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# CPUTime:< 1 min
+# Responsible: Sevda Esen
+# Email: sevda.esen@cern.ch
+# Date: 20160603
+
+#
+Define PKHplus  0.159
+Define PKHzero  0.775
+Define PKHminus 0.612
+Define PKphHplus  1.563
+Define PKphHzero  0.0
+Define PKphHminus 2.712
+#
+Alias      MyJ/psi    J/psi
+Alias      MyK*+      K*+
+Alias      MyK*-      K*-
+Alias      MyKs       K_S0
+ChargeConj MyK*+      MyK*-
+ChargeConj MyJ/psi  MyJ/psi
+ChargeConj MyKs       MyKs
+#
+Decay B+sig
+  1.000         MyJ/psi   MyK*+          SVV_HELAMP PKHplus PKphHplus PKHzero PKphHzero PKHminus PKphHminus;
+Enddecay
+CDecay B-sig
+
+#
+Decay MyJ/psi
+1.000   mu+  mu-                       PHOTOS  VLL;
+Enddecay
+#
+Decay MyK*+
+1.000      MyKs  pi+                        VSS;
+Enddecay
+CDecay MyK*-
+#
+#
+Decay MyKs
+1.0        pi0         pi0                                       PHSP;
+Enddecay
+#
+End

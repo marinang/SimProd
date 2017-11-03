@@ -1,0 +1,44 @@
+# EventType: 11574200
+#
+# Descriptor: [B0 -> (D- -> pi- (eta ->  pi+ pi- gamma)) mu+ nu_mu ]cc 
+#
+# NickName: Bd_Dmunu,etapi,pipig=DecProdCut,DmuInAcc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 forced to decay to D- mu+ nu_mu, D- to pi- eta, eta to pi+ pi- gamma. Decay products in acceptance.
+# EndDocumentation
+#
+# ExtraOptions: DmuInAcc
+#
+# PhysicsWG: Charm
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Simone Stracka
+# Email: simone.stracka@cern.ch
+# Date: 20141213
+#
+Alias      MyD+         D+
+Alias      MyD-         D-
+ChargeConj MyD+         MyD-
+#
+Alias       my_eta   eta
+ChargeConj  my_eta   my_eta
+#
+Decay B0sig 
+  # FORM FACTORS as per HFAG PDG10
+  1.00   MyD-   mu+  nu_mu    PHOTOS  HQET2 1.18 1.074;     
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  1.000     my_eta   pi-    PHOTOS PHSP ;
+Enddecay
+CDecay MyD+
+#
+Decay  my_eta
+  1.000     pi+ pi-  gamma                     PHOTOS PHSP;
+Enddecay
+#
+End
+#

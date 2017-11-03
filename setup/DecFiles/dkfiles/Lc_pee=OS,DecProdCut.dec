@@ -1,0 +1,27 @@
+# EventType: 25123000
+# 
+# Descriptor: [Lambda_c+ -> p+ e- e+]cc
+# 
+# NickName: Lc_pee=OS,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: PHSP MODEL.
+#                Neutral Current Fobidden
+#                in 25113000 (Lc_peeOS=DecProdCut).
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Luca Pescatore
+# Email:       luca.pescatore@cern.ch
+# Date:        20161118
+# CPUTime:     < 1min 
+#
+Decay Lambda_c+sig
+  1.00000         p+      e-      e+     PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+ 
+#
+End

@@ -1,0 +1,41 @@
+# EventType: 12145230
+#
+# Descriptor: [B+ -> K+ (chi_c2 -> (J/psi -> mu+ mu- ) gamma) pi+ pi-]cc
+#
+# NickName: Bu_chic2pipiK,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ decay to the: chic2 (-> Jpsi (mu+ mu-) gamma) pi+ pi- K+,
+# using phase space model, all dauthers in LHCb acceptance.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Dima Melnychuk
+# Email: dmytro.melnychuk@cern.ch
+# Date: 20160317
+#
+Alias      MyJ/psi  J/psi
+Alias      MyChic2  chi_c2 
+ChargeConj MyJ/psi  MyJ/psi
+#
+#
+#
+Decay B+sig
+  1.000    MyChic2   K+ pi+ pi-        PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyChic2
+  1.000  MyJ/psi  gamma                PHSP;
+Enddecay 
+#
+Decay MyJ/psi
+  1.000         mu+        mu-        PHOTOS VLL;
+Enddecay
+#
+End
+#

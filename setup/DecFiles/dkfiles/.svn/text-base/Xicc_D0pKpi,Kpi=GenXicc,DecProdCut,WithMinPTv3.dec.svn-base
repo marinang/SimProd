@@ -1,0 +1,41 @@
+# EventType:  26165059
+#
+# Descriptor: [Xi_cc+ -> (D0 -> pi+ K-) p+ K- pi+ ]cc
+#
+# NickName: Xicc_D0pKpi,Kpi=GenXicc,DecProdCut,WithMinPTv3
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CutsOptions: MinXiccPT 3400*MeV
+#
+# CPUTime: < 1 min
+#
+# Documentation: Xicc decay to D0 p+ K- and pi+ by phase space model, D0 decay to pi+ K-.
+# all daughters of Xicc are required to be in the acceptance of LHCb 
+# and the Xicc PT is required to be larger than 3400 MeV. 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Murdo Traill
+# Email: murdo.thomas.traill@cern.ch
+# Date: 20160901
+#
+Alias      MyD0               D0
+Alias      Myanti-D0		     anti-D0
+ChargeConj MyD0			     Myanti-D0
+#
+Decay Xi_cc+sig
+  1.000    MyD0   p+  K-	  pi+             PHSP;
+Enddecay
+CDecay anti-Xi_cc-sig
+#
+Decay MyD0
+  1.000        K-       pi+                   PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End
+#

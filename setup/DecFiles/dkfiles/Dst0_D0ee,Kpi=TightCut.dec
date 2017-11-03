@@ -1,0 +1,55 @@
+# EventType: 27184010
+#
+# Descriptor: [D*0 -> (D0 -> K- pi+) e+ e-]cc
+#
+# NickName: Dst0_D0ee,Kpi=TightCut
+#
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation()
+#gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalPlain.TightCut
+#tightCut.Decay = '^[D*(2007)0 -> ^(D0 ==> ^K- ^pi+) ^e+ ^e-]CC'
+#tightCut.Preambulo += [
+#   'from GaudiKernel.SystemOfUnits import MeV' ,
+#   'from LoKiCore.functions import in_range',
+#   ]
+#tightCut.Cuts = {
+#   '[D*(2007)0]cc'   : '(GP >  6000 * MeV)',
+#   '[D0]cc'          : '(GP >  3000 * MeV)',
+#   '[K-]cc'          : '(GP >  1500 * MeV) & (in_range(0.010, GTHETA, 0.300))',
+#   '[pi+]cc'         : '(GP >  1500 * MeV) & (in_range(0.010, GTHETA, 0.300))',
+#   '[e+]cc'          : '(GP >  1500 * MeV) & (in_range(0.010, GTHETA, 0.300))'
+#   }
+#EndInsertPythonCode
+#
+# Documentation: D*0 -> D0ee decay file, asking the final state particles to be in the acceptance and have enough momentum to make it into long tracks.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Michel De Cian
+# Email: michel.de.cian@cern.ch
+# Date: 20170705
+# CPUTime: < 1min
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+##
+Decay D*0sig
+1.00 MyD0  e+ e-    VTOSLL;
+Enddecay
+CDecay anti-D*0sig
+#
+Decay MyD0
+1.00 K-  pi+        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End
+

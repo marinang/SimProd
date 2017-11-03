@@ -1,0 +1,21 @@
+# EventType: 60002018
+#
+# Descriptor: p Ar40[0.0] => ?
+#
+# NickName: beamGasVelo,2=Argon
+#
+# Cuts: None
+#
+# Production: Hijing
+# ExtraOptions: Beam2GasVeLo
+#
+# Documentation: Beam2-argon gas in the VELO
+# EndDocumentation
+#
+# PhysicsWG: Sim
+# Tested: Yes
+# Responsible: Massimiliano Ferro-Luzzi
+# Email: Massimiliano.Ferro-Luzzi@cern.ch
+# Date: 20130712
+#
+End

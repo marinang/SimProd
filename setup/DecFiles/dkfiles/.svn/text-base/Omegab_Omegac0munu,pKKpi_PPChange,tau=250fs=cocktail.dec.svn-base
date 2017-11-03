@@ -1,0 +1,73 @@
+# EventType: 16875032
+#
+# Descriptor: [Xi_b- -> (Omega_c0 -> p+ K- K- pi+) anti-nu_mu mu-]cc
+#
+# NickName: Omegab_Omegac0munu,pKKpi_PPChange,tau=250fs=cocktail
+#
+# Cuts: LHCbAcceptance
+#
+# ParticleValue: "Xi_b- 122 5132 -1.0 6.050 1.6e-012 Xi_b- 5132 0.000000e+000", "Xi_b~+ 123 -5132 1.0 6.050 1.6e-012 anti-Xi_b+ -5132 0.000000e+000", "Omega_c0   104  4332  0.0  2.6975   2.5000e-013   Omega_c0   4332   0.00", "Omega_c~0   105  -4332  0.0   2.6975   2.5000e-013   anti-Omega_c0  -4332   0.00"
+#
+#
+# Documentation: Omega_b -> Omegac0 mu nu_mu with Omegac0 ->p K K pi, includes resonances, longer Omega_c0 lifetime of 0.25 ps
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: S. Blusk
+# Email:  sblusk@syr.edu
+# Date: 20170512
+#
+Alias MyOmega_c0 Omega_c0
+Alias Myanti-Omega_c0 anti-Omega_c0
+ChargeConj MyOmega_c0 Myanti-Omega_c0
+#
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias MyOmega_c*0 Omega_c*0
+Alias Myanti-Omega_c*0 anti-Omega_c*0
+ChargeConj MyOmega_c*0 Myanti-Omega_c*0 
+
+#
+#
+Decay Xi_b-sig
+  0.0546     MyOmega_c0   mu- anti-nu_mu                    PHSP;
+  0.0200     MyOmega_c0   Mytau-  anti-nu_tau               PHSP;
+  0.0050     MyOmega_c*0  mu- anti-nu_mu                    PHSP;
+  0.002      MyOmega_c*0  Mytau-  anti-nu_tau               PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyOmega_c0
+  0.5   p+  K-     Myanti-K*0                           PHSP;
+  0.5   p+   K-  K-  pi+                                 PHSP;
+Enddecay
+CDecay Myanti-Omega_c0
+#
+Decay MyOmega_c*0
+1.0    gamma  MyOmega_c0                    PHSP;
+Enddecay
+CDecay Myanti-Omega_c*0
+
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Mytau-
+  0.1736       mu-  anti-nu_mu   nu_tau        TAULNUNU;
+Enddecay
+CDecay Mytau+
+
+
+End
+

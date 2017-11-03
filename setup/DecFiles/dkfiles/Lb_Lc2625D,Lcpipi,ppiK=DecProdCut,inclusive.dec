@@ -1,0 +1,39 @@
+# EventType: 15395000
+# Descriptor: [Lambda_b0 -> D- ( Lambda_c(2625)+ -> ( Lambda_c+ -> p+ K- pi+) pi+ pi-)]cc
+# NickName: Lb_Lc2625D,Lcpipi,ppiK=DecProdCut,inclusive
+# Cuts: LHCbAcceptance
+# Documentation: Decay of Lambda_b0 -> ( Lambda_c(2625)+ -> (Lambda_c+ -> ^p+  ^K- ^pi+ )pi+ pi-) D-.D inclusive decays are considered
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Anna Lupato, Marcin Chrzaszcz
+# Email: alupato@cern.ch, mchrzasz@cern.ch
+# Date: 20160119
+# CPUTime: <1 min
+#
+#
+Alias MyLambda_c(2625)+       Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+  Myanti-Lambda_c(2625)-
+#
+Alias      MyLambda_c+         Lambda_c+
+Alias      MyLambda_c-	       anti-Lambda_c-
+ChargeConj MyLambda_c+         MyLambda_c-
+#
+Decay Lambda_b0sig
+1.0000    MyLambda_c(2625)+       D-        PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c(2625)+
+1.0000     MyLambda_c+ pi+     pi-                           PHSP; 
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MyLambda_c+
+  1.0000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+End

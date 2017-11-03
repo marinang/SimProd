@@ -1,0 +1,30 @@
+# EventType: 30000001
+#
+# Descriptor: pp => ?
+#
+# NickName: minbias=Biased5TrkPt600MeV
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/GenTrackPtCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "GenTrackPtCut" )
+# tracksInAcc = Generation().GenTrackPtCut
+# tracksInAcc.Code = "(count ( isGoodTrk ) > 4)"
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodTrk     = (GCHARGED and (GTHETA < 400.0*mrad) and (GPT > 0.6*GeV) and (GSTATUS == 999 or GSTATUS == 1)  )"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: minimum bias with 5 charged track in Acc and pt>600MeV
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email: cedric.potterat@cern.ch
+# Date:   20090320
+#
+End

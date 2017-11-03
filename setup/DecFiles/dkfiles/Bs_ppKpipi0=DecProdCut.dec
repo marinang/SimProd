@@ -1,0 +1,25 @@
+# EventType: 13104441
+# 
+# Descriptor: [B_s0 -> p+ p~- K+ pi- pi0]cc
+# 
+# NickName: Bs_ppKpipi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay Products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Giovanni Cavallero
+# Email: giovanni.cavallero@cern.ch
+# Date: 20150624
+# CPUTime: < 1 min
+#
+Decay B_s0sig
+  1.000 p+ anti-p- K+ pi- pi0 PHOTOS PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+

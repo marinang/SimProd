@@ -1,0 +1,57 @@
+# EventType: 12775001
+#
+# Descriptor: {B+ => (anti-D0*0 => (D_s- => K+ K- pi-) K+) nu_mu mu+]cc}
+#
+# NickName: Bu_Dst02400munu,DsK,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decays to D0*0 Mu Nu, with D0*0 decaying to Ds K+/-, and finally Ds decaying to KKPi. Used for background studies for
+#                Asl_s measurement. Requiring the D0*0 to go 50% to Ds and 50% to Ds*.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Alessandra Borgia
+# Email: aborgia@syr.edu
+# Date: 20120824
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s*-     D_s*-
+Alias      MyD_s*+     D_s*+
+ChargeConj MyD_s*+     MyD_s*-
+#
+Alias      MyD_0*0         D_0*0
+Alias      Myanti-D_0*0    anti-D_0*0
+ChargeConj MyD_0*0         Myanti-D_0*0
+#
+ChangeMassMin MyD_0*0 2.42167
+ChangeMassMin Myanti-D_0*0 2.42167
+#
+#
+Decay B+sig
+  1.00    Myanti-D_0*0 mu+    nu_mu    PHOTOS ISGW2;
+Enddecay
+CDecay B-sig
+#
+Decay MyD_0*0
+  0.50   MyD_s+   K-                   PHOTOS PHSP;
+  0.50   MyD_s*+  K-                   PHOTOS PHSP;
+Enddecay
+CDecay Myanti-D_0*0 
+#
+Decay MyD_s*+
+  0.942   MyD_s+  gamma               PHOTOS VSP_PWAVE;
+  0.058   MyD_s+  pi0                 PHOTOS VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s+
+  1.00     K+    K-     pi+           PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End

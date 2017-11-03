@@ -1,0 +1,68 @@
+# Responsible: Evelina Gersabeck
+##
+# EventType: 12245000
+#
+# NickName: Bu_K1Jpsi,mm,=DecProdCut
+# Descriptor: [ B+ -> (J/psi(1S)->mu+ mu-) (K_1(1270)+ -> (X ->  K+ pi- pi+)) ]cc
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+->K_1(1270)+ J/psi(1S) decay, K_1(1270)+ -> XX-> K+pi+pi- decay, J/psi ->mu+mu-, Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# 
+# Email: evelina.gersabeck@cern.ch
+# Date: 20111209
+
+Alias      MyK1_1270_+   K_1+ 
+Alias      MyK1_1270_-   K_1-
+ChargeConj MyK1_1270_+   MyK1_1270_-
+
+
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+
+Alias MyOmega omega
+ChargeConj MyOmega MyOmega
+
+Alias       MyJ/psi  J/psi
+ChargeConj  MyJ/psi  MyJ/psi
+
+#
+Decay B+sig
+  1.000        MyK1_1270_+     MyJ/psi               SVV_HELAMP 0.5 0.0 1.0 0.0 0.5 0.0;;
+
+Enddecay
+CDecay B-sig
+
+#
+
+#
+Decay MyK1_1270_+
+  0.2716513        MyK*0        pi+                    VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.3564309        rho0         K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0042848        MyOmega      K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.3676330        K+  pi+ pi-                              PHSP;
+Enddecay
+CDecay MyK1_1270_-
+
+#
+Decay MyK*0
+  1.000        K+        pi-                    VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+
+#
+Decay MyOmega
+  1.000        pi+        pi-                    VSS;
+Enddecay
+
+Decay MyJ/psi
+  1.000         mu+         mu-          PHOTOS VLL;
+Enddecay
+
+End
+#

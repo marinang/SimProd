@@ -1,0 +1,23 @@
+# EventType: 42102012
+#
+# Descriptor: pp -> (Z0/gamma* -> tau+ tau-) ... 
+#
+# NickName: DrellYan_tautau=5GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonIsFromMother true NumberOfbquarks -1 LeptonPtMin 1.0*GeV
+# ExtraOptions: DrellYantautau5GeV
+#
+# Documentation: tau-lepton PT>1GeV, ditau invarmass > 5GeV.
+# [ckhurewa@20150720]: Added support for Pythia8, adjust tau decay to use Pythia's instead of EvtGen.
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Karol Hennessy
+# Email: revkarol@gmail.com
+# Date: 20070827
+#
+End
+#

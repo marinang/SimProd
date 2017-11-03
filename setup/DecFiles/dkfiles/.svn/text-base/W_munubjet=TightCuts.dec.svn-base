@@ -1,0 +1,36 @@
+# EventType: 42971002
+#
+# Descriptor: pp -> [W+ -> mu+ nu_mu]cc +b-jet ... 
+#
+# NickName: W_munubjet=TightCuts
+#
+# Cuts: None
+#
+# FullEventCuts: LoKi::FullGenEventCut/HiggsTypeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "HiggsTypeCut" )
+# tracksInAcc = Generation().HiggsTypeCut
+# tracksInAcc.Code = " ((count ( isGoodLeptonW ) >0) & (count ( isGoodBeauty)>0)) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#     , "isGoodLeptonW     = ((  'W+' == GABSID ) & GINTREE( GLEPTON & ( GTHETA < 400.0*mrad ) & (GPT > 4*GeV)))"
+#    , "isGoodBeauty   = ((  'b' == GABSID ) & GINTREE( GBEAUTY & ( GTHETA < 400.0*mrad ) & (GPT > 0*GeV)))"
+#    ]
+# EndInsertPythonCode
+#
+# ExtraOptions: Wmunubjet
+#
+# Documentation: 1 lepton with pT > 4 GeV and 1 b quark 
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Konstantinos A. Petridis
+# Email: konstantinos.petridis@cern.ch
+# Date: 20130620
+#
+End
+#
+

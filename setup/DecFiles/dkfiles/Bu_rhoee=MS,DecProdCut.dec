@@ -1,0 +1,56 @@
+# EventType: 12123400
+#
+# Descriptor: [B+ -> rho+ e+ e-]cc
+#
+# NickName: Bu_rhoee=MS,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: the B+ -> rho+ ell^+ ell^- decay with the transition form factors 
+# from the paper D.Melikhov, B.Stech, PRD62, 014006 (2000).
+# Input parameters --  mu        - the scale parameter (in GeV's);
+#                      res_swch  - resonant switching parametr:
+#                      ias       - switching parametr for \alpha_s(M_Z) value:
+#                      Wolfenstein parameterization for CKM matrix:
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch
+# Date: 20111021
+#
+Define mu 5.0
+Define Nf 5
+Define res_swch 0
+Define ias 1
+Define A 0.88
+Define lambda 0.227
+Define barrho 0.22
+Define bareta 0.34
+#
+Alias      Mypi0  pi0
+ChargeConj Mypi0  Mypi0
+Alias      Myrho+ rho+
+Alias      Myrho- rho-
+ChargeConj Myrho+ Myrho-
+#
+Decay B+sig
+  1.000        Myrho+     e+     e-     BTOSLLMS mu Nf res_swch ias A lambda barrho bareta;
+Enddecay
+#
+Decay B-sig
+  1.000        Myrho-     e+     e-     BTOSLLMS mu Nf res_swch ias A lambda barrho bareta;
+Enddecay
+#
+Decay Myrho+
+  1.000     pi+        Mypi0                VSS;
+Enddecay
+CDecay Myrho-
+#
+Decay Mypi0
+  1.000     gamma      gamma               PHSP;
+Enddecay
+#
+End
+#

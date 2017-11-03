@@ -1,0 +1,56 @@
+# EventType: 11198123
+# NickName: Bd_DstDKS,D0Pi,KPiPi,PiPi=sqDalitz,DecProdCut
+# Descriptor: [B0 -> (D*+ -> (D0 -> K- pi+) pi+) (D- -> K+ pi- pi-) (K_S0 -> pi+ pi-)]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  Bd forced flat in sq. dalitz plot. decay products in acceptance
+#    Decay file for B0 -> Dst D KS 
+# EndDocumentation
+# CPUTime: < 1 min
+# 
+# Date:   20140808
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# PhysicsWG: B2OC
+# Tested: Yes
+
+Alias My_D-    D-
+Alias My_D+    D+
+ChargeConj  My_D-    My_D+
+#
+Alias My_D0    D0
+Alias My_anti-D0   anti-D0
+ChargeConj My_D0  My_anti-D0
+#
+Alias My_D*+  D*+
+Alias My_D*-  D*-
+ChargeConj My_D*- My_D*+
+#
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+#
+Decay myK_S0
+  1.0   pi+   pi-       PHSP;
+Enddecay
+#
+Decay My_D0
+	1.000 K- pi+   PHSP;
+Enddecay
+#
+Decay My_D-
+  1.000 K+ pi- pi-   D_DALITZ;
+Enddecay
+CDecay My_D+
+#
+Decay My_D*+
+  1.0 My_D0 pi+  PHSP;
+Enddecay
+CDecay My_D*-
+#
+Decay B0sig
+  1.0 My_D*+ My_D- myK_S0 FLATSQDALITZ;
+Enddecay
+CDecay anti-B0sig
+
+End

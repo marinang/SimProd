@@ -1,0 +1,29 @@
+# EventType: 11114008
+#
+# Descriptor: [B0 -> K+ K- mu+ mu-]cc
+#
+# NickName: Bd_KKmumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B0 -> K+ K- mu+ mu- (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Decay B0sig
+ 1.0     K+ K- mu+ mu-  PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

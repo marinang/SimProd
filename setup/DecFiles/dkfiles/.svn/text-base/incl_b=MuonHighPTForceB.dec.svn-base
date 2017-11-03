@@ -1,0 +1,37 @@
+# EventType: 10011001
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b=MuonHighPTForceB
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/MuonCut
+#
+# InsertPythonCode:                                                                    
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "MuonCut" )
+# MuonCut = Generation().MuonCut                                                      
+#                                                                                         
+# MuonCut.Preambulo += [           
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodMuon     =  ( ('mu+' == GABSID ) & (GPT > 4 * GeV) & ( GTHETA < 400 * mrad ) )"
+#    , "Bancestors   =  GNINTREE ( GBEAUTY , HepMC.ancestors ) "
+#    , "fromB     =  ( Bancestors > 0 )"
+#    ]
+#
+# MuonCut.Code = " ( count ( isGoodMuon & fromB ) > 0 ) "
+#                                          
+# EndInsertPythonCode
+#
+# Documentation: b inclusive events with high Muon PT
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date:   20141023
+#
+End

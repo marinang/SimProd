@@ -1,0 +1,25 @@
+# EventType: 32113001 
+#
+# Descriptor: [ Sigma+ -> mu+ mu- p+ ]cc
+#
+# NickName: Sigma+_pmumu=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Forces a Sigma+ to p mu mu 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:     Jessica Prisciandaro
+# Email: jessica.prisciandaro@cern.ch
+# Date:   20161117
+#
+Decay       Sigma+sig
+  1.000      p+  mu+ mu-   PHSP;
+Enddecay
+CDecay anti-Sigma-sig
+#
+End

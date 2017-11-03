@@ -1,0 +1,36 @@
+# EventType: 40112008
+#
+# Descriptor: pp -> (H_10 -> mu mu {,gamma} {,gamma}) ... 
+#
+# NickName: Higgs_mm=mH125GeV,inAcc
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/TwoMuonsFromHiggsInAcc
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "TwoMuonsFromHiggsInAcc" )
+# muonsInAcc = Generation().TwoMuonsFromHiggsInAcc
+# muonsInAcc.Code = " count ( isHiggsWithMuonInAcc ) > 0 "
+# muonsInAcc.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#     , "isHiggs           = ( 'H_10' == GID )"
+#     , "isMuonInAcc   = ( ( GABSID == 13 )  & ( GPT > 1.0*GeV ) & ( GTHETA < 400.0*mrad ) & ( ( GSTATUS == 1 ) | ( GSTATUS == 999 ) ))"
+#     , "isHiggsWithMuonInAcc = ( isHiggs & ( GNINTREE(  isMuonInAcc , 4 ) > 1 ) )"
+#     ]
+# EndInsertPythonCode
+#
+# ExtraOptions: Higgsmumu
+# ParticleValue: "H_10 87 25 0.0 125.000 9.400e-026 Higgs0 25 0.000e+000"
+#
+# Documentation: 2 lepton with pT > 1 GeV and FSR activated
+# EndDocumentation
+#
+# PhysicsWG: Exotica 
+# Tested: Yes
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date: 20130903
+#
+End
+#

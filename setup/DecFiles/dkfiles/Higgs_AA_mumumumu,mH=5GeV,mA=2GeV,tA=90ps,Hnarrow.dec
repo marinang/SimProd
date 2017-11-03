@@ -1,0 +1,50 @@
+# EventType: 40114008
+#
+# Descriptor: Higgs'0 -> ( A0 -> mu+ mu- ) ( A0 -> mu+ mu-)
+#
+# NickName: Higgs_AA_mumumumu,mH=5GeV,mA=2GeV,tA=90ps,Hnarrow
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/TwoMuonsFromA1InAcceptance
+#
+#
+# InsertPythonCode:                                                                                           
+# from Gaudi.Configuration import *  
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "TwoMuonsFromA1InAcceptance" )
+# tracksInAcc = Generation().TwoMuonsFromA1InAcceptance
+# tracksInAcc.Code = " count ( isGoodDVfromA1 ) > 1 "
+# ### - HepMC::IteratorRange::descendants   4
+# tracksInAcc.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#     , "isA1           = ( 'H_30' == GID )"
+#     , "isGoodDVDaughterMu = ( ( ~GVEV ) & ( GTHETA < 400.0*mrad ) & ( 'mu+' == GABSID ) )"
+#     , "isGoodDVfromA1 = ( isA1 & ( GNINTREE( isGoodDVDaughterMu, 4 ) > 1 ) )"
+#     ]
+# EndInsertPythonCode
+#
+# ExtraOptions: HiggsNarrow,5GeV_2A14mu
+# ParticleValue: "H_20 88 35 0.0 5.0 4.11e-21 Higgs'0 35 0.0e+00" , "H_30 89 36 0.0   2.0 8.95e-11      A0 36 0.0e+00"
+#
+# Documentation: Higgs->2A1->4mu. Simulated using Pythia's H_30 and H_20 particles redefined for our needs.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date: 20140417
+# CPUTime: < 1 min
+#
+Alias      MyA    A0
+ChargeConj MyA MyA
+#
+Decay Higgs'0
+1.000       MyA    MyA     PHSP;
+Enddecay
+#
+Decay MyA
+1.000      mu+      mu-       PHSP;
+Enddecay
+#
+End

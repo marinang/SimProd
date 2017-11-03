@@ -1,0 +1,25 @@
+# EventType: 12103000
+#
+# Descriptor: [B+ -> pi+ pi- pi+]cc
+#
+# NickName: Bu_pi+pi-pi+=CPV
+#
+# Cuts: None
+#
+# Documentation: B+ decay to pi+, pi- and pi+ with CB3PI-MPP model, rho resonances included, CP violation concerned, no generator level cuts
+# EndDocumentation
+#
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Gabriel Guerrer
+# Email: Gabriel.Guerrer@cern.ch
+# Date: 20110909
+#
+Decay B+sig
+1.000       pi+     pi-     pi+     CB3PI-MPP alpha;
+Enddecay
+CDecay B-sig
+#
+End
+

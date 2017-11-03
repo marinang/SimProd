@@ -1,0 +1,32 @@
+# EventType: 27165061
+#
+# Descriptor: [D_s1(2536)+ -> (D_s+ -> K+ K- pi+) pi+ pi- ]cc
+#
+# NickName: Ds1_Dspipi,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Resolution studies
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:     Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20130724
+#
+Alias MyD_s- D_s-
+Alias MyD_s+ D_s+
+ChargeConj MyD_s+ MyD_s-
+#
+Decay D'_s1+sig
+1.0000     MyD_s+    pi+   pi-      PHSP;
+Enddecay
+CDecay D'_s1-sig
+#
+Decay MyD_s+
+  1.000        K-        K+        pi+             D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End

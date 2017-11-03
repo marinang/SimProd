@@ -1,0 +1,46 @@
+# EventType: 12133401
+#
+# Descriptor: [B+ ->  (J/psi(1S) -> p+ p~-) (rho+ -> pi+ pi0) ]cc
+#
+# NickName: Bu_Jpsirho+,ppbar=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+-> J/psi (-> p+ p~-) rho+ (->pi+ pi0)
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: hicheur@cbpf.br
+# Date: 20130421
+#
+Define Hp 0.159
+Define Hz 0.775
+Define Hm 0.612
+Define pHp 1.563
+Define pHz 0.0
+Define pHm 2.712
+#
+Alias      MyJ/psi    J/psi
+Alias      Myrho+      rho+
+Alias      Myrho-      rho-
+ChargeConj Myrho+      Myrho-
+ChargeConj MyJ/psi    MyJ/psi
+#
+Decay B+sig
+  1.000         MyJ/psi   Myrho+          SVV_HELAMP Hp pHp Hz pHz Hm pHm;
+Enddecay
+CDecay B-sig
+#
+Decay MyJ/psi
+  1.000 p+ anti-p- VLL;
+Enddecay
+#
+Decay Myrho+
+  1.000         pi+        pi0            VSS;
+Enddecay
+CDecay Myrho-
+#
+End
+

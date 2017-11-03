@@ -1,0 +1,54 @@
+# EventType: 15266015
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p K+ pi-) pi- pi+ pi-]cc
+#
+# NickName: Lb_Lambdacpipipi=DecProdCut,Res
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: phase space decay, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Paolo Gandini
+# Email: paolo.gandini@cern.ch
+# Date: 20130206
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+#
+Decay Lambda_b0sig
+  1.00    MyLambda_c+        Mya_1-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyLambda_c+
+   1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+#
+Decay Myf_2
+  1.0000  pi+ pi-                                  TSS ;
+Enddecay
+#
+#
+End
+

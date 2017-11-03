@@ -1,0 +1,59 @@
+# EventType: 27165501
+#
+# Descriptor: [D*(2010)+ -> (D0 -> (KS0 -> pi+ pi-) pi+ pi- pi0) pi+]cc
+#
+# NickName: Dst_D0pi,KSpipipi0=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ D*(2010)+ -> ^( D0 => ^( KS0 => ^pi+ ^pi- ) ^pi+ ^pi- ^pi0) ^pi+]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, mrad ',
+#     'Dstcut = (GTHETA < 400.0 * mrad) & (GPT > 2000 * MeV)',
+#     'Dstpioncut  = ( GNINTREE( ("pi+" == GABSID ) & (GP > 1000 * MeV) & (GTHETA < 400.0 * mrad) , 1) > 0.5 )',
+#     'D0pionscut  = ( GNINTREE( ("pi+" == GABSID ) & (GP > 7000 * MeV) & (GPT > 300 * MeV) & (GTHETA < 400.0 * mrad) , 1) > 1.5 )'     
+# ]
+# tightCut.Cuts      =    {
+#     '[D*(2010)+]cc' : 'Dstcut & Dstpioncut',
+#     '[D0]cc'    : 'D0pionscut',
+#     }
+# EndInsertPythonCode
+#
+# Documentation: Inclusive production of D*+. D* is forced to decay to D0 pi+, then D0 to (KS pi+ pi- pi0) as phase space, then KS to (pi+ pi-) as phase space. Charged decay final products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Florin MACIUC
+# Email: florin.maciuc@cern.ch
+# Date: 20131213
+#
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+#
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+#
+Decay MyD0
+  1.000  myK_S0 pi+  pi- pi0       PHSP;
+Enddecay
+CDecay MyantiD0
+#
+Decay myK_S0
+1.000     pi+  pi-                      PHSP;
+Enddecay
+#
+End
+#

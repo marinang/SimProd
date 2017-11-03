@@ -1,0 +1,36 @@
+# EventType: 27583400
+#
+# Descriptor: [D*(2010)+ -> (D0 -> K- e+ nu_e pi0) pi+]cc
+#
+# NickName: Dst_D0pi,Kenupi0=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#   D* -> D0 pi+, D0 decays to right-sign mode (K- e+ nu pi0) with a D* tag. For D2Klnu analysis.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Lorenzo Capriotti, Federico Betti
+# Email: lorenzo.capriotti@cern.ch, federico.betti@cern.ch
+# Date: 20170317
+# CPUTime: <1min
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.0000 K- e+ nu_e pi0     PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End
+ 

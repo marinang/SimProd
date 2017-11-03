@@ -1,0 +1,29 @@
+# EventType: 12103212
+#
+# Descriptor: [B+ -> K+ (eta_prime -> pi+ pi- gamma)]cc
+#
+# NickName: Bu_etapK,pipigamma=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# Documentation: etaprime decayed to pi+ pi- gamma PHSP. NoCPV.
+# Daughters in LHCb.
+# EndDocumentation
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Luigi Del Buono
+# Email: luigi.delbuono@gmail.com
+# Date: 20120329
+Alias       MyEta'   eta'
+ChargeConj  MyEta'   MyEta'
+#
+Decay B+sig
+  1.000  MyEta' K+ PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyEta'
+  1.000 pi+ pi- gamma  PHSP;
+Enddecay
+#
+End
+

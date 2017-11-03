@@ -1,0 +1,50 @@
+# EventType: 13364413
+#
+# Descriptor: {[[B_s0]nos -> (D_s2*- -> (D*(2007)~0 -> {(D~0 -> K+ pi-) (pi0 -> gamma gamma), (D~0 -> K+ pi-) gamma} ) K- ) pi+ ]cc, [[B_s0]os -> (D_s2*- -> (D*(2007)0 -> {(D0 -> K- pi+) (pi0 -> gamma gamma), (D0 -> K- pi+) gamma} ) K+ ) pi- ]cc} 
+#
+# NickName: Bs_Ds2stpi,Dst0K,D0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B_s0 decay forced to D_s2*- pi+, D_s2*- forced to D*~0 K-, D*~0 forced to D~0 pi0 or D~0 gamma, D~0 forced to K+ pi-.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Daniel Craik
+# Email: dcraik
+# Date: 20150709
+# CPUTime: < 1 min
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias      MyD*0       D*0
+Alias      Myanti-D*0  anti-D*0
+ChargeConj MyD*0       Myanti-D*0
+Alias      MyD_s2*-    D_s2*-
+Alias      MyD_s2*+    D_s2*+
+ChargeConj MyD_s2*+    MyD_s2*-
+#
+Decay B_s0sig
+1.000    MyD_s2*-  pi+                     STS; 
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s2*+
+1.000    MyD*0  K+                       TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0; 
+Enddecay
+CDecay MyD_s2*-
+#
+Decay MyD*0
+0.619    MyD0  pi0                        VSS;
+0.381    MyD0  gamma                      VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD0
+  1.000  K-  pi+                          PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End

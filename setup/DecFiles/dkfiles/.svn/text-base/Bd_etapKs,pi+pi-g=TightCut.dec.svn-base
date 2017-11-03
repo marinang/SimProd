@@ -1,0 +1,59 @@
+# EventType: 11104312
+#
+# Descriptor: [B0 -> (eta' -> pi+ pi- gamma) (K_S0 -> pi+ pi-)]cc
+#
+# NickName: Bd_etapKs,pi+pi-g=TightCut
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: No CP violation, Ks forced into pi+ pi-, eta' decay via phase space model to include non-resonant pi+ pi-, Tight Kinematic cuts applied 
+# EndDocumentation
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SampleGenerationTool="SignalRepeatedHadronization"
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = 'B0 -> ^(eta_prime -> ^pi+ ^pi- ^gamma) ^(KS0 -> ^pi+ ^pi-)'
+# tightCut.Cuts      =    {
+#     '[B0]cc'       : ' goodB     ' , 
+#     '[KS0]cc'      : ' goodKS    ' ,
+#     '[pi+]cc'      : ' goodTrack ' ,
+#     '[eta_prime]cc': ' goodEtap  ' }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodB     = ( GPT > 1500 * MeV ) ' ,
+#     'goodKS    = ( GPT > 1200 * MeV ) ' ,
+#     'goodEtap  = ( GPT > 2000 * MeV ) ' ,
+#     'goodTrack = ( GPT > 300 * MeV ) & inAcc ' ]
+#
+# EndInsertPythonCode
+#
+# Tested: Yes
+# Responsible: Jimmy McCarthy
+# Date: 20130829
+# PhysicsWG: BnoC
+# Email: jxm@hep.ph.bham.ac.uk
+#
+Alias      MyEta'  eta'
+Alias      MyKs    K_S0
+ChargeConj MyEta'  MyEta'
+ChargeConj MyKs    MyKs
+#
+Decay B0sig
+  1.000        MyEta'    MyKs              PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyEta'
+  1.000        pi+   pi-   gamma           PHSP;
+Enddecay
+#
+Decay MyKs
+  1.000        pi+      pi-                PHSP;
+Enddecay
+#
+End
+

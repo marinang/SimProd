@@ -1,0 +1,35 @@
+# EventType: 12103110
+#
+# NickName: Bu_pLambda=DecProdCut
+#
+# Descriptor: [ B+ -> p (anti-Lambda0 -> p~- pi+) ]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda0 forced into p pi, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Tested: Yes
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date: 20120531
+#
+#
+Alias      MyLambda     Lambda0
+Alias      MyantiLambda anti-Lambda0
+ChargeConj MyLambda     MyantiLambda
+#
+Decay B+sig
+  1.000    p+     MyantiLambda        PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyLambda
+  1.000        p+      pi-            PHSP;
+Enddecay
+CDecay MyantiLambda
+#
+End
+#

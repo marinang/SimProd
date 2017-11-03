@@ -1,0 +1,40 @@
+# EventType: 15104021
+#
+# Descriptor: [Lambda_b0 -> (Lambda(1520)0 -> p+ K-) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Lb_Lambda1520phi,KK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:Lambda_b0 to Lambda(1520)0 phi decay     
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Adam Morris 
+# Email: adam.morris@cern.ch
+# Date: 20131202
+#
+Alias		MyPhi	phi
+ChargeConj	MyPhi	MyPhi
+
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+
+Decay Lambda_b0sig
+  1.000   MyLambda(1520)0  MyPhi PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyPhi
+1.000	K+	K-	VSS;
+Enddecay
+
+Decay MyLambda(1520)0  
+  1.000   p+          K-        PHSP;              
+Enddecay
+CDecay Myanti-Lambda(1520)0
+
+End
+#

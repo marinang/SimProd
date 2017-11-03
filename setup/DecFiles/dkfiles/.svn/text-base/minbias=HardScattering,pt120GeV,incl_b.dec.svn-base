@@ -1,0 +1,35 @@
+# EventType: 30000045
+#
+# Descriptor: pp => [bbbar] ...
+#
+# NickName: minbias=HardScattering,pt120GeV,incl_b
+#
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/twobinAcc
+#
+#
+# InsertPythonCode:
+# from Configurables import PythiaProduction
+# Generation().MinimumBias.addTool( PythiaProduction )
+# Generation().MinimumBias.PythiaProduction.Commands += ["pysubs ckin 3 120."]
+# Generation().MinimumBias.PythiaProduction.Commands += ["pysubs ckin 4 -1"]
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "twobinAcc" )
+# tracksInAcc = Generation().twobinAcc
+# tracksInAcc.Code = "count ( isGoodB ) > 1"
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodB = ( ( 'b' == GABSID ) & ( GTHETA < 400.0*mrad ) & ( GPT > 5.0*GeV ) )" ]
+# EndInsertPythonCode
+#
+# Documentation: bbbar enriched, QCD hard scatter Pthat>120GeV, 2 b in Acc and minPt 5GeV for both b's using Special production mode
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Konstantinos A. Petridis
+# Email: konstantinos.petridis@cern.ch
+# Date: 20130620
+#
+End

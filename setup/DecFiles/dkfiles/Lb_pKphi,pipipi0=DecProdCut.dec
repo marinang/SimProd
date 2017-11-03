@@ -1,0 +1,32 @@
+# EventType: 15104451
+# 
+# Descriptor: [Lambda_b0 -> K- (phi(1020) -> pi+ pi- pi0) p+]cc
+# 
+# NickName: Lb_pKphi,pipipi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:Lambda b decays to p K phi and phi goes to pi pi pi0
+# EndDocumentation
+#
+# CPUTime: 2 min
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Tim Williams
+# Email: timothy.williams@cern.ch
+# Date: 20160713
+#
+Alias       Myphi  phi
+ChargeConj  Myphi  Myphi
+#
+Decay Lambda_b0sig
+  1.000   p+   K-  Myphi   PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay   Myphi
+	1.000       pi+      pi-    pi0     PHI_DALITZ;
+Enddecay
+#
+End
+

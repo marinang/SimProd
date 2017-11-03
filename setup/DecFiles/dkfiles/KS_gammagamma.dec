@@ -1,0 +1,24 @@
+# EventType: 34100201
+#
+# Descriptor: K_S0 -> gamma gamma
+#
+# NickName: KS_gammagamma
+#
+# Cuts: None
+#
+# Documentation: K_S0 -> gamma gamma with phase space model, no generator level cuts.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Miriam Lucio Martinez
+# Email: miriam.lucio.martinez@cern.ch
+# Date: 20170201
+#
+Decay       K_S0sig
+  1.000     gamma    gamma      PHSP;
+Enddecay
+#
+End

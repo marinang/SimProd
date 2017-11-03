@@ -1,0 +1,40 @@
+# EventType: 14435003
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu- ) K+ pi+ p-+]cc
+#
+# NickName: Bc_JpsiKpipi,mm=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to Jpsi(to mu+ mu- ) K+ K- pi+ with VVPIPI model, daughters in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Alexey Luchinsky
+# Email: alexey.luchinsky@cern.ch
+# Date: 20130120
+#
+
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+Alias      Mypsi(2S)        psi(2S)
+ChargeConj Mypsi(2S)        Mypsi(2S)
+
+
+Decay B_c+sig
+ 1.       MyJ/psi K+ pi+ pi-       	BC_VHAD 1;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+1. mu+ mu- VLL;
+Enddecay
+#
+#Decay Mypsi(2S)
+#1. mu+ mu- VLL;
+#Enddecay
+#
+End

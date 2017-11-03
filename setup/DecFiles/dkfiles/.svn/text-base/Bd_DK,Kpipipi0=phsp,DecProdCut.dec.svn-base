@@ -1,0 +1,34 @@
+# EventType: 11164451
+#
+# Descriptor: {[[B0]nos -> (D- => K+ pi- pi- pi0) K+]cc, [[B0]os -> (D+ => K- pi+ pi+ pi0) K-]cc}
+#
+# NickName: Bd_DK,Kpipipi0=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# B0 --> D-(Kpipipi0) K+ generated with a phase space model
+# DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Stefano Gallorini
+# Email: stefano.gallorini@cern.ch
+# Date: 20131120
+
+Alias      MyD-     D-
+Alias      MyD+     D+
+ChargeConj MyD+     MyD-
+#
+Decay B0sig
+  1.000     MyD-     K+      PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  1.000     K+    pi-   pi-   pi0      PHSP; 
+Enddecay
+CDecay MyD+
+#
+End

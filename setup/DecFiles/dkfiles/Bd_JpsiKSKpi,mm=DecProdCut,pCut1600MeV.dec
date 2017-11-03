@@ -1,0 +1,41 @@
+# EventType: 11146102
+#
+# Descriptor: [B0 => J/psi(1S) KS0 K+ pi-]cc
+#
+# NickName: Bd_JpsiKSKpi,mm=DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Bd -> Jpsi KS K+ pi-, direct 
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: M M Reid
+# Email: mreid@cern.ch
+# Date: 20120801 
+#
+Alias		my_K_S0		K_S0
+ChargeConj	my_K_S0		my_K_S0
+
+Alias      	my_J/psi  	J/psi
+ChargeConj 	my_J/psi  	my_J/psi
+#
+Decay B0sig
+1.0				my_J/psi		my_K_S0			pi-		    K+  		PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+#
+Decay my_K_S0
+1.0				pi+			    pi-			                            PHSP;
+Enddecay
+#
+Decay my_J/psi
+1.0   		mu+			    mu-    			                        VLL;
+Enddecay
+#
+End 
+

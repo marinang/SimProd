@@ -1,0 +1,46 @@
+# EventType: 11522023
+#
+# Descriptor: [B0 -> e+ nu_e pi-]cc
+#
+# NickName: Bd_pienu=TightCut,M3.5GeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: M(pi,e) > 3.5 GeV
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut  = Generation().SignalRepeatedHadronization.TightCut
+# #
+# tightCut.Decay    = "[B0 => e+ nu_e pi-]CC"
+# tightCut.Cuts     = {
+#    '[B0]cc'  : "GINTREE((GABSID == 'pi+') & (ACC)) & GINTREE((GABSID == 'e+') & (ACC)) & (BM2 > 12250000.)",
+#    }
+# #
+# tightCut.Preambulo += [
+#    "BPX2 = (GCHILD(GPX,'pi+' == GABSID) + GCHILD(GPX,'e+' == GABSID))**2",
+#    "BPY2 = (GCHILD(GPY,'pi+' == GABSID) + GCHILD(GPY,'e+' == GABSID))**2",
+#    "BPZ2 = (GCHILD(GPZ,'pi+' == GABSID) + GCHILD(GPZ,'e+' == GABSID))**2",
+#    "BPE2 = (GCHILD(GE ,'pi+' == GABSID) + GCHILD(GE, 'e+' == GABSID))**2",
+#    "BM2  = (BPE2 - BPX2 - BPY2 - BPZ2)" ,
+#    "ACC  = in_range ( 0.0010, GTHETA, 0.400 )" ,
+#    ]
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Titus Mombächer
+# Email: titus.mombacher@cern.ch
+# Date: 20170301
+# CPUTime: < 1min
+#
+Decay B0sig
+  1.000   pi-   e+  nu_e        PHOTOS ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

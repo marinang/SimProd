@@ -1,0 +1,45 @@
+# EventType: 18104080
+#
+# Descriptor: eta_c(2S) -> ( phi(1020) -> K+ K- ) ( phi(1020) -> K+ K- ) 
+#
+# NickName: incl_b=etac2S,phiphi,KK,InAcc
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2EtacFilter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2EtacFilter" )
+# SignalFilter = Generation().b2EtacFilter
+# SignalFilter.Code = " has(isB2cc)"
+# SignalFilter.Preambulo += [
+#  "isB2cc = ((GDECTREE('(Beauty & LongLived) --> eta_c(2S) ...')))"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: eta_c decay to phi phi, keep only particles in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Andrii Usachov
+# Email: andrii.usachov@cern.ch
+# Date: 20140912
+#
+#
+Alias   Myphi  phi
+ChargeConj  Myphi   Myphi
+
+Decay eta_c(2S)
+  1.000         Myphi  Myphi      PHSP;
+Enddecay
+Decay Myphi
+  1.000  K+      K-    VSS; 
+Enddecay
+#
+End
+#
+

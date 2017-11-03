@@ -1,0 +1,25 @@
+# EventType: 40112009
+#
+# Descriptor: pp -> (A1 -> mu mu) ... 
+#
+# NickName: A1_mumu=14GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 2 LeptonPtMin 1*GeV LeptonIsFromMother true MotherOfLepton {"H_30"} NumberOfbquarks -1
+#
+# ExtraOptions: A1mumu
+# ParticleValue: "H_30 89 36 0.0 14.0 1.0e-18 A0 36 0.0e+00"
+#
+# Documentation: 2 lepton with pT > 1 GeV and FSR activated
+# EndDocumentation
+#
+# PhysicsWG: Exotica 
+# CPUTime: < 1 s
+# Tested: Yes
+# Responsible: Carlos Vazquez Sierra
+# Email: carlos.vazquez@cern.ch
+# Date: 20160506
+#
+End
+#

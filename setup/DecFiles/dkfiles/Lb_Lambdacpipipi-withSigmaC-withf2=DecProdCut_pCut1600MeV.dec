@@ -1,0 +1,108 @@
+# EventType: 15266005
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p K+ pi-) pi- pi+ pi-]cc
+#
+# NickName: Lb_Lambdacpipipi-withSigmaC-withf2=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: phase space decay, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: S. Blusk
+# Email: sblusk@syr.edu
+# Date: 20110411
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Alias MyLambda_c(2593)+ Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)- anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+ Myanti-Lambda_c(2593)-
+#
+Alias MyLambda_c(2625)+ Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)- anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+ Myanti-Lambda_c(2625)-
+#
+Alias MySigma_c0 Sigma_c0
+Alias Myanti-Sigma_c0 anti-Sigma_c0
+ChargeConj MySigma_c0 Myanti-Sigma_c0
+#
+Alias MySigma_c++ Sigma_c++
+Alias Myanti-Sigma_c-- anti-Sigma_c--
+ChargeConj MySigma_c++ Myanti-Sigma_c--
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+#
+Decay Lambda_b0sig
+  0.53    MyLambda_c+        Mya_1-         PHSP;
+  0.10    MyLambda_c+        rho0  pi-      PHSP;
+  0.14    MyLambda_c+        Myf_2  pi-    PHSP;
+  0.03    MyLambda_c(2593)+  pi-            PHSP;
+  0.06    MyLambda_c(2625)+  pi-            PHSP;
+  0.05    MySigma_c++        pi-  pi-       PHSP;
+  0.09    MySigma_c0         pi+  pi-       PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyLambda_c+
+  0.008600000 Delta++ K-                                      PHSP;
+  0.010700000 p+      Myanti-K*0                              PHSP;
+  0.025400000 p+      K-      pi+                             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+#  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda_c(2593)+
+  0.24000      MySigma_c++         pi-                      PHSP;  
+  0.24000      MySigma_c0          pi+                      PHSP;
+  0.18000      MyLambda_c+         pi+    pi-               PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+Decay MyLambda_c(2625)+
+  1.0      MyLambda_c+         pi+    pi-               PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MySigma_c++
+1.0000    MyLambda_c+  pi+                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MySigma_c0
+1.0000    MyLambda_c+  pi-                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+#
+Decay Myf_2
+  1.0000  pi+ pi-                                  TSS ;
+Enddecay
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

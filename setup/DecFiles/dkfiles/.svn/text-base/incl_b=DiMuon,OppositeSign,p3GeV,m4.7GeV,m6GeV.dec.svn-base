@@ -1,0 +1,22 @@
+# EventType: 10012008
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b=DiMuon,OppositeSign,p3GeV,m4.7GeV,m6GeV
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: DiLeptonInAcceptance
+# Sample: RepeatDecay.Inclusive
+#
+# ExtraOptions: DiMuonOppositeSignP3GeVMinMaxMassCut
+#
+# Documentation: Di-muon filter, OppositeSign, min P 3GeV for both, min dimuon mass 4.7GeV, max mass cut 6GeV
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler
+# Email: marc-olivier.bettler@cern.ch
+# Date:   20120523
+#
+End

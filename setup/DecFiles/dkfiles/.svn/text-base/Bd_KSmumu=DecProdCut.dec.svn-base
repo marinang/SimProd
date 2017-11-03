@@ -1,0 +1,31 @@
+# EventType: 11114101
+#
+# Descriptor: [B0 -> mu+ mu- (KS0 -> pi+ pi-) ]cc
+#
+# NickName: Bd_KSmumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Ks0 forced to pi+ pi-
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marko Zupan
+# Email: patrickowen22@gmail.com
+# Date: 20111013
+#
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+
+Decay B0sig
+  1.000        MyKs     mu+     mu-      BTOSLLBALL;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKs
+  1.000        pi+      pi-              PHSP;
+Enddecay
+#
+End
+#

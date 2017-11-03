@@ -1,0 +1,22 @@
+# EventType: 20072000
+#
+# Descriptor: pp => [<Xc>]cc ...
+#
+# NickName: incl_c=DiMuon,Both,p3GeV
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: DiLeptonInAcceptance
+#
+# ExtraOptions: DiMuonBothSignP3GeV
+#
+# Documentation: Di-muon filter
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Walter Bonivento
+# Email: walter.bonivento@<nospam>cern.ch
+# Date: 20111110
+#
+End
+#

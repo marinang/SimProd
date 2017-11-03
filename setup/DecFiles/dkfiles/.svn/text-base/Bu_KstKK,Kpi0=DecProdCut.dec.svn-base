@@ -1,0 +1,33 @@
+# EventType: 12103411
+#
+# Descriptor: [B+ -> (K*+ -> K+ pi0) + K+ K-]cc
+#
+# NickName: Bu_KstKK,Kpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Kst+ forced to K+ pi0
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:  Cédric Potterat
+# Email: cedric.potterat@cern.ch
+# Date: 20120819
+#
+Alias      MyKst+    K*+
+Alias      MyKst-    K*-
+ChargeConj MyKst+    MyKst-
+Decay B+sig
+  1.000  MyKst+ K+ K- PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyKst+
+  1.000  K+ pi0  VSS;
+Enddecay
+CDecay MyKst-
+#
+End
+#
+

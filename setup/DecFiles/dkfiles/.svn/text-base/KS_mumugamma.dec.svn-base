@@ -1,0 +1,24 @@
+# EventType: 34112201
+#
+# Descriptor: K_S0 -> mu+ mu- gamma
+#
+# NickName: KS_mumugamma
+#
+# Cuts: None
+#
+# Documentation: K_S0 -> mu+ mu- gamma with phase space model, no generator level cuts.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Miriam Lucio Martinez
+# Email: miriam.lucio.martinez@cern.ch
+# Date: 20170124
+#
+Decay       K_S0sig
+  1.000     mu+     mu-    gamma      PHSP;
+Enddecay
+#
+End

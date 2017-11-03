@@ -1,0 +1,44 @@
+# EventType: 12245001
+#
+# Descriptor: {[B+ -> (J/psi(1S) -> mu+ mu-) K+ K+ K-]cc,[B+ -> (J/psi(1S) -> mu+ mu-) (phi -> K+ K-) K+]cc}
+#
+# NickName: Bu_JpsiKKK,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  60% B+ decay to Jpsi(to mu+ mu- {,gamma} {,gamma}), phi(to K+ K-) and K+ with phase space model, 40% B+ decay to Jpsi(to mu+ mu- {,gamma} {,gamma}), K+, K- and K+ with phase space model, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Jianchun Wang
+# Email: jwang@physics.syr.edu
+# Date: 20110909
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+
+Alias       MyPhi        phi
+ChargeConj  MyPhi        MyPhi
+
+
+#  PDG Id = 521
+Decay B+sig
+  0.6000   MyJ/psi   MyPhi   K+     PHSP;
+  0.4000   MyJ/psi   K+   K+   K-   PHSP;
+Enddecay
+CDecay B-sig
+
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   mu+  mu-                 PHOTOS VLL;
+Enddecay
+
+
+#  PDG Id = 333
+Decay MyPhi
+  1.0000   K+   K-                  VSS;
+Enddecay
+
+
+End

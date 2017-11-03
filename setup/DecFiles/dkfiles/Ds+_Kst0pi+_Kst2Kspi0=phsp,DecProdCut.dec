@@ -1,0 +1,45 @@
+# EventType: 23103120
+#
+# Descriptor: [Ds+->(K*0->(KS0->pi+pi-)pi+)]cc
+# 
+# NickName: Ds+_Kst0pi+_Kst2Kspi0=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: S. Gregson
+# Email: sam.gregson@cern.ch
+# Date: 20091027
+#
+Alias        MyK0s   K_S0
+ChargeConj   MyK0s   MyK0s
+Alias        MyKst0s  K*0  
+#ChargeConj   MyAntiKst0s MyKst0s  
+Alias        MyAntiKst0s  anti-K*0  
+
+#
+Decay D_s+sig
+  1.000        K*0         pi+             PHSP;
+Enddecay
+CDecay D_s-sig
+
+# How K*0 decays
+Decay MyKst0s
+  1.000        MyK0s         pi0             PHSP;
+Enddecay
+
+# How K*~0 decays
+Decay MyAntiKst0s
+  1.000        MyK0s         pi0             PHSP;
+Enddecay
+
+#
+Decay MyK0s
+  1.000        pi+           pi-             PHSP;
+Enddecay
+#
+End

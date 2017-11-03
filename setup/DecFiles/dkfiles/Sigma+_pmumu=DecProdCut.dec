@@ -1,0 +1,24 @@
+# EventType: 32313001 
+#
+# Descriptor: [ Sigma+ => p+ mu+ mu- ]cc
+#
+# NickName: Sigma+_pmumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces a Sigma+ to p mu mu 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:     Vanya BELYAEV
+# Email: ibelyaev@mail.cern.ch
+# Date:   20111013
+#
+Decay       Sigma+sig
+  0.750      p+  mu+ mu-  PHOTOS PHSP;
+  0.250 anti-p-  mu+ mu+  PHOTOS PHSP;
+Enddecay
+CDecay anti-Sigma-sig
+#
+End

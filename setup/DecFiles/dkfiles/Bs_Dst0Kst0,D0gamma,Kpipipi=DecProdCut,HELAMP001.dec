@@ -1,0 +1,96 @@
+# EventType: 13266217
+#
+# Descriptor: {[[B_s0]nos -> (D*(2007)~0 -> (D~0 => K+ pi- pi+ pi-) gamma ) (K*(892)~0 ->K- pi+) ]cc, [[B_s0]os -> (D*(2007)0 -> (D0 => K- pi+ pi- pi+) gamma ) (K*(892)0 ->K+ pi-) ]cc} 
+#
+# NickName: Bs_Dst0Kst0,D0gamma,Kpipipi=DecProdCut,HELAMP001
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K*0 forced to K+ pi-, D0 forced to K+ pi- pi+ pi-, Dst0 forced to D0gamma, forcing HELAMP to 0 0 1
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20120201
+#
+Alias MyK*0      K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0 Myanti-K*0
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+Alias      Mya_1+      a_1+
+Alias      Mya_1-      a_1-
+ChargeConj Mya_1+      Mya_1-
+Alias      MyK_1-      K_1-
+Alias      MyK_1+      K_1+
+ChargeConj MyK_1-      MyK_1+
+Alias      Myomega     omega
+ChargeConj Myomega     Myomega
+#
+Decay B_s0sig
+1.000      Myanti-D*0         Myanti-K*0                SVV_HELAMP  0.0 0.0 0.0 0.0 1.0 0.0; 
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD*0
+1.000    MyD0  gamma                       VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD0
+  0.0360      Mya_1+       K-                       SVS;
+  0.0097      Myanti-K*0   rho0                     SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+  0.0002      Myanti-K*0   Myomega                  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+  0.0038      MyK_1-       pi+                      SVS;
+  0.0150      Myanti-K*0   pi+   pi-                PHSP;
+  0.0068      K-           pi+   rho0               PHSP;
+  0.0007      K-           pi+   Myomega            PHSP;
+  0.0074      K-           pi+   pi+       pi-      PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+# Total a_1+ = 0.492
+#
+Decay Mya_1+ 
+  1.0000      rho0      pi+            VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay 
+Decay Mya_1-
+  1.0000      rho0      pi-            VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+#  Total K*0 = 0.6657
+#
+Decay MyK*0
+  1.0000      K+        pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+#  Total omega = 0.0221
+#
+Decay Myomega
+  1.0000      pi+       pi-            VSS;
+Enddecay
+#
+# Total K_1- = 0.3578
+#
+Decay MyK_1+
+  0.1400      rho0      K+             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0710      MyK*0     pi+            VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0024      Myomega   K+             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.1444      K+    pi+    pi-         PHSP;
+Enddecay
+Decay MyK_1-
+  0.1400      rho0      K-             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0710      Myanti-K*0  pi-          VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0024      Myomega     K-           VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.1444      K-    pi-    pi+         PHSP;
+Enddecay
+#
+End
+#

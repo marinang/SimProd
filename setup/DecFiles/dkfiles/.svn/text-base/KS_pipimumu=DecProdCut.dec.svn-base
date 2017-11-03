@@ -1,0 +1,23 @@
+# EventType: 34114001
+#
+# Descriptor: K_S0 -> pi+ pi- mu+ mu-
+#
+# NickName: KS_pipimumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K_S0 -> pi+ pi- mu+ mu-, DaughtersInLHCb cut.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler
+# Email: Marc-Olivier.Bettler@cern.ch
+# Date: 20131025
+#
+Decay K_S0sig
+  1.000       pi+ pi- mu+ mu-      PHSP;
+Enddecay
+#
+End
+

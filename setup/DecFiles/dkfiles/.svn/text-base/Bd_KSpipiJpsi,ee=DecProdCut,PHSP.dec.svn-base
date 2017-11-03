@@ -1,0 +1,39 @@
+# EventType: 11154131
+#
+# NickName: Bd_KSpipiJpsi,ee=DecProdCut,PHSP
+# Descriptor: [[B0]cc => (K_1(1270)0 => KS0 pi+ pi-) (J/psi(1S) => e+ e-)]CC
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 - >K_1(1270)0 (J/psi(1S) -> e+e-) decay with K_1(1270)0 -> KS0 pi+ pi- decay. 
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Stefanie Reichert
+# Email: stefanie.reichert@cern.ch
+# Date: 20160518
+# CPUTime: < 1min
+#
+Alias MyKS0pipi  K_10
+Alias MyAntiKS0pipi  anti-K_10
+ChargeConj MyKS0pipi MyAntiKS0pipi
+#
+Alias MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Decay B0sig
+  1.000    MyKS0pipi MyJ/psi     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKS0pipi
+1.000    K_S0     pi-    pi+     PHSP;
+Enddecay
+CDecay MyAntiKS0pipi
+#
+Decay MyJ/psi
+  1.0000       e-    e+        VLL;
+Enddecay
+#
+End
+#

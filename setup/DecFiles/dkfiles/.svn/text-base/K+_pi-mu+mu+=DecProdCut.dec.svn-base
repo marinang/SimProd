@@ -1,0 +1,23 @@
+# EventType: 37113010
+#
+# Descriptor: [ K+ => pi- mu+ mu+ ]cc
+#
+# NickName: K+_pi-mu+mu+=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces a K+ to pi- mu+ mu+ (LFV) 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:   Francesco Dettori
+# Email: francesco.dettori@cern.ch
+# Date:   20130927
+#
+Decay       K+sig
+  1.000      pi- mu+ mu+     PHSP;
+Enddecay
+CDecay K-sig
+#
+End

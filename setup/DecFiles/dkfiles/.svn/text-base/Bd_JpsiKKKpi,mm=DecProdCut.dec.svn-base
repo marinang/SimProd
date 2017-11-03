@@ -1,0 +1,46 @@
+# EventType: 11246001
+#
+# Descriptor: {[B0 -> (J/psi(1S) -> mu+ mu-) K+ K- K+ pi-]cc,[B0 -> (J/psi(1S) -> mu+ mu-) (phi -> K+ K-) K+ pi-]cc}
+#
+# NickName: Bd_JpsiKKKpi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 to Jpsi K K K pi including contribution of phi to K K
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Jianchun Wang
+# Email: Jianchun.Wang@cern.ch
+# Date: 20110622
+#
+
+Alias       MyJ/psi     J/psi
+ChargeConj  MyJ/psi     MyJ/psi
+
+Alias       MyPhi       phi
+ChargeConj  MyPhi       MyPhi
+
+
+#  PDG Id = 511
+Decay B0sig
+  0.6000   MyJ/psi   K+   K-   K+   pi-   PHSP;
+  0.4000   MyJ/psi   MyPhi   K+  pi-      PHSP;
+Enddecay
+CDecay anti-B0sig
+
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   mu+   mu-                PHOTOS VLL;
+Enddecay
+
+
+#  PDG Id = 333
+Decay MyPhi
+  1.0000   K+   K-                  VSS;
+Enddecay
+
+
+End

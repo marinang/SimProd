@@ -1,0 +1,105 @@
+# EventType: 13444401 
+#
+# Descriptor: [B_s0 ==> (J/psi(1S) => mu+ mu-) K+ K-  ( eta -> gamma gamma ) ]CC
+#
+# NickName: Bs_JpsiKKeta,mm=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = ' ^( ( Beauty & Strange ) ==> ^(J/psi(1S) => ^mu+ ^mu-) ^K+ ^K- ( ^( eta -> ^gamma ^gamma ) || ^( eta => ^pi+ ^pi- ^( pi0 -> ^gamma ^gamma ) ) ) ) ' 
+#
+# tightCut.Cuts      = {
+#     '[mu+]cc'             : ' goodMuon  ' , 
+#     '[K+]cc'              : ' goodKaon  ' , 
+#     '[pi+]cc'             : ' goodPion  ' , 
+#     'gamma'               : ' goodGamma ' , 
+#     'eta'                 : ' goodEta   ' , 
+#     'pi0'                 : ' goodPi0   ' , 
+#     'J/psi(1S)'           : ' goodPsi   ' , 
+#     '[B_s0]cc'            : ' goodB     ' 
+#     }
+# 
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import micrometer                ' , 
+#     'GY         = LoKi.GenParticles.Rapidity () ## to be 100% sure   ' , 
+#     'inEcalX    =   abs ( GPX / GPZ ) < 4.5  / 12.5                  ' , 
+#     'inEcalY    =   abs ( GPY / GPZ ) < 3.5  / 12.5                  ' , 
+#     'inEcalHole = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 ) ' , 
+#     'InEcal     = inEcalX & inEcalY & ~inEcalHole                    ' ,
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) & in_range ( 1.8 , GETA , 5.2 )       ' , 
+#     'inY        = in_range ( 1.9   , GY     , 4.6   )                ' , 
+#     'longLived  = 75 * micrometer < GTIME                            ' , 
+#     'goodMuon   = ( GPT > 500  * MeV ) & ( GP > 6.0 * GeV ) & inAcc  ' , 
+#     'goodKaon   = ( GPT > 150  * MeV ) & ( GP > 2.5 * GeV ) & inAcc  ' , 
+#     'goodPion   = ( GPT > 150  * MeV ) & ( GP > 2.5 * GeV ) & inAcc  ' , 
+#     'goodGamma  = ( GPT > 150  * MeV )                      & InEcal ' , 
+#     'goodEta    = ( GPT > 750  * MeV )                               ' , 
+#     'goodPi0    = ( GPT > 200  * MeV )                               ' , 
+#     'goodPsi    =                                             inY    ' ,
+#     'goodB      = longLived                                 & inY    ' 
+#     ]
+#
+# EndInsertPythonCode
+#
+# Documentation:  
+#   Bs -> J/psi KK eta final state, 
+#   taking into account the intermediate resonances.  
+#   The tight generator level cuts applied for all 
+#   final state particles, which increases the statistics 
+#   with a good factor factor of ~3.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vanya Belyaev 
+# Email: Ivan.Belyaev@itep.ru
+# Date: 20131118
+#
+Alias       MyJ/psi           J/psi
+ChargeConj  MyJ/psi         MyJ/psi
+Alias       MyPsi(2S)       psi(2S)
+ChargeConj  MyPsi(2S)     MyPsi(2S)
+Alias       MyEta               eta
+ChargeConj  MyEta             MyEta
+Alias       MyPhi               phi
+ChargeConj  MyPhi             MyPhi
+Alias       MyPi0               pi0
+ChargeConj  MyPi0             MyPi0
+#
+Decay B_s0sig
+  0.800     MyJ/psi    MyEta  MyPhi    PHSP ;
+  0.100     MyJ/psi    MyEta  K+ K-    PHSP ;
+  0.100     MyPsi(2S)         MyPhi    PHSP ;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.000     mu+         mu-            VLL  ;
+Enddecay
+#
+Decay MyPsi(2S)
+  1.0000    MyJ/psi  MyEta   PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0 ; 
+Enddecay
+
+Decay MyPhi
+  1.0000    K+          K-             VSS    ;
+Enddecay
+
+Decay MyEta
+  0.500     gamma       gamma          PHSP       ;
+  0.500     pi-         pi+     MyPi0  ETA_DALITZ ; 
+Enddecay
+
+Decay MyPi0
+  1.000     gamma       gamma          PHSP       ;
+Enddecay
+
+End
+

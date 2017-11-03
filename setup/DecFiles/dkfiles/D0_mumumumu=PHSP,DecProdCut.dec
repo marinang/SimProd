@@ -1,0 +1,27 @@
+# EventType: 22114010
+#
+# Descriptor: [D0 -> mu+ mu- mu+ mu-]cc
+#
+# NickName: D0_mumumumu=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: the D0 -> mu^+ mu^- mu^+ mu^- decay in the phase space approach
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Indrek Sepp (Imperial College, London)
+# Email: insepp@cern.ch
+# Date: 20120303
+#
+	
+	
+	
+Decay D0sig
+   1.000   mu+  mu-  mu+  mu-   PHSP;
+Enddecay
+CDecay anti-D0sig
+#
+End

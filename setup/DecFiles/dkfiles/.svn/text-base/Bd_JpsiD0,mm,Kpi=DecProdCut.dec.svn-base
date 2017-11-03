@@ -1,0 +1,40 @@
+# EventType: 11145092 
+#
+# Descriptor: [B0 -> (J/psi(1S) -> mu+ mu-) (D~0 -> K+ pi-)]cc
+#
+# NickName: Bd_JpsiD0,mm,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Exclusive decay to Jpsi and D0bar with daughters in  acceptance.
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Michal Kreps 
+# Email: michal.kreps@cern.ch
+# Date: 20170829
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Alias      MyD0 D0
+Alias      My-anti-D0 anti-D0
+ChargeConj MyD0 My-anti-D0
+#
+Decay B0sig
+  1.000     MyJ/psi  My-anti-D0                   SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MyD0
+  1.000  K- pi+               PHSP;
+Enddecay
+CDecay My-anti-D0 
+#
+End
+

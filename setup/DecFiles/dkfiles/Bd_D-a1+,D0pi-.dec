@@ -1,0 +1,48 @@
+# EventType: 11166010 
+#
+# Descriptor: {[[B0]nos -> (D- => K+ pi- pi-) (a_1(1260)+ -> pi+ (rho(770)0 -> pi+ pi-))]cc, [[B0]os -> (D+ => K- pi+ pi+) (a_1(1260)- -> pi- (rho(770)0 -> pi- pi+))]cc}
+#
+# NickName: Bd_D-a1+,D0pi-
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: a1 forced into rho0 pi+,  using Dalitz decay model for D- decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Piotr Morawski
+# Email: piotr.morawski@cern.ch
+# Date: 20111007
+#
+
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+Alias      Mya_1+      a_1+
+Alias      Mya_1-      a_1-
+ChargeConj Mya_1+      Mya_1-
+Alias      Myrho0      rho0
+ChargeConj Myrho0      rho0
+#
+Decay B0sig
+  1.000       Mya_1+      MyD-                 SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  1.000        K+        pi-        pi-             D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay Mya_1+
+  1.000        Myrho0      pi+             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Myrho0
+  1.000        pi-      pi+                    VSS;
+Enddecay
+#
+End
+

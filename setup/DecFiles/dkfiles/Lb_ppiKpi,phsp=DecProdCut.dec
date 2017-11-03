@@ -1,0 +1,25 @@
+# EventType: 15104010
+# 
+# Descriptor: [Lambda_b0 -> p+ pi- K- pi+]cc
+# 
+# NickName: Lb_ppiKpi,phsp=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb acceptance. 
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: John Beddow
+# Email: john.beddow@cern.ch
+# Date: 20130730
+#
+#
+Decay Lambda_b0sig
+  1.000 p+ pi- K- pi+ PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

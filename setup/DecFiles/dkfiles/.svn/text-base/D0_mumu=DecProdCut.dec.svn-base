@@ -1,0 +1,24 @@
+# EventType: 22112001
+#
+# Descriptor: [D0 -> mu+ mu-]cc
+#
+# NickName: D0_mumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Walter Bonivento
+# Email: Walter.Bonivento@cern.ch
+# Date: 20070129
+#
+Decay D0sig
+  1.000       mu+     mu-              PHSP;
+Enddecay
+CDecay anti-D0sig
+#
+End
+

@@ -1,0 +1,18 @@
+# EventType: 10000000
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: b inclusive events
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible:     Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date:   20090520
+#
+End

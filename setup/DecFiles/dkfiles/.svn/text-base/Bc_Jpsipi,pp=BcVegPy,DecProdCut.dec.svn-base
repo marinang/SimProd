@@ -1,0 +1,35 @@
+# EventType: 14133010
+# 
+# Descriptor: [B_c+ -> (J/psi(1S) -> p+ p~-) pi+]cc
+# 
+# NickName: Bc_Jpsipi,pp=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: decay of Bc+ -> J/psi (-> p pbar) pi+, 
+#                using BcVegPy generator and requiring all daughters in LHCb
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Yiming Li
+# Email: yiming.li@cern.ch
+# Date: 20140228
+# CPUTime: 1.1 min
+#
+Alias MyJpsi J/psi
+ChargeConj MyJpsi MyJpsi
+#
+Decay B_c+sig
+  1.000 MyJpsi pi+ SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJpsi
+  1.000 p+ anti-p- VLL;
+Enddecay
+#
+End
+#

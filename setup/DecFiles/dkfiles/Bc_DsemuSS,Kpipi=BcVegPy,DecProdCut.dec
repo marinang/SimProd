@@ -1,0 +1,57 @@
+# EventType: 14275000
+#
+# Descriptor: [B_c+ -> (D_s- -> K+ K- pi-) e+ mu+]cc
+#
+# NickName: Bc_DsemuSS,Kpipi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Decay file for B_c+ -> (D_s- -> K+ K- pi-) e+ mu+ (LNV,PHSP) 
+# EndDocumentation
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Alias      MyD_s+ D_s+
+Alias      MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+#
+Alias      MyPhi phi
+ChargeConj MyPhi MyPhi
+#
+Alias MyK*0 K*0
+Alias      MyAnti-K*0 anti-K*0
+ChargeConj MyK*0      MyAnti-K*0
+#
+Decay B_c+sig
+ 1.0     MyD_s-       e+    mu+ PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyD_s+
+ 0.106 K+ K-      pi+ PHSP;
+ 0.415 MyPhi      pi+ SVS;
+ 0.479 MyAnti-K*0 K+  SVS;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyPhi
+ 1.0 K+ K-  VSS;
+Enddecay
+#
+Decay MyK*0
+ 1.0 K+ pi- VSS;
+Enddecay
+CDecay MyAnti-K*0
+#
+End
+#

@@ -1,0 +1,23 @@
+# EventType: 40112001
+#
+# Descriptor: pp -> (A1 -> mu mu {,gamma} {,gamma}) ... 
+#
+# NickName: A1_mumu=6GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 2 LeptonPtMin 1*GeV LeptonIsFromMother true MotherOfLepton {"H_30"} NumberOfbquarks -1
+# ExtraOptions: A1mumu
+# ParticleValue: "H_30 89 36 0.0 6.0 1.0e-18 A0 36 0.0e+00"
+#
+# Documentation: 2 lepton with pT > 1 GeV and FSR activated
+# EndDocumentation
+#
+# PhysicsWG: Exotica 
+# Tested: Yes
+# Responsible: Christian Elsasser
+# Email: elsasser@cern.ch
+# Date: 20130626
+#
+End
+#

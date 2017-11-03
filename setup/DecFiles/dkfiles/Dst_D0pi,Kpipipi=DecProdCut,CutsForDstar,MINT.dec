@@ -1,0 +1,34 @@
+# EventType: 27165004
+#
+# Descriptor: [D*+ -> (D0 -> K- pi- pi+ pi+) pi+]cc
+#
+# NickName: Dst_D0pi,Kpipipi=DecProdCut,CutsForDstar,MINT
+#
+# Cuts: DaughtersInLHCbAndCutsForDstar
+# CutsOptions: D0PtCuts 3000*MeV DaughtersPtMinCut 350*MeV DaughtersPMinCut 3000*MeV
+#
+# Documentation: D*+ forced to decay to D0 pi+. D0 forced to decay to Kpipipi, MINT decay. Tight cuts.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Thomas Rex Hampson 
+# Email: t.r.hampson@bristol.ac.uk
+# Date: 20131110
+#
+Alias MyD0         D0
+Alias Myanti-D0    anti-D0
+ChargeConj MyD0    Myanti-D0
+
+Decay D*+sig
+  1.000 MyD0 pi+  VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.0      K-  pi+  pi+  pi-          D_hhhh 11;
+Enddecay
+CDecay Myanti-D0
+#
+End
+#

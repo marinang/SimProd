@@ -1,0 +1,47 @@
+# EventType: 13166101
+#
+# Descriptor: {[[B_s0]nos -> (D~0 -> (KS0 -> pi+ pi-) pi+ pi-) (K*(892)~0 -> K- pi+)]cc, [[B_s0]os -> (D0 -> (KS0 -> pi+ pi-) pi+ pi-) (K*(892)0 -> K+ pi-)]cc}
+#
+# NickName: Bs_D0Kst,KSpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: KS0 forced into pi+ pi-, D0 decay without resonances, decay products in acceptance. 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Susan Haines
+# Email: haines@hep.phy.cam.ac.uk
+# Date: 20120604
+#
+Alias MyD0       D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+Alias MyK*0      K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0 Myanti-K*0
+Alias MyKs       K_S0
+ChargeConj MyKs  MyKs
+#
+Decay B_s0sig
+  1.000    Myanti-K*0      Myanti-D0   SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD0
+  1.000    MyKs       pi-         pi+          PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyK*0
+  1.000    K+         pi-         VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyKs
+  1.000    pi+        pi-         PHSP;
+Enddecay
+#
+End
+#

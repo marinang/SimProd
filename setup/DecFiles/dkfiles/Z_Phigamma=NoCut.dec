@@ -1,0 +1,43 @@
+# EventType: 42102220
+#
+# Descriptor: pp -> [Z -> (phi(1020) -> K+ K-) gamma]cc ...
+# NickName: Z_Phigamma=NoCut
+# Cuts: None
+#
+# InsertPythonCode:
+# Generation().PileUpTool = "FixedLuminosityForRareProcess"
+#
+# # Pythia8 options.
+# from Gaudi.Configuration import importOptions
+# from Configurables import Pythia8Production
+# importOptions('$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py')
+# Generation().Special.addTool(Pythia8Production)
+# Generation().Special.Pythia8Production.Commands += [
+#     'WeakSingleBoson:ffbar2gmZ = on',
+#     'WeakZ0:gmZmode = 2',
+#     '23:mayDecay = false']
+# 
+# EndInsertPythonCode
+#
+# Documentation: rare exclusive decay of Z0 to phi gamma
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Hang Yin, Qundong Han
+# Email: hyin@cern.ch, qundong.han@cern.ch  
+# Date: 20160718
+#
+Alias myPhi phi
+ChargeConj myPhi myPhi
+
+Decay Z0
+ 1.0 myPhi gamma PHSP;
+Enddecay
+
+Decay myPhi
+ 1.0 K+ K- PHSP;
+Enddecay
+
+End

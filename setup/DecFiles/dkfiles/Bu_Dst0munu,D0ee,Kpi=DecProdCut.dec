@@ -1,0 +1,44 @@
+# EventType: 12575000
+#
+# Descriptor: {[B- -> (D*0 -> (D0 -> K- pi+) e+ e-) mu- anti-nu_mu ]cc}
+#
+# NickName: Bu_Dst0munu,D0ee,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay B- -> (D*(2007)0 -> e+ e- (D0 -> K- pi+)) mu- anti-nu_mu
+# EndDocumentation
+#
+# CPUTime: <1 min
+#	
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Michel De Cian
+# Email: michel.de.cian@cern.ch
+# Date: 20160801
+#
+###############################################################
+Alias             MyD*0       D*0
+Alias             MyD0        D0
+Alias             Myanti-D0   anti-D0
+Alias             Myanti-D*0  anti-D*0
+ChargeConj        MyD*0       Myanti-D*0
+ChargeConj        MyD0        Myanti-D0
+#
+Decay B-sig
+1.000 MyD*0     mu-  anti-nu_mu        PHOTOS  HQET2 1.207 1 1.406 0.853;
+Enddecay
+CDecay B+sig
+#
+Decay MyD*0
+1.000        MyD0 e+ e-                PHOTOS PHSP;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD0
+1.000        K-        pi+             PHOTOS PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End
+#

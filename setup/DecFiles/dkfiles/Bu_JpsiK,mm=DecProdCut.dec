@@ -1,0 +1,31 @@
+# EventType: 12143001
+#
+# Descriptor: [B+ -> K+ (J/psi(1S) -> mu+ mu- {,gamma} {,gamma})]cc
+#
+# NickName: Bu_JpsiK,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20111013
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Decay B+sig
+  1.000     MyJ/psi  K+                   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+End
+

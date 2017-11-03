@@ -1,0 +1,65 @@
+# EventType: 26264020
+# NickName: Sc++_Lcpi,pKpi=DecProdCut_pCut1000MeV
+# Descriptor: [Sigma_c++ -> (Lambda_c+ --> p+ K- pi+) pi+]CC
+#
+# Documentation: Daughters in LHCb Acceptance
+#   Incoherent pseudo-resonance model of Lambda_c+ -> p+ K- pi+ decay based
+#   on branching fractions in the 2013 PDG.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# 
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# Responsible:  Patrick Spradlin
+# Email: patrick.spradlin@cern.ch
+#
+# Tested: Yes
+# Date: 20130901
+#
+Alias MyLambda_c+                   Lambda_c+
+Alias Myanti-Lambda_c-              anti-Lambda_c-
+ChargeConj MyLambda_c+              Myanti-Lambda_c-
+#
+Alias      MyK*0                    K*0
+Alias      Myanti-K*0               anti-K*0
+ChargeConj MyK*0                    Myanti-K*0
+#
+Alias      MyLambda(1520)0          Lambda(1520)0
+Alias      Myanti-Lambda(1520)0     anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0          Myanti-Lambda(1520)0
+#
+Alias      MyDelta++                Delta++
+Alias      Myanti-Delta--           anti-Delta--
+ChargeConj MyDelta++                Myanti-Delta--
+#
+Decay Sigma_c++sig
+  1.000    MyLambda_c+  pi+                     PHSP;
+Enddecay
+CDecay anti-Sigma_c--sig
+#
+Decay MyLambda_c+
+  0.0086   MyDelta++    K-                      PHSP;
+  0.0107   p+           Myanti-K*0              PHSP;
+  0.0041   pi+          MyLambda(1520)0         PHSP;
+  0.0280   p+           K-               pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+  0.6657   K+           pi-                     VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyLambda(1520)0
+  0.23     p+           K-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyDelta++
+  1.000    p+           pi+                     PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+End
+#

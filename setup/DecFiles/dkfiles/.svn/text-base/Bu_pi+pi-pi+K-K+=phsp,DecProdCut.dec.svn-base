@@ -1,0 +1,26 @@
+# EventType: 12105022
+#
+# Descriptor: [B+ -> pi+ pi- pi+ K- K+]cc
+#
+# NickName: Bu_pi+pi-pi+K-K+=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decay to pi+ pi- pi+ K- K+ with phase space model, all daughters in acceptance
+# EndDocumentation
+#
+#
+# PhysicsWG: B2OC 
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Donal Hill 
+# Email: donal.hill@cern.ch
+# Date: 20140721
+#
+Decay B+sig
+1.000       pi+     pi-    pi+   K-     K+   PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+

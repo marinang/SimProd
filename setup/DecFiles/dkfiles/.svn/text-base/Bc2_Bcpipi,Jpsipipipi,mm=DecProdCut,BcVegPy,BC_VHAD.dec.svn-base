@@ -1,0 +1,43 @@
+# EventType: 14147090
+#
+# Descriptor: [B_c+ -> (B+ -> (J/psi(1S) -> mu+ mu-) pi+ pi+ pi- ) pi+ pi-]cc
+#
+# NickName: Bc2_Bcpipi,Jpsipipipi,mm=DecProdCut,BcVegPy,BC_VHAD
+#
+# Production: BcVegPy
+# ExtraOptions: Bc2sVegPyOpts
+# Cuts: BcDaughtersInLHCb
+
+# ParticleValue: "B_c+ 77 541 1.0 6.85800000 1.017330e-20 B_c+ 541 0.0003", "B_c- 78 -541 -1.0 6.85800000 1.017330e-20 B_c- -541 0.0003", "B+ 71 521 1.0  6.27400000   5.090000e-13  B+ 521 0.00000000", "B- 72 -521 -1.0  6.27400000   5.090000e-13 B- -521 0.00000000"
+
+# Documentation: Bc* Spectroscopy, B_c used instead of B_c2s
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:     Piotr Morawski
+# Email: piotr.morawski@cern.ch
+# Date: 20141116
+# CPUTime: <1 min
+#
+Alias MyBc           B+
+Alias MyantiBc       B-
+ChargeConj MyBc      MyantiBc
+Alias MyJ/psi        J/psi
+#
+Decay B_c+sig
+1.0000     MyBc    pi+   pi-      PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyBc
+1.0000   MyJ/psi   pi+  pi+ pi-  BC_VHAD 1;
+Enddecay
+CDecay MyantiBc
+#
+Decay MyJ/psi
+  1.000         mu+          mu-           PHOTOS VLL;
+Enddecay
+#
+End
+#

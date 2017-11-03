@@ -1,0 +1,62 @@
+# EventType: 11396400
+#
+# Descriptor: [B0 -> {(D+ -> K- pi+ pi+) || (D+ -> K- K+ pi+)} (D*- -> (pi0,gamma) {(D- -> K+ pi- pi-) || (D- -> K+ K- pi-)})]cc
+#
+# NickName: Bd_DDst,D-pi0,Kpipi,KKpi=DDALITZ,DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: B0 -> D+D*-, D*- -> D-(pi0,gamma), D- -> K+pi-pi- or D- -> K+K-pi-, D decaying via D_Dalitz
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Frank Meier
+# Email: frank.meier@tu-dortmund.de
+# Date: 20150512
+# CPUTime: < 1min
+
+# -------------------------
+# DEFINE THE D*+ AND D*-
+# -------------------------
+Alias             MyD*-       D*-
+Alias             MyD*+       D*+
+ChargeConj        MyD*+       MyD*-
+
+# -------------------------
+# DEFINE THE D+ AND D-
+# -------------------------
+Alias             MyD-        D-
+Alias             MyD+        D+
+ChargeConj        MyD+        MyD-
+
+# ---------------
+# DECAY OF THE B0
+# ---------------
+Decay B0sig
+  1.000     MyD*-    MyD+            SVS;
+Enddecay
+CDecay anti-B0sig
+
+# ---------------
+# DECAY OF THE D*-
+# ---------------
+Decay MyD*-
+0.9505    MyD-  pi0                  VSS;
+0.0495    MyD-  gamma                VSP_PWAVE;
+Enddecay
+CDecay MyD*+
+#
+# ---------------
+# DECAY OF THE D-
+# ---------------
+Decay MyD-
+  0.905  K+ pi- pi-                 D_DALITZ;
+  0.095  K+  K- pi-                 D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End
+

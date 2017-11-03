@@ -1,0 +1,57 @@
+# EventType: 16166060
+# 
+# Descriptor: [ Xi_bc0 -> (Lambda_b -> (Lambda_c+ -> p K- pi+) pi-)  K- pi+ ]cc
+#
+# NickName: Xibc_LambdabKpi,Lambdacpi=DecProdCut
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# Documentation: decay file of Xi_bc^0 -> (Lambda_b -> (Lambda_c+ -> p K- pi+) pi-)  K- pi+ 
+# using dedicated GenXicc package for production, cuts with XiccDaughtersInLHCb, phase space decay model used. 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Giacomo Graziani
+# Email: graziani@fi.infn.it
+# Date: 20150528
+#
+
+#Alias      Xi_bc0sig         Xi_bc0
+#Alias      anti-Xi_bc0sig    anti-Xi_bc0
+#ChargeConj Xi_bc0sig         anti-Xi_bc0sig
+
+
+Alias MyLambda_b0 Lambda_b0
+Alias Myanti-Lambda_b0 anti-Lambda_b0
+ChargeConj MyLambda_b0 Myanti-Lambda_b0
+
+
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+#
+Decay Xi_bc0sig
+  1.00   MyLambda_b0  K- pi+                  PHSP;
+Enddecay
+CDecay anti-Xi_bc0sig
+#
+Decay MyLambda_b0
+  1.000  MyLambda_c+ pi-  PHSP;
+Enddecay
+CDecay Myanti-Lambda_b0
+#
+
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+
+
+End
+

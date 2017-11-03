@@ -1,0 +1,43 @@
+# EventType: 11364425
+#
+# Descriptor: {[[B0]nos -> (D*(2007)~0 -> {(D~0 -> K+ K-) (pi0 -> gamma gamma), (D~0 -> K+ K-) gamma} ) K+ pi- ]cc, [[B0]os -> (D*(2007)0 -> {(D0 -> K- K+) (pi0 -> gamma gamma), (D0 -> K- K+) gamma} ) K- pi+ ]cc} 
+#
+# NickName: Bd_Dst0Kpi,D0,KK=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D0 forced to pi+ pi-, Dst0 forced to D0 pi0 or D0 gamma.
+# Generated flat in the square Dalitz plot
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mark Whitehead
+# Email: m.p.whitehead.warwick.ac.uk
+# Date: 20141219
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+#
+Decay B0sig
+1.000      Myanti-D*0    K+    pi-                FLATSQDALITZ; 
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*0
+0.619    MyD0  pi0                        VSS;
+0.381    MyD0  gamma                      VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD0
+  1.000        K-        K+                    PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End

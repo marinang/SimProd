@@ -1,0 +1,35 @@
+# EventType: 14133040
+#
+# Descriptor: [B_c+ -> (chi_c2 -> pi+ pi-) pi+]cc
+#
+# NickName: Bc_chic2pi,pipi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Chi_c2(1P) forced to pi+ pi-, using BcVegPy generator and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+# 
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime:< 1 min
+# Responsible: Adlene Hicheur
+# Email: hicheur@if.ufrj.br
+# Date: 20161110
+#
+
+Alias      Mychi_c2   chi_c2
+ChargeConj Mychi_c2   Mychi_c2
+#
+Decay B_c+sig
+  1.0000       Mychi_c2   pi+              STS;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mychi_c2
+  1.0     pi+   pi-                  PHSP;
+Enddecay
+#
+End
+

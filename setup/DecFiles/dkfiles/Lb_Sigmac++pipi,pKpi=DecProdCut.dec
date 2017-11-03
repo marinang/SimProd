@@ -1,0 +1,54 @@
+# EventType: 15266022
+#
+# Descriptor: [Lambda_b0 -> ( Sigma_c++ -> (Lc+ -> pi+ K- pi+) pi+) pi- pi-]cc
+#
+# NickName: Lb_Sigmac++pipi,pKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Lb -> Sigmac++ pi pi with Sigmac->p K pi, includes Sigmac(2455)++ intermediate excited state and K*0 resonance (->K pi); 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Justin Garofoli
+# Email: justing@physics.syr.edu
+# Date:   20111010
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias MySigma_c++       Sigma_c++
+Alias Myanti-Sigma_c--  anti-Sigma_c--
+ChargeConj MySigma_c++  Myanti-Sigma_c--
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Decay Lambda_b0sig
+    0.00390    MySigma_c++  pi-   pi-    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+# BR = 1
+Decay MyLambda_c+
+ 0.008600000 Delta++ K-                                      PHSP;
+ 0.010700000 p+      Myanti-K*0                              PHSP;
+ 0.025400000 p+      K-      pi+                             PHSP;
+#  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+# BR = 1
+Decay MySigma_c++
+  1.0000    MyLambda_c+  pi+                   PHSP;
+Enddecay
+CDecay Myanti-Sigma_c-- 
+#
+Decay MyK*0
+  0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+End

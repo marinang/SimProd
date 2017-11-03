@@ -1,0 +1,38 @@
+# EventType: 13134021
+# 
+# Descriptor: [B_s0 -> (eta_c(1S) -> p+ p~-) (f_0(980) -> pi+ pi-)]cc
+# 
+# NickName: Bs_etacf0,pppipi=980,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch 
+# Tested: Yes
+# Responsible: Alessandro Pistone
+# Email: alessandro.pistone@cern.ch
+# Date: 20140210
+#
+#
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+Alias      Myf_0  f_0
+ChargeConj Myf_0  Myf_0
+Particle   Myf_0    0.980  0.092
+ChangeMassMin Myf_0 0
+#
+Decay B_s0sig
+  1.000  Myetac Myf_0 PHSP; 
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myf_0
+  1.000 pi+ pi- PHSP;
+Enddecay
+#
+Decay Myetac
+  1.000 p+ anti-p- PHSP;
+Enddecay
+End

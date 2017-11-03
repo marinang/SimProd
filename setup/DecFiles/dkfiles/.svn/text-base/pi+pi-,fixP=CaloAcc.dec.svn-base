@@ -1,0 +1,21 @@
+# EventType: 53200000
+#
+# Descriptor: pi+,pi- => ? 
+#
+# NickName: pi+pi-,fixP=CaloAcc
+#
+# Cuts: LHCbAcceptance
+#
+# Momentum: 1.0*GeV  5.0*GeV  10.0*GeV  16.8*GeV  33.8*GeV  50.0*GeV  100.0*GeV  120*GeV  168.0*GeV
+#
+# Documentation: Decay file for (particle gun) pions of fix momentum in Calorimeters acceptance
+# EndDocumentation
+#
+# PhysicsWG: Sim
+# Tested: Yes
+# Responsible: Gloria Corti
+# Email: gloria.corti@cern.ch
+# Date:   20090126
+#
+End
+#

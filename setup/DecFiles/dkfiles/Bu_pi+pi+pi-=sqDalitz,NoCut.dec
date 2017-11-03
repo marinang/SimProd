@@ -1,0 +1,26 @@
+# EventType: 12103004
+#
+# Descriptor: [B+ -> pi+ pi+ pi-]cc
+#
+# NickName: Bu_pi+pi+pi-=sqDalitz,NoCut
+#
+# Cuts: None
+#
+# CPUTime: < 1 min
+#
+# Documentation: Flat on square Dalitz plot, no generator cuts
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Thomas Latham
+# Email: T.Latham@warwick.ac.uk
+# Date: 20170613
+#
+Decay B+sig
+1.000       pi+     pi+     pi-     FLATSQDALITZ;
+Enddecay
+CDecay B-sig
+#
+End
+

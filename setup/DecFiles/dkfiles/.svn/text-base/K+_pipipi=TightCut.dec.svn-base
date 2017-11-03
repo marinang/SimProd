@@ -1,0 +1,55 @@
+# EventType: 37103001
+#
+# Descriptor: [ K+ => pi+ pi- pi+ ]cc
+#
+# NickName: K+_pipipi=TightCut
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# Documentation: Forces a K+ to pi+ pi- pi+
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[^(K+ => ^pi+ ^pi- ^pi+)]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import meter, millimeter, GeV" ,
+#     "inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         " ,
+#     "inEta        =  in_range ( 1.95  , GETA   , 5.050 )         " ,
+#     "fastTrack    =  ( monitor(GP, ' pion P \n')  > 1.5 * GeV )   & ( GPT > 50 * MeV )" ,
+#     "goodTrack    =  inEta & fastTrack & inAcc                   " ,     
+#     "GVX = LoKi.GenVertices.PositionX()                          " ,
+#     "GVY = LoKi.GenVertices.PositionY()                          " ,
+#     "GVZ = LoKi.GenVertices.PositionZ()                          " ,
+#     "vx      = GFAEVX ( GVX, 100 * meter )                       " ,    
+#     "vy      = GFAEVX ( GVY, 100 * meter )                       " ,
+#     "rho2    = vx**2 + vy**2                                     " ,
+#     "rhoK  =  rho2 < ( 1000 * millimeter )**2                      " , 
+#     "decay = in_range ( -0.1 * meter,  GFAEVX ( GVZ, 100 * meter ),  2.27 * meter ) ",
+#     "positivez = ( GPZ > 0 * MeV )                                         ",
+#     "kpt  = ( GPT > 90 *MeV )                                          ",
+# ]
+# tightCut.Cuts      =    {
+#     '[K+]cc'  : ' decay & rhoK & positivez & kpt ',
+#     '[pi+]cc' : ' goodTrack '
+#                         }
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:   Francesco Dettori
+# Email: francesco.dettori@cern.ch
+# Date:   20140702
+# CPUTime: < 1 min
+#
+Decay       K+sig
+  1.000      pi+ pi- pi+     PHSP;
+Enddecay
+CDecay K-sig
+#
+End

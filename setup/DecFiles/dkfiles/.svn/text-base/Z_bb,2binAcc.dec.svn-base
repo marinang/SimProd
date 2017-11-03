@@ -1,0 +1,34 @@
+# EventType: 42150000
+#
+# Descriptor: pp -> (Z0 -> b b~) ... 
+#
+# NickName: Z_bb,2binAcc
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/Zwith2binAcc
+# ExtraOptions: Z2bb
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "Zwith2binAcc" )
+# tracksInAcc = Generation().Zwith2binAcc
+# tracksInAcc.Code = "count ( isGoodBFromZ ) > 1"
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodB = ( ( 'b' == GABSID ) & ( GTHETA < 400.0*mrad ) )"
+#    , "isFromZ  = ( 1 == GNINTREE( 'Z0' == GABSID , 0 ) )"
+#    , "isGoodBFromZ = ( isGoodB & isFromZ )" ]
+# EndInsertPythonCode
+#
+#
+# Documentation: 2 b in the acceptance
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Oscar Augusto de Aguiar Francisco
+# Email: oscar@cern.ch
+# Date: 20120330
+#
+End
+#

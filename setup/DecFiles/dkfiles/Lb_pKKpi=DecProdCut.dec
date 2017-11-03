@@ -1,0 +1,47 @@
+# EventType: 15204012
+#
+# Descriptor: [ Lambda_b0 -> p+ K- K+ pi- ]cc
+#
+# NickName: Lb_pKKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: 3 min
+# Responsible: Jan Mickelle Maratas
+# Email: maratas@clermont.in2p3.fr
+# Date: 20140426
+#
+Alias      MyLambda(1520)0                   Lambda(1520)0
+Alias      Myanti-Lambda(1520)0              anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0                   Myanti-Lambda(1520)0
+#
+Alias      MyK*0                             K*0
+Alias      Myanti-K*0                        anti-K*0
+ChargeConj Myanti-K*0                        MyK*0
+#
+Decay Lambda_b0sig
+  0.350    p+          K-       K+      pi-  PHSP;
+  0.325    MyLambda(1520)0      MyK*0        PHSP;
+  0.325    MyLambda(1520)0      K+      pi-  PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda(1520)0
+  1.000    p+          K-                    PHSP;
+Enddecay
+#
+Decay Myanti-Lambda(1520)0
+  1.000    anti-p-     K+                    PHSP;
+Enddecay
+#
+Decay MyK*0
+  1.000    K+          pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End

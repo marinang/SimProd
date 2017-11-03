@@ -1,0 +1,59 @@
+# EventType: 14145012
+#
+# Descriptor: [B_c+ -> (B_s0 -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) (phi(1020) -> K+ K-)) pi+ {,gamma}]cc
+#
+# NickName: Bc_Bspi+_Jpsiphi,mm=CPV,update2012,BcVegPy,DecProdCut
+#
+# CPUTime: < 1 min
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decays, uses BcVegPy generator, includes radiative mode
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Matthew Kenzie
+# Email: mkenzie@cern.ch
+# Date: 20150601
+#
+Define betas  -0.035
+Define Apara   0.480
+Define Azero   0.722
+Define Aperp   0.499
+Define pApara  3.30
+Define pAzero  0.0
+Define pAperp  3.07
+#
+Alias      MyB_s0   B_s0
+Alias      Myanti-B_s0    anti-B_s0
+ChargeConj MyB_s0   Myanti-B_s0
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+Alias      Myphi    phi
+ChargeConj Myphi    Myphi
+#
+Decay B_c+sig
+  1.000         MyB_s0 pi+          PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyB_s0
+  1.000         MyJ/psi     Myphi        PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp;
+Enddecay
+Decay Myanti-B_s0
+  1.000         MyJ/psi     Myphi        PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp;
+Enddecay
+# 
+Decay MyJ/psi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+#
+Decay Myphi
+  1.000         K+          K-           VSS;
+Enddecay
+#
+End
+

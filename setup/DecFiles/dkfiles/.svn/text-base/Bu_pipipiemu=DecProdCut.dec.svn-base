@@ -1,0 +1,30 @@
+# EventType: 12315022
+#
+# Descriptor: {[B+ -> pi+ pi+ pi- e+ mu-]cc,[B+ -> pi+ pi+ pi- e- mu+]cc}
+#
+# NickName: Bu_pipipiemu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ -> pi+ pi+ pi- e+ mu- (LFV,PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Decay B+sig
+ 0.5     pi+ pi+ pi- e+ mu- PHOTOS PHSP;
+ 0.5     pi+ pi+ pi- e- mu+ PHOTOS PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+#

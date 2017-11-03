@@ -1,0 +1,62 @@
+# EventType: 12203400
+#
+# Descriptor: {[B+ => K+ pi- pi+ (pi0 -> gamma gamma)]cc}
+#
+# NickName: Bu_K+pi-pi+pi0=NoCut
+#
+# Cuts: None
+#
+# Documentation: B+ decay to K+, pi-, pi+ and pi0(to gamma gamma) via different intermediate, no generator level cuts
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Olivier Deschamps
+# Email: odescham@in2p3.fr
+# Date: 20110909
+#
+Alias      Mypi0      pi0
+ChargeConj Mypi0      Mypi0
+Alias      MyK*+      K*+
+Alias      MyK*-      K*-
+ChargeConj MyK*+      MyK*-
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+Alias      Myrho+     rho+
+Alias      Myrho-     rho-
+ChargeConj Myrho+     Myrho-
+#
+Decay B+sig
+  0.00000333  rho0    MyK*+          SVV_HELAMP 0.0 0.0 1.0 0.0 0.0 0.0;
+  0.00000666  Myrho+  MyK*0          SVV_HELAMP 1.0 0.0 4.0 0.0 1.0 0.0;
+  0.00000333  MyK*+   pi+    pi-     PHSP;
+  0.00001000  K+      Mypi0  rho0    PHSP;
+  0.00000666  MyK*0   pi+    Mypi0   PHSP;
+  0.00001000  K+   pi-  pi+  Mypi0   PHSP;
+  0.00001000  K+   pi-  Myrho+       PHSP;
+  0.00001000  Myrho-  K+     pi+     PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyK*+
+  1.000        K+         Mypi0            VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK*0
+  1.000        K+         pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Myrho+
+  1.000        pi+        Mypi0            VSS;
+Enddecay
+CDecay Myrho-
+#
+Decay Mypi0
+  1.000        gamma      gamma            PHSP;
+Enddecay
+#
+End
+

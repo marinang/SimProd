@@ -1,0 +1,32 @@
+# EventType: 12585040 
+#
+# Descriptor: [B+ -> (D- -> K+ pi- e- anti-nu_e) pi+ e+ nu_e]cc
+# NickName: Bu_Dpienu,Kpienu=DecProdCut
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D chain background for B+ -> Kpipiee.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Stefanie Reichert
+# Email: stefanie.reichert@cern.ch
+# Date: 20170113
+# CPUTime: < 1min 
+#
+Alias        MyD-         D-
+Alias        MyD+         D+
+ChargeConj   MyD+         MyD-
+#	
+Decay B+sig
+1.000        MyD- pi+ e+  nu_e          PHOTOS GOITY_ROBERTS;
+Enddecay
+CDecay B-sig
+#
+Decay MyD-
+1.000        K+ pi- e-  anti-nu_e       PHSP;
+Enddecay
+CDecay MyD+
+#	
+End
+#

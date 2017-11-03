@@ -1,0 +1,28 @@
+# $Id: Ds+_pi-pi+K+=res,DecProdCut.dec 89808  $
+#
+# This is a decay file for the SCS mode Ds+ -> pi- pi+ K+
+#
+# EventType: 23263012
+#
+# Descriptor: [D_s+ -> pi- pi+ K+]cc
+#
+# NickName: Ds+_pi-pi+K+=res,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, Dalitz decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm
+#
+# Tested: Yes
+# Responsible: Hamish Gordon
+# Email: h.gordon1@{nospam}physics.ox.ac.uk
+# Date: 20110914
+#
+Decay D_s+sig
+  1.000        pi-        pi+        K+             D_DALITZ;
+Enddecay
+CDecay D_s-sig
+#
+End

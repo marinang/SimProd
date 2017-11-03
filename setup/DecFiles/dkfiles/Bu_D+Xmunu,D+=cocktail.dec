@@ -1,0 +1,126 @@
+# EventType: 12875401
+#
+# Descriptor: [[B-] ==> (D_10 -> (D*+ -> (D+ -> K- pi+ pi+ ) pi0 ) pi- pi0 ) mu- anti-nu_mu]cc
+#
+# NickName: Bu_D+Xmunu,D+=cocktail
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Sum of B+->D+Xmunu modes with (D+ -> K- pi+ pi+) final state, including D** and non resonant modes. D*pipi mode contained in D_10 channel.
+# EndDocumentation
+#
+# CPUTime: < 1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Michel De Cian
+# Email: michel.de.cian@cern.ch
+# Date: 20150721
+#
+Alias           MyD0            D0
+Alias           MyAntiD0        anti-D0
+ChargeConj      MyD0            MyAntiD0
+#
+Alias           MyD+            D+
+Alias           MyD-            D-
+ChargeConj      MyD+            MyD-
+#
+Alias           MyD*0           D*0
+Alias           MyAntiD*0       anti-D*0
+ChargeConj      MyD*0           MyAntiD*0
+#
+Alias           MyD*+           D*+
+Alias           MyD*-           D*-
+ChargeConj      MyD*+           MyD*-
+#
+Alias           MyD_0*0         D_0*0
+Alias           MyAntiD_0*0     anti-D_0*0
+ChargeConj      MyD_0*0         MyAntiD_0*0
+#
+Alias           MyD_0*+         D_0*+
+Alias           MyD_0*-         D_0*-
+ChargeConj      MyD_0*+         MyD_0*-
+#
+Alias           MyD_10          D_10
+Alias           MyAntiD_10      anti-D_10
+ChargeConj      MyD_10          MyAntiD_10
+#
+Alias           MyD_1+          D_1+
+Alias           MyD_1-          D_1-
+ChargeConj      MyD_1+          MyD_1-
+#
+Alias           MyD'_10         D'_10
+Alias           MyAntiD'_10     anti-D'_10
+ChargeConj      MyD'_10         MyAntiD'_10
+#
+Alias           MyD'_1+         D'_1+
+Alias           MyD'_1-         D'_1-
+ChargeConj      MyD'_1+         MyD'_1-
+#
+Alias           MyD_2*0         D_2*0
+Alias           MyAntiD_2*0     anti-D_2*0
+ChargeConj      MyD_2*0         MyAntiD_2*0
+#
+Alias           MyD_2*+         D_2*+
+Alias           MyD_2*-         D_2*-
+ChargeConj      MyD_2*+         MyD_2*-
+#
+Alias           Mytau+          tau+
+Alias           Mytau-          tau-
+ChargeConj      Mytau+          Mytau-
+#
+Decay B-sig
+   0.003750	MyD_0*0		mu-	anti-nu_mu		PHOTOS ISGW2;
+   0.011500	MyD_10		mu-	anti-nu_mu		PHOTOS ISGW2;
+   0.004050	MyD'_10		mu-	anti-nu_mu		PHOTOS ISGW2;
+   0.003810	MyD_2*0		mu-	anti-nu_mu		PHOTOS ISGW2;
+   0.000119	MyD+	pi-	mu-	anti-nu_mu		PHOTOS GOITY_ROBERTS;
+   0.000277	MyD*+	pi-	mu-	anti-nu_mu		PHOTOS GOITY_ROBERTS;
+Enddecay
+CDecay B+sig
+#
+SetLineshapePW MyD_1+ MyD*+ pi0 2
+SetLineshapePW MyD_1- MyD*- pi0 2
+SetLineshapePW MyD_10 MyD*+ pi- 2
+SetLineshapePW MyAntiD_10 MyD*- pi+ 2
+#
+SetLineshapePW MyD_2*+ MyD*+ pi0 2 
+SetLineshapePW MyD_2*- MyD*- pi0 2 
+SetLineshapePW MyD_2*0 MyD*+ pi- 2 
+SetLineshapePW MyAntiD_2*0 MyD*- pi+ 2 
+#
+Decay MyD+
+   1.000	K-	pi+	pi+	PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+Decay MyD*+
+   0.307	MyD+	pi0	PHOTOS VSS;
+   0.016	MyD+	gamma	PHOTOS VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD_0*0
+   0.66667	MyD+	pi-	PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_0*0
+#
+Decay MyD_10
+   0.26245	MyD*+	pi-		PHOTOS VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+   0.60632	MyD*+	pi-	pi0	PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_10
+#
+Decay MyD'_10
+   0.66667	MyD*+	pi-	PHOTOS VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAntiD'_10
+#
+Decay MyD_2*0
+   0.40157	MyD+	pi-	PHOTOS TSS;
+   0.26509	MyD*+	pi-	PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAntiD_2*0
+#
+End
+
+

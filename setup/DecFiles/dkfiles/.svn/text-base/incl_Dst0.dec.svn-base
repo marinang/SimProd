@@ -1,0 +1,26 @@
+# EventType: 27260210
+#
+# Descriptor: This is the decay file for the background study for D*+ -> D0(D0->K- pi+ pi- pi+) pi+
+#
+# NickName: incl_Dst0
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Inclusive D*0 decay by default,D0 decay by default
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible:     Zhou Xing, Alessandra Borgia
+# Email: zhxing@syr.edu, aborgia@syr.edu
+# Date:  20110601
+#
+Decay D*0sig
+0.6190    D0  pi0                        VSS;
+0.3810    D0  gamma                       VSP_PWAVE;
+Enddecay
+Decay anti-D*0sig
+0.6190    anti-D0  pi0                       VSS;
+0.3810    anti-D0  gamma                      VSP_PWAVE;
+Enddecay
+End

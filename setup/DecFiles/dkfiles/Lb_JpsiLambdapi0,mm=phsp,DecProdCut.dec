@@ -1,0 +1,47 @@
+# EventType: 15144520
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) (J/psi(1S) -> mu+ mu- ) (pi0 -> gamma gamma)]cc
+#
+# NickName: Lb_JpsiLambdapi0,mm=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda0 forced into p pi
+# EndDocumentation
+#
+# CPUTime: 1 min
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Michal Kreps
+# Email:  michal.kreps@cern.ch
+# Date: 20160714
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+Alias      Mypi0         pi0
+ChargeConj Mypi0         Mypi0
+#
+Decay Lambda_b0sig
+  1.000     MyJ/psi MyLambda Mypi0               PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000   p+          pi-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+Decay Mypi0
+  1.0  gamma gamma  PHSP;
+Enddecay
+#
+End
+#

@@ -1,0 +1,55 @@
+# EventType: 27163222
+#
+# Descriptor: [D*_s+ -> (D_s+ -> K+ K- pi+) gamma ]cc
+#
+# NickName: Dsst_Dsgamma,KKpi=TightCut
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# Documentation: Resolution studies
+# EndDocumentation
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen=Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# 
+# tightCut = Generation().SignalPlain.TightCut
+# tightCut.Decay     = '[D*_s+ -> (D_s+ -> ^K+ ^K- ^pi+) ^gamma]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV" ,
+#     "from LoKiCore.functions import in_range"
+# ]
+# tightCut.Cuts      =    {
+#     'gamma'   : "( GPT > 300*MeV ) & ( in_range(  0.030 , abs ( GPX/GPZ ) , 0.300 ) |  in_range(  0.030 , abs ( GPY/GPZ ) , 0.250 ) ) ",
+#     '[K+]cc'  : " in_range( 0.010 , GTHETA , 0.300 ) & ( GPT > 150 * MeV ) & ( GP > 1600*MeV ) " ,
+#     '[pi+]cc' : " in_range( 0.010 , GTHETA , 0.300 ) & ( GPT > 150 * MeV ) & ( GP > 1600*MeV ) "
+# }
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Anton Poluektov
+# Email: anton.poluektov@cern.ch
+# Date: 20131101
+#
+Alias MyD_s- D_s-
+Alias MyD_s+ D_s+
+ChargeConj MyD_s+ MyD_s-
+#
+#Alias D_s*-sig D_s*-
+#Alias D_s*+sig D_s*+
+#ChargeConj D_s*+sig D_s*-sig
+#
+Decay D_s*+sig
+1.0000     MyD_s+  gamma                          VSP_PWAVE;
+Enddecay
+CDecay D_s*-sig
+#
+Decay MyD_s+
+  1.000        K-        K+        pi+             D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End

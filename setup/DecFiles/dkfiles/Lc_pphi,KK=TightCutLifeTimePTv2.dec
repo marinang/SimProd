@@ -1,0 +1,65 @@
+# EventType: 25103019
+#
+# Descriptor: [Lambda_c+ -> (phi(1020) -> K- K+) p+]cc 
+#
+# NickName: Lc_pphi,KK=TightCutLifeTimePTv2
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Decay file for Lambda_c+ -> p+ phi(1020).
+# phi(1020) forced to K- K+
+# v2 used more loose TAU and PT cuts
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation()
+# signal     = generation.SignalPlain
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[Lambda_c+ ==> ^p+ ^(phi(1020) -> ^K- ^K+)]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity ()               ' ,
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack    =  ( GPT > 300. * MeV ) & ( GP  > 3.0 * GeV )   ' ,
+#     'goodTrack    =  inAcc & inEta & fastTrack                   ' ,
+#     'longLived    =  150. * micrometer < GTIME                     ' ,
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )         ' ,
+#     'goodLc       =  inY & longLived     & ( GPT > 2.0 * GeV )   ' ,
+#     'Bancestors   =  GNINTREE ( GBEAUTY , HepMC.ancestors )      ' ,
+#     'notFromB     =  0 == Bancestors                             ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[Lambda_c+]cc'  : 'goodLc & notFromB ' ,
+#     '[K+]cc'         : 'goodTrack ' ,
+#     '[p+]cc'         : 'goodTrack & ( GP > 9. * GeV ) '
+#     }
+# EndInsertPythonCode
+#
+
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Yury Shcheglov
+# Email: Yury.Shcheglov@cern.ch
+# Date: 20140108
+#
+#
+
+Alias      MyPhi    phi  
+ChargeConj MyPhi    MyPhi
+
+#
+Decay  Lambda_c+sig
+1.00000  p+ MyPhi              PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+
+Decay MyPhi
+  1.000         K+    K-       VSS;
+Enddecay
+End

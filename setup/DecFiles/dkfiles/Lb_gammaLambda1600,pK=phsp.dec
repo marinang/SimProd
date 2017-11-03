@@ -1,0 +1,35 @@
+# EventType: 15102226
+#
+# Descriptor: [Lambda_b0 -> (Lambda(1600)0 -> p+ K-) gamma]cc
+#
+# NickName: Lb_gammaLambda1600,pK=phsp
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Lambda(1600)0 forced into p K, decay with generic phase space
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lavinia-Elena Giubega (IFIN-HH, Bucharest)
+# Email: lavinia-elena.giubega@cern.ch
+# Date:  20140119
+# CPUTime: < 1 min
+#
+Alias      MyLambda(1600)0 Lambda(1600)0
+Alias      Myanti-Lambda(1600)0 anti-Lambda(1600)0
+ChargeConj MyLambda(1600)0 Myanti-Lambda(1600)0
+#
+Decay Lambda_b0sig
+  1.000      MyLambda(1600)0         gamma PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda(1600)0  
+  1.000   p+          K-        PHSP;              
+Enddecay
+CDecay Myanti-Lambda(1600)0  
+#
+End
+#
+

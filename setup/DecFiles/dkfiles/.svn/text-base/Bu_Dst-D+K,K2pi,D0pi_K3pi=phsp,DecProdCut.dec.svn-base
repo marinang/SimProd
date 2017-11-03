@@ -1,0 +1,50 @@
+# EventType: 12199002
+# 
+# Descriptor: [B+ -> (D*(2010)- -> (D~0 -> K+ pi- pi- pi+) pi-) (D+ -> K- pi+ pi+) K+]cc
+#
+# NickName: Bu_Dst-D+K,K2pi,D0pi_K3pi=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ -> D*- D+ K+ with D* going to K3pi
+# EndDocumentation
+# 
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Pavol Stefko
+# Email: pavol.stefko@cern.ch
+# Date: 20161011
+# CPUTime: < 1 min
+#
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+Alias My_D+   D+
+Alias My_D-   D-
+Alias My_D*+  D*+
+Alias My_D*-  D*-
+
+ChargeConj My_anti-D0 My_D0
+ChargeConj My_D- My_D+
+ChargeConj My_D*- My_D*+
+
+Decay My_D0
+  1.0 K- pi+ pi+ pi- 		PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay My_D-
+  1.0 K+ pi- pi- 			D_DALITZ;
+Enddecay
+CDecay My_D+
+
+Decay My_D*+
+  1.0 My_D0 pi+  			PHSP;
+Enddecay
+CDecay My_D*-
+
+Decay B+sig
+  1.0 My_D*- My_D+ K+ 		PHSP;
+Enddecay
+CDecay B-sig
+
+End

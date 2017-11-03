@@ -1,0 +1,57 @@
+# EventType:  11202400
+#
+# Descriptor:  {[[B0]nos => K+ pi- (pi0 -> gamma gamma)]cc, [[B0]os => K- pi+ (pi0 -> gamma gamma)]cc}
+#
+# NickName:  Bd_K+pi-pi0
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation:  pi0 forced to gamma gamma, resonant structure
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested:  Yes
+# Responsible:  Olivier Deschamps
+# Email:  olivier.deschamps@cern.ch
+# Date: 20051107
+#
+Alias      Mypi0      pi0
+ChargeConj Mypi0      Mypi0
+Alias      MyK*+      K*+
+Alias      MyK*-      K*-
+ChargeConj MyK*+      MyK*-
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+Alias      Myrho+     rho+
+Alias      Myrho-     rho-
+ChargeConj Myrho+     Myrho-
+#
+Decay B0sig
+  0.00000390        MyK*+      pi-              SVS;
+  0.0000099         Myrho-     K+               SVS;
+  0.00000113        MyK*0      Mypi0            SVS;
+  0.000002          K+         pi-       Mypi0  PHSP;     
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*+
+  1.000        K+         Mypi0            VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK*0
+  1.000        K+         pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Myrho+
+  1.000        pi+        Mypi0            VSS;
+Enddecay
+CDecay Myrho-
+#
+Decay Mypi0
+  1.000        gamma      gamma            PHSP;
+Enddecay
+#
+End

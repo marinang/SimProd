@@ -1,0 +1,38 @@
+# EventType:  14175004
+#
+# Descriptor:  [B_c+ -> (D_s+ -> K+ K- pi+) mu+ mu-]cc
+#
+# NickName:  Bc_Dsmumu=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts:  BcDaughtersInLHCb
+#
+# Documentation:  Decay file for Bc->Dsmumu 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Igor Babuschkin
+# Email: igor.babuschkin@cern.ch
+# Date: 20141030
+#
+#
+Alias        MyD_s+         D_s+
+Alias        MyD_s-         D_s-
+ChargeConj   MyD_s-         MyD_s+
+
+Decay B_c+sig
+  1.     MyD_s+   mu+    mu-    PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyD_s+
+  1.000      K+  K-  pi+          PHSP;
+Enddecay
+CDecay MyD_s-
+#
+#
+End
+#

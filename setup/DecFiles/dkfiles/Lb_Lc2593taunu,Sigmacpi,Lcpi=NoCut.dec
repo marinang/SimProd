@@ -1,0 +1,62 @@
+# EventType: 15973002
+#
+# Descriptor:  [Lambda_b0 -> (Lambda_c(2593)+ -> (Sigma_c0 -> MyLambda_c+ pi-) pi+) tau- anti-nu_tau]cc
+#
+# NickName: Lb_Lc2593taunu,Sigmacpi,Lcpi=NoCut
+#
+# Cuts: None
+#
+# Documentation: This is the decay file to generate Lambda_b0 -> (Lambda_c+(2593) -> (Sigma_c++ -> Lambda_c+)  pi-) tau+ anti-nu_tau
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Marcin Chrzaszcz
+# Email: mchrzasz@cern.ch
+# Date: 20150709
+# CPUTime: < 1 min
+#
+Alias MyLambda_c(2593)+ Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)- anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+ Myanti-Lambda_c(2593)-
+#
+Alias MySigma_c0 Sigma_c0
+Alias Myanti-Sigma_c0 anti-Sigma_c0
+ChargeConj MySigma_c0 Myanti-Sigma_c0
+#
+Alias MySigma_c++ Sigma_c++
+Alias Myanti-Sigma_c-- anti-Sigma_c--
+ChargeConj MySigma_c++ Myanti-Sigma_c--
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Decay Lambda_b0sig
+  1.00    MyLambda_c(2593)+        Mytau-  anti-nu_tau        PHOTOS   BaryonPCR  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mytau-
+  1.0       mu-  anti-nu_mu   nu_tau        TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+Decay MyLambda_c(2593)+
+  0.5000      MySigma_c++         pi-                      PHSP;
+  0.5000      MySigma_c0          pi+                      PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+Decay MySigma_c++
+1.0000    Lambda_c+  pi+                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MySigma_c0
+1.0000    Lambda_c+  pi-                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+#
+End
+

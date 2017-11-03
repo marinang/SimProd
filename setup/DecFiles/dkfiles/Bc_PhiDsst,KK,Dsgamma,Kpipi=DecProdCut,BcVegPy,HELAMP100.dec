@@ -1,0 +1,54 @@
+# EventType: 14165205
+#
+# Descriptor: [B_c+ -> (D_s*+ -> (D_s+ -> K+ pi- pi+) gamma) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bc_PhiDsst,KK,Dsgamma,Kpipi=DecProdCut,BcVegPy,HELAMP100
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance, Dsst forced to Ds gamma, HELAMP forced to 100
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible:     T. Hadavizadeh
+# Email: tom.hadavizadeh@cern.ch
+# Date: 20170310
+#
+Alias       MyD_s+      D_s+
+Alias       MyD_s-      D_s-
+ChargeConj  MyD_s+      MyD_s-
+
+Alias       MyD_s*+     D_s*+
+Alias       MyD_s*-     D_s*-
+ChargeConj  MyD_s*+     MyD_s*-
+
+Alias       MyPhi       phi
+ChargeConj  MyPhi       MyPhi
+
+Decay B_c+sig
+  1.000     MyPhi       MyD_s*+             SVV_HELAMP  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay B_c-sig
+
+Decay MyD_s*+
+  1.000     MyD_s+      gamma               VSP_PWAVE;
+Enddecay
+CDecay MyD_s*-
+
+Decay MyD_s+
+  1.000     K+          pi-         pi+     PHSP;
+Enddecay
+CDecay MyD_s-
+
+Decay MyPhi
+  1.000     K+          K-                  VSS;
+Enddecay
+
+
+#
+End
+

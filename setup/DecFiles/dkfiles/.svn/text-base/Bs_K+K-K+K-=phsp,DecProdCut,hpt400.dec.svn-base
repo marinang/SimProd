@@ -1,0 +1,26 @@
+# EventType: 13104023
+#
+# Descriptor: [B_s0 -> K+ K- K+ K-]cc
+#
+# NickName: Bs_K+K-K+K-=phsp,DecProdCut,hpt400
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# Documentation: B_s0 decay to K+, K- and K+ , K- with phase space model, daughters in acceptance, pt > 400 MeV
+# EndDocumentation
+
+# PhysicsWG: BnoC 
+# Tested: Yes
+# CPUTime:< 1 min
+# Responsible: Matthew Needham
+# Email: Matthew.Needham@cern.ch
+# Date: 20141201
+#
+Decay B_s0sig
+1.000       K+   K-   K+   K-    PHSP;
+Enddecay
+CDecay  anti-B_s0sig
+#
+End
+
+

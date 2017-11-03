@@ -1,0 +1,58 @@
+# EventType: 13264211
+#
+# Descriptor: {[[B_s0]nos -> (D*_s- -> {gamma (D_s- => K+ K- pi-), pi0 (D_s- => K+ K- pi-)}) K+]cc, [[B_s0]os -> (D*_s+ -> {gamma (D_s+ => K- K+ pi+), pi0 (D_s+ => K- K+ pi+)}) K-]cc}
+#
+# NickName: Bs_DsstK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: includes resonances in Ds decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date: 20040506
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+ChargeConj MyD_s+     MyD_s-
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+Alias      Myphi      phi
+ChargeConj Myphi      Myphi
+#
+Decay B_s0sig
+  1.000    MyD_s*-          K+        SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s*-
+  0.942   MyD_s-           gamma     VSP_PWAVE;
+  0.058   MyD_s-           pi0       VSS;
+Enddecay
+CDecay MyD_s*+
+#
+Decay MyD_s-
+  0.0090    K+       K-      pi-      PHSP;
+  0.0220    MyK*0    K-               SVS;
+  0.017712  Myphi    pi-              SVS;
+Enddecay 
+CDecay MyD_s+
+#
+Decay MyK*0
+  1.0000    K+       pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Myphi
+  1.0000    K+       K-               VSS;
+Enddecay
+#
+End
+#

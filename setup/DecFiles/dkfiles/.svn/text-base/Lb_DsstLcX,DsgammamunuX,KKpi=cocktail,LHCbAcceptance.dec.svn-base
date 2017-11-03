@@ -1,0 +1,55 @@
+# EventType: 15674302
+# Descriptor: [Lambda_b0 => (D*_s- -> (D_s- -> K+ K- pi-) gamma) (Lambda_c+ -> Lambda0 nu_mu mu+)]cc
+# NickName: Lb_DsstLcX,DsgammamunuX,KKpi=cocktail,LHCbAcceptance
+# Cuts: LHCbAcceptance
+# CPUTime: < 1 min
+# Documentation: Lb -> Lc+ Ds* X with Lc -> X Mu Nu and Ds forced to KKpi.
+#                For background study of semileptonic Bs->(Ds->KKpi)MuNu decay.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Stephen Ogilvy
+# Email: stephen.ogilvy@cern.ch
+# Date:   20170310
+#
+Alias      MyLambda_c+       Lambda_c+
+Alias      Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+       Myanti-Lambda_c-
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+ChargeConj MyD_s+     MyD_s-
+Alias      MyD_s*+     D_s*+
+Alias      MyD_s*-     D_s*-
+ChargeConj MyD_s*+     MyD_s*-
+#
+Decay Lambda_b0sig
+  0.01100    MyLambda_c+       MyD_s-           PHSP;
+  0.02200    MyLambda_c+       MyD_s*-          PHSP; 
+  0.00250    MyLambda_c+       MyD_s-    pi0    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyD_s+
+  0.055     K+    K-     pi+          PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.93500 MyD_s+    gamma                       VSP_PWAVE;
+  0.05800 MyD_s+    pi0                         VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyLambda_c+
+  0.03500         mu+     nu_mu   Lambda0       PHOTOS PHSP;
+  0.01000         mu+     nu_mu   Sigma0        PHOTOS PHSP;
+  0.01000         mu+     nu_mu   Sigma*0       PHOTOS PHSP;
+  0.00600         mu+     nu_mu   n0            PHOTOS PHSP;
+  0.00400         mu+     nu_mu   Delta0        PHOTOS PHSP;
+  0.01200         mu+     nu_mu   p+      pi-   PHOTOS PHSP;
+  0.01200         mu+     nu_mu   n0      pi0   PHOTOS PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End

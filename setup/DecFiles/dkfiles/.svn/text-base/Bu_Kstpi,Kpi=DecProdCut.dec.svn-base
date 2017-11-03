@@ -1,0 +1,34 @@
+# EventType: 12103091
+#
+# Descriptor: [B+ -> (K*0 -> K+ pi-) pi+]cc
+#
+# NickName: Bu_Kstpi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: Decay from B+ to K*0 pi+ followed by K*0 into K+ pi-
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Nathanael Farley
+# Email: nathanael.a.s.farley@cern.ch
+# Date: 20150205
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj MyK*0       Myanti-K*0
+#
+Decay B+sig
+  1.000     MyK*0        pi+       SVS;
+  Enddecay
+CDecay B-sig
+#
+Decay MyK*0
+  1.000     K+           pi-      VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End

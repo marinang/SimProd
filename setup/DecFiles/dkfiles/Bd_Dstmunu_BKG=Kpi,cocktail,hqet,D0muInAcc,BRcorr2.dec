@@ -1,0 +1,225 @@
+# $Id: Bd_Dstmunu,Kpi=cocktail,hqet,D0muInAcc 89808 2010-10-12 10:17:29Z robbep $
+# This is the decay file for the decay B0 => D*- (-> D0 bar (-> K+ pi-) pi-) mu+ nu_mu
+#
+# EventType: 11874005
+# Date:  2011-02-01
+#
+# Descriptor: {[[B0]nos => nu_mu mu+ (D*(2010)- -> pi- (D~0 -> K+ pi-))]cc, [[B0]os => anti_nu_mu mu- (D*(2010)+ -> pi+ (D0 -> K- pi+))]cc}
+#
+# NickName: Bd_Dstmunu_BKG=Kpi,cocktail,hqet,D0muInAcc,BRcorr2
+#
+# Cuts: ListOfDaughtersInLHCb
+#
+# ExtraOptions: D0muInAcc
+#
+# Documentation: Sum of D* mu nu_mu X and D* tau nu_tau X; D*+ forced into D0 pi+, D0 forced into Kpi, D0 
+# and muon in LHCb acceptance
+# EndDocumentation 
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Concezio Bozzi
+# Email: concezio.bozzi@{nospam}fe.infn.it
+# Date:  20110831
+#
+#
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyD0         D0
+Alias      MyAntiD0     anti-D0
+ChargeConj MyD0         MyAntiD0
+#
+Alias      MyD*-        D*-
+Alias      MyD*+        D*+
+ChargeConj MyD*-        MyD*+
+#
+Alias      MyD_10         D_10
+Alias      MyAntiD_10     anti-D_10
+ChargeConj MyD_10         MyAntiD_10
+#
+Alias      MyD_1+         D_1+
+Alias      MyD_1-         D_1-
+ChargeConj MyD_1+         MyD_1-
+#
+Alias      MyD_0*+         D_0*+
+Alias      MyD_0*-         D_0*-
+ChargeConj MyD_0*+         MyD_0*-
+#
+Alias      MyD_0*0         D_0*0
+Alias      MyAntiD_0*0     anti-D_0*0
+ChargeConj MyD_0*0         MyAntiD_0*0
+#
+Alias      MyD'_10         D'_10
+Alias      MyAntiD'_10     anti-D'_10
+ChargeConj MyD'_10         MyAntiD'_10
+#
+Alias      MyD'_1+         D'_1+
+Alias      MyD'_1-         D'_1-
+ChargeConj MyD'_1+         MyD'_1-
+#
+Alias      MyD_2*+         D_2*+
+Alias      MyD_2*-         D_2*-
+ChargeConj MyD_2*+         MyD_2*-
+#
+Alias      MyD_2*0         D_2*0
+Alias      MyAntiD_2*0     anti-D_2*0
+ChargeConj MyD_2*0         MyAntiD_2*0
+#
+#-------------------------------------------------------------
+#    B0 decays
+#
+Decay B0sig 
+# FORM FACTORS as per HFAG PDG10
+#####CB  0.0501   MyD*-        mu+  nu_mu    PHOTOS  HQET 1.20 1.426 0.818;
+# 
+  0.0011424  MyD_0*-      mu+  nu_mu        PHOTOS  ISGW2;
+  0.0006500  MyD'_1-      mu+  nu_mu        PHOTOS  ISGW2;
+  #0.0074*0.227 =0.0016792
+  0.0019319   MyD_1-       mu+  nu_mu      PHOTOS  ISGW2;
+  #0.0052*0.178 = 0.0009287
+  0.0008614   MyD_2*-      mu+  nu_mu       PHOTOS  ISGW2;
+#
+  0.000462   MyD*-  pi0  mu+  nu_mu        PHOTOS  GOITY_ROBERTS;
+  0.000270   MyD*-  pi0 pi0   mu+  nu_mu       PHOTOS  PHSP;
+  0.001026   MyD*-  pi+ pi-   mu+  nu_mu       PHOTOS  PHSP;
+#
+  0.002604   MyD*-    Mytau+ nu_tau        PHOTOS  ISGW2;
+  0.000079   MyD_1-   Mytau+ nu_tau        PHOTOS  ISGW2;
+  0.000046   MyD_0*-   Mytau+ nu_tau       PHOTOS  ISGW2;
+  0.000049   MyD'_1-   Mytau+ nu_tau       PHOTOS  ISGW2;
+  0.000048   MyD_2*-   Mytau+ nu_tau       PHOTOS  ISGW2;
+  #
+Enddecay
+CDecay anti-B0sig
+#
+SetLineshapePW MyD_1+ MyD*+ pi0 2
+SetLineshapePW MyD_1- MyD*- pi0 2
+SetLineshapePW MyD_10 MyD*+ pi- 2
+SetLineshapePW MyAntiD_10 MyD*- pi+ 2
+#
+SetLineshapePW MyD_2*+ MyD*+ pi0 2
+SetLineshapePW MyD_2*- MyD*- pi0 2
+SetLineshapePW MyD_2*0 MyD*+ pi- 2
+SetLineshapePW MyAntiD_2*0 MyD*- pi+ 2
+#
+#########################
+#
+#-------------------------------------------------------------
+#    Excited D decays
+#    
+Decay MyD_0*+ 
+#0.223     MyD+  pi0                        PHOTOS PHSP;
+#0.447     MyD0  pi+                        PHOTOS PHSP;
+0.068     MyD*+ pi0 pi0                         PHOTOS PHSP;
+0.136     MyD*+ pi+ pi-                         PHOTOS PHSP;
+#0.136     MyD*0 pi+ pi0                         PHOTOS PHSP;
+Enddecay
+CDecay MyD_0*-
+#########################
+Decay MyD_0*0
+#0.223     MyD0  pi0                         PHSP;
+#0.447     MyD+  pi-                          PHOTOS PHSP;
+#0.068     MyD*0 pi0 pi0                         PHOTOS PHSP;
+#0.136     MyD*0 pi+ pi-                         PHOTOS PHSP;
+0.136    MyD*+ pi- pi0                         PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_0*0
+#########################
+Decay MyD'_1+
+0.217     MyD*+ pi0                         PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+#0.433     MyD*0 pi+                        PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+#0.072    MyD+ pi0 pi0                         PHOTOS PHSP;
+#0.144     MyD+ pi+ pi-                         PHOTOS PHSP;
+#0.144     MyD0 pi+ pi0                         PHOTOS PHSP;
+Enddecay
+CDecay MyD'_1-
+#########################
+Decay MyD'_10
+#0.217    MyD*0 pi0                        PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+0.433    MyD*+ pi-                         PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+#0.072     MyD0 pi0 pi0                         PHOTOS PHSP;
+#0.144     MyD0 pi+ pi-                         PHOTOS PHSP;
+#0.144     MyD+ pi- pi0                         PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD'_10
+#########################
+Decay MyD_1+
+0.173    MyD*+ pi0                        PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+#0.347    MyD*0 pi+                       PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.031    MyD_0*0 pi+                      PHOTOS PHSP;
+0.023    MyD_0*+ pi0                      PHOTOS PHSP;
+#0.028     MyD+ pi0 pi0                         PHOTOS PHSP;
+#0.056     MyD+ pi+ pi-                         PHOTOS PHSP;
+#0.056     MyD0 pi+ pi0                         PHOTOS PHSP;
+Enddecay
+CDecay MyD_1-
+#########################
+Decay MyD_10
+0.347    MyD*+ pi-                         PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+#0.173    MyD*0 pi0                        PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.046    MyD_0*+ pi-                       PHOTOS PHSP;
+0.015    MyD_0*0 pi0                       PHSP;
+#0.028     MyD0 pi0 pi0                         PHOTOS PHSP;
+#0.056     MyD0 pi+ pi-                         PHOTOS PHSP;
+#0.056     MyD+ pi- pi0                         PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_10
+#########################
+Decay MyD_2*+
+0.073    MyD*+ pi0                        PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+#0.147    MyD*0 pi+                       PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+#0.113    MyD+  pi0                        PHOTOS TSS;
+#0.227    MyD0  pi+                       PHOTOS TSS;
+0.027    MyD_0*0 pi+                      PHOTOS PHSP;
+0.020    MyD_0*+ pi0                      PHOTOS PHSP;
+0.006     MyD*+ pi0 pi0                         PHOTOS PHSP;
+0.012     MyD*+ pi+ pi-                         PHOTOS PHSP;
+#0.012     MyD*0 pi+ pi0                         PHOTOS PHSP;
+#0.024     MyD+ pi0 pi0                         PHOTOS PHSP;
+#0.048     MyD+ pi+ pi-                         PHOTOS PHSP;
+#0.048     MyD0 pi+ pi0                         PHOTOS PHSP;
+Enddecay
+CDecay MyD_2*-
+#
+#
+#########################
+##### sum of the uncommented lines is 0.293
+Decay MyD_2*0
+0.147    MyD*+ pi-                        PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+#0.073    MyD*0 pi0                       TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+#0.113    MyD0  pi0                       TSS;
+#0.227    MyD+  pi-                        PHOTOS TSS;
+0.041    MyD_0*+ pi-                      PHOTOS PHSP;
+0.014    MyD_0*0 pi0                      PHSP;
+#0.006     MyD*0 pi0 pi0                         PHOTOS PHSP;
+#0.012     MyD*0 pi+ pi-                         PHOTOS PHSP;
+0.012     MyD*+ pi- pi0                         PHOTOS PHSP;
+#0.024     MyD0 pi0 pi0                         PHOTOS PHSP;
+#0.048     MyD0 pi+ pi-                         PHOTOS PHSP;
+#0.048     MyD+ pi- pi0                         PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_2*0
+#
+#-------------------------------------------------------------
+#    D decays
+#
+Decay MyD*-
+1.0       MyAntiD0   pi-                VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD0
+  1.00   K-  pi+                    PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD0
+#
+Decay Mytau-
+  1.00      mu-  nu_tau  anti-nu_mu     PHOTOS TAULNUNU;
+  #0.1731
+Enddecay
+CDecay Mytau+
+#
+End

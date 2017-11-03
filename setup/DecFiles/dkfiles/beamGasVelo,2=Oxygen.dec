@@ -1,0 +1,21 @@
+# EventType: 60002008
+#
+# Descriptor: p O16[0.0] => ?
+#
+# NickName: beamGasVelo,2=Oxygen
+#
+# Cuts: None
+#
+# Production: Hijing
+# ExtraOptions: Beam2GasVeLo
+#
+# Documentation: Beam2-oxygen gas in the VELO
+# EndDocumentation
+#
+# PhysicsWG: Sim
+# Tested: Yes
+# Responsible: Massimiliano Ferro-Luzzi
+# Email: Massimiliano.Ferro-Luzzi@cern.ch
+# Date: 20130712
+#
+End

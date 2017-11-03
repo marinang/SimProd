@@ -1,0 +1,41 @@
+# EventType: 16103061
+# 
+# Descriptor: [ Xi_bc+ -> p ( K*(892)~0-> K- pi+ ) ]cc
+#
+# NickName: Xibc+_pKst=DecProdCut,m=6.9GeV,t=0.4ps
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# ParticleValue: " Xi_bc+ 532 5242 1.0 6.90000000 0.400000e-12 Xi_bc+ 5242 0.00000000", " Xi_bc~- 533 -5242 -1.0 6.90000000 0.400000e-12 anti-Xi_bc- -5242 0.00000000"
+#
+# Documentation: decay file of Xi_bc^+ -> p (K*(892)~0 -> K- pi+)
+# using dedicated GenXicc package for production, cuts with XiccDaughtersInLHCb, phase space decay model used. 
+# Xi_bc decay time changed to 0.4ps to be in range of theoretical predictions. 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Jibo HE
+# Email: jibo.he@cern.ch
+# Date: 20161028
+#
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Decay Xi_bc+sig
+  1.00   p+   Myanti-K*0             PHSP;
+Enddecay
+CDecay anti-Xi_bc-sig
+#
+Decay MyK*0
+  1.000         K+        pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

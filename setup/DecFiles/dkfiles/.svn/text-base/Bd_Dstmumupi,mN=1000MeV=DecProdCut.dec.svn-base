@@ -1,0 +1,51 @@
+# EventType: 11176012
+#
+# Descriptor: [B0 -> (D*(2010)- -> pi- (D~0 -> K+ pi-)) mu+ (N-> mu+ pi-) {,gamma}{,gamma}]cc
+#
+# NickName: Bd_Dstmumupi,mN=1000MeV=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# ParticleValue: "N 1235 19 0.0 1.0 0 N 19 0.0","anti-N 1236 -19 0.0 1.0 0 anti-N -19 0.0"
+#
+# Documentation: Decay file for B0-> D*- mu+mu+ pi-
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:   Wenbin Qian
+# Email: wenbin.qian@cern.ch
+# Date: 20111024
+#
+Alias        MyD*-         D*-
+Alias        MyD*+         D*+
+ChargeConj   MyD*+         MyD*-
+Alias        MyD0         D0
+Alias        Myanti-D0    anti-D0
+ChargeConj   MyD0         Myanti-D0
+Alias        MyN          N
+Alias        Myanti-N     anti-N
+ChargeConj   MyN          Myanti-N
+
+Decay B0sig
+  1.     MyD*-        mu+    MyN       PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD0
+  1.000      K-   pi+                        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyD*+
+  1.000    MyD0        pi+             VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay     MyN
+  1.     mu+    pi-         PHSP;
+Enddecay
+CDecay    Myanti-N
+#
+End
+#
+

@@ -1,0 +1,23 @@
+# EventType: 46000040
+#
+# Descriptor: pp -> (X -> ~chi_10 -> (l q q, l l l) + jet ... )
+#
+# NickName: BRpVNeutralino_m01000_m12600
+#
+# Cuts: PythiaLSP
+#
+# ParticleTable: mSUGRA_m01000_m12600
+# SUSYModel: mSUGRA_m01000_m12600
+#
+# Documentation: Neutralinos from SUSY (mSUGRA) with Bilinear Rp violation in all final states, m0=1000GeV, m1/2=600GeV
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Neal Gauvin 
+# Email: stephane.tourneur@epfl.ch
+# Date: 20091002
+#
+End
+#
+#

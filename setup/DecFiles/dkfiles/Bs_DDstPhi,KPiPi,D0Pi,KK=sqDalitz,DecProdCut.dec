@@ -1,0 +1,59 @@
+# EventType: 13198011
+# 
+# Descriptor: [B_s0 -> (D*- -> (D~0 -> K+ pi-) pi-) (D+ -> K- pi+ pi+) (phi(1020) -> K+ K-)]cc
+# NickName: Bs_DDstPhi,KPiPi,D0Pi,KK=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay File for B_s0 -> D+ D*- phi (with D -> Kpipi DDalitz) and (D*->D0pi) in LHCb Detector. Force B flat in B sq Dalitz plot.
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# Date: 20140808
+#
+Alias My_D0 D0
+Alias My_anti-D0 anti-D0
+ChargeConj My_D0 My_anti-D0
+#
+Alias My_D+ D+
+Alias My_D- D-
+ChargeConj My_D+ My_D-
+#
+Alias My_Phi phi
+ChargeConj My_Phi My_Phi
+#
+Alias My_D*- D*-
+Alias My_D*+ D*+
+ChargeConj My_D*- My_D*+
+#
+Decay My_D*-
+  1.0 My_anti-D0 pi- VSS;
+Enddecay
+CDecay My_D*+
+
+Decay My_anti-D0
+  1.0 K+ pi- PHSP; 
+Enddecay
+CDecay My_D0
+
+Decay My_D+
+  1.0 K- pi+ pi+ D_DALITZ;
+Enddecay
+CDecay My_D-
+
+Decay My_Phi
+  1.0 K+ K- VSS;
+Enddecay
+CDecay My_Phi  
+
+Decay B_s0sig
+  1.0 My_D+ My_D*- My_Phi FLATSQDALITZ;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+#

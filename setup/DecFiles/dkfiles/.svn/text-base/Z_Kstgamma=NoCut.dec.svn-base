@@ -1,0 +1,44 @@
+# EventType: 42102200
+#
+# Descriptor: pp -> [Z -> (K*(892)0 -> K+ pi-) gamma]cc ...
+# NickName: Z_Kstgamma=NoCut
+# Cuts: None
+#
+# InsertPythonCode:
+#
+# # Pythia8 options.
+# from Gaudi.Configuration import importOptions
+# from Configurables import Pythia8Production
+# importOptions('$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py')
+# Generation().Special.addTool(Pythia8Production)
+# Generation().Special.Pythia8Production.Commands += [
+#     'WeakSingleBoson:ffbar2gmZ = on',
+#     'WeakZ0:gmZmode = 2',
+#     '23:mayDecay = false']
+# 
+# EndInsertPythonCode
+#
+# Documentation: rare exclusive decay of Z0 to K*0 gamma
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Hang Yin, Qundong Han
+# Email: hyin@cern.ch, qundong.han@cern.ch  
+# Date: 20160718
+#
+Alias myK*0 K*0
+Alias anti-myK*0 anti-K*0
+ChargeConj myK*0 anti-myK*0
+
+Decay Z0
+ 1.0 myK*0 gamma PHSP;
+Enddecay
+
+Decay myK*0
+ 1.0 K+ pi- PHSP;
+Enddecay
+CDecay anti-myK*0
+
+End

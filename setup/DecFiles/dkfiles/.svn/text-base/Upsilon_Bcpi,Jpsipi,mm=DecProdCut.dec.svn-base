@@ -1,0 +1,45 @@
+# EventType: 18244001
+#
+# Descriptor: Upsilon(1S) -> [ (B_c+ -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) pi+ {,gamma} {,gamma} ) ]cc pi- {,gamma} {,gamma} 
+#
+# NickName: Upsilon_Bcpi,Jpsipi,mm=DecProdCut
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon to Bc pi with the Bc going to jpsi pi
+# Vector to Pseudoscalar Pseudoscalar decay
+# EndDocumentation
+# 
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Alex Shires
+# Email: ashires@cern.ch
+# Date: 20121026
+#
+#
+Alias       MyBcp   B_c+
+Alias       MyBcm   B_c-
+ChargeConj  MyBcp   MyBcm
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+#
+Decay Upsilonsig
+  0.500     MyBcp      pi-      VSS ;
+  0.500     MyBcm      pi+      VSS ;
+Enddecay
+#
+Decay MyBcp
+  1.000     MyJ/psi   pi+       SVS ;
+Enddecay
+Decay MyBcm
+  1.000     MyJ/psi   pi-       SVS ;
+Enddecay
+#
+Decay MyJ/psi
+  1.000     mu+       mu-      PHOTOS   VLL;
+Enddecay
+#
+End
+#

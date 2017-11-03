@@ -1,0 +1,36 @@
+# EventType: 11142401
+#
+# Descriptor: [B0 -> (pi0 -> gamma gamma) (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) ]cc
+#
+# NickName: Bd_Jpsipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: includes radiative mode, No CP violation, pi0 forced into gamma gamma
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Stephane T'Jampens
+# Email: tjampens@in2p3.fr
+# Date: 20110427
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+Alias      Mypi0    pi0
+ChargeConj Mypi0    Mypi0
+#
+Decay B0sig
+  1.000         MyJ/psi   Mypi0           SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mypi0
+  1.000         gamma       gamma         PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-             VLL;
+Enddecay
+End
+

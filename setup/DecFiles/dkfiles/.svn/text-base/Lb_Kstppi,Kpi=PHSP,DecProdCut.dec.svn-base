@@ -1,0 +1,35 @@
+# EventType: 15104030
+#
+# Descriptor: [Lambda_b0 -> (anti-K*0 -> K- pi+) p+ pi-]cc
+#
+# NickName: Lb_Kstppi,Kpi=PHSP,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda_b0 forced into anti-K*0 p+ pi-, anti-K*0 forced to K- pi+
+# decay products in acceptance
+# EndDocumentation
+#
+# CPUTime: <1 min
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Miguel Ramos Pernas 
+# Email: miguel.ramos.pernas@cern.ch
+# Date: 20150506
+#
+Alias MyKst0         K*0
+Alias Myanti-Kst0    anti-K*0
+ChargeConj MyKst0    Myanti-Kst0
+
+Decay Lambda_b0sig
+  1.000      Myanti-Kst0 p+ pi-       PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Myanti-Kst0
+  1.000      K-          pi+          PHSP;
+Enddecay 
+CDecay MyKst0
+#
+End

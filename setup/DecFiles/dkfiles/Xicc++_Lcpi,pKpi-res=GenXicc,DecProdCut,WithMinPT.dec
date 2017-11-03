@@ -1,0 +1,62 @@
+# EventType:  26264051
+#
+# Descriptor: [Xi_cc++ -> (Lambda_c+ -> p K- pi+) pi+ ]cc
+#
+# NickName: Xicc++_Lcpi,pKpi-res=GenXicc,DecProdCut,WithMinPT
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CutsOptions: MinXiccPT 2000*MeV
+#
+# CPUTime: < 1 min
+#
+# Documentation: Xicc++ decay to Lambda_c+ p+ by phase space model, Lambda_c resonances included.
+# all daughters of Xicc are required to be in the acceptance of LHCb 
+# and the Xicc PT is required to be larger than 2000 MeV. 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jibo He
+# Email: jibo.he@cern.ch
+# Date: 20161028
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias      MyDelta++  Delta++
+Alias      Myanti-Delta--  anti-Delta--
+ChargeConj MyDelta++  Myanti-Delta--
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Decay Xi_cc++sig
+  1.000    MyLambda_c+   pi+           PHSP;
+Enddecay
+CDecay anti-Xi_cc--sig
+#
+#
+Decay MyLambda_c+
+  0.008600000 MyDelta++ K-                                      PHSP;
+  0.010700000 p+      Myanti-K*0                              PHSP;
+  0.025400000 p+      K-      pi+                             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyDelta++
+1.0000    p+  pi+                     PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+#

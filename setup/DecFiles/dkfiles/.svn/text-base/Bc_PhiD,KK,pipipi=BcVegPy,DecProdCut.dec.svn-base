@@ -1,0 +1,45 @@
+# EventType: 14165052
+#
+# Descriptor: [B_c+ -> (D+ -> pi+ pi- pi+) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bc_PhiD,KK,pipipi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible:     T. Hadavizadeh
+# Email: tom.hadavizadeh@physics.ox.ac.uk
+# Date: 20150709
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+
+Alias      MyPhi        phi
+ChargeConj MyPhi        MyPhi
+
+Decay B_c+sig
+  1.000    MyPhi       MyD+       SVS;
+Enddecay
+CDecay B_c-sig
+
+Decay MyD+
+  1.000    pi+        pi-           pi+          PHSP;
+Enddecay
+CDecay MyD-
+
+Decay MyPhi
+  1.000    K+         K-                    VSS;
+Enddecay
+
+
+#
+End
+

@@ -1,0 +1,80 @@
+# EventType: 12667001
+#
+# Descriptor: {[B- -> (D_1(2420)0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+ ) pi-) (tau- -> pi- pi+ pi- nu_tau) anti-nu_tau]cc, [B- -> (D_1(H)0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+ ) pi-) (tau- -> pi- pi+ pi- nu_tau) anti-nu_tau]cc, [B- -> (D*_2(2460)0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+ ) pi-) (tau- -> pi- pi+ pi- nu_tau) anti-nu_tau]cc}
+#
+# NickName: Bu_DststTauNu,Dstpi,D0pi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B- -> D_1(2420)0 tau- anti-nu_tau, B- -> D_1(H)0 tau- anti-nu_tau and B- -> D*_2(2460)0 tau- anti-nu_tau decays, where excited charm forced to D*+ pi- and D* -> D0 pi with D0 -> K pi. Feed-down backgrounds for B2XTauNu analyses.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Donal Hill
+# Email: donal.hill@cern.ch
+# Date: 20130415
+#
+Alias MyD*+       D*+
+Alias MyD*-       D*-
+ChargeConj MyD*+  MyD*-
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias MyD_10         D_10
+Alias Myanti-D_10    anti-D_10
+ChargeConj MyD_10     Myanti-D_10
+Alias MyD'_10         D'_10
+Alias Myanti-D'_10    anti-D'_10
+ChargeConj MyD'_10     Myanti-D'_10
+Alias MyD_2*0        D_2*0
+Alias Myanti-D_2*0   anti-D_2*0
+ChargeConj MyD_2*0     Myanti-D_2*0
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau- MyTau+
+#
+SetLineshapePW MyD_10 MyD*+ pi- 2
+SetLineshapePW Myanti-D_10 MyD*- pi+ 2
+SetLineshapePW D_2*0 D*+ pi- 2
+SetLineshapePW anti-D_2*0 D*- pi+ 2
+#
+Decay B-sig
+  0.0013        MyD_10 MyTau- anti-nu_tau                 ISGW2;
+  0.0020        MyD'_10 MyTau- anti-nu_tau                ISGW2;
+  0.0020        MyD_2*0 MyTau- anti-nu_tau                ISGW2;
+Enddecay
+CDecay B+sig
+#
+Decay MyD_10
+1.000    D*+ pi-                        VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay Myanti-D_10
+#
+Decay MyD'_10
+1.000    D*+ pi-                        VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Myanti-D'_10
+#
+Decay MyD_2*0
+1.000    D*+ pi-                        TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay Myanti-D_2*0
+#
+Decay MyD*+
+1.000        MyD0 pi+                    VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+1.000        K-        pi+                    PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyTau-
+  1.000     pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay MyTau+
+#
+End
+#

@@ -1,0 +1,49 @@
+# EventType: 13114021 
+#
+# Descriptor: [B_s0 -> mu+ mu- mu+ mu-]cc
+#
+# NickName: Bs_mumumumu=NVN,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: the B_s0 -> mu^+ mu^- mu^+ mu^- decay based on MNT-model for 
+#                    B_s0 -> mu^+ mu^- gamma decay
+#                mu        - the scale parameter (in GeV's);
+#                Nf        - number of "effective" flavors (for b-quark Nf=5);
+#                res_swch  - resonant switching parametr:
+#                              = 0 the resonant contribution switched OFF, 
+#                              = 1 the resonant contribution switched ON;
+#                ias       - switching parametr for \alpha_s(M_Z) value:
+#                              = 0 PDG 1sigma minimal alpha_s(M_Z), 
+#                              = 1 PDG average value  alpha_s(M_Z), 
+#                              = 2 PDG 1sigma maximal alpha_s(M_Z).
+#                Wolfenstein parameterization for CKM matrix:
+#                  A 
+#                  lambda 
+#                  barrho
+#                  bareta
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch
+# Date: 20111013
+#
+Define mu 5.0
+Define Nf 5
+Define res_swch 0
+Define ias 1
+Define A 0.88
+Define lambda 0.227
+Define barrho 0.22
+Define bareta 0.34
+#
+Decay B_s0sig
+   1.000   mu+  mu-  mu+  mu-   BQTOLLLL mu Nf res_swch ias A lambda barrho bareta;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+

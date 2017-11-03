@@ -1,0 +1,90 @@
+# EventType: 15246001 
+#
+# Descriptor: [Lambda_b0 -> ( psi(2S) -> (J/psi -> mu+ mu- ) pi+ pi- ) p+ K- ]cc
+#
+# NickName: Lb_JpsipipipK=TightCut 
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to J/psi pi pi pK with intermediate psi(2S), X(3872), etc...
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation() 
+# signal     = generation.SignalPlain 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[Lambda_b0 ==> ^( J/psi(1S) => ^mu+ ^mu- ) ^pi+ ^pi- ^p+ ^K-]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity () ## to be sure ' , 
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack    =  ( GPT > 180 * MeV ) & ( GP  > 3.0 * GeV )   ' , 
+#     'goodTrack    =  inAcc & inEta & fastTrack                   ' ,     
+#     'longLived    =  75 * micrometer < GTIME                     ' , 
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )         ' , 
+#     'goodLb       =  inY & longLived                             ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[Lambda_b0]cc'  : 'goodLb    ' ,
+#     '[K+]cc'         : 'goodTrack ' , 
+#     '[pi+]cc'        : 'goodTrack ' , 
+#     '[p+]cc'         : 'goodTrack & ( GP  >   9 * GeV ) ' , 
+#     '[mu+]cc'        : 'goodTrack & ( GPT > 500 * MeV ) '
+#     }
+#
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GPT/GeV" , 1.0 , 20.0 , 38  )
+# tightCut.YAxis = ( "GY     " , 2.0 ,  4.5 , 10  )
+#
+# EndInsertPythonCode
+#
+# PhysicsWG:   Onia 
+# Tested:      Yes
+# Responsible: Vanya Belyaev 
+# Email:       Ivan.Belyaev@<no-spam>itep.ru
+# Date:        20140420
+# CPUTime:     3min 
+#
+Alias      MyJpsi         J/psi
+ChargeConj MyJpsi        MyJpsi
+#
+Alias      MyPsi2S         psi(2S)
+ChargeConj MyPsi2S       MyPsi2S
+#
+Alias      MyX3872      X_1(3872)
+ChargeConj MyX3872       MyX3872
+#
+Alias      MyRho0          rho0
+ChargeConj MyRho0        MyRho0
+#
+Decay Lambda_b0sig
+   0.500    MyPsi2S              p+ K-        PHSP ;
+   0.250    MyX3872              p+ K-        PHSP ;
+   0.250    MyJpsi       pi+ pi- p+ K-        PHSP ;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyPsi2S
+  1.000     MyJpsi pi+  pi-                  VVPIPI ;
+Enddecay
+#
+Decay MyX3872
+  1.000     MyJpsi     MyRho0                PHSP   ;
+Enddecay
+#
+Decay MyRho0
+  1.000     pi+         pi-                  VSS    ;
+Enddecay
+#
+Decay MyJpsi
+  1.000     mu+         mu-                  PHOTOS VLL ;
+Enddecay
+#
+End
+#

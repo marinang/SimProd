@@ -1,0 +1,25 @@
+# EventType: 15104040
+#
+# Descriptor: [Lambda_b0 -> deuteron p~- pi+ pi-]cc
+#
+# NickName: Lb_dppipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phase space decay, decay products in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Paula Alvarez
+# Email: paula.alvarez@cern.ch
+# Date: 20151215
+#
+Decay Lambda_b0sig
+  1.000    deuteron        anti-p- pi+ pi-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

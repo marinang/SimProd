@@ -1,0 +1,36 @@
+# EventType: 12197046
+# NickName: Bu_DDK,KPiPi,KPiPi=sqDalitz,DecProdCut
+# Descriptor: [B+ -> (D+ -> K- pi+ pi+) (D- -> K+ pi- pi-) K+]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: 
+#   Decay file for B+- -> D+- D-+ K+-
+#   flat in square Dalitz plot
+# EndDocumentation
+# CPUTime: < 1 min
+# 
+# Date:   20140811
+#
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+
+Alias My_D+   D+
+Alias My_D-   D-
+
+ChargeConj My_D- My_D+
+
+Decay My_D-
+  1.0 K+ pi- pi- D_DALITZ;
+Enddecay
+CDecay My_D+
+
+Decay B+sig
+  1.0 My_D+ My_D- K+ FLATSQDALITZ;
+Enddecay
+CDecay B-sig
+
+End

@@ -1,0 +1,64 @@
+# EventType: 27163070
+#
+# Descriptor: [D*(2010)+ -> (D0 -> K- pi+) pi+]cc
+#
+# CPUTime: < 1 min
+#
+# NickName: Dst_D0pi,Kpi=TightCut,FromB
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: (B secondary Background) D0 decays to K- pi+ with a D* tag and tight cuts for D0
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation() 
+# signal     = generation.SignalPlain 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[D*(2010)+ -> ^( D0 => ^K- ^pi+ ) pi+]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY            =  LoKi.GenParticles.Rapidity () ## to be sure ' , 
+#     'inAcc         =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta         =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack     =  ( GPT > 220 * MeV ) & ( GP  > 3.0 * GeV )   ' , 
+#     'goodTrack     =  inAcc & inEta & fastTrack                   ' ,     
+#     'longLived     =  75 * micrometer < GTIME                     ' , 
+#     'inY           =  in_range ( 1.9   , GY     , 4.6   )         ' , 
+#     'goodD0        =  inY & longLived & ( GPT > 0.9 * GeV )       ' ,
+#     'Bancestors    =  GNINTREE ( GBEAUTY , HepMC.ancestors )      ' , 
+#     'FromB         =  0 < Bancestors                              '
+# ]
+# tightCut.Cuts     =    {
+#     '[D0]cc'  : 'goodD0 & FromB' ,
+#     '[K+]cc'  : 'goodTrack ' , 
+#     '[pi+]cc' : 'goodTrack '
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Kevin Maguire
+# Email:       Kevin.Maguire@<no-spam>cern.ch
+# Date: 20150529
+#
+Alias      MyD0     D0
+Alias      MyantiD0 anti-D0
+ChargeConj MyD0     MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.0   K-  pi+      PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End
+

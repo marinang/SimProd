@@ -1,0 +1,30 @@
+# EventType: 15134020
+# 
+# Descriptor: [Lambda_b0 -> (J/psi(1S) -> p+ p~-) p+ K-]cc
+# 
+# NickName: Lb_JpsipK,pp=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Giovanni Cavallero
+# Email: gcavalle@cern.ch
+# Date: 20160121
+# CPUTime: 2 min
+#
+Alias MyJpsi J/psi
+ChargeConj MyJpsi MyJpsi
+#
+Decay Lambda_b0sig
+  1.000 MyJpsi p+ K- PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJpsi
+  1.000 p+ anti-p- PHOTOS VLL;
+Enddecay
+End

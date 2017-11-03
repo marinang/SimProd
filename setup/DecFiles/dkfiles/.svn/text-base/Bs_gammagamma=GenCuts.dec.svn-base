@@ -1,0 +1,43 @@
+# EventType: 13100212 
+#
+# Descriptor: {[B_s0 -> gamma gamma]cc}
+#
+# NickName: Bs_gammagamma=GenCuts
+#
+# Cuts: LoKi__GenCutTool/TotCut
+#
+# InsertPythonCode:
+#
+# from Configurables import Generation, SignalRepeatedHadronization, LoKi__GenCutTool
+# from GaudiKernel.SystemOfUnits import MeV, mm
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# 
+# gen.addTool( SignalRepeatedHadronization )
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TotCut' )
+#
+# TotCut = gen.SignalRepeatedHadronization.TotCut
+# TotCut.Decay     = '[ B_s0 -> ^gamma ^gamma ]CC'
+# TotCut.Cuts      =    {
+#     'gamma'    : ' gammaCut ' }
+# TotCut.Preambulo += [
+#     'AccCut     = in_range ( 0.005 , GTHETA , 0.400 )' ,
+#     'gammaCut = ( GPT > 700 * MeV ) & ( GP > 5500 * MeV ) & AccCut' ]
+# EndInsertPythonCode
+#
+# Documentation: Decay file for Bs -> gamma gamma 
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Sean Benson
+# Email:  sean.benson@cern.ch
+# Date: 20141020
+# Date: 20141020
+# CPUTime:< 1 min
+#
+Decay B_s0sig
+	1.000	gamma	gamma	PHSP;
+Enddecay
+CDecay anti-B_s0sig
+End

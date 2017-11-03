@@ -1,0 +1,34 @@
+# EventType: 13164062
+#
+# Descriptor: {[[B_s0]nos => K- pi+ (D~0 -> K+ pi-)]cc, [[B_s0]os => K+ pi- (D0 -> K- pi+)]cc}
+#
+# NickName: Bs_D0Kpi,Kpi=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B_s0 decay with flat square Dalitz model, daughters in acceptance 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Daniel Craik 
+# Email: dcraik
+# Date: 20130521
+#
+
+Alias MyD0       D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+
+
+Decay B_s0sig
+1.0   Myanti-D0 K- pi+              FLATSQDALITZ;
+Enddecay
+CDecay anti-B_s0sig
+
+Decay MyD0
+1.0   K-  pi+                        PHSP;
+Enddecay
+CDecay Myanti-D0
+
+End

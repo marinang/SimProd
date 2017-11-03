@@ -1,0 +1,54 @@
+# EventType: 12265025
+# Descriptor: [B- -> {(D_1(2420)0 -> (D*+ -> (D0 -> K+ pi-) pi+) pi-), (D_1(2420)0 -> ((D0 -> K- pi+) pi- pi+)) } K-]cc
+#
+# NickName: Bu_D10K,Kpi=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+# 
+# Documentation: 
+#   Decay file for B+- -> D_1^0 K+-, D_10 -> Kpipipi
+# EndDocumentation
+# 
+# Date:   20111010
+#
+# Responsible: Justin Garofoli
+# Email: justing@physics.syr.edu
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+Alias My_D10  D_10
+Alias My_anti-D10  anti-D_10
+Alias My_D*+  D*+
+Alias My_D*-  D*-
+
+ChargeConj My_anti-D0 My_D0
+ChargeConj My_D*- My_D*+
+ChargeConj My_D10 My_anti-D10
+
+Decay B+sig
+  1.0 My_D10 K+ SVS;
+Enddecay
+CDecay B-sig
+
+Decay My_D0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay My_D*+
+  1.0 My_D0 pi+ VSS;
+Enddecay
+CDecay My_D*+
+
+Decay My_D10
+0.70    My_D*+ pi-                        VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.30    My_D0 pi- pi+             PHSP;
+Enddecay
+CDecay My_anti-D10
+
+End

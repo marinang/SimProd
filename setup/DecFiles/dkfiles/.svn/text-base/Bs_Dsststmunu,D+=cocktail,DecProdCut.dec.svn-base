@@ -1,0 +1,66 @@
+# EventType: 13874400
+#
+# Descriptor: {[[B_s0]nos ==> nu_mu mu+ (D_s1(2536)- -> (D*(2010)- -> (D- -> K+ pi- pi- pi0) pi0) anti-K0)]cc, [[B_s0]os => anti_nu_mu mu- (D_s1(2536)+ ->(D*(2010)+ -> (D+ -> K- pi+ pi+ pi0) pi0) K0)] cc}
+#
+# NickName: Bs_Dsststmunu,D+=cocktail,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Sum of Bs -> Ds** mu nu modes. Ds** -> D+ X, D+ -> K pi pi.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Scott Ely
+# Email: seely@syr.edu
+# Date: 20150303
+#
+Alias           MyD_s2*+      D_s2*+
+Alias           MyD_s2*-      D_s2*-
+ChargeConj      MyD_s2*+      MyD_s2*-
+#
+Alias           MyD'_s1+      D'_s1+
+Alias           MyD'_s1-      D'_s1-
+ChargeConj      MyD'_s1+      MyD'_s1-
+#
+Alias           MyD+          D+
+Alias           MyD-          D-
+ChargeConj      MyD+          MyD-
+#
+Alias           MyD*+         D*+
+Alias           MyD*-         D*-
+ChargeConj      MyD*+         MyD*-
+#
+Decay B_s0sig
+ 0.5870  MyD'_s1-   mu+       nu_mu         PHOTOS ISGW2;
+ 0.2365  MyD_s2*-   mu+       nu_mu         PHOTOS ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD'_s1-
+ 0.3385  MyD*-     anti-K0                VVS_PWAVE 0.0 0.0 0.0 0.0 1.0 0.0;
+ 0.028      MyD-   pi+   K-                  PHSP;
+Enddecay
+CDecay MyD'_s1+
+#
+Decay MyD*+
+ 0.307   MyD+   pi0                       VSS;
+ 0.016   MyD+   gamma                     PHOTOS VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD+
+ 0.00913    K-     pi+   pi+               D_DALITZ;
+ 0.05910     K-     pi+   pi+   pi0         PHSP;
+Enddecay
+CDecay MyD-
+#
+Decay MyD_s2*+
+  0.03385      MyD*+  K0                   TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD_s2*-
+#
+End
+
+

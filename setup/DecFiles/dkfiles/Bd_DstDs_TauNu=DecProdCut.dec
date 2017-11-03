@@ -1,0 +1,52 @@
+# EventType: 11836001
+#
+# Descriptor: {[B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (D_s+ -> nu_tau (tau+ -> pi+ pi+ pi- anti-nu_tau))]cc, [B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (D_s*+ -> gamma (D_s+ -> nu_tau (tau+ -> pi+ pi+ pi- anti-nu_tau)))]cc, [B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (D_s*+ -> pi0 (D_s+ -> nu_tau (tau+ -> pi+ pi+ pi- anti-nu_tau)))]cc}
+#
+# NickName: Bd_DstDs_TauNu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd to D* Ds, with the Ds to tau nu final state, and tau to 3pi nu final state. Background Channel.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Anne Keune, Alessandra Borgia
+# Email: Anne.Keune@cern.ch, aborgia@syr.edu
+# Date: 20110401
+#
+
+Decay B0sig
+  0.308       D*-    D_s+               SVS;
+  0.692       D*-    D_s*+              SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B0sig
+#
+Decay D*+
+  1.000     D0      pi+                 VSS;
+Enddecay
+CDecay D*-
+#
+Decay D0
+  1.0000      K-     pi+                PHSP;
+Enddecay
+CDecay anti-D0
+#   
+Decay D_s+
+  1.000     tau+      nu_tau            SLN;
+Enddecay
+CDecay D_s-
+# 
+Decay tau-
+  1.000     pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay tau+
+#  
+Decay D_s*+
+  0.942     D_s+      gamma             VSP_PWAVE;
+  0.058     D_s+      pi0               VSS;
+Enddecay
+CDecay D_s*-
+#  
+End
+#

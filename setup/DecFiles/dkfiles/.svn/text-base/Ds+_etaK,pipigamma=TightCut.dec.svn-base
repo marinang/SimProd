@@ -1,0 +1,49 @@
+# EventType: 23103270
+#
+# Descriptor: [D_s+ -> ( eta -> pi+ pi- gamma) K+]cc
+#
+# NickName: Ds+_etaK,pipigamma=TightCut 
+#
+# Cuts: LoKi::GenCutTool/TightCut         
+#                                        
+# InsertPythonCode:                       
+#                                         
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation()                         
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )  
+# tightCut = gen.SignalPlain.TightCut        
+# tightCut.Decay     = '^[ D_s+ -> ( eta -> ^pi+ ^pi- ^gamma ) ^K+]CC'  
+# tightCut.Cuts      =    {                                  
+#     '[pi+]cc'    : ' inAcc & dauCuts',                     
+#     '[K+]cc'     : ' inAcc & dauCuts',                    
+#     '[D_s+]cc'   : 'Dcuts' }                               
+# tightCut.Preambulo += [                                  
+#     'inAcc = in_range ( 0.005, GTHETA, 0.400 ) ' ,       
+#     'dauCuts = ( (GPT > 200 * MeV) & ( GP > 600 * MeV))',
+#     'Dcuts = (GPT > 1000 * MeV)' ]                  
+# EndInsertPythonCode  
+#   
+#
+# Documentation: Forces a D_s+ to ( eta -> pi+ pi- gamma ) K+ with generator level cuts 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Simone Stracka
+# Email: simone.stracka@cern.ch
+# Date: 20150107
+#
+Alias       my_eta   eta
+ChargeConj  my_eta   my_eta
+#
+Decay  D_s+sig
+  1.000     my_eta   K+    PHOTOS PHSP ;
+Enddecay
+CDecay D_s-sig
+#
+Decay  my_eta
+  1.000     pi+      pi-    gamma  PHOTOS PHSP ;
+Enddecay
+#
+End

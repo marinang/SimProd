@@ -1,0 +1,78 @@
+# EventType: 11196400
+#
+# Descriptor: { [B0 -> (Ds(*)+ -> tau+ nu_tau)   (D(*)- -> pi+ pi- pi- pi0)]cc}
+#
+# NickName: Bd_DsD,taunu3pipi0=DecProdCut,tightcut
+#
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+
+#
+# Documentation: Bd to Ds(*)D(*), with Ds to tau nu and D to pipipipi0 final state, and also tau forced to pipipi nu final state. Background channel for Bs to tau tau.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Justine Serrano
+# Email: serrano@cppm.in2p3.fr
+# Date: 20130315
+#
+Alias 		MyD_s+ 		D_s+
+Alias		MyD_s-		D_s-
+ChargeConj	MyD_s+		MyD_s-
+
+Alias 		MyD_s*+ 	D_s*+
+Alias		MyD_s*-		D_s*-
+ChargeConj	MyD_s*+		MyD_s*-
+
+Alias 		MyD*+ 		D*+
+Alias		MyD*-		D*-
+ChargeConj	MyD*+		MyD*-
+
+Alias 		MyD+ 		D+
+Alias		MyD-		D-
+ChargeConj	MyD+		MyD-
+
+Alias         Mytau+  tau+
+Alias         Mytau-  tau-
+ChargeConj    Mytau+  Mytau-
+#
+
+#
+Decay B0sig
+  0.1786   	MyD-   	MyD_s+                  PHSP;
+  0.1984   	MyD*-  	MyD_s+                  SVS;
+  0.1835   	MyD_s*+ MyD-                    SVS;
+  0.4390   	MyD_s*+ MyD*-                 	SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s*+
+  0.942		      MyD_s+  gamma		  VSP_PWAVE;
+  0.058         MyD_s+  pi0 			VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s+
+  1.00       Mytau+   nu_tau                    SLN;
+Enddecay
+CDecay MyD_s-
+#
+Decay Mytau-
+  1.00      pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay Mytau+
+#
+Decay MyD*+
+  1.00          MyD+     pi0			VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD+
+ 1.0   pi+  pi+  pi-  pi0              PHSP;
+Enddecay
+CDecay MyD-
+#
+End
+#

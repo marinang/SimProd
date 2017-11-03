@@ -1,0 +1,26 @@
+# EventType: 15522012
+# 
+# Descriptor: [Lambda_b0 -> p+ e- anti-nu_e]cc 
+# 
+# NickName: Lb_penu=DecProdCut,LQCD
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for Lb->penu using LQCD form factor predictions (form factor from 15512014).
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Titus Mombächer
+# Email: titus.mombacher@cern.ch
+# Date: 20170421
+# CPUTime: <1 min
+#
+#
+Decay Lambda_b0sig
+  1.000 p+ e- anti-nu_e        PHOTOS Lb2plnuLQCD  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

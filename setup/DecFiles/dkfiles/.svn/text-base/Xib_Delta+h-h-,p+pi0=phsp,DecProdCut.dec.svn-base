@@ -1,0 +1,45 @@
+# EventType: 16303430
+#
+# Descriptor: [Xi_b-  -> (Delta+ -> p+ pi0) K- K-]cc
+#
+# NickName: Xib_Delta+h-h-,p+pi0=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Delta(1232)+ forced to p+ pi0
+# decay products in acceptance
+# EndDocumentation
+#
+# CPUTime: 2 mins
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Abhijit Mathad
+# Email: amathad@cern.ch
+# Date: 20150707
+#
+#
+Alias      MyDelta+       Delta+
+Alias      MyDelta-       anti-Delta-
+ChargeConj MyDelta+       MyDelta-
+#
+Alias      Mypi0        pi0
+ChargeConj Mypi0        Mypi0
+#
+Decay Xi_b-sig
+  1.000        MyDelta+     K-      K-        PHSP;
+  1.000        MyDelta+     K-      pi-        PHSP;
+  1.000        MyDelta+     pi-     pi-        PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyDelta+
+  1.000        p+      Mypi0                PHSP;
+Enddecay
+CDecay MyDelta-
+#
+Decay Mypi0
+  1.000        gamma      gamma           PHSP;
+Enddecay
+#
+End

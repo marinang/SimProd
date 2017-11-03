@@ -1,0 +1,31 @@
+# $Id:12133021 $
+#
+# EventType: 12133021
+# NickName: Bu_etacK,pp=DecProdCut
+# Descriptor: [B+ -> K+ (etac -> p+ p~-)]cc
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation:  B+-> K+- etac (-> p+ p~-)
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Paul Sail 
+# Email: Paul Sail <p.sail@physics.gla.ac.uk>
+# Date: 20111112
+#
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+#
+Decay B+sig
+  1.000 Myetac K+ PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Myetac
+  1.000 p+ anti-p- PHSP;
+Enddecay
+#
+End
+#

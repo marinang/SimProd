@@ -1,0 +1,39 @@
+# EventType: 12167192
+#
+# Descriptor: [B+ -> (D~0 -> (K_S0 -> pi+ pi-) pi+ pi-) (K_S0 -> pi+ pi-) K+ ]cc
+#
+# NickName: Bu_D0KSK,KSpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ forced to D0 K_S0 K+, D0 forced to K_S0 pi+ pi-
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Jackson Smith
+# Email: jackson.smith@cern.ch
+# Date: 20150908
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias      MyK_S0  K_S0
+ChargeConj MyK_S0  MyK_S0
+#
+Decay B+sig
+1.000    Myanti-D0   MyK_S0   K+            PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D0
+1.000    MyK_S0     pi+     pi-             PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay MyK_S0
+1.0000  pi+  pi-                            PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,42 @@
+# EventType: 13144043
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu-) K+ K-]
+#
+# NickName: Bs_JpsiKK,mm=XLL,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: 3 min
+#
+# Documentation: B_s0 decays to Jpsi(to mu+ mu-) and K+ K- with the custom XLL generator
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalRepeatedHadronization.setProp('MaxNumberOfRepetitions', 5000)
+# EndInsertPythonCode
+#
+
+
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email: biplab.dey@cern.ch
+# Date: 20161121
+#
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+#
+Decay B_s0sig
+  1.0000   MyJ/psi K+ K-  XLL 1;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.0000   mu+   mu-    PHOTOS    XLL;
+Enddecay
+#
+End
+#

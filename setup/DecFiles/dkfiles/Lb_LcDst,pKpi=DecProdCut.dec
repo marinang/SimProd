@@ -1,0 +1,82 @@
+# EventType: 15196010
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) (D*(2010)- -> pi- (D~0 -> K+ pi-))]cc
+#
+# NickName: Lb_LcDst,pKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb decay to LcD*  with Lc to pKpi, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Antje Moedden
+# Email: antje.modden@cern.ch
+# Date: 20170420
+#
+
+# -------------------------
+# DEFINE THE Lc+ AND Lc~-
+# -------------------------
+
+Alias      MyLambda_c+       Lambda_c+
+Alias      Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+       Myanti-Lambda_c-
+
+# -------------------------
+# THEN DEFINE THE D*+ AND D*-
+# -------------------------
+
+Alias      MyD*-  D*-
+Alias      MyD*+  D*+
+ChargeConj MyD*-  MyD*+
+
+
+# -------------------------
+# THEN DEFINE THE D0 AND D~0
+# -------------------------
+
+Alias      MyD0        D0                                   
+Alias      Myanti-D0   anti-D0    
+ChargeConj MyD0        Myanti-D0
+
+# ---------------
+# DECAY OF THE Lb
+# ---------------
+
+Decay Lambda_b0sig
+  1.000       MyLambda_c+ MyD*-     PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+# ---------------
+# DECAY OF THE Lc
+# ---------------
+
+Decay MyLambda_c+
+  1.000  p+      K-      pi+   PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+# ---------------
+# DECAY OF THE D*-
+# ---------------
+
+Decay MyD*-
+  1.000 Myanti-D0 pi-          VSS;
+Enddecay
+CDecay MyD*+
+
+# ---------------
+# DECAY OF THE D~0
+# ---------------
+
+Decay Myanti-D0
+  1.000  K+ pi-                PHSP;
+Enddecay
+CDecay MyD0
+#
+End
+

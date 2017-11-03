@@ -1,0 +1,106 @@
+# EventType: 13576300
+#
+# Descriptor: {[[B_s0]nos => (D_s- => (KS0 -> pi+ pi-) K- pi+ pi-) nu_mu mu+]cc, [[B_s0]os => (D_s+ => (KS0 -> pi+ pi-) K+ pi- pi+) anti_nu_mu mu-]cc}
+#
+# NickName: Bs_Dsmunu,KSKpipi=DecProdCut,cocktail,hqet2,DsmuInAcc
+#
+# Cuts: ListOfDaughtersInLHCb
+#
+# ExtraOptions: DsmuInAcc
+#
+# Documentation: Sum of D(*(*))_s mu nu_mu and D(*(*))_s tau nu_tau, includes resonances in Ds decay
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min 
+# Responsible: Stefanie Reichert
+# Email: stefanie.reichert@cern.ch
+# Date: 20141212
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      MyD_s1+    D_s1+
+Alias      MyD_s1-    D_s1-
+ChargeConj MyD_s1-    MyD_s1+
+#
+Alias      MyD'_s1+   D'_s1+
+Alias      MyD'_s1-   D'_s1-
+ChargeConj MyD'_s1-   MyD'_s1+
+#
+Alias      MyD_s0*+   D_s0*+
+Alias      MyD_s0*-   D_s0*-
+ChargeConj MyD_s0*+   MyD_s0*-
+#
+Alias      Mytau+     tau+
+Alias      Mytau-     tau-
+ChargeConj Mytau+     Mytau-
+#
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+#
+Decay B_s0sig
+  #such that the Ds*/Ds = 2.42 and the Ds**/(AllDs) = 0.172
+  0.0210   MyD_s-     mu+    nu_mu       PHOTOS  HQET2 1.17 1.074;
+  0.0510   MyD_s*-    mu+    nu_mu       PHOTOS  HQET2 1.16 1.37 0.845 0.921;
+  0.0070   MyD_s0*-   mu+    nu_mu       PHOTOS  ISGW2;
+  0.0040   MyD_s1-    mu+    nu_mu       PHOTOS  ISGW2;
+  0.0040   MyD'_s1-   mu+    nu_mu       PHOTOS  ISGW2;
+  # correct for the fact that we force tau -> mu anti_nu_mu nu_tau (17.3%)
+  0.00138  MyD_s-     Mytau+   nu_tau    PHOTOS ISGW2;
+  0.00277  MyD_s*-    Mytau+   nu_tau    PHOTOS ISGW2;
+  0.00031  MyD'_s1-   Mytau+   nu_tau    PHOTOS ISGW2;
+  0.00031  MyD_s0*-   Mytau+   nu_tau    PHOTOS ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+  1.000   myK_S0   K+    pi-     pi+          PHOTOS PHSP;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.942   MyD_s+  gamma               PHOTOS VSP_PWAVE;
+  0.058   MyD_s+  pi0                 PHOTOS VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay myK_S0
+1.000     pi+  pi-                      PHSP;
+Enddecay
+#
+Decay MyD_s1+
+  0.71   MyD_s*+ pi0                  PHOTOS PHSP;
+  0.033  MyD_s+  pi+ pi-              PHOTOS PHSP;
+  0.017  MyD_s+  pi0 pi0              PHOTOS PHSP;
+Enddecay
+CDecay MyD_s1-
+#
+Decay MyD_s0*+
+  0.900   MyD_s+   pi0                 PHOTOS PHSP;
+  0.050   MyD_s*+  gamma               PHOTOS PHSP;
+  0.033   MyD_s+   pi+ pi-             PHOTOS PHSP;
+  0.017   MyD_s+   pi0 pi0             PHOTOS PHSP;
+Enddecay
+CDecay MyD_s0*-
+#
+Decay MyD'_s1+
+  0.480   MyD_s0*+ pi0                PHOTOS PHSP;
+  0.180   MyD_s+   gamma              PHOTOS PHSP;
+  0.043   MyD_s+   pi+ pi-            PHOTOS PHSP;
+  0.022   MyD_s+   pi0 pi0            PHOTOS PHSP;  
+Enddecay
+CDecay MyD'_s1-
+#
+Decay Mytau+
+  0.1731     mu+  nu_mu   anti-nu_tau  PHOTOS  TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

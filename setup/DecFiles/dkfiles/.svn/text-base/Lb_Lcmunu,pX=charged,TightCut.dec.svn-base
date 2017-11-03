@@ -1,0 +1,160 @@
+# EventType: 15874400
+#
+# Descriptor: [ Lambda_b0 ==>  (Lambda_c+ ==> p+ K- pi+)  mu- anti_nu_mu   ]cc
+#
+# NickName: Lb_Lcmunu,pX=charged,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 2 min
+#
+# Documentation: Lb -> Lc mu nu_mu with Lc->p X where X  includes at least one charged track.  Includes acceptance, P and PT cuts on the p and mu. 
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut  = Generation().SignalPlain.TightCut
+#tightCut.Decay = "[ Lambda_b0 ==>  (Lambda_c+ ==> ^p+ {X} {X} {X} {X})  ^mu- nu_mu~ {X} {X} {X} {X}  ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV",
+# "pmuPX = GCHILD(GPX,('p+' == GABSID )) + GCHILD(GPX,('mu-' == GABSID))",
+# "pmuPY = GCHILD(GPY,('p+' == GABSID )) + GCHILD(GPY,('mu-' == GABSID))",
+# "pmuPT2 = pmuPX * pmuPX + pmuPY * pmuPY"
+#  ]
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 950 * MeV ) & (GP > 14600 * MeV)" ,
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GPT > 1450 * MeV) &  (GP > 4900 * MeV) ",
+#'[Lambda_b0]cc' : "pmuPT2 > 1960000"
+#   }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: William Sutcliffe
+# Email: william.lawrence.sutcliffe@cern.ch
+# Date:   20101230
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Alias      MyK*-          K*-
+Alias      MyK*+          K*+
+ChargeConj MyK*-          MyK*+
+#
+Alias      Myf_0          f_0
+#
+Alias      Myphi          phi
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+#
+Alias        MyDelta+           Delta+
+Alias        Myanti-Delta-    anti-Delta-
+ChargeConj   MyDelta+         Myanti-Delta-
+
+Alias        MyDelta0           Delta0
+Alias        Myanti-Delta0    anti-Delta0
+ChargeConj   MyDelta0         Myanti-Delta0
+#
+Decay Lambda_b0sig
+  0.07300    MyLambda_c+        mu-  anti-nu_mu     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+  #tau mode
+  0.00341    MyLambda_c+        Mytau- anti-nu_tau   PHOTOS Lb2Baryonlnu 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+# BR = 1
+Decay MyLambda_c+
+# Decays with at least one track:
+# Lc decays from the PDG:
+  0.02800         p+      K-      pi+          PHSP;
+  0.016         p+      Myanti-K*0           PHSP;
+  0.00860         Delta++ K-                   PHSP;
+  0.018         MyLambda(1520)0 pi+          PHSP;
+  0.026         p+ anti-K0 pi+ pi-           PHSP;  
+  0.036         p+ K- pi+ pi0           PHSP;  
+  0.011         p+ MyK*- pi+           PHSP;  
+  0.0011         p+ K- pi+ pi+ pi-           PHSP;  
+  0.008         p+ K- pi+ pi0 pi0           PHSP;  
+  0.0028        p+ Myf_0                  PHSP;
+  0.0007        p+ pi+ pi-                  PHSP;
+  0.0018        p+ pi+ pi- pi+ pi-          PHSP;
+  0.00082        p+ Myphi                   PHSP;
+  0.00035        p+ K+ K-                   PHSP;
+
+# Other Lc Decays in DECAY.DEC
+  0.00600 e+ nu_e p+ pi- PYTHIA 22;
+  0.00600 mu+ nu_mu p+ pi- PYTHIA 22;
+  0.008600000 Delta++ K- PYTHIA 0;
+  0.02500 Delta++ K*- PYTHIA 0;
+  0.00100 Delta++ pi- PYTHIA 0;
+  0.00100 Delta++ rho- PYTHIA 0;
+  0.00200 p+ rho0 PYTHIA 0;
+  0.00200 p+ omega PYTHIA 0;
+  0.0033 MyDelta+ anti-K*0 PYTHIA 0;
+  0.00067 MyDelta+ rho0 PYTHIA 0;
+  0.00067 MyDelta+ omega PYTHIA 0;
+  0.00100 MyDelta0 pi+ PYTHIA 0;
+  0.00100 MyDelta0 rho+ PYTHIA 0;
+  
+   
+  
+Enddecay
+CDecay Myanti-Lambda_c-
+# BR = 1
+#
+# 
+Decay Mytau-
+  1.0       mu-  anti-nu_mu   nu_tau        TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+Decay MyK*0
+  1.0      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK*-
+  1.0      K-  pi0                          VSS;
+Enddecay
+CDecay MyK*+
+#
+Decay Myphi
+  1.0       K+ K- VSS;
+Enddecay
+#
+Decay Myf_0
+  1.0       pi+ pi- PHSP;
+Enddecay
+#
+Decay MyLambda(1520)0
+  1.0   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+#
+Decay MyDelta+
+  1.0    p+   pi0              PHSP;
+Enddecay
+CDecay Myanti-Delta-
+#
+Decay MyDelta0
+  1.0    p+   pi-              PHSP;
+Enddecay
+CDecay Myanti-Delta0
+#
+End

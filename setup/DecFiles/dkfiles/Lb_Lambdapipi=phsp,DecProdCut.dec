@@ -1,0 +1,34 @@
+# EventType: 15104121
+#
+# Descriptor: [Lambda_b0  -> (Lambda0 -> p+ pi-) pi+ pi-]cc
+#
+# NickName: Lb_Lambdapipi=phsp,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Non resonant, Lambda0 forced into p pi-, 
+# decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Rafael Coutinho
+# Email: rsilvaco@cern.ch
+# Date: 20121207
+#
+Alias      MyLambda     Lambda0
+Alias      MyantiLambda anti-Lambda0
+ChargeConj MyLambda     MyantiLambda
+#
+Decay Lambda_b0sig
+  1.000        MyLambda     pi+      pi-        PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda
+  1.000        p+      pi-                PHSP;
+Enddecay
+CDecay MyantiLambda
+#
+End
+

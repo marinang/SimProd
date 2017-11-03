@@ -1,0 +1,50 @@
+# EventType: 13246105
+#
+# Descriptor: [B_s0 => J/psi(1S) KS0 K+ pi-]cc
+#
+# NickName: Bs_JpsiKSKpi,mm=DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Bs -> Jpsi KS K+ pi-, direct and via intermediate eta resonance B_s0 => J/psi(1S)  (eta' -> K_S0 K+ pi-)
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: J Wicht
+# Email: jean.wicht@cern.ch
+# Date: 20161108
+#
+Alias		my_K_S0		K_S0
+ChargeConj	my_K_S0		my_K_S0
+
+Alias      	my_J/psi  	J/psi
+ChargeConj 	my_J/psi  	my_J/psi
+
+Alias       my_eta'      eta'
+ChargeConj  my_eta'      my_eta'
+#
+Decay B_s0sig
+0.5				my_J/psi		my_K_S0			pi-		    K+  		PHSP;
+0.5				my_J/psi		my_eta'                            		PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+#
+Decay my_K_S0
+1.0				pi+			    pi-			                            PHSP;
+Enddecay
+#
+Decay my_J/psi
+1.0   		mu+			    mu-    			                        VLL;
+Enddecay
+#
+Decay my_eta'
+1.0   		my_K_S0			K+              pi-                      PHSP;
+Enddecay
+#
+End 
+

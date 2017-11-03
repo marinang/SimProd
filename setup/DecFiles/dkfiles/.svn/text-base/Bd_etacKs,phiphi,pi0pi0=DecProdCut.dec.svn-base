@@ -1,0 +1,46 @@
+# EventType: 11164322
+#
+# Descriptor: [B0 -> (eta_c -> (phi -> K+ K-) (phi -> K+ K-) ) (K_S0 -> pi0 pi0)]cc
+#
+# NickName: Bd_etacKs,phiphi,pi0pi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd -> etac( -> phi phi ) Ks, with Ks decay forced to neutral pions
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1min
+# Responsible: Albert Puig
+# Email: albert.puigv@epfl.ch
+# Date: 20141020
+#
+
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+
+Decay B0sig
+  1.000   Myetac      MyKs         PHSP;
+Enddecay
+CDecay anti-B0sig
+
+Decay Myetac
+  1.000 MyPhi MyPhi PHSP;
+Enddecay
+
+Decay MyPhi
+  1.000   K+         K-                  VSS;
+Enddecay
+
+Decay MyKs
+  1.000        pi0      pi0              PHSP;
+Enddecay
+
+End

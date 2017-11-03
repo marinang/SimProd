@@ -1,0 +1,65 @@
+# EventType: 40112062
+#
+# Descriptor: (A0 -> e- mu+) (A0 -> e+ mu-)
+#
+# NickName: A1_emu,mA=20GeV,tA=0ps,Anarrow
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/LeptonsFromA1InAcceptance
+#
+#
+# InsertPythonCode:                                                                          
+# from Configurables import Generation                                                            
+# from Gaudi.Configuration import *
+# Generation().PileUpTool = "FixedLuminosityForRareProcess"
+# importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+# from Configurables import Special, Pythia8Production
+# Generation().addTool( Special )
+# Generation().Special.addTool( Pythia8Production )
+# ## Pythia8 production commands                                                                            
+# Generation().Special.Pythia8Production.Commands += [
+#                                                     "SpaceShower:rapidityOrder = off" # pT ordering
+#                                                     ,"Higgs:useBSM = on" # Switch Higgs BSM on
+#                                                     ,"HiggsBSM:allA3 = on" # Switch H_30 (A0) production on
+#                                                     ,"36:mWidth = 1.e-20" #width in GeV
+#                                                     ,"36:m0 = 20.0" #mass in GeV
+#                                                     ,"36:doForceWidth = true"
+#                                                     ,"36:doExternalDecay = true"
+#                                                     ,"PartonLevel:FSR=on" # FSR by PYTHIA8 (NOT PHOTOS)
+#                                                     ]
+#
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "LeptonsFromA1InAcceptance" )
+# tracksInAcc = Generation().LeptonsFromA1InAcceptance
+# tracksInAcc.Code = " count ( isGoodA1 ) > 0 "
+# ### - HepMC::IteratorRange::descendants   4
+# tracksInAcc.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#     , "isA1           = ( 'H_30' == GID )"
+#     , "isGoodDaughterMu = ( ( ~GVEV ) & ( GTHETA < 400.0*mrad ) & ( 'mu+' == GABSID ) )"
+#     , "isGoodDaughterE = ( ( ~GVEV ) & ( GTHETA < 400.0*mrad ) & ( 'e-' == GABSID ) )"
+#     , "isGoodA1 = ( isA1 & ( GNINTREE( isGoodDaughterMu, 4 ) ==1 ) & ( GNINTREE( isGoodDaughterE, 4 ) ==1 ) )"
+#     ]
+# EndInsertPythonCode
+#
+# ParticleValue: "H_30 89 36 0.0   20.0 1e-20   A0 36 0.0e+00"
+#
+# Documentation: A1->emu. Simulated using Pythia's H_30 particle redefined for our needs.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date: 20160927
+# CPUTime: < 1 min
+#
+#                                                                                                                                
+Decay A0
+0.500      mu+      e-       PHSP;
+0.500      mu-      e+       PHSP;
+Enddecay
+#
+End
+#
+

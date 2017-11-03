@@ -1,0 +1,32 @@
+# EventType: 13114005 
+#
+# Descriptor: [B_s0 -> (phi -> K+ K-) mu+ mu-]cc
+#
+# NickName: Bs_phimumu=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: the B_s0 -> (phi -> K+ K-) mu^+ mu^- decay in the phase space approach 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch
+# Date: 20111013
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_s0sig
+   1.000   MyPhi  mu+  mu-   PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 PHSP;
+Enddecay
+#
+End
+

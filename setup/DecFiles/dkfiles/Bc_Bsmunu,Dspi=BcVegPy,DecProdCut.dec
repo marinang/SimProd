@@ -1,0 +1,45 @@
+# EventType: 14575010
+#
+# Descriptor: [B_c+ -> ([B_s0]nos -> (D_s- => K+ K- pi-) pi+, [B_s0]os -> (D_s+ -> K+ K- pi+) pi-) anti-nu_mu mu+]cc
+#
+# NickName: Bc_Bsmunu,Dspi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to Bs and mu nu with phase space model, using BcVegPy, with BcDaughtersInLHCb.  
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min 
+# Responsible: John Ronayne
+# Email: john.william.ronayne@cern.ch
+# Date: 20150408
+
+Alias      MyBs       B_s0
+Alias      Myanti-Bs  anti-B_s0
+ChargeConj Myanti-Bs  MyBs
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+
+#
+Decay B_c+sig
+  1.000     MyBs   mu+ anti-nu_mu            PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyBs
+  1.000     MyD_s-     pi+      PHSP;
+Enddecay
+CDecay Myanti-Bs
+#
+Decay MyD_s-
+  1.000     K+    K-    pi-                D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+End
+#

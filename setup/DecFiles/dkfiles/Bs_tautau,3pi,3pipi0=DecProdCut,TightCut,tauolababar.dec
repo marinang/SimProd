@@ -1,0 +1,60 @@
+# EventType: 13100401
+#
+# Descriptor: [B_s0 -> (tau+ -> pi+ pi- pi+ pi0 anti-nu_tau) (tau- -> pi- pi+ pi- nu_tau)]cc
+#
+# NickName: Bs_tautau,3pi,3pipi0=DecProdCut,TightCut,tauolababar
+#
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+#
+# Documentation: Bs decay to 2 tau leptons with a phasespace model.
+# One tau decays into 3 charged pion and a pi0  
+# One tau decays in the 3-prong charged pion mode using the Tauola BaBar model.
+# All final-state products in the acceptance.
+# Same as 13606400, but with different tau decay model
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Kristof De Bruyn
+# Email: debruyn@cppm.in2p3.fr
+# Date: 20161025
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         Mytau1+  tau+
+Alias         Mytau1-  tau-
+ChargeConj    Mytau1+  Mytau1-
+Alias         Mytau2+  tau+
+Alias         Mytau2-  tau-
+ChargeConj    Mytau2+  Mytau2-
+#
+Decay B_s0sig
+  0.50        Mytau1+  Mytau1-       PHSP;
+  0.50        Mytau2+  Mytau2-       PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mytau1-
+  1.00        TAUOLA 8;
+Enddecay
+#
+Decay Mytau1+
+  1.00        TAUOLA 5;
+Enddecay
+#       
+Decay Mytau2+
+  1.00        TAUOLA 8;
+Enddecay
+#
+Decay Mytau2-
+  1.00        TAUOLA 5;
+Enddecay
+#       
+End

@@ -1,0 +1,47 @@
+# EventType: 11104451
+#
+# NickName: Bd_a10phi,pipip0KK=DecProdCut
+#
+# Descriptor: [B0 -> (a_10 -> pi+ pi- pi0) (phi -> K+ K-)]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0->a_1(1260)0 phi decay,  a_1(1260)0-> pi+pi-pi0  phi->KK decay, Decay products in acceptance
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Sebastiana Gianì
+# Email: sebastiana.giani@cern.ch
+# Date: 20160510
+#
+
+Alias      Myphi      phi
+ChargeConj Myphi      Myphi
+Alias      MyA1_1260  a_10
+ChargeConj MyA1_1260  MyA1_1260
+
+
+
+Decay B0sig
+1.000      MyA1_1260   Myphi         SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+
+CDecay anti-B0sig
+#
+
+
+
+Decay MyA1_1260
+ 1.000   pi+ pi- pi0          PHSP;
+Enddecay
+
+#
+Decay Myphi
+ 1.000  K+      K-             VSS;
+Enddecay
+#
+
+End
+#

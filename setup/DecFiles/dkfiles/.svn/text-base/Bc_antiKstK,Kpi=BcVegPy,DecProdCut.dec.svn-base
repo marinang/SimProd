@@ -1,0 +1,36 @@
+# EventType: 14103021
+#
+# Descriptor: [B_c+ -> (anti-K*0 -> K- pi+) K+]cc
+#
+# NickName: Bc_antiKstK,Kpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Decay from Bc to K*0~ K+ followed by K*0 into K+ 
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Nathanael Farley
+# Email: nathanael.a.s.farley@cern.ch
+# Date: 20150609
+#
+Alias      Myanti-K*0  anti-K*0
+Alias      MyK*0       K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+Decay B_c+sig
+  1.000     Myanti-K*0        K+       SVS;
+  Enddecay
+CDecay B_c-sig
+#
+Decay Myanti-K*0
+  1.000     K-           pi+      VSS;
+Enddecay
+CDecay MyK*0
+#
+End
+#

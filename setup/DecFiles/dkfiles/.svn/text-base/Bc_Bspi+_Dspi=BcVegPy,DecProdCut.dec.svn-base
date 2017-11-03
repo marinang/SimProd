@@ -1,0 +1,58 @@
+# EventType: 14165002
+#
+# Descriptor: [B_c+ -> ([B_s0]nos -> (D_s- -> K+ K- pi-) pi+, [B_s0]os -> (D_s+ -> K+ K- pi+) pi-) pi+]cc
+#
+# NickName: Bc_Bspi+_Dspi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decays, uses BcVegPy generator, includes resonances in Ds decay
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Mark Whitehead   
+# Email: mwhitehe@cern.ch
+# Date: 20111011
+#
+Alias      MyB_s0   B_s0
+Alias      Myanti-B_s0    anti-B_s0
+ChargeConj MyB_s0   Myanti-B_s0
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+Alias      Myphi      phi
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj Myanti-K*0 MyK*0
+ChargeConj Myphi      Myphi
+#
+Decay B_c+sig
+  1.000         MyB_s0 pi+          PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyB_s0
+  1.000     MyD_s-     pi+      PHOTOS PHSP;
+Enddecay
+CDecay Myanti-B_s0
+#
+Decay MyD_s-
+  0.017712   Myphi pi-                 SVS;
+  0.009     K+    K-     pi-          PHSP;
+  0.022     MyK*0 K-                  SVS;
+Enddecay
+CDecay MyD_s+
+#
+Decay Myphi
+  1.000	        K+        K-             VSS;
+Enddecay
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End

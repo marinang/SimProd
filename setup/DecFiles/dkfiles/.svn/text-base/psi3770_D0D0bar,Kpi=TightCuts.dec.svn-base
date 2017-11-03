@@ -1,0 +1,52 @@
+# EventType: 28194071
+#
+# Descriptor: psi(3770) -> D0(K- pi+)  D0bar(K+ pi-)
+#
+# NickName: psi3770_D0D0bar,Kpi=TightCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool as GenCutTool
+# 
+# Generation().SignalPlain.addTool( GenCutTool , 'TightCut' )
+# Generation().SignalPlain.TightCut.Decay = ' ^( psi(3770) -> ^( D0 =>  ^K- ^pi+)  ^(D~0 => ^K+ ^pi- ) )'
+# Generation().SignalPlain.TightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import GeV',
+#     'inAcc         = in_range ( 0.010 , GTHETA , 0.400 )',
+#     'goodPion      = (GP > 4.5 * GeV) & (GPT > 0.55 * GeV) & inAcc',
+#     'goodKaon      = (GP > 4.5 * GeV) & (GPT > 0.55 * GeV) & inAcc',
+#     'goodPsiDaugD  = (GNINTREE ( ( 421 == GABSID ) & ( GPT > 1.4 * GeV ) , 1 ) > 0.5 )'
+#     ]
+# Generation().SignalPlain.TightCut.Cuts = {
+#     '[pi+]cc'       : 'goodPion ',
+#     '[K+]cc'        : 'goodKaon ',
+#     '[psi(3770)]cc' : 'goodPsiDaugD '
+#     }
+# EndInsertPythonCode
+#
+#
+# Documentation: psi(3770) forced to decay to D0(K- pi+) D0bar(K+ pi-). 
+#                Daughters in acceptance plus additional cuts on D/K/pi momentum and pT
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime:  2 min
+# Responsible: Michele Veltri
+# Email: michele.veltri@uniurb.it
+# Date: 20140703
+#
+Decay psi(3770)sig
+  1.000         D0sig      anti-D0sig              VSS;
+Enddecay
+
+Decay D0sig
+  1.000         K-         pi+                     PHSP; 
+Enddecay
+
+Decay anti-D0sig
+  1.000         K+         pi-                     PHSP; 
+Enddecay
+
+End

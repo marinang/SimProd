@@ -1,0 +1,32 @@
+# EventType: 13266011
+#
+# Descriptor: {[[B_s0]nos -> (D-=> pi+ pi- K- ) pi+ pi- pi+]cc, [[B_s0]os -> (D+=> pi+ pi- K+) pi- pi- pi+]cc}
+#
+# NickName: Bs_D-pipipi,pipiK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  B_s0 decay to D-(Kpipi) pi pi pi  with Dalitz decay model for D_s- decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Agnieszka Oblakowska-Mucha
+# Email: Agnieszka.Oblakowska-Mucha@cern.ch
+# Date: 20120112
+#
+Alias      MyD-     D-
+Alias      MyD+     D+
+ChargeConj MyD+     MyD-
+#
+Decay B_s0sig
+  1.000     MyD-     pi+       pi-      pi+       PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD-
+  1.000        pi-        pi+        K-   D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End

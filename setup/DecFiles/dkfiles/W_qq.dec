@@ -1,0 +1,33 @@
+# EventType: 42900020
+#
+# Descriptor: pp -> [(W+ -> q q'bar)  ...]cc 
+#
+# NickName: W_qq
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/HadronInAcc
+# ExtraOptions: W_inc
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "HadronInAcc" )
+# tracksInAcc = Generation().HadronInAcc
+# tracksInAcc.Code = "count ( isGoodHadronFromW ) > 1"
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodHadron = ( (( 'u' == GABSID ) | ( 'd' == GABSID ) | ( 's' == GABSID ) | ( 'c' == GABSID ))& ( GTHETA < 400.0*mrad ) )"
+#    , "isFromW  = ( 1 == GNINTREE( 'W+' == GABSID , 0 ) )"
+#    , "isGoodHadronFromW = ( isGoodHadron & isFromW )" ]
+# EndInsertPythonCode
+#
+# Documentation: two hadrons from W in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Lorenzo Sestini
+# Email: lorenzo.sestini@cern.ch
+# Date: 20160617
+#
+End
+#

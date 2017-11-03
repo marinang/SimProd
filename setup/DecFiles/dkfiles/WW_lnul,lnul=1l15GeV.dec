@@ -1,0 +1,23 @@
+# EventType: 41922002
+#
+# Descriptor: pp -> ([W+ -> l nu_l]) ([W- -> l nu_l]) ... 
+#
+# NickName: WW_lnul,lnul=1l15GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 15*GeV LeptonIsFromMother true NumberOfbquarks -1
+#
+# ExtraOptions: WWlnullnul=1l15GeV
+#
+# Documentation: 1 lepton with pT > 15 GeV
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Marek Sirendi (Cambridge)
+# Email: marek.sirendi@cern.ch
+# Date: 20130813
+#
+End
+#

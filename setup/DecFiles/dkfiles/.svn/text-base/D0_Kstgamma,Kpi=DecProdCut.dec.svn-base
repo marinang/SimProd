@@ -1,0 +1,37 @@
+# EventType: 22162212
+# This is the decay file for the decay D0 -> K*(892)~0 (-> K- pi+) GAMMA
+# Descriptor: [D0 -> (K*(892)~0 -> K- pi+) (gamma)]cc
+#
+# NickName: D0_Kstgamma,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D0 -> K*(892)~0 (-> K- pi+ ) gamma
+# K*(892)~0 decaying into K- pi+
+# All final-state products in the acceptance.
+# EndDocumentation 
+#
+# PhysicsWG: Charm
+#
+# Tested: Yes
+# Responsible: Fatima Soomro
+# Email: Fatima.Soomro@cern.ch
+# Date: 20120328
+#
+Alias      MyK*       K*0
+Alias      Myanti-K* anti-K*0
+ChargeConj MyK*  Myanti-K*
+
+#
+Decay D0sig
+  1.000  Myanti-K*        gamma      SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-D0sig
+#
+Decay Myanti-K*
+  1.000     K-    pi+            VSS;
+Enddecay
+CDecay MyK*
+#
+End
+

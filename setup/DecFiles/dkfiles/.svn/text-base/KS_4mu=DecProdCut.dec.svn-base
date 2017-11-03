@@ -1,0 +1,23 @@
+# EventType: 34114101
+#
+# Descriptor: K_S0 -> mu+ mu- mu+ mu-
+#
+# NickName: KS_4mu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K_S0 -> mu+ mu- mu+ mu-, with DaughtersInLHCb cut.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler
+# Email: Marc-Olivier.Bettler@cern.ch
+# Date: 20131025
+#
+Decay K_S0sig
+  1.000       mu+ mu- mu+ mu-      PHSP;
+Enddecay
+#
+End
+

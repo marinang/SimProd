@@ -1,0 +1,60 @@
+# This is the decay file for the decay B0 => (D*- => (D0 bar => K+ pi-) pi-) mu+ nu_mu
+#
+# EventType: 11874010
+#
+# Descriptor: {[[B0]nos => nu_mu mu+ (D*(2010)- => (D~0 -> K+ pi-) pi-)]cc, [[B0]os => anti_nu_mu mu- (D*(2010)+ => (D0 -> K- pi+) pi+)]cc}
+#
+# NickName: Bd_Dstmunu_EXCL,Kpi=cocktail,hqet2,D0muInAcc
+#
+# Cuts: ListOfDaughtersInLHCb
+#
+# ExtraOptions: D0muInAcc
+#
+# Documentation: Exclusive B0 to D* mu nu_mu and D* tau nu_tau; D*+ forced into D0 pi+, D0 forced into Kpi, D0 
+# and muon in LHCb acceptance.Force the tau- into mu-  nu_tau  anti-nu_mu. Using the HQET2 generator. 
+# EndDocumentation 
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Concezio Bozzi
+# Email: concezio.bozzi@{nospam}fe.infn.it
+# Date: 20140515
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyD0         D0
+Alias      MyAntiD0     anti-D0
+ChargeConj MyD0         MyAntiD0
+#
+Alias      MyD*-        D*-
+Alias      MyD*+        D*+
+ChargeConj MyD*-        MyD*+
+#
+Decay B0sig 
+# FORM FACTORS as per HFAG PDG10
+  0.0501   MyD*-        mu+  nu_mu         PHOTOS  HQET2 1.20 1.426 0.818 0.908;
+  0.002604   MyD*-    Mytau+ nu_tau        PHOTOS  ISGW2;
+#
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+  1.00       MyAntiD0   pi-                   VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD0
+  1.00   K-  pi+                           PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD0
+#
+Decay Mytau-
+  1.00      mu-  nu_tau  anti-nu_mu        PHOTOS TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+End

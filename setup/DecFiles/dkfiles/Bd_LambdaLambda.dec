@@ -1,0 +1,35 @@
+# EventType: 11104170
+#
+# NickName: Bd_LambdaLambda
+#
+# Descriptor: [ B0 -> (Lambda0 -> p+ pi-) (anti-Lambda0 -> p~- pi+) ]cc
+#
+# Cuts: None
+#
+# Documentation: Lambda0 forced into p pi
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Tested: Yes
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date: 20120531
+#
+#
+Alias      MyLambda     Lambda0
+Alias      MyantiLambda anti-Lambda0
+ChargeConj MyLambda     MyantiLambda
+#
+Decay B0sig
+  1.000        MyLambda    MyantiLambda      PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyLambda
+  1.000        p+      pi-                   PHSP;
+Enddecay
+CDecay MyantiLambda
+#
+End
+#

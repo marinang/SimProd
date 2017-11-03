@@ -1,0 +1,35 @@
+# EventType: 14133020
+#
+# Descriptor: [B_c+ -> (chi_c0 -> K+ K-) pi+]cc
+#
+# NickName: Bc_chic0pi,KK=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Chi_c0(1P) forced to K+ K-, using BcVegPy generator and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+# 
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime:< 1 min
+# Responsible: Adlene Hicheur
+# Email: hicheur@if.ufrj.br
+# Date: 20160328
+#
+
+Alias      Mychi_c0   chi_c0
+ChargeConj Mychi_c0   Mychi_c0
+#
+Decay B_c+sig
+  1.0000       Mychi_c0   pi+              PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mychi_c0
+  1.0     K+   K-                  PHSP;
+Enddecay
+#
+End
+

@@ -1,0 +1,84 @@
+# EventType: 11110007
+#
+# Descriptor: {[[B0]nos -> (tau+ -> pi+ pi- pi+ anti-nu_tau) (tau- -> mu- anti-nu_mu nu_tau) (K*(892)0 -> K+ pi-)]cc, [[B0]os -> (tau- -> pi+ pi- pi- nu_tau)(tau+ -> pi+ pi- pi+ anti-nu_tau) (K*(892)~0 -> K- pi+)]cc}
+#
+# NickName: Bd_Ksttautau,3pimu=DecProdCut,TightCut,tauolababar
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation()
+#gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "[ (Beauty) ==>  ^(K*(892)0 -> ^K+ ^pi-)   ^([tau+ ==> ^pi+ ^pi- ^pi+ nu_tau~]CC) ^([tau- ==> ^mu- nu_mu~   nu_tau]CC) ]CC"
+#tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV"  
+#]
+#tightCut.Cuts      =    {
+# '[pi+]cc'   : " in_range( 0.010 , GTHETA , 0.400 ) & ( GPT > 250 * MeV )  " ,
+# '[K-]cc'   : "  in_range( 0.010 , GTHETA , 0.400 )  & ( GPT > 250 * MeV )" ,
+# '[mu+]cc'  : " in_range( 0.010 , GTHETA , 0.400 )  & ( GPT > 250 * MeV ) "
+#    }
+# EndInsertPythonCode
+
+# Documentation: Bd decay to K* tau tau.
+# One tau lepton decays in the 3-prong charged pion mode using the Tauola BaBar model.
+# All final-state products in the acceptance.
+# Same as 11716000, but with different tau decay model
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Kristof De Bruyn
+# Email: debruyn@cppm.in2p3.fr
+# Date: 20161025
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         Mytau1+    tau+
+Alias         Mytau1-    tau-
+ChargeConj    Mytau1+    Mytau1-
+Alias         Mytau2+    tau+
+Alias         Mytau2-    tau-
+ChargeConj    Mytau2+    Mytau2-
+Alias         MyK*0      K*0
+Alias         Myanti-K*0 anti-K*0
+ChargeConj    MyK*0      Myanti-K*0
+#
+Decay B0sig
+  0.500       MyK*0      Mytau1+      Mytau1-        BTOSLLBALL;
+  0.500       MyK*0      Mytau2+      Mytau2-        BTOSLLBALL;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000       K+         pi-          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Mytau1-
+  1.00        TAUOLA 5;
+Enddecay
+#
+Decay Mytau1+
+  1.00        mu+        nu_mu        anti-nu_tau   TAULNUNU;
+Enddecay
+#       
+Decay Mytau2+
+  1.00        TAUOLA 5;
+Enddecay
+#
+Decay Mytau2-
+  1.00        mu-        anti-nu_mu   nu_tau        TAULNUNU;
+Enddecay      
+#
+End
+

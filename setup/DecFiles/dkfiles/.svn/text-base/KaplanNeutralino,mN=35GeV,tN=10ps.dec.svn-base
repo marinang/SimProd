@@ -1,0 +1,23 @@
+# EventType: 45000050
+#
+# Descriptor: pp -> (X -> ~chi_10 -> (u, d, s, c, b) + jet ... )
+#
+# NickName: KaplanNeutralino,mN=35GeV,tN=10ps
+#
+# Cuts: PythiaLSP
+#
+# ParticleTable: Kaplan_mh114mk35
+# SUSYModel: Kaplan_mh114mk35   10ps    
+#
+# Documentation: Neutralino from Higgs and SUSY (Kaplan model) in all final states, M=35GeV, t=10ps
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Neal Gauvin
+# Email: stephane.tourneur@epfl.ch
+# Date: 20110302
+#
+End
+#
+#

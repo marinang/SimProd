@@ -1,0 +1,31 @@
+# EventType: 25113003
+# 
+# Descriptor: [Lambda_c+ -> mu+ (phi( ->mu+ mu-)) ]cc
+# 
+# NickName: Lc_phip,mumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: PHSP MODEL, Background for Lc->p mumu
+#               
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Marcin Chrzaszcz
+# Email:       mchrzasz@cern.ch
+# Date:        20130511
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+
+Decay Lambda_c+sig
+  1.00000         MyPhi     mu+    PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+# 
+Decay  MyPhi
+  1.000     mu+      mu-    PHOTOS VLL ;
+Enddecay
+#
+End

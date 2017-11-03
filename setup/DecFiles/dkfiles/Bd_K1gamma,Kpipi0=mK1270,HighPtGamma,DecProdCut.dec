@@ -1,0 +1,87 @@
+# EventType: 11202602
+#
+# NickName: Bd_K1gamma,Kpipi0=mK1270,HighPtGamma,DecProdCut
+#
+# Descriptor: [ B0 -> (K_1(1270)0 -> (X0 ->  K+ pi- pi0)) gamma ]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation().BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: B0->K_1(1270)0 gamma decay, K_1(1270)0 -> XX-> K+pi-pi0 decay, Decay products in acceptance with gamma PT > 1.5
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email:  cedric.potterat@.cern.ch
+# Date: 20130809
+#
+Alias      MyK1_1270_0      K_10 
+Alias      MyAntiK1_1270_0  anti-K_10
+ChargeConj MyK1_1270_0      MyAntiK1_1270_0
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+Alias      MyK*+       K*+
+Alias      MyK*-       K*-
+ChargeConj MyK*-       MyK*+
+#
+Alias      MyK*1430_0       K_0*0
+Alias      Myanti-K*1430_0  anti-K_0*0
+ChargeConj Myanti-K*1430_0  MyK*1430_0
+#
+Alias      MyK*1430_+       K_0*+
+Alias      MyK*1430_-       K_0*-
+ChargeConj MyK*1430_-       MyK*1430_+
+#
+Decay B0sig
+  1.000       MyK1_1270_0     gamma                   SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay MyK1_1270_0
+  0.11852        MyK*0        pi0                    VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.11852        MyK*+        pi-                    VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.46666        rho-         K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.20741        MyK*1430_+   pi-                    VSS;
+  0.20741        MyK*1430_0   pi0                    VSS;
+Enddecay
+CDecay MyAntiK1_1270_0
+#
+Decay MyK*0
+  1.000        K+        pi-                    VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK*1430_0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay Myanti-K*1430_0
+#
+Decay MyK*+
+  1.000        K+        pi0                    VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK*1430_+
+  1.000        K+        pi0                    PHSP;
+Enddecay
+CDecay MyK*1430_+
+#
+End
+#

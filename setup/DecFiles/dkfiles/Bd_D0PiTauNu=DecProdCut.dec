@@ -1,0 +1,42 @@
+# EventType: 11836002
+#
+# Descriptor: {[B0 -> (anti-D0 -> K+ pi-) pi- (tau+ -> pi+ pi+ pi- anti-nu_tau) nu_tau]cc,[B0 -> (anti-D*0 -> pi0 (anti-D0 -> K+ pi-)) pi- (tau+ -> pi+ pi+ pi- anti-nu_tau) nu_tau]cc,[B0 -> (anti-D*0 -> gamma (anti-D0 -> K+ pi-)) pi- (tau+ -> pi+ pi+ pi- anti-nu_tau) nu_tau]cc}
+#
+# NickName: Bd_D0PiTauNu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd to D0 Pi Tau Nu, with D0 to Kpi final state and tau to 3pi nu final state. Background Channel.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Anne Keune, Alessandra Borgia
+# Email: Anne.Keune@cern.ch, aborgia@syr.edu
+# Date: 20110401
+#
+
+Decay B0sig
+  0.467       anti-D0    pi-   tau+   nu_tau              PHSP;
+  0.533       anti-D*0   pi-   tau+   nu_tau              PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay D0
+  1.0000      K-     pi+                PHSP;
+Enddecay
+CDecay anti-D0
+#   
+Decay tau-
+  1.000     pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay tau+
+#  
+Decay D*0
+  0.38     D0      gamma             VSP_PWAVE;
+  0.62     D0      pi0               VSS;
+Enddecay
+CDecay anti-D*0
+#  
+End
+#

@@ -1,0 +1,32 @@
+# EventType: 15144011 
+#
+# Descriptor: [Lambda_b0 -> p+ K-) (psi(2S) -> mu+ mu-)]cc
+#
+# NickName: Lb_psi2SpK,mm=phsp,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to three-body p+K-psi(2S) with psi(2S) to dimuons.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Michal Kreps 
+# Email:  michal.kreps@cern.ch
+# Date: 20120509
+#
+Alias      Mypsi2S       psi(2S)
+ChargeConj Mypsi2S       Mypsi2S
+#
+Decay Lambda_b0sig
+  1.000    Mypsi2S  p+ K-               PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mypsi2S
+  1.000     mu+  mu-                    PHOTOS  VLL;
+Enddecay
+#
+End
+#

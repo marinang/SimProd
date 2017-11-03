@@ -1,0 +1,34 @@
+# EventType: 13104161
+# 
+# Descriptor: [B_s0 -> K- (anti-Lambda0 -> anti-p- pi+) p+]cc
+# 
+# NickName: Bs_LambdapbarK+,ppi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: < 1 min
+#
+# Documentation: Non resonant, Lambda forced into pi- p+
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Christian Voss
+# Email: christian.voss@cern.ch
+# Date: 20140527
+#
+Alias       MyLambda       Lambda0
+Alias       MyantiLambda   anti-Lambda0
+ChargeConj  MyLambda       MyantiLambda
+#
+Decay B_s0sig
+  1.000     MyantiLambda    p+     K-    PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyantiLambda
+  1.000     anti-p-          pi+               PHSP;
+Enddecay
+CDecay MyLambda
+#
+End
+#

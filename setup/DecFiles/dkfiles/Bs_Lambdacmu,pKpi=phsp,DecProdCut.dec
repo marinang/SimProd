@@ -1,0 +1,41 @@
+# EventType:   13174001
+#
+# Descriptor:  [B_s0 -> Lambda_c+(-> p+ K- pi+) mu-]cc
+#
+# NickName:    Bs_Lambdacmu,pKpi=phsp,DecProdCut
+#
+# Cuts:  DaughtersInLHCb
+#
+# Documentation:  Decay file for B_s0 -> Lambda_c+(-> p+ K- pi+) mu-
+#                 Lambda_c+ forced to p+ K- pi+
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested:  yes
+# Responsible:  Oliver Grunberg
+# Email:  oliver.gruenberg@googlemail.com
+# Date:    20111024
+#
+
+Alias MyLc+ Lambda_c+
+Alias MyLc- anti-Lambda_c-
+
+ChargeConj MyLc+ MyLc-
+
+###################
+
+Decay B_s0sig
+1.00000  MyLc+ mu-		PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+###################
+
+Decay MyLc+
+1.00000  p+ K- pi+		PHSP;
+Enddecay
+CDecay MyLc-
+
+###################
+ 
+End

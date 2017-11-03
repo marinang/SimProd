@@ -1,0 +1,26 @@
+# EventType: 25113002
+# 
+# Descriptor: [Lambda_c+ -> mu+ mu+ mu-]cc
+# 
+# NickName: Lc_3mu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: PHSP MODEL.
+#                BNV and LNV, |B-L| = const 
+#                in 25113002 (Lc_3mu=DecProdCut).
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Marcin Chrzaszcz
+# Email:       mchrzasz@cern.ch
+# Date:        20130505
+#
+Decay Lambda_c+sig
+  1.00000         mu+      mu+      mu-     PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+ 
+#
+End

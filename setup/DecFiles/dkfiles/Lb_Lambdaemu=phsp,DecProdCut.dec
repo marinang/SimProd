@@ -1,0 +1,43 @@
+# EventType: 15114113
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) e+ mu-]
+#
+# NickName: Lb_Lambdaemu=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda0 forced into p pi, decay with generic phase space, decay
+#          products in acceptance (except products from Lambda)        
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Luca Pescatore
+# Email: luca.pescatore@cern.ch
+# Date: 20161028
+#
+# CPUTime: < 1min
+#
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+
+Decay Lambda_b0sig
+  0.500    MyLambda0         e+   mu- PHSP;
+  0.500    MyLambda0         e-   mu+ PHSP;
+Enddecay
+
+Decay anti-Lambda_b0sig
+  0.500    Myanti-Lambda0    e+  mu-  PHSP;
+  0.500    Myanti-Lambda0    e-  mu+  PHSP;
+Enddecay
+
+Decay MyLambda0
+  1.000   p+          pi-        PHSP;
+Enddecay
+
+Decay Myanti-Lambda0
+  1.000   anti-p-    pi+     PHSP;
+Enddecay 
+End
+#

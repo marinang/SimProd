@@ -1,0 +1,47 @@
+# EventType: 11104003
+#
+# Descriptor: [B0 -> (K*(892)~0 -> K- pi+) (K*(892)0 -> K+ pi-)]cc
+#
+# NickName: Bd_Kst0Kst0=DecProdCut,BabarAmp
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 -> K*B(-> K- pi+) K*0(->K+ pi-)
+# K*(892)0 decaying into K+ pi-, 
+# K*(892)~0 decaying into K- pi+, 
+# Babar polarization amplitudes,
+# no CP violation, daughters in the acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Tested: Yes
+# Responsible: Paula Alvarez
+# Email: paula.alvarez@usc.es
+# Date: 20121113
+#
+Define Hz 0.9
+Define Hp 0.44
+Define Hm 0.0
+Define pHz 0.0
+Define pHp 3.14
+Define pHm 3.14
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+# 
+Decay B0sig
+  1.000    MyK*0    Myanti-K*0   SVV_HELAMP Hp pHp Hz pHz Hm pHm;
+Enddecay
+Decay anti-B0sig
+  1.000    Myanti-K*0    MyK*0   SVV_HELAMP Hm pHm Hz pHz Hp pHp;
+Enddecay
+#
+Decay MyK*0
+  1.000     K+    pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+#

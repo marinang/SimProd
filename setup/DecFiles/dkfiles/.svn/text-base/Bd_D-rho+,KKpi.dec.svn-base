@@ -1,0 +1,50 @@
+# EventType: 11164420
+#
+# Descriptor: {[[B0]nos -> (D- => K+ K- pi-) (rho+ -> pi+ (pi0->gamma gamma))]cc, [[B0]os -> (D+ => K- K+ pi+) (rho- ->pi- (pi0->gamma gamma)))]cc}
+#
+# NickName: Bd_D-rho+,KKpi
+#
+# Cuts: None
+#
+# Documentation:
+# B0 decay to D- (KKpi) rho+ with Dalitz decay model for D- decay.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Paul Szczypka
+# Email: paul.szczypka@{nospam}cern.ch
+# Date: 20110927
+#
+Alias        MyD-        D-
+Alias        MyD+        D+
+ChargeConj   MyD+        MyD-
+#
+Alias        MyRho+     rho+
+Alias        MyRho-     rho-
+ChargeConj   MyRho+     MyRho-
+#
+Alias        Mypi0      pi0
+ChargeConj   Mypi0      Mypi0
+#
+Decay B0sig
+ 1.000         MyRho+    MyD-        SVS;
+Enddecay
+CDecay anti-B0sig
+# 
+Decay MyD-
+  1.000        K-        K+        pi-             D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay MyRho+
+  1.000   pi+    Mypi0              VSS;
+Enddecay
+CDecay MyRho-
+#
+Decay Mypi0
+  1.000   gamma      gamma          PHSP;
+Enddecay
+#
+End
+

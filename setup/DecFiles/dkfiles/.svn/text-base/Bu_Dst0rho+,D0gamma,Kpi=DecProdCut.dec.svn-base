@@ -1,0 +1,57 @@
+# EventType: 12163600 
+# 
+# Descriptor: [B- -> (D*0 -> (D0 -> K- pi+) gamma) (rho(770)- -> pi- pi0)]cc
+# 
+# NickName: Bu_Dst0rho+,D0gamma,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D*0 forced to D0 gamma, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Donal Hill
+# Email: donal.hill@cern.ch
+# Date: 20140219
+#
+#
+
+Alias MyD*0       D*0
+Alias Myanti-D*0  anti-D*0
+ChargeConj MyD*0  Myanti-D*0
+Alias        MyRho+     rho+
+Alias        MyRho-     rho-
+ChargeConj   MyRho+     MyRho-
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+##
+Decay B-sig
+  1.000     MyD*0  MyRho-               SVV_HELAMP 0.283 1.13 0.932 0.0 0.228 0.95 ;
+Enddecay
+CDecay B+sig
+#
+Decay MyD*0
+1.000    MyD0  gamma                           VSP_PWAVE;
+Enddecay
+Decay Myanti-D*0
+1.000    Myanti-D0  gamma                      VSP_PWAVE;
+Enddecay
+#
+#
+Decay MyRho+
+  1.00000000  pi+ pi0                                  VSS ;
+Enddecay
+Decay MyRho-
+  1.00000000  pi- pi0                                  VSS ;
+Enddecay
+#
+#
+Decay MyD0
+1.000     K- pi+        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End

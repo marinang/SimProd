@@ -1,0 +1,35 @@
+# EventType: 11314001
+#
+# Descriptor:  {[[B0]nos -> mu+ e- (K*(892)0 -> K+ pi-)]cc, [[B0]nos -> e+ mu- (K*(892)0 -> K+ pi-)]cc, [[B0]os -> mu- e+ (K*(892)~0 -> K- pi+)]cc, [[B0]os -> e- mu+ (K*(892)~0 -> K- pi+)]cc}
+#
+# NickName: Bd_Kstemu=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B to K*(->K pi) e mu  decay. Daughters in acceptance. PHSP model
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marcin Chrzaszcz
+# Email: mchrzasz@cern.ch
+# Date: 20150524
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Decay B0sig
+  0.500        MyK*0    e+    mu-            PHSP;
+  0.500        MyK*0    mu+    e-            PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000        K+       pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

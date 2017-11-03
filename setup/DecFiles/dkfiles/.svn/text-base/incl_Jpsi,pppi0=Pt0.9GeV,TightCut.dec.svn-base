@@ -1,0 +1,42 @@
+# EventType: 24102402
+#
+# Descriptor: J/psi(1S) -> p+ anti-p- pi0 
+#
+# NickName: incl_Jpsi,pppi0=Pt0.9GeV,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode: 
+# from Configurables import LoKi__GenCutTool as GenCutTool 
+# #
+# Generation().SignalPlain.addTool( GenCutTool , 'TightCut' ) 
+# Generation().SignalPlain.TightCut.Decay = "J/psi(1S) => ^p+ ^p~- ^pi0"
+# Generation().SignalPlain.TightCut.Cuts = {
+#     'p+'  : ' ( GPT > 0.9 * GeV ) & inAcc ',
+#     'p~-' : ' ( GPT > 0.9 * GeV ) & inAcc ',
+#     'pi0' : ' noAcc '
+#     }
+# Generation().SignalPlain.TightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) ',
+#     'noAcc = in_range (0, GTHETA, 3.15)'
+#     ]
+# EndInsertPythonCode
+#
+# Documentation: Jpsi decay to p+ p- pi0 with phase space model, daughters in accpetance, and both protons PT>0.9 GeV
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Andrii Usachov
+# Email: andrii.usachov@cern.ch
+# Date: 20160404
+#
+#
+Decay J/psisig
+  1.000      p+   anti-p-   pi0      PHSP;
+Enddecay
+#
+End
+#

@@ -1,0 +1,87 @@
+# EventType: 11266051
+#
+# Descriptor: {[[B0]nos -> (D_s- => K+ K- pi-) K+ pi- pi+]cc, [[B0]os -> (D_s+ => K- K+ pi+) K- pi+ pi-]cc}
+#
+# NickName: Bd_DsKpipi,KKpi=DDalitz,DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Ds Dalitz
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Steven Blusk
+# Email: sblusk@syr.edu
+# Date: 20120514
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias      MyK_1-     K_1-
+Alias      MyK_1+     K_1+
+ChargeConj MyK_1+     MyK_1-
+#
+Alias      MyK'_1-     K'_1-
+Alias      MyK'_1+     K'_1+
+ChargeConj MyK'_1+     MyK'_1-
+#
+Alias      MyK_0*0    K_0*0
+Alias      Myanti-K_0*0 anti-K_0*0
+ChargeConj MyK_0*0   Myanti-K_0*0 
+#
+Alias      Myomega omega
+ChargeConj Myomega Myomega
+#
+Decay B0sig
+  0.10     MyK_1+ MyD_s-           SVS;
+  0.10     MyK'_1+ MyD_s-          SVS;
+  0.40     MyD_s- MyK*0 pi+        PHSP;
+  0.40     MyD_s- K+ rho0          PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s-
+  1.000     K+    K-     pi-          D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK_0*0
+  1.000 K+ pi-                    PHSP;
+Enddecay
+CDecay Myanti-K_0*0
+#
+Decay Myomega
+  1.000 pi-  pi+                       VSS;
+Enddecay
+#
+Decay MyK_1+
+  0.140  rho0   K+                    VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+  0.071  MyK*0  pi+                   VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+  0.116  MyK_0*0  pi+                 PHSP;
+  0.0019 Myomega K+                   VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK_1-
+#
+Decay MyK'_1+
+  0.6300   MyK*0  pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0100   rho0 K+                         VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0133   K+  pi+  pi-                    PHSP;
+Enddecay
+CDecay MyK'_1-
+#
+#
+End
+

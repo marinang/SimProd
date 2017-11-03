@@ -1,0 +1,50 @@
+# EventType: 11164461
+# 
+# Descriptor: {[[B0]nos -> (D*(2010)- -> (D~0 -> K+ pi-) pi- ) (K*(892)+ -> K+ pi0)]cc, [[B0]os -> (D*(2010)+ -> (D0 -> K- pi+) pi- ) (K*(892)- -> K- pi0)]cc} 
+# 
+# NickName: Bd_Dst-Kst+,D0pi-,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D* forced to D0 pi, D0 decay without resonance, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Donal Hill
+# Email: donal.hill@cern.ch
+# Date: 20140219
+#
+
+Alias MyD*+       D*+
+Alias MyD*-       D*-
+ChargeConj MyD*+  MyD*-
+Alias        MyK*+     K*+
+Alias        MyK*-     K*-
+ChargeConj   MyK*+     MyK*-
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+#
+Decay B0sig
+  1.000        MyK*+     MyD*-               SVV_HELAMP  0.283 0.0 0.932 0.0 0.228 0.0;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD*-
+1.000        Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyK*+
+1.000  K+ pi0                                VSS ;
+Enddecay
+CDecay MyK*-
+#
+Decay Myanti-D0
+1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+End

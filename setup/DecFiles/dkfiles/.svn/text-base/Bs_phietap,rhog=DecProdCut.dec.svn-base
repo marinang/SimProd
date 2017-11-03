@@ -1,0 +1,42 @@
+# EventType: 13104231
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K- ) (eta_prime -> (rho0 -> pi+ pi-) gamma )]cc
+#
+# NickName: Bs_phietap,rhog=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, No CP violation
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: h Luo
+# Email: haofei.luo@ed.ac.uk
+# Date: 20130310
+#
+Alias       Myphi   phi
+Alias       MyEta'  eta'
+Alias       Myrho0  rho0
+ChargeConj  Myphi   Myphi
+ChargeConj  MyEta'  MyEta'
+ChargeConj  Myrho0  Myrho0
+#
+Decay B_s0sig
+  1.000         Myphi     MyEta'        SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myphi
+  1.000         K+         K-          VSS;
+Enddecay
+#
+Decay MyEta'
+  1.000         Myrho0       gamma      SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+#
+Decay Myrho0
+  1.000         pi+       pi-        VSS;
+Enddecay
+#
+End

@@ -1,0 +1,35 @@
+# EventType: 12199061
+# NickName: Bu_D0D0K,K3Pi,K3Pi=DecProdCut
+# Descriptor: [B+ -> ( D0 -> K- pi+ pi+ pi- ) ( D~0 -> K+ pi- pi- pi+ ) K+]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#    Decay file for B+- -> D0 D0bar K+- , both D0s going to K3pi
+# EndDocumentation
+#
+# Date:   20170619
+#
+# Responsible: Pavol Stefko
+# Email: pavol.stefko@cern.ch
+# PhysicsWG: B2OC
+# CPUTime: < 1 min
+#
+# Tested: Yes
+
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+
+ChargeConj My_anti-D0 My_D0
+
+Decay My_D0
+  1.0 K- pi+ pi+ pi-  		PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay B+sig
+  1.0 My_D0 My_anti-D0 K+ 	PHSP;
+Enddecay
+CDecay B-sig
+
+End

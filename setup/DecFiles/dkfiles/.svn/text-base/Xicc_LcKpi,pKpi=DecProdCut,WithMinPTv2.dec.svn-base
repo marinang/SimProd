@@ -1,0 +1,38 @@
+# EventType: 26165052
+#
+# Descriptor: [ Xi_cc+ -> (Lambda_c+ -> p K- pi+) K- pi+ ]cc
+#
+# NickName: Xicc_LcKpi,pKpi=DecProdCut,WithMinPTv2
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# Documentation: decay file of Xi_cc+ -> (Lambda_c+ -> p K- pi+) K- pi+, 
+# using dedicated GenXicc package for production, phase space decay model used, 
+# all daughters of Xicc are required to be in the acceptance of LHCb 
+# and the Xicc PT is required to be larger than 2000 MeV. 
+# EndDocumentation
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Liang Zhong
+# Email: liang.zhong@cern.ch
+# Date: 20130820
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Decay Xi_cc+sig
+  1.00   MyLambda_c+  K-	pi+                  PHSP;
+Enddecay
+CDecay anti-Xi_cc-sig
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End
+

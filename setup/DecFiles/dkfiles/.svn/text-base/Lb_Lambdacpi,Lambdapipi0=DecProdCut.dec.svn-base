@@ -1,0 +1,49 @@
+# EventType: 15164500
+#
+# Descriptor: [Lambda_b0 -> ( Lambda_c+ -> ( Lambda0 -> p+ pi- ) ( pi0 -> gamma gamma ) pi+ ) pi-]cc
+#
+# NickName: Lb_Lambdacpi,Lambdapipi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance, L_c forced to Lambda0 pi pi0, Lambda0 forced to p pi, pi0 forced to g g
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Daniel O'Hanlon
+# Email: dohanlon@cern.ch
+# Date: 20140214
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Alias      MyLambda     Lambda0
+Alias      MyantiLambda anti-Lambda0
+ChargeConj MyLambda     MyantiLambda
+#
+Alias      Mypi0      pi0
+ChargeConj Mypi0      Mypi0
+#
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        pi-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000    MyLambda           pi+         Mypi0         PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda
+  1.000    p+                 pi-         PHSP;
+Enddecay
+CDecay MyantiLambda
+#
+Decay Mypi0
+  1.000    gamma              gamma       PHSP;
+Enddecay  
+#
+End
+#

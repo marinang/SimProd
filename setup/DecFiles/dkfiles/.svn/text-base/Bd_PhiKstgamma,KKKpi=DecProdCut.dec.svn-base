@@ -1,0 +1,41 @@
+# EventType: 11104201
+#
+# Descriptor: [B0 -> (phi(1020) -> K+ K-) (K*(892)0 -> K+ pi-) gamma]cc
+#
+# NickName: Bd_PhiKstgamma,KKKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phi forced into K+ K-, K* forced to decay into K+ pi-, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marius Orlandea
+# Email: Marius.Orlandea@cern.ch
+# Date: 20120220
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Alias      MyKst   K*0
+Alias      Myanti-Kst anti-K*0
+ChargeConj MyKst Myanti-Kst
+#
+Decay B0sig
+1.000       MyKst    MyPhi   gamma              PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKst
+1.000        K+        pi-                      VSS;
+Enddecay
+CDecay Myanti-Kst
+#
+Decay MyPhi
+1.000         K+        K-                       VSS;
+Enddecay
+#
+End
+
+

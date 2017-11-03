@@ -1,0 +1,36 @@
+# EventType: 13124028
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) e+ e-]cc
+#
+# NickName: Bs_phiee,KK=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B_s0 -> (phi(1020) -> K+ K-) e+ e- (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Alias MyPhi phi
+ChargeConj MyPhi MyPhi
+#
+Decay B_s0sig
+ 1.0  MyPhi e+ e- PHOTOS PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+ 1.0  K+ K- VSS;
+Enddecay
+
+End
+#

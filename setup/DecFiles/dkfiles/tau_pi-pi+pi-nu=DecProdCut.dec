@@ -1,0 +1,25 @@
+# EventType: 31503010
+#
+# Descriptor: [tau- -> pi- pi+ pi- nu_tau]cc
+#
+# NickName: tau_pi-pi+pi-nu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Tau lepton decay in the 3-prong pion mode with EvtGen's TAUHADNU model.
+# All decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# Tested: Yes
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date:   20110408
+#
+Decay tau-sig
+  1.000   pi- pi- pi+ nu_tau   TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay tau+sig
+#
+End

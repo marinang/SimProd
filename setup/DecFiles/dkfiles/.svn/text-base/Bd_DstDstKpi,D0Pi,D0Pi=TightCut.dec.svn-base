@@ -1,0 +1,66 @@
+# EventType: 11198021
+# NickName: Bd_DstDstKpi,D0Pi,D0Pi=TightCut
+# Descriptor: [B0 -> (D*+ -> (D0 -> K- pi+) pi+) (D*- -> (anti-D0 -> K+ pi-) pi-) K+ pi-]cc
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool , 'TightCut')
+# acceptance = Generation().SignalRepeatedHadronization.TightCut
+# acceptance.Decay = "[B0 => ^(D*(2010)+ => ^(D0 => ^K- ^pi+) pi+ )  ^(D*(2010)- => ^(D~0 => ^K+ ^pi-) ^pi-) ^K+ ^pi-  ]CC"
+# acceptance.Preambulo += [ "from LoKiCore.functions import in_range",
+#                           "from GaudiKernel.SystemOfUnits import  GeV, mrad",
+#                           "inAcc = ( in_range( 5*mrad, GTHETA, 400*mrad) ) ",
+#                           "goodPi_Dau = (GNINTREE( ('pi+'==GABSID) & inAcc, 1)  >0.5 )",
+#                           "goodK_Dau  = (GNINTREE( ('K+'==GABSID)  & inAcc ,1) > 0.5 )"
+#                         ]
+# acceptance.Cuts = {
+#     '[D0]cc'       : 'goodPi_Dau & goodK_Dau',
+#     '[D~0]cc'      : 'goodPi_Dau & goodK_Dau',
+#     '[K+]cc'       : 'inAcc' }
+##
+# EndInsertPythonCode
+# Documentation: Daughters in LHCb acceptance for decay B0 -> D*+ D*- K+ pi- , D*+ -> D0 pi+
+#    Decay file for B0 -> Dst Dst K+ pi-
+# EndDocumentation
+# CPUTime: < 1 min
+# 
+# Date:   20160706
+# Responsible: Renato Quagliani
+# Email: rquaglia@cern.ch
+# PhysicsWG: B2OC
+# Tested: Yes
+
+Alias MyD0    D0
+Alias Myanti-D0   anti-D0
+Alias MyD*+  D*+
+Alias MyD*-  D*-
+ChargeConj MyD0   Myanti-D0
+ChargeConj MyD*- MyD*+
+
+#
+Decay MyD0
+  1.0   K-    pi+       PHSP;
+Enddecay
+#
+Decay Myanti-D0
+  1.0   K+   pi-      PHSP;
+Enddecay
+#
+Decay MyD*+
+  1.0 MyD0 pi+          VSS;
+Enddecay
+
+Decay MyD*-
+  1.0 Myanti-D0 pi-   VSS;
+Enddecay
+
+
+Decay B0sig
+  1.0 MyD*+ MyD*- K+ pi- PHSP;
+Enddecay
+CDecay anti-B0sig
+
+End

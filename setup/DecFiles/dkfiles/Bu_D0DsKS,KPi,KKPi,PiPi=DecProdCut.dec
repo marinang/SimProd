@@ -1,0 +1,48 @@
+# EventType: 12197102
+# NickName: Bu_D0DsKS,KPi,KKPi,PiPi=DecProdCut
+# Descriptor: [B- -> (D0 -> K- pi+) (D_s- -> K+ K- pi-) (K_S0 -> pi+ pi-)]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B- -> D0 Ds- KS. Resonances allowed in Ds- decay. B- decay with flat Dalitz model
+# EndDocumentation
+# CPUTime: < 1 min
+# 
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# PhysicsWG: B2OC
+# Date:   20140808
+#
+# Tested: Yes
+Alias MyD0		D0
+Alias Myanti-D0		anti-D0
+ChargeConj MyD0		Myanti-D0
+#
+Alias MyD_s-		D_s-
+Alias MyD_s+		D_s+
+ChargeConj	MyD_s+		MyD_s-
+#
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+#
+Decay B-sig
+	1.0		MyD0 		MyD_s-		myK_S0		PHSP;
+Enddecay
+CDecay B+sig
+#
+Decay MyD0
+	1.0		K-		pi+				PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyD_s-
+  1.0   K+    K-   pi-   D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+Decay myK_S0
+	1.0		pi+		pi-				PHSP;
+Enddecay
+#
+End
+

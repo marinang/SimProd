@@ -1,0 +1,45 @@
+# EventType: 42162202
+#
+# Descriptor: pp -> [Z -> (D0 -> K- pi+) gamma]cc ...
+# NickName: Z_D0gamma=NoCut_new
+# Cuts: None
+#
+# InsertPythonCode:
+# # Stop pile-up generation.
+# Generation().PileUpTool = "FixedLuminosityForRareProcess"
+#
+# # Pythia8 options.
+# from Gaudi.Configuration import importOptions
+# from Configurables import Pythia8Production
+# importOptions('$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py')
+# Generation().Special.addTool(Pythia8Production)
+# Generation().Special.Pythia8Production.Commands += [
+#     'WeakSingleBoson:ffbar2gmZ = on',
+#     'WeakZ0:gmZmode = 2',
+#     '23:mayDecay = false']
+# 
+# EndInsertPythonCode
+#
+# Documentation: rare exclusive decay of Z0 to D0 gamma
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: <1s
+# Responsible: Hang Yin,Qundong Han
+# Email: hyin@cern.ch  qundong.han@cern.ch 
+# Date: 20160718
+#
+Alias myD0 D0
+Alias anti-myD0 anti-D0
+ChargeConj myD0 anti-myD0
+
+Decay Z0
+ 1.0 myD0 gamma PHSP;
+Enddecay
+
+Decay myD0
+ 1.0 K- pi+ PHSP;
+Enddecay
+
+End

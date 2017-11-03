@@ -1,0 +1,33 @@
+# EventType: 13166003
+#
+# Descriptor: {[[B_s0]nos -> ( D-=> K+ pi- pi- ) K- pi+ pi+ ]cc, [[B_s0]os -> ( D+=> K- pi+ pi+ ) K+ pi- pi- ]cc}
+#
+# NickName: Bs_D-K-pipi,Kpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  B_s0 decay to the D-K-pi+pi+ final state, with a Dalitz model decay of the D- 
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mark Whitehead
+# Email: mwhitehe@cern.ch
+# Date: 20150311
+#
+Alias      MyD-     D-
+Alias      MyD+     D+
+ChargeConj MyD+     MyD-
+#
+Decay B_s0sig
+  1.000     MyD- K- pi+ pi+ PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD+
+  1.000     K-        pi+       pi+   D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+End

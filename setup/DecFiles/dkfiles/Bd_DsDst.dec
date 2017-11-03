@@ -1,0 +1,84 @@
+# EventType: 11296020
+#
+# Descriptor: {[[B0]nos -> (D_s+ => K- K+ pi+) (D*(2010)- -> pi- (D~0 -> K+ pi-))]cc, [[B0]os -> (D_s- => K+ K- pi-) (D*(2010)+ -> pi+ (D0 -> K- pi+))]cc}
+#
+# NickName: Bd_DsDst
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation:  D*+ forced into D0 pi+ 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible:     Rolf Oldeman
+# Email: rudolf.oldeman@ca.infn.it
+# Date: 20101119
+#
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+Alias      MyPhi      phi
+Alias      MyAnti-K*0 anti-K*0
+Alias      MyK*0      K*0
+ChargeConj MyK*0      MyAnti-K*0
+ChargeConj MyPhi      MyPhi
+
+# -------------------------
+# THEN DEFINE THE D*+ AND D*-
+# -------------------------
+Alias             MyD*-       D*-
+Alias             Myanti-D0   anti-D0
+Alias             MyD*+       D*+
+Alias             MyD0        D0
+ChargeConj        MyD*+       MyD*-
+ChargeConj        MyD0        Myanti-D0
+
+# ---------------
+# DECAY OF THE B0
+# ---------------
+Decay B0sig
+  1.000     MyD*-    MyD_s+            SVS;
+Enddecay
+CDecay anti-B0sig
+
+# -----------------
+# DECAY OF THE DS+-
+# -----------------
+Decay MyD_s+
+  0.017712  MyPhi      pi+               SVS;
+  0.009     K+         K-        pi+     PHSP;
+  0.022     MyAnti-K*0 K+                SVS;
+Enddecay
+CDecay MyD_s-
+
+# ----------------
+# DECAY OF THE PHI
+# ----------------
+Decay MyPhi
+  1.000    K+    K-                      VSS;
+Enddecay
+
+# ---------------------
+# DECAY OF THE ANTI-K*0
+# ---------------------
+Decay MyAnti-K*0
+  1.000    K-    pi+                     VSS;
+Enddecay
+CDecay MyK*0
+
+# ---------------
+# DECAY OF THE D*-
+# ---------------
+Decay MyD*-
+1.000        Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myanti-D0
+1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+End
+

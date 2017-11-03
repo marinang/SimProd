@@ -1,0 +1,35 @@
+# EventType: 14543009
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) mu+ nu_mu]cc
+#
+# NickName: Bc_Jpsimunu,mm=BcVegPy,BcDaughtersInLHCbAndMassCut,M4.5GeV
+#
+# Production: BcVegPy
+#
+# #Cuts: 'LoKi::GenCutTool/TightCut'
+# Cuts: BcDaughtersInLHCbAndMassCut
+#
+# ExtraOptions: BcDiMuonMinMass
+#
+# Documentation: Bc decay to Jpsi(to mu+ mu- {,gamma} {,gamma} ), mu+ and nu_mu with phase space model. Dilepton in acceptance. The algorithm BcVegPy is weighted. The muon pairs combinations in the events are required to have a minimal mass.
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler
+# Email: marc-olivier.bettler@cern.ch
+# Date: 20130503
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Decay B_c+sig
+  1.000         MyJ/psi   mu+   nu_mu          PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+#
+End

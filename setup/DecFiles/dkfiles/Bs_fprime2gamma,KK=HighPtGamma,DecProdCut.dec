@@ -1,0 +1,47 @@
+# EventType: 13102222
+#
+# NickName: Bs_fprime2gamma,KK=HighPtGamma,DecProdCut
+#
+# Descriptor:  B_s0 -> (f'_2(1525) ->  K+ K-) gamma
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation().BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: B_s0->f'_2(1525) gamma decay, f'_2(1525) -> K+K- decay, Decay products in acceptance, with gamma PT > 1.5 GeV
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Olivier Deschamps
+# Email: odescham@in2p3.fr
+# Date: 20131015
+#
+#
+Alias      Myf'_2       f'_2
+ChargeConj Myf'_2  Myf'_2
+
+#
+Decay B_s0sig
+  1.000       Myf'_2   gamma                   HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myf'_2
+  1.0000         K+        K-                   TSS;
+Enddecay
+#
+End
+#

@@ -1,0 +1,35 @@
+# EventType: 13114040
+#
+# NickName: Bs_fprime2mumu,KK=PHSP,DecProdCut
+#
+# Descriptor:  [B_s0 -> (f'_2 ->  K+ K-) mu+ mu-]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1min 
+#
+# Documentation: B_s0->f'_2(1525) mu+ mu- decay, f'_2(1525) -> K+K- decay, 
+#                Phase space decay model, Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Christian Linn
+# Email: christian.linn@cern.ch
+# Date: 20140523
+#
+#
+Alias      Myf'_2  f'_2
+ChargeConj Myf'_2  Myf'_2
+#
+Decay B_s0sig
+  1.000       Myf'_2   mu+ mu-                  PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myf'_2
+  1.0000         K+        K-                   TSS;
+Enddecay
+#
+End
+#

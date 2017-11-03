@@ -1,0 +1,24 @@
+# EventType: 42112003
+#
+# Descriptor: pp -> (Z0/gamma* -> mu+ mu- {,gamma} {,gamma}) ... 
+#
+# NickName: Zg_mumu=PHOTOS
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 4*GeV LeptonIsFromMother true MotherOfLeptonMinMass 40*GeV NumberOfbquarks -1
+# ExtraOptions: Zgmumu=PHOTOS
+#
+# Documentation: 1 lepton with pT > 4 GeV and PHOTOS activated
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Myfanwy Liles
+# Email: mliles@cern.ch
+# Date: 20120520
+#
+
+#
+End
+#

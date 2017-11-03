@@ -1,0 +1,21 @@
+# EventType: 41900004
+#
+# Descriptor: pp => (t => b ...) (t~ => b~ ...) ... 
+#
+# NickName: tt_bb=1l,5GeV,1b
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 5*GeV LeptonIsFromMother true NumberOfbquarks 1 MotherOfThebquarks "t"
+# ExtraOptions: Top
+#
+# Documentation:  1 b-quark in the LHCb Acc, 1 lepton in LHCb acceptance with pt > 5 GeV
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email: stephane.tourneur@epfl.ch
+# Date: 20110305
+#
+End

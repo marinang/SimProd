@@ -1,0 +1,43 @@
+# EventType: 13144411
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) (eta_prime -> (eta -> gamma gamma) pi+ pi-)]cc
+#
+# NickName: Bs_Jpsietap,mm,etapipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, No CP violation, eta forced to gamma gamma
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: M. Nedham, S. T'Jampens
+# Email: tjampens@in2p3.fr
+# Date: 20101015
+#
+Alias       MyJ/psi  J/psi
+Alias       MyEta'   eta'
+Alias       MyEta    eta
+ChargeConj  MyJ/psi  MyJ/psi
+ChargeConj  MyEta'   MyEta'
+ChargeConj  MyEta    MyEta
+#
+Decay B_s0sig
+  1.000         MyJ/psi     MyEta'        SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.000         mu+         mu-          PHOTOS VLL;
+Enddecay
+#
+Decay MyEta'
+  1.000         MyEta       pi+       pi-      PHSP;
+Enddecay
+#
+Decay MyEta
+  1.000         gamma       gamma        PHSP;
+Enddecay
+#
+End
+

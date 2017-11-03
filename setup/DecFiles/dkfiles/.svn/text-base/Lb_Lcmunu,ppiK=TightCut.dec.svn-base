@@ -1,0 +1,55 @@
+# EventType: 15574001
+#
+# Descriptor:  Lambda_b0 -> (Lambda_c+ -> ^p+  ^K- ^pi+ ) ^mu- nu_mu~
+#
+# NickName: Lb_Lcmunu,ppiK=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ Lambda_b0 ->  (Lambda_c+ -> ^p+  ^K- ^pi+ )  ^mu-  nu_mu~ ]CC'
+# tightCut.Cuts      =    {
+#     '[mu-]cc'  : ' goodMuon ' ,
+#     '[p+]cc'   : ' goodProton ' ,
+#     '[K+]cc'   : ' goodKaon ' ,
+#     '[pi+]cc'  : ' goodPion ' }
+# tightCut.Preambulo += [
+#     'inAcc    = in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#     'goodMuon = ( GPT > 0.6 * GeV ) & ( GP > 2.8 * GeV ) & inAcc ' ,
+#     'goodProton = ( GPT > 0.2 * GeV ) & ( GP > 1.8 * GeV ) & inAcc ' ,
+#     'goodPion = ( GPT > 0.2 * GeV ) & ( GP > 1.8 * GeV ) & inAcc ' ,
+#     'goodKaon = ( GPT > 0.2 * GeV ) & ( GP > 1.8 * GeV ) & inAcc ' ]
+# EndInsertPythonCode
+#
+# Documentation: This is the decay file to generate  Lambda_b0 ->  (Lambda_c+ -> ^p+  ^K- ^pi+ )  ^mu-  nu_mu~
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Marcin Chrzaszcz
+# Email: mchrzasz@cern.ch
+# Date: 20150923
+# CPUTime: < 1 min
+#
+Alias      MyLambda_c+         Lambda_c+
+Alias      MyLambda_c-	       anti-Lambda_c-
+ChargeConj MyLambda_c+         MyLambda_c-
+#
+# actuall decay
+#
+Decay Lambda_b0sig
+  1.0000    MyLambda_c+        mu-  anti-nu_mu        PHOTOS   BaryonPCR  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.0000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay MyLambda_c-
+
+End
+

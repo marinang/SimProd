@@ -1,0 +1,34 @@
+# EventType: 12165451
+#
+# Descriptor: [B+ -> pi+ pi+ (D- -> K+ pi- pi- pi0)]cc
+#
+# NickName: Bu_D-2pi+,2pi-K+pi0=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1min
+# Responsible: Luiz Oliveira
+# Email: lsilvade@cern.ch
+# Date: 20140409
+#
+Alias MyD-      D-
+Alias MyD+      D+
+ChargeConj MyD+ MyD-
+#
+Decay B+sig
+  1.000	 pi+  pi+  MyD-  PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD-                       
+  1.000  K+  pi-  pi-  pi0  PHSP; 
+Enddecay                       
+CDecay MyD+               
+#
+End
+

@@ -1,0 +1,35 @@
+# EventType:  24164003
+#
+# Descriptor:  [J/psi(1S) -> (D+ -> K- pi+ pi+) K-]cc
+#
+# NickName:  Jpsi_D+K,Kpipi=DecProdCut
+#
+# Cuts:  DaughtersInLHCb
+#
+# Documentation:  Decay file for JPsi->DK
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Thomas Hancock
+# Email: Thomas.hancock@cern.ch
+# Date: 20170104
+#
+
+Alias      MyD+ D+
+Alias      MyD- D-
+ChargeConj MyD+ MyD-
+
+Decay J/psisig
+  0.5         MyD+        K-       PHSP;
+  0.5         MyD-        K+       PHSP;
+Enddecay
+#
+Decay MyD+
+  1.000      K-    pi+    pi+     PHSP;
+Enddecay
+CDecay MyD-
+#
+End
+#

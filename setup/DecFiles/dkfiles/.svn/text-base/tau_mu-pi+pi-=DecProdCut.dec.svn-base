@@ -1,0 +1,25 @@
+# EventType: 31113010
+#
+# Descriptor: [tau- -> mu- pi+ pi-]cc
+#
+# NickName: tau_mu-pi+pi-=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phase space decay model and decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# Tested: Yes
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date: 20110415
+#
+Decay tau-sig
+  1.000       mu-  pi+  pi-        PHSP;
+Enddecay
+CDecay tau+sig
+#
+#
+End

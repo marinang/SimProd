@@ -1,0 +1,55 @@
+# EventType: 27373001
+#
+# Descriptor: [D*+ -> (D0 -> mu+ e-) pi+]cc
+#
+# NickName: Dst_D0pi,mue=LooseCut
+#
+# Cuts: LoKi::GenCutTool/LooseCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'LooseCut' ) 
+# # 
+# looseCut = gen.SignalPlain.LooseCut
+# looseCut.Decay     = '[ D*(2010)+ -> ^( D0 => ^(mu+|e+) ^(mu-|e-) ) ^pi+ ]CC'
+# looseCut.Cuts      =    {
+#     '[mu-]cc' : 'goodMuon'     ,
+#     '[D0]cc'  : 'goodD0' }
+# looseCut.Preambulo += [
+#     'inAcc        = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodMuon     = ( GPT > 0.70 * GeV ) & ( GP > 3.80 * GeV ) & inAcc' ,
+#     'goodD0       = ( GPT > 1.60 * GeV )' ]
+#
+# EndInsertPythonCode
+#
+# Documentation:
+# Forces the D* decay in generic b-bbar / c-cbar events + Requires loose cuts and products in LHCb acceptance
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date: 20141211
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  0.500   mu+   e-   PHSP;
+  0.500   mu-   e+   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End

@@ -1,0 +1,24 @@
+# EventType: 31113006 
+#
+# Descriptor: [tau+ -> p+ mu+ mu-]cc
+#
+# NickName: tau+_p+mu+mu-=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model, DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: 	  Jonathan HARRISON
+# Email: jonathan.harrison@hep.manchester.ac.uk
+# Date:   20111013
+#
+Decay tau+sig
+  1.000		p+ mu+ mu-		PHSP;
+Enddecay
+CDecay tau-sig
+#
+#
+End

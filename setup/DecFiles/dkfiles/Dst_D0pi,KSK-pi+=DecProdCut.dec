@@ -1,0 +1,39 @@
+# EventType: 27265106
+#
+# Descriptor: [D*(2010)+ -> (D0 -> (KS0 -> pi+ pi-) K- pi+) pi+]cc
+#
+# NickName: Dst_D0pi,KSK-pi+=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Inclusive production of D*+. D* is forced to decay to D0 pi+, then D0 to (KS K- pi+) as phase space, then KS to (pi+ pi-) as phase space. Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Oliver Lupton
+# Email: oliver.lupton@physics.ox.ac.uk
+# Date: 20121128
+#
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+#
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+#
+Decay MyD0
+  1.000  myK_S0 K-  pi+        PHSP;
+Enddecay
+CDecay MyantiD0
+#
+Decay myK_S0
+1.000     pi+  pi-                      PHSP;
+Enddecay
+#
+End
+#

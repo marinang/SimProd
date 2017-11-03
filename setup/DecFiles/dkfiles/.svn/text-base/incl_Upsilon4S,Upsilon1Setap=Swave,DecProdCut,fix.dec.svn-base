@@ -1,0 +1,33 @@
+# EventType: 18912032
+#
+# Descriptor: Upsilon(4S) -> (Upsilon(1S) -> mu+ mu- {,gamma} {,gamma}) eta' 
+#
+# NickName: incl_Upsilon4S,Upsilon1Setap=Swave,DecProdCut,fix
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon4S
+#
+# Documentation: Upsilon(4S) decay to Upsilon(1S)(to mu+ mu- {,gamma} {,gamma}) and eta' in S-wave with PARTWAVE model, Upsilon daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Anton Poluektov
+# Email: anton.poluektov@cern.ch
+# Date: 20110909
+#
+#
+Alias      MyUpsilon Upsilon
+ChargeConj MyUpsilon MyUpsilon
+
+Decay Upsilon(4S)sig
+  1.000     MyUpsilon  eta'                 PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay MyUpsilon
+  1.000     mu+  mu-                        VLL;
+Enddecay
+
+End
+#

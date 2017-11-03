@@ -1,0 +1,42 @@
+# EventType: 12105150 
+#
+# Descriptor: [B+ -> (K*+ -> (K_S0 -> pi+ pi-) pi+) p+ anti-p-]cc
+#
+# NickName: Bu_Kst+pp,KSpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K0s forced into pi+ pi- and Kstar forced KS0 pi+
+# decay products in acceptance 
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Rafael Coutinho
+# Email: rsilvaco@cern.ch
+# Date: 20141031
+#
+# CPUTime: < 1 min
+#
+Alias      MyKst+    K*+
+Alias      MyKst-    K*-
+ChargeConj MyKst+    MyKst-
+Alias      MyKs      K_S0
+ChargeConj MyKs      MyKs
+#
+Decay B+sig
+  1.000    MyKst+    p+      anti-p-        PHSP; 
+Enddecay
+CDecay B-sig
+#
+Decay MyKst+
+  1.000    MyKs      pi+          VSS;
+Enddecay
+#
+Decay MyKs
+  1.000   pi+     pi-            PHSP;
+Enddecay
+CDecay MyKst-
+#
+End
+#

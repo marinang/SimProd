@@ -1,0 +1,40 @@
+# EventType: 12115111
+#
+# Descriptor: [B+ -> (K*- -> (K_S0 -> pi+ pi-) pi-) mu+ mu+ ]cc
+#
+# NickName: Bu_KstmumuSS,KSpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K*- forced into Ks0 pi-, Ks0 forced into pi+ pi-
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Harry Cliff
+# Email: harry.victor.cliff@cern.ch
+# Date: 20150624
+# CPUTime: <1min
+#
+Alias      MyKst+    K*+
+Alias      MyKst-    K*-
+ChargeConj MyKst+    MyKst-
+Alias      MyKs     K_S0
+ChargeConj MyKs     MyKs
+#
+Decay B+sig
+  1.000        MyKst-     mu+     mu+     BTOSLLBALL;
+Enddecay
+CDecay B-sig
+#
+Decay MyKst-
+  1.000        MyKs      pi-             VSS;
+Enddecay
+CDecay MyKst+
+#
+Decay MyKs
+  1.000       pi+      pi-      PHSP;
+Enddecay
+#
+End
+#

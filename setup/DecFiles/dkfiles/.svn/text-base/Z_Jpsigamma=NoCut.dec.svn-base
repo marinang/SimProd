@@ -1,0 +1,44 @@
+# EventType: 42142200
+#
+# Descriptor: pp -> [Z -> (J/psi(1S) -> mu+ mu-) gamma]cc ...
+# NickName: Z_Jpsigamma=NoCut
+# Cuts: None
+#
+# InsertPythonCode:
+# # Stop pile-up generation.
+# Generation().PileUpTool = "FixedLuminosityForRareProcess"
+#
+# # Pythia8 options.
+# from Gaudi.Configuration import importOptions
+# from Configurables import Pythia8Production
+# importOptions('$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py')
+# Generation().Special.addTool(Pythia8Production)
+# Generation().Special.Pythia8Production.Commands += [
+#     'WeakSingleBoson:ffbar2gmZ = on',
+#     'WeakZ0:gmZmode = 2',
+#     '23:mayDecay = false']
+# 
+# EndInsertPythonCode
+#
+# Documentation: rare exclusive decay of Z0 to Jpsi gamma
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Hang Yin, Qundong Han
+# Email: hyin@cern.ch, qundong.han@cern.ch  
+# Date: 20160718
+#
+Alias myJpsi J/psi
+ChargeConj myJpsi myJpsi
+
+Decay Z0
+ 1.0 myJpsi gamma PHSP;
+Enddecay
+
+Decay myJpsi
+ 1.0 mu+ mu- PHSP;
+Enddecay
+
+End

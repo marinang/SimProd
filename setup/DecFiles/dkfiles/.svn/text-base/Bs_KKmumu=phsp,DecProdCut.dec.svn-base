@@ -1,0 +1,27 @@
+# EventType: 13114007 
+#
+# Descriptor: [B_s0 ->  K+ K- mu+ mu-]cc
+#
+# NickName: Bs_KKmumu=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: the B_s0 ->  K+ K- mu^+ mu^- decay in the phase space approach 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Michal Kreps
+# Email: Michal.Kreps@cern.ch
+# Date: 20140201
+#
+#
+Decay B_s0sig
+   1.000   K+ K-  mu+  mu-   PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+#
+End
+

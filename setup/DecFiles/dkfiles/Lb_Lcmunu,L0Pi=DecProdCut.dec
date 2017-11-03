@@ -1,0 +1,48 @@
+# EventType: 15574102
+# 
+# Descriptor: {[ Lambda_b0 -> (Lambda_c+ -> (Lambda0 -> p+ pi-) pi+)  anti-nu_mu mu-]cc}
+# 
+# NickName: Lb_Lcmunu,L0Pi=DecProdCut
+#
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation:Semlileptonic Lambda B decay into Lc Mu Nu. Lc is forced to Lambda0 pi+, and Lambda0 forced to pi+ pi-.
+# EndDocumentation
+#
+#CPUTime: < 1 min
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Mohamad Kozeiha
+# Email: mohamad.kozeiha@cern.ch
+# Date: 20161103
+#
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+###
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        mu-  anti-nu_mu     PHOTOS   BaryonPCR  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000   MyLambda0 pi+	       PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda0
+  1.000   p+          pi-    PHSP;
+Enddecay
+#
+Decay Myanti-Lambda0
+  1.000   anti-p-    pi+     PHSP;
+Enddecay 
+#
+End

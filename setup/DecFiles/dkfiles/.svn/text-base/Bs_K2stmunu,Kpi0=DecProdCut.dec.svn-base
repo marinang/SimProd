@@ -1,0 +1,35 @@
+# EventType: 13512410
+#
+# Descriptor: [B_s0 => (K_2*(1430)- => K- pi0) nu_mu mu+]cc
+#
+# NickName: Bs_K2stmunu,Kpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay Bs0 -> K*_2(1430)-(->K- pi0) mu+ nu_mu
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Svende Braun
+# Email: braun@physi.uni-heidelberg.de
+# Date: 20151029
+#
+Alias      MyK_2*-      K_2*-
+Alias      MyK_2*+      K_2*+
+ChargeConj MyK_2*+      MyK_2*-
+#
+#
+Decay B_s0sig
+1.000 MyK_2*-    mu+  nu_mu        PHOTOS ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyK_2*-
+1.000     K- pi0             TSS;
+Enddecay
+CDecay MyK_2*+
+#
+End
+#

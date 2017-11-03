@@ -1,0 +1,49 @@
+# EventType: 17145042
+#
+# Descriptor: [B_1(L)+ -> (B_s0 -> (J/psi(1S) -> mu+ mu-) (phi(1020) -> K+ K-)) pi+]cc
+#
+# NickName: X5568+_Bspi+,Jpsiphi,mm=DecProdCut,PPChange,MaxWidth
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "B_1(L)+               195       10523   1.0      5.5680000      2.992000e-23                      B_1+       10523      0.10000000", "B_1(L)-               199      -10523  -1.0      5.5680000      2.992000e-23                      B_1-      -10523      0.10000000"
+# 
+# Documentation: Search for the tetraquark decaying to Bs pi+ observed by D0 collaboration. 
+# EndDocumentation
+#
+# CPUTime: < 1 min 
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20160310
+#
+Alias      MyJ/psi  J/psi
+Alias      MyPhi    phi
+ChargeConj MyJ/psi  MyJ/psi
+ChargeConj MyPhi    MyPhi
+Alias MyBs     B_s0
+Alias MyantiBs anti-B_s0
+ChargeConj MyBs      MyantiBs
+#
+Decay B_1+sig
+1.000   MyBs  pi+            VSS;
+Enddecay
+CDecay B_1-sig
+#
+Decay MyBs
+1.0000   MyJ/psi   MyPhi                SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyantiBs
+#
+Decay MyJ/psi
+  1.000         mu+         mu-          PHOTOS VLL;
+Enddecay
+#
+Decay MyPhi
+  1.000         K+          K-           VSS;
+Enddecay
+#
+End
+

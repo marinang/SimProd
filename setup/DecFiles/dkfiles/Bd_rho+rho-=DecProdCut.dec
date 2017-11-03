@@ -1,0 +1,44 @@
+# EventType: 11102411
+#
+# Descriptor: [B0 -> (rho(770)+ -> pi+ (pi0 -> gamma gamma)) (rho(770)- -> pi- (pi0 -> gamma gamma))]cc
+#
+# NickName: Bd_rho+rho-=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: No CP violation, longitudinal polarization, pi0 forced to gamma gamma, decay products in LHCb
+# EndDocumentation
+#
+# Tested: Yes
+# Responsible: Patrick Robbe, Olivier Deschamps
+# Date: 20120325
+#
+# PhysicsWG: BnoC
+#
+# Email: odescham@in2p3.fr
+#
+Alias      MyRho+ rho+
+Alias      MyRho- rho-
+ChargeConj MyRho+ MyRho-
+Alias      Mypi0  pi0
+ChargeConj Mypi0  Mypi0
+### Longitudinal polarization = 0 0 1 0 0 0
+### Transverse polarization = 1 0 0 0 1 0
+Decay B0sig
+  1.000         MyRho+      MyRho-            SVV_HELAMP 0.0 0.0 1.0 0.0 0.0 0.0; 
+Enddecay
+Decay anti-B0sig
+  1.000         MyRho-      MyRho+            SVV_HELAMP 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay MyRho+
+  1.000   pi+    Mypi0              VSS;
+Enddecay
+CDecay MyRho-
+#
+Decay Mypi0
+  1.000   gamma      gamma          PHSP;
+Enddecay
+#
+End
+

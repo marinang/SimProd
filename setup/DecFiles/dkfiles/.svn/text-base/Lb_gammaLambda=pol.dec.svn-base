@@ -1,0 +1,33 @@
+# EventType: 15102300
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) gamma]cc
+#
+# NickName: Lb_gammaLambda=pol
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Lambda0 forced into p pi, decay with helicity conservation
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Federica Legger (EPFL), Carlos Sanchez (IFIC)
+# Email: jean.wicht@cern.ch, casanche@cern.ch
+# Date: 20160524
+# CPUTime: <1min
+#
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+
+Decay Lambda_b0sig
+  1.000    MyLambda0         gamma HELAMP 0.   0.  1.   0.;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda0
+  1.000   p+          pi-        HELAMP .906   0.  .423   0.;
+Enddecay
+CDecay Myanti-Lambda0
+End
+#

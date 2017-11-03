@@ -1,0 +1,38 @@
+# EventType: 15102301
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) gamma]cc
+#
+# NickName: Lb_gammaLambda=phsp
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda0 forced into p pi, decay with generic phase space        
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Federica Legger (EPFL)
+# Email: jean.wicht@cern.ch
+# Date:   20111019
+#
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+
+Decay Lambda_b0sig
+  1.000    MyLambda0         gamma PHSP;
+Enddecay
+
+Decay anti-Lambda_b0sig
+  1.000    Myanti-Lambda0    gamma PHSP;
+Enddecay
+
+Decay MyLambda0
+  1.000   p+          pi-        PHSP;
+Enddecay
+
+Decay Myanti-Lambda0
+  1.000   anti-p-    pi+     PHSP;
+Enddecay 
+End
+#

@@ -1,0 +1,41 @@
+# EventType: 15102229
+#
+# Descriptor: [Lambda_b0 -> (Lambda(1670)0 -> p+ K-) gamma]cc
+#
+# NickName: Lb_gammaLambda1670=trpol,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: yes
+# 
+# Documentation: Lambda(1670)0 forced into p K, decay with generic phase space, 
+#          needs polarized lambda_b 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Federica Legger (EPFL)
+# Email: jean.wicht@cern.ch
+# Date:  20111019
+#
+Alias      MyLambda(1670)0 Lambda(1670)0
+Alias      Myanti-Lambda(1670)0 anti-Lambda(1670)0
+ChargeConj MyLambda(1670)0 Myanti-Lambda(1670)0
+
+Decay Lambda_b0sig
+  1.000      MyLambda(1670)0         gamma HELAMP 1.   0.  0.   0.;
+Enddecay
+
+Decay anti-Lambda_b0sig
+  1.000      Myanti-Lambda(1670)0         gamma HELAMP 0.   0.  1.   0.;
+Enddecay
+
+Decay MyLambda(1670)0  
+  1.000   p+          K-        PHSP;              
+Enddecay
+
+Decay Myanti-Lambda(1670)0  
+  1.000   anti-p-          K+        PHSP;              
+Enddecay
+
+End
+#

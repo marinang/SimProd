@@ -1,0 +1,47 @@
+# EventType: 11264401
+#
+# Descriptor: {[[B0]nos -> (D~0 => K+ pi- (pi0 -> gamma gamma)) (K*(892)0 -> K+ pi-)]cc, [[B0]os -> (D0 => K- pi+ (pi0 -> gamma gamma)) (K*(892)~0 -> K- pi+)]cc} 
+#
+# NickName: Bd_D0Kst,Kpipi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K*0 forced to K+ pi-, D0 decay through intermediate resonances
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Aurelien Martens
+# Email: martens@lal.in2p3.fr
+# Date: 20081103
+#
+Alias      MyD0        D0
+Alias      Myanti-D0   anti-D0
+ChargeConj MyD0        Myanti-D0
+Alias      Mypi0       pi0
+ChargeConj Mypi0       Mypi0
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj MyK*0       Myanti-K*0
+#
+Decay B0sig
+  1.000     MyK*0       Myanti-D0         SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD0
+  1.000     K-          pi+      Mypi0     D_DALITZ;
+Enddecay
+CDecay Myanti-D0
+#
+Decay Mypi0
+  1.000     gamma       gamma              PHSP;
+Enddecay
+#
+Decay MyK*0
+  1.000     K+          pi-                VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+#

@@ -1,0 +1,33 @@
+# EventType:  28144001
+#
+# Descriptor: psi(2S) -> (J/psi(1S) -> mu+ mu- ) pi+ pi- 
+#
+# NickName: psi2S_Jpsipipi
+#
+# Cuts: None
+#
+# CPUTime: 2 min
+#
+# Documentation: psi(2S) particle gun with decay to (J/psi -> mu mu) pi pi.  momentum sampled from pt-pz distribution generated using SuperChiC
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# Date: 20160108
+#
+
+##
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+
+Decay psi(2S)sig
+  1.000     MyJ/psi    pi+        pi-        VVPIPI;
+Enddecay
+#
+Decay MyJ/psi
+  1.000     mu+  mu-   PHOTOS  VLL;
+Enddecay
+End
+#

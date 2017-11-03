@@ -1,0 +1,22 @@
+# EventType: 10012014
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b=DiMuon,REWP
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: DiLeptonInAcceptance
+# Sample: RepeatDecay.Inclusive
+#
+# ExtraOptions: DiMuon_for_REWP
+#
+# Documentation: bb -> mumu + gen cuts
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marcin Chrzaszcz
+# Email: mchrzasz@cern.ch
+# Date:   20130923
+#
+End

@@ -1,0 +1,51 @@
+# EventType: 14245001
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu- ) p+ p~- pi+]cc
+#
+# NickName: Bc_Jpsipppi,mm=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to Jpsi(to mu+ mu- ) p+ p~- pi+ with PHSP, daughters in acceptance. 
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Yanxi ZHANG
+# Email: yanxi.zhang@cern.ch
+# Date: 20140212
+#
+
+Alias       MyJ/psi J/psi
+ChargeConj  MyJ/psi MyJ/psi
+
+Alias       MyEtac   eta_c 
+ChargeConj  MyEtac   MyEtac
+
+Alias       MyDelta++ Delta++
+Alias       MyDelta-- anti-Delta--
+ChargeConj  MyDelta++ MyDelta--
+
+Decay B_c+sig
+ 0.8        MyJ/psi p+       anti-p-  pi+       PHSP;
+ 0.1        MyJ/psi MyDelta++  anti-p-       	PHSP;
+ 0.1        MyJ/psi MyEtac   pi+       	      PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+1. mu+ mu- VLL;
+Enddecay
+#
+Decay MyEtac
+1. p+ anti-p- PHSP;
+Enddecay
+#
+Decay MyDelta++
+1.0 p+ pi+   PHSP;
+Enddecay
+CDecay MyDelta--
+#
+End

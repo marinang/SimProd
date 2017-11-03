@@ -1,0 +1,75 @@
+# EventType: 26165076
+#
+# Descriptor: [ Lambda_c(2625)+ -> ( Lambda_c+ -> p+ K- pi+) pi+ pi-]cc
+#
+# NickName: Lambdac2625,Lc,pKpi=phsp,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: (prompt) Lambda_c(2625)+ (parameters updated) decay into Lambda_c decay according to phase space decay model with tight cuts, partner of 25103006  event type
+# EndDocumentation
+#
+# ParticleValue: "Sigma_c*+  62  4214 1.0 2.6281 1.3164e-021      Sigma_c*+  4214 0.025", "Sigma_c*~- 63 -4214 -1.0 2.6281 1.3164e-021 anti-Sigma_c*- -4214 0.025"
+#
+# Sample: SignalRepeatedHadronization
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation() 
+# #signal     = generation.SignalPlain 
+# signal     = generation.SignalRepeatedHadronization 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[ Sigma_c*+ ==> ^( Lambda_c+ ==> ^p+ ^K- ^pi+) pi+ pi- ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity () ## to be sure ' , 
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack    =  ( GPT > 220 * MeV ) & ( GP  > 3.0 * GeV )   ' , 
+#     'goodTrack    =  inAcc & inEta & fastTrack                   ' ,     
+#     'longLived    =  75 * micrometer < GTIME                     ' , 
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )         ' , 
+#     'goodLc       =  inY & longLived     & ( GPT > 0.9 * GeV )   ' ,
+#     'Bancestors   =  GNINTREE ( GBEAUTY , HepMC.ancestors )      ' , 
+#     'notFromB     =  0 == Bancestors                             ' , 
+# ]
+# tightCut.Cuts     =    {
+#     '[Lambda_c+]cc'  : 'goodLc & notFromB ' ,
+#     '[K+]cc'         : 'goodTrack ' , 
+#     '[pi+]cc'        : 'goodTrack ' , 
+#     '[p+]cc'         : 'goodTrack & ( GP > 9 * GeV ) '
+#     }
+#
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GCHILD(GPT,'Lambda_c+'==GABSID)/GeV" , 1.0 , 20.0 , 38  )
+# tightCut.YAxis = ( "GCHILD(GY ,'Lambda_c+'==GABSID)   "  , 2.0 ,  4.5 , 10  )
+#
+# EndInsertPythonCode
+#
+# PhysicsWG:   Onia
+# Tested:      Yes
+# Responsible: Vanya Belyaev 
+# Email:       Ivan.Belyaev@<no-spam>itep.ru
+# Date:        20140419
+# CPUTime:     <1min
+#
+
+Alias            MyLambda_c+         Lambda_c+
+Alias       anti-MyLambda_c-    anti-Lambda_c-
+ChargeConj       MyLambda_c+  anti-MyLambda_c-
+#
+Decay Sigma_c*+sig
+  1.000          MyLambda_c+  pi+  pi-   PHSP;
+  0.0000001      MyLambda_c+  gamma      PHSP;
+Enddecay
+CDecay anti-Sigma_c*-sig
+#
+Decay MyLambda_c+
+  1.000          p+      K-      pi+     PHSP;
+Enddecay
+CDecay anti-MyLambda_c-
+#
+End 

@@ -1,0 +1,48 @@
+# EventType: 13104051
+#
+# Descriptor: [B_s0 -> (phi -> K+ K-) (rho(770)0 -> pi+ pi-) ]cc
+#
+# NickName: Bs_phirho0=CPV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: CP violation depending on beta_s, daughters in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Antonio Romero Vidal
+# Email: antonio.romero@usc.es
+# Date: 20130409
+#
+Define Al 0.8
+Define Apa 0.5
+Define Ape 0.33
+Define pAl 0.0
+Define pApa 3.14
+Define pApe 3.14
+# 
+Alias      MyPhi   phi
+Alias      MyRho0  rho0 
+ChargeConj MyPhi   MyPhi
+ChargeConj MyRho0  MyRho0
+# 
+Decay B_s0sig
+  1.000    MyPhi    MyRho0   PVV_CPLH 0.4 1 Apa pApa Al pAl Ape pApe; 
+Enddecay
+#
+Decay anti-B_s0sig
+  1.000    MyPhi    MyRho0   PVV_CPLH 0.4 1 Apa pApa Al pAl Ape pApe;
+Enddecay
+#
+Decay MyPhi
+  1.000        K+       K-                  VSS;
+Enddecay
+#
+Decay MyRho0
+  1.000        pi+      pi-                 VSS;
+Enddecay
+#
+End
+#
+

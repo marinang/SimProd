@@ -1,0 +1,49 @@
+# EventType: 13166151
+#
+# Descriptor: {[B_s0 -> (D*- -> (anti-D0 -> K+ pi-) pi-) (K_S0 -> pi+ pi-) pi+]cc}
+#
+# NickName: Bs_Dst-KSpi+,D0pi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D*- forced into D0 pi- with DecProdCut applied
+# EndDocumentation
+#
+# PhysicsWG: B2OC 
+# Tested: Yes
+# Responsible: Vincent Tisserand
+# Email: vincent.tisserandàlapp.in2p3.fr
+# Date: 20150526
+#
+Alias             MyD*-       D*-
+Alias             Myanti-D0   anti-D0
+Alias             MyD*+       D*+
+Alias             MyD0        D0
+ChargeConj        MyD*+       MyD*-
+ChargeConj        MyD0        Myanti-D0
+
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+
+#
+Decay B_s0sig
+1.000        MyD*-  myK_S0   pi+                     PHOTOS PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD*-
+1.000        Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay myK_S0
+1.000     pi+  pi-                      PHSP;
+Enddecay
+#
+Decay Myanti-D0
+1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+End
+

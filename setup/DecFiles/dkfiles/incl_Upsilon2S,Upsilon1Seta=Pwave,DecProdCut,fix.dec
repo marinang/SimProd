@@ -1,0 +1,43 @@
+# EventType: 18412413
+#
+# ExtraOptions: Upsilon
+#
+# Descriptor: Upsilon(2S) -> (Upsilon(1S) -> mu+ mu- {,gamma} {,gamma}) eta
+#
+# NickName: incl_Upsilon2S,Upsilon1Seta=Pwave,DecProdCut,fix
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon(2S) decay to Upsilon(1S)(to mu+ mu- {,gamma} {,gamma}) and eta in P-wave with PARTWAVE model, Upsilon daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Anton Poluektov
+# Email: anton.poluektov@cern.ch
+# Date: 20110909
+#
+#
+Alias      MyUpsilon Upsilon
+ChargeConj MyUpsilon MyUpsilon
+
+Alias      MyEta eta
+ChargeConj MyEta MyEta
+
+Decay Upsilon(2S)sig
+  1.000     MyUpsilon  MyEta                     PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay MyUpsilon
+  1.000     mu+  mu-                        VLL;
+Enddecay
+
+Decay MyEta
+  0.36638  pi-        pi+        pi0         ETA_DALITZ ;
+  0.63362  gamma      gamma                  PHSP ;
+Enddecay
+
+End
+#

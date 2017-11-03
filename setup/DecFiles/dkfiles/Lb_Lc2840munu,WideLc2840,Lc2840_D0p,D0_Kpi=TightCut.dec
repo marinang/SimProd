@@ -1,0 +1,76 @@
+# EventType: 15574090
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> (D0 -> K- pi+) p+) mu- anti-nu_mu]cc
+#
+# NickName: Lb_Lc2840munu,WideLc2840,Lc2840_D0p,D0_Kpi=TightCut
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Mika Vesterinen
+# Email: mika.vesterinen@cern.ch
+# Date: 20150304
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 3 min
+#
+# Documentation: Lambda_b0 -> D0 p mu nu, with D0 -> K-pi+. Improve the description of the D0p mass distribution by
+# forcing the D0p to go through a MODIFIED LAMBDA_C+, with a mass that is just above the D0p threshold, and a large width.
+# Also modify the Lambda_c+ properties to avoid trying to decay it to a Lambda_c (now kinematically disallowed).
+# EndDocumentation
+#
+# ParticleValue: "Lambda_c+  62  4122  1.0  2.840 2.0e-024   Lambda_c+  4122  0", "Lambda_c~-  63 -4122 -1.0  2.840 2.0e-024  anti-Lambda_c-  -4122   0.","Lambda_c(2625)+ 104124 104124 1.0 4.880 5.00e-024 Lambda_c(2625)+ 0 1.0e-004", "Lambda_c(2625)~- -104124 -104124 -1.0 4.880 5.00e-024 anti-Lambda_c(2625)- 0 1.0e-004"
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut  = Generation().SignalPlain.TightCut
+# tightCut.Decay = "[ Lambda_b0 => (Lambda_c+ -> (D0 -> ^K- ^pi+) ^p+) ^mu- nu_mu~]CC"
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 250 * MeV ) & (GP > 3000 * MeV)",
+#'[K-]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 250 * MeV ) & (GP > 3000 * MeV)",
+#'[pi+]cc'  : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 250 * MeV ) & (GP > 3000 * MeV)",
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 800 * MeV ) & (GP > 3000 * MeV)"
+# }
+# EndInsertPythonCode
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias      MyD       D0
+Alias      MyDbar    anti-D0
+ChargeConj MyD       MyDbar
+#
+Decay Lambda_b0sig
+ 1.0    MyLambda_c+        mu-  anti-nu_mu     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.0      MyD p+ PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyD
+  1.0      K- pi+ PHSP;
+Enddecay
+CDecay MyDbar
+#
+Alias MyLambda_c(2625)+      Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+ Myanti-Lambda_c(2625)-
+#
+Alias MyLambda0      Lambda0
+Alias Myanti-Lambda0  anti-Lambda0
+ChargeConj MyLambda0 Myanti-Lambda0
+#
+Decay MyLambda_c(2625)+
+ 1.000 MyLambda0 pi+      PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+End
+
+

@@ -1,0 +1,32 @@
+# EventType: 12105170
+#
+# Descriptor: [B+ -> K+ (K_S0 -> pi+ pi-) (K_S0 -> pi+ pi-)]cc
+#
+# NickName: Bu_KSKSK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K_S0s forced into pi+ pi-, decay products in acceptance
+# EndDocumentation
+#
+# CPUTime: < 30 s
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Timon Schmelzer
+# Email: Timon.Schmelzer@cern.ch
+# Date: 20161111
+#
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+#
+Decay B+sig
+  1.000        K+     MyKs     MyKs        PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyKs
+  1.000        pi+      pi-                 PHSP;
+Enddecay
+#
+End
+

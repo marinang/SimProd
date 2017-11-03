@@ -1,0 +1,45 @@
+# EventType: 26143010
+#
+# Descriptor: [Sigma_c+ -> (J/psi(1S) -> mu+ mu-) p+]cc
+#
+# NickName: incl_X+_Jpsip,mumu=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "Sigma_c+  83  4212  1.0  4.450 1.64553e-023      Sigma_c+   4212  0.00000000", "Sigma_c~- 84 -4212 -1.0  4.450 1.64553e-023 anti-Sigma_c-  -4212  0.00000000"
+# InsertPythonCode:
+# Generation().SignalPlain.SignalPIDList = [ 4212, -4212 ]
+# EndInsertPythonCode
+
+# Documentation: [X+ -> (J/psi(1S) -> mu+ mu-) p+] PHSP
+# Decfile for inclusive resonance X+ -> Jpsi p, where X might be a pentaquark.
+# Sigma_c+ is used for this unknow particle. Its mass is around 4450+/-40 MeV. 
+# PHSP is used for the decay.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Mingrui Zhao (Tsinghua), Zhenwei Yang
+# Email:  zhaomr13@mails.tsinghua.edu.cn, zhenwei.yang@cern.ch
+# Date: 20150206
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+
+#
+Decay Sigma_c+sig 
+  1.000    MyJ/psi          p+  PHSP;
+Enddecay
+CDecay anti-Sigma_c-sig
+
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+
+
+End
+#

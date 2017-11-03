@@ -1,0 +1,41 @@
+# EventType: 15102213
+#
+# Descriptor: [Lambda_b0 -> p+ K- gamma]cc
+#
+# NickName: Lb_gammapK=HighPtGamma,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation().BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma & GDECTREE('[Lambda_b0 -> p+ K- gamma]CC'))"
+#    ]
+# EndInsertPythonCode
+#
+#
+# Documentation: Lambda_b0 forced into p K gamma, decay products in acceptance, decay with high gamma PT > 1.5 GeV 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi
+# Email: vitalii.lisovskyi@cern.ch
+# Date:   20161027
+# CPUTime: 1.5 min
+#
+
+Decay Lambda_b0sig
+  1.000    p+          K-         gamma PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

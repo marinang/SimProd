@@ -1,0 +1,20 @@
+# EventType: 20000010
+#
+# Descriptor: pp => [<Xc>]cc ...
+#
+# NickName: incl_c=Biased2CinAcc
+#
+# Cuts: BiasedBB
+#
+# CutsOptions:  NumberOfBMin 2 EtaMax 5.0 EtaMin 1.5 PtMin 0 VMin 0.0 CTauMin 0 MinBDeltaPhi 0 MinChargedDaug 0 RadiusMin 0
+#
+# Documentation: ccbar enriched, 2 c in Acc.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email: potterat@ecm.ube.es
+# Date: 20120227
+#
+End

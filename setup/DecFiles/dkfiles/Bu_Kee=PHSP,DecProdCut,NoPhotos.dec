@@ -1,0 +1,26 @@
+# EventType: 12123007
+#
+# Descriptor: B+ -> K+ e+ e-
+#
+# NickName: Bu_Kee=PHSP,DecProdCut,NoPhotos
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: the B+ -> K+ ell^+ ell^- decay with flat Phase Space    
+# EndDocumentation                                                       
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:  Eugenia Price, Konstantinos Petridis
+# Email: eugenia.phobie.price@cern.ch, konstantinos.petridis@cern.ch
+# Date: 20160311
+# CPUTime: < 1 min
+#
+noPhotos
+Decay B+sig
+  1.000        K+     e+     e-     PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+#

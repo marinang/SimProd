@@ -1,0 +1,41 @@
+# EventType: 14643048
+#
+# Descriptor: [B_c+ => (J/psi(1S) => mu+ mu-) (tau+ => mu+ nu_mu nu_tau~) nu_tau]CC
+#
+# NickName: Bc_JpsiTauNu,mununu=BcVegPy,ffEbert
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+
+# Documentation: Bc+ to J/psi tau, J/psi -> mumu, tau forced to mu nu nu final state. Form factor model by Ebert et al., doi:10.1103/PhysRevD.82.034032. Radiative mode included. BcDaughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Jack Wimberley
+# Email: jack.wimberley@cern.ch
+# Date: 20140109
+#
+Alias      MyTau-   tau-
+Alias      MyTau+   tau+
+ChargeConj MyTau-   MyTau+
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Decay MyTau-
+  1.00000  mu-         anti-nu_mu    nu_tau             PHOTOS TAULNUNU;
+Enddecay
+CDecay MyTau+
+#
+Decay MyJ/psi
+  1.00000  mu+        mu-                               PHOTOS VLL ;
+Enddecay
+#
+Decay B_c+sig
+  1.00000  MyJ/psi     MyTau+        nu_tau             PHOTOS BC_VMN 2;
+Enddecay
+CDecay B_c-sig
+#
+End

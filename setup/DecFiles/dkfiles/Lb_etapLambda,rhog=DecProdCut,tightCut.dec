@@ -1,0 +1,39 @@
+# EventType: 15102312
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) (eta_prime -> rho0 gamma)]cc
+#
+# NickName: Lb_etapLambda,rhog=DecProdCut,tightCut
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: Hb2KSetap
+#
+# Tested: Yes
+# Responsible: Jimmy McCarthy
+# Email: jxm@hep.ph.bham.ac.uk
+# PhysicsWG: BnoC
+# Date: 20120903
+#
+# Documentation: Lambda forced to p pi, tight DecProdCut
+# EndDocumentation
+# 
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      Myeta'        eta'
+ChargeConj Myeta'        Myeta'
+#
+Decay Lambda_b0sig
+  1.000  MyLambda Myeta'    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda
+  1.000  p+   pi-   PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+Decay Myeta'
+  1.000  rho0 gamma SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+End

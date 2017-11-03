@@ -1,0 +1,70 @@
+# EventType: 13160000
+# 
+# Descriptor: [B_s0 -> (Ds- -> (tau- -> pi- pi- pi+ nu_tau) anti-nu_tau) pi+ pi- pi+]cc
+# 
+# NickName: Bs_Ds3pi,TauNu=DecProdCut,tightcut,tauolababar
+#
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+#
+#
+# Documentation: Possible Background for B -> tau tau
+# Bs to Ds+ 3pi, with Ds+ to tau final state.
+# The tau lepton decays in the 3-prong charged pion mode using the Tauola BaBar model.
+# All final-state products in the acceptance.
+# Same as 13264091, but with different tau decay model
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Kristof De Bruyn
+# Email: debruyn@cppm.in2p3.fr
+# Date: 20161025
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         MyD_s+   D_s+
+Alias         MyD_s-   D_s-
+ChargeConj    MyD_s+   MyD_s-
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau-   MyTau+
+Alias         Mya_1-   a_1-
+Alias         Mya_1+   a_1+
+ChargeConj    Mya_1+   Mya_1-
+Alias         Myf_2    f_2
+ChargeConj    Myf_2    Myf_2
+#
+Decay B_s0sig
+  0.72        Mya_1+   MyD_s-         SVS;
+  0.10        MyD_s-   rho0     pi+   PHSP;
+  0.18        MyD_s-   Myf_2    pi+   PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+ 1.00         MyTau+   nu_tau         SLN;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyTau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay MyTau+
+#
+Decay Mya_1+
+  1.000       rho0      pi+           VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Myf_2
+  1.0000      pi+       pi-           TSS ;
+Enddecay
+End
+#

@@ -1,0 +1,53 @@
+# EventType: 11412200
+#
+# Descriptor: [B0 -> mu+ mu- eta]cc 
+#
+# NickName: Bd_etamumu=MS,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: the B^0_d -> eta ell^+ ell^- decay with the transition form factors 
+# from the paper  D.Melikhov, B.Stech, PRD62, 014006 (2000).
+# Input parameters -- mu        - the scale parameter (in GeV's);
+#                     res_swch  - resonant switching parametr:
+#                     ias       - switching parametr for \alpha_s(M_Z) value:
+#                     Wolfenstein parameterization for CKM matrix:
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch
+# Date: 20111021
+#
+Define mu 5.0
+Define Nf 5
+Define res_swch 0
+Define ias 1
+Define A 0.88
+Define lambda 0.227
+Define barrho 0.22
+Define bareta 0.34
+#
+Alias      MyEta   eta
+ChargeConj MyEta   MyEta
+#
+Decay B0sig
+  1.000        MyEta     mu+     mu-   BTOSLLMS mu Nf res_swch ias A lambda barrho bareta;
+Enddecay                           			 						
+CDecay anti-B0sig
+#
+# PDG 2008
+#
+Decay MyEta
+  0.3933    gamma gamma                    PHSP;
+  0.3257    pi0 pi0 pi0                    PHSP;
+  0.2274    pi- pi+ pi0                    ETA_DALITZ;
+  0.0461    gamma pi- pi+                  PHSP;
+  0.0068    gamma e+  e-                   PHSP;
+  0.0003    gamma mu+ mu-                  PHSP;
+  0.0004    gamma gamma pi0                PHSP;
+Enddecay
+#
+End
+#

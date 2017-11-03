@@ -1,0 +1,41 @@
+# EventType: 16145139
+#
+# Descriptor: [Xi_b- -> (Lambda0 -> p+ pi-) K- (J/psi(1S) -> mu+ mu-)]cc
+#
+# NickName: Xib_JpsiLambdaK,mm=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: J/psi force to go to mu mu,  Lambda forces to go to p pi, includes radiative mode.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Liming Zhang
+# Email: liming.zhang@cern.ch
+# Date: 20150819
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+# 
+Decay Xi_b-sig 
+1.000    MyJ/psi MyLambda K-     PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyJ/psi
+1.000     mu+  mu-         PHOTOS VLL;
+Enddecay
+#
+Decay MyLambda
+1.000   p+          pi-                PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#
+

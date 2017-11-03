@@ -1,0 +1,62 @@
+# EventType: 15396210
+# 
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) (D_s*- -> (D_s- ->  K+ K- pi-) gamma)]cc
+# 
+# NickName: Lb_LcDsst,Lc_pKpi,Dsst_Dsgamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lc Ds* with Lc -> p K pi and Ds* -> Ds gamma, decay products in acceptance. Includes K*0 resonances in Lambda_c decay.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Florian Reiß
+# Email: florian.reiss@cern.ch
+# Date: 20160608
+#
+Alias      MyDst_s-               D_s*-
+Alias      Myanti-Dst_s+          D_s*+
+ChargeConj MyDst_s-               Myanti-Dst_s+
+#
+Alias      MyD_s-               D_s-
+Alias      Myanti-D_s+          D_s+
+ChargeConj MyD_s-               Myanti-D_s+
+#
+Alias      MyLambda_c+          Lambda_c+
+Alias      Myanti-Lambda_c-     anti-Lambda_c-
+ChargeConj MyLambda_c+          Myanti-Lambda_c-
+#
+Alias      MyK*0                K*0
+Alias      Myanti-K*0           anti-K*0
+ChargeConj MyK*0                Myanti-K*0
+#
+Decay Lambda_b0sig
+ 1.00 MyLambda_c+	MyDst_s-		PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyD_s-
+ 1.00 K-	K+	pi-		D_DALITZ;
+Enddecay
+CDecay Myanti-D_s+
+#
+Decay MyLambda_c+
+ 0.008600000 Delta++ K-                                      PHSP;
+ 0.010700000 p+      Myanti-K*0                              PHSP;
+ 0.025400000 p+      K-      pi+                             PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+ 1.00 K+	pi-			PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyDst_s-
+  1.000        MyD_s-       gamma             VSP_PWAVE;
+Enddecay
+CDecay Myanti-Dst_s+
+#
+End

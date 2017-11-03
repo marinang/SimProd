@@ -1,0 +1,53 @@
+# EventType: 13170000
+# 
+# Descriptor: [B_s0 -> Ds- -> (tau- -> pi- pi- pi+ anti-nu_tau) mu nu_mu]cc
+# 
+# NickName: Bs_Dsmunu,TauNu=DecProdCut,TightCut,tauolababar
+#
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+#
+# Documentation: Possible Background for B -> tau tau.
+# Bs to Ds+ mu nu, with Ds+ to tau final state.
+# The tau lepton decays in the 3-prong charged pion mode using the Tauola BaBar model.
+# All final-state products in the acceptance.
+# Same as 13574000, but with different tau decay model
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Kristof De Bruyn
+# Email: debruyn@cppm.in2p3.fr
+# Date: 20161025
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         MyD_s+   D_s+
+Alias         MyD_s-   D_s-
+ChargeConj    MyD_s+   MyD_s-
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau-   MyTau+
+#
+Decay B_s0sig
+  1.000       MyD_s-   mu+     nu_mu   ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+ 1.00         MyTau+   nu_tau          SLN;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyTau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay MyTau+
+End
+#

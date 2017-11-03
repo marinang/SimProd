@@ -1,0 +1,24 @@
+# EventType: 22162001
+#
+# Descriptor: [D0 -> K- K+]cc
+#
+# NickName: D0_KK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Ulrich Kerzel, Harry Cliff
+# Email: unknown@<nospam>cern.ch
+# Date: 20101014
+#
+Decay D0sig
+  1.0   K-  K+   PHSP;
+Enddecay
+CDecay anti-D0sig
+#
+End
+

@@ -1,0 +1,33 @@
+# EventType: 11164082
+#
+# Descriptor: {[[B0]nos => K+ K- (D~0 -> pi+ pi-)]cc, [[B0]os => K- K+ (D0 -> pi- pi+)]cc}
+#
+# NickName: Bd_D0KK,pipi=PHSP
+#
+# Cuts: None
+#
+# Documentation: B0 decay with phase space model - no cuts required
+# EndDocumentation
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mark Whitehead 
+# Email: mwhitehe@cern.ch
+# Date: 20121009
+#
+
+Alias MyD0       D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+
+
+Decay B0sig
+1.0   Myanti-D0 K+ K-              PHSP;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD0
+1.0   pi-  pi+                        PHSP;
+Enddecay
+CDecay Myanti-D0
+
+End

@@ -1,0 +1,47 @@
+# EventType: 15104220
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ KS0 (pi0 -> gamma gamma) ) K-]cc
+#
+# NickName: Lb_LambdacK,pKSpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible:  Rafael Coutinho
+# Email: rsilvaco@cern.ch
+# Date: 20130131
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Alias      MyKs       K_S0
+ChargeConj MyKs       MyKs
+#
+Alias      Mypi0      pi0
+ChargeConj Mypi0      Mypi0
+#
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        K-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000    p+      MyKs    Mypi0        PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyKs
+  1.000   pi+     pi-         PHSP;
+Enddecay
+#
+Decay Mypi0
+  1.000 gamma   gamma          PHSP;
+Enddecay  
+#
+End
+#

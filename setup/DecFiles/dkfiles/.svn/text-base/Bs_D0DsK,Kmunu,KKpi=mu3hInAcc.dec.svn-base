@@ -1,0 +1,44 @@
+# EventType: 13796002
+# Descriptor: [B_s0 -> K+ (D0 -> K- mu+ nu_mu) (D_s- -> K+ K- pi-)]cc
+# NickName: Bs_D0DsK,Kmunu,KKpi=mu3hInAcc
+# Cuts: BeautyTo2CharmTomu3h
+# CPUTime: < 1 min
+# Documentation: Decay File for B_s0 -> D0 D_s- K+ with D0 -> KmunuX and Ds -> KKpi.
+#                Requires that the mu from charm and the 3h from other charm are in acc.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Stephen Ogilvy
+# Email: stephen.ogilvy@cern.ch
+# Date: 20170920
+#
+Alias My_D0 D0
+Alias My_anti-D0 anti-D0
+ChargeConj My_D0 My_anti-D0
+#
+Alias My_D_s+ D_s+
+Alias My_D_s- D_s-
+ChargeConj My_D_s+ My_D_s- 
+#
+Decay My_D0
+  0.019200000 K*-     mu+     nu_mu                           PHOTOS  ISGW2; 
+  0.033300000 K-      mu+     nu_mu                           PHOTOS  ISGW2;  
+  0.002380000 pi-     mu+     nu_mu                           PHOTOS  ISGW2; 
+  0.001770000 rho-    mu+     nu_mu                           PHOTOS  ISGW2; 
+Enddecay
+CDecay My_anti-D0
+#
+Decay My_D_s+
+  0.055     K+    K-     pi+          PHOTOS D_DALITZ;
+Enddecay
+CDecay My_D_s-
+#
+# 
+Decay B_s0sig
+  1.0 My_D0 My_D_s- K+ PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+#

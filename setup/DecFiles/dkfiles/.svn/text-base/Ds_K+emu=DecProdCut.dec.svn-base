@@ -1,0 +1,28 @@
+# EventType: 23113010
+#
+# Descriptor: [D_s+ -> K+ e+ mu-]cc
+#
+# NickName: Ds_K+emu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces a D_s+ to decay into K+ e+ mu- with products in the LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Jon Harrison
+# Email: jonathan.harrison@manchester.ac.uk
+# Date: 20151203
+# CPUTime: < 1 min
+#
+
+
+Decay D_s+sig
+  1.000   K+  e+ mu-  PHSP;
+Enddecay
+CDecay D_s-sig
+
+#
+End
+

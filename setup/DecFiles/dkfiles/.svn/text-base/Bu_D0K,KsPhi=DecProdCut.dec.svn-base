@@ -1,0 +1,46 @@
+# EventType: 12165003
+#
+# Descriptor: [B+ -> (D~0 -> Ks Phi) K+]cc
+#
+# NickName: Bu_D0K,KsPhi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Vincent Tisserand
+# Email: tisserav@lapp.in2p3.fr
+# Date: 20111108
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+Alias Myphi phi
+Alias MyK_S0  K_S0
+#
+Decay B+sig
+  1.000     Myanti-D0  K+               PHSP;
+Enddecay
+CDecay B-sig
+#
+
+Decay MyD0
+1.000   Myphi MyK_S0                  SVS;
+Enddecay
+#
+Decay Myanti-D0
+1.000   Myphi MyK_S0                  SVS;
+Enddecay
+#
+Decay Myphi
+1.0000    K+ K-                    VSS;
+Enddecay
+#
+Decay MyK_S0
+1.0000  pi+ pi-                         PHSP;
+Enddecay
+#
+End

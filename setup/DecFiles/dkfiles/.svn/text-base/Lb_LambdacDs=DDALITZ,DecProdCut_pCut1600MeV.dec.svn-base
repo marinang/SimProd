@@ -1,0 +1,53 @@
+# EventType: 15296002
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K+ pi-) (Ds- -> K-K+Pi-)]cc
+#
+# NickName: Lb_LambdacDs=DDALITZ,DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Lambda_b0 -> Lambda_c+Ds-, Lambda_c+ -> p+K+Pi- with intermediate chg states, Ds- -> K-K+Pi- by D_Dalitz
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Justin Garofoli
+# Email: justing@physics.syr.edu
+# Date: 20111013
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+ChargeConj MyD_s+ MyD_s-
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        MyD_s-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyD_s+
+  1.0000     K+         K-        pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyLambda_c+
+ 0.1924 Delta++ K-                                      PHSP;
+ 0.2394 p+      Myanti-K*0                              PHSP;
+ 0.5682 p+      K-      pi+                             PHSP;
+#  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+Decay MyK*0
+  0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+End
+#

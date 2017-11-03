@@ -1,0 +1,22 @@
+# EventType: 42100003
+#
+# Descriptor: pp -> (Z0/gamma* -> tau+ tau- -> l ...) ...
+#
+# NickName: Zg_tautau_condensed
+#
+# Cuts: PythiaHiggsType
+# CutsOptions: NumberOfLepton 2 LeptonPtMin 18*GeV LeptonIsFromMother true MotherOfLeptonMinMass 40*GeV NumberOfbquarks -1
+#
+# ExtraOptions: Zg_tautau_condensed
+#
+# Documentation: Z->tautau in (loose) LHCb Zll fiducial region, with per-channel acceptance cut
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Chitsanu Khurewathanakul
+# Email: chitsanu.khurewathanakul@cern.ch
+# Date: 20160905
+#
+End
+#

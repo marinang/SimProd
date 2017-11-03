@@ -1,0 +1,37 @@
+# EventType: 43900052
+#
+# Descriptor: pp->(  H_20 -> ( H_30 -> b anti-b ) ( H_30 -> b anti-b) )
+#
+# NickName: Higgs_AA_bbbb,mH=125GeV,mA=15GeV,tA=0ps
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/FourbFromH0InAcceptance
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "FourbFromH0InAcceptance" )
+# tracksInAcc = Generation().FourbFromH0InAcceptance
+# tracksInAcc.Code = " count ( H0has4bin ) > 0 "
+# ## - HepMC::IteratorRange::descendants   4
+# tracksInAcc.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import ns, GeV, mrad"
+#     , "isH0              = ( 'H_20' == GID)"
+#     , "isbin             = ( ('b' == GABSID) & (GTHETA < 400.0*mrad))"
+#     , "H0has4bin = (isH0 & ( GNINTREE(isbin , 4 ) > 3 ) )"
+#      ]
+# EndInsertPythonCode
+#
+# ExtraOptions: HidValleyH
+# ParticleValue: "H_20 88 35 0.0 125.0 9.4e-26 Higgs'0 35 0.0e+00" , "H_30 89 36 0.0  15.0 9.4e-26      A0 36 0.0e+00"
+#
+# Documentation: Higgs->AA->bbbb from NMSSM and other models. Simulated using Pythia's H_30 and H_20 particles redefined for our needs.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Stephane Tourneur
+# Email: stephane.tourneur@epfl.ch
+# Date: 20120825
+#
+End
+#

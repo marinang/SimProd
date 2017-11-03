@@ -1,0 +1,87 @@
+# EventType: 13576160
+#
+# Descriptor: [B_s0 -> (D'_s1- -> (D*- -> (anti-D0 -> K+ pi-) pi-) (K_S0 -> pi+ pi-) ) mu+ nu_mu ]cc
+#
+# NickName: Bs_Ds1munu,Ds1=DstKS0,TightCut 
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import * 
+# Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+# tightCut = Generation().SignalRepeatedHadronization.TightCut 
+# tightCut.Decay = '^[ [B_s0]cc => ^(D_s1(2536)- ==> ^( D*(2010)- ==> ^(D~0 ==> ^K+ ^pi-) ^pi-) ^(KS0 ==> ^pi+ ^pi-) ) ^mu+ ^nu_mu ]CC'
+# #
+# tightCut.Preambulo += [
+#       'inAcc        = (in_range(0.005, GTHETA, 0.400))', 
+#          'GVZ = LoKi.GenVertices.PositionZ()',
+#          'from GaudiKernel.SystemOfUnits import millimeter',
+#          'goodMu       = (GPT > 700 * MeV)  & (GP > 2.0*GeV) & inAcc',
+#          'goodK        = (GPT > 300 * MeV)  & (GP > 2.0*GeV) & inAcc',
+#          'goodpi       = (GPT > 300 * MeV)  & (GP > 2.0*GeV) & inAcc',
+#          'goodD        = (GPT > 1200 * MeV)',
+#          'goodB        = (GFAEVX(abs(GVZ), 0) - GFAPVX(abs(GVZ), 0) > .5 * millimeter)'
+#          ]
+# tightCut.Cuts = {
+#    '[B_s0]cc'     : 'goodB',
+#    '[D*(2010)-]cc': 'goodD',
+#    '[D0]cc'       : 'goodD',
+#    '[K+]cc'       : 'goodK',
+#    '[pi+]cc'      : 'goodpi',
+#    '[mu+]cc'      : 'goodMu'
+#        }
+# EndInsertPythonCode                            
+# Documentation: Bs2DstarMuNu background sample with tight cuts on p, pT and Vz for Asld and Dmd analysis in Bd2DstarMuNu channel
+# EndDocumentation
+#
+# 
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Basem KHANJI
+# Email: basem.khanji@cern.ch
+# Date: 20140924
+# CPUTime: < 2 min
+#
+
+Alias      MyDs1+     D'_s1+
+Alias      MyDs1-     D'_s1-
+Alias      MyDst+     D*+
+Alias      MyDst-     D*-
+Alias      MyD0       D0
+Alias      Myanti-D0  anti-D0
+Alias      MyKs       K_S0
+
+ChargeConj MyDs1+     MyDs1-
+ChargeConj MyDst+     MyDst-
+ChargeConj MyD0       Myanti-D0
+ChargeConj MyKs       MyKs
+#
+Decay B_s0sig
+1.0      MyDs1- mu+ nu_mu PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyDs1-
+  1.0      MyDst- MyKs PHSP;
+Enddecay
+CDecay MyDs1+
+#
+Decay MyDst-
+  1.0      Myanti-D0 pi- PHSP;
+Enddecay
+CDecay MyDst+
+
+Decay Myanti-D0
+  1.0     K+ pi-  PHSP;
+Enddecay
+CDecay MyD0
+
+Decay MyKs
+  1.0  pi+  pi- PHSP;
+Enddecay
+
+End
+
+

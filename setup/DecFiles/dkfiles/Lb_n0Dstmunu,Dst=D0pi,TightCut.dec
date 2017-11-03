@@ -1,0 +1,70 @@
+# EventType: 15575070
+# 
+# Descriptor: [ Lambda_b0 -> (D*+ -> (D0 -> K- pi+) pi+) anti-nu_mu mu- n0]cc
+#
+# NickName: Lb_n0Dstmunu,Dst=D0pi,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:                                                                                                    
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalPlain.addTool( LoKi__GenCutTool,'TightCut')
+# tightCut = Generation().SignalPlain.TightCut
+# tightCut.Decay = '^[ [Lambda_b0]cc => ^(D*(2010)+ ==> ^(D0 ==> ^K- ^pi+) ^pi+) ^n0 ^mu- ^nu_mu~ ]CC'
+# 
+# tightCut.Preambulo += [
+#         'inAcc        = (in_range(0.005, GTHETA, 0.400))',
+#         'GVZ = LoKi.GenVertices.PositionZ()',
+#         'from GaudiKernel.SystemOfUnits import millimeter',
+#         'goodMu       = (GPT > 700 * MeV)  & (GP > 2.0*GeV) & inAcc',
+#         'goodK        = (GPT > 300 * MeV)  & (GP > 2.0*GeV) & inAcc',
+#         'goodpi       = (GPT > 300 * MeV)  & (GP > 2.0*GeV) & inAcc',
+#         'goodD        = (GPT > 1200 * MeV)',
+#         'goodB        = (GFAEVX(abs(GVZ), 0) - GFAPVX(abs(GVZ), 0) > .5 * millimeter)'
+#         ]
+# tightCut.Cuts = {
+#     '[Lambda_b0]cc': 'goodB',
+#     '[D*(2010)-]cc': 'goodD',
+#     '[D~0]cc'      : 'goodD',
+#     '[K+]cc'       : 'goodK',
+#     '[pi+]cc'      : 'goodpi',
+#     '[mu+]cc'      : 'goodMu'
+#     }
+# EndInsertPythonCode                                                                                                                                     
+# Documentation: lambdab2DstarMuNu background sample with tight cuts on p, pT and Vz for Asld and Dmd analysis in Bd2DstarMuNu channel
+# EndDocumentation 
+# PhysicsWG: B2SL
+# Tested: Yes 
+# Responsible: Basem KHANJI 
+# Email: basem.khanji@cern.ch
+# Date: 20140924
+# CPUTime: 3 min 
+
+
+Alias      MyDst+     D*+
+Alias      MyDst-     D*-
+Alias      MyD0       D0
+Alias      Myanti-D0  anti-D0
+
+ChargeConj MyDst+     MyDst-
+ChargeConj MyD0       Myanti-D0
+#
+Decay Lambda_b0sig
+1.0      n0 MyDst+ mu- anti-nu_mu PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyDst+
+  1.0      MyD0 pi+ PHSP;
+Enddecay
+CDecay MyDst-
+
+Decay MyD0
+  1.0     K- pi+  PHSP;
+Enddecay
+CDecay Myanti-D0
+
+End
+
+

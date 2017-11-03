@@ -1,0 +1,39 @@
+# EventType: 18104001
+#
+# Descriptor: eta_b(1S) -> ( phi(1020) -> K+ K- ) ( phi(1020) -> K+ K- ) 
+#
+# NickName: Etab_phiphi,KK=DecProdCut
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# ParticleValue: "Upsilon(1S)           387         553   0.0      9.39800000      0.000000e+00                   Upsilon         553      0.00000000"
+#
+# CPUTime: < 1 min
+#
+# Documentation: eta_b decay to phi phi, keep only particles in acceptance
+# Upsilon(1S) used instead of Etab
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20160125
+#
+#
+Alias   Myphi  phi
+ChargeConj  Myphi   Myphi
+#
+Decay Upsilonsig
+  1.000         Myphi  Myphi      PHSP;
+Enddecay
+#
+Decay Myphi
+  1.000  K+      K-    VSS; 
+Enddecay
+#
+End
+#
+

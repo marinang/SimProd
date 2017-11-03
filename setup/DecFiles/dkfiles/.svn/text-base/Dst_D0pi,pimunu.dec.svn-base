@@ -1,0 +1,34 @@
+# EventType: 27573000
+#
+# Descriptor: [D*(2010)+ -> (D0 -> {pi- mu+ nu}) pi+]cc
+#
+# NickName: Dst_D0pi,pimunu
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Forces the D* decay to D0 pi+, with the D0 to pi mu nu.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Grant McGregor
+# Email: Grant.Mcgregor@<nospam>hep.manchester.ac.uk
+# Date: 20110302
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.000 pi- mu+ nu_mu PHOTOS ISGW2;  
+Enddecay
+CDecay MyantiD0
+#
+End
+

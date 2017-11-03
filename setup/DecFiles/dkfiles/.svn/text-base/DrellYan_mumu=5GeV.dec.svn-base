@@ -1,0 +1,23 @@
+# EventType: 42112012
+#
+# Descriptor: pp -> (Z0/gamma* -> mu+ mu-) ... 
+#
+# NickName: DrellYan_mumu=5GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonIsFromMother true NumberOfbquarks -1 LeptonPtMin 1.0*GeV
+# ExtraOptions: DrellYanmumu5GeV
+#
+# Documentation: muon PT>1GeV, dimuon invarmass > 5GeV.
+# [ckhurewa@20150720]: Added support for Pythia8.
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: from file by Karol Hennessy
+# Email: revkarol@gmail.com
+# Date: 20070827
+#
+End
+#

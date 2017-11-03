@@ -1,0 +1,25 @@
+# EventType: 12103031
+#
+# Descriptor: [B+ -> pi+ K- K+]cc
+#
+# NickName: Bu_pi+K-K+=phsp,NoCut
+#
+# Cuts: None
+#
+# Documentation: B+ decay to pi+, K- and K+ with phase space model, no generator level cuts
+# EndDocumentation
+#
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Michal Kreps, James Libby
+# Email: M.Kreps@warwick.ac.uk
+# Date: 20110909
+#
+Decay B+sig
+1.000       pi+     K-     K+     PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+

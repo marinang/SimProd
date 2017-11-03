@@ -1,0 +1,23 @@
+# EventType: 21263010
+#
+# Descriptor: [D+ -> K- pi+ pi+]cc
+#
+# NickName: D+_K-pi+pi+=res,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, Dalitz decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Mat Charles
+# Email: matthew.charles@<nospam>cern.ch
+# Date: 20100514
+#
+Decay D+sig
+  1.000        K-        pi+        pi+             D_DALITZ;
+Enddecay
+CDecay D-sig
+#
+End

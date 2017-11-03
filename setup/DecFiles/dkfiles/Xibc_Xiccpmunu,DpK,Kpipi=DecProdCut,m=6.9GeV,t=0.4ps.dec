@@ -1,0 +1,55 @@
+# EventType: 16576061
+#
+# Descriptor: [Xi_bc0 -> (Xi_cc+ -> (D+ -> K- pi+ pi+) p+ K-) anti-nu_mu mu-]cc
+#
+# NickName: Xibc_Xiccpmunu,DpK,Kpipi=DecProdCut,m=6.9GeV,t=0.4ps
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# ParticleValue: " Xi_bc0 522 5142 0.0 6.90000000 0.400000e-12 Xi_bc0 5142 0.00000000", " Xi_bc~0 523 -5142 0.0 6.90000000 0.400000e-12 anti-Xi_bc0 -5142 0.00000000"
+#
+# Documentation: decay file of Xi_bc0 -> (Xi_cc+ -> (D+ -> K- pi+ pi+) p+ K-) mu- nu_mu 
+# using dedicated GenXicc package for production, cuts with XiccDaughtersInLHCb, phase space decay model used. 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: S. Blusk
+# Email: sblusk@syr.edu
+# Date: 20161011
+#
+
+#Alias      Xi_bc0sig         Xi_bc0
+#Alias      anti-Xi_bc0sig    anti-Xi_bc0
+#ChargeConj Xi_bc0sig         anti-Xi_bc0sig
+
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+#
+Alias MyXi_cc+ Xi_cc+
+Alias Myanti-Xi_cc- anti-Xi_cc-
+ChargeConj MyXi_cc+ Myanti-Xi_cc-
+#
+Decay Xi_bc0sig
+  1.00   MyXi_cc+  mu-	anti-nu_mu                  PHSP;
+Enddecay
+CDecay anti-Xi_bc0sig
+#
+Decay MyXi_cc+
+  1.00   MyD+ p+ K-                                      PHSP;
+Enddecay
+CDecay Myanti-Xi_cc-
+#
+Decay MyD+
+  1.000    K-        pi+    pi+          D_DALITZ;
+Enddecay
+CDecay MyD-
+
+
+#
+End
+

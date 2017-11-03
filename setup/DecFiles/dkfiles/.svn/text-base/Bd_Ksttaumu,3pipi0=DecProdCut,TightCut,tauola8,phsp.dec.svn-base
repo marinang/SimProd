@@ -1,0 +1,77 @@
+# EventType: 11113000 
+#
+# Descriptor:  [B0 -> (K*0 -> K+ pi-) (tau- -> TAUOLA) mu+]cc
+#
+#
+# NickName: Bd_Ksttaumu,3pipi0=DecProdCut,TightCut,tauola8,phsp
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+#
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[ B0 -> ^([mu+]CC) ([tau- ==> ^pi+ ^pi- ^pi- pi0 nu_tau]CC) ([K*(892)0 ==> ^K+ ^pi-]CC) ]CC'
+# tightCut.Cuts      =    {
+#     '[pi-]cc'   : ' goodPion  ' ,
+#     '[K+]cc'    : ' goodKaon  ' ,
+#     '[mu+]cc'   : ' goodMuon  ' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import MeV',
+#     'inAcc = in_range( 0.005, GTHETA, 0.400)',
+#     'goodMuon  = ( GPT > 950  * MeV ) & inAcc' ,
+#     'goodKaon  = ( GPT > 220  * MeV ) & inAcc' ,
+#     'goodPion  = ( GPT > 220  * MeV ) & inAcc' ]
+#
+# EndInsertPythonCode
+#
+#
+# Documentation: Bd decay to K* tau mu
+# K* decays to Kpi final state.
+# Tau lepton decay in the 3-prong charged pion plus a pi0, using Tauola 8.
+# Phase-space decay for B
+# All final-state products but the pi0 in the acceptance.
+# Tight generator level cuts applied for all final state particles but the pi0 
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Francesco Polci 
+# Email: francesco.polci@cern.ch
+# Date: 20170920
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+Alias         MyK*0      K*0
+Alias         Myanti-K*0 anti-K*0
+ChargeConj    MyK*0      Myanti-K*0
+#
+Decay B0sig
+  0.500       MyK*0      Mytau+     mu-        PHSP;
+  0.500       MyK*0      mu+        Mytau-     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000       K+         pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Mytau-
+  1.00        TAUOLA 8;
+Enddecay
+CDecay Mytau+
+#
+End

@@ -1,0 +1,44 @@
+# EventType: 14265001
+#
+# Descriptor: [B_c+ -> (D_s+ => K- K+ pi+) (phi -> K+ K-)]cc
+#
+# NickName: Bc_Dsphi-DDalitz=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance, Ds Dalitz Decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible:     S. Blusk
+# Email: sblusk@syr.edu
+# Date: 20120208
+#
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+Alias      MyPhi       phi
+ChargeConj MyPhi       MyPhi
+
+Decay B_c+sig
+  1.000     MyPhi   MyD_s+              SVS;
+Enddecay
+CDecay B_c-sig
+
+Decay MyD_s+
+  1.0000     K+         K-        pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+Decay MyPhi
+  1.000        K+        K-                     VSS;
+Enddecay
+
+
+#
+End
+

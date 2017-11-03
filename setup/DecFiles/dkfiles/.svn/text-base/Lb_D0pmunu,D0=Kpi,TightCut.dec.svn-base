@@ -1,0 +1,52 @@
+# EventType: 15574030
+#
+# Descriptor: [Lambda_b0 -> (D0 -> K- pi+) mu- anti-nu_mu p+]cc
+#
+# NickName: Lb_D0pmunu,D0=Kpi,TightCut
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Mika Vesterinen
+# Email: mika.vesterinen@cern.ch
+# Date: 20150130
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 3 min
+#
+# Documentation: Lambda_b0 -> D0 p mu nu sample for background studies in semileptonics
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut  = Generation().SignalPlain.TightCut
+# tightCut.Decay = "[ Lambda_b0 => (D0 -> ^K- ^pi+) ^mu- nu_mu~ ^p+ ]CC"
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 250 * MeV ) & (GP > 3000 * MeV)",
+#'[K-]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 250 * MeV ) & (GP > 3000 * MeV)",
+#'[pi+]cc'  : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 250 * MeV ) & (GP > 3000 * MeV)",
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 800 * MeV ) & (GP > 3000 * MeV)"
+#   }
+# EndInsertPythonCode
+#
+#
+Alias      MyD       D0
+Alias      MyDbar    anti-D0
+ChargeConj MyD       MyDbar
+#
+Decay Lambda_b0sig
+1.0     MyD mu- anti-nu_mu p+ PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+
+Decay MyD
+  1.0      K- pi+ PHSP;
+Enddecay
+CDecay MyDbar
+
+End
+
+

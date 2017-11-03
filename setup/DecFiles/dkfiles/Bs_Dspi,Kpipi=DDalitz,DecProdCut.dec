@@ -1,0 +1,35 @@
+# EventType: 13164044
+#
+# Descriptor: {[[B_s0]nos -> (D_s- => pi+ pi- K-) pi+]cc, [[B_s0]os -> (D_s+ => pi- pi+ K+) pi-]cc}
+#
+# NickName: Bs_Dspi,Kpipi=DDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# B_s0 decay to D_s- (Kpipi) pi+ with Dalitz decay model for D_s- decay.
+# DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@{nospam}cern.ch
+# Date: 20121213
+
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Decay B_s0sig
+  1.000     MyD_s-     pi+      PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s-
+  1.000     pi+    pi-     K-   D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+End
+#

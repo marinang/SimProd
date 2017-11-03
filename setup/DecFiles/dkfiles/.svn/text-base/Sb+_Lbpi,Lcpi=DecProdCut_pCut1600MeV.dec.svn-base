@@ -1,0 +1,48 @@
+# EventType: 16165021
+# NickName: Sb+_Lbpi,Lcpi=DecProdCut_pCut1600MeV
+# Descriptor: [Sigma_b+ -> (Lambda_b0 -> (Lambda_c+ -> p+ K- pi+ ) pi-) pi+]cc
+#
+# Documentation: Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# 
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Responsible:  Anton Poluektov
+# Email: A.O.Poluektov@warwick.ac.uk
+# Tested: Yes
+# Date: 20120206
+#
+
+#Alias Sigma_b+sig Sigma_b+
+#Alias anti-Sigma_b-sig anti-Sigma_b-
+#ChargeConj Sigma_b+sig anti-Sigma_b-sig
+
+Alias MyLambda_b0 Lambda_b0
+Alias Myanti-Lambda_b0 anti-Lambda_b0
+ChargeConj MyLambda_b0 Myanti-Lambda_b0
+
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+Decay Sigma_b+sig
+  1.000    MyLambda_b0        pi+     PHSP;
+Enddecay
+CDecay anti-Sigma_b-sig
+
+Decay MyLambda_b0
+  1.000    MyLambda_c+        pi-         PHSP;
+Enddecay
+CDecay Myanti-Lambda_b0
+
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End
+#

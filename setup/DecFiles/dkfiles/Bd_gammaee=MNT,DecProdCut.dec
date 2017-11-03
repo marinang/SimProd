@@ -1,0 +1,38 @@
+# EventType: 11122200 
+#
+# Descriptor: [B_d0 -> gamma e+ e-]cc 
+#
+# NickName: Bd_gammaee=MNT,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: 
+# Input parameters -- mu         - the scale parameter (in GeV's);
+#                     res_swch   - resonant switching parametr:
+#                     ias        - switching parametr for \alpha_s(M_Z) value:
+#                     Wolfenstein parameterization for CKM matrix:
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch
+# Date: 20111021
+#
+Define mu 5.0
+Define Nf 5
+Define res_swch 1
+Define ias 1
+Define Egamma 0.02
+Define A 0.88
+Define lambda 0.227
+Define barrho 0.22
+Define bareta 0.34
+#
+Decay B0sig
+   1.000    gamma   e+   e-   BSTOGLLMNT mu Nf res_swch ias Egamma A lambda barrho bareta;
+Enddecay
+CDecay anti-B0sig
+#
+End
+

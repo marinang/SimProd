@@ -1,0 +1,41 @@
+# EventType: 12163211
+#
+# Descriptor: [B+ -> (D*(2010)+ -> pi+ (D~0 -> K- pi+)) gamma ]cc
+#
+# NickName: Bu_Dstgamma,D0pi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:    This rare radiative decay passed only from WA.
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email:       Nikolai.Nikitine@cern.ch
+# Date:        20120420
+#
+Alias        MyD*-        D*-
+Alias        MyD*+        D*+
+ChargeConj   MyD*+        MyD*-
+Alias        MyD0         D0
+Alias        Myanti-D0    anti-D0
+ChargeConj   MyD0         Myanti-D0
+#
+Decay B+sig
+  1.000       MyD*+      gamma         SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay MyD*+
+  1.000    MyD0        pi+             VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.000      K-   pi+                  PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End
+

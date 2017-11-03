@@ -1,0 +1,65 @@
+# EventType: 14645001
+#
+# Descriptor: [B_c+ -> (JPsi -> mu+ mu-) (D_s+ -> (tau+ -> pi+ pi+ pi- anti-nu_tau) nu_tau)]cc
+#
+# NickName: Bc_JpsiInclc,TauNu=DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc+ to JPsi (D(s)+ -> tau nu), JPsi -> mumu, tau forced to 3pi nu final state. Background Channel.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Christian Elsasser
+# Email: elsasser@cern.ch
+# Date: 20130214
+#
+
+Alias         MyTau-    tau-
+Alias         MyTau+    tau+
+ChargeConj    MyTau-  MyTau+
+
+Alias         MyD+      D+
+Alias         MyD-      D-
+ChargeConj    MyD-    MyD+
+
+Alias         MyD_s+    D_s+
+Alias         MyD_s-    D_s-
+ChargeConj    MyD_s-  MyD_s+
+
+
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+
+
+Decay B_c+sig
+  0.00170    MyJ/psi      MyD_s+                  SVS;
+  0.00009    MyJ/psi      MyD+                    SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000         mu+       mu-           PHOTOS VLL;
+Enddecay
+#
+Decay MyD+
+  0.000770283 MyTau+    nu_tau                                  SLN;
+Enddecay
+CDecay MyD-
+#
+Decay MyD_s+
+  0.031100000 MyTau+    nu_tau                                  SLN;
+Enddecay
+CDecay MyD_s-
+#
+#
+Decay MyTau-
+  1.000     pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

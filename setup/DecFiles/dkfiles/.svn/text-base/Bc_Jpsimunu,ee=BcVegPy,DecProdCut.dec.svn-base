@@ -1,0 +1,34 @@
+# EventType: 14553012
+# 
+# Descriptor: [B_c+ => (J/psi(1S) -> e+ e-) mu+ nu_mu]cc
+# 
+# NickName: Bc_Jpsimunu,ee=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Decay file for Bc to Jpsi(to e+ e-) mu nu_mu, using BcVegPy generator, daughters in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Flavio Archilli
+# Email: flavio.archilli@cern.ch
+# Date: 20120918
+#
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi J/psi
+#
+Decay B_c+sig
+  1.000     MyJ/psi  mu+ nu_mu   PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000    e+  e-   PHOTOS VLL;
+Enddecay
+#
+End
+#

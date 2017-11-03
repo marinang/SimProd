@@ -1,0 +1,44 @@
+# EventType: 12147102
+#
+# Descriptor: [B+ ->  (J/psi(1S) -> mu+ mu-) (KS0 -> pi+ pi-) pi+ pi- pi+]cc
+#
+# NickName: Bu_JpsiKspipipi,mm=DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: final states Jpsi KS0 pi+ pi- pi+/-
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: M M Reid
+# Email: mreid@cern.ch
+# Date: 20121001
+#
+Alias		my_K_S0		K_S0
+ChargeConj	my_K_S0	    	my_K_S0
+
+Alias      	my_J/psi    	J/psi
+ChargeConj 	my_J/psi    	my_J/psi
+
+#
+Decay B+sig
+1.0		my_J/psi	my_K_S0	    pi+	   pi-    pi+    PHSP;
+Enddecay
+Decay B-sig
+1.0		my_J/psi	my_K_S0	    pi+	   pi-    pi-    PHSP;
+Enddecay
+#
+#
+Decay my_J/psi
+1.0    mu+		mu-    			        	 VLL;
+Enddecay
+#
+Decay my_K_S0
+1.0	   pi+	       pi-			                 PHSP;
+Enddecay
+#
+End 
+

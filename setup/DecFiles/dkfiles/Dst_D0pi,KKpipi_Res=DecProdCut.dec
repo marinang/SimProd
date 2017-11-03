@@ -1,0 +1,105 @@
+# EventType: 27265001
+#
+# Descriptor: [ D*(2010)+ -> ( D0 -> K+ K- pi+ pi-)  pi+ ]cc
+#
+# NickName: Dst_D0pi,KKpipi_Res=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Viaud
+# Email: viaud@<nospam>lal.in2p3.fr
+# Date: 20101214
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Alias MyPhi phi
+Alias MyRho rho0
+Alias Myf0 f_0
+Alias Myomega      omega
+
+Alias MyKst K*0
+Alias MyantiKst anti-K*0
+ChargeConj MyKst MyantiKst
+
+Alias MyK1 K_1+
+Alias MyantiK1 K_1-
+ChargeConj MyK1 MyantiK1
+
+Alias MyK1_1400 K'_1+
+Alias MyantiK1_1400 K'_1-
+ChargeConj MyK1_1400 MyantiK1_1400
+
+
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  0.000710  MyPhi MyRho    SVV_HELAMP  1.0 0.0 1.7 0.0 1.0 0.0;  
+  0.000070  MyKst MyantiKst   SVV_HELAMP  1.0 0.0 1.7 0.0 1.0 0.0;  
+  0.000400  MyK1 K-   SVS;  
+  0.000400  MyantiK1 K+   SVS;  
+  0.000265  MyK1_1400 K-   SVS;  
+  0.000265  MyantiK1_1400 K+   SVS;  
+  0.000360  Myf0 pi+ pi-   PHSP;  
+  0.000024  MyPhi pi+ pi-    PHSP;  
+  0.000050  MyRho K+ K-    PHSP;  
+  0.000135  MyKst K- pi+   PHSP;  
+  0.000135  MyantiKst K+ pi-   PHSP;  
+
+Enddecay
+CDecay MyantiD0
+
+
+Decay MyPhi
+  1.000 K+  K-    VSS;  
+Enddecay
+
+Decay MyRho
+  1.000 pi+  pi-    VSS;  
+Enddecay
+
+Decay Myf0
+  1.000 K+  K-    PHSP;  
+Enddecay
+
+Decay Myomega
+  1.0000      pi+       pi-            VSS;
+Enddecay
+
+Decay MyKst
+  1.000 K+  pi-    VSS;  
+Enddecay
+CDecay MyantiKst
+
+Decay MyK1
+0.1400    rho0   K+         VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.0710    MyKst  pi+        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.0168    Myomega  K+       VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.1444    K+     pi+  pi-   PHSP;
+Enddecay
+CDecay MyantiK1
+
+Decay MyK1_1400
+0.4194   MyKst  pi+          VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.0100   rho0 K+             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.0002   Myomega K+          VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.0133   K+  pi+  pi-        PHSP;
+Enddecay
+CDecay MyantiK1_1400
+
+
+
+#
+End
+

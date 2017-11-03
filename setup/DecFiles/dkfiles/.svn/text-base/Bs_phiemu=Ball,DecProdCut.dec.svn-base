@@ -1,0 +1,33 @@
+# EventType: 13314000
+#
+# Descriptor: {[B_s0 -> (phi(1020) -> K+ K-) e+ mu-]cc, [B_s0 -> (phi(1020) -> K+ K-) mu+ e-]cc} 
+#
+# NickName: Bs_phiemu=Ball,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phi forced to K+ K-, Ball FF model
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Francesco Polci
+# Email: francesco.polci@cern.ch
+# Date: 20141204
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_s0sig
+  0.5000       MyPhi     e+  mu-        BTOSLLBALL 6;
+  0.5000       MyPhi     mu+  e-        BTOSLLBALL 6;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

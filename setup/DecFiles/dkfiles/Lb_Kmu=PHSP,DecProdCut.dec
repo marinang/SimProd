@@ -1,0 +1,27 @@
+# EventType:   15112001
+#
+# Descriptor:  [Lambda_b0 -> K+ mu-]cc
+#
+# NickName:    Lb_Kmu=PHSP,DecProdCut
+#
+# Cuts:  DaughtersInLHCb
+#
+# Documentation:  Decay file for Lambda_b0 -> K+ mu- 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested:  yes
+# Responsible:  Oliver Grunberg
+# Email: oliver.gruenberg@googlemail.com
+# Date:    20111025
+#
+###################
+
+Decay Lambda_b0sig
+1.00000  K+ mu-		PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+###################
+
+End

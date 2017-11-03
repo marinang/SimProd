@@ -1,0 +1,24 @@
+# EventType: 40911008
+#
+# Descriptor: pp -> {[W+ -> {mu+ nu_mu, e+ nu_e}]cc, (Z0 -> {mu+ mu-, e+ e-})} (H_10 -> b anti-b) 
+#
+# NickName: Higgs_bb=mH130GeV,onlyl,10GeV
+#
+# Cuts: PythiaHiggsType
+#
+# ParticleValue: "H_10 87 25 0.0 130.000 9.400e-026 Higgs0 25 0.000e+000"
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 10*GeV LeptonIsFromMother true NumberOfbquarks 0
+# ExtraOptions: Higgs
+#
+# Documentation: MHiggs=130 GeV, only lepton in LHCb acceptance with pt > 10 GeV
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Neal Gauvin
+# Email: stephane.tourneur@epfl.ch
+# Date: 20090923
+#
+End
+#
+

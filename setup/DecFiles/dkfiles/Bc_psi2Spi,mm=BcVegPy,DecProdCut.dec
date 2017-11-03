@@ -1,0 +1,36 @@
+# EventType: 14143020
+#
+# Descriptor: [B_c+ -> (psi(2S) -> mu+ mu- {,gamma} {,gamma}) pi+]cc
+#
+# NickName: Bc_psi2Spi,mm=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay Bc+ -> psi(2S)(-> Mu+ Mu- {,gamma} {,gamma}) pi+ with SVS model, all daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Liang Zhong
+# Email: zhong-l09@mails.tsinghua.edu.cn
+# Date: 20110909
+#
+Alias       Mypsi2S   psi(2S)
+ChargeConj  Mypsi2S   Mypsi2S
+#
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+#
+Decay B_c+sig
+  1.000     Mypsi2S   pi+             SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi2S
+  1.000     mu+       mu-                    PHOTOS   VLL;
+Enddecay
+#
+End
+#

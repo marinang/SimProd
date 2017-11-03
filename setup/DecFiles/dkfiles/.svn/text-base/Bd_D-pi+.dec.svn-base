@@ -1,0 +1,33 @@
+# EventType: 11164001
+#
+# Descriptor: {[[B0]nos -> (D- => K+ pi- pi-) pi+]cc, [[B0]os -> (D+ => K- pi+ pi+) pi-]cc}
+#
+# NickName: Bd_D-pi+
+#
+# Cuts: None
+#
+# Documentation: Includes resonances in D- decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Vladimir Gligorov
+# Email: vladimir.gligorov@cern.ch
+# Date: 20120509
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+#
+Decay B0sig
+  1.000     MyD-      pi+          PHSP;
+Enddecay
+CDecay anti-B0sig
+# D_DALITZ includes resonances contributions (K*(892), K*(1430), K*(1680))
+Decay MyD-
+  1.000    K+        pi-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End
+

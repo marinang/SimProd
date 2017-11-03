@@ -1,0 +1,34 @@
+# EventType: 21573001
+#
+# Descriptor: [D+ -> anti-K*0(K- pi+)  mu+ nu_mu]cc
+#
+# NickName: D+_Kst0munu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the decay of D+ to anti-K*0 mu nu, anti-K*0 forced to K- pi+. Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Grant McGregor
+# Email: Grant.Mcgregor@<nospam>hep.manchester.ac.uk
+# Date: 20110406
+#
+Alias Myanti-K*0 anti-K*0
+Alias MyK*0   K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+Decay D+sig
+  1.000   Myanti-K*0  mu+ nu_mu    PHOTOS  ISGW2;
+Enddecay
+CDecay D-sig
+#
+#
+Decay Myanti-K*0
+  1.000        K-        pi+            VSS;
+Enddecay
+CDecay MyK*0
+#
+End
+

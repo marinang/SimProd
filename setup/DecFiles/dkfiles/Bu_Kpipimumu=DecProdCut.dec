@@ -1,0 +1,24 @@
+# EventType: 12115001
+#
+# Descriptor: [B+ -> K+ pi+ pi- mu+ mu-]cc
+#
+# NickName: Bu_Kpipimumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+->K+pi+pi-Mu+Mu- 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:   Sam Hall
+# Email: shall@cern.ch
+# Date: 20121115
+#
+Decay B+sig
+  1.000     K+    pi+    pi-    mu+    mu-          PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+#

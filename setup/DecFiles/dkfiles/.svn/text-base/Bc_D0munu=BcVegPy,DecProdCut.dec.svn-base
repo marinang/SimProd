@@ -1,0 +1,36 @@
+# EventType: 14573002
+#
+# Descriptor: [B_c+ -> (D0 -> K- pi+) mu+ nu_mu]cc
+#
+# NickName: Bc_D0munu=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to D0, mu+ and nu_mu with phase space model. Daughters in acceptance
+# EndDocumentation
+#
+#
+# PhysicsWG: B2SL 
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Patrick Owen
+# Email: patirckowen22@gmail.com
+# Date: 20140903
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+#
+Decay B_c+sig
+  1.000         MyD0   mu+   nu_mu          PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay Myanti-D0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+End

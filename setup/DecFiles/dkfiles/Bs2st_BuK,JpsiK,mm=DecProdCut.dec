@@ -1,0 +1,40 @@
+# EventType: 17144081
+#
+# Descriptor: [B*_s20 -> (B+ -> (J/psi(1S) ->  mu+ mu-) K+) K-]cc
+#
+# NickName: Bs2st_BuK,JpsiK,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Decay file for Bs** -> (B+ -> (J/psi(1S) -> mu+ mu-) K+) K-, DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Jianchun Wang
+# Email: jwang@physics.syr.edu
+# Date: 20150328
+#
+Alias      MyB      B+
+Alias      MyantiB  B-
+ChargeConj MyB      MyantiB
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Decay B_s2*0sig
+1.0000    MyB   K-              TSS;
+Enddecay
+CDecay anti-B_s2*0sig
+#
+Decay MyB
+1.0000     MyJ/psi  K+                   SVS;
+Enddecay
+CDecay MyantiB
+#
+Decay MyJ/psi
+1.0000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+End

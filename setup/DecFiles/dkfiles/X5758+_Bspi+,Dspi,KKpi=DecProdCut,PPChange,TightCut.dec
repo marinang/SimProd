@@ -1,0 +1,64 @@
+# EventType: 17165045
+#
+# Descriptor: [B_1(L)+ ->  ([B_s0]nos -> (D_s- -> K+ K- pi-) pi+, [B_s0]os -> (D_s+ -> K+ K- pi+) pi-) pi+]cc
+#
+# NickName: X5758+_Bspi+,Dspi,KKpi=DecProdCut,PPChange,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+#
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation()
+#gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay =   "[ B_1(L)+ => ^( ^( Beauty => (D_s- => ^K+ ^K- ^pi-)   ^pi+ ) || ^( Beauty => (D_s+ => ^K- ^K+ ^pi+)   ^pi- ) ) ^pi+]CC"
+#tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV"  
+#]
+#tightCut.Cuts      =    {
+# '[pi+]cc'  : " in_range( 0.010 , GTHETA , 0.400 )  " ,
+# '[K-]cc'   : "  in_range( 0.010 , GTHETA , 0.400 )  " ,
+# '[B_s0]cc' : "  ( GPT > 4000 * MeV ) ",
+#    }
+# EndInsertPythonCode
+#
+# ParticleValue: "B_1(L)+               195       10523   1.0      5.7580000      0.263300e-23                      B_1+       10523      0.25000000", "B_1(L)-               199      -10523  -1.0      5.7580000      0.263300e-23                      B_1-      -10523      0.25000000" 
+# 
+# Documentation: Search for the tetraquark decaying to Bs pi+ observed by D0 collaboration. 
+# EndDocumentation
+#
+# CPUTime: < 1 min 
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20160330
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias MyBs     B_s0
+Alias MyantiBs anti-B_s0
+ChargeConj MyBs      MyantiBs
+#
+Decay B_1+sig
+1.000   MyBs  pi+            VSS;
+Enddecay
+CDecay B_1-sig
+#
+Decay MyBs
+  1.000     MyD_s-     pi+      PHSP;
+Enddecay
+CDecay MyantiBs
+#
+Decay MyD_s-
+  1.000        K-        K+        pi-             D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+End
+

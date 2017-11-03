@@ -1,0 +1,83 @@
+# EventType: 13264400
+# 
+# Descriptor: [B_s0 -> (Ds- ->  pi- pi- pi+ pi0 ) pi+ pi- pi+]cc
+# 
+# NickName: Bs_Ds3pi,3pipi0=DecProdCut,TightCut
+#
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+#
+#
+# Documentation: Possible Background for B -> tau tau, Bs to Ds+ 3pi, with Ds+ to 3pipi0(pi0) final state
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Justine Serrano
+# Email: serrano@cppm.in2p3.fr
+# Date: 20150809
+#
+#
+Alias         MyD_s+   D_s+
+Alias         MyD_s- D_s-
+ChargeConj    MyD_s+ MyD_s-
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+
+Alias           Myrho+          rho+
+Alias           Myrho-          rho-
+ChargeConj      Myrho+          Myrho-
+
+Alias           Myeta           eta
+ChargeConj      Myeta           Myeta
+
+Alias           Myomega         omega
+ChargeConj      Myomega         Myomega
+
+#
+Decay B_s0sig
+  0.72      Mya_1+        MyD_s-                 SVS;
+  0.10      MyD_s-        rho0        pi+        PHSP;
+  0.18      MyD_s-        Myf_2        pi+        PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+  0.0183       Myeta   pi+                     PHSP;
+  0.0025       Myomega pi+                     SVS;
+  0.0890       Myrho+  Myeta                   SVS;
+  0.0280       Myomega pi+ pi0                 PHSP;
+Enddecay
+CDecay MyD_s-
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Myf_2
+  1.0000  pi+ pi-                                  TSS ;
+Enddecay
+#
+Decay Myeta
+  0.2273        pi-     pi+ pi0                 ETA_DALITZ;
+  0.0460        pi-     pi+ gamma               PHSP;
+Enddecay
+#
+Decay Myomega
+  1.00          pi-     pi+ pi0                 OMEGA_DALITZ;
+Enddecay
+#
+Decay Myrho+
+  1.00          pi+     pi0                     VSS;
+Enddecay
+CDecay Myrho-
+#
+End

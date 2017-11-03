@@ -1,0 +1,41 @@
+# EventType: 12103470
+#
+# NickName: Bu_K2stPhi,KPi0KK=DecProdCut
+# 
+# Descriptor: [B+ -> (K_2*+ -> K+ pi0) (phi -> K+ K-)]cc
+#
+# Documentation: K_2*+ forced into K+ pi0, Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# Cuts: DaughtersInLHCb
+#
+# 
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Zhirui Xu 
+# CPUTime: < 1min
+# Email: zhirui.xu@cern.ch
+# Date: 20160127
+#
+Alias      MyK_2st+    K_2*+
+Alias      MyK_2st-    K_2*-
+ChargeConj MyK_2st+    MyK_2st-
+Alias      Myphi     phi
+ChargeConj Myphi     Myphi
+#
+Decay B+sig
+  1.000   Myphi     MyK_2st+       PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Myphi
+  1.000  K+      K-          VSS;
+Enddecay
+#
+Decay MyK_2st+
+  1.000  K+ pi0             TSS;
+Enddecay
+CDecay MyK_2st-
+#
+End
+#

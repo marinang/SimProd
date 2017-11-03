@@ -1,0 +1,48 @@
+# EventType: 11104073
+#
+# Descriptor: [B0 -> p+ p~- K+ K-]CC
+#
+# NickName: Bd_ppKK=DecProdCut,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[ B0 -> ^p+ ^p~- ^K+ ^K- ]CC'
+# tightCut.Cuts      =    {
+#     '[B0]cc'   : ' goodB  ' , 
+#     '[p+]cc'   : ' goodProton  ' , 
+#     '[K+]cc'    : ' goodKaon  ' , 
+#     '[pi+]cc'   : ' goodPion  ' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns',
+#     'from GaudiKernel.PhysicalConstants import c_light',
+#     'inAcc = in_range( 0.005, GTHETA, 0.400)',
+#     'goodProton  = ( GPT > 250  * MeV ) & inAcc' , 
+#     'goodKaon  = ( GPT > 150  * MeV )  & inAcc' , 
+#     'goodPion  = ( GPT > 150  * MeV ) & inAcc' ,
+#     'goodB  = ( GCTAU > 0.1e-3 * ns * c_light)' ]
+#
+#EndInsertPythonCode
+#
+# Documentation: Tight generator level cuts applied for all final state particles
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Giulio Dujany
+# Email: giulio.dujany@cern.ch
+# Date: 20150611
+# CPUTime: < 1 min
+#
+Decay B0sig
+  1.0000       p+       anti-p-  K+ K-          PHOTOS    PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End

@@ -1,0 +1,57 @@
+# EventType: 12163422 
+# 
+# Descriptor: [B- -> (D*0 -> (D0 -> K- pi+) pi0) (K*(892)- -> K- pi0)]cc
+# 
+# NickName: Bu_Dst0Kst+,D0pi0,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D*0 forced to D0 pi0, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Donal Hill
+# Email: donal.hill@cern.ch
+# Date: 20140219
+#
+#
+
+Alias MyD*0       D*0
+Alias Myanti-D*0  anti-D*0
+ChargeConj MyD*0  Myanti-D*0
+Alias        MyK*+     K*+
+Alias        MyK*-     K*-
+ChargeConj   MyK*+     MyK*-
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+##
+Decay B-sig
+  1.000     MyD*0  MyK*-                SVV_HELAMP 0.283 0.0 0.932 0.0 0.228 0.0;
+Enddecay
+CDecay B+sig
+#
+Decay MyD*0
+1.000    MyD0  pi0                           VSS;
+Enddecay
+Decay Myanti-D*0
+1.000    Myanti-D0  pi0                      VSS;
+Enddecay
+#
+#
+Decay MyK*+
+  1.00000000  K+ pi0                                  VSS ;
+Enddecay
+Decay MyK*-
+  1.00000000  K- pi0                                  VSS ;
+Enddecay
+#
+#
+Decay MyD0
+1.000     K- pi+        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End

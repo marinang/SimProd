@@ -1,0 +1,56 @@
+# EventType: 11266016
+#
+# Descriptor: {[[B0]nos -> (D- => K+ pi- pi-) pi+ pi- pi+]cc, [[B0]os -> (D+ => K- pi+ pi+) pi- pi+ pi-]cc}
+#
+# NickName: Bd_D-pipipi=DecProdCut,Res
+#
+# Cuts: DaughtersInLHCb                                                                                                                                                                  
+#
+#
+# Documentation: Includes resonances in D- decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: paolo gandini
+# Email: paolo.gandini@cern.ch
+# Date: 20130206
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+#
+
+Decay B0sig
+1.00    Mya_1+ MyD-                     SVS;
+Enddecay
+CDecay anti-B0sig
+# D_DALITZ includes resonances contributions (K*(892), K*(1430), K*(1680))
+Decay MyD-
+  1.000    K+        pi-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+#
+#
+Decay Myf_2
+  1.0000  pi+ pi-                                  TSS ;
+Enddecay
+#
+#
+End
+

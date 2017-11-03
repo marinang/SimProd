@@ -1,0 +1,41 @@
+# EventType: 13198000
+# 
+# Descriptor: [B_s0 -> D+ D- (phi -> K+ K-)]cc
+# NickName: Bs_DDPhi,Kpipi=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay File for (B_s0 -> D+ D- phi) with D+ -> K-pi+pi+ DDalitz in LHCb acceptance 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: renato quagliani
+# Email: renato.quagliani@student.unife.it
+# Date: 20140725
+#
+# CPUTime : <1min
+Alias My_D+ D+
+Alias My_D- D-
+Alias My_Phi phi
+ChargeConj My_D+ My_D-
+ChargeConj My_Phi My_Phi
+
+
+Decay My_D+
+  1.0 K- pi+ pi+ D_DALITZ;
+Enddecay
+CDecay My_D-
+
+Decay My_Phi
+  1.0 K+ K- VSS;
+Enddecay
+CDecay My_Phi  
+
+Decay B_s0sig
+  1.0 My_D+ My_D- My_Phi PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+#

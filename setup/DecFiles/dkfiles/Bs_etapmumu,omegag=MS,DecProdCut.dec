@@ -1,0 +1,57 @@
+# EventType: 13114621
+#
+# Descriptor: [B_s0 -> (eta_prime -> (omega -> pi+ pi- pi0) gamma) mu+ mu-]cc
+#
+# NickName: Bs_etapmumu,omegag=MS,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: the B -> eta' mu^+ mu^- decay with the transition form factors
+# from the paper  D.Melikhov, B.Stech, PRD62, 014006 (2000).
+# Input parameters - mu        - the scale parameter (in GeV's);
+#                    res_swch  - resonant switching parametr:
+#                    ias       - switching parametr for \alpha_s(M_Z) value:
+#                    Wolfenstein parameterization for CKM matrix:
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email:       Nikolai.Nikitine@cern.ch
+# Date:        20120827
+#
+Define mu 5.0
+Define Nf 5
+Define res_swch 0
+Define ias 1
+Define A 0.88
+Define lambda 0.227
+Define barrho 0.22
+Define bareta 0.34
+#
+Alias       MyEta'   eta'
+Alias       Myomega  omega
+Alias       Mypi0    pi0
+ChargeConj  MyEta'   MyEta'
+ChargeConj  Myomega  Myomega
+ChargeConj  Mypi0    Mypi0
+#
+Decay B_s0sig
+  1.000         MyEta'   mu+     mu-       BTOSLLMS mu Nf res_swch ias A lambda barrho bareta;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyEta'
+  1.000         Myomega     gamma          SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+#
+Decay Myomega
+  1.000         pi-      pi+     Mypi0     OMEGA_DALITZ;
+Enddecay
+#
+Decay Mypi0
+  1.000         gamma       gamma          PHSP;
+Enddecay
+#
+End
+

@@ -1,0 +1,29 @@
+# EventType: 12123006
+#
+# Descriptor: [B+ -> K+ e+ e-]cc
+#
+# NickName: Bu_Kee=btosllball05,DecProdCut,NoPhotos
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: the B+ -> K+ ell^+ ell^- decay with the transition form factors 
+# from the Ball, Zwicky paper 05
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:  Eugenia Price, Konstantinos Petridis
+# Email: eugenia.phobie.price@cern.ch, konstantinos.petridis@cern.ch
+# Date: 20160311
+#
+#
+noPhotos
+Decay B+sig
+  1.000        K+     e+     e-     BTOSLLBALL 6;
+Enddecay
+CDecay B-sig
+#
+End
+#

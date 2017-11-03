@@ -1,0 +1,40 @@
+# EventType: 15144111 
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) (psi(2S) -> mu+ mu- )]cc
+#
+# NickName: Lb_psi2SLambda,mm=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda0 forced into p pi, includes radiative mode
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Michal Kreps (Warwick) 
+# Email:  michal.kreps@cern.ch
+# Date: 20120509
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      Mypsi2S       psi(2S)
+ChargeConj Mypsi2S       Mypsi2S
+#
+Decay Lambda_b0sig
+  1.000    MyLambda          Mypsi2S                 PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mypsi2S
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000   p+          pi-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

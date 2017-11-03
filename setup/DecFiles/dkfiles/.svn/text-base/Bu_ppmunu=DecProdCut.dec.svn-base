@@ -1,0 +1,26 @@
+# EventType: 12513050
+#
+# Descriptor: [B- -> p+ anti-p-  mu- anti-nu_mu]cc
+#
+# NickName: Bu_ppmunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# 
+# CPUTime: < 1 min
+#
+# Documentation: phase space decay, decay products in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2SL 
+# Tested: Yes
+# Responsible: William Sutcliffe
+# Email: william.lawrence.sutcliffe@cern.ch
+# Date: 20150311
+#
+Decay B-sig
+  1.000    p+  anti-p-   mu-  anti-nu_mu   PHOTOS  PHSP;
+Enddecay
+CDecay B+sig
+#
+End
+#

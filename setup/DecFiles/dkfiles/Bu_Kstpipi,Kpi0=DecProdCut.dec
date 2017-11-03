@@ -1,0 +1,33 @@
+# EventType: 12103421
+#
+# Descriptor: [B+ -> (K*+ -> K+ pi0) + pi+ pi-]cc
+#
+# NickName: Bu_Kstpipi,Kpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Kst+ forced to K+ pi0
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: André Massafferri
+# Email: andre.massafferri.rodrigues@cern.ch
+# Date: 20111013
+#
+Alias      MyKst+    K*+
+Alias      MyKst-    K*-
+ChargeConj MyKst+    MyKst-
+Decay B+sig
+  1.000  MyKst+ pi+ pi- PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyKst+
+  1.000  K+ pi0  VSS;
+Enddecay
+CDecay MyKst-
+#
+End
+#
+

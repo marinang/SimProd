@@ -1,0 +1,22 @@
+# EventType: 42900010
+#
+# Descriptor: pp -> (Z0 -> nu+ nu-) + jet ... 
+#
+# NickName: Z_nunujet
+#
+# Cuts: None
+#
+# CutsOptions:
+# ExtraOptions: Znunujet
+#
+# Documentation: Z-> invisible 
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Albert Bursche
+# Email: bursche@cern.ch
+# Date: 20111207
+#
+End
+#

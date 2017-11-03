@@ -1,0 +1,31 @@
+# EventType: 12143031
+#
+# Descriptor: [B+ -> pi+ (psi(2S) -> ( mu+ mu- {,gamma} {,gamma}))]cc 
+#
+# NickName: Bu_psi2SPi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes 
+# Responsible: Dmitry Golubkov
+# Email: dimgol@mail.desy.de
+# Date: 20110705
+#
+Alias      Mypsi2S  psi(2S)
+ChargeConj Mypsi2S  Mypsi2S
+#
+Decay B+sig
+  1.000   Mypsi2S  pi+   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay Mypsi2S
+ 1.000         mu+          mu-         PHOTOS VLL; 
+Enddecay
+#
+End
+

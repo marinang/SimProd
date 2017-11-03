@@ -1,0 +1,35 @@
+# EventType: 16166043
+# 
+# Descriptor: [Xi_b0 -> (D+ --> K- pi+ pi+) p+ K- pi-]CC
+# 
+# NickName: Xib0_D+pK-pi-=phsp
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:   D+ is forced to decay into K- pi+ pi- ( Dalitz model), phase space decay for Xi_b0
+# EndDocumentation
+#
+# PhysicsWG:   B2OC  
+# Tested:      Yes
+# Responsible: Vanya Belyaev
+# CPUTime: < 1 min
+# Email:       Ivan.Belyaev@itep.ru
+# Date:        20140905
+#
+Alias       MyD+          D+
+Alias       MyD-          D-
+ChargeConj  MyD+        MyD-
+#
+Decay       Xi_b0sig
+  1.000     MyD+ p+  K- pi-  PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay       MyD+
+  1.000     K-   pi+ pi+     D_DALITZ;
+Enddecay
+CDecay      MyD-
+#
+End
+#
+

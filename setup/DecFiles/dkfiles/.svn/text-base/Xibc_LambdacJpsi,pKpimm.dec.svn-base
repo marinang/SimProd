@@ -1,0 +1,54 @@
+# EventType: 16175060
+# 
+# Descriptor: [ Xi_bc+ -> (Lambda_c+ -> p K- pi+)  (J/psi -> mu+ mu-) ]cc
+#
+# NickName: Xibc_LambdacJpsi,pKpimm
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# Documentation: decay file of Xi_bc^+ -> (Lambda_c+ -> p K- pi+)  (J/psi -> mu+ mu-)
+# using dedicated GenXicc package for production, cuts with XiccDaughtersInLHCb, phase space decay model used. 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Giacomo Graziani
+# Email: graziani@fi.infn.it
+# Date: 20120217
+#
+
+
+#Alias      Xi_bc+sig         Xi_bc+
+#Alias      anti-Xi_bc-sig    anti-Xi_bc-
+#ChargeConj Xi_bc+sig         anti-Xi_bc-sig
+#Alias      Xi_bc0sig         Xi_bc0
+#Alias      anti-Xi_bc0sig    anti-Xi_bc0
+#ChargeConj Xi_bc0sig         anti-Xi_bc0sig
+
+
+Alias MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Decay Xi_bc+sig
+  1.00   MyLambda_c+  MyJ/psi                  PHSP;
+Enddecay
+CDecay anti-Xi_bc-sig
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+
+Decay MyJ/psi
+ 1.0000  mu+        mu-                    PHOTOS VLL ;
+Enddecay
+
+End
+

@@ -1,0 +1,44 @@
+# EventType: 11114053 
+#
+# Descriptor: [B0 -> mu+ mu- mu+ mu-]cc
+#
+# NickName: Bd_4mu=Geq01,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "H_30 101020 36 0.0 0.214 0.66e-022 H_30 36 0.01","H_20 101021 35 0.0 2.500 0.66e-022 H_20 35 0.01"
+#
+# Documentation: the B0 -> mu^+ mu^- mu^+ mu^- decay based on HyperCP-model
+#                    mS = 2.5 GeV
+#                    mP = 0.214 GeV
+#                    GammaS = 0.01 GeV
+#                    GammaP = 0.01 GeV 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch
+# Date:  20120705
+#
+Alias       P_0(214)        H_30
+ChargeConj  P_0(214)        P_0(214)
+#
+Alias       S_0(2500)       H_20 
+ChargeConj  S_0(2500)       S_0(2500)
+#
+Decay B0sig
+   1.000    P_0(214)    S_0(2500)     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay P_0(214)
+  1.000    mu+ mu-     PHSP;
+Enddecay
+#
+Decay S_0(2500)
+  1.000    mu+ mu-     PHSP;
+Enddecay
+#
+End
+

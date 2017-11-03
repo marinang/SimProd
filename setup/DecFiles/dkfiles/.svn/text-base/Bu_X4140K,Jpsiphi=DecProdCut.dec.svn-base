@@ -1,0 +1,54 @@
+# EventType: 12145031
+#
+# Descriptor: [B+ -> (X_0(4140) -> (J/psi -> mu+ mu-) (phi -> K+ K-)) K+]cc
+#
+# NickName: Bu_X4140K,Jpsiphi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  B+ decay to X_0(4140)(to Jpsi(to mu+ mu-{,gamma} {,gamma}) and phi(to K+ K-)) and K+ with phase space model, all daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Jianchun Wang
+# Email: jwang@physics.syr.edu
+# Date: 20110909
+# ParticleValue: "X_0(4140) 1020 9910441 0.0 4.1430 4.3e-023 X_0(4140) 9910441 3.00e-002"
+
+Alias       MyX_0        X_0(4140)
+ChargeConj  MyX_0        MyX_0
+
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+
+Alias       MyPhi        phi
+ChargeConj  MyPhi        MyPhi
+
+
+#  PDG Id = 521
+Decay B+sig
+  1.0000   MyX_0   K+               PHSP;
+Enddecay
+CDecay B-sig
+
+
+#  PDG Id = 9910441
+Decay MyX_0
+  1.0000   MyJ/psi   MyPhi          PHSP;
+Enddecay
+
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   mu+  mu-                 PHOTOS VLL;
+Enddecay
+
+
+#  PDG Id = 333
+Decay MyPhi
+  1.0000   K+   K-                  VSS;
+Enddecay
+
+
+End

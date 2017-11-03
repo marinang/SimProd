@@ -1,0 +1,43 @@
+# EventType: 25103310
+#
+# Descriptor: [Lambda_c+ -> (Sigma0 ->(Lambda0 -> p+ pi-) gamma) K+]cc
+#
+# NickName: Lc_SigmaK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Yuehong Xie, Guiyun Ding, Xiaopan Yang 
+# Email:       Yuehong.Xie@cern.ch, guiyun.ding@cern.ch, xiaopan.yang@cern.ch
+# Date:        20170522
+#
+Alias      MySigma0      Sigma0
+Alias      MyAntiSigma0  anti-Sigma0
+ChargeConj MySigma0      MyAntiSigma0
+
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+
+Decay MySigma0
+  1.000   MyLambda0          gamma        PHSP;
+Enddecay
+CDecay MyAntiSigma0
+
+Decay MyLambda0
+  1.000   p+          pi-        PHSP;
+Enddecay
+CDecay MyAntiLambda0
+
+Decay Lambda_c+sig
+  1.0  MySigma0  K+  PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+
+End

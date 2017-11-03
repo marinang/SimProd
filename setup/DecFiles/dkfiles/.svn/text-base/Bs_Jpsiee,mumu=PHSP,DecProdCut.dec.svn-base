@@ -1,0 +1,36 @@
+# EventType: 13144000
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu-) e+ e-]cc
+#
+# NickName: Bs_Jpsiee,mumu=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B_s0 -> (J/psi(1S) -> mu+ mu-) e+ e- (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Alias MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Decay B_s0sig
+ 1.0       MyJ/psi     e+  e-   PHOTOS PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+ 1.0        mu+        mu-       PHOTOS VLL;
+Enddecay
+#
+End
+

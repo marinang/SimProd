@@ -1,0 +1,33 @@
+# EventType: 25113020
+# 
+# Descriptor: [Lambda_c+ -> p+ (omega(782) -> mu- mu+)]cc
+# 
+# NickName: Lc_pomega,mumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: PHSP MODEL.
+# 		 Background channel for Lc -> p mu mu
+#                
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Marcin Chrzaszcz, Mariusz Witek
+# Email:       mchrzasz@cern.ch, mariusz.witek@ifj.edu.pl
+# Date:        20160927
+# CPUTime: <1min
+#
+Alias      Myomega  omega
+ChargeConj Myomega  Myomega
+
+Decay Lambda_c+sig
+  1.00000         p+      Myomega     PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+Decay  Myomega
+  1.000     mu+      mu-    PHOTOS VLL ;
+Enddecay
+ 
+#
+End

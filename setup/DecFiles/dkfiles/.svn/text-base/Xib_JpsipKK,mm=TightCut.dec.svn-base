@@ -1,0 +1,66 @@
+# EventType: 16145030
+#
+# Descriptor: [Xi_b- -> ( J/psi(1S) -> mu+ mu- ) p+ K- K- ]cc
+#
+# NickName: Xib_JpsipKK,mm=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Phase space 4-body decay model;   J/psi decays into mu+mu-; tight generator level cuts
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation() 
+# signal     = generation.SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[Xi_b- ==> ^( J/psi(1S) => ^mu+ ^mu- ) ^p+ ^K- ^K-]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity () ## to be sure ' , 
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack    =  ( GPT > 150 * MeV ) & ( GP  > 2.5 * GeV )   ' , 
+#     'goodTrack    =  inAcc & inEta & fastTrack                   ' ,     
+#     'longLived    =  75 * micrometer < GTIME                     ' , 
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )         ' , 
+#     'goodXib      =  inY & longLived                             ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[Xi_b-]cc'   : 'goodXib    ' ,
+#     '[K+]cc'      : 'goodTrack  ' , 
+#     '[p+]cc'      : 'goodTrack   & ( GP  >   9 * GeV ) ' , 
+#     '[mu+]cc'     : 'goodTrack   & ( GPT > 500 * MeV ) ' 
+#     }
+#
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GPT/GeV" , 0.0 , 40.0 , 40  )
+# tightCut.YAxis = ( "GY     " , 2.0 ,  4.5 , 10  )
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Vanya BELYAEV 
+# Email: Ivan.Belyaev@itep.ru
+# Date: 20150626
+#
+Alias      MyJ/psi         J/psi
+ChargeConj MyJ/psi       MyJ/psi
+# 
+Decay Xi_b-sig 
+1.000      MyJ/psi p+ K- K- PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyJ/psi
+1.000      mu+  mu-         PHOTOS VLL;
+Enddecay
+#
+End
+#
+

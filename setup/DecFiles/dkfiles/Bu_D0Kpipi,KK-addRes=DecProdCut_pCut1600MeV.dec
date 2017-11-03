@@ -1,0 +1,152 @@
+# EventType: 12265023
+#
+# Descriptor: [B+ -> (D~0 -> K+ K-) K+ pi- pi+]cc
+#
+# NickName: Bu_D0Kpipi,KK-addRes=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Steven Blusk
+# Email: sblusk@syr.edu
+# Date: 20111008
+#
+Alias       MyD0        D0
+Alias       Myanti-D0   anti-D0
+ChargeConj  MyD0       Myanti-D0
+#
+Alias      MyD*-     D*-
+Alias      MyD*+     D*+
+ChargeConj MyD*+     MyD*-
+#
+#
+Alias      MyD_10     D_10
+Alias      Myanti-D_10     anti-D_10
+ChargeConj MyD_10     Myanti-D_10
+#
+Alias      MyD_2*0    D_2*0 
+Alias Myanti-D_2*0    anti-D_2*0 
+ChargeConj MyD_2*0    Myanti-D_2*0
+#
+Alias      MyK_2*-     K_2*-
+Alias      MyK_2*+     K_2*+
+ChargeConj MyK_2*+     MyK_2*-
+#
+Alias      MyK'_1-     K'_1-
+Alias      MyK'_1+     K'_1+
+ChargeConj MyK'_1+     MyK'_1-
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias      MyK_1-     K_1-
+Alias      MyK_1+     K_1+
+ChargeConj MyK_1+     MyK_1-
+#
+Alias      MyK''*-     K''*-
+Alias      MyK''*+     K''*+
+ChargeConj MyK''*+     MyK''*-
+#
+Alias      MyK'*-     K'*-
+Alias      MyK'*+     K'*+
+ChargeConj MyK'*+     MyK'*-
+#
+Alias      MyK_0*0    K_0*0
+Alias      Myanti-K_0*0 anti-K_0*0
+ChargeConj MyK_0*0   Myanti-K_0*0 
+#
+Alias      Myomega omega
+ChargeConj Myomega Myomega
+#
+#
+Decay B+sig
+  0.25   MyK_1+ Myanti-D0                        SVS;
+  0.20   MyK'_1+ Myanti-D0                        SVS;
+  0.20   MyK'*+ Myanti-D0                        SVS;
+  0.15   MyK''*+ Myanti-D0                        SVS;
+  0.05   Myanti-D0  MyK*0  pi+                    PHSP;
+  0.07   MyK_2*+  Myanti-D0                       STS;
+  0.09   Myanti-D_10  K+                         SVS;
+  0.04   Myanti-D_2*0 K+                         STS;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D0
+  1.000        K+        K-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay MyK_2*+
+  1.000 MyK*0 pi+                    PHSP;
+Enddecay
+CDecay MyK_2*-
+
+Decay MyK'*+                            
+  0.90   MyK*0 pi+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.10   rho0 K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK'*-
+
+Decay MyK''*+                            
+  0.67   MyK*0 pi+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.33   rho0 K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK''*-
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK_0*0
+  1.000 K+ pi-                    PHSP;
+Enddecay
+CDecay Myanti-K_0*0
+#
+Decay MyK'_1+
+  0.6300   MyK*0  pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0100   rho0 K+                         VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0133   K+  pi+  pi-                    PHSP;
+Enddecay
+CDecay MyK'_1-
+#
+Decay Myomega
+  1.000 pi-  pi+                       VSS;
+Enddecay
+#
+Decay MyK_1+
+  0.140  rho0   K+                    VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+  0.071  MyK*0  pi+                   VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+  0.116  MyK_0*0  pi+                 PHSP;
+  0.0019 Myomega K+                   VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK_1-
+#
+Decay MyD_10
+  0.7    MyD*+  pi-                         VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+  0.3    MyD0  pi- pi+                      PHSP;
+Enddecay
+CDecay Myanti-D_10
+
+#
+Decay MyD_2*0
+  0.7    MyD*+  pi-                        TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+  0.3    MyD0  pi- pi+                      PHSP;
+Enddecay
+CDecay Myanti-D_2*0
+#
+Decay MyD*+
+  1.000    MyD0  pi+                  VSS;
+Enddecay
+CDecay MyD*-
+#
+
+End
+

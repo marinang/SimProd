@@ -1,0 +1,42 @@
+# EventType: 18104002
+#
+# Descriptor: eta_b(1S) -> ( K*(892)0 -> K+ pi- ) ( K*(892)~0 -> K- pi+ ) 
+#
+# NickName: Etab_KstKst,Kpi=DecProdCut
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# ParticleValue: "Upsilon(1S)           387         553   0.0      9.39800000      0.000000e+00                   Upsilon         553      0.00000000"
+#
+# CPUTime: < 1 min
+#
+# Documentation: eta_b decay to K* K*, keep only particles in acceptance
+# Upsilon(1S) used instead of Etab
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20160125
+#
+#
+#
+Alias      MyKst            K*0
+Alias      Myanti-Kst  anti-K*0
+ChargeConj MyKst       Myanti-Kst
+#
+Decay Upsilonsig
+  1.000         MyKst  Myanti-Kst      PHSP;
+Enddecay
+#
+Decay MyKst
+  1.000   K+         pi-                  VSS;
+Enddecay
+CDecay Myanti-Kst
+#
+End
+#
+

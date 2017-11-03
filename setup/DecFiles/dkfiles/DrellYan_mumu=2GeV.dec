@@ -1,0 +1,22 @@
+# EventType: 42112010
+#
+# Descriptor: pp -> (Z0/gamma* -> mu+ mu-) ... 
+#
+# NickName: DrellYan_mumu=2GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonIsFromMother true NumberOfbquarks -1 LeptonPtMin 1.0*GeV
+# ExtraOptions: DrellYanmumu2GeV
+#
+# Documentation: 1 lepton
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Karol Hennessy
+# Email: revkarol@gmail.com
+# Date: 20070827
+#
+End
+#

@@ -1,0 +1,48 @@
+# EventType: 15144500 
+#
+# Descriptor: [Lambda_b0 -> (J/psi(1S) -> mu+ mu-) (Lambda0 -> p  pi-) (eta -> gamma gamma) ]cc
+#
+# NickName: Lb_JpsiLambdaeta,mm,gg=phsp,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to three-body J/psi Lambda eta with J/psi to dimuons and eta to gamma gamma.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch 
+# CPUTime: 1 min
+# Tested: Yes
+# Responsible: Michal Kreps 
+# Email:  michal.kreps@cern.ch
+# Date: 20160713
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+Alias      MyXi-         Xi-
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      Myeta         eta
+ChargeConj Myeta         Myeta
+#
+Decay Lambda_b0sig
+  1.000    MyJ/psi  MyLambda Myeta           PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                    PHOTOS  VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000   p+          pi-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+Decay Myeta
+  1.0  gamma gamma   PHSP;
+Enddecay 
+#
+End
+#

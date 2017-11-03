@@ -1,0 +1,25 @@
+# EventType: 42921004
+#
+# Descriptor: pp -> ([W+ -> l nu_l]cc) (Z0 -> b b~) ... 
+#
+# NickName: WZ_lnul,bb=1l,5Gev,1b
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 5*GeV LeptonIsFromMother true NumberOfbquarks 1 MotherOfThebquarks "Z0"
+# ExtraOptions: WZlnulbb
+#
+# Documentation: 1 lepton with pT > 5 GeV and 1 b quarks in LHCb Acc
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email: stephane.tourneur@epfl.ch
+# Date: 20110303
+#
+End
+#
+
+
+

@@ -1,0 +1,52 @@
+# EventType: 11536011
+#
+# Descriptor: [B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (tau+ -> pi+ pi+ pi- anti-nu_tau) nu_tau]cc
+#
+# NickName: Bd_DstTauNu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd to D* tau, with D* to pi D0 and D0 to Kpi final state, and also tau forced to 3pi nu final state. Signal Channel.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Anne Keune, Alessandra Borgia
+# Email: Anne.Keune@cern.ch, aborgia@syr.edu
+# Date: 20110401
+#
+
+Alias             MyD0        D0
+Alias             anti-MyD0   anti-D0
+ChargeConj        MyD0        anti-MyD0
+
+Alias         MyD*+   D*+
+Alias         MyD*- D*-
+ChargeConj    MyD*+ MyD*-
+
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau- MyTau+
+
+Decay B0sig
+  1.000       MyD*-       MyTau+        nu_tau             ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*+
+  1.000     MyD0      pi+                 VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.0000      K-     pi+     PHSP;
+Enddecay
+CDecay anti-MyD0
+#    
+Decay MyTau-
+  1.000     pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

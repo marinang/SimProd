@@ -1,0 +1,28 @@
+# EventType: 32103001
+#
+# NickName: Hs+_pppi=DecProdCut,m=2050MeV,t=100ps,PPChange
+#
+# Descriptor: [Sigma+ -> p+ p+ pi-]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "Sigma+ 19 3222 1.0 2.050 100.e-12 Sigma+ 3222 0." , "Sigma~- 27 -3222 -1.0 2.050 100.e-12 anti-Sigma-  -3222 0."
+#
+# Documentation: a search for a hypothetical long-lived hexa-quark state Hs+ with one s-quark and baryon number +-2. 
+# A mass below Lambda0p threshold ensures decay via weak interaction. 
+#
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Ivan Polyakov
+# Email:       Ivan.Polyakov@<no-spam>cern.ch
+# Date:        20170306
+# CPUTime:     <1min 
+#
+Decay Sigma+sig
+  1.000    p+ p+ pi-    PHSP ;
+Enddecay
+CDecay anti-Sigma-sig
+#
+End

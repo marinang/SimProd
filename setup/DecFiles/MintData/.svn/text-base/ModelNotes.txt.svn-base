@@ -1,0 +1,97 @@
+Description of models implemented by MINT
+
+Include where possible date of model written to MINT
+
+
+*=====================================================
+*Date:
+*FileName: 
+*Committed by:
+*Decay:
+*Version:
+*Paper:
+*
+*Tested:
+*Comments:
+*
+*======================================================
+
+*=====================================================
+*Date: 12/11/2013
+*FileName:  D_K3pi_v11
+*Committed by: Tom Hampson
+*Decay: [D0 -> K- pi+ pi- pi+]cc
+*Version: 11
+*Paper:
+*
+*Tested: Yes. 07/11/2013
+*Comments: Preliminary LHCb Cabibbo favoured model, agrees with data better than v10
+*
+*======================================================
+
+*=====================================================
+*Date: 12/11/2013
+*FileName: D_2K2pi_v11
+*Committed by: Tom Hampson
+*Decay: [D0 -> K- K+ pi- pi+]cc
+*Version: 11
+*Paper: CLEO paper
+*
+*Tested: Yes. Tom Hampson 07/11/2013
+*Comments: Same as v10 but with CLEO2012 lineshapes
+*
+*======================================================
+
+*=====================================================
+*Date: 27/09/2013
+*FileName: D_piK2pi_v10
+*Committed: Philip Hunt
+*Decay: [D0 -> K- pi+ pi- pi+]cc
+*Version:10
+*Paper: 
+*
+*Tested: Yes. 27/09/2013
+*Comments: LHCb preliminary, no acceptance correction
+*
+*======================================================
+
+*=====================================================
+*Date:23/09/2011
+*FileName: D_2K2pi_v10
+*Committed by: Matthew Coombes
+*Decay: [D0 -> K- K+ pi- pi+]cc
+*Version: 10 (first - 10 for backward compatibility)
+*Paper:
+*
+*Tested: Yes. Matt Coombes 23/09/2011
+*Comments: CLEO
+*
+*======================================================
+
+*=====================================================
+*Date: 10/08/2011
+*FileName: D_K3pi_v10
+*Committed: Matt Coombes
+*Decay: [D0 -> K- pi+ pi- pi+]cc
+*Version:10
+*Paper: Physical Review D, Volume 45, Number 7, 1 April 1992
+*		Resonant substructure of \bar{k}¹¹¹ decays of D mesons
+*
+*Tested: Yes. 10/08/2011
+*Comments: MARK III
+*
+*======================================================
+
+*=====================================================
+*Date: 10/08/2011
+*FileName: D_4pi_v10
+*Committed: Matt Coombes
+*Decay: [D0 -> pi- pi+ pi- pi+]cc
+*Version:10
+*Paper: arXiv:hep-ex/0701001v2
+*
+*Tested: Yes. 10/08/2011
+
+*Comments: FOCUS
+*
+*======================================================

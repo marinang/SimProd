@@ -1,0 +1,25 @@
+# EventType: 42921001
+#
+# Descriptor: pp -> ([W+ -> l nu_l]cc) (Z0 -> b b~) ... 
+#
+# NickName: WZ_lnul,bb
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 10*GeV LeptonIsFromMother true NumberOfbquarks 0 MotherOfThebquarks "Z0"
+# ExtraOptions: WZlnulbb
+#
+# Documentation: 1 lepton with pT > 10 GeV and 2 b quarks with pz > 0
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Neal Gauvin (Gueissaz)
+# Email: stephane.tourneur@epfl.ch
+# Date: 20090803
+#
+End
+#
+
+
+

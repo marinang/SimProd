@@ -1,0 +1,50 @@
+# EventType: 27164040
+#
+# Descriptor: {[ D*_2(2460)0 -> (D*+ -> (D0 -> K- pi+) pi+) pi- ]cc} 
+#
+# NickName: D2st_m=2400MeV_DstPi,Dst2D0Pi,D02Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "D*_2(2460)0 170 425 0.0 2.4 4.388079327e-24 D_2*0 425 0.25015982","D*_2(2460)~0 166 -425 0.0 2.4 4.388079327e-24 anti-D_2*0 -425 0.25015982"
+#
+# Documentation: Spectroscopy Dsj and Dj
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Diego Milanes
+# Email: Diego.Milanes@<nospam>ba.infn.it
+# Date: 20110330
+#
+#Alias D_2*0sig         D_2*0
+#Alias anti-D_2*0sig    anti-D_2*0
+#ChargeConj D_2*0sig  anti-D_2*0sig 
+#
+Alias MyD*+     D*+
+Alias MyD*-   D*-
+ChargeConj MyD*+    MyD*-
+#
+Alias MyD0     D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0    MyantiD0
+#
+#
+#
+#
+Decay D_2*0sig
+  1.000   MyD*+ pi-          PHSP;
+Enddecay
+CDecay anti-D_2*0sig 
+#
+Decay MyD*+
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.000   K-  pi+   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End

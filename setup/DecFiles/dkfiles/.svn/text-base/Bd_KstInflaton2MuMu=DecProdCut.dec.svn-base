@@ -1,0 +1,68 @@
+# $Id: Bd_Kstmumu=DecProdCut.dec 89808 2010-10-12 10:17:29Z robbep $
+#
+# This is the decay file for the decay B0 -> INFLATON (-> MU+ MU-) K*(892)(-> K+ PI-)
+#
+# EventType: 11114032
+#
+# Descriptor: {[[B0]nos -> (Higgs0 -> mu+ mu-) (K*(892)0 -> K+ pi-)]cc, [[B0]os -> (Higgs0 -> mu- mu+) (K*(892)~0 -> K- pi+)]cc}
+#
+# NickName: Bd_KstInflaton2MuMu=DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# InsertPythonCode:
+#from Gauss.Configuration import *
+#from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+#from Configurables import Gauss, PrintMCTree, PrintMCDecayTreeTool, HistogramPersistencySvc, NTupleSvc, DumpHepMCDecay, DumpHepMCTree, GaussMonitor__CheckLifeTimeHepMC, GaussMonitor__CheckLifeTimeMC, GiGa, GiGaPhysListModular, GiGaHiggsParticles, GenerationToSimulation, PythiaProduction
+#
+#
+#
+#ParticlePropertySvc().Particles = [ "H_10     87      25  0.0        1.50   5.0000e-10      Higgs0   25   0.000000e+000" ]
+#ApplicationMgr().ExtSvc    += [ ParticlePropertySvc() ]
+#
+#
+#
+#EndInsertPythonCode
+#
+#
+# 
+# Documentation: File for B -> Inflaton (-> mu mu) Kst (K pi)
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:   Marcin Chrzaszcz, Nicola Serra
+# Email: mchrzasz@cern.ch , nicola.serra@cern.ch
+# Date:   20130601
+
+#
+Alias      MyScalar    Higgs0
+Alias MyK*0      K*0
+Alias Myanti-K*0 anti-K*0
+
+ChargeConj MyScalar  MyScalar
+ChargeConj MyK*0 Myanti-K*0
+
+#
+Decay B0sig
+  1.000         MyK*0  MyScalar                 PHSP;
+Enddecay
+CDecay B-sig
+
+#
+Decay MyScalar
+  1.000         mu+      mu-                    PHSP; 
+Enddecay
+#
+Decay MyK*0
+  1.000    K+         pi-         VSS;
+Enddecay
+CDecay Myanti-K*0
+
+
+
+
+
+
+End
+#

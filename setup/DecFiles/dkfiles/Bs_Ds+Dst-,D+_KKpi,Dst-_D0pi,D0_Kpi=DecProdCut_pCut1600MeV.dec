@@ -1,0 +1,53 @@
+# EventType: 13196014
+#
+# Descriptor: [B_s0 -> MyD*+ (D_s- -> K- K+ pi-)]cc
+#
+# NickName: Bs_Ds+Dst-,D+_KKpi,Dst-_D0pi,D0_Kpi=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: D*- --> D0 pi-, D0->KPi
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# CPUTime: <1min
+# Tested: Yes
+# Responsible: M. Karbach
+# Email: mkarbach@cern.ch
+# Date: 20140721
+#
+Alias      MyD*-       D*-
+Alias      MyD*+       D*+
+ChargeConj MyD*+       MyD*-
+#
+Alias      MyD0        D0
+Alias      Myanti-D0   anti-D0
+ChargeConj MyD0        Myanti-D0
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Decay B_s0sig
+1.00   MyD*+  MyD_s-                PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myanti-D0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay MyD*-
+  1.000        Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD_s-
+  1.000        K-        K+        pi-             D_DALITZ;
+  Enddecay
+CDecay MyD_s+
+#
+End

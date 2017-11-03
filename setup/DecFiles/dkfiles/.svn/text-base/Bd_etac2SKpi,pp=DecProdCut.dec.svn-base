@@ -1,0 +1,33 @@
+# EventType: 11134030
+# 
+# Descriptor: {[ B0 -> (eta_c(2S) -> p+ p~-) K+ pi-]cc}
+# 
+# NickName: Bd_etac2SKpi,pp=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: DecayProducts in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Giovanni Cavallero
+# Email: giovanni.cavallero@cern.ch
+# Date: 20141119
+# CPUTime : < 1 min
+#
+Alias Myetac(2S) eta_c(2S)
+ChargeConj Myetac(2S) Myetac(2S)
+#
+Decay B0sig
+  1.000 Myetac(2S) K+ pi- PHOTOS PHSP;
+Enddecay
+Decay anti-B0sig
+  1.000 Myetac(2S) K- pi+ PHOTOS PHSP;
+Enddecay
+#
+Decay Myetac(2S)
+  1.000 p+ anti-p- PHOTOS PHSP;
+Enddecay
+#
+End

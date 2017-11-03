@@ -1,0 +1,52 @@
+# EventType: 13574430 
+# 
+# Descriptor: {[[B_s0]nos -> (D- -> (pi0 -> gamma gamma) mu- anti-nu_mu) (K*(892)~0 -> K- pi+)  mu+ nu_mu ]cc, [[B_s0]os -> (D+ -> (pi0 -> gamma gamma)  mu+ nu_mu) (K*(892)0 -> K+ pi-) mu- anti-nu_mu ]cc}
+#
+# NickName: Bs_DKstmunu,pi0munu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B_s0 to D- K*0 mu+ nu_mu, with D- forced to pi0 mu- anti-nu_mu, K*0 to K+ pi- and pi0 to gamma gamma. Products in LHCb acceptance.
+# Background for B0 to K*0 tau mu.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Thibaud Humair
+# Email: thibaud.humair@cern.ch
+# Date: 20150602
+# CPUTime: <1min
+#
+
+Alias Mypi0 pi0
+
+Alias MyK*0   K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0  Myanti-K*0
+
+Alias      MyD-         D-
+Alias      MyD+         D+
+ChargeConj MyD-         MyD+
+
+
+Decay B_s0sig
+ 1.000   MyD-   Myanti-K*0  mu+  nu_mu  PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD-
+1.000   Mypi0 mu- anti-nu_mu              PHSP;
+Enddecay
+CDecay MyD+
+#
+Decay Myanti-K*0
+    1.000   K-    pi+   VSS;
+Enddecay
+CDecay MyK*0
+
+Decay Mypi0
+1.000 gamma gamma PHSP;
+Enddecay
+#
+End
+#

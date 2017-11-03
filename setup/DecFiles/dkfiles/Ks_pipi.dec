@@ -1,0 +1,23 @@
+# EventType: 34102100 
+#
+# Descriptor: K_S0 -> pi+ pi-
+#
+# NickName: Ks_pipi
+#
+# Cuts: None
+#
+# Documentation: No generator level cuts
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Diego Martinez Santos
+# Email: Diego.Martinez.Santos@cern.ch
+# Date: 20120109
+#
+Decay K_S0sig
+  1.000       pi+     pi-              PHSP;
+Enddecay
+#
+End
+

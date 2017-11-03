@@ -1,0 +1,66 @@
+# EventType: 13296011
+#
+# Descriptor: [B_s0 -> (D_s+ => K+ K- pi+) (D_s- => pi+ pi- pi-)]cc
+#
+# NickName: Bs_DsDs,KKpi3pi=DDALITZ,DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Bs0 -> DsDs includes resonances in Ds decay via D_Dalitz, One Ds->3Pi
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Steven Blusk
+# Email: sblusk@syr.edu
+# Date: 20120831
+#
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+ChargeConj MyD_s+     MyD_s-
+
+Alias      MyD_s3pi+     D_s+
+Alias      MyD_s3pi-     D_s-
+ChargeConj MyD_s3pi+     MyD_s3pi-
+
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+
+Alias Myf_0          f_0
+ChargeConj Myf_0 Myf_0
+
+# ---------------
+# Decay of the Bs
+# ---------------
+Decay B_s0sig
+  1.000     MyD_s+     MyD_s3pi-      PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+# -----------------
+# Decay of the Ds+-
+# -----------------
+Decay MyD_s+
+  1.0     K+         K-        pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+Decay MyD_s3pi+
+0.0002   rho0    pi+                                     SVS; #[Reconstructed PDG2011]
+0.0051   Myf_0     pi+                                     PHSP; #[Reconstructed PDG2011]
+0.00051  Myf_2     pi+                                     PHSP; #[Reconstructed PDG2011]
+0.0108   pi+     pi-     pi+                             PHSP; #[Reconstructed PDG2011]
+Enddecay
+CDecay MyD_s3pi-
+
+Decay Myf_0
+1.000   pi+  pi-                        PHSP;
+Enddecay
+
+Decay Myf_2
+1.000   pi+  pi-                        TSS;
+Enddecay
+
+End

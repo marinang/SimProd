@@ -1,0 +1,56 @@
+# EventType: 12295201
+#
+# Descriptor: [B+ -> (D_s*+ -> (D_s+ => K- K+ pi+) {pi0, gamma}) (anti-D*0 -> (anti-D0 -> K+ pi-) ]cc
+#
+# NickName: Bu_DsstD0-DDalitz=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Daughters in LHCb Acceptance, Ds Dalitz Decay, Ds*-->Ds {pi0, gamma}
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible:     S. Blusk
+# Email: sblusk@syr.edu
+# Date: 20111011
+#
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+Decay B+sig
+  1.000     MyD_s*+       Myanti-D0       SVS;
+Enddecay
+CDecay B-sig
+
+Decay MyD_s+
+  1.0000     K+         K-        pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+Decay Myanti-D0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+
+Decay MyD_s*+
+  0.942     MyD_s+  gamma      VSP_PWAVE;
+  0.058     MyD_s+  pi0        VSS;
+Enddecay
+CDecay MyD_s*-
+
+
+#
+End
+

@@ -1,0 +1,43 @@
+# EventType: 22164121
+#
+# Descriptor: {[D0 -> (K*(892)~0 -> K- pi+) (KS0 -> pi+ pi-)]cc ,[D0 -> (K*(892)0 -> K+ pi-) (KS0 -> pi+ pi-)]cc}
+#
+# NickName: D0_KstKS=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D0 -> K*B(-> K- PI+) K_S0(-> pi- pi+) and D0 -> K*(-> K+ PI-) K_S0(-> pi- pi+)
+# K*0 decaying into K+ pi-, K0s decaying into pi- pi+
+# EndDocumentation
+#
+# PhysicsWG: QCD
+#
+# Tested: Yes
+# Responsible: Florin MACIUC
+# Email: florin.maciuc@mpi-hd.mpg.de
+# Date: 20111128
+
+#
+Alias      MyK0s      K_S0
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK0s      MyK0s
+ChargeConj MyK*0      Myanti-K*0
+#
+Decay D0sig
+  0.500  Myanti-K*0        MyK0s         SVS;
+  0.500  MyK*0             MyK0s         SVS;
+Enddecay
+CDecay anti-D0sig
+#
+Decay MyK0s
+  1.000    pi+          pi-           PHSP;
+Enddecay
+#
+Decay MyK*0
+  1.000    K+           pi-           VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

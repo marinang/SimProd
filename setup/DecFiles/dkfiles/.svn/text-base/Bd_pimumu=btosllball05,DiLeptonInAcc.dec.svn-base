@@ -1,0 +1,33 @@
+# EventType: 11112401
+#
+# Descriptor: [B0 -> mu+ mu- (pi0 -> gamma gamma)]cc
+#
+# NickName: Bd_pimumu=btosllball05,DiLeptonInAcc
+#
+# Cuts: None
+#
+# FullEventCuts: DiLeptonInAcceptance 
+#
+# Documentation: Bd decay as background for rare channels with dimuon in the final state. BTosll Ball FF model updated to 2005 calculation
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Christoph Langenbruch
+# Email: Christoph.Langenbruch@cern.ch
+# Date: 20120920
+#
+Alias      MyPi0   pi0
+ChargeConj MyPi0   MyPi0
+#
+Decay B0sig
+  1.000        MyPi0     mu+     mu-   BTOSLLBALL  6;
+Enddecay                           			 						
+CDecay anti-B0sig
+#
+Decay MyPi0
+  1.000        gamma    gamma          PHSP;
+Enddecay
+#
+End
+#

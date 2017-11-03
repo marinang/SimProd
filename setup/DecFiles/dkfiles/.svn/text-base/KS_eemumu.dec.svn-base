@@ -1,0 +1,23 @@
+# EventType: 34114002
+#
+# Descriptor: K_S0 -> e+ e- mu+ mu-
+#
+# NickName: KS_eemumu
+#
+# Cuts: None
+#
+# Documentation: K_S0 -> e+ e- mu+ mu-, no generator level cuts.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler
+# Email: Marc-Olivier.Bettler@cern.ch
+# Date: 20131028
+#
+Decay K_S0sig
+  1.000       e+ e- mu+ mu-      PHSP;
+Enddecay
+#
+End
+

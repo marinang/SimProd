@@ -1,0 +1,23 @@
+# EventType: 11512011
+#
+# Descriptor: [B0 => pi- nu_mu mu+]cc 
+#
+# NickName: Bd_pimunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay B0 -> pi- mu+ nu_mu 
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Francesco Dettori
+# Email: francesco.dettori@cern.ch
+# Date: 20120323
+Decay B0sig
+  1.000   pi-   mu+  nu_mu        PHOTOS ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

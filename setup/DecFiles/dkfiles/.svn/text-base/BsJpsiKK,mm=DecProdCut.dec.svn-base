@@ -1,0 +1,22 @@
+# EventType: 13100004
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu-) K+ K-]cc
+#
+# NickName: BsJpsiKK,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bs to J/psi KK model including intermediate KK resonances
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Veronika Chobanova
+# Email: veronika.chobanova@cern.ch
+# Date: 20170105
+# CPUTime: < 1 min
+#
+Decay B_s0sig
+1.0 mu+ mu- K+ K- BS_MUMUKK 0., 0., -0.03, 1., 0.11, 3.315, -0.03, 1., 0.5241, 0., -0.03, 1., 0.2504, 0.06159, -0.03, 1., -3.26, -0.03, 1., 0.6603, 0.0805, 17.7, 0.9499, 1.2, 1; Enddecay
+CDecay anti-B_s0sig
+
+End

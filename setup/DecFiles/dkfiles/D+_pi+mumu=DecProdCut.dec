@@ -1,0 +1,27 @@
+# EventType: 21113000
+#
+# Descriptor: [D+ -> pi+ mu+ mu-]cc
+#
+# NickName: D+_pi+mumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Walter Bonivento
+# Email: Walter.Bonivento@cern.ch
+# Date: 20090709
+#
+
+
+Decay D+sig
+  1.000   pi+  mu+ mu-  PHSP;
+Enddecay
+CDecay D-sig
+
+#
+End
+

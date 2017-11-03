@@ -1,0 +1,42 @@
+# EventType: 15113001 
+#
+# Descriptor: {[Lambda_b0 -> (tau- -> pi- pi- pi+ nu_tau) mu+ K- p+]cc, [Lambda_b0 -> (tau+ -> pi- pi+ pi+  anti-nu_tau ) mu- K- p+]cc}
+#
+# NickName: Lb_mutaupK,pipipinu=DecProdCut,tauolababar
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for Lambda_b0 -> Lambda_star (-> p+ K-) tau+ mu- (LFV,PHSP)
+#                Tau decays in the 3-prong charged pion mode using Tauola BaBar model.
+# EndDocumentation
+#
+# CPUTime: < 1min 
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Ryan Calladine
+# Email: ryan.calladine@cern.ch
+# Date: 20170111
+#
+#
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias      MyTau+      tau+
+Alias      MyTau-      tau-
+ChargeConj MyTau+      MyTau-
+#
+Decay Lambda_b0sig
+  0.5       MyTau-    mu+ K- p+        PHSP;
+  0.5       MyTau+    mu- K- p+        PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyTau-
+1.00       TAUOLA 5;
+Enddecay
+CDecay MyTau+
+#
+End
+#

@@ -1,0 +1,48 @@
+# EventType: 21113021
+#
+# Descriptor: [D+ -> ( eta' -> mu+ mu- ) pi+]cc
+#
+# NickName: D+_etaprimepi,mm=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ D+ -> ( eta_prime -> ^mu+ ^mu- ) ^pi+]CC'
+# tightCut.Cuts      =    {
+#     '[mu+]cc'  : ' inAcc & dauCuts',
+#     '[pi+]cc'  : ' inAcc & dauCuts',
+#     '[D+]cc'   : 'Dcuts' }
+# tightCut.Preambulo += [
+#     'inAcc = in_range ( 0.005, GTHETA, 0.400 ) ' , 
+#     'dauCuts = ( (GPT > 225 * MeV) & ( GP > 1800 * MeV))',
+#     'Dcuts = (GPT > 900 * MeV)' ]
+# EndInsertPythonCode
+
+# Documentation: Forces a D+ to ( eta' -> mu+ mu- ) pi+ with generator level cuts 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Jon Harrison, Thomas Bird
+# Email: jonathan.harrison@hep.manchester.ac.uk, thomas.bird@cern.ch
+# Date: 20140710
+#
+Alias       my_eta'   eta'
+ChargeConj  my_eta'   my_eta'
+#
+Decay  D+sig
+  1.000     my_eta'   pi+    PHOTOS PHSP ;
+Enddecay
+CDecay D-sig
+#
+Decay  my_eta'
+  1.000     mu+      mu-    PHOTOS PHSP ;
+Enddecay
+#
+End

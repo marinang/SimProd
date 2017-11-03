@@ -1,0 +1,35 @@
+# EventType: 14553022
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> e+ e-) e+ nu_e]cc
+#
+# NickName: Bc_Jpsienu,ee=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Decay file for Bc to Jpsi(to e+ e-) e nu_e, using BcVegPy generator, daughters in acceptance. For studying B2ee physical backgrounds.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Titus Mombächer
+# Email: titus.mombacher@cern.ch
+# Date: 20170301
+# CPUTime: < 1min
+#
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Decay B_c+sig
+  1.000    MyJ/psi  e+ nu_e   PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000    e+  e-   PHOTOS VLL;
+Enddecay
+#
+End
+#

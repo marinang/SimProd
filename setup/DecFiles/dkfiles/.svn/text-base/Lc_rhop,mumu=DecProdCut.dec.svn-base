@@ -1,0 +1,31 @@
+# EventType: 25113004
+# 
+# Descriptor: [Lambda_c+ -> mu+ (rho -> mumu) ]cc
+# 
+# NickName: Lc_rhop,mumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: PHSP MODEL, Background for Lc->p mumu
+#               
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Marcin Chrzaszcz
+# Email:       mchrzasz@cern.ch
+# Date:        20130511
+#
+Alias      Myrho   rho0
+ChargeConj Myrho   Myrho
+
+Decay Lambda_c+sig
+  1.00000         Myrho     mu+    PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+# 
+Decay  Myrho
+  1.000     mu+      mu-    PHOTOS VLL ;
+Enddecay
+#
+End

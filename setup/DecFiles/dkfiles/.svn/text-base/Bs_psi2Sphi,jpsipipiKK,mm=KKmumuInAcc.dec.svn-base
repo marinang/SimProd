@@ -1,0 +1,48 @@
+# EventType: 13146004
+#
+# Descriptor: [B_s0 -> (psi(2S) -> (J/psi(1S) -> mu+ mu-) pi+ pi-) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bs_psi2Sphi,jpsipipiKK,mm=KKmumuInAcc
+#
+# Cuts: ListOfDaughtersInLHCb
+#
+# ExtraOptions: KKmumuInAcc
+#
+# Documentation:  Bs decay to psi(2S) (J/psi (mu+ mu-) pi+ pi-, phi(K+ K-) with K+,K-,mu,mu in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Emanuele Santovetti
+# Email: emanuelesantovetti@gmail.com
+# Date: 20121030
+Alias       Mypsi2s      psi(2S)
+ChargeConj  Mypsi2s      Mypsi2s
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+Alias       MyPhi        phi
+ChargeConj  MyPhi        MyPhi
+#
+#
+#
+Decay B_s0sig
+  1.0   Mypsi2s   MyPhi   SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mypsi2s
+  1.0000   MyJ/psi   pi+   pi-    VVPIPI;
+Enddecay
+#
+Decay MyJ/psi
+  1.0000   mu+   mu-    VLL;
+Enddecay
+#
+Decay MyPhi
+  1.0000   K+   K-     VSS;
+Enddecay
+#
+#
+End

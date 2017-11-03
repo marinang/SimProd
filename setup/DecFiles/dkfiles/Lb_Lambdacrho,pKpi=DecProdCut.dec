@@ -1,0 +1,49 @@
+# EventType: 15164402
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p K+ pi-) (rho(770)- -> pi+ pi0)]cc
+#
+# NickName: Lb_Lambdacrho,pKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay Lb -> Lc+ (-> p+ K- pi+ ) rho- (-> pi- pi0)
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Indrek Sepp
+# Email: insepp@cern.ch
+# Date: 20130314
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Alias      Myrho+ rho+
+Alias      Myrho- rho-
+ChargeConj Myrho+ Myrho-
+#
+Alias      Mypi0  pi0
+ChargeConj Mypi0  Mypi0
+#
+Decay Lambda_b0sig
+  1.000    MyLambda_c+  Myrho-  PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay Myrho-
+  1.000     pi-        Mypi0                VSS;
+Enddecay
+CDecay Myrho+
+#
+Decay Mypi0
+  1.000     gamma      gamma               PHSP;
+Enddecay
+#
+End
+#

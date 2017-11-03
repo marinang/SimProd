@@ -1,0 +1,31 @@
+# EventType: 13144061
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) p+ p~-]cc
+#
+# NickName: Bs_Jpsippbar=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Non resonant, Jpsi forced into mu+ mu-, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Rafael Coutinho
+# Email: rsilvaco@cern.ch
+# Date: 20120905
+#
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi    MyJ/psi
+#
+Decay B_s0sig
+  1.000        MyJ/psi     p+      anti-p-        PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.000        mu+       mu-          PHOTOS VLL;
+Enddecay
+#
+End
+

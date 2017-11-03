@@ -1,0 +1,40 @@
+# EventType: 40000000
+#                                                                               
+# Descriptor: pp -> b b~ b b~
+#                                                                               
+# NickName: incl_4b_AlpGen
+# Cuts: None                                                                    
+#                                                                               
+# InsertPythonCode:
+# Generation.AlpGenDict = {
+# 'alpgen_nevxiter' : 100000,
+# 'alpgen_niter' : 2,
+# 'alpgen_nwgtev' : 1000000,
+# 'alpgen_FileLabel' : "4b",
+# 'alpgen_ihvy' : 5,
+# 'alpgen_ihvy2' : 5,
+# 'alpgen_njets' : 0, #number of light jets
+# 'alpgen_etabmin' : 1.596,                                                
+# 'alpgen_etabmax' : 10.0,                                                  
+# 'alpgen_ptbmin' : 2.0, # all b quarks must have pt > 2.0 GeV         
+# 'alpgen_pt2bmin' : 2.5, #at least 2 b quarks must have pt > 2.5 GeV 
+# 'alpgen_pt1bmin' : 2.5, #at least 1 b quark must have pt > 2.5 GeV
+# 'alpgen_eta2bmin': 2, #at least two b with a mininum eta of 2
+# 'alpgen_drbmin' : 0.,
+# 'alpgen_etabmax' : 10.0,
+# 'alpgen_ndns' : 9,
+# }
+# EndInsertPythonCode
+#                                                                               
+# Documentation: 4 b-quark in the LHCb Acc applied by AlpGen directly when used as production
+# EndDocumentation                                                              
+#                                                                               
+# PhysicsWG: Exotica                                                            
+# Tested: Yes                                                                   
+# CPUTime: 2 min                                                              
+# Responsible: Xabier Cid Vidal                                                 
+# Email: xabier.cid.vidal@cern.ch                                               
+# Date: 20150508                                                                
+#                                                                               
+End
+#

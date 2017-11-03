@@ -1,0 +1,32 @@
+# EventType: 15164001
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p K+ pi-) pi-]cc
+#
+# NickName: Lb_Lambdacpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phase space decay, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Anton Poluektov 
+# Email: a.o.poluektov@warwick.ac.uk
+# Date: 20111006
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        pi-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+End
+#

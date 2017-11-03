@@ -1,0 +1,53 @@
+# EventType: 27162211
+#
+# Descriptor: [D*0 -> (D0 -> K- pi+) gamma]cc
+#
+# NickName: Dst0_D0gamma,Kpi=TightCut
+# 
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen=Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# 
+# tightCut = Generation().SignalPlain.TightCut
+# tightCut.Decay     = '^[D*(2007)0 -> ^(D0 -> ^K- ^pi+) ^gamma]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV" ,
+#     "from LoKiCore.functions import in_range"
+# ]
+# tightCut.Cuts      =    {
+#     'gamma'   : "( GPT > 300*MeV ) & (abs(GPX/GPZ) < 0.315)  &  (abs(GPY/GPZ) < 0.255) & ((abs( GPX/GPZ ) > 0.019)  |  (abs(GPY/GPZ) > 0.019)) ",
+#     '[K+]cc'  : " in_range( 0.010 , GTHETA , 0.300 ) & ( GPT > 300 * MeV ) & ( GP > 1000*MeV ) " ,
+#     '[pi+]cc' : " in_range( 0.010 , GTHETA , 0.300 ) & ( GPT > 300 * MeV ) & ( GP > 1000*MeV ) ",
+#    '[D*(2007)0]cc'          : "(GP >  4000 * MeV) & (GPT > 400 * MeV)",
+#    '[D0]cc'          : "(GP >  4000 * MeV) & (GPT > 400 * MeV)",
+# }
+# EndInsertPythonCode
+#
+# Documentation: All Decay products down to stable particles in fibal state in acceptance and D*0 to D0 gamma
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Vincent Tisserand
+# Email: tisserav@lapp.in2p3.fr
+# Date: 20140110
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+##
+Decay D*0sig
+1.00 MyD0  gamma    VSP_PWAVE;
+Enddecay
+CDecay anti-D*0sig
+#
+Decay MyD0
+1.00     K-  pi+        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End
+

@@ -1,0 +1,38 @@
+# EventType: 12165102
+#
+# Descriptor: [B+ -> (D~0 -> (KS0 -> pi+ pi-) pi+ pi-) K+]cc
+#
+# NickName: Bu_D0K,KSpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K0s forced into pi+ pi-, D0 decay without resonance, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Daniel Johnson
+# Email: daniel.johnson@cern.ch
+# Date: 20111006
+#
+Alias MyD0        D0
+Alias Myanti-D0   anti-D0
+Alias myK_S0  K_S0
+ChargeConj        MyD0       Myanti-D0
+ChargeConj myK_S0 myK_S0
+##
+Decay B+sig
+1.000     Myanti-D0  K+               PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+1.000     myK_S0 pi+  pi-        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay myK_S0
+1.000     pi+  pi-                      PHSP;
+Enddecay
+#
+End

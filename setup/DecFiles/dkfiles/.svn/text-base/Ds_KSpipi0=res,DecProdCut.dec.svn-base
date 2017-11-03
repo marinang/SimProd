@@ -1,0 +1,39 @@
+# EventType: 23203500
+#
+# Descriptor: [Ds+ ->  (KS0 -> pi+ pi-) pi+ pi0]cc
+#
+# NickName: Ds_KSpipi0=res,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, simple resonant model based on CLEO-c (arXiv:0910.3602)
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Mat Charles
+# Email: matthew.charles@cern.ch
+# Date: 20120521
+
+Alias My_K_S0               K_S0
+Alias MyKstarPlus           K*+
+Alias MyKstarMinus          K*-
+ChargeConj MyKstarPlus MyKstarMinus
+
+Decay My_K_S0
+  1.0  pi+ pi-              PHSP ;
+Enddecay
+
+Decay MyKstarPlus
+  1.0  My_K_S0  pi+         VSS  ;
+Enddecay
+CDecay MyKstarMinus
+
+Decay D_s+sig
+  0.80   rho+         My_K_S0       SVS ;
+  0.15   MyKstarPlus  pi0           SVS ;
+  0.05   My_K_S0      pi+      pi0  PHSP ;
+Enddecay
+CDecay D_s-sig
+#
+End

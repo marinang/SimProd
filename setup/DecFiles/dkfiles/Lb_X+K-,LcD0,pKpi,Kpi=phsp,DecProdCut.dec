@@ -1,0 +1,59 @@
+# EventType: 15196090
+#
+# Descriptor: [Lambda_b0 -> (Sigma_c+ -> (Lambda_c+ -> p+ K- pi+) (D~0 -> K+ pi-)) K-]cc
+#
+# NickName: Lb_X+K-,LcD0,pKpi,Kpi=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: [Lambda_b0 -> (X+ -> (Lambda_c+ -> p+ K- pi+) (D~0 -> K+ pi-)) K-] PHSP.
+# Decfile for X+ -> Lc+ D~0 resonance from Lb decay. 
+# Sigma_c+ is used for this unknow particle. Its mass is around 4450+/-40 MeV. 
+# PHSP is used for the decay.
+# EndDocumentation
+#
+# ParticleValue: "Sigma_c+  83  4212  1.0  4.450 1.64553e-023      Sigma_c+   4212  0.00000000", "Sigma_c~- 84 -4212 -1.0  4.450 1.64553e-023 anti-Sigma_c-  -4212  0.00000000"
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Mingrui Zhao (Tsinghua), Zhenwei Yang
+# Email:  zhaomr13@mails.tsinghua.edu.cn, zhenwei.yang@cern.ch
+# Date: 20150228
+#
+Alias	   MySigma	 Sigma_c+
+Alias 	   Myanti-Sigma	 anti-Sigma_c-
+ChargeConj MySigma	 Myanti-Sigma
+Alias      MyLambda_c    Lambda_c+
+Alias	   Myanti-Lambda_c anti-Lambda_c-
+ChargeConj MyLambda_c	 Myanti-Lambda_c
+Alias	   MyD0		 D0
+Alias	   Myanti-D0	 anti-D0
+ChargeConj MyD0		 Myanti-D0
+
+#
+Decay Lambda_b0sig
+  1.000    MySigma          K-		PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+#
+Decay MySigma 
+  1.000    MyLambda_c          Myanti-D0          PHSP;
+Enddecay
+CDecay Myanti-Sigma
+
+#
+Decay MyLambda_c
+  1.000     p+ K- pi+  PHSP;
+Enddecay
+CDecay Myanti-Lambda_c
+#
+
+Decay MyD0
+  1.000     K- pi+ PHSP;
+Enddecay
+CDecay Myanti-D0
+End
+#

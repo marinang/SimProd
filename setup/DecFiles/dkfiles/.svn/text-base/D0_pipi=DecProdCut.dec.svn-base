@@ -1,0 +1,24 @@
+# EventType: 22162002
+#
+# Descriptor: [D0 -> pi- pi+]cc
+#
+# NickName: D0_pipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: W.bonivento
+# Email: Walter.Bonivento@cern.ch
+# Date: 20101029
+#
+Decay D0sig
+  1.0   pi-  pi+   PHSP;
+Enddecay
+CDecay anti-D0sig
+#
+End
+

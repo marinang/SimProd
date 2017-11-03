@@ -1,0 +1,32 @@
+# EventType: 11164022
+# 
+# Descriptor: {[[B0]nos -> (D~0 -> K+ K-)(rho(770)0 -> pi+ pi-)]cc, [[B0]os -> (D0 -> K- K+) (rho(770)0 -> pi+ pi-)]cc}
+# 
+# NickName: Bd_D0rho0,KK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# TD CPV
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Edmund Smith (LHCb 2010) 
+# Email: edmund.robert.smith@cern.ch
+# Date: 20121009
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+#
+Decay B0sig
+  1.000 rho0 Myanti-D0 SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Myanti-D0
+  1.000 K+ K- PHSP;
+Enddecay
+End
+#

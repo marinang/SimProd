@@ -1,0 +1,38 @@
+# EventType: 12123444
+#
+# Descriptor: [B+ -> (K*+ -> K+ pi0) e+ e-]cc
+#
+# NickName: Bu_Kstee,Kpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ -> (K*+ -> K+ pi0) e+ e- (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Alias MyKst+ K*+
+Alias MyKst- K*-
+ChargeConj MyKst+ MyKst-
+#
+Decay B+sig
+ 1.0     MyKst+ e+ e- PHOTOS PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyKst+
+ 1.0 K+ pi0 VSS;
+Enddecay
+CDecay MyKst-
+#
+End
+#

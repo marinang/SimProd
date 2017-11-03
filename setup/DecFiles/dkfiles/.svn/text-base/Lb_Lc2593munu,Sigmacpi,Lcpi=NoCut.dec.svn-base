@@ -1,0 +1,53 @@
+# EventType: 15963000
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c(2593)+ -> (Sigma_c0 -> MyLambda_c+ pi-) pi+) mu- anti-nu_mu]cc
+#
+# NickName: Lb_Lc2593munu,Sigmacpi,Lcpi=NoCut
+#
+# Cuts: None
+#
+# Documentation: This is the decay file to generate Lambda_b0 -> (Lambda_c+(2593) -> (Sigma_c++ -> Lambda_c+)  pi-) mu+ anti-nu_mu
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Andrea Contu
+# Email: acontu@cern.ch
+# Date: 20120524
+#
+Alias MyLambda_c(2593)+ Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)- anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+ Myanti-Lambda_c(2593)-
+#
+Alias MySigma_c0 Sigma_c0
+Alias Myanti-Sigma_c0 anti-Sigma_c0
+ChargeConj MySigma_c0 Myanti-Sigma_c0
+#
+Alias MySigma_c++ Sigma_c++
+Alias Myanti-Sigma_c-- anti-Sigma_c--
+ChargeConj MySigma_c++ Myanti-Sigma_c--
+#
+
+Decay Lambda_b0sig
+  1.00    MyLambda_c(2593)+        mu-  anti-nu_mu        PHOTOS   BaryonPCR  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c(2593)+
+  0.5000      MySigma_c++         pi-                      PHSP;
+  0.5000      MySigma_c0          pi+                      PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+Decay MySigma_c++
+1.0000    Lambda_c+  pi+                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MySigma_c0
+1.0000    Lambda_c+  pi-                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+#
+End
+

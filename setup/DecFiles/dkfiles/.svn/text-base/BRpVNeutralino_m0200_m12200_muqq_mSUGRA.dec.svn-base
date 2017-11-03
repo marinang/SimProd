@@ -1,0 +1,64 @@
+# EventType: 46000114
+#
+# Descriptor: pp -> (X -> ~chi_10 -> mu q q' )
+#
+# NickName: BRpVNeutralino_m0200_m12200_muqq_mSUGRA
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/Chi10InAccMuInAcc
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "Chi10InAccMuInAcc" )
+# GenLevelSelection = Generation().Chi10InAccMuInAcc
+# GenLevelSelection.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import GeV, mrad, mm, meter"
+#     , "GEVZ                   =  GFAEVX( GVZ, LoKi.Constants.InvalidDistance )"
+#     , "GEVRHO                 =  GFAEVX( GVRHO, LoKi.Constants.HugeDistance )"
+#     , "inAcceptance           = ( GTHETA < 400.*mrad ) & ( GP > 2.0*GeV )"
+#     , "decInVeloAcceptance    = in_range( -250.*mm, GEVZ, 750.*mm ) & ( GEVRHO < 82.*mm )"
+#     , "isNeutralino           = ( '~chi_10' == GABSID )"
+#     , "isGoodMu               = ( ( 'mu+' == GABSID ) & inAcceptance )"
+#     , "isGoodNeutralinoWithMu = ( isNeutralino & inAcceptance & decInVeloAcceptance & ( GNINTREE( isNeutralino, HepMC.descendants ) == 0 ) & ( GNINTREE( isGoodMu, HepMC.descendants ) > 0 ) )"
+#     ]
+# GenLevelSelection.Code = " count ( isGoodNeutralinoWithMu ) > 0 "
+#
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = "( '~chi_10' == GABSID )" # Keep MCParticles Neutralinos
+#
+# ### Particle properties
+# spcFileName = "$DECFILESROOT/lhafiles/mSUGRA_m0200_m12200_muqq.LHspc"
+# specialSusyParticles = [ "1000022" ]
+#
+# import sys,os
+# sys.path.append(os.path.expandvars("$DECFILESROOT/scripts/"))
+# from SuSySLHAFunctions import getParticlePropertiesAndPythia8Commands
+# pps, ppCommands = getParticlePropertiesAndPythia8Commands(spcFileName, specialSusyParticles)
+#
+# Generation().Special.Pythia8Production.Commands += [
+#       "SLHA:file            %s" % spcFileName
+#     , "SLHA:useDecayTable = true"
+#     ] + ppCommands
+#
+# from Configurables import LHCb__ParticlePropertySvc
+# LHCb__ParticlePropertySvc().Particles += [
+#       "~chi_10 884  1000022  0.0 %e %e unknown  1000022 0.00000000" % pps["1000022"]
+#     ]
+# EndInsertPythonCode
+#
+# ExtraOptions: RPVMSSMNeutralinoPythia8
+# SUSYModel: mSUGRA_m0200_m12200_muqq
+#
+# Documentation: Neutralinos from SUSY (mSUGRA) with Bilinear Rp violation in final states mu q q', m0=200GeV, m1/2=200GeV
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Pieter David and Oscar Auguto
+# Email: pieter.david@cern.ch / oscar@if.ufrj.br
+# Date: 20141210
+# CPUTime: < 1 min
+#
+End
+#
+#

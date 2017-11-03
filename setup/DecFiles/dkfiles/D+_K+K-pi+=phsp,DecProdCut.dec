@@ -1,0 +1,23 @@
+# EventType: 21163000
+#
+# Descriptor: [D+ -> K+ K- pi+]cc
+#
+# NickName: D+_K+K-pi+=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Malcolm John
+# Email: unknown@<nospam>cern.ch
+# Date: 20081018
+#
+Decay D+sig
+  1.000        K+        K-        pi+             PHSP;
+Enddecay
+CDecay D-sig
+#
+End

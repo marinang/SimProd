@@ -1,0 +1,28 @@
+# EventType: 23113011
+#
+# Descriptor: [D_s+ -> pi+ e+ mu-]cc
+#
+# NickName: Ds_pi+emu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces a D_s+ to decay into pi+ e+ mu- with products in the LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Jon Harrison
+# Email: jonathan.harrison@manchester.ac.uk
+# Date: 20151203
+# CPUTime: < 1 min
+#
+
+
+Decay D_s+sig
+  1.000   pi+  e+ mu-  PHSP;
+Enddecay
+CDecay D_s-sig
+
+#
+End
+

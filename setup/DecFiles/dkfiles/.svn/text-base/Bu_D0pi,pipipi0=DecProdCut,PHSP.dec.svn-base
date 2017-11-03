@@ -1,0 +1,33 @@
+# EventType: 12163484
+#
+# Descriptor: [B+ -> (D0bar -> pi+ pi- pi0) pi+]cc
+#
+# NickName: Bu_D0pi,pipipi0=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay B+ -> D~0 (-> Pi+ Pi- Pi0 ) Pi+
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Nazim Hussain
+# Email: nazim.hussain@cern.ch
+# Date: 20140124
+#
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+ChargeConj MyD0 Myanti-D0
+#
+Decay B+sig
+  1.000  Myanti-D0  pi+  PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D0
+  1.000  pi-  pi+ pi0  PHSP;
+Enddecay
+CDecay MyD0
+#
+End
+

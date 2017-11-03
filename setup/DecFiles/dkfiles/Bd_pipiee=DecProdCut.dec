@@ -1,0 +1,29 @@
+# EventType: 11124059
+#
+# Descriptor: [B0 -> pi+ pi- e+ e-]cc
+#
+# NickName: Bd_pipiee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B0 -> pi+ pi- e+ e- (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Decay B0sig
+ 1.0     pi+ pi- e+ e- PHOTOS PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

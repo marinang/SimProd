@@ -1,0 +1,48 @@
+# EventType: 11563010
+#
+# Descriptor: [B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) tau+  nu_tau]cc
+#
+# NickName: Bd_DstTauNu=DecProdCut,inclusive_tau_decays
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd to D* tau, with D* to pi D0 and D0 to Kpi final state, and inclusive tau decays
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Guy Wormser
+# Email: guy.wormser@cern.ch
+# Date: 20150916
+#
+
+Alias             MyD0        D0
+Alias             anti-MyD0   anti-D0
+ChargeConj        MyD0        anti-MyD0
+
+Alias         MyD*+   D*+
+Alias         MyD*- D*-
+ChargeConj    MyD*+ MyD*-
+
+
+
+Decay B0sig
+  1.000       MyD*-       tau+        nu_tau             ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*+
+  1.000     MyD0      pi+                 VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.0000      K-     pi+     PHSP;
+Enddecay
+CDecay anti-MyD0
+#    
+
+#   
+End
+#

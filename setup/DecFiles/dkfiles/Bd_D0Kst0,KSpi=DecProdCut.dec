@@ -1,0 +1,46 @@
+# EventType: 11164511
+#
+# Descriptor: {[[B0]nos -> (D0 -> K- pi+) (K*(892)~0 -> KS0 pi0)]cc, [[B0]os -> (D~0 -> K+ pi-) (K*(892)0 -> KS0 pi0)]cc}
+#
+# NickName: Bd_D0Kst0,KSpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K*0 forced to KS0 pi0
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Maurizio Martinelli
+# Email: maurizio.martinelli@cern.ch
+# Date: 20130405
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj MyK*0       Myanti-K*0
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+#
+Decay B0sig
+  1.000        Myanti-K*0     MyD0              SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Myanti-D0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay MyK*0
+  1.000        MyK0s        pi0                    VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK0s
+  1.000        pi+        pi-                    PHSP;
+Enddecay
+End
+

@@ -1,0 +1,38 @@
+# EventType: 35103100
+#
+# Descriptor: [Xi- -> (Lambda0 -> p+ pi-) pi-]cc
+#
+# NickName: Xi_LambdaPi
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Xi- forced to go to Lambda Pi- for phase space decay model, and Lambda decaying into p+ pi-, and LHCbAcceptance.
+# EndDocumentation
+#
+# PhysicsWG: QCD
+#
+# Tested: Yes
+# Responsible: Florin MACIUC
+# Email: florin.maciuc@cern.ch
+# Date: 20130423
+#
+#Alias      Xi-sig           Xi-
+#Alias anti-Xi+sig           anti-Xi+ 
+#ChargeConj Xi-sig           anti-Xi+sig
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+#
+Decay Xi-sig
+  1.000    MyLambda        pi-       PHSP;
+Enddecay
+CDecay anti-Xi+sig
+#
+Decay MyLambda
+  1.000    p+        pi-       PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

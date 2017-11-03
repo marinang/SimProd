@@ -1,0 +1,51 @@
+# EventType: 14542005
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu-) (tau+ -> pi+ pi+ pi- pi0 nu_tau~) nu_tau]CC
+#
+# NickName: Bc_JpsiTauNu,pipipipi0nu=DecProdCut,BcVegPy,taulababar
+#
+# Cuts:  BcDaughtersInLHCb 
+#
+# Production: BcVegPy
+#
+# Documentation: Bc decay to J/psi and tau using BcVegPy dedicated model
+# tau decay to 3 charged and one neutral pions using the Tauola with BaBar configuration.
+# EndDocumentation
+# 
+# PhysicsWG: B2SL
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Nikita Beliy
+# Email: nikita.beliy@cern.ch
+# Date: 20170420
+#
+#
+# Tauola steering options
+Define TauolaCurrentOption 1 
+Define TauolaBR1 1.0
+#
+Alias         MyTau+   tau+
+Alias         MyTau-   tau-
+ChargeConj    MyTau+   MyTau-
+#
+Alias       MyJpsi  J/psi
+ChargeConj  MyJpsi  MyJpsi
+#
+#
+#
+Decay B_c+sig
+  1.00000 MyJpsi MyTau+  nu_tau PHOTOS BC_VMN 1;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyTau+
+  1.00              TAUOLA 6; 
+Enddecay
+CDecay MyTau-
+#
+Decay MyJpsi
+  1.00000  mu+  mu- PHOTOS VLL ;
+Enddecay
+#
+End

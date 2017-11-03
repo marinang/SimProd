@@ -1,0 +1,36 @@
+# EventType: 27163403
+#
+# Descriptor: [D*+ -> (D0 -> pi- pi+ pi0) pi+]cc
+#
+# NickName: Dst_D0pi,pipipi0=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#   This is the decay file for the decay D* -> D0 pi+
+#   D0 decays to pi- pi+ pi0 with a D* tag.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Marco Gersabeck
+# Email: Marco.Gersabeck@cern.ch
+# Date: 20140109
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.000   pi- pi+ pi0  PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End
+ 

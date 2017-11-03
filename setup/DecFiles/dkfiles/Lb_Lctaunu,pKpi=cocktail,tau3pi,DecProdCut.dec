@@ -1,0 +1,72 @@
+# EventType: 15866030
+#
+# Descriptor: [ Lambda_b0 ->  (Lambda_c+ -> p+ K- pi+)  (tau- -> pi- pi+ pi- nu_tau) anti-nu_tau   ]cc
+#
+# NickName: Lb_Lctaunu,pKpi=cocktail,tau3pi,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: 3 min
+#
+# Documentation: Lb -> Lc tau nu_mu with Lc->p K pi and tau->3pi.  Includes Daughters in LHCb acceptence cut. 
+# EndDocumentation
+#
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Guy Wormser
+# Email: guy.wormser@cern.ch
+# Date:   20140717
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Decay Lambda_b0sig
+  1.0    MyLambda_c+        Mytau-  anti-nu_tau     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+# BR = 1
+Decay MyLambda_c+
+# Lc->pKpi:
+  0.02800         p+      K-      pi+          PHSP;
+  0.016         p+      Myanti-K*0           PHSP;
+  0.00860         Delta++ K-                   PHSP;
+  0.00414         MyLambda(1520)0 pi+          PHSP;  
+Enddecay
+CDecay Myanti-Lambda_c-
+# BR = 1
+#
+Decay Mytau-
+ 1.       pi- pi+ pi- nu_tau      TAUHADNU  -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay Mytau+
+#
+# 
+#
+Decay MyK*0
+  1.0      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+#
+Decay MyLambda(1520)0
+  1.0   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+#
+End

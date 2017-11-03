@@ -1,0 +1,49 @@
+# EventType: 15512018
+#
+# Descriptor: [Lambda_b0 -> p+ mu- anti-nu_mu]cc
+#
+# NickName: Lb_pmunu=TightCut,LQCD,M4.5GeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Decay file for Lb->pmunu using LQCD form factor predicitons 
+#                (form factor from 15512014). M(pmu) > 4.5 GeV, P and PT cuts on the p and mu
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut  = Generation().SignalPlain.TightCut
+#
+# tightCut.Decay = "^[ Lambda_b0 => ^p+ ^mu- nu_mu~  ]CC"
+#
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range",
+# "from GaudiKernel.SystemOfUnits import GeV, MeV" ,
+# "ACC  = in_range ( 0.0075, GTHETA, 0.400 )"
+#  ]
+#
+# tightCut.Cuts      =    {
+#    '[Lambda_b0]cc': "GMASS('p+'==GABSID,'mu+'==GABSID) > 4.5*GeV",
+#    '[p+]cc'       : "ACC & (GPT > 700.*MeV) & (GP > 2500*MeV)",
+#    '[mu-]cc'      : "ACC & (GPT > 700.*MeV) & (GP > 2500*MeV)"
+#   }
+# EndInsertPythonCode
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler
+# Email: Marc-Olivier.Bettler@cern.ch
+# Date: 20140415
+# CPUTime: < 5 min
+#
+#
+
+Decay Lambda_b0sig
+  1.000    p+     mu-  anti-nu_mu   PHOTOS   Lb2plnuLQCD  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

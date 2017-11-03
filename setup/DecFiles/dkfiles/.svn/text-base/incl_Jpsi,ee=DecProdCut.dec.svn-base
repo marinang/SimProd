@@ -1,0 +1,23 @@
+# EventType: 24152001
+#
+# Descriptor: J/psi(1S) -> e+ e- {,gamma} {,gamma}
+#
+# NickName: incl_Jpsi,ee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Jpsi decay to e+, e-, radiative mode included, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20110909
+#
+Decay J/psisig
+  1.000         e+        e-        VLL;
+Enddecay
+#
+End
+#

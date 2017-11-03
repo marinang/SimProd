@@ -1,0 +1,57 @@
+# EventType: 12103202
+#
+# Descriptor: [B+ -> (phi(1020) -> K+ K-) K+ gamma]cc
+#
+# NickName: Bu_phiKgamma=HighPtGamma,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# ParticleValue: "K*(1680)+  749 30323 1.0 1.800000 1.324652e-024 K''*+ 0 0.700000", "K*(1680)- 750 -30323 -1.0 1.800000 1.324652e-024 K''*- 0 0.700000"
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation().BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: Phase space decay model, decay products in acceptance, with gamma PT > 1.5
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email:  cedric.potterat@.cern.ch
+# Date: 20130809
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+
+Alias      MyRes+  K''*+
+Alias      MyRes-  K''*-
+ChargeConj MyRes+  MyRes-
+
+#
+Decay B+sig
+1.000      MyRes+  gamma   SVP_HELAMP 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay MyRes+
+1.000      MyPhi   K+      VVS_PWAVE 1.0 0.0 0.0 0.0 1.0 1.5;
+Enddecay
+CDecay MyRes-
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

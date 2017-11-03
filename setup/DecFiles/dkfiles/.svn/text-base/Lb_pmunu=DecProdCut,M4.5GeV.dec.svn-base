@@ -1,0 +1,46 @@
+# EventType: 15512012
+#
+# Descriptor: [Lambda_b~0 => p~- mu+ nu_mu]cc
+#
+# NickName: Lb_pmunu=DecProdCut,M4.5GeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: M(pmu) > 4.5 GeV
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut  = Generation().SignalPlain.TightCut
+# #
+# tightCut.Decay    = "[Lambda_b~0 => p~- mu+ nu_mu]CC"
+# tightCut.Cuts     = {
+#    '[Lambda_b0]cc'  : "GINTREE((GABSID == 'p+') & (ACC)) & GINTREE((GABSID == 'mu+') & (ACC)) & (BM2 > 20250000.)",
+#    }
+# #
+# tightCut.Preambulo += [
+#    "BPX2 = (GCHILD(GPX,'p+' == GABSID) + GCHILD(GPX,'mu+' == GABSID))**2",
+#    "BPY2 = (GCHILD(GPY,'p+' == GABSID) + GCHILD(GPY,'mu+' == GABSID))**2",
+#    "BPZ2 = (GCHILD(GPZ,'p+' == GABSID) + GCHILD(GPZ,'mu+' == GABSID))**2",
+#    "BPE2 = (GCHILD(GE ,'p+' == GABSID) + GCHILD(GE, 'mu+' == GABSID))**2",
+#    "BM2  = (BPE2 - BPX2 - BPY2 - BPZ2)" ,
+#    "ACC  = in_range ( 0.0075, GTHETA, 0.400 )" , 
+#    ]
+# EndInsertPythonCode
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Francesco Dettori
+# Email: francesco.dettori@cern.ch  
+# Date: 20130123
+#
+Decay Lambda_b0sig
+  1.000    p+     mu-  anti-nu_mu       PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#
+

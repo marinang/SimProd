@@ -1,0 +1,22 @@
+# EventType: 34112401
+#
+# Descriptor: K_S0 -> mu+ mu- pi0
+#
+# NickName: KS_mumupi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K_S0 -> mu+ mu- pi0 with phase space model, DaughtersInLHCb cut.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler
+# Email: Marc-Olivier.Bettler@cern.ch
+# Date: 20131025
+#
+Decay       K_S0sig
+  1.000     mu+     mu-    pi0      PHSP;
+Enddecay
+#
+End

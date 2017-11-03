@@ -1,0 +1,22 @@
+# EventType: 34112400
+#
+# Descriptor: K_S0 -> mu+ mu- pi0
+#
+# NickName: KS_mumupi0
+#
+# Cuts: None
+#
+# Documentation: K_S0 -> mu+ mu- pi0 with phase space model, no generator level cuts.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marc-Olivier Bettler
+# Email: Marc-Olivier.Bettler@cern.ch
+# Date: 20131025
+#
+Decay       K_S0sig
+  1.000     mu+     mu-    pi0      PHSP;
+Enddecay
+#
+End

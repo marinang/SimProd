@@ -1,0 +1,35 @@
+# EventType: 14203003
+#
+# Descriptor: [B_c+ -> pi+ pi- pi+]cc
+#
+# NickName: Bc_pipipi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to three charged pions (3/4 through rho0 pi and 1/4 as phase space decay), using BcDaughtersInLHCb cuts.
+# EndDocumentation
+#
+# PhysicsWG:   Onia 
+# Tested:      Yes
+# Responsible: Vanya BELYAEV
+# Email:       Ivan.Belyaev@itep.ru
+# Date:        20130909
+#
+#
+Alias      MyRho0    rho0
+ChargeConj MyRho0  MyRho0
+#
+Decay      B_c+sig
+  0.750    MyRho0  pi+             SVS  ;
+  0.250    pi+ pi- pi+             PHSP ;
+Enddecay
+CDecay     B_c-sig
+#
+Decay      MyRho0
+  1.000    pi+ pi-                 VSS  ;
+Enddecay
+#
+End
+#

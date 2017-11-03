@@ -1,0 +1,37 @@
+# EventType: 15574050
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ pi+ pi-) mu- anti-nu_mu]cc
+#
+# NickName: Lb_Lcmunu,ppipi=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Lb -> Lc mu nu_mu with Lc -> p pi pi
+#                with phase space model
+#                with children in the LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Alex Pearce
+# Email:       alex.pearce@cern.ch
+# Date:        20160622
+
+Alias MyLambda_c+       Lambda_c+
+Alias MyLambda_c-       anti-Lambda_c-
+
+ChargeConj MyLambda_c+  MyLambda_c-
+
+Decay Lambda_b0sig
+  1.0 MyLambda_c+ mu- anti-nu_mu PHOTOS BaryonPCR 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyLambda_c+
+  1.0 p+ pi+ pi- PHSP;
+Enddecay
+CDecay MyLambda_c-
+
+End

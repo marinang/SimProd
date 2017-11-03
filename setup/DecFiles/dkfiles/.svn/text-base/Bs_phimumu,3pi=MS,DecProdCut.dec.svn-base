@@ -1,0 +1,45 @@
+# EventType: 13114401
+#
+# Descriptor: [B_s0 -> (phi(1020) -> pi+ pi- pi0) mu+ mu-]cc
+#
+# NickName: Bs_phimumu,3pi=MS,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: the B -> phi mu^+ mu^- decay with the transition form factors
+# from the paper  D.Melikhov, B.Stech, PRD62, 014006 (2000).
+# Input parameters - mu        - the scale parameter (in GeV's);
+#                    res_swch  - resonant switching parametr:
+#                    ias       - switching parametr for \alpha_s(M_Z) value:
+#                    Wolfenstein parameterization for CKM matrix:
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email:       Nikolai.Nikitine@cern.ch
+# Date:        20120827
+#
+Define mu 5.0
+Define Nf 5
+Define res_swch 0
+Define ias 1
+Define A 0.88
+Define lambda 0.227
+Define barrho 0.22
+Define bareta 0.34
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_s0sig
+  1.0000       MyPhi     mu+  mu-   BTOSLLMS mu Nf res_swch ias A lambda barrho bareta;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        pi+   pi-   pi0                PHSP;
+Enddecay
+#
+End
+

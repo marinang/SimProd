@@ -1,0 +1,35 @@
+# EventType: 27165003
+#
+# Descriptor: [D*(2010)+ -> (D0 -> {K+ K- pi+ pi-}) pi+]cc
+#
+# NickName: Dst_D0pi,KKpipi=DecProdCut,CutsForDstar
+#
+# Cuts: DaughtersInLHCbAndCutsForDstar
+#
+# CutsOptions: D0PtCuts 2.900*GeV DaughtersPtMinCut 300*MeV DaughtersPtMaxCut 300*MeV DaughtersPMinCut 2.900*GeV SoftPiPtCut 100*MeV
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance and has some generation cuts
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Maurizio Martinelli, Paras Naik 
+# Email: Maurizio.Martinelli@cern.ch, Paras.Naik@cern.ch
+# Date: 20130806
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.000 K+ K- pi+ pi- PHSP;  
+Enddecay
+CDecay MyantiD0
+#
+End

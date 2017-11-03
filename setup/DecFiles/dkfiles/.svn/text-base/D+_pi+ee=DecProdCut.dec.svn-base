@@ -1,0 +1,28 @@
+# EventType: 21123001
+#
+# Descriptor: [D+ -> pi+ e+ e-]cc
+#
+# NickName: D+_pi+ee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Andrea Contu
+# Email: acontu@cern.ch
+# Date: 20150326
+# CPUTime: < 1 min
+#
+
+
+Decay D+sig
+  1.000   pi+  e+ e-  PHSP;
+Enddecay
+CDecay D-sig
+
+#
+End
+

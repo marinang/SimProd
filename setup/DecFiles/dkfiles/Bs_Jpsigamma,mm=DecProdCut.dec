@@ -1,0 +1,37 @@
+# $Id: Bs_Jpsigamma,mm=DecProdCut.dec,v 1.1 2012-03-12 F.Soomro
+#
+# This is the decay file for the decay BS0 -> Jpsi(-> mu+ mu-) GAMMA
+#
+# EventType: 13142201
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu-) gamma]cc
+#
+# NickName: Bs_Jpsigamma,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: Includes radiative mode, CP violation, different lifetimes, decay
+# EndDocumentation
+#
+# 
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Fatima Soomro
+# Email: Fatima.Soomro@cern.ch	
+# Date: 20120313
+#
+Alias      MyJpsi   J/psi
+ChargeConj MyJpsi   MyJpsi
+#
+Decay B_s0sig
+  1.0000       MyJpsi    gamma              SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJpsi
+  1.000        mu+        mu-               PHOTOS VLL;
+Enddecay
+#
+End
+

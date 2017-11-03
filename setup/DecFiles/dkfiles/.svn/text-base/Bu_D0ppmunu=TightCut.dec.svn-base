@@ -1,0 +1,45 @@
+# EventType: 12572000
+#
+# Descriptor: [B- -> D0 anti-nu_mu mu- p~- p+]cc
+#
+# NickName: Bu_D0ppmunu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: 4 min
+#
+# Documentation: Decay file for Bu->D0ppbarmunu using phase space model with acceptance, PT and P cuts on p, pbar and mu .
+# EndDocumentation
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut  = Generation().SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "[ B- ==> D0 ^p+ ^p~- ^mu- nu_mu~ {X} {X} {X} {X}  ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV"
+#  ]
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 950 * MeV ) & (GP > 14600 * MeV)" ,
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GPT > 1450 * MeV) &  (GP > 4900 * MeV)"
+#   }
+# EndInsertPythonCode
+# PhysicsWG: B2SL 
+# Tested: Yes
+# Responsible: Matthew Tilley
+# Email: matthew.james.tilley@cern.ch
+# Date: 20160526 
+#
+#
+Decay B-sig
+  1.  D0  p+  anti-p-  mu-  anti-nu_mu  PHSP;
+Enddecay
+CDecay B+sig
+#
+End
+#
+#
+#
+#
+#

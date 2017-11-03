@@ -1,0 +1,30 @@
+# EventType: 28144051
+#
+# Descriptor: chi_c2 -> (J/psi -> mu+ mu-) mu+ mu-
+#
+# NickName: chic2_Jpsimumu,mumu
+# Cuts: None
+#
+# Documentation: chi_c2 decay to (J/psi ->mumu ) mu+ mu-
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Konstantin Belous
+# Email: Konstantin.Beloous@cern.ch
+# Date: 20170516
+# CPUTime: < 1 min
+#
+Alias       MyJpsi   J/psi
+ChargeConj  MyJpsi   MyJpsi
+
+Decay chi_c2sig
+  1.000  MyJpsi mu+ mu-       PHOTOS  PHSP;
+Enddecay
+#
+Decay MyJpsi
+  1.000  mu+    mu-           PHOTOS  VLL;
+Enddecay
+#
+End
+#

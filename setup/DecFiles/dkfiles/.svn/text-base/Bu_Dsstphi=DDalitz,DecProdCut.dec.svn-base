@@ -1,0 +1,53 @@
+# EventType: 12265210
+#
+# Descriptor: [B+ -> (D*_s+ -> (pi0,Gamma) (D_s+ -> K+ K- pi+)) (phi -> K+ K-)]cc
+#
+# NickName: Bu_Dsstphi=DDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Daughters in LHCb Acceptance, Ds Dalitz Decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: L.Carson
+# Email: l.carson@imperial.ac.uk
+# Date: 20120426
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+Alias      MyPhi       phi
+ChargeConj MyPhi       MyPhi
+
+Decay B+sig
+  1.000     MyPhi   MyD_s*+          SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B-sig
+
+Decay MyD_s*+
+  0.942     MyD_s+  gamma      VSP_PWAVE;
+  0.058     MyD_s+  pi0        VSS;
+Enddecay
+CDecay MyD_s*-
+
+Decay MyD_s+
+  1.0000     K+         K-        pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+Decay MyPhi
+  1.000        K+        K-                     VSS;
+Enddecay
+
+
+#
+End
+

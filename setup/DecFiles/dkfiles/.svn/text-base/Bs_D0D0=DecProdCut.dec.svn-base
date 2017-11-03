@@ -1,0 +1,35 @@
+# EventType: 13194001
+# NickName: Bs_D0D0=DecProdCut
+# Descriptor: [B_s0 -> D0 D~0]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: 
+#    Decay file for B_s0 -> D0 D0bar
+# EndDocumentation
+# 
+# Date:   20120103
+# 
+# Responsible: Steven Blusk
+# Email: sblusk@syr.edu
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+
+ChargeConj My_anti-D0 My_D0
+
+Decay My_D0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay B_s0sig
+  1.0 My_D0 My_anti-D0 PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+
+End

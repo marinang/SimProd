@@ -1,0 +1,88 @@
+# EventType: 26164282
+#
+# Descriptor: [Xi_c0 -> (Xi'_c+ -> (Xi_c+ -> p+ K- pi+) gamma) K- ]cc
+#
+# NickName: Omegacstst_XicprimeK,pKpi=phsp,TightCut,m=3119MeV,G=1MeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: 3 min
+#
+# Documentation: (prompt) Excited Omega_c0 decay according to phase space decay model with tight cuts
+#                 Mass = 3119 MeV and Width = 1 MeV
+#                 Xi_c0 is used to mimic Omegac**0
+# EndDocumentation
+#
+# ParticleValue: "Xi_c0               106        4132  0.0        3.1190   0.658000e-021                    Xi_c0        4132   0.005", "Xi_c~0              107       -4132  0.0        3.1190   0.658000e-021              anti-Xi_c0       -4132   0.005" 
+# 
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation() 
+# signal     = generation.SignalPlain 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = "[Xi_c0 => (Xi'_c+ => ^(Xi_c+ ==> ^p+ ^K- ^pi+) gamma) ^K-]CC"
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity () ## to be sure ' , 
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack    =  ( GPT > 220 * MeV ) & ( GP  > 3.0 * GeV )   ' , 
+#     'goodTrack    =  inAcc & inEta                               ' ,     
+#     'longLived    =  75 * micrometer < GTIME                     ' , 
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )         ' , 
+#     'goodXic      =  inY & longLived     & ( GPT > 0.9 * GeV )   ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[Xi_c+]cc'      : 'goodXic   ' ,
+#     '[K+]cc'         : 'goodTrack ' , 
+#     '[pi+]cc'        : 'goodTrack & fastTrack' , 
+#     '[p+]cc'         : 'goodTrack & fastTrack & ( GP > 9 * GeV ) '
+#     }
+# EndInsertPythonCode
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email:       marco.pappagallo@cern.ch
+# Date: 20150413
+#
+Alias MyXi_c+     Xi_c+
+Alias Myanti-Xi_c- anti-Xi_c-
+ChargeConj MyXi_c+    Myanti-Xi_c-
+#
+Alias MyXi'_c+     Xi'_c+
+Alias Myanti-Xi'_c- anti-Xi'_c-
+ChargeConj MyXi'_c+    Myanti-Xi'_c-
+#     
+Decay Xi_c0sig
+  1.000         MyXi'_c+   K-  PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+Decay MyXi'_c+
+  1.000    gamma  MyXi_c+               PHSP;
+Enddecay
+#
+CDecay Myanti-Xi'_c-
+Decay MyXi_c+
+  1.000         p+      K-      pi+     PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+#
+##### Overwrite forbidden decays
+Decay Xi'_c0
+1.0000    gamma Sigma_c0                     PHSP;
+Enddecay
+Decay anti-Xi'_c0
+1.0000    gamma anti-Sigma_c0                PHSP;
+Enddecay 
+#
+Decay Xi_c*0
+0.5000    Sigma_c0  pi0                     PHSP;
+0.5000    Sigma_c0  gamma                   PHSP;
+Enddecay
+CDecay anti-Xi_c*0
+#
+End 

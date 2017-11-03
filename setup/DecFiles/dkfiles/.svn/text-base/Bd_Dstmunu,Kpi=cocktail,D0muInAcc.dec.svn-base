@@ -1,0 +1,94 @@
+# EventType: 11874001
+#
+# Descriptor: {[[B0]nos => nu_mu mu+ (D*(2010)- -> pi- (D~0 -> K+ pi-))]cc, [[B0]os => anti_nu_mu mu- (D*(2010)+ -> pi+ (D0 -> K- pi+))]cc}
+#
+# NickName: Bd_Dstmunu,Kpi=cocktail,D0muInAcc
+#
+# Cuts: ListOfDaughtersInLHCb
+#
+# ExtraOptions: D0muInAcc
+#
+# Documentation: Sum of D*(*) mu nu_mu and D*(*) tau nu_tau; D*+ forced into D0 pi+, D0 forced into Kpi
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible:     Marta Calvi
+# Email: Marta.Calvi@mib.infn.it
+# Date: 20060714
+#
+Alias             MyD*+       D*+
+Alias             MyD*-       D*-
+ChargeConj        MyD*+       MyD*-
+
+Alias             MyD0        D0
+Alias             Myanti-D0   anti-D0
+ChargeConj        MyD0        Myanti-D0
+
+Alias      MyD_1+         D_1+
+Alias      MyD_1-         D_1-
+ChargeConj MyD_1+         MyD_1-
+
+Alias      MyD'_1+        D'_1+
+Alias      MyD'_1-        D'_1-
+ChargeConj MyD'_1+        MyD'_1-
+
+Alias      MyD_2*+        D_2*+
+Alias      MyD_2*-        D_2*-
+ChargeConj MyD_2*+        MyD_2*-
+
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+
+Decay B0sig
+  0.0516   MyD*-     mu+  nu_mu           HQET 0.77 1.33 0.92;
+  0.00180  MyD_1-    mu+  nu_mu           ISGW2;
+  0.00167  MyD'_1-   mu+  nu_mu           ISGW2;
+  0.00023  MyD_2*-   mu+  nu_mu           ISGW2;
+  0.0003   MyD*-  pi0  mu+  nu_mu         GOITY_ROBERTS;
+  #
+  0.00277  MyD*-     Mytau+ nu_tau                 ISGW2;
+  0.00008  MyD_1-    Mytau+ nu_tau                 ISGW2;
+  0.00012  MyD'_1-   Mytau+ nu_tau                 ISGW2;
+  0.00004  MyD_2*-   Mytau+ nu_tau                 ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+1.0       Myanti-D0   pi-                VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD_1-
+1.0       MyD*- pi0                      VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyD_1+
+#
+Decay MyD'_1-
+1.0      MyD*- pi0                      VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD'_1+
+#
+Decay MyD_2*-
+1.0      MyD*- pi0                      TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD_2*+
+#
+SetLineshapePW MyD_1+  MyD*+ pi0 2
+SetLineshapePW MyD_2*+ MyD*+ pi0 2
+#
+Decay Myanti-D0
+1.000        K+        pi-               PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay Mytau-
+0.1732      mu-  anti-nu_mu   nu_tau        TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+End
+#
+

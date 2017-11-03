@@ -1,0 +1,41 @@
+# EventType: 12100012
+# NickName: Bu_Kst+pi+pi-,Kspi+pi+pi-=LHCbAcceptance
+# Descriptor: [B+-> (K*+ -> Ks pi+) pi+ pi-] cc
+#
+# Documentation: K* forced into Ks pi,LHCbAcceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Cuts: LHCbAcceptance
+#
+# Responsible:  Luigi Li Gioi
+# Email: luigi.li.gioi@cern.ch
+#
+# Tested: Yes
+# Date: 20111020
+#
+Alias      MyKst+    K*+
+Alias      MyKst-    K*-
+ChargeConj MyKst+    MyKst-
+Alias      Myrho0    rho0
+ChargeConj Myrho0    Myrho0
+Alias      MyKs      K_S0
+ChargeConj MyKs      MyKs
+#
+Decay B+sig
+  1.000   MyKst+  pi+  pi-                     PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyKst+
+  1.000  MyKs pi+                        VSS;
+Enddecay
+CDecay MyKst-
+#
+Decay MyKs
+  1.000   pi+     pi-         PHSP;
+Enddecay
+#
+End
+#

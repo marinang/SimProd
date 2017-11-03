@@ -1,0 +1,24 @@
+# EventType: 12511001
+#
+# Descriptor: [B+ -> mu+ nu_mu]cc
+#
+# NickName: Bu_munu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date: 20121122
+#
+Decay B+sig
+  1.000       mu+     nu_mu              PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+

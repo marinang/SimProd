@@ -1,0 +1,41 @@
+# EventType: 27175005
+#
+# Descriptor: [ D*(2010)+ -> ( D0 -> (phi(1020) -> mu+ mu-) pi+ pi- )  pi+ ]cc
+#
+# NickName: Dst_D0pi,phipipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Bonivento
+# Email: walter.bonivento@cern.ch
+# Date: 20120524
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Alias MyPhi phi
+ChargeConj MyPhi MyPhi
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.00 MyPhi pi+ pi- PHSP;  
+Enddecay
+CDecay MyantiD0
+
+Decay MyPhi
+  1.000 mu+  mu-    VLL;  
+Enddecay
+
+#
+End

@@ -1,0 +1,41 @@
+# EventType: 11164091
+#
+# Descriptor: {[[B0]nos -> pi+ (D*(2010)- -> pi- (D~0 -> K+ pi-))]cc, [[B0]os -> pi- (D*(2010)+ -> pi+ (D0 -> K- pi+))]cc}
+#
+# NickName: Bd_Dst-pi+,D0pi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D*+ forced into D0 pi+
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Donal Hill
+# Email: donal.hill@cern.ch 
+# Date: 20111012
+#
+Alias             MyD*-       D*-
+Alias             Myanti-D0   anti-D0
+Alias             MyD*+       D*+
+Alias             MyD0        D0
+ChargeConj        MyD*+       MyD*-
+ChargeConj        MyD0        Myanti-D0
+#
+Decay B0sig
+1.000        MyD*-     pi+                    SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+1.000        Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myanti-D0
+1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+End
+

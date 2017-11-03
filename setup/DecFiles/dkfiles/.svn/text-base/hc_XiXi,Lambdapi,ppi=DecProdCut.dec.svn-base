@@ -1,0 +1,47 @@
+# EventType: 28136120
+#
+# Descriptor: h_c -> (Xi- -> (Lambda -> p+ pi-) pi-) (Xi+ -> (Anti-Lambda -> p- pi+) pi+) 
+#
+# NickName: hc_XiXi,Lambdapi,ppi=DecProdCut
+#
+# Cuts: LHCbAcceptance
+#
+# ExtraOptions: hc
+#
+# Documentation: Decay products in acceptance 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Sergey Barsuk
+# Email: barsuk@lal.in2p3.fr
+# Date: 20100526
+#
+Alias      MyXi      Xi-
+Alias      Myanti-Xi anti-Xi+
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Xi MyXi
+ChargeConj Myanti-Lambda MyLambda
+#
+Decay h_csig
+  1.000    MyXi     Myanti-Xi  PHSP;
+Enddecay
+
+Decay MyXi
+  1.000    MyLambda        pi-       PHSP;
+Enddecay
+
+Decay Myanti-Xi
+  1.000    Myanti-Lambda   pi+       PHSP;
+Enddecay
+
+Decay MyLambda
+  1.000    p+        pi-       PHSP;
+Enddecay
+
+Decay Myanti-Lambda
+  1.000    pi+       anti-p-   PHSP;
+Enddecay
+#
+End 

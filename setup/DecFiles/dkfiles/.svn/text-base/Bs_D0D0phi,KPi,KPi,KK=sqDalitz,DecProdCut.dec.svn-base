@@ -1,0 +1,40 @@
+# EventType: 13196021
+#
+# Descriptor: [ B_s0 -> (D0 -> K- pi+) (D~0 -> K+ pi-) (phi(1020) -> K+ K-) ]cc
+#
+# NickName: Bs_D0D0phi,KPi,KPi,KK=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bs -> D0 D0 phi with Bs forced flat in sq dalitz plot
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# Date: 20140808
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias      MyPhi       phi
+ChargeConj MyPhi       MyPhi
+#
+Decay B_s0sig
+  1.000     MyPhi       Myanti-D0       MyD0        FLATSQDALITZ;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myanti-D0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay MyPhi
+  1.000        K+        K-                     VSS;
+Enddecay
+#
+End
+

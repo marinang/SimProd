@@ -1,0 +1,42 @@
+# EventType: 14165007
+#
+# Descriptor: [B_c+ -> ([B0]nos -> (D- -> K+ pi- pi-) pi+, [B0]os -> (D+ -> K- pi+ pi+) pi-) K+]cc
+#
+# NickName: Bc_BdK+_Dpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decays, uses BcVegPy generator, includes resonances in D decay
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Mark Whitehead 
+# Email: mwhitehe@cern.ch  
+# Date: 20111011
+#
+Alias      MyB0   B0
+Alias      Myanti-B0    anti-B0
+ChargeConj MyB0   Myanti-B0
+Alias      MyD-   D-
+Alias      MyD+   D+
+ChargeConj MyD-   MyD+
+#
+Decay B_c+sig
+  1.000         MyB0 K+          PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyB0
+  1.000     MyD-     pi+      PHOTOS PHSP;
+Enddecay
+CDecay Myanti-B0
+#
+Decay MyD-
+  1.000     K+  pi-  pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End

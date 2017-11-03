@@ -1,0 +1,32 @@
+# EventType: 11114012
+#
+# Descriptor: {[[B0]nos -> mu+ mu- K+ pi-]cc, [[B0]os -> mu- mu+ K- pi+]cc}
+#
+# NickName: Bd_Kpimumu,phsp=DecProdCut,MomCut,Weight
+#
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+# DecayEngine: EvtGenInPhSp 
+# DecayOptions: MaxQ2Bins 20 MaxEvtGenCalls 1500 ParamFile "KpiParam"
+#
+#
+# Documentation: 
+# Phase space kpimumu deacy
+# reweight qsquared distribution for efficiency studies
+# EndDocumentation
+#
+# PhysicsWG:  RD
+# Tested: Yes
+# Responsible:  Alex Shires
+# Email: ashires@cern.ch
+# Date: 20120606
+#
+#
+Decay B0sig
+  1.000        K+        pi-     mu+     mu-               PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+#
+End
+#

@@ -1,0 +1,44 @@
+# EventType: 16103332
+#
+# Descriptor: [Xi_b- -> (Omega- ->(Lambda0 -> p+ pi-) K- ) gamma]cc
+# NickName: Omegab_OmegaGamma=LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# ParticleValue: "Xi_b- 122 5132 -1.0 6.046 1.57e-012 Xi_b- 5132 0.000000e+000", "Xi_b~+ 123 -5132 1.0 6.046 1.57e-012 anti-Xi_b+ -5132 0.000000e+000"
+#
+# Documentation: Omega_b- -> Omega- gamma, Omega- -> Lambda0 K-,  and Lambda0 -> p+ pi-
+# Omega_b difficult to produce with Pythia (very low fragmentation prob) so alter Xib instead
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Luis Miguel Garcia
+# Email: luis.miguel.garcia.martin@cern.ch
+# Date: 20161207
+# CPUTime: <1min
+#
+Alias      MyOmegam      Omega-
+Alias      Myanti-Omegap anti-Omega+
+ChargeConj MyOmegam      Myanti-Omegap
+
+Alias			 MyLambda0				Lambda0
+Alias			 Myanti-Lambda0		anti-Lambda0
+ChargeConj MyLambda0				Myanti-Lambda0
+
+Decay Xi_b-sig
+  1.000    MyOmegam	gamma 				HELAMP	1.0 0.0		1.0 0.0		0.0 0.0		0.0 0.0;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyOmegam
+	1.000			MyLambda0	K-			HELAMP		0.713	0.0		0.701	0.0;
+Enddecay
+CDecay Myanti-Omegap
+#
+Decay MyLambda0
+  1.000   p+          pi-        HELAMP .906   0.  .423   0.;
+Enddecay
+CDecay Myanti-Lambda0
+End
+#

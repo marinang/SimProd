@@ -1,0 +1,45 @@
+# EventType: 12145006
+#
+# Descriptor: [B+ -> K+ (X_2(3872) -> (J/psi(1S) -> mu+ mu- ) (rho0 ->  pi+ pi-))]cc
+#
+# NickName: Bu_KX38722-+,Jpsirho,mmpipi=helampa,alpha0.5,0.0,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decay to X_2(3872)(to Jpsi(to mu+ mu- {,gamma} {,gamma}) and rho0(to pi+ pi-)) and K+ with STS model, parameter alpha=(0.5,0.0), all daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Zhenwei Yang
+# Email: yangzhw@mail.tsinghua.edu.cn
+# Date: 20121021
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+Alias      Myrho0   rho0
+ChargeConj Myrho0   Myrho0
+Alias      MyX_2(3872) X_2(3872)
+ChargeConj MyX_2(3872) MyX_2(3872)
+#
+#
+#
+Decay B+sig
+  1.000    MyX_2(3872) K+   STS;
+Enddecay
+CDecay B-sig
+#
+Decay MyX_2(3872)
+1.00000  MyJ/psi  Myrho0     HELAMP 0.288675134595 0.0 0.105662432703 0.0 -0.408248290464 0 0.394337567297 0.0 0.0 0.0 -0.394337567297 0.0 0.408248290464 0.0 -0.105662432703 0.0 -0.288675134595 0.0;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+        mu-        PHOTOS VLL;
+Enddecay
+#
+Decay Myrho0
+1.000    pi+ pi-                      VSS;
+Enddecay
+#
+End
+#

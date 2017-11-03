@@ -1,0 +1,36 @@
+# EventType: 13134040
+#
+# Descriptor: {[[B_s0]nos -> (J/psi(1S) -> p+ p~-) (f_0(980) -> pi+ pi-)]cc, [[B_s0]os -> (J/psi(1S) -> p+ p~-) (f_0(980) -> pi- pi+)]cc}
+#
+# NickName: Bs_Jpsif0,pp=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: No CP violation, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Jan Mickelle Maratas
+# Email: maratas@clermont.in2p3.fr
+# Date: 20140310
+#
+Alias         MyJ/psi  J/psi
+ChargeConj    MyJ/psi  MyJ/psi
+Alias         Myf_0    f_0
+ChargeConj    Myf_0    Myf_0
+#
+Decay B_s0sig
+  1.000   MyJ/psi Myf_0  SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.000         p+        anti-p-     VLL;
+Enddecay
+#
+Decay Myf_0
+  1.000         pi+       pi-         PHSP;
+Enddecay
+End

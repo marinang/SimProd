@@ -1,0 +1,22 @@
+# EventType: 42122011
+#
+# Descriptor: pp -> (Z0/gamma* -> e+ e-) ... 
+#
+# NickName: DrellYan_ee=10GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonIsFromMother true NumberOfbquarks -1 LeptonPtMin 1.0*GeV
+# ExtraOptions: DrellYanee10GeV
+#
+# Documentation: electron PT>1GeV, dielectron invarmass > 10GeV.
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Chitsanu Khurewathanakul
+# Email: chitsanu.khurewathanakul@cern.ch
+# Date: 20150720
+#
+End
+#

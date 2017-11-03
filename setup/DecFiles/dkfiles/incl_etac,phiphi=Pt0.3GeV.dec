@@ -1,0 +1,47 @@
+# EventType: 28104062
+#
+# Descriptor: eta_c(1S) -> ( phi(1020) -> K+ K- ) ( phi(1020) -> K+ K- ) 
+#
+# NickName: incl_etac,phiphi=Pt0.3GeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ExtraOptions: etac
+#
+# InsertPythonCode: 
+# from Configurables import LoKi__GenCutTool as GenCutTool 
+# #
+# Generation().SignalPlain.addTool( GenCutTool , 'TightCut' ) 
+# Generation().SignalPlain.TightCut.Decay = "eta_c(1S) => ^( phi(1020) => ^K+ ^K-) ^( phi(1020) => ^K+ ^K- )"
+# Generation().SignalPlain.TightCut.Cuts = {
+#     'K+' : ' ( GPT > 0.3 * GeV ) & inAcc ',
+#     'K-' : ' ( GPT > 0.3 * GeV ) & inAcc '
+#     }
+# Generation().SignalPlain.TightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ]
+# EndInsertPythonCode
+#
+# Documentation: etac decay to phi phi, daughters in accpetance, and the four Kaons all with PT>0.3 GeV
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jibo He
+# Email: Jibo.He@cern.ch
+# Date: 20120524
+#
+#
+Alias   Myphi  phi
+ChargeConj  Myphi   Myphi
+
+Decay eta_csig
+  1.000         Myphi  Myphi   SVV_HELAMP 1.0 0.0 0.0 0.0 -1.0 0.0;
+Enddecay
+Decay Myphi
+  1.000  K+      K-    VSS; 
+Enddecay
+#
+End
+#
+

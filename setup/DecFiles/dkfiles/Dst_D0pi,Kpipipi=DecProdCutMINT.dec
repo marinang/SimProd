@@ -1,0 +1,39 @@
+# EventType: 27265002
+#
+# Descriptor: [D*+ -> (D0 -> K- pi- pi+ pi+) pi+]cc
+#
+# NickName: Dst_D0pi,Kpipipi=DecProdCutMINT
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D*+ forced to decay to D0 pi+. Includes resonances in D0 decay. Uses MINT to decay the D
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Matthew Peter Coombes 
+# Email: mcoombes@cern.ch
+# Date: 20100607
+#
+Alias MyD0         D0
+Alias Myanti-D0    anti-D0
+ChargeConj MyD0    Myanti-D0
+
+Decay D*+sig
+  1.000 MyD0 pi+  VSS;
+Enddecay
+CDecay D*-sig
+
+# 
+# Total D0 = 8.14%
+#
+# Sum of D0 subdecays = 8.37%
+#
+
+Decay MyD0
+  1.0      K-  pi+  pi+  pi-          D_hhhh 10;
+Enddecay
+CDecay Myanti-D0
+#
+End
+#

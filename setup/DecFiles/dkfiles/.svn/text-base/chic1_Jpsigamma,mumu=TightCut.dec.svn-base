@@ -1,0 +1,44 @@
+# EventType: 28142240
+#
+# Descriptor: chi_c1(1P) -> ( J/psi(1S) -> mu+ mu- ) gamma  
+#
+# NickName: chic1_Jpsigamma,mumu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode: 
+# from Configurables import LoKi__GenCutTool as GenCutTool 
+# #
+# Generation().SignalPlain.addTool( GenCutTool , 'TightCut' ) 
+# Generation().SignalPlain.TightCut.Decay = "chi_c1(1P) => ^( J/psi(1S) => ^mu+ ^mu-) ^gamma"
+# Generation().SignalPlain.TightCut.Cuts = {
+#     'gamma' : ' ( GPT > 0.5 * GeV ) ',
+#     '[mu+]cc'   : ' in_range (0.005 , GTHETA , 0.400 )  ' , 
+#     'J/psi(1S)' : ' ( GPT > 2.9 * GeV )  '
+#     }
+# EndInsertPythonCode
+#
+# Documentation: chi_c1 decay to J/psi gamma, TightCut is used, 
+#    J/psi with PT>2.9 GeV and gamma with PT>0.5GeV, muons should be in LHCb, but gamma leaves free.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Edwige Tournefier
+# Email: tournefier@lapp.in2p3.fr
+# Date: 20121109
+#
+#
+Alias   MyJpsi  J/psi
+ChargeConj  MyJpsi   MyJpsi
+
+Decay chi_c1sig
+  1.000         gamma   MyJpsi       PHSP;
+Enddecay
+Decay MyJpsi
+  1.000  mu+      mu-    PHOTOS   VLL; 
+Enddecay
+#
+End
+#
+

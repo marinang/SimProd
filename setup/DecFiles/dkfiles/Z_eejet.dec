@@ -1,0 +1,22 @@
+# EventType: 42122020
+#
+# Descriptor: pp -> (Z0 -> e+ e-) + jet ... 
+#
+# NickName: Z_eejet
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 4*GeV LeptonIsFromMother true NumberOfbquarks -1
+# ExtraOptions: Zeejet
+#
+# Documentation: 1 lepton with pT > 4 GeV
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: David Ward
+# Email: drw1@hep.phy.cam.ac.uk
+# Date: 20100909
+#
+End
+#

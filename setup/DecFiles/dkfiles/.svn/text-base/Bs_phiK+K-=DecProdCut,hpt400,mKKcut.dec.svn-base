@@ -1,0 +1,43 @@
+# EventType: 13104025
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) K+ K- ]cc
+#
+# NickName: Bs_phiK+K-=DecProdCut,hpt400,mKKcut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+# # Mass cut
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool, 'TightCut' )
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '^[ B_s0 => ^(phi(1020) -> ^K+ ^K-) ^K+ ^K- ]CC'
+# tightCut.Cuts = {
+#   "[K+]cc"   : "(GPT > 400 * MeV) & in_range(0.005, GTHETA, 0.400)",
+#   "[B_s0]cc" : "GMASS('K+' == GID, 'K-' == GID) < 2000 * MeV"
+# }
+# EndInsertPythonCode
+#
+# Documentation: B_s0 -> phi KK phase space model with m(KK) below 2 GeV (for low-mass acceptance study)
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: 3 min
+# Responsible: Adam Morris
+# Email: adam.morris@cern.ch
+# Date: 20161122
+#
+Alias      MyPhi phi
+ChargeConj MyPhi MyPhi
+# 
+Decay B_s0sig
+    1.000   K+  K-  MyPhi   PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+    1.000   K+  K-          VSS;
+Enddecay
+#
+End
+

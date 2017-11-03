@@ -1,0 +1,66 @@
+# EventType: 15104512
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) (eta' -> (eta -> gamma gamma) pi+ pi-)]cc
+#
+# NickName: Lb_etapLambda,etapipi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = 'Lambda_b0 -> ^(eta_prime -> ^pi+ ^pi- ^(eta -> ^gamma ^gamma) ) ^(Lambda0 -> ^p+ ^pi-)'
+# tightCut.Cuts      =    {
+#     '[Lambda_b0]cc': ' goodLb    ' , 
+#     '[Lambda0]cc'  : ' goodL     ' ,
+#     '[pi+]cc'      : ' goodPion  ' ,
+#     '[p+]cc'       : ' goodProton' ,
+#     '[eta_prime]cc': ' goodEtap  ' }
+# tightCut.Preambulo += [
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodLb     = ( GPT > 1000 * MeV ) ' ,
+#     'goodL      = ( GPT > 1000 * MeV ) ' , 
+#     'goodEtap   = ( GPT > 2000 * MeV ) ' ,
+#     'goodPion   = ( GPT > 300 * MeV ) & inAcc ' ,
+#     'goodProton = ( GPT > 300 * MeV ) & inAcc ' ]
+#
+# EndInsertPythonCode
+#
+# Tested: Yes
+# Responsible: Jimmy McCarthy
+# Email: jxm@hep.ph.bham.ac.uk
+# PhysicsWG: BnoC
+# Date: 20130829
+#
+# Documentation: Lambda forced to p pi, tight DecProdCut
+# EndDocumentation
+# 
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      Myeta'        eta'
+ChargeConj Myeta'        Myeta'
+Alias      Myeta         eta
+ChargeConj Myeta         Myeta
+#
+Decay Lambda_b0sig
+  1.000  MyLambda Myeta'    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda
+  1.000  p+   pi-   PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+Decay Myeta'
+  1.000  Myeta pi+ pi- PHSP;
+Enddecay
+Decay Myeta
+ 1.000  gamma gamma  PHSP;
+Enddecay
+End

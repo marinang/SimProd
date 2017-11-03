@@ -1,0 +1,43 @@
+# EventType: 11584401
+#
+# Descriptor: [B0 -> (D- -> pi- (pi0 -> e+ e- gamma)) mu+ nu_mu ]cc 
+#
+# NickName: Bd_Dmunu,pi+pi0,eeg=DmuInAcc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Inclusive production of B0. B0 forced to decay to D- mu+ nu_mu, D- to pi- pi0 as phase space, then pi0 to (e+ e- gamma) as 'PI0_DALITZ'. Decay products in acceptance.
+# EndDocumentation
+#
+# ExtraOptions: DmuInAcc
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Brian Meadows 
+# Email: meadowbt@ucmail.uc.edu
+# Date: 20121207
+#
+Alias      MyD+         D+
+Alias      MyD-         D-
+ChargeConj MyD+         MyD-
+#
+Alias      MyPi0        pi0
+ChargeConj MyPi0        MyPi0
+#
+Decay B0sig 
+  # FORM FACTORS as per HFAG PDG10
+  1.00   MyD-   mu+  nu_mu    PHOTOS  HQET2 1.18 1.074;     
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  1.00   MyPi0   pi-           PHSP;
+Enddecay
+CDecay MyD+
+#
+Decay MyPi0
+  1.00    e+  e- gamma        PI0_DALITZ;
+Enddecay
+#
+End
+#

@@ -1,0 +1,60 @@
+# EventType: 42112201
+#
+# Descriptor: pp -> [Z -> (Upsilon -> mu+ mu-) gamma]cc ...
+# NickName: Z_Upsilongamma=DecProdCut
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/ParsInAcc
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__FullGenEventCut 
+# Generation().addTool(LoKi__FullGenEventCut, "ParsInAcc") 
+# ParsInAcc = Generation().ParsInAcc
+#
+# ParsInAcc.Code = "(count(isGoodZ) > 0)"
+#
+# ParsInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV"
+#    , "inCaloAcc    = (in_range(0.030, abs(GPX/GPZ), 0.300) & in_range(0.030, abs(GPY/GPZ), 0.250) & (GPZ > 0))"
+#    , "inAcc        = (in_range(0.030, GTHETA, 0.400))"
+#    , "NGoodMuonm   = (GINTREE(( (('mu-' == GID)) & (GPT > 0.3*GeV) & inAcc)))"
+#    , "NGoodMuonp   = (GINTREE(( (('mu+' == GID)) & (GPT > 0.3*GeV) & inAcc)))"
+#    , "NGoodUpsilon = (NGoodMuonm & NGoodMuonp)"
+#    , "NGoodGamma   = GINTREE(('gamma' == GABSID) & (GPT > 10.0*GeV) & inCaloAcc)"
+#    , "isGoodZ      = (('Z0' == GABSID) & NGoodGamma & NGoodUpsilon)" 
+#    ]
+#
+# # Pythia8 options.
+# from Gaudi.Configuration import importOptions
+# from Configurables import Pythia8Production
+# importOptions('$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py')
+# Generation().Special.addTool(Pythia8Production)
+# Generation().Special.Pythia8Production.Commands += [
+#     'WeakSingleBoson:ffbar2gmZ = on',
+#     'WeakZ0:gmZmode = 2',
+#     '23:mayDecay = false']
+# 
+# EndInsertPythonCode
+#
+# Documentation: rare exclusive decay of Z0 to Upsilon gamma
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Hang Yin, Qundong Han
+# Email: hyin@cern.ch, qundong.han@cern.ch  
+# Date: 20160718
+#
+Alias myUpsilon Upsilon
+ChargeConj myUpsilon myUpsilon
+
+Decay Z0
+ 1.0 myUpsilon gamma PHSP;
+Enddecay
+
+Decay myUpsilon
+ 1.0 mu+ mu- PHSP;
+Enddecay
+
+End

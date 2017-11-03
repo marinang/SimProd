@@ -1,0 +1,27 @@
+# EventType: 15124011
+#
+# Descriptor: [Lambda_b0 -> p+ K- e+ e-]cc
+#
+# NickName: Lb_pKee=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Four body Lambda_b0 to  p K e e decay with generic phase space       
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes 
+# Responsible: Michal Kreps 
+# Email: M.Kreps@warwick.ac.uk
+# Date: 20141004
+#
+
+Decay Lambda_b0sig
+  1.000   p+ K-  e+   e- PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+End
+#

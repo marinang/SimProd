@@ -1,0 +1,51 @@
+# EventType: 15104551
+#
+# Descriptor: [Lambda_b0  -> (Lambda0 -> p+ pi-) (Kst+ -> pi0 K+) pi-]cc
+#
+# NickName: Lb_LambdaKst+pi-,K+pi0=phsp,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda0 forced into p pi-, Kst+ forced to K+ pi0
+# decay products in acceptance
+# EndDocumentation
+#
+# CPUTime: 2 mins
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Daniel O'Hanlon
+# Email: daniel.ohanlon@cern.ch
+# Date: 20141121
+#
+Alias      MyLambda     Lambda0
+Alias      MyantiLambda anti-Lambda0
+ChargeConj MyLambda     MyantiLambda
+#
+Alias      MyK*+       K*+
+Alias      MyK*-       K*-
+ChargeConj MyK*+       MyK*-
+#
+Alias      Mypi0        pi0
+ChargeConj Mypi0        Mypi0
+#
+Decay Lambda_b0sig
+  1.000        MyLambda     MyK*+      pi-        PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda
+  1.000        p+      pi-                PHSP;
+Enddecay
+CDecay MyantiLambda
+#
+Decay MyK*+
+  1.000        K+      Mypi0                VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay Mypi0
+  1.000        gamma      gamma           PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,33 @@
+# EventType: 42900002
+#
+# Descriptor: pp -> (Z0 -> c c~) ... 
+#
+# NickName: Z_cc
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/Zwith2cinAcc
+# ExtraOptions: Zcc
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "Zwith2cinAcc" )
+# tracksInAcc = Generation().Zwith2cinAcc
+# tracksInAcc.Code = "count ( isGoodCFromZ ) > 1"
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodC = ( ( 'c' == GABSID ) & ( GTHETA < 400.0*mrad ) )"
+#    , "isFromZ  = ( 1 == GNINTREE( 'Z0' == GABSID , 0 ) )"
+#    , "isGoodCFromZ = ( isGoodC & isFromZ )" ]
+# EndInsertPythonCode
+#
+# Documentation: 2 c's in acceptance 
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Lorenzo Sestini
+# Email: lorenzo.sestini@cern.ch
+# Date: 20160617
+#
+End
+#

@@ -1,0 +1,28 @@
+#           PDG            Width
+DECAY   1000022  6.582E-14  # neutralinos_01 decays
+#   BR        NDA    ID1    ID2     ID3 
+   0.093488    3     -2     -1      -3 # BR(~khi_01 -> ubar dbar sbar)
+   0.093488    3      2      1       3 # BR(~khi_01 -> u d s)
+   0.078140    3     -2     -1      -5  # BR(~khi_01 -> ubar dbar bbar)
+   0.078140    3      2      1       5  # BR(~khi_01 -> u d b)
+   0.078139    3     -2     -3      -5  # BR(~khi_01 -> ubar sbar bbar)
+   0.078139    3      2      3       5  # BR(~khi_01 -> u s b)
+   0.093488    3     -4     -1      -3  # BR(~khi_01 -> cbar dbar sbar)
+   0.093488    3      4      1       3  # BR(~khi_01 -> c d s) 
+   0.078118    3     -4     -1      -5  # BR(~khi_01 -> cbar dbar bbar) 
+   0.078118    3      4      1       5  # BR(~khi_01 -> c d b)
+   0.078117    3     -4     -3      -5  # BR(~khi_01 -> cbar sbar bbar)
+   0.078117    3      4      3       5  # BR(~khi_01 -> c s b)
+   0.000193    3     -6     -2      -3  # BR(~khi_01 -> tbar dbar sbar)
+   0.000193    3      6      2       3  # BR(~khi_01 -> t d s)
+   0.000158    3     -6     -3      -5  # BR(~khi_01 -> tbar sbar bbar)
+   0.000158    3      6      3       5  # BR(~khi_01 -> t s b)
+DECAY       25  0.00657336943  # Light Higgs decay
+#          BR          NDA      ID1       ID2  
+     1.000000000E-00    2    1000022     1000022  # BR(h0 -> ~khi_01 ~khi_01)	
+Block DCINFO          # Program information
+    1    NEALDECAY    # Decay package
+    2    2.0          # version number
+
+
+

@@ -1,0 +1,28 @@
+# EventType: 12113004
+#
+# Descriptor: [B+ -> K+ mu+ mu- {,gamma} {,gamma}]cc
+#
+# NickName: Bu_Kmumu=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marcin Chrzaszcz
+# Email: mchrzasz@cern.ch
+# Date: 20151105
+# CPUTime: 1 min 
+#
+Decay B+sig
+  1.000        K+     mu+     mu-     PHSP;
+Enddecay
+#
+Decay B-sig
+  1.000        K-     mu+     mu-     PHSP;
+Enddecay
+#
+End
+#

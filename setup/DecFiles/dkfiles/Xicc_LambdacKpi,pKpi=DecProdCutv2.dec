@@ -1,0 +1,36 @@
+# EventType: 26165055
+#
+# Descriptor: [ Xi_cc+ -> (Lambda_c+ -> p K- pi+) K- pi+ ]cc
+#
+# NickName: Xicc_LambdacKpi,pKpi=DecProdCutv2
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# Documentation: decay file of Xi_cc+ -> (Lambda_c+ -> p K- pi+) K- pi+, 
+# using dedicated GenXicc package for production, cuts with XiccDaughtersInLHCb, phase space decay model used. 
+# EndDocumentation
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Feng Zhang
+# Email: f.zhang@cern.ch
+# Date: 20111030
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Decay Xi_cc+sig
+  1.00   MyLambda_c+  K-	pi+                  PHSP;
+Enddecay
+CDecay anti-Xi_cc-sig
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End
+

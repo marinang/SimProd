@@ -1,0 +1,25 @@
+# EventType: 15102430
+#
+# Descriptor: [ Lambda_b0 -> p+ K- pi0 ]cc
+#
+# NickName: Lb_pKpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes 
+# CPUTime: 2 mins 
+# Responsible: Jinlin Fu
+# Email: jfu@cern.ch
+# Date: 20160901
+#
+Decay Lambda_b0sig
+  1.000    p+          K-       pi0   PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

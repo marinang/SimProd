@@ -1,0 +1,36 @@
+# EventType:  13174013
+#
+# Descriptor:  [B_s0 -> (D0 -> K- pi+) mu+ mu-]cc
+#
+# NickName:  Bs_D0mumu,Kpi=DecProdCut
+#
+# Cuts:  DaughtersInLHCb
+#
+# Documentation:  Decay file for Bs->D0mumu
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Thomas Hancock
+# Email: Thomas.hancock@cern.ch
+# Date: 20170104
+#
+
+Alias        MyD0         D0
+Alias        Myanti-D0    anti-D0
+ChargeConj   MyD0         Myanti-D0
+
+Decay B_s0sig
+  1.     MyD0   mu+   mu-    PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD0
+  1.000      K-   pi+              PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+#
+End
+#

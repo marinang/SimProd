@@ -1,0 +1,38 @@
+# EventType: 12143410
+#
+# Descriptor: [B+ -> (J/psi(1S) -> mu+ mu-) K+ (pi0 -> gamma gamma)]cc
+#
+# NickName: Bu_JpsiKpi0,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  DaughtersInLHCb
+# EndDocumentation
+#
+# CPUTime: 1 min
+# PhysicsWG: B2Ch 
+# Tested: Yes
+# Responsible: Michal Kreps
+# Email: michal.kreps@cern.ch
+# Date: 20160714
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Alias      Mypi0         pi0
+ChargeConj Mypi0         Mypi0
+#
+Decay B+sig
+  1.000     MyJ/psi  K+ Mypi0             PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay Mypi0
+  1.0  gamma gamma  PHSP;
+Enddecay
+#
+End
+

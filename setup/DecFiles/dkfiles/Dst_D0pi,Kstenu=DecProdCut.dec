@@ -1,0 +1,44 @@
+# EventType: 27582401
+#
+# Descriptor: [D*+ -> (D0 -> K*- e+ nu_e) pi+]cc
+#
+# NickName: Dst_D0pi,Kstenu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Forces the D* decay to D0(K* e nu). K* can decay to Kpi or Kgamma. Requires products to be in LHCb acceptance. Exact clone of equivalent decfile with muon
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Greg Ciezarek 
+# Email: gregory.max.ciezarek@cern.ch
+# Date: 20150707
+#
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+#
+Alias MyK*- K*-
+Alias MyK*+ K*+
+ChargeConj MyK*- MyK*+
+#
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.000 MyK*- e+ nu_e PHOTOS ISGW2;  
+Enddecay
+CDecay MyantiD0
+
+Decay MyK*+
+  1.000 K+ pi0 PHSP;  
+Enddecay
+CDecay MyK*-
+#
+End
+

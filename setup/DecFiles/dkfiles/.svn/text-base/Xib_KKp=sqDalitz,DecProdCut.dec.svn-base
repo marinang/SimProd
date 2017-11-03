@@ -1,0 +1,25 @@
+# EventType: 16103030
+#
+# Descriptor: [Xi_b-  -> K- K- p+]cc
+#
+# NickName: Xib_KKp=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Flat on square Dalitz plot, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Rafael Coutinho
+# Email: rsilvaco@cern.ch
+# Date: 20140131
+#
+#
+Decay Xi_b-sig
+  1.000        K-      K-      p+      FLATSQDALITZ;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+End
+

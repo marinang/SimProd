@@ -1,0 +1,59 @@
+# EventType: 15104151
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) (phi(1020) -> K+ K-)]CC
+#
+# NickName: Lb_LambdaPhi,LambdaTopK=TightCut
+#
+# Cuts: LoKi__GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import Generation, SignalPlain, LoKi__GenCutTool
+# from LoKiCore.functions import in_range
+# from GaudiKernel.SystemOfUnits import GeV, MeV
+# from Configurables import LoKi__GenCutTool
+#
+# gen = Generation()
+# gen.addTool( SignalPlain )
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# TightCut = gen.SignalPlain.TightCut
+# TightCut.Decay = '[^(Lambda_b0 -> (Lambda0 => ^p+ ^pi-) (phi(1020) => ^K+ ^K-))]CC'
+# TightCut.Preambulo += [
+#     'AccCut     = in_range ( 0.005 , GTHETA , 0.400 )' ]
+# TightCut.Cuts      =    {
+#     '[p+]cc'    : ' AccCut ' ,
+#     '[pi-]cc'   : ' AccCut ' ,
+#     '[K+]cc'    : ' AccCut ' ,
+#     '[Lambda_b0]cc'    : ' GPT>1250*MeV ' }
+# EndInsertPythonCode
+#
+# Documentation: Decay file for [Lambda_b0 -> (Lambda0 -> p+ pi-) (phi(1020) -> K+ K-)]CC
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Sean Benson
+# Email:  sean.benson@cern.ch
+# Date: 20140320
+# CPUTime:< 1 min
+#
+Alias      MyLam    Lambda0
+Alias      MyLamAnti    anti-Lambda0
+Alias      MyPhi    phi
+ChargeConj MyLam    MyLamAnti
+ChargeConj MyPhi    MyPhi
+#
+Decay Lambda_b0sig
+  1.000		MyLam	MyPhi	PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLam
+  1.000		p+	pi-	PHSP;
+Enddecay
+CDecay MyLamAnti
+#
+Decay MyPhi
+  1.000		K+	K-	PHSP;
+Enddecay
+End

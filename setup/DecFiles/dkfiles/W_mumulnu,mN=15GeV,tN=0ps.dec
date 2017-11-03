@@ -1,0 +1,48 @@
+# EventType: 42912022
+#
+# Descriptor: pp -> ( WR- -> ( mu- (nu_Rmu -> mu- l+ nu ) ) )
+#
+# NickName: W_mumulnu,mN=15GeV,tN=0ps
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/HeavyNFromRWInAcceptance
+#
+# InsertPythonCode:
+# Generation().Special.Pythia8Production.Commands += [
+#              "9900024:oneChannel = 1 1 0 -13 1000023"
+#       ]
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "HeavyNFromRWInAcceptance" )
+# tracksInAcc = Generation().HeavyNFromRWInAcceptance
+# tracksInAcc.Code = " count ( isGoodVfromW ) > 0 "
+# tracksInAcc.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import ns, GeV, mrad"
+# , "isHeavyN      = ( (GDECTREE('[ X -> mu+ ... ]CC')) & ( GTHETA < 400.0*mrad ) )"
+# , "isRW          = ( ('W_R-' == GABSID) )"
+# , "isGoodMuon    = ( ( GABSID == 13 ) & (~GVEV) & ( GP > 2.0*GeV ) & ( GTHETA < 400.0*mrad ) & ( GETA > 2) )"
+# , "isGoodVfromN  = ( isHeavyN & ( GNINTREE( isGoodMuon, HepMC.descendants ) >= 1 ) )"
+# , "isGoodVfromW  = ( isRW & ( GNINTREE( isGoodVfromN, HepMC.descendants ) == 1 ) & ( GNINTREE( isGoodMuon, HepMC.descendants ) >= 1 ) )"
+# ]
+# EndInsertPythonCode
+#
+# ParticleValue: "~chi_20    88     1000023    0      15.0    0.00000e+00   neutralino  1000023   6.00000" , "W_R-       88     9900024    1    80.38500  0.00000e+00   unknown  9900024   0.00000"
+# ExtraOptions: WRmuHeavyN
+#
+# Documentation: WR->muN->mumulnu with 0 ps N.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Elena Dall'Occo
+# Email: elena.dall'occo@cern.ch
+# Date: 20160115
+# CPUTime: < 1 min
+#
+Decay neutralino
+0.00596645911614   mu+ mu-  nu_mu     PHSP;
+0.523774889682     mu+ e-   nu_e      PHSP;
+0.470258651202     mu+ tau- nu_tau    PHSP;
+Enddecay
+#
+End
+#

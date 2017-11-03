@@ -1,0 +1,61 @@
+#
+# This is the decay file for the decay B+ -> MU+ Majorana neutrino (-> PI+ E-)
+#
+# EventType: 12113063
+#
+# Descriptor: [B+ -> mu+ (Higgs0 -> pi+ e-) ]cc
+#
+# NickName: Bu_MuMajorana2PiE,m=2500MeV,t=100ps,DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# InsertPythonCode:
+#from Gauss.Configuration import *
+#from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+#from Configurables import Gauss, PrintMCTree, PrintMCDecayTreeTool, HistogramPersistencySvc, NTupleSvc, DumpHepMCDecay, DumpHepMCTree, GaussMonitor__CheckLifeTimeHepMC, GaussMonitor__CheckLifeTimeMC, GiGa, GiGaPhysListModular, GiGaHiggsParticles, GenerationToSimulation, PythiaProduction
+#
+#
+#
+#ParticlePropertySvc().Particles = [ "H_10     87      25  0.0        2.50  1.0000e-10      Higgs0   25   0.000000e+000" ]
+#ApplicationMgr().ExtSvc    += [ ParticlePropertySvc() ]
+#
+#gigaHiggsPart = GiGaHiggsParticles()
+#gigaHiggsPart.Higgses = ["H_10"] # H_10, H_20, H_30
+#GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]#
+#
+#
+#EndInsertPythonCode
+#
+#
+# 
+# Documentation:  Decay B+ -> Mu+ Majorana neutrino (-> Pi+ E-)
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marcin Chrzaszcz, Mariusz Witek
+# Email: mchrzasz@cern.ch, mariusz.witek@ijf.edu.pl
+# Date:   20161113
+# CPUTime: <1min
+#
+Alias      MyHNL  Higgs0
+Alias      Myanti-HNL  Higgs0
+ChargeConj MyHNL Myanti-HNL
+#
+#
+Decay MyHNL
+  1.000         e-      pi+       PHSP;             
+Enddecay
+Decay Myanti-HNL
+  1.000         e+      pi-       PHSP;
+Enddecay
+#
+#
+Decay B+sig
+  1.000         mu+    MyHNL         PHSP;
+Enddecay
+CDecay B-sig
+#
+#
+End
+#

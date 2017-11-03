@@ -1,0 +1,60 @@
+# EventType: 22214002
+#
+# Descriptor: [D0 => pi+ pi- mu+ mu-]cc
+#
+# NickName: D0_pipimumu=res,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# ParticleValue: "rho(770)0_nocut 1033 200113 0.0 0.771100 4.411610e-024 rho0_nocut 200113 0.0e+00", "phi(1020)_nocut 1037 200333 0.0 1.019456 1.545099e-022 phi_nocut 200333 0.0","omega(782)_nocut 1036 200223  0.0 0.782570 7.798723e-023 omega_nocut 200223 0.0"
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible:   Olga  Kochebina
+# Email: kochebin@lal.in2p3.fr
+# Date: 20120918
+#
+Alias MyPhi phi_nocut
+ChargeConj MyPhi MyPhi
+
+Alias Myrho0 rho0_nocut
+ChargeConj Myrho0 Myrho0
+Alias Myrho0_1 rho0_nocut
+ChargeConj Myrho0_1 Myrho0_1
+Alias Myomega omega_nocut
+ChargeConj Myomega Myomega
+
+Decay D0sig
+  0.1  pi+ pi-  mu+ mu-  PHSP;
+  0.1  Myrho0 MyPhi  SVV_HELAMP  1.0 0.0 1.7 0.0 1.0 0.0;
+  0.1  pi+ pi- Myrho0_1  PHSP;
+  0.1  pi+ pi- MyPhi PHSP;
+  0.1  Myrho0 mu+ mu-  PHSP;
+  0.1  Myrho0 Myrho0_1  SVV_HELAMP 0.0 0.0 1.0 0.0 0.0 0.0;
+  0.1  Myrho0 Myomega  SVV_HELAMP  1.0 0.0 1.7 0.0 1.0 0.0;
+  0.1  pi+ pi- Myomega PHSP;
+Enddecay
+CDecay anti-D0sig
+
+Decay Myrho0
+  1.000 pi+  pi-    VSS;
+Enddecay
+
+
+Decay Myrho0_1
+  1.000 mu+  mu-    VLL;
+Enddecay
+
+Decay MyPhi
+  1.000 mu+  mu-    VLL;
+Enddecay
+
+Decay Myomega
+  1.000 mu+  mu-    VLL;
+Enddecay
+
+#
+End
+

@@ -1,0 +1,75 @@
+# EventType: 14497422
+#
+# Descriptor: [( B_c+ => (D*_s+ => (D_s+ -> K- K+ pi+) (gamma||pi0) ) (D~0 -> K+ pi- pi+ pi-) ) || ( B_c+ => (D_s+ -> K- K+ pi+) (D*(2007)~0 => (D~0 -> K+ pi- pi+ pi-) (gamma||pi0) ) )]CC
+#
+# NickName: Bc_DsDst0,KKpi,Kpipipi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance, phase space decays apart from D*
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: A. Tully
+# Email: alison.tully@cern.ch
+# Date: 20161012
+#
+Alias MyD_s*+ D_s*+
+Alias MyD_s*- D_s*-
+ChargeConj MyD_s*+ MyD_s*-
+
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+
+Alias      MySecondD0        D0
+Alias MySecondanti-D0   anti-D0
+ChargeConj        MySecondD0       MySecondanti-D0
+
+Decay B_c+sig
+  0.500     MyD_s*+       Myanti-D0             PHSP;
+  0.500     MyD_s+              Myanti-D*0      PHSP;
+Enddecay
+CDecay B_c-sig
+
+Decay MyD_s*+
+  0.935        MyD_s+     gamma           VSP_PWAVE;
+  0.058        MyD_s+     pi0             VSS;
+Enddecay
+CDecay MyD_s*-
+
+Decay MyD_s+
+  1.000        K- K+ pi+                  D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+Decay Myanti-D0
+  1.000        K+    pi-    pi+   pi-           PHSP;
+Enddecay
+CDecay MyD0
+
+Decay Myanti-D*0
+  0.619    MySecondanti-D0  pi0               VSS;
+  0.381    MySecondanti-D0  gamma             VSP_PWAVE;
+Enddecay
+CDecay MyD*0
+
+Decay MySecondanti-D0
+  1.000        K+    pi-    pi+   pi-           PHSP;
+Enddecay
+CDecay MySecondD0
+#
+End
+

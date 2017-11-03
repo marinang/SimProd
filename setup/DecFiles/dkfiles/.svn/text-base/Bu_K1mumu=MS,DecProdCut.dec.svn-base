@@ -1,0 +1,74 @@
+# Responsible: Evelina Gersabeck
+##
+# EventType: 12215001
+#
+# NickName: Bu_K1mumu=MS,DecProdCut
+# Descriptor: [ B+ -> mu+ mu- (K_1(1270)+ -> (X ->  K+ pi- pi+)) ]cc
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  B+->K_1(1270)+ mu+mu- decay, K_1(1270)+ -> XX-> K+pi+pi- decay, decaymodel - 
+# from the paper  D.Melikhov, B.Stech, PRD62, 014006 (2000).
+# Input parameters - mu        - the scale parameter (in GeV's);
+#                    res_swch  - resonant switching parametr:
+#                    ias       - switching parametr for \alpha_s(M_Z) value:
+#                    Wolfenstein parameterization for CKM matrix,
+#    Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# 
+# Email: evelina.gersabeck@cern.ch
+# Date: 20111209
+#
+Define mu 5.0
+Define Nf 5
+Define res_swch 0
+Define ias 1
+Define A 0.88
+Define lambda 0.227
+Define barrho 0.22
+Define bareta 0.34
+#
+Alias      MyK1_1270_+   K_1+ 
+Alias      MyK1_1270_-   K_1-
+ChargeConj MyK1_1270_+   MyK1_1270_-
+
+
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+
+Alias MyOmega omega
+ChargeConj MyOmega MyOmega
+#
+Decay B+sig
+  1.000        MyK1_1270_+     mu+     mu-    BTOSLLMS mu Nf res_swch ias A lambda barrho bareta;
+Enddecay
+CDecay B-sig
+
+#
+
+#
+Decay MyK1_1270_+
+  0.2716513        MyK*0        pi+                    VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.3564309        rho0         K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0042848        MyOmega      K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.3676330        K+  pi+ pi-                              PHSP;
+Enddecay
+CDecay MyK1_1270_-
+
+#
+Decay MyK*0
+  1.000        K+        pi-                    VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+
+#
+Decay MyOmega
+  1.000        pi+        pi-                    VSS;
+Enddecay
+
+End
+#

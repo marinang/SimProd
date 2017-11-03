@@ -1,0 +1,23 @@
+# EventType: 28102030
+#
+# Descriptor: [chi_c0 -> pi+ pi-]
+#
+# NickName: chic0_pipi
+#
+# Cuts: None
+#
+# Documentation: chi_c0(1P) particle gun with phase space decay to pi+ pi-.
+# chi_c0(1P) momentum sampled from pt-pz distribution generated with SuperCHIC.
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Scott Stevenson
+# Email: scott.stevenson@cern.ch
+# Date: 20140212
+
+Decay chi_c0sig
+    1.00000    pi+    pi-    PHSP;
+Enddecay
+
+End

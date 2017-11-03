@@ -1,0 +1,27 @@
+# EventType: 23113003
+#
+# Descriptor: [Ds -> pi- mu+ mu+]cc
+#
+# NickName: Ds_pi-mu+mu+=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Viaud
+# Email: viaud@lal.in2p3.fr
+# Date:  20111014
+#
+
+
+Decay D_s+sig
+  1.000   pi-  mu+ mu+  PHSP;
+Enddecay
+CDecay D_s-sig
+
+#
+End
+

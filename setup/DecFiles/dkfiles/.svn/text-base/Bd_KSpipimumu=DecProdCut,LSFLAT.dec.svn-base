@@ -1,0 +1,40 @@
+# EventType: 11114110
+#
+# NickName: Bd_KSpipimumu=DecProdCut,LSFLAT
+# Descriptor: [[B0]cc => (K_1(1270)0 => KS0 pi+ pi-) mu+ mu-]CC
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 - >K_1(1270)0 mu+mu- decay with K_1(1270)0 -> KS0 pi+ pi- decay. The KSpipi system is modelled with a flat lineshape. 
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Stefanie Reichert
+# Email: stefanie.reichert@cern.ch
+# Date: 20160518
+# CPUTime: < 1min
+#
+Alias MyKS0pipi  K_10
+Alias MyAntiKS0pipi  anti-K_10
+ChargeConj MyKS0pipi MyAntiKS0pipi
+#
+LSFLAT MyKS0pipi
+ChangeMassMin MyKS0pipi 1.1
+ChangeMassMax MyKS0pipi 2.4
+#
+LSFLAT MyAntiKS0pipi
+ChangeMassMin MyAntiKS0pipi 1.1
+ChangeMassMax MyAntiKS0pipi 2.4
+#
+Decay B0sig
+  1.000    MyKS0pipi mu- mu+     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKS0pipi
+1.000    K_S0     pi-    pi+     PHSP;
+Enddecay
+CDecay MyAntiKS0pipi
+#
+End
+#

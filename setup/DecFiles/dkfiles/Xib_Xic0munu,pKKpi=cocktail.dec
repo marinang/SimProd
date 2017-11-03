@@ -1,0 +1,82 @@
+# EventType: 16875030
+#
+# Descriptor: [Xi_b- -> (Xi_c0 -> p+ K- K- pi+) anti-nu_mu mu-]cc
+#
+# NickName: Xib_Xic0munu,pKKpi=cocktail
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Xib -> Xic0 mu nu_mu with Xic0 ->p K K pi, includes resonances
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: S. Blusk
+# Email:  sblusk@syr.edu
+# Date: 20170303
+#
+Alias MyXi_c0 Xi_c0
+Alias Myanti-Xi_c0 anti-Xi_c0
+ChargeConj MyXi_c0 Myanti-Xi_c0
+#
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias MyXi'_c0 Xi'_c0 
+Alias Myanti-Xi'_c0 anti-Xi'_c0
+ChargeConj MyXi'_c0 Myanti-Xi'_c0
+
+Alias MyXi_c*0 Xi_c*0
+Alias Myanti-Xi_c*0 anti-Xi_c*0
+ChargeConj MyXi_c*0 Myanti-Xi_c*0 
+
+#
+#
+Decay Xi_b-sig
+  0.0546     MyXi_c0   mu- anti-nu_mu                    PHSP;
+  0.0200     MyXi_c0   Mytau-  anti-nu_tau               PHSP;
+  0.00546    MyXi'_c0  mu- anti-nu_mu                    PHSP;
+  0.00200    MyXi'_c0  Mytau-  anti-nu_tau               PHSP;
+  0.0100     MyXi_c*0  mu- anti-nu_mu                    PHSP;
+  0.004      MyXi_c*0  Mytau-  anti-nu_tau               PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyXi_c0
+  0.5   p+  K-     Myanti-K*0                           PHSP;
+  0.5   p+   K-  K-  pi+                                 PHSP;
+Enddecay
+CDecay Myanti-Xi_c0
+#
+Decay MyXi'_c0
+1.0    gamma  MyXi_c0                    PHSP;
+Enddecay
+CDecay Myanti-Xi'_c0
+
+Decay MyXi_c*0
+0.5    gamma  MyXi_c0                    PHSP;
+0.5    pi0    MyXi_c0                    PHSP;
+Enddecay
+CDecay Myanti-Xi_c*0
+
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Mytau-
+  0.1736       mu-  anti-nu_mu   nu_tau        TAULNUNU;
+Enddecay
+CDecay Mytau+
+
+
+End
+

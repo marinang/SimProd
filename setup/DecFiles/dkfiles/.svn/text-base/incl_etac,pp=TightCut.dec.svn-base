@@ -1,0 +1,40 @@
+# EventType: 24102010
+#
+# Descriptor: J/psi(1S) -> anti-p- p+ 
+#
+# NickName: incl_etac,pp=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ParticleValue: "J/psi(1S) 64 443 0.0 2.98360000 2.216203e-23  J/psi 443 0.00000000"
+#
+# InsertPythonCode: 
+# from Configurables import LoKi__GenCutTool as GenCutTool 
+# #
+# Generation().SignalPlain.addTool( GenCutTool , 'TightCut' ) 
+# Generation().SignalPlain.TightCut.Decay = "J/psi(1S) => ^p+ ^p~-"
+# Generation().SignalPlain.TightCut.Cuts = {
+#     'p+'  : ' ( GPT > 0.9 * GeV ) & inAcc ',
+#     'p~-' : ' ( GPT > 0.9 * GeV ) & inAcc '
+#     }
+# Generation().SignalPlain.TightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ]
+# EndInsertPythonCode
+#
+# Documentation: etac decay to p+ p- with phase space model, daughters in accpetance, and both proton PT>0.9 GeV, etac used instead of J/psi
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Andrii Usachov
+# Email: andrii.usachov@cern.ch
+# Date: 20170116
+# CPUTime: <1 min
+#
+Decay J/psisig
+  1.000         p+        anti-p-        PHSP;
+Enddecay
+#
+End
+#

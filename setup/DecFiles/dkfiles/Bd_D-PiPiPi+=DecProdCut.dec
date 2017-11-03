@@ -1,0 +1,67 @@
+# EventType: 11266002
+#
+# Descriptor: {[[B0]nos -> (D- => K+ pi- pi-) pi+ pi- pi+]cc, [[B0]os -> (D+ => K- pi+ pi+) pi- pi+ pi-]cc}
+#
+# NickName: Bd_D-PiPiPi+=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes resonances in D- decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: S. Blusk
+# Email: sblusk@syr.edu
+# Date: 20101012
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias      MyD_1-     D_1-
+Alias      MyD_1+     D_1+
+ChargeConj MyD_1+     MyD_1-
+#
+Alias      MyD_2*0    D_2*0 
+Alias Myanti-D_2*0    anti-D_2*0 
+ChargeConj MyD_2*0    Myanti-D_2*0
+#
+#
+#
+
+Decay B0sig
+0.68    Mya_1+ MyD-                     SVS;
+0.28   MyD-  rho0  pi+                  PHSP;
+0.02   Myanti-D_2*0 rho0                PHSP;
+0.02   MyD_1- pi+                       SVS;
+Enddecay
+CDecay anti-B0sig
+# D_DALITZ includes resonances contributions (K*(892), K*(1430), K*(1680))
+Decay MyD-
+  1.000    K+        pi-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyD_2*0
+1.000    MyD+  pi-                        TSS;
+Enddecay
+CDecay Myanti-D_2*0
+
+Decay MyD_1+
+1.0    MyD+  pi- pi+                        PHSP;
+Enddecay
+CDecay MyD_1-
+#
+#
+End
+

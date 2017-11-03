@@ -1,0 +1,25 @@
+# EventType: 15114011
+#
+# Descriptor: [Lambda_b0 -> p+ K- mu+ mu-]cc
+#
+# NickName: Lb_pKmumu=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Four body Lambda_b0 to  p K mu mu decay with generic phase space       
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes 
+# Responsible: Michal Kreps 
+# Email: M.Kreps@warwick.ac.uk
+# Date: 20120509
+#
+
+Decay Lambda_b0sig
+  1.000   p+ K-  mu+   mu- PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+End
+#

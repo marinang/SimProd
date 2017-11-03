@@ -1,0 +1,121 @@
+# EventType: 11574070
+#
+# Descriptor: {[[B0]nos => nu_mu mu+ (D- -> K+ pi- pi-)]cc, [[B0]os => anti_nu_mu mu- (D+ -> K- pi+ pi+)]cc}
+#
+# NickName: Bd_Dststmunu,D+=CocktailHigher,RDplusCut
+# Cuts: 'LoKi::GenCutTool/TightCut'
+# InsertPythonCode:
+
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation()
+#gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "[ (Beauty) ==> ^(D- -> ^K+ ^pi- ^pi- {gamma} {gamma} {gamma}) ^mu+ nu_mu {X} {X} {X} {X} {X} {X} {X} {X} ]CC"
+#tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV"  ,
+#  "pipiKP     = GCHILD(GP,1) + GCHILD(GP,2) + GCHILD(GP,3)" ,
+#  "pipiKPT     = GCHILD(GPT,1) + GCHILD(GPT,2) + GCHILD(GPT,3)" ,
+#]
+#tightCut.Cuts      =    {
+# '[pi+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 150 * MeV )" ,
+# '[K-]cc'   : " in_range( 0.010 , GTHETA , 0.400 ) & ( GPT > 150 * MeV )" ,
+# '[mu+]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GP > 2500* MeV) ",
+# '[D+]cc'   : "( pipiKP > 15000 * MeV ) & (pipiKPT > 2300 * MeV)"
+#    }
+# EndInsertPythonCode
+#
+#
+#
+# ParticleValue:  "D*(2640)+           759      100413  1.0        2.6492   4.70e-24                  D*(2S)+           0   0.5","D*(2640)-           760     -100413 -1.0        2.6492   4.70e-24                  D*(2S)-           0   0.5","D(2S)+              757      100411  1.0        2.579   3.69e-24                   D(2S)+           0   0.5","D(2S)-              758     -100411 -1.0        2.579   3.69e-24                   D(2S)-           0   0.5","D_1(2420)+          157       10413  1.0        2.978   3.50e-24                     D_1+       10413        0.5","D_1(2420)-          161      -10413 -1.0        2.978   3.50e-24                     D_1-      -10413        0.5","D*_2(2460)+         162         415  1.0        2.737   9.01660175e-24                    D_2*+         415        0.5","D*_2(2460)-         158        -415 -1.0        2.737   9.01660175e-24                   D_2*-        -415        0.5"
+
+
+# Documentation: Sum of higher B -> D** mu nu modes . D** -> D+ pi pi, D+ -> K pi pi. Cuts for B -> D+ tau nu, tau-> mu #analysis.
+# EndDocumentation 
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Patrick Owen
+# Email: patrick.haworth.owen@gmail.com
+# Date: 20160801
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD-        MyD+
+#
+Alias      MyD*-        D*-
+Alias      MyD*+        D*+
+ChargeConj MyD*-        MyD*+
+#
+Decay MyD+
+  1.000   K-  pi+  pi+                    PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+Decay MyD*+
+  0.3070    MyD+  pi0                     PHOTOS VSS;
+  0.0160    MyD+  gamma                   PHOTOS VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+
+Alias      MyD*(2S)-         D*(2S)-
+Alias      MyD*(2S)+         D*(2S)+
+ChargeConj MyD*(2S)-         MyD*(2S)+
+
+Alias      MyD(2S)-         D(2S)-
+Alias      MyD(2S)+         D(2S)+
+ChargeConj MyD(2S)-         MyD(2S)+
+
+
+#D(2460) used for D(2750) 
+Alias      MyD(2750)-         D_2*-
+Alias      MyD(2750)+         D_2*+
+ChargeConj MyD(2750)-         MyD(2750)+
+
+#D(2420) used for D(3000) 
+Alias      MyD(3000)-         D_1-
+Alias      MyD(3000)+         D_1+
+ChargeConj MyD(3000)-         MyD(3000)+
+
+
+
+#
+Decay B0sig 
+
+  0.05  MyD*(2S)-      mu+  nu_mu         PHOTOS  ISGW2;
+  0.45  MyD(2S)-       mu+  nu_mu         PHOTOS  ISGW2;
+  0.45  MyD(2750)-     mu+  nu_mu         PHOTOS  ISGW2;
+  0.05  MyD(3000)-     mu+  nu_mu         PHOTOS  ISGW2;
+
+ 
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD*(2S)+ 
+0.5     MyD+ pi+ pi-                     PHOTOS PHSP;
+0.5     MyD*+ pi+ pi-                     PHOTOS PHSP;
+Enddecay
+CDecay MyD*(2S)-
+
+Decay MyD(2S)+ 
+0.5     MyD+ pi+ pi-                     PHOTOS PHSP;
+0.5     MyD*+ pi+ pi-                     PHOTOS PHSP;
+Enddecay
+CDecay MyD(2S)-
+
+Decay MyD(2750)+ 
+0.5     MyD+ pi+ pi-                     PHOTOS PHSP;
+0.5     MyD*+ pi+ pi-                     PHOTOS PHSP;
+Enddecay
+CDecay MyD(2750)-
+
+Decay MyD(3000)+ 
+0.5     MyD+ pi+ pi-                     PHOTOS PHSP;
+0.5     MyD*+ pi+ pi-                     PHOTOS PHSP;
+Enddecay
+CDecay MyD(3000)-
+
+
+
+End

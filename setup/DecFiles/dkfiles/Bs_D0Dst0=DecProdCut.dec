@@ -1,0 +1,47 @@
+# EventType: 13494401
+# NickName: Bs_D0Dst0=DecProdCut
+# Descriptor: [B_s0 -> D*0 D~0]cc
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: 
+#    Decay file for B_s0 -> D*0 D0bar
+# EndDocumentation
+# 
+# Date:   20120206
+# 
+# Responsible: Steven Blusk
+# Email: sblusk@syr.edu
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+
+Alias My_D*0 D*0
+Alias My_anti-D*0 anti-D*0
+ChargeConj My_D*0 My_anti-D*0
+
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+ChargeConj My_anti-D0 My_D0
+
+Decay My_D0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay My_D*0
+0.619    My_D0  pi0                        VSS;
+0.381    My_D0  gamma                      VSP_PWAVE;
+Enddecay
+CDecay My_anti-D*0
+
+Decay B_s0sig
+  1.0 My_D*0 My_anti-D0 SVS;
+Enddecay
+CDecay anti-B_s0sig
+
+
+
+End

@@ -1,0 +1,31 @@
+# EventType: 10000030
+# Sample: Special
+# Descriptor: pp => [bbbar] ...
+#
+# NickName: incl_b=HardQCDScatter,TightCut
+#
+
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/twobinAcc
+# ExtraOptions: qcdjets_pthat_gt_20
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "twobinAcc" )
+# tracksInAcc = Generation().twobinAcc
+# tracksInAcc.Code = "count ( isGoodB ) > 1"
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodB = ( ( 'b' == GABSID ) & ( GTHETA < 400.0*mrad ) )" ]
+# EndInsertPythonCode
+#
+# Documentation: bbbar enriched, QCD hard scatter min Pthat 20GeV, 2 b in Acc and minPt 15GeV for both b's using Special production mode
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Konstantinos A. Petridis
+# Email: konstantinos.petridis@cern.ch
+# Date: 20130503
+#
+End

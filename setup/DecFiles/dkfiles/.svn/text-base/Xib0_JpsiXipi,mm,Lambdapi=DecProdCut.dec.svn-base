@@ -1,0 +1,50 @@
+# EventType: 16146142
+#
+# Descriptor: [Xi_b0 -> (Xi- -> (Lambda0 -> p+ pi-) pi-) pi+ (J/psi(1S) -> mu+ mu-)]cc
+#
+# NickName: Xib0_JpsiXipi,mm,Lambdapi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: J/psi forced to go to mu mu, Xi forced to go Lambda pi, Lambda forced to go to p pi, includes radiative mode.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Raphael Marki
+# Email: raphael.marki@epfl.ch
+# Date: 20130614
+#
+Alias      MyXi          Xi-
+Alias      Myanti-Xi     anti-Xi+
+ChargeConj Myanti-Xi     MyXi
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Decay Xi_b0sig 
+1.000      MyXi  pi+  MyJ/psi      PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyJ/psi
+1.000      mu+  mu-                PHOTOS VLL;
+Enddecay
+#
+Decay MyXi
+1.000      MyLambda  pi-          PHSP;
+Enddecay
+CDecay Myanti-Xi
+#
+Decay MyLambda
+1.000      p+  pi-                 PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#
+

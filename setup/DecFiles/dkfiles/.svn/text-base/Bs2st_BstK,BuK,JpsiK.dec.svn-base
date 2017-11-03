@@ -1,0 +1,58 @@
+# EventType: 17444080
+#
+# Descriptor: [B*_s20 ->  (B+ -> K+ (J/psi(1S) -> mu+ mu-)) K-]cc, [B*_s20 ->  (B+ -> (D~0 -> {K+ pi-, K+ pi- pi+ pi-}) pi+) K-]cc, [B*_s20 ->  (B+ -> (D~0 -> {K+ pi-, K+ pi- pi+ pi-}) pi+ pi- pi+) K-]cc, [B*_s20 ->  ( B*+ -> (B+ -> K+ (J/psi(1S) -> mu+ mu- )) gamma ) K-]cc, [B*_s20 ->  ( B*+ -> (B+ -> (D~0 -> {K+ pi-, K+ pi- pi+ pi-}) pi+ ) gamma ) K-]cc, [B*_s20 ->  ( B*+ -> (B+ -> (D~0 -> {K+ pi-, K+ pi- pi+ pi-}) pi+ pi- pi+) gamma ) K-]cc
+#
+# NickName: Bs2st_BstK,BuK,JpsiK
+#
+# Cuts: None
+#
+# Documentation: Bs** Spectroscopy
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:     Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20111026
+#
+Alias MyBstar B*+
+Alias MyantiBstar B*-
+ChargeConj MyBstar  MyantiBstar
+Alias MyB     B+
+Alias MyantiB     B-
+ChargeConj MyB      MyantiB
+Alias MyJpsi  J/psi
+Alias MyD0  D0
+Alias MyantiD0  anti-D0
+ChargeConj MyD0 MyantiD0
+#
+Decay B_s2*0sig
+0.5    MyB   K-              TSS;
+0.5    MyBstar  K-           TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay anti-B_s2*0sig
+#
+Decay MyBstar
+1.0000    MyB  gamma                       VSP_PWAVE;
+Enddecay
+CDecay MyantiBstar
+#
+Decay MyB
+0.3    MyJpsi    K+                         SVS;
+0.3    MyantiD0  pi+                        PHSP;
+0.3    MyantiD0  pi-  pi+  pi+              PHSP;
+Enddecay
+CDecay MyantiB
+#
+Decay MyJpsi
+1.000   mu+  mu-               PHOTOS   VLL;
+Enddecay
+#
+Decay MyantiD0
+0.5    K+  pi-                         PHSP;
+0.5    K+  pi-  pi+   pi-              PHSP;
+Enddecay
+CDecay MyD0
+#
+#
+End

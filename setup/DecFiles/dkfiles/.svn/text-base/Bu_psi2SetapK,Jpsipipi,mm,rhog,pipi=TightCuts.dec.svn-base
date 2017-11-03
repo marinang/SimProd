@@ -1,0 +1,89 @@
+# EventType: 12147202
+#
+# Descriptor: [B+ => K+ (psi(2S) => (J/psi(1S) => mu+ mu-) pi+ pi- ) (eta_prime -> (rho(770)0 => pi+ pi-) gamma)]cc
+#
+# NickName: Bu_psi2SetapK,Jpsipipi,mm,rhog,pipi=TightCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[ B+  =>  ^K+ ( psi(2S) => ^( J/psi(1S) => ^mu+ ^mu-) ^pi+ ^pi-) ^(eta_prime -> (rho(770)0 => ^pi+ ^pi-) ^gamma) ]CC'
+# tightCut.Cuts      =    {
+#     'gamma'               : ' goodGamma ' ,
+#     '[mu+]cc'             : ' goodMuon  ' , 
+#     '[K+]cc'              : ' goodKaon  ' , 
+#     '[pi+]cc'             : ' goodPion  ' ,
+#     'J/psi(1S) | psi(2S)' : ' goodPsi   ' ,
+#     'eta_prime'           : ' goodEtap  ' }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) & in_range(1.8, GETA, 5.2)             ' , 
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5                                             ' , 
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5                                             ' , 
+#     'inEcalHole = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 ) ' ,
+#     'goodMuon  = ( GPT > 490  * MeV ) & ( GP > 5.4 * GeV )             & inAcc              ' , 
+#     'goodKaon  = ( GPT > 140  * MeV ) & in_range(2.9*GeV, GP, 210*GeV) & inAcc              ' , 
+#     'goodPion  = ( GPT > 140  * MeV ) & in_range(2.9*GeV, GP, 210*GeV) & inAcc              ' , 
+#     'goodGamma = ( 0 < GPZ ) & ( 140 * MeV < GPT ) & inEcalX & inEcalY & ~inEcalHole        ' ,
+#     'goodPsi   = in_range ( 1.8 , GY , 4.5 )                                                ' ,
+#     'goodEtap  = ( GPT > 340  * MeV )                                                       ']
+#
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GPT/GeV" , 0.0 , 20.0 , 40  )
+# tightCut.YAxis = ( "GY     " , 2.0 ,  4.5 , 10  )
+#
+# EndInsertPythonCode
+#
+# Documentation: B+ -> psi(2S) eta_prime K, with psi(2S) -> J/psi pi+ pi-
+#                and eta_prime -> rho gamma. Includes radiative mode,
+#                The generator level cuts are applied to increase
+#                the statistics by a factor of ~10
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1min
+# Responsible: D Savrina
+# Email: Daria.Savrina@cern.ch
+# Date: 20171031
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Alias      MyPsi(2S)   psi(2S)
+ChargeConj MyPsi(2S) MyPsi(2S)
+#
+Alias       MyEtap    eta'
+ChargeConj  MyEtap    MyEtap
+#
+Alias       MyRho     rho0
+ChargeConj  MyRho     MyRho
+#
+Decay B+sig
+  1.000     MyPsi(2S)   MyEtap K+                PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyPsi(2S)
+  1.000    MyJ/psi pi+ pi-                     VVPIPI;
+Enddecay
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MyEtap
+  1.000         MyRho      gamma                  SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+#
+#
+Decay MyRho
+  1.000    pi+ pi-                                VSS;
+Enddecay
+End
+

@@ -1,0 +1,25 @@
+# EventType: 31113013
+#
+# Descriptor: [tau- -> mu- mu+ e-]cc
+#
+# NickName: tau_mumue=OS,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:     Marcin Chrzaszcz, Jon Harrison
+# Email:  mchrzasz@cern.ch, jonathan.harrison@hep.manchester.ac.uk 
+# Date:   20141113
+#
+Decay tau-sig
+  1.000       mu-  mu+ e-              PHSP;
+Enddecay
+CDecay tau+sig
+#
+End

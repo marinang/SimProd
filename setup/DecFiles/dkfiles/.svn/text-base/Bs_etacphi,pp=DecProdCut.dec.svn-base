@@ -1,0 +1,36 @@
+# EventType: 13134000
+# 
+# Descriptor: [B_s0 -> (eta_c(1S) -> p+ p~-) (phi(1020) -> K+ K-)]cc
+# 
+# NickName: Bs_etacphi,pp=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: yes
+# Responsible: Roberta Cardinale
+# Email: roberta.cardinale@ge.infn.it
+# Date: 20130925
+#
+#
+Alias MyPhi phi
+Alias Myetac eta_c
+ChargeConj MyPhi MyPhi
+ChargeConj Myetac Myetac
+#
+Decay B_s0sig
+  1.000 MyPhi Myetac SVS; 
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000 K+ K- VSS;
+Enddecay
+Decay Myetac
+  1.000 p+ anti-p- PHSP;
+Enddecay
+End
+#

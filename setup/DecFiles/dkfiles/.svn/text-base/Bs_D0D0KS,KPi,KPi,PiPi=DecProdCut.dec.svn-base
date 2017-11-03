@@ -1,0 +1,39 @@
+# EventType: 13196101
+# NickName: Bs_D0D0KS,KPi,KPi,PiPi=DecProdCut
+# Descriptor: [Bs0 -> (D0 -> K- pi+) (D~0 -> K+ pi-) ( KS0 -> pi+ pi-)]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  Bs forced flat in dalitz plot. decay products in acceptance
+#    Decay file for Bs -> D0 D~0 KS 
+# EndDocumentation
+# CPUTime: < 1 min
+# 
+# Date:   20140808
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# PhysicsWG: B2OC
+# Tested: Yes
+
+Alias My_D0    D0
+Alias My_anti-D0    anti-D0
+ChargeConj My_D0   My_anti-D0 
+#
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+#
+Decay myK_S0
+  1.0   pi+   pi-       PHSP;
+Enddecay
+#
+Decay My_D0
+  1.000 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0
+#
+Decay B_s0sig
+  1.000 My_D0 My_anti-D0 myK_S0 PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+End

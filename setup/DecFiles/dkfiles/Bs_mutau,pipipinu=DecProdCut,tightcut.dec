@@ -1,0 +1,41 @@
+# EventType: 13714010
+#
+# Descriptor: {[B_s0 -> (tau- -> pi- pi- pi+ nu_tau) mu+]cc, [B_s0 -> (tau+ -> pi- pi+ pi+  anti-nu_tau ) mu-]cc}
+#
+# NickName: Bs_mutau,pipipinu=DecProdCut,tightcut
+#
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+
+#
+# Documentation: Bs decay to a muon and a tau with a phasespace model.
+# The tau decays in the 3-prong charged pion mode with EvtGen's TAUHADNU model.
+# All final-state products in the acceptance, and tight cuts corresponding to B2XTau stripping.
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Justine Serrano
+# Email: serrano@cppm.in2p3.fr
+# Date: 20141209
+#
+Alias      MyTau+      tau+
+Alias      MyTau-      tau-
+ChargeConj MyTau+      MyTau-
+#
+Decay B_s0sig
+  0.5000       MyTau-    mu+              PHSP;
+  0.5000       MyTau+    mu-              PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyTau-
+1.00        pi- pi- pi+  nu_tau   TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay MyTau+
+#
+End

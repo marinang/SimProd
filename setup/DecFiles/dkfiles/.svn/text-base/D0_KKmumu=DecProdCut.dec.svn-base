@@ -1,0 +1,26 @@
+# EventType: 22114000
+#
+# Descriptor: [D0 -> K+ K- mu+ mu-]cc
+#
+# NickName: D0_KKmumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible:     Viaud
+# Email: viaud@lal.in2p3.fr
+# Date: 20111014
+#
+
+Decay D0sig
+  1.000   K+ K-  mu+ mu-  PHSP;
+Enddecay
+CDecay anti-D0sig
+
+#
+End
+

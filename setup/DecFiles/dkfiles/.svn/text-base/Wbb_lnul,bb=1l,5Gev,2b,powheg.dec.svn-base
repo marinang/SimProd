@@ -1,0 +1,48 @@
+# EventType: 42921007
+#
+# Descriptor: pp -> ([W+ -> l nu_l]cc) (Z0 -> b b~) ... 
+#
+# NickName: Wbb_lnul,bb=1l,5Gev,2b,powheg
+#
+# Cuts: None
+#
+# FullEventCuts: LoKi::FullGenEventCut/HiggsTypeCut
+#
+# InsertPythonCode:
+# Generation().SampleGenerationTool = "Special"
+# from Configurables import Special, PowhegProductionWbb, Pythia8Production
+# Generation().addTool( Special )
+# Generation().Special.ProductionTool = "PowhegProductionWbb"
+# Generation().Special.addTool( PowhegProductionWbb () )
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "HiggsTypeCut" )
+# tracksInAcc = Generation().HiggsTypeCut
+# tracksInAcc.Code = " ((count ( isGoodLeptonW ) >0) & (count ( isGoodBeauty)>1)) "
+# tracksInAcc.Preambulo += [                                                                        
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"                                           
+#     , "isGoodLeptonW     = ((  'W+' == GABSID ) & GINTREE( GLEPTON & ( GTHETA < 350.0*mrad ) & (GPT > 10*GeV)))"
+#     , "isGoodBeauty   = ((  'b' == GABSID ) & GINTREE( GBEAUTY & ( GTHETA < 350.0*mrad ) & (GPT > 0*GeV)))"
+#    ]      
+# Generation().Special.PileUpProductionTool = "Pythia8Production"
+# Generation().PileUpTool = "FixedLuminosityForRareProcess"
+# Generation().Special.addTool( Pythia8Production () )
+# Generation().Special.ReinitializePileUpGenerator = False
+# Generation().Special.Pythia8Production.Tuning = "LHCbDefault.cmd"
+# EndInsertPythonCode
+#
+#
+# Documentation: 1 lepton with pT > 5 GeV and 2 b quarks in LHCb Acc, POWHEG production mode
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Marcin Kucharczyk, Bartek Rachwal
+# Email: marcin.kucharczyk@cern.ch, bartlomiej.rachwal@cern.ch
+# Date: 20130923
+#
+End
+#
+
+
+

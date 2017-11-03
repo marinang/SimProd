@@ -1,0 +1,55 @@
+# EventType: 12245011
+#
+# Descriptor: {[B+ -> (psi(2S) -> (J/psi(1S) -> mu+ mu-) pi+ pi-) pi+]cc,[B+ -> (J/psi -> mu+ mu-) (a_1+ -> (rho0 -> pi+ pi-) pi+]cc}
+#
+# NickName: Bu_Jpsipipipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  20% B+ decay to psi(2S)(to Jpsi(to mu+ mu- {,gamma} {,gamma}), pi+, pi-) and pi+, 80% B+ decay to Jpsi(to mu+ mu- {,gamma} {,gamma}) and a_1+(to rho0 and pi+), all daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Jianchun Wang
+# Email: jwang@physics.syr.edu
+# Date: 20110909
+Alias       MyPsi(2S)   psi(2S)
+ChargeConj  MyPsi(2S)   MyPsi(2S)
+
+Alias       MyJ/psi     J/psi
+ChargeConj  MyJ/psi     MyJ/psi
+
+Alias       Mya_1+      a_1+
+Alias       Mya_1-      a_1-
+ChargeConj  Mya_1+      Mya_1-
+
+
+#  PDG Id = 521
+Decay B+sig
+  0.2000   MyPsi(2S)   pi+          SVS;
+  0.8000   MyJ/psi     Mya_1+       SVV_HELAMP 0.458 0.0 0.866 0.0 0.200 0.0;
+Enddecay
+CDecay B-sig
+
+
+#  PDG Id = 100443
+Decay MyPsi(2S)
+  1.0000   MyJ/psi  pi+  pi-        VVPIPI;
+Enddecay
+
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   mu+   mu-                PHOTOS VLL;
+Enddecay
+
+
+#  PDG Id = 20213
+Decay Mya_1+
+  1.0000   rho0   pi+               VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+
+
+End

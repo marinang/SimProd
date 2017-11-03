@@ -1,0 +1,72 @@
+# EventType: 15266024
+# 
+# Descriptor: [Lambda_b0 -> (Sigma_c0 -> (Lambda_c+ -> p+ K- pi+) pi-) K- K+]cc
+# 
+# NickName: Lb_ScKK,Lcpi,pKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Sc K K with Sc -> Lc pi and Lc -> p K pi, decay products in acceptance. Includes K*0, Delta++ and Lambda(1520)0 resonances in Lambda_c decay.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Hannes Schroeder
+# Email: hannes.schroeder@cern.ch
+# Date: 20150515
+#
+Alias      MySigma_c0           Sigma_c0
+Alias      Myanti-Sigma_c0      anti-Sigma_c0
+ChargeConj MySigma_c0           Myanti-Sigma_c0
+#
+Alias      MyLambda_c+          Lambda_c+
+Alias      Myanti-Lambda_c-     anti-Lambda_c-
+ChargeConj MyLambda_c+          Myanti-Lambda_c-
+#
+Alias      MyK*0                K*0
+Alias      Myanti-K*0           anti-K*0
+ChargeConj MyK*0                Myanti-K*0
+#
+Alias      MyDelta++            Delta++
+Alias      Myanti-Delta--       anti-Delta--
+ChargeConj MyDelta++            Myanti-Delta--
+#
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+#
+Decay Lambda_b0sig
+ 1.00 MySigma_c0	K+	K-	PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MySigma_c0
+ 1.00 MyLambda_c+	pi-		PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+#
+Decay MyLambda_c+
+ 0.17 MyDelta++		K-		PHSP;
+ 0.21 Myanti-K*0	p+		PHSP;
+ 0.08 MyLambda(1520)0	pi+		PHSP;
+ 0.54 p+		K-	pi+	PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+ 1.00 K+	pi-			PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyDelta++
+ 1.00 p+	pi+			PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+Decay MyLambda(1520)0
+ 1.00 p+	K-			PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End

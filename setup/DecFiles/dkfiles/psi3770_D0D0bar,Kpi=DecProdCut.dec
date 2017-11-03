@@ -1,0 +1,32 @@
+# EventType: 28194070
+#
+# Descriptor: psi(3770) -> D0(K- pi+)  D0bar(K+ pi-)
+#
+# NickName: psi3770_D0D0bar,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: psi(3770) forced to decay to D0(K- pi+) D0bar(K+ pi-). Daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Michele Veltri
+# Email: michele.veltri@uniurb.it
+# Date: 20140129
+#
+Decay psi(3770)sig
+  1.000         D0sig      anti-D0sig              VSS;
+Enddecay
+
+Decay D0sig
+  1.000         K-         pi+                     PHSP; 
+Enddecay
+
+Decay anti-D0sig
+  1.000         K+         pi-                     PHSP; 
+Enddecay
+
+End
+
+

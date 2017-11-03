@@ -1,0 +1,34 @@
+# EventType: 13166002
+# 
+# Descriptor: [B_s0 -> (D_s- -> K- K+ pi-) anti-p- p+ pi+]cc
+# 
+# NickName: Bs_Dsppbarpi,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bs -> Ds p pbar pi with Ds -> K K pi, decay products in acceptance. Includes resonances in Ds decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Moritz Karbach
+# Email: moritz.karbach@cern.ch
+# Date: 20140704
+#
+
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Decay B_s0sig
+  1.000     MyD_s-     p+   anti-p-   pi+   PHSP;
+  Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s-
+  1.000        K-        K+        pi-             D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+End

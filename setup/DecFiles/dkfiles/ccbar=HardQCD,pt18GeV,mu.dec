@@ -1,0 +1,38 @@
+#EventType: 49011004
+#
+#Descriptor: pp => bbbar (=> muX)
+#
+#NickName: ccbar=HardQCD,pt18GeV,mu
+#
+# CPUTime: 6 min
+#
+#Cuts: None
+#FullEventCuts: LoKi::FullGenEventCut/HighPtMuonInAcc
+#
+# Production: Pythia8
+#
+#ExtraOptions: HardQCD_ccbar
+#InsertPythonCode:
+#from Configurables import LoKi__FullGenEventCut
+#Generation().addTool(LoKi__FullGenEventCut, 'HighPtMuonInAcc')
+#cutTool = Generation().HighPtMuonInAcc
+#cutTool.Code = 'count(HighPtMuonInAcc) > 0'
+#cutTool.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import ns, GeV, mrad',
+#    'GPT = LoKi.GenParticles.TransverseMomentum()',
+#    'isMuon = (GABSID == 13)',
+#    'highPT = ((GTHETA < 400.0*mrad) & (GPT > 18*GeV))',
+#    'HighPtMuonInAcc = ((isMuon) & (highPT))'
+#    ]
+#EndInsertPythonCode
+#
+#Documentation: ccbar generated with phase space cuts and required to have a muon with with pt > 18 GeV in the acceptance
+#EndDocumentation
+#
+#PhysicsWG: EW
+#Tested: Yes
+#Responsible: Stephen Farry
+#Email: stephen.farry@cern.ch
+#Date: 20140724
+#
+End

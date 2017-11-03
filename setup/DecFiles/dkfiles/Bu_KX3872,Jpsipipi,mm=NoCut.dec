@@ -1,0 +1,41 @@
+# EventType: 12145010
+#
+# Descriptor: [B+ -> K+ (X_1(3872) -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) pi+ pi-)]cc
+#
+# NickName: Bu_KX3872,Jpsipipi,mm=NoCut
+#
+# Cuts: None
+#
+# Documentation: B+ decay to X_1(3872)(to Jpsi(to mu+ mu- {,gamma} {,gamma}) pi+ pi-) and K+ with phase space model, no generator level cuts
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Michal Kreps, Nicola Mangiafave
+# Email: M.Kreps@warwick.ac.uk
+# Date: 20110909
+#
+Alias      MyJ/psi  J/psi
+Alias      MyX_1(3872)  X_1(3872)
+ChargeConj MyX_1(3872)  MyX_1(3872)
+ChargeConj MyJ/psi  MyJ/psi
+#
+#
+#
+Decay B+sig
+  1.000    MyX_1(3872)   K+         PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyX_1(3872)
+  1.000         MyJ/psi         pi+   pi-         PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+        mu-        PHOTOS VLL;
+Enddecay
+#
+End
+#
+
+

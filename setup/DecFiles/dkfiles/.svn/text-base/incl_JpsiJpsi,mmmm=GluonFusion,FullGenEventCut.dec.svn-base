@@ -1,0 +1,51 @@
+# EventType: 47134000
+#
+# Descriptor: pp => ( J/psi(1S) -> mu+ mu ) ( J/psi(1S) -> mu+ mu- ) ...
+#
+# NickName: incl_JpsiJpsi,mmmm=GluonFusion,FullGenEventCut
+#
+# Documentation: Inclusive J/psi pair production with LbOniaPairs generator in gluon-fusion subprocess. 
+#                Feeddown from psi(2S) included. 
+#                LO CS matrix element is implemented. 
+#                Pythia 6 with Perugia-12 tune is used for complete event generation.
+#                Small possible pile-up contribution is *not* excluded by generator level cuts
+# EndDocumentation
+#
+# Sample: Special
+#
+# Production: OniaPairs
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/PsiPairInAcc
+# 
+# InsertPythonCode: 
+# from Configurables import OniaPairsProduction
+# Generation().Special.addTool( OniaPairsProduction )
+# from Gaudi.Configuration import *
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "PsiPairInAcc" )
+# Generation().PsiPairInAcc.Code = " count ( isPsi & inY & isGood ) > 1.5 "
+# Generation().PsiPairInAcc.Preambulo += [
+#     "isPsi         = ( 'J/psi(1S)' == GID ) " , 
+#     "inY           = in_range ( 2. , GY , 4.5 ) " , 
+#     "FromGluFusion = ( ~GHAS( ('cluster' == GID) | ('string' == GID) , HepMC.ancestors ) ) " , 
+#     "notFromB     = 0 == GNINTREE ( GBEAUTY , HepMC.ancestors ) " , 
+#     "isGood        = ( 3 != GSTATUS ) & FromGluFusion & notFromB "
+#     ]
+# EndInsertPythonCode
+#
+# ExtraOptions: LbOniaPsi1S1S 
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Alexey Novoselov
+# Email: Alexey.Novoselov@cern.ch
+# Date: 20140320
+# CPUTime: <1min
+#
+Decay J/psi
+  1.000         mu+        mu-        PHOTOS VLL;
+Enddecay
+#
+End
+#

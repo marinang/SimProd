@@ -1,0 +1,32 @@
+# EventType: 15164010
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p K+ pi-) pi-]cc
+#
+# NickName: Lb_Lambdacpi,pKpi=PHSP
+#
+# Cuts: None
+#
+# Documentation: phase space decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Laurence Carson
+# Email: l.carson@imperial.ac.uk
+# Date: 20130221
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        pi-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+End
+#

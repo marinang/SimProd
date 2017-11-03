@@ -1,0 +1,42 @@
+# EventType: 11164405
+#
+# Descriptor: {[[B0]nos -> K+ (D*(2010)- -> pi0 (D- -> K+ pi- pi-))]cc, [[B0]os -> K- (D*(2010)+ -> pi+ (D+ -> K- pi+ pi+))]cc}
+#
+# NickName: Bd_Dst-K+,D-pi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D*+ forced into D+ K-
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mariusz Witek
+# Email: Mariusz.Witek@cern.ch
+# Date: 20101205
+#
+Alias             MyD*-       D*-
+Alias             MyD*+       D*+
+Alias             MyD-        D-
+Alias             MyD+        D+
+ChargeConj        MyD+        MyD-
+ChargeConj        MyD*+       MyD*-
+#
+Decay B0sig
+1.000        MyD*-     K+                    SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+1.000        MyD-      pi0                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD-
+1.000        K+        pi-         pi-         PHSP;
+Enddecay
+CDecay MyD+
+#
+End
+
+

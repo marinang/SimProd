@@ -1,0 +1,23 @@
+# EventType: 42511102
+#
+# Descriptor: pp -> [W+gamma -> e+ nu_e gamma]cc ... 
+#
+# NickName: Wgamma_enue
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 4*GeV LeptonIsFromMother true NumberOfbquarks -1
+# ExtraOptions: Wgammaenu
+#
+# Documentation: 1 lepton with pT > 4 GeV 
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Marek Sirendi
+# Email: marek.sirendi@cern.ch
+# Date: 20131115
+#
+End
+#
+

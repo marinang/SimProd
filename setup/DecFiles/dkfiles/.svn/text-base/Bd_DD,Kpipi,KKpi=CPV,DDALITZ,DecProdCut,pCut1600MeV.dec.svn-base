@@ -1,0 +1,56 @@
+# EventType: 11396010
+#
+# Descriptor: [B0-> {(D+ -> K- pi+ pi+) || (D+ -> K- K+ pi+)} {(D- -> K+ pi- pi-) || (D- -> K+ K- pi-)}]cc
+#
+# NickName: Bd_DD,Kpipi,KKpi=CPV,DDALITZ,DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation:  B0->DD with CP violation and D decaying by D_Dalitz
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: F Meier
+# Email: frank.meier@tu-dortmund.de
+# Date: 20150414
+#
+# P(1) = deltaM = 0.510e12			(HFAG Spring 2015)
+# P(2) = dg/g = 0
+# P(3) = |q/p| = 1
+# P(4) = arg(q/p) = -0.775			(corresponds to sin(2beta)=0.7)
+# P(5) = |Af| = 1.0
+# P(6) = arg(Af) = 0.
+# P(7) = |Abarf| = -1.0
+# P(8) = arg(Abarf) = 0.
+
+# -------------------------
+# THEN DEFINE THE D+ AND D-
+# -------------------------
+Alias      MyD+  D+
+Alias      MyD-  D-
+ChargeConj MyD+  MyD-
+
+# ---------------
+# DECAY OF THE B0
+# ---------------
+Decay B0sig
+  1.000     MyD+       MyD-            SSD_CP 0.51e12 0.0 1.0 -0.775 1.0 0.0 -1.0 0.0;
+Enddecay
+CDecay anti-B0sig
+
+
+# ---------------
+# DECAY OF THE D-
+# ---------------
+Decay MyD-
+  0.905  K+  pi- pi-                 	D_DALITZ;
+  0.095  K+   K- pi-                 	D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End
+

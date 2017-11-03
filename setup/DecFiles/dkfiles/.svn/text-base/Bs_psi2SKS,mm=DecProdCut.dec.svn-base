@@ -1,0 +1,47 @@
+# EventType: 13144110
+#
+# Descriptor: [B_s0 -> (K_S0 -> pi+ pi-) (psi(2S) ->  mu+ mu-)]cc
+#
+# NickName: Bs_psi2SKS,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode,and decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes 
+# Responsible: Vanessa Müller
+# Email: vanessa.mueller@cern.ch
+# Date: 20170912
+# CPUTime: < 1 min
+#
+Alias      Mypsi2S  psi(2S)
+ChargeConj Mypsi2S  Mypsi2S
+Alias      MyKs     K_S0
+ChargeConj MyKs     MyKs
+#
+# ---------------
+# DECAY OF THE Bs0
+# ---------------
+Decay B_s0sig
+  1.000         Mypsi2S    MyKs     SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+# ----------------
+# DECAY OF THE KS0
+# ----------------
+Decay MyKs
+  1.000         pi+        pi-      PHSP;
+Enddecay
+#
+# ------------------
+# DECAY OF THE psi2S
+# ------------------
+Decay Mypsi2S
+ 1.000          mu+        mu-      PHOTOS VLL; 
+Enddecay
+#
+End
+

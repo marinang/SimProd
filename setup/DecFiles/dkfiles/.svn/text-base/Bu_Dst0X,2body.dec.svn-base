@@ -1,0 +1,145 @@
+# EventType: 12462600
+#
+# Descriptor: {[B+ -> (D*(2010)~0 -> (D~0 -> K+ pi-, K+ K-, pi+ pi-, K- pi+) {pi0, gamma}) X]cc, [B+ -> (D*(2010)0 -> (D0 -> K- pi+, K- K+, K+ pi-, pi+ pi-) {pi0, gamma}) X]cc} 
+#
+# NickName: Bu_Dst0X,2body
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Inclusive D*0 production (sum of exculsive modes), D forced into 2 body modes
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20090727
+#
+
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+ChargeConj MyD0 Myanti-D0
+Alias MyD_10 D_10
+Alias Myanti-D_10 anti-D_10
+ChargeConj MyD_10 Myanti-D_10
+Alias MyD'_10 D'_10
+Alias Myanti-D'_10 anti-D'_10
+ChargeConj MyD'_10 Myanti-D'_10
+Alias MyD_2*0 D_2*0
+Alias Myanti-D_2*0 anti-D_2*0
+ChargeConj MyD_2*0 Myanti-D_2*0
+
+Decay B+sig
+0.0617   Myanti-D*0    e+   nu_e        PHOTOS  HQET 0.77 1.33 0.92;
+0.00186648  Myanti-D_10   e+   nu_e        PHOTOS  ISGW2;
+0.003   Myanti-D'_10   e+   nu_e        PHOTOS  ISGW2;
+0.000309   Myanti-D_2*0   e+   nu_e        PHOTOS  ISGW2;
+0.0003   Myanti-D*0  pi0   e+   nu_e    PHOTOS  GOITY_ROBERTS;
+
+0.0617   Myanti-D*0    mu+  nu_mu       PHOTOS   HQET 0.77 1.33 0.92;
+0.00186648   Myanti-D_10   mu+  nu_mu       PHOTOS   ISGW2;
+0.003   Myanti-D'_10   mu+  nu_mu      PHOTOS    ISGW2;
+0.000309   Myanti-D_2*0   mu+  nu_mu      PHOTOS    ISGW2;
+0.0003   Myanti-D*0  pi0   mu+   nu_mu  PHOTOS         GOITY_ROBERTS;
+
+0.0160   Myanti-D*0    tau+ nu_tau                ISGW2;
+0.0004333  Myanti-D_10   tau+ nu_tau                ISGW2;
+0.0006667   Myanti-D'_10   tau+ nu_tau                ISGW2;
+0.000206   Myanti-D_2*0   tau+ nu_tau                ISGW2;
+
+0.0124    Myanti-D*0  D_s+                      SVS;
+0.0278    D_s*+ Myanti-D*0               SVV_HELAMP 0.48 0.0 0.734 0.0 0.48 0.0;
+0.0002   Myanti-D'_10  D_s+                     SVS;
+0.0003   Myanti-D'_10  D_s*+                    SVV_HELAMP 0.48 0.0 0.734 0.0 0.48 0.0;
+0.0004   Myanti-D_10  D_s+                      SVS;
+0.0008   Myanti-D_10  D_s*+                     SVV_HELAMP 0.48 0.0 0.734 0.0 0.48 0.0;
+0.0004326   Myanti-D_2*0  D_s+                      STS;
+0.000412  Myanti-D_2*0  D_s*+                    PHSP;
+
+0.0031   Myanti-D*0  D+  K0                   PHSP; 
+0.0100   Myanti-D*0  D*+  K0                  PHSP;
+
+0.0018   Myanti-D*0  D0  K+                   PHSP;
+0.0047   anti-D0  MyD*0  K+                   PHSP; 
+0.0070   Myanti-D*0  D*0  K+                  PHSP; 
+0.0070   D*0  MyD*0  K+                  PHSP; 
+
+0.0025   Myanti-D*0  D+  K*0                  PHSP;
+0.0050   Myanti-D*0  D*+  K*0                 PHSP;
+
+0.0025   Myanti-D*0  D0  K*+                  PHSP;
+0.0025   Myanti-D0  D*0  K*+                  PHSP;
+0.0050   Myanti-D*0  D*0  K*+                 PHSP;
+0.0050   D*0  MyD*0  K*+                 PHSP;
+
+0.000335    Myanti-D*0  D+               SVS;
+0.00104     Myanti-D*0  D*+              SVV_HELAMP 0.56 0.0 0.96 0.0 0.47 0.0;
+
+0.0046   Myanti-D*0  pi+                       SVS;
+0.0098   Myanti-D*0  rho+              SVV_HELAMP 0.283 1.13 0.932 0.0 0.228 0.95;
+0.0005   Myanti-D*0  pi0  pi+                  PHSP;
+
+0.01597  Myanti-D*0 a_1+               SVV_HELAMP 0.458 0.0 0.866 0.0 0.200 0.0;
+0.0005   Myanti-D*0 rho0 pi+                   PHSP;
+0.0005   Myanti-D*0 pi-  pi+  pi+              PHSP;
+
+0.0005   Myanti-D*0 rho+  pi0                  PHSP;
+0.0005   Myanti-D*0 pi+   pi0  pi0             PHSP;
+
+0.00033333  Myanti-D_10 pi+                       SVS;
+0.00025     Myanti-D'_10 pi+                      SVS;
+0.0000824   Myanti-D_2*0 pi+                      STS;
+0.0002333   Myanti-D_10 rho+                      PHSP;
+0.0007333   Myanti-D'_10 rho+		     PHSP;
+0.0003914   Myanti-D_2*0 rho+ 		     PHSP;
+
+0.00036  Myanti-D*0 K+			SVS;
+0.00077  Myanti-D*0 K*+			SVV_HELAMP 0.283 0.0 0.932 0.0 0.228 0.0;
+
+0.0016 Myanti-D*0 D_s0*+  SVS;
+0.0098 Myanti-D*0 D_s1+ SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;
+Enddecay
+CDecay B-sig
+
+Decay MyD*0
+0.6190  MyD0 pi0     VSS;
+0.3810  MyD0 gamma   VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+
+Decay MyD0
+0.0383 K- pi+    PHSP;
+0.0015 pi+ pi-   PHSP;
+0.00015 pi- K+   PHSP;
+0.0043  K+ K-    PHSP;
+Enddecay
+CDecay Myanti-D0
+
+Decay MyD_10
+1.000 MyD*0   pi0       VVS_PWAVE 0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+
+Decay Myanti-D_10
+1.000 Myanti-D*0   pi0       VVS_PWAVE 0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+
+Decay MyD'_10
+1.000 MyD*0 pi0   VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+
+Decay Myanti-D'_10
+1.000 Myanti-D*0 pi0   VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+
+Decay MyD_2*0
+1.000 MyD*0 pi0    TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+
+Decay Myanti-D_2*0
+1.000 Myanti-D*0 pi0    TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+
+End

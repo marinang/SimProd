@@ -1,0 +1,33 @@
+# EventType: 13106011
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) (phi(1020) -> K+ K-) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bs_phiphiphi,KK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+
+# CPUTime: < 1 min
+#
+# Documentation: 
+#    Bs decay to 3phi, and phi decays to K+ K-, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Andrii Usachov
+# Email: andrii.usachov@cern.ch
+# Date: 20140912
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi  
+#
+Decay B_s0sig
+  1.0000       MyPhi     MyPhi     MyPhi   PHSP; 
+Enddecay
+CDecay anti-B_s0sig
+ #
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End

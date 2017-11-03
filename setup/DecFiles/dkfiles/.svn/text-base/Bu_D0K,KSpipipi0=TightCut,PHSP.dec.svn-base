@@ -1,0 +1,66 @@
+# EventType: 12165531
+#
+# Descriptor: [B+ -> (D~0 -> (KS0 -> pi+ pi-) pi+ pi- pi0) K+]cc
+#
+# NickName: Bu_D0K,KSpipipi0=TightCut,PHSP
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[B+ -> ^(D~0 => ^(KS0 => ^pi+ ^pi-) ^pi+ ^pi- ^pi0) ^K+]CC'
+# tightCut.Preambulo += [
+#     'GVZ = LoKi.GenVertices.PositionZ() ' ,
+#     'from GaudiKernel.SystemOfUnits import millimeter',
+#     'inAcc        = (in_range (0.005, GTHETA, 0.400))',
+#     'goodB        = (GP > 55000 * MeV) & (GPT > 5000 * MeV) & (GTIME > 0.135 * millimeter)',
+#     'goodD        = (GP > 25000 * MeV) & (GPT > 2500 * MeV)',
+#     'goodKS       = (GFAEVX(abs(GVZ), 0) < 2500.0 * millimeter)',
+#     'goodDDaugPi  = (GNINTREE (("pi+" == GABSID) & (GP > 2000 * MeV) & inAcc, 4) > 3.5)',
+#     'goodKsDaugPi = (GNINTREE (("pi+" == GABSID) & (GP > 2000 * MeV) & inAcc, 4) > 1.5)',
+#     'goodBachK    = (GNINTREE (("K+"  == GABSID) & (GP > 5000 * MeV) & (GPT > 500 * MeV) & inAcc, 1) > 0.5)',
+#     'goodPi0      = (GPT > 400 * MeV) & inAcc'
+# ]
+# tightCut.Cuts      =    {
+#     '[B+]cc'         : 'goodB  & goodBachK',
+#     '[D0]cc'         : 'goodD  & goodDDaugPi',
+#     '[KS0]cc'        : 'goodKS & goodKsDaugPi',
+#     '[pi+]cc'        : 'inAcc',
+#     '[pi0]cc'        : 'goodPi0'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: B decays to D0K, D0 decays to KSpipipi0 without resonance, KS decays to pi+pi-, decay products in acceptance and tight cuts
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Chris Thomas
+# Email: c.thomas2@physics.ox.ac.uk
+# Date: 20140124
+#
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+Alias myK_S0 K_S0
+ChargeConj MyD0 Myanti-D0
+ChargeConj myK_S0 myK_S0
+##
+Decay B+sig
+1.000     Myanti-D0  K+  PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+1.000     myK_S0 pi+  pi-  pi0  PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay myK_S0
+1.000     pi+  pi-  PHSP;
+Enddecay
+#
+End

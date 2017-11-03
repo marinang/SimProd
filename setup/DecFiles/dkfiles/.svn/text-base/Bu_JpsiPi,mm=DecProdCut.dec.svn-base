@@ -1,0 +1,31 @@
+# EventType: 12143010
+#
+# Descriptor: [B+ -> Pi+ (J/psi(1S) -> mu+ mu- {,gamma} {,gamma})]cc
+#
+# NickName: Bu_JpsiPi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decay to Jpsi(to mu+ mu- {,gamma} {,gamma}), pi+ with SVS model, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Ulrich Kerzel, Michal Kreps
+# Email: M.Kreps@warwick.ac.uk
+# Date: 20110909
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Decay B+sig
+  1.000     MyJ/psi  pi+                   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+End
+

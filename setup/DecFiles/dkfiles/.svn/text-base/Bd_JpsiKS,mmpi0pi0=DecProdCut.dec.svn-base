@@ -1,0 +1,39 @@
+# EventType: 11142410
+#
+# Descriptor: [ B0 -> (J/psi(1S) -> mu+ mu-) (K_S0 -> pi0 pi0) ]cc
+#
+# NickName: Bd_JpsiKS,mmpi0pi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: KS forced to pi0 pi0
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Sam Cunliffe
+# Email: sam.cunliffe@cern.ch
+# Date: 20140319
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Alias      MyKs     K_S0
+ChargeConj MyKs     MyKs
+#
+Decay B0sig
+  1.000    MyJ/psi  MyKs     SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKs
+  1.000         pi0       pi0            PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+#
+End
+#

@@ -1,0 +1,32 @@
+# EventType: 42923001
+#
+# Descriptor: pp -> ([W+ -> l nu_l]cc) (Z0 -> l+ l-) ... 
+#
+# NickName: WZ_lnul,ll
+#
+# Cuts: None
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "TwoLepFromWandZ" )
+# tracksInAcc = Generation().TwoLepFromWandZ
+# tracksInAcc.Code = " ( ( count ( isGoodWLepton ) > 0 ) & ( count ( isGoodZLepton ) > 0 ) ) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodWLepton  = ( ( 'W+' == GABSID ) & GINTREE( GLEPTON & GCHARGED & ( GTHETA < 400.0*mrad ) & ( GPT > 15*GeV ) ) )"
+#    , "isGoodZLepton  = ( ( 'Z0' == GABSID ) & GINTREE( GLEPTON & GCHARGED & ( GTHETA < 400.0*mrad ) & ( GPT > 15*GeV ) ) )"
+#    ]
+# EndInsertPythonCode
+#
+# ExtraOptions: WZlnulll
+#
+# Documentation: One lepton from W decay and one from Z decay (no taus) with pT > 15 GeV 
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Ben McSkelly (Liverpool)
+# Email: bmcskell@cern.ch
+# Date: 20130509
+End
+#

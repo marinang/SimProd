@@ -1,0 +1,41 @@
+# EventType: 27163031
+#
+# Descriptor: {[ D_s2*+ -> (D0 -> K- pi+) K+ ]cc} 
+#
+# NickName: Ds2st_m=3000MeV_D0K,D02KPi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "D*_s2+ 174 435 1.0 3.0 2.6328475962e-24 D_s2*+ 435 0.641483","D*_s2- 178 -435 -1.0 3.0 2.6328475962e-24 D_s2*- -435 0.641483"
+#
+# Documentation: Spectroscopy Dsj and Dj
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Diego Milanes
+# Email: Diego.Milanes@<nospam>ba.infn.it
+# Date: 20110330
+#
+#Alias D_s2*+sig    D_s2*+
+#Alias D_s2*-sig    D_s2*-
+#ChargeConj D_s2*+sig   D_s2*-sig
+#
+Alias MyD0     D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0    MyantiD0
+#
+#
+#
+#
+Decay D_s2*+sig
+  1.000   MyD0 K+          PHSP;
+Enddecay
+CDecay D_s2*-sig
+#
+Decay MyD0
+  1.000   K-  pi+   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End

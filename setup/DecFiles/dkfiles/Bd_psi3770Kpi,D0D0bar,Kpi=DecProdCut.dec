@@ -1,0 +1,46 @@
+# EventType: 11196070
+#
+# Descriptor: [B0 -> (psi(3770) ->  (D0 -> K- pi+) (D0bar -> K+ pi-) ) K+ pi-]cc
+#
+# NickName: Bd_psi3770Kpi,D0D0bar,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 decays to psi(3770) K+ pi- PHSP. psi(3770) forced to decay to D0 D0bar, with D0 to K- pi+. Daughters in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Michele Veltri
+# Email: michele.veltri@uniurb.it
+# Date: 20141027
+#
+#
+Alias MyD0                 D0
+Alias Myanti-D0       anti-D0
+ChargeConj MyD0     Myanti-D0
+#
+Alias Mypsi3770      psi(3770)
+ChargeConj Mypsi3770 Mypsi3770
+
+#
+Decay MyD0
+  1.000         K-         pi+                  PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+
+Decay Mypsi3770
+ 1.000         MyD0        Myanti-D0            VSS;
+Enddecay
+#
+
+Decay B0sig
+  1.00000      Mypsi3770    K+      pi-         PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#
+

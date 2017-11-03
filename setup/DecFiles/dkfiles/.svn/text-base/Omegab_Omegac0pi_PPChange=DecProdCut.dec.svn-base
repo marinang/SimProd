@@ -1,0 +1,50 @@
+# EventType: 16265034
+#
+# Descriptor: [Xi_b- -> (Omega_c0 -> p K- K- pi+) pi-]cc
+#
+# NickName: Omegab_Omegac0pi_PPChange=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "Xi_b- 122 5132 -1.0 6.050 1.5e-012 Xi_b- 5132 0.000000e+000", "Xi_b~+ 123 -5132 1.0 6.050 1.5e-012 anti-Xi_b+ -5132 0.000000e+000"
+#
+# Documentation: Several intermediate resonances included 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: S. Blusk
+# Email:  sblusk@syr.edu
+# Date: 20150612
+#
+Alias MyOmega_c0 Omega_c0
+Alias Myanti-Omega_c0 anti-Omega_c0
+ChargeConj MyOmega_c0 Myanti-Omega_c0
+#
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+#
+Decay Xi_b-sig
+  1.0    MyOmega_c0  pi-                  PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyOmega_c0
+  0.5   p+  K-     Myanti-K*0                           PHSP;
+  0.5   p+   K-  K-  pi+                                 PHSP;
+Enddecay
+CDecay Myanti-Omega_c0
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+
+#
+
+End
+

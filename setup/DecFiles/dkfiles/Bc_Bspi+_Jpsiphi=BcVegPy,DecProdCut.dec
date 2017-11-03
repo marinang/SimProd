@@ -1,0 +1,55 @@
+# EventType: 14135000
+#
+# Descriptor: [B_c+ -> (B_s0 -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) (phi(1020) -> K+ K-)) pi+ {,gamma}]cc
+#
+# NickName: Bc_Bspi+_Jpsiphi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decays, uses BcVegPy generator, includes radiative mode
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Mark Whitehead
+# Email: mwhitehe@cern.ch
+# Date: 20111011
+#
+Define Hp 0.49
+Define Hz 0.775
+Define Hm 0.4
+Define pHp 2.50
+Define pHz 0.0
+Define pHm -0.17
+#
+Alias      MyB_s0   B_s0
+Alias      Myanti-B_s0    anti-B_s0
+ChargeConj MyB_s0   Myanti-B_s0
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+Alias      Myphi    phi
+ChargeConj Myphi    Myphi
+#
+Decay B_c+sig
+  1.000         MyB_s0 pi+          PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyB_s0
+  1.000         MyJ/psi     Myphi        PVV_CPLH 0.02 1 Hp pHp Hz pHz Hm pHm;
+Enddecay
+Decay Myanti-B_s0
+  1.000         MyJ/psi     Myphi        PVV_CPLH 0.02 1 Hp pHp Hz pHz Hm pHm;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+#
+Decay Myphi
+  1.000	        K+        K-             VSS;
+Enddecay
+#
+End

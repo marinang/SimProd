@@ -1,0 +1,33 @@
+# EventType: 12103006
+#
+# Descriptor: [B+ -> p+ (anti-Lambda(1520)0 -> p~- K+)]cc
+# NickName: Bu_pLambda1520=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda(1520)0 forced into p K, decay with generic phase space  
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: Adlene.Hicheur@cern.ch
+# Date:  20130213
+#
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+
+Decay B+sig
+  1.000 Myanti-Lambda(1520)0 p+ PHSP;
+Enddecay
+CDecay B-sig
+
+
+Decay Myanti-Lambda(1520)0  
+  1.000   anti-p-          K+        PHSP;              
+Enddecay
+CDecay MyLambda(1520)0
+
+End
+#

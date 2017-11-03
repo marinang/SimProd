@@ -1,0 +1,34 @@
+# EventType: 41922001
+#
+# Descriptor: pp -> ([W+ -> l nu_l]) ([W- -> l nu_l]) ... 
+#
+# NickName: WW_lnul,lnul
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/TwoLepFromWs
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "TwoLepFromWs" )
+# tracksInAcc = Generation().TwoLepFromWs
+# tracksInAcc.Code = " ( ( count ( isGoodWPlusLepton ) > 0 ) & ( count ( isGoodWMinusLepton ) > 0 ) ) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodWPlusLepton  = ( ( 'W+' == GID ) & GINTREE( GLEPTON & GCHARGED & ( GTHETA < 400.0*mrad ) & ( GPT > 15*GeV ) ) )"
+#    , "isGoodWMinusLepton  = ( ( 'W-' == GID ) & GINTREE( GLEPTON & GCHARGED & ( GTHETA < 400.0*mrad ) & ( GPT > 15*GeV ) ) )"
+#    ]
+# EndInsertPythonCode
+#
+# ExtraOptions: WWlnullnul
+#
+# Documentation: 2 leptons (no taus) with pT > 15 GeV
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Ben McSkelly (Liverpool)
+# Email: bmcskell@cern.ch
+# Date: 20130509
+#
+End
+#

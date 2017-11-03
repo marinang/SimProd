@@ -1,0 +1,50 @@
+# EventType: 12197011
+# NickName: Bu_DstDstK=DecProdCut
+# Descriptor: [B+ -> D*(2010)+ D*(2010)- K+]cc
+#
+# Documentation: 
+#   Decay file for B+- -> D*+- D*-+ K+-
+# EndDocumentation
+#
+# Cuts: DaughtersInLHCb
+# 
+# Date:   20110913
+#
+# Responsible: Mike Williams
+# Email: michael.williams@imperial.ac.uk
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+Alias My_D+   D+
+Alias My_D-   D-
+Alias My_D*+  D*+
+Alias My_D*-  D*-
+
+ChargeConj My_anti-D0 My_D0
+ChargeConj My_D- My_D+
+ChargeConj My_D*- My_D*+
+
+Decay My_D0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay My_D-
+  1.0 K+ pi- pi- D_DALITZ;
+Enddecay
+CDecay My_D+
+
+Decay My_D*+
+  1.0 My_D0 pi+  PHSP;
+Enddecay
+CDecay My_D*-
+
+Decay B+sig
+  1.0 My_D*+ My_D*- K+ PHSP;
+Enddecay
+CDecay B-sig
+
+End

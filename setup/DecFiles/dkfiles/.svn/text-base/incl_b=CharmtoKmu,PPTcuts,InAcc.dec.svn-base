@@ -1,0 +1,36 @@
+# EventType: 10010032
+#
+# Descriptor: pp => [<Xb>]cc ...
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2Charm2KmuFilterPPTcuts
+
+#
+# CPUTime: 235 s (6.06 times the speed of a 2.8 GHz Xeon)
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2Charm2KmuFilterPPTcuts" )
+# SignalFilter = Generation().b2Charm2KmuFilterPPTcuts
+# SignalFilter.Code = " has(isB2Charm2KmuPPTcuts)"
+# SignalFilter.Preambulo += [
+#  "from GaudiKernel.SystemOfUnits import  GeV",
+#  "isB2Charm2KmuRaw = (GBEAUTY & (GDECTREE('[(Beauty & LongLived) -> ([Charm --> K+ mu- ...]CC)  ...]CC')))",
+#  "isnotmuonfromKL  = ~(GBEAUTY & GDECTREE('[(Beauty & LongLived) --> ([KL0 -> mu+...]CC) ...]CC'))",
+#  "mucuts = (GINTREE ( (('mu-' == GABSID ) & (GP > 5 * GeV) &  (GPT > 1 * GeV)) ) )",
+#  "Kcuts = (GINTREE ( ( ('K+' == GABSID ) & (GP > 7 * GeV) & (GPT > 0.3 * GeV)) ) )",
+#  "isB2Charm2KmuPPTcuts          = ( isB2Charm2KmuRaw  & isnotmuonfromKL & mucuts & Kcuts)"
+#    ]
+# EndInsertPythonCode
+#
+# NickName: incl_b=CharmtoKmu,PPTcuts,InAcc
+# Documentation: Inclusive high momentum Kmu events from b decays
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: hicheur@if.ufrj.br
+# Date: 20160224
+#
+End
+

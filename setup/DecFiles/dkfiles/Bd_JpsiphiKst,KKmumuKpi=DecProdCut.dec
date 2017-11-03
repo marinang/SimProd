@@ -1,0 +1,52 @@
+# EventType: 11146031
+#
+# Descriptor: [B0 -> (J/psi(1S) -> mu+ mu-)  (K*0 -> K+ pi-) (phi -> K+ K-)]cc
+#
+# NickName: Bd_JpsiphiKst,KKmumuKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation:  Bd decay to Jpsi(to mu+ mu-), phi(to K+ K-) Kst(K+ pi-) with K+,K-,mu,mu,K+,pi- in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch 
+# Tested: Yes
+# Responsible: Alessia Satta
+# Email: alessia.satta@cern.ch
+# Date: 20160514
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+Alias       MyPhi        phi
+ChargeConj  MyPhi        MyPhi
+
+Alias MyK*0  K*0
+Alias Myanti-K*0   anti-K*0
+ChargeConj  MyK*0  Myanti-K*0
+#
+#
+Decay B0sig
+  1.0   MyJ/psi   MyPhi   MyK*0      PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyJ/psi
+  1.0000   mu+  mu-                 VLL;
+Enddecay
+#
+Decay MyPhi
+  1.0000   K+   K-                  VSS;
+Enddecay
+#
+#
+Decay MyK*0
+  1.000 K+ pi-    VSS;
+Enddecay
+CDecay Myanti-K*0
+
+#
+#
+End

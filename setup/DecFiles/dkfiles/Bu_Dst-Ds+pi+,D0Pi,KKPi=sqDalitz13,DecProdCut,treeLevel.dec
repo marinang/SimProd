@@ -1,0 +1,50 @@
+# EventType: 12197096
+# NickName: Bu_Dst-Ds+pi+,D0Pi,KKPi=sqDalitz13,DecProdCut,treeLevel
+# Descriptor: [B+ -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) (D_s+ -> K+ K- pi+) pi+]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+- => D*+- D_s-+ pi+- with flat 1-3 square dalitz model for B- decay and resonant D_s- decay
+# EndDocumentation
+# CPUTime: < 1 min
+# 
+# Date:   20140829
+#
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+Alias My_D_s+   D_s+
+Alias My_D_s-   D_s-
+Alias My_D*+  D*+
+Alias My_D*-  D*-
+
+ChargeConj My_anti-D0 My_D0
+ChargeConj My_D_s- My_D_s+
+ChargeConj My_D*- My_D*+
+
+Decay My_D0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay My_D_s-
+  1.0 K+ K- pi- D_DALITZ;
+Enddecay
+CDecay My_D_s+
+
+Decay My_D*+
+  1.0 My_D0 pi+  PHSP;
+Enddecay
+CDecay My_D*-
+
+Decay B+sig
+  1.0 My_D*- pi+ My_D_s+ FLATSQDALITZ;
+Enddecay
+CDecay B-sig
+
+End

@@ -1,0 +1,78 @@
+# EventType: 15266020
+#
+# Descriptor: [Lb_b0 -> ((Lb_c(2593)+ -> (Lc+ -> p+ K- pi+)) pi+ pi-) pi-]cc
+#
+# NickName: Lb_Lc2593pi,pKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Lb -> Lc pi with Lc->p K pi, includes Lc(2593)+ intermediate excited state and K*0 resonance (->K pi); 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Justin Garofoli
+# Email: justing@physics.syr.edu
+# Date:   20111010
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias MyLambda_c(2593)+       Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)-  anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+  Myanti-Lambda_c(2593)-
+#
+Alias MySigma_c+       Sigma_c+
+Alias Myanti-Sigma_c-  anti-Sigma_c-
+ChargeConj MySigma_c+  Myanti-Sigma_c-
+#
+Alias MySigma_c0       Sigma_c0
+Alias Myanti-Sigma_c0  anti-Sigma_c0
+ChargeConj MySigma_c0  Myanti-Sigma_c0
+#
+Alias MySigma_c++       Sigma_c++
+Alias Myanti-Sigma_c--  anti-Sigma_c--
+ChargeConj MySigma_c++  Myanti-Sigma_c--
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Decay Lambda_b0sig
+  0.00630    MyLambda_c(2593)+  pi-     PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+# BR = 1
+Decay MyLambda_c+
+ 0.1924 Delta++ K-                                      PHSP;
+ 0.2394 p+      Myanti-K*0                              PHSP;
+ 0.5682 p+      K-      pi+                             PHSP;
+#  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+# BR = 1
+Decay MyLambda_c(2593)+
+  0.50000      MySigma_c++         pi-         PHSP;
+  0.50000      MySigma_c0          pi+         PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+Decay MySigma_c++
+  1.0000    MyLambda_c+  pi+                   PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MySigma_c0
+1.0000    MyLambda_c+  pi-                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+# 
+Decay MyK*0
+  0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End

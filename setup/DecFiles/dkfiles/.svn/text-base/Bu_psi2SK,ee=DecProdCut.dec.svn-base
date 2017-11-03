@@ -1,0 +1,32 @@
+# EventType: 12153011
+#
+# Descriptor: [B+ -> K+ (psi(2S) -> e+ e-)]cc
+#
+# NickName: Bu_psi2SK,ee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, DaughtersInLHCb
+# EndDocumentation
+#
+# CPUTime: <1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Luca Pescatore
+# Email: luca.pescatore@cern.ch
+# Date: 20150701
+#
+Alias      Mypsi(2S) psi(2S)
+ChargeConj Mypsi(2S) psi(2S)
+Decay B+sig
+  1.000    Mypsi(2S) K+      SVS;
+Enddecay
+CDecay B-sig
+#
+Decay Mypsi(2S)
+  1.000    e+ e-           PHOTOS VLL;
+Enddecay
+#
+End
+#

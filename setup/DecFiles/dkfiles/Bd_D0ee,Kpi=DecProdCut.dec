@@ -1,0 +1,38 @@
+# EventType: 11184000
+#
+# Descriptor: [B0 -> (D~0 -> K+ pi-) e- e+]cc
+#
+# NickName: Bd_D0ee,Kpi=DecProdCut
+#
+# Cuts:  DaughtersInLHCb
+#
+# Documentation: Decay file for B0 -> (D~0 -> K+pi-) e- e+  (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Alias      MyD0       D0
+Alias      Myanti-D0  anti-D0
+ChargeConj MyD0       Myanti-D0
+#
+Decay B0sig
+ 0.5     Myanti-D0   e-    e+    PHOTOS PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD0
+ 1.000      K-   pi+              PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End
+#

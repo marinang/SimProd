@@ -1,0 +1,29 @@
+# EventType: 25103050
+#
+# Descriptor: [Lambda_c+ -> p+ K- pi+]cc
+# NickName: LcpKpi3piFromBIncl=DecProdCut_generator_cuts
+
+# Cuts: LHCbAcceptance
+# Cuts: DaughtersInLHCbAndCutsForLc3pi
+# CutsOptions: LcPtCuts 1.500*GeV DaughtersPtMinCut 150*MeV DaughtersPtMaxCut 150*MeV DaughtersPMinCut 1.00*GeV
+# Documentation: Forces the Lc decay in generic b-bbar
+# Requires products to be in LHCb acceptance, some generation cuts and 3pi in the LHCb acceptance
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+#
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Guy Wormser, Victor Renaudin
+# Email: guy.wormser@cern.ch, victor.renaudin@cern.ch
+# Date: 20160105
+#
+
+Decay Lambda_c+sig
+  1.000 p+ K- pi+    PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+
+End

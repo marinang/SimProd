@@ -1,0 +1,61 @@
+# EventType: 11584021
+#
+# Descriptor: [B0 -> (D- -> (K*0 -> K+ pi-) e- anti-nu_e) e+ nu_e]cc
+# NickName: Bd_Denu,Kstenu=VisibleInAcceptance,HighVisMass
+# Cuts: LoKi::GenCutTool/HighVisMass
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool(LoKi__GenCutTool ,'HighVisMass')
+# #
+# tightCut = gen.SignalRepeatedHadronization.HighVisMass
+# tightCut.Decay   = '[^(B0 => ^(D- => ^(K*(892)0 => ^K+ ^pi-) ^e- ^nu_e~) ^e+ ^nu_e)]CC'
+# tightCut.Cuts    =    {
+#     '[K+]cc'     : "inAcc",
+#     '[pi-]cc'    : "inAcc",
+#     '[e+]cc'     : "inAcc",
+#     '[e-]cc'     : "inAcc",
+#     '[B0]cc'     : "visMass" }
+# tightCut.Preambulo += [
+#     "inAcc   = in_range ( 0.005 , GTHETA , 0.400 ) " ,
+#     "visMass  = ( ( GMASS ( 'e+' == GID , 'e-' == GID, 'K+' == GABSID, 'pi+' == GABSID ) ) > 4500 * MeV ) " ]
+# EndInsertPythonCode
+#
+# Documentation: D chain background for B0 -> K*ee,
+# selected to have a visible mass larger than 4.5 GeV
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Albert Puig
+# Email: albert.puig@cern.ch
+# Date: 20170224
+# CPUTime: 6 min 
+#
+Alias        MyD-              D-
+Alias        MyD+              D+
+ChargeConj   MyD-              MyD+
+#
+Alias        MyKst0            K*0
+Alias        Myanti-Kst0       anti-K*0
+ChargeConj   MyKst0            Myanti-Kst0
+#	
+Decay B0sig
+1.000        MyD- e+ nu_e             PHOTOS HQET2 1.185 1.081;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+1.000        MyKst0  e-  anti-nu_e    PHOTOS ISGW2;
+Enddecay
+CDecay MyD+
+#	
+Decay MyKst0
+1.000        K+ pi-                   VSS;
+Enddecay
+CDecay Myanti-Kst0
+#
+End
+#

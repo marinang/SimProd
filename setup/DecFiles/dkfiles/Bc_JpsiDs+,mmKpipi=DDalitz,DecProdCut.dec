@@ -1,0 +1,44 @@
+# EventType: 14175022
+# 
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu-) (D_s+ -> K+ pi- pi+ ) ]cc
+# 
+# NickName: Bc_JpsiDs+,mmKpipi=DDalitz,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Bc decay to J/psi (mu mu) Ds (K pi pi), with Dalitz decay model for D_s+ decay  
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jibo He
+# Email: Jibo.He@cern.ch
+# Date: 20140529
+#
+#
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi    MyJ/psi
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+ChargeConj MyD_s+     MyD_s-
+#
+Decay B_c+sig
+  1.000  MyJ/psi    MyD_s+   PHOTOS SVS  ;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000    mu+        mu-       PHOTOS VLL ;
+Enddecay
+#
+Decay MyD_s+
+  1.000        K+        pi-        pi+             D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End
+#

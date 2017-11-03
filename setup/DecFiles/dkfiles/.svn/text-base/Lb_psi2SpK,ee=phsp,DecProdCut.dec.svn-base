@@ -1,0 +1,34 @@
+# EventType: 15154011 
+#
+# Descriptor: [Lambda_b0 -> p+ K- (psi(2S) -> e+ e-)]cc
+#
+# NickName: Lb_psi2SpK,ee=phsp,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to three-body p+K-psi(2S) with psi(2S) to dielectrons.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi 
+# Email:  vitalii.lisovskyi@cern.ch
+# Date: 20160927
+#
+# CPUTime: < 1 min
+#
+Alias      Mypsi2S       psi(2S)
+ChargeConj Mypsi2S       Mypsi2S
+#
+Decay Lambda_b0sig
+  1.000    Mypsi2S  p+ K-               PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mypsi2S
+  1.000     e+  e-                    PHOTOS  VLL;
+Enddecay
+#
+End
+#

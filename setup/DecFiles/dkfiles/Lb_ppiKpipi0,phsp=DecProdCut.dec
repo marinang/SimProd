@@ -1,0 +1,26 @@
+# EventType: 15104421
+# 
+# Descriptor: [Lambda_b0 -> p+ pi- K- pi+ pi0]cc
+# 
+# NickName: Lb_ppiKpipi0,phsp=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb acceptance. 
+# EndDocumentation
+#
+# CPUTime: 1 min
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Tim Williams
+# Email: timothy.williams@cern.ch
+# Date: 20160523
+#
+#
+Decay Lambda_b0sig
+  1.000 p+ pi- K- pi+ pi0 PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

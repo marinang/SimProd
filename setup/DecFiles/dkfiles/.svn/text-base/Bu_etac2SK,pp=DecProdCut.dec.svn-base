@@ -1,0 +1,28 @@
+# EventType: 12133031
+# NickName: Bu_etac2SK,pp=DecProdCut
+# Descriptor: [B+ -> K+ (eta_c(2S) -> p+ p~-)]cc
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation:  B+-> K+- etac(2S) (-> p+ p~-)
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Paul Sail 
+# Email: Paul Sail <p.sail@physics.gla.ac.uk>
+# Date: 20111112
+Alias Myetac(2S) eta_c(2S)
+ChargeConj Myetac(2S) Myetac(2S)
+#
+Decay B+sig
+  1.000 Myetac(2S) K+ PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Myetac(2S)
+  1.000 p+ anti-p- PHSP;
+Enddecay
+#
+End
+#

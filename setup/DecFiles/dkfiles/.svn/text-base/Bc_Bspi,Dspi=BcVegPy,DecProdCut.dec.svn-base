@@ -1,0 +1,44 @@
+# EventType: 14165011
+#
+# Descriptor: [B_c+ -> [[B_s0]nos -> (D_s- => K+ K- pi-) pi+]cc, pi+]cc
+#
+# NickName: Bc_Bspi,Dspi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to Bs and pi with phase space model, using BcVegPy, with BcDaughtersInLHCb.  
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Zhenwei Yang
+# Email: yangzhw@tsinghua.edu.cn
+# Date: 20110824
+
+Alias      MyBs       B_s0
+Alias      Myanti-Bs  anti-B_s0
+ChargeConj Myanti-Bs  MyBs
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+
+#
+Decay B_c+sig
+  1.000     MyBs   pi+             PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyBs
+  1.000     MyD_s-     pi+      PHSP;
+Enddecay 
+CDecay Myanti-Bs
+#
+Decay MyD_s-
+  1.000     K+    K-    pi-                PHSP;
+Enddecay
+CDecay MyD_s+
+#
+End
+#

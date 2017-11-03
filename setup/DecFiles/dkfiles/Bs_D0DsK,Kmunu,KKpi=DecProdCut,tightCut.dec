@@ -1,0 +1,66 @@
+# EventType: 13796000
+# 
+# Descriptor: [B_s0 -> K+ (D0 -> K- mu+ nu_mu) (D_s- -> (phi -> K+ K-) pi-)]cc
+# NickName: Bs_D0DsK,Kmunu,KKpi=DecProdCut,tightCut
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# InsertPythonCode:
+# # generator level cuts for Bs lifetime analysis
+# from Configurables import Generation, SignalRepeatedHadronization, DaughtersInLHCbAndWithDaughAndBCuts
+# from GaudiKernel.SystemOfUnits import MeV, GeV
+# #
+# Generation().addTool( SignalRepeatedHadronization )
+# Generation().SignalRepeatedHadronization.addTool( DaughtersInLHCbAndWithDaughAndBCuts ) 
+# Generation().SignalRepeatedHadronization.DaughtersInLHCbAndWithDaughAndBCuts.MinMuonPT = 1.0*GeV #1.2 GeV in stripping
+# Generation().SignalRepeatedHadronization.DaughtersInLHCbAndWithDaughAndBCuts.MinMuonP = 2.7*GeV # 3.0 GeV in stripping
+#
+# EndInsertPythonCode
+#
+# Documentation: Decay File for B_s0 -> D0 D_s- K+ with D0 -> KmunuX and Ds -> KKpi, D0 and muon in LHCb acceptance.
+# Tight momentum cuts are applied to muon
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Brice Maurin
+# Email: brice.maurin@cern.ch
+# Date: 20160121
+#
+Alias My_D0 D0
+Alias My_anti-D0 anti-D0
+ChargeConj My_D0 My_anti-D0
+#
+Alias My_D_s+ D_s+
+Alias My_D_s- D_s-
+ChargeConj My_D_s+ My_D_s- 
+#
+Alias MyPhi phi
+ChargeConj MyPhi MyPhi
+#
+Decay My_D0
+  #1.0 K- mu+ nu_mu PHOTOS ISGW2;
+  0.019200000 K*-     mu+     nu_mu                           PHOTOS  ISGW2; 
+  0.033300000 K-      mu+     nu_mu                           PHOTOS  ISGW2;  
+  0.002380000 pi-     mu+     nu_mu                           PHOTOS  ISGW2; 
+  0.001770000 rho-    mu+     nu_mu                           PHOTOS  ISGW2; 
+Enddecay
+CDecay My_anti-D0
+
+Decay My_D_s-
+  1.0 MyPhi pi- SVS;
+Enddecay
+CDecay My_D_s+
+
+Decay MyPhi
+  1.0 K+ K- VSS;
+Enddecay
+  
+Decay B_s0sig
+  1.0 My_D0 My_D_s- K+ PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+#

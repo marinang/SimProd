@@ -1,0 +1,41 @@
+# EventType: 11164203
+#
+# Descriptor: {[[B0]nos -> (D*(2007)~0 -> (D~0 -> K+ pi-) gamma ) (rho(770)0 -> pi+ pi-) ]cc, [[B0]os -> (D*(2007)0 -> (D0 -> K- pi+) gamma ) (rho(770)0 -> pi- pi+) ]cc} 
+#
+# NickName: Bd_Dst0rho0,D0gamma,Kpi=DecProdCut,HELAMP100
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D0 forced to K+ pi-, Dst0 forced to D0gamma, HELAMP 100
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Edmund Smith
+# Email: edmund.robert.smith@cern.ch
+# Date: 20121010
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+#
+Decay B0sig
+1.000      Myanti-D*0         rho0                SVV_HELAMP  1.0 0.0 0.0 0.0 0.0 0.0; 
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*0
+1.000    MyD0  gamma                       VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD0
+  1.000        K-        pi+                    PHSP;
+Enddecay
+CDecay Myanti-D0
+# 
+End
+#

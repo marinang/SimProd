@@ -1,0 +1,41 @@
+# EventType: 14145050
+#
+# Descriptor: [B_c+ -> (B+ -> (J/psi -> mu+ mu-) K+ ) pi+ pi- ]cc
+#
+# NickName: Bc_Bupipi,JpsiK=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decays, uses BcVegPy generator
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: T. Hadavizadeh
+# Email: tom.hadavizadeh@physics.ox.ac.uk
+# Date: 20150709
+#
+Alias       MyB+   B+
+Alias       MyB-   B-
+ChargeConj  MyB+   MyB-
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+#
+Decay B_c+sig
+  1.000         MyB+ pi- pi+   PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyB+
+  1.000     MyJ/psi   K+      SVS;
+Enddecay
+CDecay MyB-
+#
+Decay MyJ/psi
+  1.000     mu+       mu-     PHOTOS VLL;
+Enddecay
+#
+End

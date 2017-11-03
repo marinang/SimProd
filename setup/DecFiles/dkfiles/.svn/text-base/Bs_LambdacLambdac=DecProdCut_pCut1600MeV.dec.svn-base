@@ -1,0 +1,46 @@
+# EventType: 13296041
+#
+# Descriptor: [B_s0 -> (Lambda_c+ -> p+ K+ pi-) (Lambda_c~- -> p~- K- pi+)]cc
+#
+# NickName: Bs_LambdacLambdac=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: B_s -> Lambda_c+ Lambda_c~-, Lambda_c+ -> p+K+Pi- with intermediate states
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mike Williams
+# Email: mwill@mit.edu
+# Date: 20130611
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+
+Decay B_s0sig
+  1.000    MyLambda_c+        Myanti-Lambda_c-         PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+Decay MyLambda_c+
+ 0.1924 Delta++ K-                                      PHSP;
+ 0.2394 p+      Myanti-K*0                              PHSP;
+ 0.5682 p+      K-      pi+                             PHSP;
+#  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+Decay MyK*0
+  0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+End
+#
+

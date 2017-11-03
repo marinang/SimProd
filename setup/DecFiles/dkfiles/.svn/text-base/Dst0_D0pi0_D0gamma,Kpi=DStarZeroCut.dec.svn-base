@@ -1,0 +1,39 @@
+# EventType: 27462412
+#
+# Descriptor: [D*(2007)0 -> (D0 -> {K- pi+}) (pi0,gamma)]cc
+#
+# NickName: Dst0_D0pi0_D0gamma,Kpi=DStarZeroCut
+#
+# Cuts: LoKi::GenCutTool/DStarZeroCut
+#
+# ExtraOptions: DStarZeroCut
+#
+# Documentation: Decay file for (D*(2007)~0 -> (D~0 -> K+ pi-) {pi0, gamma}),
+# with extra cuts LoKi::GenCutTool/DStarZeroCut which are tight cuts 
+# that all decay products should be in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Zhenwei Yang
+# Email: yangzhw@tsinghua.edu.cn
+# Date: 20110917
+#
+
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+ChargeConj MyD0 Myanti-D0
+ #
+Decay D*0sig
+ 0.6190 MyD0  pi0    VSS;
+ 0.3810    MyD0  gamma                       VSP_PWAVE;	
+Enddecay
+CDecay anti-D*0sig
+#
+Decay MyD0
+ 1.000     K-  pi+        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End
+

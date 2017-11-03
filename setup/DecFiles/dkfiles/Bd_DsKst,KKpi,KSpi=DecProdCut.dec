@@ -1,0 +1,53 @@
+# EventType: 11166151
+#
+# Descriptor: {[[B0]nos -> (D_s- => K+ K- pi-) (K*(892)+-> (K0S->pi+ pi-) pi+)]cc, [[B0]os -> (D_s+ => K- K+ pi+)  (K*(892)- -> (K0S->pi+ pi-) pi-)]cc}
+#
+# NickName: Bd_DsKst,KKpi,KSpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# B0 -> D_s- (KKpi) K*+ (K0s pi+) with Dalitz decay model for the D_s- decay.
+# Daughters in LHCb.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@{nospam}cern.ch
+# Date: 20121111
+# 
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+
+Alias      MyK*+     K*+
+Alias      MyK*-     K*-
+ChargeConj MyK*+     MyK*-
+
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+
+#
+Decay B0sig
+  1.000     MyK*+    MyD_s-           SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s-
+ 1.000        K-        K+        pi-             D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+Decay MyK*+
+ 1.000        MyK0s    pi+              VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK0s
+  1.000    pi+          pi-           PHSP;
+Enddecay
+#
+End
+#

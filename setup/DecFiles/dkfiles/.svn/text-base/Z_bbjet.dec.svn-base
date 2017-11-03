@@ -1,0 +1,33 @@
+# EventType: 42900011
+#
+# Descriptor: pp -> (Z0 -> b b~) + jet ... 
+#
+# NickName: Z_bbjet
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/Zwith2binAcc
+# ExtraOptions: Zbbjet
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "Zwith2binAcc" )
+# tracksInAcc = Generation().Zwith2binAcc
+# tracksInAcc.Code = "count ( isGoodBFromZ ) > 1"
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodB = ( ( 'b' == GABSID ) & ( GTHETA < 400.0*mrad ) )"
+#    , "isFromZ  = ( 1 == GNINTREE( 'Z0' == GABSID , 0 ) )"
+#    , "isGoodBFromZ = ( isGoodB & isFromZ )" ]
+# EndInsertPythonCode
+#
+# Documentation: 2 b's in acceptancse and a jet
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Lorenzo Sestini
+# Email: lorenzo.sestini@cern.ch
+# Date: 20160617
+#
+End
+#

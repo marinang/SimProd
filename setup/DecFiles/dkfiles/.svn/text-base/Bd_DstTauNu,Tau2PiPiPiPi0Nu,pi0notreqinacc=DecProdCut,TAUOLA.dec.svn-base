@@ -1,0 +1,55 @@
+# EventType: 11566422
+#
+# Descriptor: [B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (tau+ -> pi+ pi+ pi- pi0 anti-nu_tau) nu_tau]cc
+#
+# NickName: Bd_DstTauNu,Tau2PiPiPiPi0Nu,pi0notreqinacc=DecProdCut,TAUOLA
+#
+# Cuts: DaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# Documentation: Bd to D* tau nu, with D* to pi D0 and D0 to Kpi final state. tau forced to 3pi pi0 nu final state. TAUOLA used for the tau->3pipi0 decay
+#the pi0 is not forced into the acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible:  Guy Wormser
+# Email: guy.wormser@cern.ch
+# Date: 20150930
+#
+
+Alias             MyD0        D0
+Alias             anti-MyD0   anti-D0
+ChargeConj        MyD0        anti-MyD0
+
+Alias         MyD*+   D*+
+Alias         MyD*- D*-
+ChargeConj    MyD*+ MyD*-
+
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau- MyTau+
+
+Decay B0sig
+  1.000       MyD*-       MyTau+        nu_tau             ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*+
+  1.000     MyD0      pi+                 VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.0000      K-     pi+     PHSP;
+Enddecay
+CDecay anti-MyD0
+#    
+Decay MyTau-
+  1.000     pi-     pi-      pi+     pi0   nu_tau                PHSP;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

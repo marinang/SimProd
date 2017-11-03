@@ -1,0 +1,40 @@
+# EventType: 12103480
+# NickName: Bu_Kst1680Phi,KPi0KK=DecProdCut
+# Descriptor: [ B+ -> (K''*+ -> K+ pi0) (phi -> K+ K-)]cc
+#
+# Documentation: K*(1680)+ forced into K+ pi0, Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# Cuts: DaughtersInLHCb
+#
+# 
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1min
+# Responsible: Zhirui Xu 
+# Email: zhirui.xu@cern.ch
+# Date: 20160205
+#
+
+Alias      MyK''*-     K''*-
+Alias      MyK''*+     K''*+
+ChargeConj MyK''*+     MyK''*-
+Alias      Myphi     phi
+ChargeConj Myphi     Myphi
+#
+Decay B+sig
+  1.000   Myphi     MyK''*+       SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay Myphi
+  1.000  K+      K-          VSS;
+Enddecay
+#
+Decay MyK''*+                            
+  1.000  K+ pi0             VSS;
+Enddecay
+CDecay MyK''*-
+#
+End
+#

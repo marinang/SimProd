@@ -1,0 +1,41 @@
+# EventType: 11102211
+#
+# Descriptor: [B0 -> (K*(892)0 -> K+ pi-) pi0 gamma]cc
+#
+# NickName: Bd_KstPi0gamma,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  K* forced to decay into K+ pi- , pi0 forced to decay into gamma gamma, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marius Orlandea
+# Email: Marius.Orlandea@cern.ch
+# Date: 20120220
+#
+#
+Alias      MyKst   K*0
+Alias      Myanti-Kst anti-K*0
+ChargeConj MyKst Myanti-Kst
+Alias      Mypi0   pi0
+ChargeConj Mypi0   Mypi0
+#
+Decay B0sig
+1.000      MyKst   pi0  gamma     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKst
+1.000        K+        pi-         VSS;
+Enddecay
+CDecay Myanti-Kst
+#
+Decay Mypi0
+1.000        gamma       gamma     PHSP;
+Enddecay
+#
+End
+
+

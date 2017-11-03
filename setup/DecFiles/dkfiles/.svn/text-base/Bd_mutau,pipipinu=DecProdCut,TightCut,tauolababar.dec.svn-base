@@ -1,0 +1,46 @@
+# EventType: 11110004
+#
+# Descriptor: {[B0 -> (tau- -> pi- pi- pi+ nu_tau) mu+]cc, [B_s0 -> (tau+ -> pi- pi+ pi+  anti-nu_tau ) mu-]cc}
+#
+# NickName: Bd_mutau,pipipinu=DecProdCut,TightCut,tauolababar
+#
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+
+#
+# Documentation: Bd decay to a muon and a tau with a phasespace model.
+# The tau decays in the 3-prong charged pion mode using the Tauola BaBar model.
+# All final-state products in the acceptance.
+# Same as 11514010, but with different tau decay model
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Kristof De Bruyn
+# Email: debruyn@cppm.in2p3.fr
+# Date: 20161025
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         MyTau+   tau+
+Alias         MyTau-   tau-
+ChargeConj    MyTau+   MyTau-
+#
+Decay B0sig
+  0.5000      MyTau-   mu+       PHSP;
+  0.5000      MyTau+   mu-       PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyTau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay MyTau+
+#
+End

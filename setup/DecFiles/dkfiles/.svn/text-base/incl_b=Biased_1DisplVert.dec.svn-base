@@ -1,0 +1,20 @@
+# EventType: 10000021
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b=Biased_1DisplVert
+#
+# Cuts: BiasedBB
+#
+# CutsOptions: RadiusMin 0.4 NumberOfBMin 1 EtaMax 5.0 EtaMin 1.5 PtMin 2. VMin 0.0 CTauMin 0 MinBDeltaPhi 0 MinChargedDaug 4
+#
+# Documentation: bbbar emriched with 1 displaced vertex in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Victor Coco
+# Email: stephane.tourneur@epfl.ch
+# Date: 20111114
+#
+End

@@ -1,0 +1,47 @@
+# EventType: 12105100
+# NickName: Bu_Kst+Kst0,Kspi+,Kpi=DecProdCut
+# Descriptor: [B+-> (K*(892)~0 -> K- pi+) (K*(892)+ -> (KS0 -> pi+ pi-) pi+] cc
+#
+# Documentation: K*+ forced into Ks pi+ (Ks forced into pi+ pi-), K*0 forced into Kpi, Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+#
+# Cuts: DaughtersInLHCb
+#
+# Responsible:  Daniel Johnson
+# Email: d.johnson1@physics.ox.ac.uk
+#
+# Tested: Yes
+# Date: 20130128
+#
+Alias      MyKst+    K*+
+Alias      MyKst-    K*-
+ChargeConj MyKst+    MyKst-
+Alias      MyKst0    K*0
+Alias      MyKstbar0 anti-K*0
+ChargeConj MyKst0    MyKstbar0
+Alias      MyKs      K_S0
+ChargeConj MyKs      MyKs
+#
+Decay B+sig
+  1.000   MyKstbar0  MyKst+                     PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyKst+
+  1.000  MyKs pi+                        VSS;
+Enddecay
+CDecay MyKst-
+#
+Decay MyKs
+  1.000   pi+     pi-         PHSP;
+Enddecay
+#
+Decay MyKstbar0
+  1.000  K-      pi+         PHSP;
+Enddecay
+CDecay MyKst0
+#
+End
+#

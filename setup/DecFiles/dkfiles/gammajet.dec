@@ -1,0 +1,23 @@
+# EventType: 42000100
+#
+# Descriptor: pp -> gamma + jet ... 
+#
+# NickName: gammajet
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonIsFromMother False NumberOfbquarks -1
+# 
+# ExtraOptions: gammajet
+#
+# Documentation: gamma + jet with a pT cut of 20 GeV
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Marek Sirendi
+# Email: marek.sirendi@cern.ch
+# Date: 20130808
+#
+End
+#

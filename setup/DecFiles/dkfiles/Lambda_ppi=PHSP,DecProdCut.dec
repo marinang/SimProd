@@ -1,0 +1,24 @@
+# EventType: 33102101
+#
+# Descriptor: [Lambda0 -> pi- p+]cc
+#
+# NickName: Lambda_ppi=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda0 decay to p+ pi- with phase space model, DaughtersInLHCb cut.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Stephen Ogilvy
+# Email: stephen.ogilvy@cern.ch
+# Date: 20130130
+#
+Decay Lambda0sig
+  1.000         p+        pi-        PHSP;
+Enddecay
+CDecay anti-Lambda0sig
+#
+End
+#

@@ -1,0 +1,43 @@
+# EventType: 13146105
+#
+# Descriptor: [B_s0 -> (eta_prime -> pi+ pi- gamma) (KS0 -> pi+ pi-) (J/psi(1S) -> mu+ mu-)]cc
+#
+# NickName: Bs_JpsiKseta,mm,pi+pi-g=DecProdCut,PHSP
+# Cuts: DaughtersInLHCb
+# Documentation: No CP violation, Ks forced into pi+ pi-, eta' decay via phase space model to include non-resonant pi+ pi- 
+# EndDocumentation
+#
+# Tested: Yes
+# Responsible: Matthew M Reid
+# Date: 20130701
+# PhysicsWG: B2Ch
+# Email: mreid@cern.ch
+#
+Alias		my_K_S0		K_S0
+ChargeConj	my_K_S0	    my_K_S0
+#
+Alias      	my_J/psi    J/psi
+ChargeConj 	my_J/psi    my_J/psi
+#
+Alias       my_Eta      eta
+ChargeConj  my_Eta      my_Eta
+#
+Decay B_s0sig
+  1.000        my_Eta    my_K_S0     my_J/psi          PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay my_Eta
+  1.000        pi+   pi-   gamma                        PHSP;
+Enddecay
+#
+Decay my_K_S0
+1.0	           pi+	        pi-			                PHSP;
+Enddecay
+#
+Decay my_J/psi
+1.0         	mu+         mu-          		        VLL;
+Enddecay
+#
+End
+

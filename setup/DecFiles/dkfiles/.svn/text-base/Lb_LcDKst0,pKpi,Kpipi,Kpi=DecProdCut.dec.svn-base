@@ -1,0 +1,51 @@
+# EventType: 15198000
+# 
+# Descriptor: [Lambda_b0 -> (K*0 -> K+ pi-) Lambda_c+ D-]cc
+# 
+# NickName: Lb_LcDKst0,pKpi,Kpipi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lc D- K*0 with Lc -> p K pi and D- -> K pi pi D_Dalitz, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Renato Quagliani
+# Email: renato.quagliani@student.unife.it
+# Date: 20140725
+#
+Alias My_Lambda_c+       Lambda_c+
+Alias My_anti-Lambda_c-  anti-Lambda_c-
+ChargeConj My_Lambda_c+  My_anti-Lambda_c-
+#
+Alias My_D-   D-
+Alias My_D+   D+
+ChargeConj My_D-  My_D+
+#
+Alias      My_K*0          K*0
+Alias      My_anti-K*0     anti-K*0
+ChargeConj My_K*0          My_anti-K*0
+#
+Decay Lambda_b0sig
+  1.0       My_Lambda_c+ My_D- My_K*0     PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay My_Lambda_c+
+  1.0  p+      K-      pi+   PHSP;
+Enddecay
+CDecay My_anti-Lambda_c-
+#
+Decay My_K*0
+  1.0  K+      pi-  VSS;
+Enddecay
+CDecay My_anti-K*0
+#
+Decay My_D-
+  1.0 K+  pi-  pi- D_DALITZ;
+Enddecay
+CDecay My_D+
+#
+End

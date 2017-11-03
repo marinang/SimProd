@@ -1,0 +1,91 @@
+# EventType: 18212263
+#
+# Descriptor: chi_b1(3P) -> (Upsilon -> mu+ mu-) gamma
+#
+# NickName: incl_chib13P,Upsilongamma,mumu=UpsInAcc
+#
+# Cuts: UpsilonDaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# ExtraOptions: Upsilon
+#
+# ParticleValue: "chi_b1(1P) 695 20553 0.0 10.516 0.000000e+000 chi_b1 20553 0.000000e+000"
+#
+# Documentation: Charged daughters of the Upsilons in the acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Sasha Mazurov
+# Email: alexander.mazurov@cern.ch
+# Date: 20121210
+#
+#
+Alias      myUpsilon        Upsilon
+ChargeConj myUpsilon        myUpsilon
+#
+Alias      myUpsilon(2S)     Upsilon(2S)
+ChargeConj myUpsilon(2S)     myUpsilon(2S)
+#
+Alias      myUpsilon(3S)     Upsilon(3S)
+ChargeConj myUpsilon(3S)     myUpsilon(3S)
+#
+Decay chi_b1sig
+0.333    myUpsilon gamma            VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+0.333    myUpsilon(2S) gamma            VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+0.333    myUpsilon(3S) gamma            VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay myUpsilon
+1.000     mu+    mu-                VLL;
+Enddecay
+#
+Decay myUpsilon(2S)
+1.000     mu+    mu-                VLL;
+Enddecay
+#
+Decay myUpsilon(3S)
+1.000     mu+    mu-             VLL;
+Enddecay
+#
+Decay  Upsilon(2S)
+0.506700000 e+      e-                                      PHOTOS  VLL; #[Reconstructed PDG2011]
+0.019300000 mu+     mu-                                     PHOTOS  VLL; #[Reconstructed PDG2011]
+0.020000000 tau+    tau-                                    VLL; #[Reconstructed PDG2011]
+0.181000000 Upsilon pi+     pi-                             PHSP; #[Reconstructed PDG2011]
+0.086000000 Upsilon pi0     pi0                             PHSP; #[Reconstructed PDG2011]
+0.038000000 gamma   chi_b0                                  HELAMP 1. 0. +1. 0.; #[Reconstructed PDG2011]
+#### SWITCH OFF
+0.000000000 gamma   chi_b1                                  HELAMP 1. 0. 1. 0. -1. 0. -1. 0.; #[Reconstructed PDG2011]
+0.071500000 gamma   chi_b2                                  HELAMP 2.4494897 0. 1.7320508 0. 1. 0.                                 1. 0. 1.7320508 0. 2.4494897 0.; #[Reconstructed PDG2011]
+#0.00500         d       anti-d  PYTHIA         32;
+#0.02000         u       anti-u  PYTHIA         32;
+#0.00500         s       anti-s  PYTHIA         32;
+#0.02000         c       anti-c  PYTHIA         32;
+#0.42160         g       g       g       PYTHIA         4;
+#0.01600         gamma           g       g       PYTHIA         4;
+0.000210000 Upsilon eta                                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000390000 gamma   eta_b                                   PHSP;  #[New mode added] #[Reconstructed PDG2011]
+Enddecay
+#
+Decay   Upsilon_1(1D)
+0.00140         Upsilon  pi+    pi-     PHSP;
+0.00070         Upsilon  pi0    pi0     PHSP;
+0.60200         gamma    chi_b0         HELAMP 1. 0. +1. 0.;
+#### SWITCH OFF
+0.00000         gamma    chi_b1         HELAMP 1. 0. 1. 0. -1. 0. -1. 0.;
+0.02600         gamma       chi_b2      HELAMP 2.4494897 0. 1.7320508 0. 1. 0.                                               1. 0. 1.7320508 0. 2.4494897 0.;
+#0.05190         g        g      g       PYTHIA 4;
+Enddecay
+#
+Decay   Upsilon_2(1D)
+0.00140         Upsilon  pi+     pi-    PHSP;
+0.00070         Upsilon  pi0     pi0    PHSP;
+0.20300         gamma  chi_b2       PHSP;
+#### SWITCH OFF
+0.00000         gamma chi_b1      PHSP;
+#0.00990         g        g      g       PYTHIA 4;
+Enddecay
+#
+End
+#

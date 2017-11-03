@@ -1,0 +1,61 @@
+# EventType: 13196041
+#
+# Descriptor: [B_s0 -> (D_s- -> K+ K- pi-) (D+ -> K- pi+ pi+)]cc
+#
+# NickName: Bs_DsD,Ds_KKpi,D_Kpipi=DDALITZ,DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation:  Bs0->Ds-D+ with Ds/D decaying by D_Dalitz
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Frank Meier
+# Email: frank.meier@tu-dortmund.de
+# Date: 20160317
+# CPUTime: < 1min
+#
+
+# -------------------------
+# DEFINE THE Ds+ AND Ds-
+# -------------------------
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+# -------------------------
+# THEN DEFINE THE D+ AND D-
+# -------------------------
+Alias      MyD+  D+
+Alias      MyD-  D-
+ChargeConj MyD+  MyD-
+
+# ----------------
+# DECAY OF THE Bs0
+# ----------------
+Decay B_s0sig
+  1.000     MyD_s-       MyD+          PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+# -----------------
+# DECAY OF THE Ds-
+# -----------------
+Decay MyD_s-
+  1.000     K+ K- pi-                  D_DALITZ;
+Enddecay
+CDecay MyD_s+
+
+# ---------------
+# DECAY OF THE D+
+# ---------------
+Decay MyD+
+  1.000     K- pi+ pi+                 D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+End
+

@@ -1,0 +1,33 @@
+# EventType: 10010002
+#
+# Descriptor: pp => [<Xb>]cc ...
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2Charm2KmuFilter
+
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2Charm2KmuFilter" )
+# SignalFilter = Generation().b2Charm2KmuFilter
+# SignalFilter.Code = " has(isB2Charm2Kmu)"
+# SignalFilter.Preambulo += [
+#  "isB2Charm2KmuRaw = (GBEAUTY & (GDECTREE('[(Beauty & LongLived) -> ([Charm --> K+ mu- ...]CC)  ...]CC')))",
+# "isnotmuonfromKL  = ~(GBEAUTY & GDECTREE('[(Beauty & LongLived) --> ([KL0 -> mu+...]CC) ...]CC'))",
+# "isB2Charm2Kmu          = ( isB2Charm2KmuRaw  & isnotmuonfromKL)"
+#    ]
+# EndInsertPythonCode
+#
+# NickName: incl_b=CharmtoKmu,InAcc
+# Documentation: Inclusive Kmu events from b decays
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: hicheur@if.ufrj.br
+# Date: 20150904
+#
+End
+

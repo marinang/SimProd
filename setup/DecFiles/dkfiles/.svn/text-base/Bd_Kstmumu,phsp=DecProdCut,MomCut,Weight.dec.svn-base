@@ -1,0 +1,36 @@
+# EventType: 11114006
+#
+# Descriptor: {[[B0]nos -> mu+ mu- (K*(892)0 -> K+ pi-)]cc, [[B0]os -> mu- mu+ (K*(892)~0 -> K- pi+)]cc}
+#
+# NickName: Bd_Kstmumu,phsp=DecProdCut,MomCut,Weight
+# 
+# Cuts: DaughtersInLHCbAndWithMinP
+# DecayEngine: EvtGenInPhSp
+#
+# Documentation:
+# This is the phace space decay for the Bd->Kst(->K+pi-)mu+mu- (for efficiency studies)  
+# Decay products in acceptance and minimum momentum cut.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Alex Shires 
+# Email: alexander.shires@cern.ch
+# Date:   20110919
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+Decay B0sig
+  1.000        MyK*0     mu+     mu-               PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+#

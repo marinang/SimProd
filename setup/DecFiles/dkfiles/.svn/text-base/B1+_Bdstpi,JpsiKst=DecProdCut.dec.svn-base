@@ -1,0 +1,96 @@
+# EventType: 17445241
+#
+# Descriptor: [B_1(L)+ -> ( B*0 -> (B0 -> (K*0 -> K+ pi-) (J/psi(1S) -> mu+ mu- )) gamma ) pi+]cc, [B_1(L)+ -> ( B*0 -> (B0 -> (D- -> K+ pi- pi+) pi+) gamma ) pi+]cc, [B_1(L)+ -> ( B*0 -> (B0 -> (D*- -> (D~0 -> {K- pi+, K- pi+ pi- pi+}) pi-)  pi+) gamma ) pi+]cc, [B_1(L)+ -> ( B*0 -> (B0 -> (D- -> K+ pi- pi+) pi+ pi- pi+) gamma ) pi+]cc, [B_1(L)+ -> ( B*0 -> (B0 -> (D*- -> (D~0 -> {K- pi+, K- pi+ pi- pi+}) pi-)  pi+ pi- pi+) gamma ) pi+]cc
+#
+# NickName: B1+_Bdstpi,JpsiKst=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B** Spectroscopy
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:     Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20111027
+#
+Define Hp 0.159
+Define Hz 0.775
+Define Hm 0.612
+Define pHp 1.563
+Define pHz 0.0
+Define pHm 2.712
+#
+Alias MyBstar B*0
+Alias MyantiBstar anti-B*0
+ChargeConj MyBstar  MyantiBstar
+Alias MyB0     B0
+Alias MyantiB0     anti-B0
+ChargeConj MyB0      MyantiB0
+Alias MyJpsi  J/psi
+Alias MyKstar0  K*0
+Alias MyantiKstar0  anti-K*0
+ChargeConj MyKstar0 MyantiKstar0
+Alias MyD+  D+
+Alias MyD-  D-
+ChargeConj MyD+ MyD-
+Alias MyDstar+  D*+
+Alias MyDstar-  D*-
+ChargeConj MyDstar+ MyDstar-
+Alias MyD0  D0
+Alias MyantiD0  anti-D0
+ChargeConj MyD0 MyantiD0
+#
+Decay B_1+sig
+1.000   MyBstar  pi+            VVS_PWAVE 0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay B_1-sig
+#
+Decay MyBstar
+1.0000    MyB0  gamma                       VSP_PWAVE;
+Enddecay
+CDecay MyantiBstar
+#
+Decay MyB0
+  0.2         MyJpsi   MyKstar0       SVV_HELAMP Hp pHp Hz pHz Hm pHm;
+  0.2         MyD- pi+                PHSP;
+  0.2         MyD- pi-  pi+  pi+      PHSP;
+  0.2         MyDstar-  pi+           SVS;
+  0.2         MyDstar-  pi+  pi-  pi+ PHSP;
+Enddecay
+#
+Decay MyantiB0
+  0.2         MyJpsi   MyantiKstar0   SVV_HELAMP Hm pHm Hz pHz Hp pHp;
+  0.2         MyD+ pi-                PHSP;
+  0.2         MyD+ pi+  pi-  pi-      PHSP;
+  0.2         MyDstar+  pi-           SVS;
+  0.2         MyDstar+  pi-  pi+  pi- PHSP;
+Enddecay
+#
+Decay MyJpsi
+1.000   mu+  mu-               PHOTOS   VLL;
+Enddecay
+#
+Decay MyantiKstar0
+1.000   K+  pi-                         VSS;
+Enddecay
+CDecay MyKstar0
+#
+Decay MyD-
+1.000   K+  pi-  pi-                    D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay MyDstar-
+1.000   MyantiD0 pi-                        VSS;
+Enddecay
+CDecay MyDstar+
+#
+Decay MyantiD0
+0.5    K+  pi-                         PHSP;
+0.5    K+  pi-  pi+   pi-              PHSP;
+Enddecay
+CDecay MyD0
+#
+End

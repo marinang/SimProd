@@ -1,0 +1,32 @@
+# EventType: 13134090
+# 
+# Descriptor: [B_s0 -> (J/psi(1S) -> p+ p~-) K+ K-]cc
+# 
+# NickName: Bs_JpsiKK,pp=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch 
+# Tested: Yes
+# Responsible: Roberta Cardinale
+# Email: roberta.cardinale@cern.ch
+# Date: 20150623
+# CPUTime: < 1 min
+#
+#
+Alias MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Decay B_s0sig
+  1.000  MyJ/psi  K+ K- PHSP; 
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.000 p+ anti-p- PHSP;
+Enddecay
+End
+#

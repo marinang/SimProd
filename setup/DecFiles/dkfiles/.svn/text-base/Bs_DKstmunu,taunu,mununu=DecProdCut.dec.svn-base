@@ -1,0 +1,55 @@
+# EventType: 13574030 
+# 
+# Descriptor: {[[B_s0]nos -> (D- ->  (tau- -> mu- nu_tau anti-nu_mu) anti-nu_tau) (K*(892)~0 -> K- pi+)  mu+ nu_mu ]cc, [[B_s0]os -> (D+ -> (tau+ -> mu+ anti_nu_tau nu_mu) nu_tau) (K*(892)0 -> K+ pi-) mu- anti-nu_mu ]cc}
+# 
+# NickName: Bs_DKstmunu,taunu,mununu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B_s0 to D- K*0 mu+ nu_mu, with D- forced to mu- anti-nu_mu, K*0 to K+ pi- and tau+ to mu+ anti-nu_tau nu_mu. Products in LHCb acceptance.
+# Background for B0 to K*0 tau mu.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Thibaud Humair
+# Email: thibaud.humair@cern.ch
+# Date: 20150528
+# CPUTime: <1min
+#
+
+Alias MyK*0   K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0  Myanti-K*0
+
+Alias      MyD-         D-
+Alias      MyD+         D+
+ChargeConj MyD-         MyD+
+
+Alias         Mytau+  tau+
+Alias         Mytau-  tau-
+ChargeConj    Mytau+  Mytau-
+
+
+Decay B_s0sig
+   1.000    MyD-     Myanti-K*0     mu+      nu_mu    PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD-
+   1.000    Mytau-      anti-nu_tau                   SLN;
+Enddecay
+CDecay MyD+
+#
+Decay Mytau-
+   1.000    mu-      anti-nu_mu     nu_tau            TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+Decay Myanti-K*0
+   1.000    K-    pi+                                 VSS;
+Enddecay
+CDecay MyK*0
+#
+End
+#

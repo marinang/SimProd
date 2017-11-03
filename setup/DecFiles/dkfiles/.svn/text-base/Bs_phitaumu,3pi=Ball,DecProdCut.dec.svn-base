@@ -1,0 +1,42 @@
+# EventType: 13716000
+#
+# Descriptor: {[B_s0 -> (phi(1020) -> K+ K-) (tau+ -> pi+ pi- pi+ anti-nu_tau) mu-]cc, [B_s0 -> (phi(1020) -> K+ K-) mu+ (tau- -> pi+ pi- pi- nu_tau)]cc}
+#
+# NickName: Bs_phitaumu,3pi=Ball,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phi forced to K+ K-, Ball FF model
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Francesco Polci
+# Email: francesco.polci@cern.ch
+# Date: 20141205
+#
+Alias         Mytau+  tau+
+Alias         Mytau-  tau-
+ChargeConj    Mytau+  Mytau-
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_s0sig
+  0.5000       MyPhi     Mytau+  mu-        BTOSLLBALL 6;
+  0.5000       MyPhi     mu+  Mytau-        BTOSLLBALL 6;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+Decay Mytau-
+  1.00      pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay Mytau+
+#
+End
+

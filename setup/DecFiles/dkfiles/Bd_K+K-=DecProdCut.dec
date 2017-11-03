@@ -1,0 +1,24 @@
+# EventType: 11102021
+#
+# Descriptor: [B0 -> K+ K-]cc
+#
+# NickName: Bd_K+K-=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: No CP violation, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Stefano Perazzini
+# Email: stefano.perazzini@cern.ch
+# Date: 20111112
+#
+Decay B0sig
+  1.000        K+       K-               PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+

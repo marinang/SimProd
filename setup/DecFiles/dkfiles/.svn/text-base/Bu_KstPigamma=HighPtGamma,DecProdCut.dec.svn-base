@@ -1,0 +1,77 @@
+# EventType: 12203203
+#
+# Descriptor: [B+ -> (K*(892)0 -> K+ pi-) pi+ gamma]cc
+#
+# NickName: Bu_KstPigamma=HighPtGamma,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation().BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma)"
+#    ]
+# EndInsertPythonCode
+#
+#  ParticleValue: "K*(1680)+  749 30323 1.0 1.800000 1.324652e-024 K''*+ 0 0.700000", "K*(1680)- 750 -30323 -1.0 1.800000 1.324652e-024 K''*- 0 0.700000"
+#
+# Documentation: SVP_HELAMP decay model, decay products in acceptance, K* forced to decay into K+ pi-, with gamma PT > 1.5
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email:  cedric.potterat@.cern.ch
+# Date: 20130809
+#
+
+Alias      MyKst   K*0
+Alias      Myanti-Kst anti-K*0
+ChargeConj MyKst Myanti-Kst
+
+
+Alias      MyRes1+  K'_1+
+Alias      MyRes1-  K'_1-
+ChargeConj MyRes1+  MyRes1-
+
+Alias      MyRes2+  K''*+
+Alias      MyRes2-  K''*-
+ChargeConj MyRes2+  MyRes2-
+
+
+#
+Decay B+sig
+0.740      MyRes1+  gamma   SVP_HELAMP 1.0 0.0 0.0 0.0;
+0.260      MyRes2+  gamma   SVP_HELAMP 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay B-sig
+#
+
+#
+Decay MyRes1+
+1.000      MyKst   pi+      VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyRes1-
+#
+
+#
+Decay MyRes2+
+1.000      MyKst   pi+      VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyRes2-
+#
+
+#
+Decay MyKst
+1.000        K+        pi-                 VSS;
+Enddecay
+#
+End
+

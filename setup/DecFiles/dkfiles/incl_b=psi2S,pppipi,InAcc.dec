@@ -1,0 +1,39 @@
+# EventType: 10934010
+#
+# Descriptor: psi(2S) -> p+ p~- pi+ pi- 
+#
+# NickName: incl_b=psi2S,pppipi,InAcc
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2psi2SFilter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2psi2SFilter" )
+# SignalFilter = Generation().b2psi2SFilter
+# SignalFilter.Code = " has(isB2cc)"
+# SignalFilter.Preambulo += [
+#  "isB2cc = ((GDECTREE('(Beauty & LongLived) --> psi(2S) ...')))"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: b-psi2S decay to p p pi pi, keep only particles in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jibo HE
+# Email: jibo.he@cern.ch
+# Date: 20160806
+#
+#
+Decay psi(2S)
+  1.000   p+   anti-p-  pi+   pi-     PHSP;
+Enddecay
+#
+End
+#
+

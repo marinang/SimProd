@@ -1,0 +1,60 @@
+# EventType: 17166051
+#
+# Descriptor: [B_s1(L)0 -> (B_s0 -> (D_s- -> K+ K- pi-) pi+ ) pi+ pi-]cc
+#
+# NickName: Bs1_Bspipi,Dspi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ExtraOptions: Bstst_Dstst
+# ParticleValue: "B_s1(L)0 211 10533 0.0 5.8294 0.658e-021 B_s10 10533 0.005", "B_s1(L)~0 215 -10533 0.0 5.8294 0.658e-021 anti-B_s10 -10533 0.005"
+#
+# Documentation: Bs Spectroscopy
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:     Marco Pappagallo
+# Email: marco.pappagallo@ba.infn.it
+# Date: 20110623
+#
+Alias MyBs     B_s0
+Alias MyantiBs anti-B_s0
+ChargeConj MyBs      MyantiBs
+Alias MyD_s- D_s-
+Alias MyD_s+ D_s+
+ChargeConj MyD_s+ MyD_s-
+Alias      Myphi      phi
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj Myanti-K*0 MyK*0
+#
+Decay B_s10sig
+1.0000     MyBs    pi+   pi-      PHSP;
+Enddecay
+CDecay anti-B_s10sig
+#
+Decay MyBs
+  1.000     MyD_s-     pi+      PHSP;
+Enddecay
+CDecay MyantiBs
+#
+Decay MyD_s-
+  0.017712   Myphi pi-                 SVS;
+  0.009     K+    K-     pi-          PHSP;
+  0.022     MyK*0 K-                  SVS;
+Enddecay
+CDecay MyD_s+
+#
+Decay Myphi
+  1.000 K+   K-                    VSS;
+Enddecay
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+#
+#
+End

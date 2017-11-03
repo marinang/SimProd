@@ -1,0 +1,30 @@
+# EventType: 13144052
+#
+# Descriptor: [B_s0 -> (psi(2S) -> mu+ mu- {,gamma} {,gamma}) pi+ pi-]cc
+#
+# NickName: Bs_psi2Spipi,mm
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Includes radiative mode.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: M Needham
+# Email: Matthew.Needham@cern.ch
+# Date: 20130407
+#
+Alias      Mypsi2S  psi(2S)
+ChargeConj Mypsi2S  psi(2S)
+#
+#
+Decay B_s0sig
+  1.000    Mypsi2S  pi+ pi- PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mypsi2S
+  1.000         mu+       mu-    PHOTOS        VLL;
+Enddecay
+End

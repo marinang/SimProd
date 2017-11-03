@@ -1,0 +1,36 @@
+# EventType: 13104001
+#
+# Descriptor: [B_s0 -> (K*(892)~0 -> K- pi+) (K*(892)0 -> K+ pi-)]cc
+#
+# NickName: Bs_Kst0Kst0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K* decaying into K- pi+, No CP violation, daughters in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Bernardo Adeva
+# Email: Bernardo.Adeva@usc.es
+# Date: 20070502
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+# 
+Decay B_s0sig
+  1.000    MyK*0    Myanti-K*0   SVV_HELAMP 0.0 0.0 1.0 0.0 0.6 0.5; 
+Enddecay
+# invert last and first arguments of SVV_HELAMP
+Decay anti-B_s0sig
+  1.000    Myanti-K*0    MyK*0   SVV_HELAMP 0.0 0.0 1.0 0.0 0.6 0.5;
+Enddecay
+#
+Decay MyK*0
+  1.000     K+    pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+#

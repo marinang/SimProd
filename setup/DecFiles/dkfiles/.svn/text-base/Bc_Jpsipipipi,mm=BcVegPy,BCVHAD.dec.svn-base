@@ -1,0 +1,36 @@
+# EventType: 14145041
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu- ) pi+ pi+ pi-]cc
+#
+# NickName: Bc_Jpsipipipi,mm=BcVegPy,BCVHAD
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to Jpsi(to mu+ mu- ) pi+ pi+ pi- with BC_VHAD model, daughters in acceptance. 
+#  The Bc->VW formfactor using SR set
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Yiming
+# Email: yiming.li@cern.ch
+# Date: 20140718
+# CPUTime: < 1 min
+#
+
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+
+Decay B_c+sig
+ 1.        MyJ/psi pi+ pi+ pi-           BC_VHAD 1;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+1. mu+ mu- VLL;
+Enddecay
+#
+#
+End

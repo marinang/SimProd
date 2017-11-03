@@ -1,0 +1,60 @@
+# EventType: 15264000
+#
+# Descriptor: [Lambda_b0 -> (D_s- => K+ K- pi-) p+]cc
+#
+# NickName: Lb_Dsp
+# 
+# Cuts: None
+#
+# Documentation:
+#   This is the decay file to generate LAMB -> Ds p
+#   phase space decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+# Responsible: Vladimir Gligorov
+# Email: vladimir.gligorov@cern.ch
+# Date: 20111010
+#
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+ChargeConj MyD_s+     MyD_s-
+Alias      Myphi      phi
+Alias      Myanti-K*0 anti-K*0
+Alias      MyK*0      K*0
+ChargeConj MyK*0      Myanti-K*0
+ChargeConj Myphi      Myphi
+#
+Decay Lambda_b0sig
+  1.000    MyD_s-        p+         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+# -----------------
+# Decay of the Ds+-
+# -----------------
+Decay MyD_s+
+  0.017712  Myphi      pi+               SVS;
+  0.009     K+         K-        pi+     PHSP;
+  0.022     Myanti-K*0 K+                SVS;
+Enddecay
+CDecay MyD_s-
+
+# ----------------
+# Decay of the Phi
+# ----------------
+Decay Myphi
+  1.000    K+    K-                      VSS;
+Enddecay
+
+# ---------------------
+# Decay of the anti-K*0
+# ---------------------
+Decay Myanti-K*0
+  1.000    K-    pi+                     VSS;
+Enddecay
+CDecay MyK*0
+End
+#

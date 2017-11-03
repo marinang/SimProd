@@ -1,0 +1,33 @@
+# EventType: 41900011
+#
+# Descriptor: pp => (t => b ...) (t~ => b~ ...) ... 
+#
+# NickName: ttbar_bb,2binAcc
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/TwoBFromTop
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "TwoBFromTop" )
+# tracksInAcc = Generation().TwoBFromTop
+# tracksInAcc.Code = "  ( count ( isGoodBfromT ) > 1 ) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodBfromT   = ( (  'b' == GABSID ) & GINTREE( GBEAUTY ) )"
+#    ]
+# EndInsertPythonCode
+#
+#
+# ExtraOptions: Top_ttbar
+#
+# Documentation:  ttbar with two b's in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Lorenzo Sestini
+# Email: lorenzo.sestini@cern.ch
+# Date: 20160617
+#
+End

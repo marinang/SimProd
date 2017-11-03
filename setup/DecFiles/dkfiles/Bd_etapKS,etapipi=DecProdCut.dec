@@ -1,0 +1,43 @@
+# EventType: 11104501
+#
+# Descriptor: [B0 -> (eta_prime -> (eta -> gamma gamma) pi+ pi-) (KS0 -> pi+ pi-)]cc
+#
+# NickName: Bd_etapKS,etapipi=DecProdCut
+#Cuts: DaughtersInLHCb
+#
+# Documentation: No CP violation, Ks forced into pi+ pi-, eta into gamma gamma
+#EndDocumentation
+#
+# Tested: Yes
+# Responsible: Jimmy McCarthy
+# Date: 20120123
+#Email: jxm@hep.ph.bham.ac.uk
+#PhysicsWG: BnoC
+#
+Alias      MyEta'  eta'
+Alias      MyKs    K_S0
+ChargeConj MyEta'  MyEta'
+ChargeConj MyKs    MyKs
+Alias      MyEta   eta
+ChargeConj MyEta   MyEta
+#
+Decay B0sig
+  1.000        MyEta'    MyKs                PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyEta'
+  1.000        MyEta    pi+    pi-              PHSP;
+Enddecay
+#
+Decay MyKs
+  1.000        pi+      pi-                 PHSP;
+Enddecay
+#
+Decay MyEta
+  1.000       gamma     gamma     PHSP;
+Enddecay
+#
+End
+#
+

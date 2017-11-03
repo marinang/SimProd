@@ -1,0 +1,38 @@
+# EventType: 16165034
+#
+# Descriptor: [Xi_b- -> (Lambda_c+ -> p K- pi+) pi- pi-]cc
+#
+# NickName: Omegab_Lambdacpipi,pKpi=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "Xi_b- 122 5132 -1.0 6.071 1.1e-012 Xi_b- 5132 0.000000e+000", "Xi_b~+ 123 -5132 1.0 6.071 1.1e-012 anti-Xi_b+ -5132 0.000000e+000"
+#
+# Documentation: Generate flat over the SDP. 
+# Omega_b difficult to produce with Pythia (very low fragmentation prob) so alter Xib instead
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mark Whitehead
+# Email:  mwhitehe@cern.ch
+# Date: 20140425
+#
+Alias      MyLambda_c+      Lambda_c+
+Alias      MyLambda_c-      anti-Lambda_c-
+ChargeConj MyLambda_c+      MyLambda_c-
+#
+#
+Decay Xi_b-sig
+  1.0    pi-  pi-  MyLambda_c+  FLATSQDALITZ;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyLambda_c+
+  1.0   p+  K-  pi+            PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+End
+

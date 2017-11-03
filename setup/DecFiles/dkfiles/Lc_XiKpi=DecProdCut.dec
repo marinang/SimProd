@@ -1,0 +1,44 @@
+# EventType: 25105101
+#
+# Descriptor: [Lambda_c+ -> (Xi- -> (Lambda0 -> p+ pi-) pi-) K+ pi+]cc
+#
+# NickName: Lc_XiKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Andrea Merli
+# Email:       andrea.merli@cern.ch
+# Date:        20160411
+#
+
+Alias      MyXi-          Xi-
+Alias      MyAntiXi+      anti-Xi+
+ChargeConj MyXi-          MyAntiXi+
+
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+
+Decay MyLambda0
+  1.000   p+          pi-        PHSP;
+Enddecay
+CDecay MyAntiLambda0
+
+Decay MyXi-
+  1.000   MyLambda0   pi-        PHSP;
+Enddecay
+CDecay MyAntiXi+
+
+Decay Lambda_c+sig
+  1.0  MyXi-  K+   pi+     PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+
+End 

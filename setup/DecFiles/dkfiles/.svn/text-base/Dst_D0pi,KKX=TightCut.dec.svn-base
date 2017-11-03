@@ -1,0 +1,46 @@
+# EventType: 27963001
+# This is the decay file for the decay D0 -> K+ K- X 
+# Descriptor: [D*(2010)+ -> (D0 -> K+ K- X) pi+]cc
+#
+#
+# NickName: Dst_D0pi,KKX=TightCut
+#
+#
+# Documentation: D*(2010)+ -> (D0 -> K+ K- X) pi+
+# All final-state products in the acceptance.
+# EndDocumentation 
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# PhysicsWG: Charm
+#
+# Tested: Yes
+# Responsible: Fatima Soomro
+# Email: Fatima.Soomro@cern.ch
+# Date: 20120425
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ D*(2010)+ -> ( D0 --> ^K+ ^K- ... ) pi+]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV       " , 
+#     "inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) "
+# ]
+# tightCut.Cuts      =    {
+#     '[K+]cc'   : 'inAcc & ( 250 * MeV < GPT ) '
+#     }
+# EndInsertPythonCode
+
+Decay  D*+sig
+  1.000 D0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+End
+

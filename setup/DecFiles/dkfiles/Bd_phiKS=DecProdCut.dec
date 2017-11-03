@@ -1,0 +1,38 @@
+# EventType: 11104101
+#
+# Descriptor: [B0 -> (KS0 -> pi+ pi-) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bd_phiKS=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: No CP violation, Phi forced into K+ K-, K0s forced into pi+ pi-,
+#          decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC                                                                                                                                            
+# Tested: Yes                                                                                                                                    
+# Responsible: Dean Lambert                                                                                                                        
+# Email: dlambert@cern.ch                                                                                                                        
+# Date: 20120420
+#
+Alias      MyPhi   phi
+Alias      MyKs    K_S0
+ChargeConj MyPhi   MyPhi
+ChargeConj MyKs    MyKs
+#
+Decay B0sig
+  1.000        MyPhi    MyKs                SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyPhi
+  1.000        K+       K-                  VSS;
+Enddecay
+#
+Decay MyKs
+  1.000        pi+      pi-                 PHSP;
+Enddecay
+#
+End
+

@@ -1,0 +1,91 @@
+# EventType: 11204410
+#
+# NickName: Bd_K1phi,Kpipi0=mK1270,DecProdCut
+#
+# Descriptor: [ B0 -> (K_1(1270)0 --> K+ pi- pi0) (phi(1020) -> K+ K-)]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0->K_1(1270)0 phi decay, K_1(1270)0 -> XX-> K+pi-pi0 decay, Decay products in acceptance
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Sebastiana Gianì
+# Email: sebastiana.giani@cern.ch
+# Date: 20160311
+#
+Alias      MyK1_1270_0      K_10
+Alias      MyAntiK1_1270_0  anti-K_10
+ChargeConj MyK1_1270_0      MyAntiK1_1270_0
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+Alias      MyK*+       K*+
+Alias      MyK*-       K*-
+ChargeConj MyK*-       MyK*+
+#
+Alias      MyK*1430_0       K_0*0
+Alias      Myanti-K*1430_0  anti-K_0*0
+ChargeConj Myanti-K*1430_0  MyK*1430_0
+#
+Alias      MyK*1430_+       K_0*+
+Alias      MyK*1430_-       K_0*-
+ChargeConj MyK*1430_-       MyK*1430_+
+#
+Alias      Myrho-       rho-
+Alias      Myrho+       rho+
+ChargeConj Myrho+       Myrho-
+#
+Alias      MyPhi            phi
+ChargeConj MyPhi           MyPhi
+Decay B0sig
+1.000       MyK1_1270_0     MyPhi                  SVV_HELAMP 0.5 0.0 1.0 0.0 0.5 0.0; 
+Enddecay
+CDecay anti-B0sig
+#
+
+Decay MyPhi
+1.000           K+            K-                   VSS;
+Enddecay
+
+Decay MyK1_1270_0
+0.11852        MyK*0        pi0                    VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.11852        MyK*+        pi-                    VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.46666        Myrho-       K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.20741        MyK*1430_+   pi-                    VSS;
+0.20741        MyK*1430_0   pi0                    VSS;
+Enddecay
+CDecay MyAntiK1_1270_0
+#
+Decay MyK*0
+1.000        K+        pi-                    VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Myrho-
+1.000        pi-      pi0                     VSS;
+Enddecay
+CDecay Myrho+
+#
+Decay MyK*1430_0
+1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay Myanti-K*1430_0
+#
+Decay MyK*+
+1.000        K+        pi0                    VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK*1430_+
+1.000        K+        pi0                    PHSP;
+Enddecay
+CDecay MyK*1430_+
+#
+End
+#

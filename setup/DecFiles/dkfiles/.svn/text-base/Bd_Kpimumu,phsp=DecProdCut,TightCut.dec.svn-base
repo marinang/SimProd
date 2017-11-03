@@ -1,0 +1,52 @@
+# EventType: 11114013
+#
+# Descriptor: [B0 => mu+ mu- K+ pi-]cc
+#
+# NickName: Bd_Kpimumu,phsp=DecProdCut,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay   = "[^(Beauty => ^mu+ ^mu- ^K+ ^pi-)]CC"
+# tightCut.Cuts    =    {
+#     '[B0]cc'    : " goodB & inPsqWin",
+#     '[K+]cc'    : " goodTrack " ,
+#     '[pi-]cc'   : " goodTrack " ,
+#     'mu-'       : " goodMuon  " ,
+#     'mu+'       : " goodMuon  " }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#     "inPsqWin  = ( ( GMASS ( 'K+' == GABSID , 'pi-' == GABSID ) ) < 2000 * MeV ) " ,
+#     'goodB     = ( GPT > 1500 * MeV )                ' ,
+#     'goodTrack = ( GP  > 800 * MeV ) & inAcc ' ,
+#     'goodMuon  = ( GP  > 2000 * MeV ) & inAcc ' ]
+# EndInsertPythonCode
+#
+#
+#
+# Documentation: 
+# Phase space kpimumu decay for acceptance studies.
+# Maximum mass of 2 GeV, dec prod cut and
+# minimum momentum cuts for tracking and reconstruction
+# EndDocumentation
+#
+# PhysicsWG:  RD
+# Tested: Yes
+# Responsible:  Alex Shires
+# Email: ashires@cern.ch
+# Date: 20130423
+#
+#
+Decay B0sig
+  1.000        K+        pi-     mu+     mu-               PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+#
+End
+#

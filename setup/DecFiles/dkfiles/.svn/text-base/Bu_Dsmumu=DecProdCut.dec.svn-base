@@ -1,0 +1,49 @@
+# EventType: 12275010
+#
+# Descriptor: [B+ -> mu+ mu+ (D_s- => K+ K- pi-) {,gamma}{,gamma}]cc
+#
+# NickName: Bu_Dsmumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+->Ds-Mu+Mu+ 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: yes
+# Responsible: Wenbin Qian
+# Email: wenbin.qian@cern.ch
+# Date: 20111024
+#
+#
+Alias        MyD_s+       D_s+
+Alias        MyD_s-       D_s-
+ChargeConj   MyD_s+       MyD_s-
+Alias        MyPhi      phi
+Alias        MyAnti-K*0 anti-K*0
+Alias        MyK*0      K*0
+ChargeConj   MyK*0      MyAnti-K*0
+ChargeConj   MyPhi      MyPhi
+
+
+Decay B+sig
+  1.     MyD_s-      mu+    mu+          PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD_s+
+  0.167      K+   K-    pi+                   PHSP;
+  0.350      MyPhi      pi+                   SVS;
+  0.483      MyAnti-K*0 K+                    SVS;  
+Enddecay
+CDecay MyD_s-
+Decay MyPhi
+  1.000    K+    K-                           VSS;
+Enddecay
+Decay MyAnti-K*0
+  1.000    K-    pi+                          VSS;
+Enddecay
+CDecay MyK*0               
+#
+End
+#

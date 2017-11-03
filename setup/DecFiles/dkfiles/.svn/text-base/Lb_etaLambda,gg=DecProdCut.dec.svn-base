@@ -1,0 +1,37 @@
+#EventType: 15102401
+#
+#Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) (eta -> gamma gamma)]cc
+#
+#NickName: Lb_etaLambda,gg=DecProdCut
+#
+#Cuts: DaughtersInLHCb
+#
+#Tested: Yes
+#Responsible: Jimmy McCarthy
+#Email: jxm@hep.ph.bham.ac.uk
+#PhysicsWG: BnoC
+#Date: 20120110
+#
+#Documentation: Decay file for Lambda_b -> Lambda(->p pi-) eta(->gamma gamma)
+#EndDocumentation
+# 
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      Myeta         eta
+ChargeConj Myeta         Myeta
+#
+Decay Lambda_b0sig
+  1.000  MyLambda Myeta    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda
+  1.000  p+   pi-   PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+Decay Myeta
+  1.000  gamma gamma PHSP;
+Enddecay
+End

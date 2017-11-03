@@ -1,0 +1,31 @@
+# EventType: 11104164
+#
+# Descriptor: [B0 -> (KS0 -> pi+ pi-) p+ p~-]cc
+#
+# NickName: Bd_Kspp=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Flat on square Dalitz plot, K0s forced into pi+ pi-, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Aurelien Martens
+# Email: aurelien.martens@lpnhe.in2p3.fr
+# Date: 20120710
+#
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+#
+Decay B0sig
+  1.000        MyKs     p+      anti-p-        FLATSQDALITZ;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKs
+  1.000        pi+      pi-                 PHSP;
+Enddecay
+#
+End
+

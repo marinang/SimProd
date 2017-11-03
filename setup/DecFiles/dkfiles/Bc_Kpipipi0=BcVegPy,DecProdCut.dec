@@ -1,0 +1,35 @@
+# EventType: 14103401
+#
+# Descriptor: [B_c+ -> K+ pi- pi+ pi0]cc
+#
+# NickName: Bc_Kpipipi0=BcVegPy,DecProdCut
+#
+# CPUTime: < 1 min
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to K pi pi pi0 PHSP, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: hicheur@if.ufrj.br
+# Date: 20150722
+#
+
+
+#
+Decay B_c+sig
+  1.000     K+      pi-     pi+   pi0   PHSP;
+Enddecay
+CDecay B_c-sig
+#
+
+#
+
+#
+End
+

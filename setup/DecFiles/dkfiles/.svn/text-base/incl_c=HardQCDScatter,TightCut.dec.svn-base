@@ -1,0 +1,40 @@
+# EventType: 20000030
+# Sample: Special
+# Descriptor: pp => [ccbar] exclusive ...
+#
+# NickName: incl_c=HardQCDScatter,TightCut
+#
+
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/twocinAcc
+# ExtraOptions: ccbarjets_pthat_gt_20
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "twocinAcc" )
+# tracksInAcc = Generation().twocinAcc
+# tracksInAcc.Code = "count ( isGoodC ) > 1"
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodC = ( ( 'c' == GABSID ) & ( GTHETA < 400.0*mrad ) )" ]
+# EndInsertPythonCode
+#
+# Documentation: exclusive ccbar from hard scatter (open charm hadron), min Pthat 20GeV, 2 c in Acc and minPt 15GeV for both c's using Special production mode. This sample is only applicable for efficiency estimations and NOT for general shapes and x-sections as the bulk of ccbar production is not included!
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Konstantinos A. Petridis
+# Email: konstantinos.petridis@cern.ch
+# Date: 20130503
+
+
+
+
+
+
+
+
+
+#
+End

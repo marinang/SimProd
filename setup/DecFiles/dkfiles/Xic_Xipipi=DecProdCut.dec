@@ -1,0 +1,42 @@
+# EventType: 26105191
+#
+# Descriptor: [Xi_c+ -> (Xi- -> (Lambda0 -> p+ pi-) pi-) pi+ pi+]cc
+#
+# NickName: Xic_Xipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# Phase-space decay of Xic+ to Xi- pi+ pi+. decay of the Xim and lambda takes helicity
+# into account
+# EndDocumentation
+# PhysicsWG:   Charm
+# Tested:      Yes
+# CPUTime : < 1min
+# Responsible: Louis Henry
+# Email:       louis.henry@cern.ch
+# Date:        20170205
+#
+Alias      MyXim      Xi-
+Alias      Myanti-Xip anti-Xi+
+ChargeConj MyXim      Myanti-Xip
+
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+
+Decay MyLambda0
+  1.000     p+   pi-             HELAMP   0.906   0.0   0.423   0.0;
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay MyXim
+  1.000     MyLambda0   pi-      HELAMP   0.521  0.0  0.854  0.0;
+Enddecay
+CDecay Myanti-Xip
+#
+Decay Xi_c+sig
+  1.0  MyXim  pi+ pi+  PHSP;
+Enddecay
+CDecay anti-Xi_c-sig
+End 

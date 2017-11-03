@@ -1,0 +1,37 @@
+# EventType: 13544000
+#
+# Descriptor: {[B_s0 -> (B+ -> K+ (J/psi(1S) -> mu+ mu- )) e- anti-nu_e]cc}
+#
+# NickName: Bs_Buenu,JpsiK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Search for s->u semileptonic transition with a b spectator
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Mika Vesterinen
+# Email: mika.vesterinen@cern.ch
+# Date:   20141001
+#
+Alias MyB+   B+
+Alias MyB- B-
+ChargeConj MyB+ MyB-
+Alias MyJpsi  J/psi
+#
+Decay B_s0sig
+  1.0       MyB+ e- anti-nu_e PHSP;
+Enddecay
+CDecay anti-B_s0sig
+Decay MyB+
+1.0 MyJpsi    K+                         SVS;
+Enddecay
+CDecay MyB-
+Decay MyJpsi
+1.000   mu+  mu-               PHOTOS   VLL;
+Enddecay
+#
+End

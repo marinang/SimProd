@@ -1,0 +1,25 @@
+# EventType: 21523071
+#
+# Descriptor: [D+ -> pi+ K- e+ nu_e]cc
+#
+# NickName: D+_piKe+nu_e=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: J. Harrison
+# Email: jonathan.harrison@manchester.ac.uk
+# Date: 20160208
+# CPUTime: < 1 min
+#
+Decay D+sig
+  1.000        pi+	K-         e+       nu_e      PHSP;
+Enddecay
+
+CDecay D-sig
+#
+End

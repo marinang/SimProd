@@ -1,0 +1,24 @@
+# EventType: 12103034
+#
+# Descriptor: [B+ -> K+ K+ pi-]cc
+#
+# NickName: Bu_K+K+pi-=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decay to K+, K+, pi- with phase space model, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Raja Nandakumar
+# Email: raja.nandakumar@stfc.ac.uk
+# Date: 20130729
+#
+Decay B+sig
+1.000       K+     K+     pi-     PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+

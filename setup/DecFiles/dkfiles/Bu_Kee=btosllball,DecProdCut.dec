@@ -1,0 +1,30 @@
+# EventType: 12123001
+#
+# Descriptor: [B+ -> K+ e+ e-]cc
+#
+# NickName: Bu_Kee=btosllball,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: the B+ -> K+ ell^+ ell^- decay with the transition form factors
+# from Ball, Ali 1999
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:     Alex Shires
+# Email: ashires@cern.ch
+# Date: 20150120
+#
+Decay B+sig
+  1.000        K+     e+     e-     BTOSLLBALL ;
+Enddecay
+#
+Decay B-sig
+  1.000        K-     e+     e-     BTOSLLBALL ;
+Enddecay
+#
+End
+#

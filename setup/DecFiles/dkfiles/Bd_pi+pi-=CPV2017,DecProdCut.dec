@@ -1,0 +1,27 @@
+# EventType: 11102015
+#
+# Descriptor: [B0 -> pi+ pi-]cc
+#
+# NickName: Bd_pi+pi-=CPV2017,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: CP violation, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Cameron Dean 
+# Email: cameron.dean@cern.ch
+# Date: 20170123
+#
+
+Decay B0sig
+  1.000       pi+     pi-   SSD_CP 0.507e12 0.0 1.0 -0.775 1.0 0.6 1.32 0.59;
+Enddecay
+CDecay anti-B0sig
+#
+End
+

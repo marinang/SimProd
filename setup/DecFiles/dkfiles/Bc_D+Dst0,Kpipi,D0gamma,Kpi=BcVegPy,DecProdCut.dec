@@ -1,0 +1,54 @@
+# EventType: 14195241
+#
+# Descriptor: [ B_c+ => (D+ -> K- pi+ pi+) (D*(2007)~0 => (D~0 -> K+ pi-) gamma) ]CC
+#
+# NickName: Bc_D+Dst0,Kpipi,D0gamma,Kpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance, Bc SVS decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: A. Tully
+# Email: alison.tully@cern.ch
+# Date: 20161214
+#
+Alias MyD+ D+
+Alias MyD- D-
+ChargeConj MyD+ MyD-
+
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+
+Decay B_c+sig
+  1.000     Myanti-D*0        MyD+             SVS;
+Enddecay
+CDecay B_c-sig
+
+Decay MyD+
+  1.000        K- pi+ pi+                  D_DALITZ;
+Enddecay
+CDecay MyD-
+
+Decay Myanti-D0
+  1.000        K+    pi-                    PHSP;
+Enddecay
+CDecay MyD0
+
+Decay Myanti-D*0
+  1.000    Myanti-D0  gamma             VSP_PWAVE;
+Enddecay
+CDecay MyD*0
+#
+End
+

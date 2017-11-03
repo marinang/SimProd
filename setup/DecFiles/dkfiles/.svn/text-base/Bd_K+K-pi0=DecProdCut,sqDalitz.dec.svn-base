@@ -1,0 +1,31 @@
+# EventType: 11102422
+#
+# Descriptor: {[[B0]nos -> K+ K- (pi0 -> gamma gamma)]cc, [[B0]os -> K- K+ (pi0 -> gamma gamma)]cc}
+#
+# NickName: Bd_K+K-pi0=DecProdCut,sqDalitz
+#
+# Cuts: DaughtersInLHCb
+#
+# Tested: Yes
+# Date: 20120822
+#
+# Responsible: Lars Eklund
+# PhysicsWG: BnoC
+# Email: Lars.Eklund@cern.ch
+# Documentation: pi0 forced to gamma gamma, flat in square Dalitz. Decay prodcuts in acceptance
+#
+#
+Alias      Mypi0      pi0
+ChargeConj Mypi0      Mypi0
+#
+Decay B0sig
+  1.0          K+         K-       Mypi0  FLATSQDALITZ;     
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mypi0
+  1.000        gamma      gamma            PHSP;
+Enddecay
+#
+End
+

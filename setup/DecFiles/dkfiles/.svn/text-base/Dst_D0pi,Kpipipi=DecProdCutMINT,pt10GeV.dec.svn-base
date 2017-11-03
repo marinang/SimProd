@@ -1,0 +1,67 @@
+# EventType: 27165006
+#
+# Descriptor: [D*+ -> (D0 -> K- pi- pi+ pi+) pi+]cc
+#
+# NickName: Dst_D0pi,Kpipipi=DecProdCutMINT,pt10GeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# minPTAndDaughtersInLHCb = gen.SignalPlain.TightCut
+# minPTAndDaughtersInLHCb.Decay     = '^[ D*(2010)+ => ^( D0 => ^K- ^pi- ^pi+ ^pi+ ) ^pi+ ]CC'
+# minPTAndDaughtersInLHCb.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import MeV ',
+#     'inAcc     = in_range ( 0.010 , GTHETA , 0.400 ) ',
+#     'DPT       = ( GPT > 10000 * MeV )'
+# ]
+# minPTAndDaughtersInLHCb.Cuts      =    {
+#     '[pi+]cc'         : 'inAcc',
+#     '[K+]cc'          : 'inAcc',
+#     '[D*(2010)+]cc'   : 'DPT',
+#     }
+#
+# EndInsertPythonCode
+#
+#
+# Documentation:
+#   Intended to be a copy of Dst_D0pi,Kpipipi=DecProdCutMINT.dec that requires
+#   that the the D*+ has PT > 10 GeV.
+#   D*+ forced to decay to D0 pi+.
+#   Includes resonances in D0 decay. Uses MINT to decay the D
+# EndDocumentation
+#
+# CPUTime: 2 min
+# 
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Patrick Spradlin
+# Email: NOSPAM_patrick.spradlin@cern.ch
+# Date: 20150630
+#
+Alias MyD0         D0
+Alias Myanti-D0    anti-D0
+ChargeConj MyD0    Myanti-D0
+
+Decay D*+sig
+  1.000 MyD0 pi+  VSS;
+Enddecay
+CDecay D*-sig
+
+# 
+# Total D0 = 8.14%
+#
+# Sum of D0 subdecays = 8.37%
+#
+
+Decay MyD0
+  1.0      K-  pi+  pi+  pi-          D_hhhh 10;
+Enddecay
+CDecay Myanti-D0
+#
+End
+#

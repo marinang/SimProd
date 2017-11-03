@@ -1,0 +1,44 @@
+# EventType: 21263022
+#
+# Descriptor: [D+ -> pi- pi+ pi+]cc
+#
+# NickName: D+_pi-pi+pi+=res,TightCut2
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ D+ => ^pi- ^pi+ ^pi+]CC'
+# tightCut.Preambulo += [
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "from GaudiKernel.SystemOfUnits import millimeter" ,
+#     "inAcc = in_range ( 0.010, GTHETA, 0.400 ) " , 
+#     "daughcuts = ( (GPT > 250 * MeV) & ( GP > 2000 * MeV))",
+#     "Dcuts = ( (GPT > 2100 * MeV) & ( GP > 14000 * MeV))"
+# ]
+# tightCut.Cuts      =    {
+#     '[pi+]cc'  : ' inAcc & daughcuts',
+#     '[D+]cc'   : 'Dcuts'
+#                         }
+# EndInsertPythonCode
+#
+# Documentation: Decay products in acceptance, phase space decay model, P and PT cuts on D and daughters (v2)
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Carla Gobel
+# Email: gobel@fis.puc-rio.br
+# Date: 20130606
+#
+Decay D+sig
+  1.000        pi-        pi+        pi+          D_DALITZ;
+Enddecay
+CDecay D-sig
+#
+End

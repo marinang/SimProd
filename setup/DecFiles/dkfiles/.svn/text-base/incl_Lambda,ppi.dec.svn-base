@@ -1,0 +1,24 @@
+# EventType: 33102100
+#
+# Descriptor: [Lambda0 -> pi- p+]cc
+#
+# NickName: incl_Lambda,ppi
+#
+# Cuts: None
+#
+# Documentation: Lambda0 decay to p+ pi- with phase space model, no generator level cuts
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: W.Bonivento
+# Email: Walter.Bonivento@cern.ch
+# Date: 20110909
+#
+Decay Lambda0sig
+  1.000         p+        pi-        PHSP;
+Enddecay
+CDecay anti-Lambda0sig
+#
+End
+#

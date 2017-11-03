@@ -1,0 +1,27 @@
+# EventType: 12103442
+#
+# Descriptor: [B+ -> K+ K- K+ pi0]cc
+#
+# NickName: Bu_KKKpi0=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: 
+#   This is the decay file for the decay B+ -> K+ K- K+ Pi0
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Nazim Hussain
+# Email: nazim.hussain@cern.ch
+# Date: 20130911
+#
+#
+Decay B+sig
+  1.000  K+ K- K+ pi0  PHSP;
+Enddecay
+CDecay B-sig
+#
+#
+End
+

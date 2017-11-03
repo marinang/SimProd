@@ -1,0 +1,34 @@
+# EventType: 42112050
+#
+# Descriptor: pp -> {(Z0 -> {mu+ mu-)) b}cc
+#
+# NickName: Zbjet=mumu,InAcc
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/ZbjetCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "ZbjetCut" )
+# zbcut = Generation().ZbjetCut
+# zbcut.Code = " ( (count ( isGoodb ) > 0) & (count(isGoodZ) > 0))  "
+# zbcut.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodb     = ((GBEAUTY)   & (GINTREE((GBEAUTY) & ( GTHETA < 420.0*mrad ))) &  (GINTREE(('Z0' == GABSID)) ))"
+#    , "isGoodZ     = ((  'Z0' == GABSID ) & (GNINTREE(('mu+' == GABSID) & ( GTHETA < 420.0*mrad ) )>1))"
+#    ]
+# EndInsertPythonCode
+#
+# ExtraOptions: Zmumuqjet
+#
+# Documentation: Z+bjet production, 2 muon (from the Z) in LHCb acceptance and b from hard process in LHCbAcc, Pythia6 and 8, need extra option in the command to switch to Pythia 8 $LBPYTHIA8ROOT/options/Pythia8.py (at the end)
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Cedric Potterat
+# Email: cedric.potterat@cern.ch
+# Date: 20130521
+#
+End
+#

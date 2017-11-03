@@ -1,0 +1,140 @@
+#EventType: 14873607
+#
+# Descriptor: { [B_c+ => (J/psi(1S) => mu+ mu-) (D+ --> mu+ ...)]CC, [B_c+ => (J/psi(1S) => mu+ mu-) (D*+ --> mu+ ...)]CC, [B_c+ => (J/psi(1S) => mu+ mu-) (D_s+ --> mu+ ...)]CC, [B_c+ => (J/psi(1S) => mu+ mu-) (D_s*+ --> mu+ ...)]CC }
+#
+# NickName: Bc_JpsiDx,mm,muX=JpsiLeptonInAcceptance
+#
+# Production: BcVegPy
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: ChargedThetaMin 0. ChargedThetaMax 10. NeutralThetaMin 0. NeutralThetaMax 10.
+# FullEventCuts: JpsiLeptonInAcceptance
+#
+# InsertPythonCode:
+#from Configurables import JpsiLeptonInAcceptance
+#Generation().addTool( JpsiLeptonInAcceptance )
+#Generation().JpsiLeptonInAcceptance.JpsiLepPMin = 0
+#Generation().JpsiLeptonInAcceptance.BachLepPMin = 0
+#Generation().JpsiLeptonInAcceptance.PreselMass = False
+#Generation().JpsiLeptonInAcceptance.PreselDoca = False
+# EndInsertPythonCode
+#
+# Documentation: Bc+ to Jpsi D/D*/Ds/Ds*, where the D meson decays leptonically or semileptonically with a final state containing a mu. Radiative mode included. TightCut.
+# EndDocumentation
+#
+# PhysicsWG:   B2SL
+# Tested:      Yes
+# Responsible: Jack Wimberley
+# Email:       jack.wimberley@cern.ch
+# Date:        20131125
+#
+Alias      MyTau+     tau+
+Alias      MyTau-     tau-
+ChargeConj MyTau+     MyTau-
+#
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi    MyJ/psi
+#
+Alias      MyD+       D+
+Alias      MyD-       D-
+ChargeConj MyD+       MyD-
+#
+Alias      MyD0       D0
+Alias      Myanti-D0  anti-D0
+ChargeConj MyD0       Myanti-D0
+#
+Alias      MyD*+     D*+
+Alias      MyD*-     D*-
+ChargeConj MyD*+     MyD*-
+#
+Alias      MyD_s+      D_s+
+Alias      MyD_s-      D_s-
+ChargeConj MyD_s+      MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Decay MyTau+
+  1.00000  mu+         nu_mu         anti-nu_tau        PHOTOS TAULNUNU;
+Enddecay
+CDecay MyTau-
+#
+Decay MyJ/psi
+  1.00000  mu+         mu-                              PHOTOS VLL ;
+Enddecay
+#
+Decay MyD+
+  # Normalized fractions used; corresponding branching fractions used shown on right
+  # Many fractions taken from e, together with phase space volume ratio
+  # Inclusive branching fraction 16.15% in these modes
+  # (compare to PDG 17.6%)
+  0.00236  mu+         nu_mu                            PHOTOS SLN; # 3.82e-4
+  0.00083  MyTau+      nu_tau                           PHOTOS SLN; # 7.7024e-4 (from DECAY.DEC) x 17.41% for tau -> mu
+  0.56954  anti-K0     mu+           nu_mu              PHOTOS ISGW2; # 9.2%
+  0.32686  anti-K*0    mu+           nu_mu              PHOTOS ISGW2; # 5.28%
+  0.01271  anti-K_10   mu+           nu_mu              PHOTOS ISGW2; # 2.773e-3 (from e) x 0.7403
+  0.01308  anti-K_2*0  mu+           nu_mu              PHOTOS ISGW2; # 2.927e-3 (from e) x 0.7216
+  0.01238  K-          pi+           mu+     nu_mu      PHOTOS PHSP; # 2e-3
+  0.00619  anti-K0     pi0           mu+     nu_mu      PHOTOS PHSP; # 1e-3, isospin
+  0.02411  pi0         mu+           nu_mu              PHOTOS ISGW2; # 4.05e-3 (from e) x 0.9616
+  0.00667  eta         mu+           nu_mu              PHOTOS ISGW2; # 1.14e-3 (from e) x 0.9451
+  0.00123  eta'        mu+           nu_mu              PHOTOS ISGW2; # 2.2e-4 (from e) x 0.9040
+  0.01486  rho0        mu+           nu_mu              PHOTOS ISGW2; # 2.4e-3
+  0.00918  omega       mu+           nu_mu              PHOTOS ISGW2; # 1.6e-3 (from e) x 0.9267
+Enddecay
+CDecay MyD-
+#
+Decay MyD0
+  # Normalized fractions used; corresponding branching fractions used shown on right
+  # One fraction taken from e, together with phase space volume ratio
+  # Inclusive branching fraction 5.633% in these modes
+  # (compare to PDG 6.7%)
+  0.58760  K-          mu+           nu_mu              PHOTOS ISGW2; # 3.31e-3
+  0.33907  K*-         mu+           nu_mu              PHOTOS ISGW2; # 1.91e-2
+  0.04207  pi-         mu+           nu_mu              PHOTOS ISGW2; # 2.37e-3
+  0.03126  rho-        mu+           nu_mu              PHOTOS ISGW2; # 1.9e-3 (from e) x 0.9269
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyD*+
+  # Normalized fractions used; corresponding branching fractions used shown on right
+  # Weighted by inclusive branching fractions of daughters to state w/ mu
+  # Inclusive branching fraction 12.76% in these models
+  0.42227  MyD0        pi+                              PHOTOS VSS; # 67.7% x 5.633%
+  0.54911  MyD+        pi0                              PHOTOS VSS; # 30.7% x 16.15%
+  0.02862  MyD+        gamma                            PHOTOS VSP_PWAVE; # 1.6% x 16.15%
+Enddecay
+CDecay MyD*-
+#
+Decay MyD_s+
+  # Normalized fractions used; corresponding branching fractions used shown on right
+  # Many fractions taken from e, together with phase space volume ratio
+  # Inclusive branching fraction 8.083%% in these modes
+  0.07299  mu+        nu_mu                             PHOTOS SLN; # 5.9e-3
+  0.11696  MyTau+     nu_tau                            PHOTOS SLN; # 5.43% x 17.41% for tau -> mu
+  0.28030  phi        mu+        nu_mu                  PHOTOS ISGW2; # 2.49% (from e) x 0.9099
+  0.31424  eta        mu+        nu_mu                  PHOTOS ISGW2; # 2.67% (from e) x 0.9513
+  0.11247  eta'       mu+        nu_mu                  PHOTOS ISGW2; # 0.99% (from e) x 0.9183
+  0.04366  anti-K0    mu+        nu_mu                  PHOTOS ISGW2; # 0.37% (from e) x 0.9537
+  0.02227  anti-K*0   mu+        nu_mu                  PHOTOS ISGW2; # 0.18% (from e) x 0.9259
+  0.03711  f_0        mu+        nu_mu                  PHOTOS ISGW2; # 3e-3
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.94200  MyD_s+      gamma                            PHOTOS VSP_PWAVE ;
+  0.05800  MyD_s+      pi0                              PHOTOS VSS ;
+Enddecay
+CDecay MyD_s*-
+#
+Decay B_c+sig
+  # These relative ratios taken from averages of Kiselev, El-Hady, and Anisimov
+  # They are scaled to the inclusive D, Ds -> mu (including tau -> mu) branching fractions
+  0.01503  MyJ/psi    MyD+                              PHOTOS SVS ;
+  0.03193  MyJ/psi    MyD*+                             PHOTOS SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0 ;
+  0.15696  MyJ/psi    MyD_s+                            PHOTOS SVS ;
+  0.79608  MyJ/psi    MyD_s*+                           PHOTOS SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0 ;
+Enddecay
+CDecay B_c-sig
+#
+End

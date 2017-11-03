@@ -1,0 +1,39 @@
+# EventType: 12163401
+#
+# Documentation: 
+#   This is the decay file for the decay B+ -> D0 ( -> K- PI+ PI0 ) K+
+# EndDocumentation
+#
+# Descriptor: [B+ -> (D0 -> K- pi+ (pi0 -> gamma gamma)) K+]cc
+#
+# NickName: Bu_D0K,Kpipi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Andrew Powell
+# Email: a.powell1@physics.ox.ac.uk
+# Date: 20111007
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+Alias Mypi0 pi0
+ChargeConj Mypi0 Mypi0
+#
+Decay B+sig
+  1.000     MyD0  K+               PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+  1.000        K-        pi+   Mypi0                    D_DALITZ;
+Enddecay
+CDecay Myanti-D0
+#
+Decay Mypi0
+  1.000   gamma gamma  PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,34 @@
+# EventType: 11114010
+#
+# Descriptor: [B0 -> (omega(782) -> pi+ pi-) mu+ mu-]cc
+#
+# NickName: Bd_omegamumu,pipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B0 -> (omega(782) -> pi+ pi-) mu+ mu- (PHSP)
+# EndDocumentation
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+Alias      MyOmega  omega
+ChargeConj MyOmega  MyOmega
+#
+Decay B0sig
+  1.0        MyOmega     mu+     mu- PHSP;
+Enddecay                           			 						
+CDecay anti-B0sig
+#
+Decay MyOmega
+  1.0        pi+        pi-  VSS;
+Enddecay
+#
+End
+#
+

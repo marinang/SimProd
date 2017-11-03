@@ -1,0 +1,18 @@
+# EventType: 35000000
+#
+# Descriptor: pp => [<Xi->]cc ...
+#
+# NickName: incl_Xi3312
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Xi- inclusive events
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible:     Stephane Tourneur
+# Email: stephane.tourneur@epfl.ch
+# Date:   20130323
+#
+End

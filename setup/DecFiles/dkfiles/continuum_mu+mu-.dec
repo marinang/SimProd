@@ -1,0 +1,61 @@
+# EventType:  59990002
+#
+# Descriptor: M => (mu+ mu-)
+#
+# NickName: continuum_mu+mu-
+#
+# Cuts: LHCbAcceptance
+#
+# ParticleValue: "  M 1234  12345  0.0 1.0 0.000000e+00  M 12345  0.000000"
+# 
+# Documentation: Continuum dimuon production according to flat distributions in mass, pt, rapidity. The M mass is set to 1GeV and its lifetime to 0.
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import ParticleGun, FlatNParticles, FlatPtRapidity
+# pgun = ParticleGun()
+# pgun.OutputLevel = 1
+#
+# pgun.SignalPdgCode = 12345
+# pgun.EventType = 59990002
+#
+# pgun.SampleMass = True
+# pgun.MassRange_min = 1500. 
+# pgun.MassRange_max = 20000. 
+#
+# pgun.ParticleGunTool = "FlatPtRapidity"
+# pgun.addTool( FlatPtRapidity , name = "FlatPtRapidity" )
+# pgun.FlatPtRapidity.OutputLevel = 0
+# pgun.FlatPtRapidity.PtMin = 0.  
+# pgun.FlatPtRapidity.PtMax = 2000.  
+# pgun.FlatPtRapidity.RapidityMin = 1.8  
+# pgun.FlatPtRapidity.RapidityMax = 5.2 
+# pgun.DecayTool = "EvtGenDecay"
+# pgun.FlatPtRapidity.PdgCodes = [ 12345 ]
+# pgun.NumberOfParticlesTool = "FlatNParticles"
+# pgun.addTool( FlatNParticles , name = "FlatNParticles" )
+#
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# Date: 20161104
+#
+##
+
+Alias Msig M
+
+Decay Msig
+  1.0 mu- mu+   PHSP;
+Enddecay
+
+Decay M
+  1.0 mu- mu+   PHSP;
+Enddecay
+      
+End

@@ -1,0 +1,50 @@
+# EventType: 12175060
+#
+# Descriptor: [B+ -> (D*+ -> (D0 -> K- pi+) pi+) (J/psi -> mu+ mu-)]cc
+#
+# NickName: Bu_Dst+Jpsi,Kpipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+->D*(2010)+Mu+Mu- 
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Igor Babuschkin
+# Email: igor.babuschkin@cern.ch
+# Date: 20150326
+#
+
+Alias        MyD*-       D*-
+Alias        MyD*+       D*+
+ChargeConj   MyD*+       MyD*-
+
+Alias        MyD0         D0
+Alias        Myanti-D0    anti-D0
+ChargeConj   MyD0         Myanti-D0
+
+Alias        MyJ/psi     J/psi
+ChargeConj   MyJ/psi     MyJ/psi
+
+Decay B+sig
+  1.     MyD*+   MyJ/psi      PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD*+
+  1.000    MyD0    pi+    VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.000      K-   pi+     PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyJ/psi
+  1.000      mu+   mu-  PHOTOS VLL;
+Enddecay
+End
+#

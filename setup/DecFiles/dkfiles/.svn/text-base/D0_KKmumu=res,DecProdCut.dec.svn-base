@@ -1,0 +1,43 @@
+# EventType: 22214001
+#
+# Descriptor: [D0 => K+ K- mu+ mu-]cc
+#
+# NickName: D0_KKmumu=res,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# ParticleValue: "rho(770)0_nocut 1033 200113 0.0 0.771100 4.411610e-024 rho0_nocut 200113 0.0e+00", "phi(1020)_nocut 1037 200333 0.0 1.019456 1.545099e-022 phi_nocut 200333 0.0"
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible:   Olga  Kochebina
+# Email: kochebin@lal.in2p3.fr
+# Date: 20120918
+#
+Alias MyPhi phi_nocut
+ChargeConj MyPhi MyPhi
+
+Alias Myrho0 rho0_nocut
+ChargeConj Myrho0 Myrho0
+
+Decay D0sig
+  0.25  K+ K-  mu+ mu-  PHSP;
+  0.25  K+ K- Myrho0 PHSP; 
+  0.25   MyPhi Myrho0 SVV_HELAMP  1.0 0.0 1.7 0.0 1.0 0.0;
+  0.25   MyPhi  mu+ mu- PHSP;
+Enddecay
+CDecay anti-D0sig
+
+
+Decay MyPhi
+  1.000 K+  K-    VSS;
+Enddecay
+
+Decay Myrho0
+  1.000 mu+  mu-    VLL;
+Enddecay
+#
+End
+

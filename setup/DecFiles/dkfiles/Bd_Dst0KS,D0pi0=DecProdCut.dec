@@ -1,0 +1,46 @@
+# EventType: 11164521
+#
+# Descriptor: {[[B0]nos -> (D*(2007)~0 -> (D~0 -> K+ pi-) (pi0 -> gamma gamma) ) (KS0 ->pi+ pi-) ]cc, [[B0]os -> (D*(2007)0 -> (D0 -> K- pi+) (pi0 -> gamma gamma) ) (KS0 ->pi- pi+) ]cc} 
+#
+# NickName: Bd_Dst0KS,D0pi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: KS forced to pi+ pi-, D0 forced to K+ pi-, Dst0 forced to D0 pi0
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Maurizio Martinelli
+# Email: maurizio.martinelli@cern.ch
+# Date: 20130306
+#
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+#
+Decay B0sig
+1.000      Myanti-D*0         MyK0s                SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*0
+1.000    MyD0  pi0                        VSS;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD0
+  1.000        K-        pi+                    PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyK0s
+  1.000    pi+         pi-         PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,76 @@
+# EventType: 13962600
+#
+# Descriptor: {[B_s0 -> (D*(2010)~0 -> (D~0 -> K+ pi-) {pi0, gamma}) X]cc, [B_s0 -> (D*(2010)0 -> (D0 -> K- pi+) {pi0, gamma}) X]cc}
+#
+# NickName: Bs_Dst0X,Kpi
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Inclusive D*0 production (sum of exculsive modes), D forced into K pi
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20071122
+#
+
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+ChargeConj MyD0 Myanti-D0
+Alias MyD'_s1+ D'_s1+
+Alias MyD'_s1- D'_s1-
+ChargeConj MyD'_s1+ MyD'_s1-
+Alias MyD_s2*+ D_s2*+
+Alias MyD_s2*- D_s2*-
+ChargeConj MyD_s2*+ MyD_s2*-
+
+Decay B_s0sig
+0.0035   MyD'_s1-   e+     nu_e         PHOTOS  ISGW2;
+0.00035   MyD_s2*-   e+     nu_e         PHOTOS  ISGW2;
+
+0.0035   MyD'_s1-   mu+    nu_mu        PHOTOS  ISGW2;
+0.00035   MyD_s2*-   mu+    nu_mu        PHOTOS  ISGW2;
+
+0.0014   MyD'_s1-   tau+   nu_tau                 ISGW2;
+0.00014   MyD_s2*-   tau+   nu_tau                 ISGW2;
+
+0.0150      D_s*-       MyD*0         K+                     PHSP;
+0.0050      D_s-        MyD*0         K+                     PHSP; 
+0.0030      D_s*-       MyD*0         K*+                    PHSP; 
+0.0025      D_s-        MyD*0         K*+                    PHSP;
+
+0.000065      MyD_s2*-      pi+                                STS;
+
+0.0002      Myanti-D*0    anti-K0                            SVS;
+0.0002      Myanti-D*0    anti-K*0                           SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s0sig
+
+
+Decay MyD*0
+0.6190  MyD0 pi0     VSS;
+0.3810  MyD0 gamma   VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+
+Decay MyD0
+1.000 K- pi+    PHSP;
+Enddecay
+CDecay Myanti-D0
+
+Decay MyD'_s1+
+1.0000   MyD*0 K+                            VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyD'_s1-
+
+Decay MyD_s2*+
+1.0000    MyD*0 K+                         TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD_s2*-
+
+End

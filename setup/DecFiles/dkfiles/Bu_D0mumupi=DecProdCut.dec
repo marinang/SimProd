@@ -1,0 +1,35 @@
+# EventType:  12175010
+#
+# Descriptor:  [B- -> (D0 ->K- pi+) mu- mu- pi+]cc
+#
+# NickName:  Bu_D0mumupi=DecProdCut
+#
+# Cuts:  DaughtersInLHCb
+#
+# Documentation:  Decay file for B+->D0MuMu 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested:  Yes
+# Responsible:    Wenbin Qian
+# Email:  wenbin.qian@cern.ch 
+# Date: 20101221
+#
+#
+Alias        MyD0         D0
+Alias        Myanti-D0    anti-D0
+ChargeConj   MyD0         Myanti-D0
+
+Decay B+sig
+  1.     Myanti-D0   mu+    mu+   pi-    PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+  1.000      K-   pi+                        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+#
+End
+#

@@ -1,0 +1,36 @@
+# EventType: 12165000
+#
+# Descriptor: [B+ -> (D~0 -> K+ pi-) p+ p~- pi+]cc
+#
+# NickName: Bu_D0ppbarpi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Mengzhen Wang
+# Email: mengzhen.wang@cern.ch
+# Date: 20170722 
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+#
+Decay B+sig
+  1.00   Myanti-D0   p+  anti-p- pi+                   PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+End
+

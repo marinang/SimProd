@@ -1,0 +1,31 @@
+# EventType: 13114001 
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) mu+ mu-]cc
+#
+# NickName: Bs_phimumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phi forced to K+ K-, parameters taken from Bd physics,
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Kirill Voronchev
+# Email: paul.schaack@cern.ch
+# Date: 20111013
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_s0sig
+  1.0000       MyPhi     mu+  mu-        BTOSLLALI;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

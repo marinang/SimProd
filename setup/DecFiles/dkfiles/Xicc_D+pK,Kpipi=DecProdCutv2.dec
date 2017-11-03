@@ -1,0 +1,35 @@
+# EventType:  26165054
+#
+# Descriptor: [Xi_cc+ -> (D+ => pi+ pi+ K-) p+ K- ]cc
+#
+# NickName: Xicc_D+pK,Kpipi=DecProdCutv2
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# Documentation: Xicc decay to D+ p+ K- by phase space model, D+ decay to pi+ pi+ K-
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Liang Zhong
+# Email: zhong-l09@mails.tsinghua.edu.cn
+# Date: 20111127
+#
+Alias      MyD+          D+
+Alias      MyD-          D-
+ChargeConj MyD+			MyD-
+#
+Decay Xi_cc+sig
+  1.000    MyD+   p+  K-				PHSP;
+Enddecay
+CDecay anti-Xi_cc-sig
+#
+Decay MyD+
+  1.000        K-        pi+        pi+             PHSP;
+Enddecay
+CDecay MyD-
+#
+End
+#

@@ -1,0 +1,263 @@
+# EventType: 12675410
+#
+# Descriptor: [B- -> (Lambda_c+ -> p+ K- pi+) Myanti-N(1440)- anti-nu_mu mu-]cc
+#
+# NickName: Bu_LcNstmunu,pKpi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 1 min
+#
+# Documentation: B -> Lc*/Lc N*  mu nu_mu with Lc->p X, Nst->pX.  Includes acceptance, P and PT cuts on the bachelor p and mu. 
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut  = Generation().SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "[ B- ==>  (Lambda_c+ ==> ^p+ ^K- ^pi+) ^p~-  ^mu- nu_mu~  {X} {X} {X} {X}]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV"
+#  ]
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )" ,
+#'[K-]cc'   : " in_range( 0.010 , GTHETA , 0.400 )" ,
+#'[pi+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )" ,
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 )"
+#   }
+#from Configurables import LHCb__ParticlePropertySvc
+#LHCb__ParticlePropertySvc().Particles = [ 
+# "N(1440)+              636       12212   1.0      1.4400000      2.194041e-24                 N(1440)+           21440      0.00",
+# "N(1440)~-             637      -12212  -1.0      1.4400000      2.194841e-24                   anti-N(1440)-           -21440      0.00",
+#"N(1520)+              420        2124   1.0      1.52000000      5.723584e-24                   N(1520)+           21520      0.00",
+# "N(1520)~-             421       -2124  -1.0      1.52000000     5.723584e-24                   anti-N(1520)-           -21520      0.00",
+#"N(1535)+              713       22212   1.0      1.53500000      4.388081e-24                   N(1535)+           21535      0.00",
+#"N(1535)~-             714      -22212  -1.0      1.53500000      4.388081e-24                   anti-N(1535)-           -21535      0.00",
+#"N(1720)+              775       32124   1.0      1.72000000      2.632849e-24                   N(1720)+           21720      0.00",
+#"N(1720)~-             776      -32124  -1.0      1.72000000      2.632849e-24                   anti-N(1720)-           -21720      0.00"
+#]
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: William Sutcliffe
+# Email: william.lawrence.sutcliffe@cern.ch
+# Date:   20150610
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias MyLambda_c(2593)+       Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)-  anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+  Myanti-Lambda_c(2593)-
+#
+Alias MyLambda_c(2625)+       Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+  Myanti-Lambda_c(2625)-
+#
+#
+Alias MySigma_c+       Sigma_c+
+Alias Myanti-Sigma_c-  anti-Sigma_c-
+ChargeConj MySigma_c+  Myanti-Sigma_c-
+#
+Alias MySigma_c++       Sigma_c++
+Alias Myanti-Sigma_c--  anti-Sigma_c--
+ChargeConj MySigma_c++  Myanti-Sigma_c--
+#
+Alias MySigma_c0       Sigma_c0
+Alias Myanti-Sigma_c0  anti-Sigma_c0
+ChargeConj MySigma_c0  Myanti-Sigma_c0
+#
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Alias      MyK*-          K*-
+Alias      MyK*+          K*+
+ChargeConj MyK*-          MyK*+
+#
+Alias      Myf_0          f_0
+#
+Alias      Myphi          phi
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+#
+Alias        MyDelta+           Delta+
+Alias        Myanti-Delta-    anti-Delta-
+ChargeConj   MyDelta+         Myanti-Delta-
+
+Alias        MyDelta0           Delta0
+Alias        Myanti-Delta0    anti-Delta0
+ChargeConj   MyDelta0         Myanti-Delta0
+
+Alias        MyN(1440)+         N(1440)+
+Alias        Myanti-N(1440)-    anti-N(1440)-
+ChargeConj   MyN(1440)+         Myanti-N(1440)-
+
+
+Alias        MyDelta++           Delta++
+Alias        Myanti-Delta--    anti-Delta--
+ChargeConj   MyDelta++         Myanti-Delta--
+Alias        MyN(1535)+         N(1535)+
+Alias        Myanti-N(1535)-    anti-N(1535)-
+ChargeConj   MyN(1535)+         Myanti-N(1535)-
+
+Alias        MyN(1520)+         N(1520)+
+Alias        Myanti-N(1520)-    anti-N(1520)-
+ChargeConj   MyN(1520)+         Myanti-N(1520)-
+
+Alias        MyN(1720)+         N(1720)+
+Alias        Myanti-N(1720)-    anti-N(1720)-
+ChargeConj   MyN(1720)+         Myanti-N(1720)-
+#
+Decay B-sig
+  0.1898    MyLambda_c+  Myanti-N(1440)-     mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.16352    MyLambda_c+  Myanti-N(1440)-  pi+ pi-    mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.02336    MyLambda_c(2593)+  Myanti-N(1440)-       mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.04088    MyLambda_c(2625)+  Myanti-N(1440)-       mu-  anti-nu_mu     PHOTOS   PHSP;
+
+  0.0923    MyLambda_c+  Myanti-N(1535)-     mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.07952    MyLambda_c+  Myanti-N(1535)-  pi+ pi-    mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.008    MyLambda_c(2593)+  Myanti-N(1535)-       mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.014    MyLambda_c(2625)+  Myanti-N(1535)-       mu-  anti-nu_mu     PHOTOS   PHSP;
+
+  0.10    MyLambda_c+  Myanti-N(1520)-     mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.08624    MyLambda_c+  Myanti-N(1520)-  pi+ pi-    mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.0123    MyLambda_c(2593)+  Myanti-N(1520)-       mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.0216    MyLambda_c(2625)+  Myanti-N(1520)-       mu-  anti-nu_mu     PHOTOS   PHSP;
+
+  0.067    MyLambda_c+  Myanti-N(1720)-     mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.05768    MyLambda_c+  Myanti-N(1720)-  pi+ pi-    mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.00824    MyLambda_c(2593)+  Myanti-N(1720)-       mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.01442    MyLambda_c(2625)+  Myanti-N(1720)-       mu-  anti-nu_mu     PHOTOS   PHSP;
+  #tau mode
+Enddecay
+CDecay B+sig
+# BR = 1
+Decay MyLambda_c+
+  0.02800         p+      K-      pi+          PHSP;
+  0.01065         p+      Myanti-K*0           PHSP;
+  0.00860         MyDelta++ K-                   PHSP;
+  0.00414         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+# BR = 1
+Decay MyLambda_c(2593)+
+  0.24000      MySigma_c++         pi-         PHSP;
+  0.24000      MySigma_c0          pi+         PHSP;
+  0.18000      MyLambda_c+         pi+    pi-  PHSP;
+  0.24000      MySigma_c+          pi0         PHSP;
+  0.09000      MyLambda_c+         pi0    pi0  PHSP;
+  0.01000      MyLambda_c+         gamma       PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+Decay MyLambda_c(2625)+
+  0.66000      MyLambda_c+         pi+    pi-  PHSP;
+  0.33000      MyLambda_c+         pi0         PHSP;
+  0.01000      MyLambda_c+         gamma       PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MySigma_c++
+  1.0000    MyLambda_c+  pi+                   PHSP;
+Enddecay
+CDecay Myanti-Sigma_c-- 
+#
+Decay MySigma_c+
+1.0000    MyLambda_c+  pi0                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c-
+#
+Decay MySigma_c0
+1.0000    MyLambda_c+  pi-                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+# 
+Decay Mytau-
+  0.1736       mu-  anti-nu_mu   nu_tau        TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+Decay MyK*0
+  0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyLambda(1520)0
+  0.23   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyN(1440)+
+  0.217    p+   pi0              PHSP;
+  0.125    MyDelta++ pi-               PHSP;
+  0.056    MyDelta+  pi0               PHSP;
+  0.0139   MyDelta0 pi+        PHSP;
+  0.067      p+ pi+ pi-          PHSP;
+  0.033      p+ pi0 pi0          PHSP;
+  0.00415      p+ gamma            PHSP;
+Enddecay
+CDecay Myanti-N(1440)-
+#
+Decay MyN(1520)+
+  0.20   p+   pi0              PHSP;
+  0.10    MyDelta++ pi-               PHSP;
+  0.044    MyDelta+  pi0               PHSP;
+  0.011   MyDelta0 pi+        PHSP;
+  0.20    p+   rho0              PHSP;
+  0.004      p+ gamma            PHSP;
+  0.0023       p+ eta              PHSP;
+Enddecay
+CDecay Myanti-N(1520)-
+#
+#
+Decay MyN(1535)+
+  0.15    p+   pi0              PHSP;
+  0.42    p+   eta              PHSP;
+  0.0133    p+   pi- pi+              PHSP;
+  0.0067    p+   pi0 pi0              PHSP;
+  0.0267      MyN(1440)+  pi0        PHSP;
+  0.00225      p+ gamma            PHSP;
+Enddecay
+CDecay Myanti-N(1535)-
+#
+Decay MyN(1720)+
+  0.037    p+   pi0              PHSP;
+  0.75    p+   rho0              PHSP;
+  0.14    MyDelta+ pi0              PHSP;
+  0.04    p+ eta                   PHSP;
+  0.0015  p+ gamma                 PHSP;
+Enddecay
+CDecay Myanti-N(1720)-
+#
+#
+Decay MyDelta+
+  1.0    p+   pi0              PHSP;
+Enddecay
+CDecay Myanti-Delta-
+
+
+Decay MyDelta++
+  1.0    p+   pi+              PHSP;
+Enddecay
+CDecay Myanti-Delta--
+
+
+Decay MyDelta0
+  1.0    p+   pi-              PHSP;
+Enddecay
+CDecay Myanti-Delta0
+#
+End

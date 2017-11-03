@@ -1,0 +1,65 @@
+# EventType: 11196202
+# 
+# Descriptor: [B0 -> K+ (D*- -> (anti-D0 -> K+ pi-) pi-) (D*0 -> (D0 -> K- pi+) gamma)]cc
+# 
+# NickName: Bd_Dst0DstK,D0gamma,Kpi,PHSP=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay File for B0 -> D*0( -> D0 gamma) D*-( -> D~0 pi- ) K+
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Renato Quagliani
+# Email: rquaglia@cern.ch
+# Date: 20160704
+# CPUTime: <1min
+
+
+Alias MyD*0       D*0
+Alias Myanti-D*0  anti-D*0
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+Alias MyD*+  D*+
+Alias MyD*-  D*-
+ChargeConj MyD*0  Myanti-D*0
+ChargeConj MyD0  Myanti-D0
+ChargeConj MyD*- MyD*+
+
+#D*0 Decay
+Decay MyD*0
+1.000    MyD0  gamma                        VSP_PWAVE;
+Enddecay
+
+Decay Myanti-D*0
+1.000    Myanti-D0  gamma                       VSP_PWAVE;
+Enddecay     
+
+#D*- Decay
+Decay MyD*-
+  1.0 Myanti-D0 pi-  VSS;
+Enddecay
+
+#D*+ Decay
+Decay MyD*+
+  1.0 MyD0 pi+  VSS;                                                               
+Enddecay                                                                                         
+
+#D0 Decay
+Decay MyD0
+  1.000        K-        pi+                    PHSP;
+Enddecay
+
+Decay Myanti-D0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+
+#B0 Decay
+Decay B0sig
+  1.000 MyD*0 MyD*- K+ PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

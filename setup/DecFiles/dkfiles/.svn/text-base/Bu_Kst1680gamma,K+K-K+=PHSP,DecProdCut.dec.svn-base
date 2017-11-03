@@ -1,0 +1,44 @@
+# EventType: 12103230 
+#
+# NickName: Bu_Kst1680gamma,K+K-K+=PHSP,DecProdCut
+#
+# Descriptor: [ B+ -> ( K''*+ -> K+ K+ K- ) gamma ]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ -> ( K*(1680)+ -> K+ K+ K- ) gamma, phase space decay model, decay products in acceptance, K*(1680)+ mass uniformly distributed in a given range  
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# CPUTime: < 1min
+# Responsible: Zhirui Xu 
+# Email: zhirui.xu@cern.ch
+# Date: 20150415
+#
+noPhotos
+#
+Alias MyKKK-  K''*-
+Alias MyKKK+  K''*+ 
+ChargeConj MyKKK+ MyKKK-
+
+LSFLAT MyKKK+
+ChangeMassMin MyKKK+ 1.45
+ChangeMassMax MyKKK+ 5.0 
+
+LSFLAT MyKKK-
+ChangeMassMin MyKKK- 1.45
+ChangeMassMax MyKKK- 5.0
+
+#
+Decay B+sig
+  1.000    MyKKK+ gamma     SVP_HELAMP 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay MyKKK+
+1.000    K+     K-    K+     PHSP;
+Enddecay
+CDecay MyKKK-
+End
+#

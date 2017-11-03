@@ -1,0 +1,59 @@
+# EventType: 13606400
+#
+# Descriptor: [B_s0 -> (tau+ -> pi+ pi- pi+ pi0 anti-nu_tau) (tau- -> pi- pi+ pi- nu_tau)]cc
+#
+# NickName: Bs_tautau,3pi,3pipi0=DecProdCut,TightCut
+#
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+#
+# Documentation: Bs decay to 2 tau leptons with a phasespace model.
+# One tau decays into 3 charged pion and a pi0  
+# One tau decays in the 3 charged pions  channel
+# All final-state products in the acceptance and tight cuts on daughters
+# EndDocumentation
+#
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Justine Serrano
+# Email: serrano@cppm.in2p3.fr
+# Date: 20150330
+#
+Alias         Mytau1+  tau+
+Alias         Mytau1-  tau-
+ChargeConj    Mytau1+  Mytau1-
+Alias         Mytau2+  tau+
+Alias         Mytau2-  tau-
+ChargeConj    Mytau2+  Mytau2-
+#
+Decay B_s0sig
+  0.50       Mytau1-        Mytau1+             PHSP;
+  0.50       Mytau2+       Mytau2-              PHSP;
+Enddecay
+#
+Decay anti-B_s0sig
+  0.50       Mytau2+      Mytau2-               PHSP;
+  0.50       Mytau1-        Mytau1+             PHSP;
+Enddecay
+#
+Decay Mytau1-
+  1.00      TAUOLA 8;
+Enddecay
+#
+Decay Mytau1+
+  1.00       pi+ pi+ pi-  anti-nu_tau   TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+#       
+Decay Mytau2+
+  1.00       TAUOLA 8;
+Enddecay
+#
+Decay Mytau2-
+  1.00        pi- pi- pi+  nu_tau   TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+#       
+End

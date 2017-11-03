@@ -1,0 +1,33 @@
+# EventType: 12163021
+#
+# Descriptor: [B+ -> (D~0 -> K+ K-) K+]cc
+#
+# NickName: Bu_D0K,KK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Paolo Gandini
+# Email: p.gandini1@physics.ox.ac.uk
+# Date: 20040416
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+#
+Decay B+sig
+  1.000     Myanti-D0  K+               PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+  1.000        K+       K-              PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End

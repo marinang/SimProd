@@ -1,0 +1,35 @@
+# EventType: 15168002
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p K+ pi-) pi- pi+ pi- pi+ pi-]cc
+#
+# NickName: Lb_Lambdac5pi,pKpi=DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: phase space decay of Lambda_b0 to Lambda_c 5pi, decay products in acceptance
+#   MinP cut for daughters
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Liang Zhong
+# Email: liang.zhong@cern.ch
+# Date: 20120523
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+
+Decay Lambda_b0sig
+  1.00    MyLambda_c+    pi- pi+ pi- pi+ pi-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End

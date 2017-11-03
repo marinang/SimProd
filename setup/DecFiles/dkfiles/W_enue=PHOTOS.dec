@@ -1,0 +1,22 @@
+# EventType: 42321001
+#
+# Descriptor: pp -> [W+ -> e+ nu_e {,gamma} {,gamma} ]cc ... 
+#
+# NickName: W_enue=PHOTOS
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 4*GeV LeptonIsFromMother true NumberOfbquarks -1
+# ExtraOptions: Wenue=PHOTOS
+#
+# Documentation: 1 lepton with pT > 4 GeV and PHOTOS activated
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Myfanwy Liles
+# Email: mliles@cern.ch
+# Date: 20121024
+#
+End
+#

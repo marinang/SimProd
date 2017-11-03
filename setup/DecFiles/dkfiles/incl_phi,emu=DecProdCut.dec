@@ -1,0 +1,25 @@
+# EventType: 39312000
+#
+# Descriptor: [phi(1020) => e+ mu-]CC
+#
+# NickName: incl_phi,emu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phi decay to e+, mu-
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Stefanie Reichert
+# Email: stefanie.reichert@cern.ch
+# Date: 20160518
+#
+Decay phisig
+  0.5000       e-    mu+              PHOTOS VLL;
+  0.5000       e+    mu-              PHOTOS VLL;
+Enddecay
+#
+End
+#

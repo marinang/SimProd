@@ -1,0 +1,48 @@
+# EventType: 16303432
+#
+# Descriptor: [Xi_b-  -> (N(1520)+ -> p+ pi0) K- K-]cc
+#
+# NickName: Xib_N+h-h-,p+pi0=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "N(1520)+ 122 2124 1.0 1.52 5.7217391e-024 N(1520)+ 2124 0.000000e+000", "N(1520)~- 123 -2124 -1.0 1.52 5.7217391e-024 anti-N(1520)- -2124 0.000000e+000"
+#
+# Documentation: N(1520)+ forced to p+ pi0
+# decay products in acceptance
+# New N(1520)+ particle is defined
+# EndDocumentation
+#
+# CPUTime: 2 mins
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Abhijit Mathad
+# Email: amathad@cern.ch
+# Date: 20150707
+#
+#
+Alias      MyN+       	  N(1520)+ 
+Alias      MyN-       	  anti-N(1520)-
+ChargeConj MyN+       	  MyN-
+#
+Alias      Mypi0        pi0
+ChargeConj Mypi0        Mypi0
+#
+Decay Xi_b-sig
+  1.000        MyN+         K-      K-        PHSP;
+  1.000        MyN+         K-      pi-       PHSP;
+  1.000        MyN+         pi-     pi-       PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyN+
+  1.000        p+      Mypi0                PHSP;
+Enddecay
+CDecay MyN-
+#
+Decay Mypi0
+  1.000        gamma      gamma           PHSP;
+Enddecay
+#
+End

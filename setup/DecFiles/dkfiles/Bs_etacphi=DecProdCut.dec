@@ -1,0 +1,42 @@
+# EventType: 13336001
+#
+# Descriptor: [B_s0 -> (eta_c(1S) => {pi+ pi- pi+ pi-, K+ K- pi+ pi-, K+ K- K+ K-}) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bs_etacphi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Eta_c(1S) forced to 4 charged tracks, 
+#                phi forced into K+ K-, daughters in acceptance.
+#                Branching ratios updated to PDG 2011,
+#                The total BR of the eta_c(1S) is 14.82%
+# EndDocumentation
+# 
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Katarzyna Senderowska
+# Email: Katarzyna.Senderowska@fis.agh.edu.pl
+# Date: 20111110
+#
+Alias      MyPhi      phi
+Alias      Myeta_c    eta_c
+ChargeConj MyPhi      MyPhi
+ChargeConj Myeta_c    Myeta_c
+#
+Decay B_s0sig
+  1.0000       MyPhi     Myeta_c              SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+Decay Myeta_c
+  0.0320      pi+   pi-   pi+   pi-      PHSP;
+  0.0442      K+    K-    K+    K-       PHSP;
+  0.0072      K+    K-    pi+   pi-      PHSP;
+Enddecay
+#
+End
+

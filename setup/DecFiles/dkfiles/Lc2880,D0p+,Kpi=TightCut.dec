@@ -1,0 +1,104 @@
+# EventType: 25163000
+#
+# Documentation: 
+#   Spectroscopy D0p
+#   To study Lambda_c(2880) -> D0 p
+#   Since Lambdac(2880) is not produced in pythia, we modify the ground state Lambdac.
+#   We modify the Lambda_c(2625)+ properties to avoid its decays into Lambdac
+#   The GenLevelCut allows to have 2*times the amount of signal events requested
+#   Info about the cut can be found at http://lhcb-release-area.web.cern.ch/LHCb-release-area/DOC/gauss/latest_doxygen/d4/dfe/namespace_lo_ki_1_1_kinematics.html#a62d507a7c192f41b32276bfff3d08f9b LoKi::Kinematics::decayAngle.
+# EndDocumentation
+#
+# Descriptor: {[ Lambda_c+ -> (D0 -> K- pi+) p+ ]cc} 
+# NickName: Lc2880,D0p+,Kpi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ParticleValue:  "Lambda_c+ 4122 4122 1.0 2.880 6.582e-023 Lambda_c+ 4122 0.07722797", "Lambda_c~- -4122 -4122 -1.0 2.880 6.582e-023 anti-Lambda_c- -4122 0.07722797", "Lambda_c(2625)+ 104124 104124 1.0 4.880 5.00e-024 Lambda_c(2625)+ 0 1.0e-004", "Lambda_c(2625)~- -104124 -104124 -1.0 4.880 5.00e-024 anti-Lambda_c(2625)- 0 1.0e-004"
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# #
+# tightCut.Decay    = "^[ Lambda_c+ -> (D0 -> ^K- ^pi+) ^p+ ]CC"
+# tightCut.Cuts     = {
+#    '[Lambda_c+]cc' : "in_range ( 0.00 , num/den , 1.00 )",
+#    '[K-]cc'        : "in_range ( 0.010 , GTHETA , 0.400 )",
+#    '[pi-]cc'       : "in_range ( 0.010 , GTHETA , 0.400 )",
+#    '[p+]cc'        : "in_range ( 0.010 , GTHETA , 0.400 )",
+#    }
+# #
+# tightCut.Preambulo += [
+#    "from LoKiGen.decorators import *",
+#    "from LoKiCore.functions import *",
+#    "from LoKiCore.math import sqrt",
+#    "D_PX   = GCHILD(GPX,'p+' == GABSID)",
+#    "D_PY   = GCHILD(GPY,'p+' == GABSID)",
+#    "D_PZ   = GCHILD(GPZ,'p+' == GABSID)",
+#    "D_E    = GCHILD(GE,'p+' == GABSID)",
+#    "Q_PX   = GPX",
+#    "Q_PY   = GPY",
+#    "Q_PZ   = GPZ",
+#    "Q_E    = GE",
+#    "D_M    = sqrt(D_E*D_E - D_PX*D_PX - D_PY*D_PY - D_PZ*D_PZ)",
+#    "Q_M    = sqrt(Q_E*Q_E - Q_PX*Q_PX - Q_PY*Q_PY - Q_PZ*Q_PZ)",
+#    "PdotD  = 2.0*Q_E*D_E",
+#    "PdotQ  = 2.0*Q_E*Q_E",
+#    "DdotQ  = Q_E*D_E - D_PX*Q_PX - D_PY*Q_PY - D_PZ*Q_PZ",
+#    "Q2     = Q_M*Q_M",
+#    "P2     = 4.0*Q_E*Q_E",
+#    "D2     = D_M*D_M",
+#    "num    = PdotD*Q2 - PdotQ*DdotQ",
+#    "den    = sqrt((PdotQ*PdotQ - Q2*P2)*(DdotQ*DdotQ - Q2*D2))",
+#    ]
+# EndInsertPythonCode
+#
+# CPUTime: <1min	
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Diego Milanes
+# Email: dmilanes@<nospam>cern.ch
+# Date: 20140214
+#
+#
+#Alias Lambda_c+sig      Lambda_c+
+#Alias anti-Lambda_c-sig anti-Lambda_c-
+#ChargeConj Lambda_c+sig anti-Lambda_c-sig
+#
+Alias MyD0      D0
+Alias MyantiD0  anti-D0
+ChargeConj MyD0 MyantiD0
+#
+Alias MyLambda_c(2625)+      Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+ Myanti-Lambda_c(2625)-
+#
+Alias MyLambda0      Lambda0
+Alias Myanti-Lambda0  anti-Lambda0
+ChargeConj MyLambda0 Myanti-Lambda0
+#
+Decay Lambda_c+sig
+  1.000   MyD0 p+          PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+#
+Decay MyD0
+  1.000   K-  pi+   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+Decay MyLambda_c(2625)+
+ 1.000 MyLambda0 pi+      PHSP;
+Enddecay 
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MyLambda0
+ 1.000 p+ pi-      PHSP; 
+Enddecay
+CDecay Myanti-Lambda0
+#
+End

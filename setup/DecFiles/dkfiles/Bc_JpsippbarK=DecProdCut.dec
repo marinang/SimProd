@@ -1,0 +1,33 @@
+# EventType: 14145021
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu- ) p+ p~- K+]cc
+#
+# NickName: Bc_JpsippbarK=DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Non resonant, Jpsi forced into mu+ mu-, using BcVegPy generator and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Rafael Coutinho
+# Email: rsilvaco@cern.ch
+# Date: 20120607
+#
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi    MyJ/psi
+#
+Decay B_c+sig
+  1.000        MyJ/psi     p+      anti-p-     K+     PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000        mu+       mu-        VLL;
+Enddecay
+#
+End
+

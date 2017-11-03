@@ -1,0 +1,26 @@
+# EventType: 18112031
+#
+# Descriptor: Upsilon(4S) -> mu+ mu- {,gamma} {,gamma}
+#
+# NickName: incl_Upsilon4S,mm=DecProdCut
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon(4S) decay to mu+ mu-, radiative mode included, Upsilon(4S) daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: M Needham
+# Email: Matthew.Needham@cern.ch
+# Date: 20110909
+#
+#
+Decay Upsilon(4S)sig
+  1.000         mu+        mu-        VLL;
+Enddecay
+#
+End
+#

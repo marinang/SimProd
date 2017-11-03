@@ -1,0 +1,172 @@
+# EventType: 15266006
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p K+ pi-) K- pi+ pi-]cc
+#
+# NickName: Lb_LambdacKpipi-withSigmaC=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Several intermediate resonances included 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: S. Blusk
+# Email:  sblusk@syr.edu
+# Date: 20111008
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Alias MyLambda_c(2593)+ Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)- anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+ Myanti-Lambda_c(2593)-
+#
+Alias MyLambda_c(2625)+ Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)- anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+ Myanti-Lambda_c(2625)-
+#
+Alias MySigma_c0 Sigma_c0
+Alias Myanti-Sigma_c0 anti-Sigma_c0
+ChargeConj MySigma_c0 Myanti-Sigma_c0
+#
+Alias MySigma_c++ Sigma_c++
+Alias Myanti-Sigma_c-- anti-Sigma_c--
+ChargeConj MySigma_c++ Myanti-Sigma_c--
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias      MyK_1-     K_1-
+Alias      MyK_1+     K_1+
+ChargeConj MyK_1+     MyK_1-
+#
+Alias      MyK_2*-     K_2*-
+Alias      MyK_2*+     K_2*+
+ChargeConj MyK_2*+     MyK_2*-
+#
+Alias      MyK'_1-     K'_1-
+Alias      MyK'_1+     K'_1+
+ChargeConj MyK'_1+     MyK'_1-
+#
+Alias      MyK''*-     K''*-
+Alias      MyK''*+     K''*+
+ChargeConj MyK''*+     MyK''*-
+#
+Alias      MyK'*-     K'*-
+Alias      MyK'*+     K'*+
+ChargeConj MyK'*+     MyK'*-
+#
+Alias      MyK_0*0    K_0*0
+Alias      Myanti-K_0*0 anti-K_0*0
+ChargeConj MyK_0*0   Myanti-K_0*0 
+#
+Alias      Myomega omega
+ChargeConj Myomega Myomega
+#
+#
+Decay Lambda_b0sig
+  0.40   MyLambda_c+  MyK_1-                   PHSP;
+  0.10   MyLambda_c+  MyK'_1-                  PHSP;
+  0.10   MyLambda_c+  MyK*0    pi-             PHSP;
+  0.08   MyLambda_c+  MyK_2*-                  PHSP;
+  0.05   MyLambda_c+  MyK'*-                  PHSP;
+  0.04   MyLambda_c+  MyK''*-                  PHSP;
+  0.03    MyLambda_c(2593)+  pi-            PHSP;
+  0.06    MyLambda_c(2625)+  pi-            PHSP;
+  0.05    MySigma_c++        pi-  pi-       PHSP;
+  0.09    MySigma_c0         pi+  pi-       PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  0.008600000 Delta++ K-                                      PHSP;
+  0.010700000 p+      Myanti-K*0                              PHSP;
+  0.025400000 p+      K-      pi+                             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+#  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda_c(2593)+
+  0.24000      MySigma_c++         pi-                      PHSP;  
+  0.24000      MySigma_c0          pi+                      PHSP;
+  0.18000      MyLambda_c+         pi+    pi-               PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+Decay MyLambda_c(2625)+
+  1.0      MyLambda_c+         pi+    pi-               PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MySigma_c++
+1.0000    MyLambda_c+  pi+                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MySigma_c0
+1.0000    MyLambda_c+  pi-                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK_0*0
+  1.000 K+ pi-                    PHSP;
+Enddecay
+CDecay Myanti-K_0*0
+#
+Decay MyK_2*+
+  1.000 MyK*0 pi+                    PHSP;
+Enddecay
+CDecay MyK_2*-
+#
+Decay MyK'*+                            
+  0.90   MyK*0 pi+                   VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.10   rho0 K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK'*-
+
+Decay MyK''*+                            
+  0.67   MyK*0 pi+                   VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.33   rho0 K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK''*-
+#
+Decay Myomega
+  1.000 pi-  pi+                       VSS;
+Enddecay
+#
+Decay MyK_1+
+  0.140  rho0   K+                    VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+  0.071  MyK*0  pi+                   VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+  0.116  MyK_0*0  pi+                 PHSP;
+  0.0019 Myomega K+                   VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK_1-
+#
+Decay MyK'_1+
+  0.6300   MyK*0  pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0100   rho0 K+                         VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0133   K+  pi+  pi-                    PHSP;
+Enddecay
+CDecay MyK'_1-
+#
+Decay MySigma_c++
+1.0000    MyLambda_c+  pi+                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MySigma_c0
+1.0000    MyLambda_c+  pi-                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+#
+End
+

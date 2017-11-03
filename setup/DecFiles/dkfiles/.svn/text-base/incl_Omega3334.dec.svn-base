@@ -1,0 +1,18 @@
+# EventType: 36000000
+#
+# Descriptor: pp => [<Omega->]cc ...
+#
+# NickName: incl_Omega3334
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Omega- inclusive events
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible:     Stephane Tourneur
+# Email: stephane.tourneur@epfl.ch
+# Date:   20130323
+#
+End

@@ -1,0 +1,22 @@
+# EventType: 42122032
+#
+# Descriptor: pp -> (Z0/gamma* -> e+ e- jet) ... 
+#
+# NickName: DrellYan_eejet=5GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonIsFromMother true NumberOfbquarks -1 LeptonPtMin 1.0*GeV
+# ExtraOptions: DrellYaneejet5GeV
+#
+# Documentation: 1 lepton
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: from file by Karol Hennessy
+# Email: revkarol@gmail.com 
+# Date: 20070827
+#
+End
+#

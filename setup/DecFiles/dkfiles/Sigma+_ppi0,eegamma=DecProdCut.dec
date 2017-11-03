@@ -1,0 +1,31 @@
+# EventType: 32123200
+#
+# Descriptor: [Sigma+ => p+ (pi0 -> e+ e- gamma)]cc
+#
+# NickName: Sigma+_ppi0,eegamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Sigma+-> p+ pi0 with phase space model, pi0 forced to e+ egamma  DaughtersInLHCb cut.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Francesco Dettori 
+# Email: francesco.dettori@cern.ch
+# Date: 20131017
+#
+Alias Mypi0 pi0
+ChargeConj Mypi0 Mypi0
+
+Decay       Sigma+sig
+  1.000         p+        Mypi0        PHSP;
+Enddecay
+CDecay anti-Sigma-sig
+#
+Decay Mypi0
+  1.000 e+      e-      gamma                           PI0_DALITZ; 
+Enddecay
+#
+End
+#

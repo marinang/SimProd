@@ -1,0 +1,33 @@
+# EventType: 18912031
+#
+# Descriptor: Upsilon(4S) -> (Upsilon(1S) -> mu+ mu- {,gamma} {,gamma}) omega 
+#
+# NickName: incl_Upsilon4S,Upsilon1Somega=Phsp,DecProdCut,fix
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon4S
+#
+# Documentation: Upsilon(4S) decay to Upsilon(1S)(to mu+ mu- {,gamma} {,gamma}) and omega with space space decay, all daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Anton Poluektov
+# Email: anton.poluektov@cern.ch
+# Date: 20110909
+#
+#
+Alias      MyUpsilon Upsilon
+ChargeConj MyUpsilon MyUpsilon
+
+Decay Upsilon(4S)sig
+  1.000     MyUpsilon  omega                PHSP;
+Enddecay
+#
+Decay MyUpsilon
+  1.000     mu+  mu-                        VLL;
+Enddecay
+
+End
+#

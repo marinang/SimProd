@@ -1,0 +1,47 @@
+# EventType: 13104002
+#
+# Descriptor: [B_s0 -> (K*(892)~0 -> K- pi+) (K*(892)0 -> K+ pi-)]cc
+#
+# NickName: Bs_Kst0Kst0=LargeCPV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: CP violation depending on beta_s, daughters in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Paula Alvarez Cartelle
+# Email: paula.alvarez@usc.es
+# Date: 20100320
+#
+Define Al 0.8
+Define Apa 0.5
+Define Ape 0.33
+Define pAl 0.0
+Define pApa 3.14
+Define pApe 3.14
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+# 
+Decay B_s0sig
+  1.000    MyK*0    Myanti-K*0   PVV_CPLH 0.4 1 Apa pApa Al pAl Ape pApe; 
+Enddecay
+#
+Decay anti-B_s0sig
+  1.000    Myanti-K*0    MyK*0   PVV_CPLH 0.4 1 Apa pApa Al pAl Ape pApe;
+Enddecay
+#
+Decay MyK*0
+  1.000     K+    pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+#
+
+
+
+

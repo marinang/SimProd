@@ -1,0 +1,47 @@
+# EventType: 12175002
+#
+# Descriptor: [B+ -> (D*(2010)- -> (D0bar -> K+ pi-) pi-) e+ mu+]cc
+#
+# NickName: Bu_DstemuSS,D0pi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ -> (D*(2010)- -> (D0bar -> K+ pi-) pi-) e+ mu+ (LNV,PHSP) 
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Alias MyD*- D*-
+Alias MyD*+ D*+
+ChargeConj MyD*+ MyD*-
+#
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+ChargeConj MyD0 Myanti-D0
+#
+Decay B+sig
+ 1.0    MyD*-      e+    mu+   PHOTOS PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD*+
+ 1.0 MyD0 pi+ VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+ 1.0 K- pi+ PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End
+#

@@ -1,0 +1,40 @@
+# EventType: 11506000
+#
+# Descriptor: [B_0 -> (tau+ -> pi+ pi- pi+ anti-nu_tau) (tau- -> pi+ pi- pi- nu_tau)]cc
+#
+# NickName: Bd_tautau,pipipinu=DecProdCut,TightCut
+#
+
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+
+# Documentation: B0 decay to 2 tau leptons with a phasespace model.
+# Both tau leptons decay in the 3-prong charged pion mode with EvtGen's TAUHADNU model.
+# All final-state products in the acceptance.
+# EndDocumentation
+##
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Justine Serrano
+# Email: serrano@cppm.in2p3.fr
+# Date: 20150330
+#
+Alias         Mytau+  tau+
+Alias         Mytau-  tau-
+ChargeConj    Mytau+  Mytau-
+#
+Decay B0sig
+  1.000       Mytau+        Mytau-             PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mytau-
+  1.00      pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay Mytau+
+#
+#       
+End

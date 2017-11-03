@@ -1,0 +1,28 @@
+# EventType: 18112003
+#
+# Descriptor: Upsilon(1S) -> mu+ mu- {,gamma} {,gamma}
+#
+# NickName: incl_Upsilon1S,mm=NoCut
+#
+# Sample: SignalPlain
+#
+# Cuts: None
+#
+# ExtraOptions: Upsilon1S
+#
+# Documentation: Upsilon(1S) decay to mu+ mu-, radiative mode included, no generator level cuts
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20110909
+#
+#
+Decay Upsilonsig
+  1.000         mu+        mu-        VLL;
+Enddecay
+#
+End
+#

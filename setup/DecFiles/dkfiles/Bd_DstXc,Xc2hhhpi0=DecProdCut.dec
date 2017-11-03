@@ -1,0 +1,124 @@
+# EventType: 11296410
+#
+# Descriptor: {[B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (D+ -> pi- pi+ pi+ pi0)]cc,[B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (D_s+ -> pi- pi+ pi+ pi0)]cc,[B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (D_s*+ -> gamma (D_s+ -> pi- pi+ pi+ pi0))]cc,[B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (D*+ -> (D+ -> pi- pi+ pi+ pi0) pi0)]cc}
+#
+# NickName: Bd_DstXc,Xc2hhhpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Generic B0 -> D* Xc decay file for charm decays with missing particle, where Xc = D*, D_s*, D+, D_s*. Background for B2XTauNu analyses.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Donal Hill, Conor Fitzpatrick
+# Email: donal.hill@cern.ch
+# Date: 20130221
+#
+#
+Alias           Myrho+          rho+
+Alias           Myrho-          rho-
+ChargeConj      Myrho+          Myrho-
+#
+Alias           MyD+            D+
+Alias           MyD-            D-
+ChargeConj      MyD+          MyD-
+#
+Alias           MyD*+            D*+
+Alias           MyD*-            D*-
+ChargeConj      MyD*+          MyD*-
+#
+Alias           MyMainD*+            D*+
+Alias           MyMainD*-            D*-
+ChargeConj      MyMainD*+          MyMainD*-
+#
+Alias             MyD0        D0
+Alias             anti-MyD0   anti-D0
+ChargeConj        MyD0        anti-MyD0
+#
+Alias           MyD_s+            D_s+
+Alias           MyD_s-            D_s-
+ChargeConj      MyD_s+          MyD_s-
+#
+Alias           MyD_s*+            D_s*+
+Alias           MyD_s*-            D_s*-
+ChargeConj      MyD_s*+          MyD_s*-
+#
+Alias           Myeta           eta
+ChargeConj      Myeta           Myeta
+#
+Alias           Myomega         omega
+ChargeConj      Myomega         Myomega 
+#
+Alias           MyK_S0          K_S0
+ChargeConj      MyK_S0          MyK_S0
+#
+Alias           MyK*0           K*0
+Alias           Myanti-K*0      anti-K*0
+ChargeConj      MyK*0           Myanti-K*0 
+#
+Decay B0sig
+  0.652       MyMainD*-    MyD_s*+              SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;;
+  0.295       MyMainD*-    MyD_s+               SVS;
+  0.030       MyMainD*-    MyD*+                SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;;
+  0.023       MyMainD*-    MyD+                 SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD+
+  0.008473116   K-      pi+     pi+     pi0                     PHSP;
+  0.069000000   MyK_S0  pi+     pi0                             D_DALITZ;
+  0.047187552   Myanti-K*0      pi0     pi+                     PHSP;
+  0.011600000   pi-     pi+     pi+     pi0                     PHSP;
+Enddecay
+CDecay MyD-
+#
+Decay MyD*+
+  0.3070        MyD+  pi0                                        VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyMainD*+
+  1.000     MyD0      pi+                 VSS;
+Enddecay
+CDecay MyMainD*-
+#
+Decay MyD0
+  1.0000      K-     pi+     PHSP;
+Enddecay
+CDecay anti-MyD0
+#
+Decay MyD_s+
+  0.002300000   Myomega pi+                                    SVS;
+  0.089000000   Myrho+  Myeta                                    SVS;
+  0.011433975   Myeta   pi+     pi0                            PHSP;  
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.942000000   MyD_s+    gamma                                  VSP_PWAVE; 
+Enddecay
+CDecay MyD_s*-
+#
+Decay Myrho+
+  1.000         pi+     pi0                                     VSS;
+Enddecay
+CDecay Myrho-
+#
+Decay Myeta
+  0.227400000   pi-     pi+     pi0                             ETA_DALITZ;
+Enddecay
+#
+Decay Myomega
+  0.892000000   pi-     pi+     pi0                             OMEGA_DALITZ;
+Enddecay
+#
+Decay MyK*0
+  0.6657        K+      pi-                                     VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK_S0
+  0.691321852   pi+     pi-                                     PHSP;
+Enddecay
+End

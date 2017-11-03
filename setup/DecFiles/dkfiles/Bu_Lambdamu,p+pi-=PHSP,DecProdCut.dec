@@ -1,0 +1,40 @@
+# EventType:  12113111
+#
+# Descriptor: [B+ -> (Lambda -> p+ pi-) mu+]cc
+#
+# NickName:   Bu_Lambdamu,p+pi-=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 decay with phase space model, daughters in acceptance
+# Enddocumentation
+#
+# PhysicsWG: RD
+# Tested: yes
+# Responsible: Marcin Chrzaszcz
+# Email: mchrzasz@cern.ch
+# Date: 20121219
+#
+
+Alias MyL Lambda0
+Alias MyL_bar anti-Lambda0
+
+ChargeConj MyL MyL_bar
+
+###################
+
+Decay B+sig
+1.00000  MyL mu+		PHSP;
+Enddecay
+CDecay B-sig
+
+###################
+
+Decay MyL
+1.00000  p+ pi-			PHSP;
+Enddecay
+CDecay MyL_bar
+
+###################
+
+End

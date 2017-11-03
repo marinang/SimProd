@@ -1,0 +1,52 @@
+# EventType: 34112407
+#
+# NickName: KS_mumupi0=TightCuts
+#
+# Descriptor: KS0 => pi0 ^mu+ ^mu-
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = 'KS0 => pi0 ^mu+ ^mu-'
+# tightCut.Preambulo += [
+#     "from LoKiCore.functions import in_range"  ,
+#     "GVX = LoKi.GenVertices.PositionX() " ,
+#     "GVY = LoKi.GenVertices.PositionY() " ,
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "from GaudiKernel.SystemOfUnits import meter, millimeter, GeV" ,
+#     "vx      = GFAEVX ( GVX, 100 * meter ) " ,   
+#     "vy      = GFAEVX ( GVY, 100 * meter ) " ,
+#     "vz      = GFAEVX ( GVZ, 100 * meter ) " ,
+#     "rho2    = vx**2 + vy**2 " ,
+#     "rhoK  =  rho2 < (38 * millimeter )**2 " ,
+#     "decay =  vz <   (0.8 * meter ) ",
+# ]
+# tightCut.Cuts      =    {
+#     'KS0'  : ' decay & rhoK ',
+#     '[mu+]cc'  : ' in_range( 0.010 , GTHETA , 0.400 ) ',
+#     '[mu-]cc'  : ' in_range( 0.010 , GTHETA , 0.400 ) '                                                                                                                                                         
+#                         }
+# EndInsertPythonCode
+#
+# Documentation: Enforces the decay K_S0 -> pi0 mu+ mu-
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+#
+# Tested: Yes
+# Responsible: Veronika Chobanova
+# Email: veronika.chobanova@cern.ch
+# Date: 20160504
+#
+Decay K_S0sig
+  1.0   pi0	mu+   mu-    KS_PI0MUMU	     1.2  0.49   -3.9    0.2     2.5; 
+Enddecay
+
+End

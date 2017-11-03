@@ -1,0 +1,48 @@
+# EventType: 11104504
+#
+# Descriptor: [B0 -> (K*0 -> (K_S0 -> pi+ pi-) (pi0 -> gamma gamma)) pi+ pi-]cc 
+#
+# NickName:  Bd_Kst0pipi,KSpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Kst0 forced into KS0 and pi0, K0S forced into pi+ pi-
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Responsible:  Rafael Coutinho
+# Tested: Yes
+# CPUTime: < 1 min
+# Email: rsilvaco@cern.ch
+# Date: 20140530
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias      MyKs       K_S0
+ChargeConj MyKs       MyKs
+#
+Alias      Mypi0      pi0
+ChargeConj Mypi0      Mypi0
+#
+Decay B0sig
+  1.000    MyK*0    pi+    pi-    PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000   MyKs  Mypi0           VSS;
+Enddecay
+CDecay Myanti-K*0 
+#
+Decay MyKs
+  1.000        pi+      pi-      PHSP;
+Enddecay
+#
+Decay Mypi0
+  1.000 gamma   gamma          PHSP;
+Enddecay
+#
+End
+#

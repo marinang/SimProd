@@ -1,0 +1,21 @@
+# EventType: 56040000
+#
+# Descriptor: gamma => ? 
+#
+# NickName: gamma,contHighE=CaloAcc
+#
+# Cuts: LHCbAcceptance
+#
+# MomentumRange: 400.0*GeV 1200.0*GeV 
+#
+# Documentation: Decay file for (particle gun) gammas of continuous energies in Calorimeters acceptance
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Hang Yin, Menglin Xu
+# Email: hyin@cern.ch, menglin.xu@cern.ch
+# Date:   20160529
+#
+End
+#

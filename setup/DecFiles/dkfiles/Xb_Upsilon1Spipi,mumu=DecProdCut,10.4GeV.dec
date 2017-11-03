@@ -1,0 +1,35 @@
+# EventType: 18114015
+#
+# Descriptor: Upsilon(2S) -> (Upsilon(1S) -> mu+ mu-) pi+ pi- 
+#
+# NickName: Xb_Upsilon1Spipi,mumu=DecProdCut,10.4GeV
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Xb (Mass 10.4 GeV/c2) decay to Upsilon(1S)(to mu+ mu- {,gamma} {,gamma}) pi+ pi- with phase space model, all daughters in acceptance; 
+# the dec file for Upsilon(2S) to Upsilon(1S) pipi has been used, but the mass has been chenged to the mass expected for the Xb (which is still unknown)
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible:  Helena Pikhartova, Patrick Robbe, Giulia Manca
+# Email: Giulia.Manca@cern.ch
+# Date: 20140703
+# CPUTime: < 1 min
+#
+# ParticleValue: " Upsilon(2S)   831   100553  0.0  10.4  1.000000e-020       Upsilon(2S)   100553  1.000000e-004"
+
+Alias      MyUpsilon Upsilon
+ChargeConj MyUpsilon MyUpsilon
+
+Decay Upsilon(2S)sig
+  1.000     MyUpsilon    pi+        pi-        PHSP;
+Enddecay
+#
+Decay MyUpsilon
+  1.000     mu+  mu-                        VLL;
+Enddecay
+End
+#

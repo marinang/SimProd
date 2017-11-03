@@ -1,0 +1,33 @@
+# EventType: 15154211 
+#
+# Descriptor: [Lambda_b0 -> p+ K- (J/psi(1S) -> e+ e-) gamma]cc
+#
+# NickName: Lb_JpsipKgamma,ee=phsp,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to 4-body p+ K- J/psi gamma with J/psi to dielectrons; for studies of part-reco backgrounds to Lambdab->JpsipK.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Vitalii Lisovskyi
+# Email:  vitalii.lisovskyi@cern.ch
+# Date: 20170605
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Decay Lambda_b0sig
+  1.000    MyJ/psi  p+ K- gamma              PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     e+  e-                          VLL;
+Enddecay
+#
+End
+#

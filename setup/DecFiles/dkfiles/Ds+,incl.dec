@@ -1,0 +1,167 @@
+# EventType: 23960000
+#
+# Descriptor: [D_s+ -> ...]cc
+#
+# NickName: Ds+,incl
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: D_s+ -> hadronic modes
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Anton Poluektov
+# Email: a.o.poluektov@<nospam>warwick.ac.uk
+# Date: 20110120
+#
+
+Alias My_anti-K*0   anti-K*0
+Alias My_rho0       rho0
+Alias My_K*0        K*0
+Alias My_K_S0       K_S0
+Alias My_omega      omega
+Alias My_phi        phi
+Alias My_eta        eta
+Alias My_anti-K0    anti-K0
+Alias My_f_2        f_2
+Alias My_K0         K0
+Alias My_f_0        f_0
+Alias My_K*-        K*-
+Alias My_eta'       eta'
+Alias My_K*+        K*+
+
+
+ChargeConj My_anti-K*0 My_K*0 
+ChargeConj My_anti-K0 My_K0 
+ChargeConj My_K*- My_K*+ 
+
+
+Decay D_s+sig
+  0.24903316  My_anti-K*0 K+                           SVS ;
+  0.20399949  My_phi pi+                               SVS ;
+  0.10632516  My_eta' pi+                              PHSP ;
+  0.09735121  My_K_S0 K+                               PHSP ;
+  0.09462253  pi+ pi- pi+                              PHSP ;
+  0.06227526  My_f_0 pi+                               PHSP ;
+  0.04918405  My_K*0 pi+                               SVS ;
+  0.04670411  K+ K- pi+                                PHSP ;
+  0.02596749  My_rho0 K+                               SVS ;
+  0.02550044  K+ pi+ pi-                               PHSP ;
+  0.00821502  My_K_S0 pi+                              PHSP ;
+  0.00693500  My_eta pi+                               PHSP ;
+  0.00659088  My_f_2 pi+                               PHSP ;
+  0.00462164  My_eta' K+                               PHSP ;
+  0.00373633  My_rho0 pi+                              SVS ;
+  0.00289565  K+ K- K+                                 PHSP ;
+  0.00280225  K+ K+ pi-                                PHSP ;
+  0.00092217  My_anti-K*0 My_K*+                       SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0 ;
+  0.00091954  My_phi K+                                SVS ;
+  0.00062733  My_eta K+                                PHSP ;
+  0.00041585  My_omega pi+                             SVS ;
+  0.00035545  My_K*+ My_anti-K0                        SVS ;
+Enddecay
+
+
+Decay D_s-sig
+  0.24903316  My_K*0 K-                                SVS ;
+  0.20399949  My_phi pi-                               SVS ;
+  0.10632516  My_eta' pi-                              PHSP ;
+  0.09735121  My_K_S0 K-                               PHSP ;
+  0.09462253  pi- pi- pi+                              PHSP ;
+  0.06227526  My_f_0 pi-                               PHSP ;
+  0.04918405  My_anti-K*0 pi-                          SVS ;
+  0.04670411  K+ K- pi-                                PHSP ;
+  0.02596749  My_rho0 K-                               SVS ;
+  0.02550044  K- pi+ pi-                               PHSP ;
+  0.00821502  My_K_S0 pi-                              PHSP ;
+  0.00693500  My_eta pi-                               PHSP ;
+  0.00659088  My_f_2 pi-                               PHSP ;
+  0.00462164  My_eta' K-                               PHSP ;
+  0.00373633  My_rho0 pi-                              SVS ;
+  0.00289565  K- K- K+                                 PHSP ;
+  0.00280225  K- K- pi+                                PHSP ;
+  0.00092217  My_K*0 My_K*-                            SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0 ;
+  0.00091954  My_phi K-                                SVS ;
+  0.00062733  My_eta K-                                PHSP ;
+  0.00041585  My_omega pi-                             SVS ;
+  0.00035545  My_K*- My_K0                             SVS ;
+Enddecay
+
+
+Decay My_K*+
+  1.00000000  K+ gamma                                 VSP_PWAVE ;
+Enddecay
+
+
+Decay My_K*-
+  1.00000000  K- gamma                                 VSP_PWAVE ;
+Enddecay
+
+
+Decay My_K*0
+  0.99896082  K+ pi-                                   VSS ;
+  0.00103918  My_K0 gamma                              VSP_PWAVE ;
+Enddecay
+
+
+Decay My_K0
+  1.00000000  My_K_S0                                  PHSP ;
+Enddecay
+
+
+Decay My_K_S0
+  1.00000000  pi+ pi-                                  PHSP ;
+Enddecay
+
+
+Decay My_anti-K*0
+  0.99896082  K- pi+                                   VSS ;
+  0.00103918  My_anti-K0 gamma                         VSP_PWAVE ;
+Enddecay
+
+
+Decay My_anti-K0
+  1.00000000  My_K_S0                                  PHSP ;
+Enddecay
+
+
+Decay My_eta
+  1.00000000  gamma pi+ pi-                            PHSP ;
+Enddecay
+
+
+Decay My_eta'
+  0.99826587  My_rho0 gamma                            SVP_HELAMP 1.0 0.0 1.0 0.0 ;
+  0.00173413  My_omega gamma                           SVP_HELAMP 1.0 0.0 1.0 0.0 ;
+Enddecay
+
+
+Decay My_f_0
+  1.00000000  pi+ pi-                                  PHSP ;
+Enddecay
+
+
+Decay My_f_2
+  0.96088435  pi+ pi-                                  TSS ;
+  0.03911565  K+ K-                                    TSS ;
+Enddecay
+
+
+Decay My_omega
+  0.91071429  pi+ pi-                                  VSS ;
+  0.08928571  gamma pi+ pi-                            PHSP ;
+Enddecay
+
+
+Decay My_phi
+  0.99956385  K+ K-                                    VSS ;
+  0.00043615  My_f_0 gamma                             PHSP ;
+Enddecay
+
+
+Decay My_rho0
+  1.00000000  pi+ pi-                                  VSS ;
+Enddecay
+
+End

@@ -1,0 +1,86 @@
+# EventType: 12813410
+#
+# Descriptor: [B- -> (Delta++ -> p+ pi+) anti-nu_mu anti-p- mu- pi-]cc
+#
+# NickName: Bu_Delpbarmunu,pX=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime:  3 min
+#
+# Documentation: B -> Del p mu nu_mu with Del->p X.  Includes acceptance, P and PT cuts on the bachelor p and mu. 
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut  = Generation().SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "[ B- ==>  (Delta+ ==> p+ {X} {X} {X} {X}) ^p~-  ^mu- nu_mu~ {X} {X} {X} {X}  ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV"
+#  ]
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 950 * MeV ) & (GP > 14600 * MeV)" ,
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GPT > 1450 * MeV) &  (GP > 4900 * MeV)"
+#   }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Matthew Tilley
+# Email: matthew.james.tilley@cern.ch
+# Date:   20160811
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias        MyDelta+           Delta+
+Alias        Myanti-Delta-    anti-Delta-
+ChargeConj   MyDelta+         Myanti-Delta-
+#
+Alias        MyDelta0           Delta0
+Alias        Myanti-Delta0    anti-Delta0
+ChargeConj   MyDelta0         Myanti-Delta0
+#
+Alias        MyDelta++           Delta++
+Alias        Myanti-Delta--    anti-Delta--
+ChargeConj   MyDelta++         Myanti-Delta--
+#
+Decay B-sig
+  0.001    MyDelta+  anti-p-     mu-  anti-nu_mu     PHOTOS   PHSP;
+  0.001    MyDelta0  anti-p-     mu-  anti-nu_mu    pi+    PHOTOS   PHSP;
+  0.001    MyDelta++ anti-p-     mu-  anti-nu_mu    pi-    PHOTOS   PHSP;
+  #tau mode
+Enddecay
+CDecay B+sig
+# BR = 1
+# 
+Decay Mytau-
+  0.1736       mu-  anti-nu_mu   nu_tau        TAULNUNU;
+Enddecay
+CDecay Mytau+
+# BR = 1
+#
+Decay MyDelta+
+0.6630    p+  pi0                       PHSP;
+0.0060    p+  gamma                      PHSP;
+Enddecay
+CDecay Myanti-Delta-
+# BR = 1
+#
+Decay MyDelta++
+1.0000    p+  pi+                       PHSP;
+Enddecay
+CDecay anti-Delta--
+# BR = 1
+#
+Decay MyDelta0
+0.3310    p+    pi-                     PHSP;
+Enddecay
+CDecay Myanti-Delta0
+# BR = 1
+#
+End

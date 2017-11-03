@@ -1,0 +1,35 @@
+# EventType: 15114420
+#
+# Descriptor: [Lambda_b0 -> p+ K- mu+ mu- (pi0 -> gamma gamma)]cc
+#
+# NickName: Lb_pKmumupi0=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Five body Lambda_b0 to p K mu mu pi0 decay with generic phase space model, for studies of partially-reconstructed backgrounds to Lb->pKmumu       
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes 
+# CPUTime: < 1 min
+# Responsible: Vitalii Lisovskyi
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20170605
+#
+
+Alias      Mypi0         pi0
+ChargeConj Mypi0         Mypi0
+#
+
+Decay Lambda_b0sig
+  1.000   p+ K-  mu+ mu- Mypi0   PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mypi0
+  1.000  gamma gamma             PHSP;
+Enddecay
+
+
+End
+#

@@ -1,0 +1,44 @@
+# EventType: 14543012
+#
+# Descriptor: [B_c+ -> (JPsi -> mu+ mu-) (tau+ -> mu+ nu_mu anti-nu_tau) nu_tau]cc
+#
+# NickName: Bc_JpsiTauNu,mununu=BcVegPy,ffKiselev,DiLeptonInAcc
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: ChargedThetaMin 0. ChargedThetaMax 10. NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# FullEventCuts: DiLeptonInAcceptance 
+#
+# Documentation: Bc+ to JPsi tau, JPsi -> mumu, tau forced to mu nu nu final state. Form factor model by Kiselev [hep-ph/0211021]. Radiative mode included. Dilepton in acceptance. The algorithm BcVegPy is weighted.
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Michele Veltri 
+# Email: michele.veltri@uniurb.it
+# Date: 20130425
+#
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau- MyTau+
+
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Decay B_c+sig
+  1.000       MyJ/psi   MyTau+  nu_tau PHOTOS BC_VMN 1;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000         mu+       mu-           PHOTOS VLL;
+Enddecay
+#
+Decay MyTau-
+ 1.00      mu-   anti-nu_mu    nu_tau   TAULNUNU;
+Enddecay
+CDecay MyTau+
+#   
+End

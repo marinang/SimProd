@@ -1,0 +1,22 @@
+# EventType: 20072002
+#
+# Descriptor: pp => [<Xc>]cc ...
+#
+# NickName: incl_c=DiMuon,tau23mu_cuts
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: DiLeptonInAcceptance
+#
+# ExtraOptions: DiMuon_for_tau23mu
+#
+# Documentation: Di-muon filter, tau23mu cuts gen cuts
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marcin Chrzaszcz
+# Email: mchrzasz@cern.ch
+# Date: 20130529
+#
+End
+#

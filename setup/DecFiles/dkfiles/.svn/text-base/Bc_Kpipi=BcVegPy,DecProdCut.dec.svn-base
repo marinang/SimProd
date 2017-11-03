@@ -1,0 +1,27 @@
+# EventType: 14103035
+#
+# Descriptor: [B_c+ -> K+ pi- pi+]cc
+#
+# NickName: Bc_Kpipi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Using BcVegPy generator and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: hicheur@if.ufrj.br
+# Date: 20140820
+#
+#
+Decay B_c+sig
+  1.000        K+      pi-     pi+     PHSP;
+Enddecay
+CDecay B_c-sig
+#
+End
+

@@ -1,0 +1,33 @@
+# EventType: 13314001
+#
+# Descriptor:  {[B_s0 -> (phi(1020) -> K+ K-) e+ mu-]cc, [B_s0 -> (phi(1020) -> K+ K-) mu+ e-]cc}
+#
+# NickName: Bs_phiemu=DecProdCut,PHSP 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B to phi e mu decay. Daughters in acceptance. PHSP model!
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Malgorzata Pikies
+# Email: malgorzata.pikies@cern.ch
+# Date: 20160118
+#
+Alias				MyPhi				phi
+ChargeConj	MyPhi				MyPhi
+Decay B_s0sig
+  0.500        MyPhi    e+    mu-            PHSP;
+  0.500        MyPhi    mu+    e-            PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K-    K+            VSS;
+Enddecay
+CDecay MyPhi
+#
+End
+

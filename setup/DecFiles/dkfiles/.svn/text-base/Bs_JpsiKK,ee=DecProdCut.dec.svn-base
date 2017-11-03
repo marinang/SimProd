@@ -1,0 +1,32 @@
+# EventType: 13154041
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> e+ e-) K+ K-]cc
+#
+# NickName: Bs_JpsiKK,ee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B_s0 decays to three-body J/psiKK with J/psi to dielectrons. Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20160927
+#
+# CPUTime: < 1 min
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+#
+Decay B_s0sig
+  1.000    MyJ/psi  K+ K- PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.000         e+       e-    PHOTOS        VLL;
+Enddecay
+End

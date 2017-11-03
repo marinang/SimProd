@@ -1,0 +1,51 @@
+# EventType: 21103404
+#
+# Descriptor: [D+ -> (phi -> K+ K-) pi+ pi0]cc
+#
+# NickName: D_phipipi0,KK=TightCut,FromD
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ D+ => ( ^(phi(1020) => ^K+ ^K-) ) ^pi+ ^pi0]CC'
+# tightCut.Cuts      =    {
+#     '[K+]cc'   : ' goodKaon ' , 
+#     '[pi+]cc'   : ' goodPion ' , 
+#     '[phi(1020)]cc'  : ' goodPhi  ' } 
+# tightCut.Preambulo += [
+#     'inAcc    = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodKaon = ( GPT > 0.25 * GeV ) & ( GP > 2.5 * GeV ) & inAcc ' , 
+#     'goodPion = ( GPT > 0.25 * GeV ) & ( GP > 2.5 * GeV ) & inAcc ' , 
+#     'goodPhi  = ~GHAS (GBEAUTY, HepMC.ancestors) ' ] 
+#
+# EndInsertPythonCode
+
+# Documentation: Forces a D+ from c quarks to ( phi -> K+ K- ) pi+ pi0 with generator level cuts
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Giulio Dujany
+# Email: giulio.dujany@cernSPAMNOT.ch
+# Date: 20140320
+#
+Alias       my_phi   phi
+ChargeConj  my_phi   my_phi
+#
+Decay  D+sig
+  1.000     my_phi   pi+ pi0   PHOTOS PHSP ;
+Enddecay
+CDecay D-sig
+#
+Decay  my_phi
+  1.000     K+      K-    PHOTOS VSS ;
+Enddecay
+#
+End

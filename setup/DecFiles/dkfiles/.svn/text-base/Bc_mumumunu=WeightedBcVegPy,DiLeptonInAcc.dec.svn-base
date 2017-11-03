@@ -1,0 +1,27 @@
+# EventType: 14513002
+#
+# Descriptor: [B_c+ -> mu+ mu- mu+ nu_mu]cc
+#
+# NickName: Bc_mumumunu=WeightedBcVegPy,DiLeptonInAcc
+#
+# Production: BcVegPy
+#
+# Cuts: None
+#
+# FullEventCuts: DiLeptonInAcceptance 
+#
+# Documentation: Bc decay to mu+ mu- mu+ nu_mu with phase space model, radiative mode included. Dilepton in acceptance. The algorithm BcVegPy is weighted
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Diego Martinez Santos
+# Email: Diego.Martinez.Santos@cern.ch
+# Date: 20110909
+#
+Decay B_c+
+  1.000   mu+     mu-   mu+   nu_mu          PHOTOS PHSP;
+Enddecay
+CDecay B_c-
+End  
+#

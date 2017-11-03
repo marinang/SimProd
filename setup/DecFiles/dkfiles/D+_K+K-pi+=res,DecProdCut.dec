@@ -1,0 +1,55 @@
+# EventType: 21263000
+#
+# Descriptor: [D+ => K+ K- pi+]cc
+#
+# NickName: D+_K+K-pi+=res,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, simplified resonance structure
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Malcolm John
+# Email: unknown@<nospam>cern.ch
+# Date: 20081018
+#
+
+Alias      Myphi          phi
+ChargeConj Myphi          Myphi
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+Alias      MyK_2*0        K_2*0
+Alias      Myanti-K_2*0   anti-K_2*0
+ChargeConj MyK_2*0        Myanti-K_2*0
+Alias      Myf_0          f_0
+ChargeConj Myf_0          Myf_0
+#
+Decay D-sig
+  0.00306   Myphi pi-                 SVS;
+  0.00290   MyK*0 K-                  SVS;
+  0.00360   MyK_2*0 K-                STS;
+Enddecay
+CDecay D+sig
+#
+Decay Myphi
+  1.000 K+   K-                    VSS;
+Enddecay
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK_2*0
+  1.000 K+   pi-                   PHSP;
+Enddecay
+CDecay Myanti-K_2*0
+#
+Decay Myf_0
+ 1.000  K+         K-                  PHSP;
+Enddecay
+#
+End

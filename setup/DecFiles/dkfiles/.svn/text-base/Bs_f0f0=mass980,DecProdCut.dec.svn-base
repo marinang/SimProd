@@ -1,0 +1,37 @@
+# EventType: 13104033
+#
+# Descriptor: [B_s0 -> (f_0(980) -> pi+ pi-) (f_0(980) -> pi+ pi-)]cc
+#
+# NickName: Bs_f0f0=mass980,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: No CP violation, f0(980) forced into pi+ pi-,
+# decay products in acceptance, f0 mass 980 MeV, width 92 MeV, 
+# #minimum generated mass 0 MeV
+# CPUTime: <1 min
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Marc Grabalosa
+# Email: mgrabalo@cern.ch
+# Date: 20141121
+#
+Alias      Myf0    f_0
+ChargeConj Myf0    Myf0
+Particle   Myf0    0.980  0.092
+#ChangeMassMin Myf0 0
+
+#
+Decay B_s0sig
+  1.000        Myf0    Myf0                PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myf0
+  1.000        pi+      pi-                PHSP;
+Enddecay
+#
+End
+

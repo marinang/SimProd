@@ -1,0 +1,46 @@
+# EventType: 13144441
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu-) (phi(1020) -> K+ K-) (phi(1020) -> K+ K-) (eta -> gamma gamma) ]cc
+#
+# NickName:  Bs_Jpsietaphi,mm,gg=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, no CP violation, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: M Needham
+# Email: Matthew.Needham@cern.ch
+# Date: 20130106
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+Alias       MyPhi        phi
+ChargeConj  MyPhi        MyPhi
+#
+Alias       MyEta    eta
+ChargeConj  MyEta    MyEta
+#
+#
+#
+Decay B_s0sig
+  1.0   MyJ/psi   MyPhi   MyEta   PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.0000   mu+   mu-   VLL;
+Enddecay
+#
+Decay MyPhi
+  1.0000   K+   K-   VSS;
+Enddecay
+Decay MyEta
+  1.000         gamma       gamma        PHSP;
+Enddecay
+#
+#
+End

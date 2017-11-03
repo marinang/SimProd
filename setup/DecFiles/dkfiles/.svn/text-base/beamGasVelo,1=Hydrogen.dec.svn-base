@@ -1,0 +1,20 @@
+# EventType: 60001001
+#
+# Descriptor: p H1[0,0] => ?
+#
+# NickName: beamGasVelo,1=Hydrogen
+#
+# Cuts: None
+#
+# ExtraOptions: Beam1GasVeLo
+#
+# Documentation: Beam1-hydrogen gas in the VELO
+# EndDocumentation
+#
+# PhysicsWG: Sim
+# Tested: Yes
+# Responsible: Massimiliano Ferro-Luzzi
+# Email: Massimiliano.Ferro-Luzzi@cern.ch
+# Date: 20130712
+#
+End

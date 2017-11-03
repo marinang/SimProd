@@ -1,0 +1,28 @@
+# EventType: 12123021
+# 
+# Descriptor: [B+ -> pi+ e+ e-]cc
+# 
+# NickName: Bu_piee=btosllball,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, BTosll Ball model.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Flavio Archilli
+# Email: flavio.archilli@cern.ch
+# Date: 20120918
+#
+#
+Decay B+sig
+  1.000      pi+  e+  e-     PHOTOS BTOSLLBALL  6;
+Enddecay
+#
+Decay B-sig
+  1.000      pi-  e+  e-     PHOTOS BTOSLLBALL  6;
+Enddecay
+#
+End
+#

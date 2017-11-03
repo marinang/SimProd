@@ -1,0 +1,24 @@
+# EventType: 32101400
+#
+# Descriptor: [Sigma+ => p+ pi0]cc
+#
+# NickName: Sigma+_ppi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Sigma+-> p+ pi0 with phase space model, DaughtersInLHCb cut.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Francesco Dettori 
+# Email: francesco.dettori@cern.ch
+# Date: 20130806
+#
+Decay       Sigma+sig
+  1.000         p+        pi0        PHSP;
+Enddecay
+CDecay anti-Sigma-sig
+#
+End
+#

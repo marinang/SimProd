@@ -1,0 +1,46 @@
+# EventType: 11576000
+# 
+# Descriptor: {[[B0]nos->nu_mu mu+ (D*(2010)- -> pi- (D~0 => K- pi+ pi- pi+))]cc,[[B0]os -> anti_nu_mu mu- (D*(2010)+ -> pi+ (D0 => K+ pi- pi+ pi-))]cc}
+# 
+# NickName: Bd_Dstmunu,piKpipi=hqet,MINT
+#
+# Cuts: None 
+#
+# Documentation: B0 forced to decay to D* mu nu_mu, D* forced to D0 pi, D0 forced to Kpipipi. D0 decays via preliminary LHCb doubly Cabibbo suppressed model using MINT.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes 
+# Responsible: Philip Hunt (LHCB)
+# Email: p.hunt2@physics.ox.ac.uk
+# Date: 20130808
+#
+Alias          MyD*+      D*+
+Alias          MyD*-      D*-
+ChargeConj     MyD*+      MyD*-
+
+Alias          MyD0       D0
+Alias          Myanti-D0  anti-D0
+ChargeConj     MyD0       Myanti-D0
+
+Decay B0sig
+# HTEQ Arguments - rho, R1, R2
+# Values obtained from HFAG PDG2012
+  1.000     MyD*- mu+ nu_mu     PHOTOS HQET 1.207 1.403 0.854;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+  1.000     Myanti-D0 pi-       VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myanti-D0
+# D0 decays to DCS K3pi
+# Uses MINT model v10 (preliminary LHCb measurement - no acceptance correction)
+  1.000     K- pi+ pi- pi+      PHOTOS D_hhhh 10;
+Enddecay
+CDecay MyD0
+#
+End
+#

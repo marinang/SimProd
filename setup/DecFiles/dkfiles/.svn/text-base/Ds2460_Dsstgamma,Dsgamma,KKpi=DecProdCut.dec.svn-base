@@ -1,0 +1,69 @@
+# EventType: 27163282
+#
+# Descriptor: [D_s1(2460)+ -> ( D_s*+ -> (D_s+ -> ( (phi(1020) -> K+ K-) ) pi+ ) gamma) gamma ]cc
+#
+# NickName: Ds2460_Dsstgamma,Dsgamma,KKpi=DecProdCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ D_s1(2460)+ => (D*_s+ => (D_s+ => ( (phi(1020) => ^K+ ^K-) ) ^pi+ ) ^gamma) ^gamma ]CC'
+# tightCut.Cuts      =    {
+#     '[K+]cc'         : ' goodKaon ' , 
+#     '[pi+]cc'        : ' goodPion ' , 
+#     'gamma'          : ' goodPhoton' } 
+#
+# tightCut.Preambulo += [
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodKaon   = ( GPT > 0.25 * GeV ) & ( GP > 1.9 * GeV ) & inAcc ' , 
+#     'goodPion   = ( GPT > 0.25 * GeV ) & ( GP > 1.9 * GeV ) & inAcc ' , 
+#     'goodPhoton = ( GPT > 0.3  * GeV ) & inAcc' ] 
+#
+# EndInsertPythonCode
+#
+# Documentation: Resolution studies
+# EndDocumentation
+#
+# CPUTime: 2min
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible:     Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20150729
+#
+Alias        MyD_s*+        D_s*+
+Alias        MyD_s*-        D_s*-
+ChargeConj   MyD_s*-        MyD_s*+
+Alias MyD_s- D_s-
+Alias MyD_s+ D_s+
+ChargeConj MyD_s+ MyD_s-
+Alias       My_phi   phi
+ChargeConj  My_phi   My_phi
+#
+Decay D_s1+sig
+  1.000     MyD_s*+       gamma        VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay D_s1-sig
+#
+Decay MyD_s*+
+  1.000     MyD_s+  gamma      VSP_PWAVE;
+Enddecay
+CDecay MyD_s*-
+#
+Decay  MyD_s+
+  1.000     My_phi   pi+    PHOTOS SVS ;
+Enddecay
+CDecay MyD_s-
+#
+Decay  My_phi
+  1.000     K+      K-    PHOTOS VSS ;
+Enddecay
+#
+End

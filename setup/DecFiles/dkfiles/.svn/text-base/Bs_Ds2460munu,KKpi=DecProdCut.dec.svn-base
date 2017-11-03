@@ -1,0 +1,62 @@
+# EventType: 13774041
+#
+# Descriptor: {[[B_s0]nos => (D_s- => K+ K- pi-) nu_mu mu+]cc, [[B_s0]os => (D_s+ => K- K+ pi+) anti_nu_mu mu-]cc}
+#
+# NickName: Bs_Ds2460munu,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Sum of Ds1(2460) mu nu_mu and Ds1(2460) tau nu_tau, includes resonances in Ds decay
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Alessandra BORGIA
+# Email: aborgia@syr.edu
+# Date: 20110603
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      MyD_s1+    D_s1+
+Alias      MyD_s1-    D_s1-
+ChargeConj MyD_s1-    MyD_s1+
+#
+Alias      MyD'_s1+   D'_s1+
+Alias      MyD'_s1-   D'_s1-
+ChargeConj MyD'_s1-   MyD'_s1+
+#
+Alias      MyD_s0*+   D_s0*+
+Alias      MyD_s0*-   D_s0*-
+ChargeConj MyD_s0*+   MyD_s0*-
+#
+#
+Decay B_s0sig
+  0.0040   MyD_s1-    mu+    nu_mu    PHOTOS  ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+  0.055     K+    K-     pi+          PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.942   MyD_s+  gamma               PHOTOS VSP_PWAVE;
+  0.058   MyD_s+  pi0                 PHOTOS VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s1+
+  0.71   MyD_s*+ pi0                  PHOTOS PHSP;
+  0.033  MyD_s+  pi+ pi-              PHOTOS PHSP;
+  0.017  MyD_s+  pi0 pi0              PHOTOS PHSP;
+Enddecay
+CDecay MyD_s1-
+#
+End

@@ -1,0 +1,47 @@
+# EventType: 11164453  
+#
+# Descriptor: {[[B0]nos -> (D_s- => (phi -> K+ K-) (rho- -> pi- pi0)) K+]cc, [[B0]os -> (D_s+ => (phi -> K+ K-) (rho+ -> pi+ pi0)) K-]cc}
+#
+# NickName: Bd_DsK,phirho=SVV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# B0 decay to D_s- (phi rho-) K+ with SVV_HELAMP decay model for D_s- decay. phi forced to KK and rho+ to pi pi0
+# DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Stefano Gallorini
+# Email: stefano.gallorini@cern.ch
+# Date: 20131120
+
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+Alias      Myphi      phi
+Alias      Myrho-     rho-
+Alias      Myrho+     rho+
+ChargeConj Myphi      Myphi
+ChargeConj MyD_s+     MyD_s-
+ChargeConj Myrho+     Myrho-
+#
+Decay B0sig
+  1.000     MyD_s-     K+      PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s-
+  1.000     Myphi    Myrho-          SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; 
+Enddecay
+CDecay MyD_s+
+#
+Decay Myrho-
+  1.000     pi-     pi0            VSS;
+Enddecay
+CDecay Myrho+
+#
+Decay Myphi
+  1.000     K+      K-             VSS;
+Enddecay
+End

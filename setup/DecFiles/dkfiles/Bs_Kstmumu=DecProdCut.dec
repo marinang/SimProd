@@ -1,0 +1,35 @@
+# EventType: 13114061
+#
+# Descriptor: {[[B_s0]nos -> mu- mu+ (K*(892)~0 -> K- pi+)]cc, [[B_s0]os -> mu+ mu- (K*(892)0 -> K+ pi-)]cc}
+#
+# NickName: Bs_Kstmumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Andrew Crocombe
+# Email: a.c.crocombe@warwick.ac.uk
+# Date: 20150713
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+Decay B_s0sig
+  1.000        Myanti-K*0     mu-     mu+               BTOSLLBALL;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myanti-K*0
+  1.000        K-        pi+                    VSS;
+Enddecay
+CDecay MyK*0
+#
+End
+#

@@ -1,0 +1,42 @@
+# EventType: 15196000
+# 
+# Descriptor: [Lambda_b0 -> p+ D_s- D0]cc
+# NickName: Lb_pDsD0,KKpi,Kpi=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay File for Lambda_b0 -> p+ D_s- D0, with Ds forcede to decay into KKpi DDalitz in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: renato quagliani
+# Email: renato.quagliani@student.unife.it
+# Date: 20140711
+#
+# CPUTime: <1min
+
+Alias My_D0 D0
+Alias My_anti-D0 anti-D0
+Alias My_D_s- D_s-
+Alias My_D_s+ D_s+
+ChargeConj My_D_s- My_D_s+ 
+ChargeConj My_D0 My_anti-D0
+
+Decay My_D0
+  1.0 K- pi+ PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay My_D_s-
+  1.0 K+ K- pi- D_DALITZ;
+Enddecay
+CDecay My_D_s+
+
+Decay Lambda_b0sig
+  1.0       p+ My_D_s- My_D0     PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

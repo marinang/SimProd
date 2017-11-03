@@ -1,0 +1,30 @@
+# EventType: 12313000
+#
+# Descriptor:  {[B+ -> K+ e+ mu-]cc,[B+ -> K+ mu+ e-]cc }
+#
+# NickName: Bu_Kemu=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B to K e mu  decay. Daughters in acceptance.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Francesco Polci
+# Email: francesco.polci@cern.ch
+# Date: 20141203
+#
+Decay B+sig
+  0.500        K+    e+    mu-            BTOSLLBALL 6;
+  0.500        K+    mu+    e-            BTOSLLBALL 6;
+Enddecay
+#
+Decay B-sig
+  0.500        K-    e+    mu-            BTOSLLBALL 6;
+  0.500        K-    mu+    e-            BTOSLLBALL 6;
+Enddecay
+#
+End
+

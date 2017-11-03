@@ -1,0 +1,36 @@
+# EventType: 13142411
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu- ) (pi0 -> gamma gamma) ]cc
+#
+# NickName: Bs_Jpsipi,mmgg=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: includes radiative mode.
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email:       Nikolai.Nikitine@cern.ch
+# Date:        20120419
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+Alias      Mypi0    pi0
+ChargeConj Mypi0    Mypi0
+#
+Decay B_s0sig
+  1.000         MyJ/psi   Mypi0           SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mypi0
+  1.000         gamma       gamma         PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-             VLL;
+Enddecay
+End
+

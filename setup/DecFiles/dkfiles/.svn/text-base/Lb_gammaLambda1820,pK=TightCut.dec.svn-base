@@ -1,0 +1,52 @@
+# EventType: 15102230
+#
+# Descriptor: [Lambda_b0 -> (Lambda(1820)0 -> p+ K-) gamma]cc
+#
+# NickName: Lb_gammaLambda1820,pK=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool( LoKi__GenCutTool, 'TightCut' )
+#
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = "[Lambda_b0 => (Lambda(1820)0 => p+ K-) ^gamma]CC"
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import GeV"
+#   , "gammaCut = (GPT > 1.5 * GeV)"
+#    ]
+# tightCut.Cuts =   {
+#   'gamma' : 'gammaCut'
+#                   }
+# EndInsertPythonCode
+#
+# Documentation: Lambda(1820)0 forced into p K, decay with generic phase space and high pt gamma > 1.5
+# EndDocumentation
+# 
+# PhysicsWG: RD
+#
+# Tested: Yes 
+# Responsible: Carla Marin Benito
+# Email: carla.marin.benito@cern.ch
+# Date:  20141124
+# CPUTime: <1 min
+#
+Alias      MyLambda(1820)0      Lambda(1820)0
+Alias      Myanti-Lambda(1820)0 anti-Lambda(1820)0
+ChargeConj MyLambda(1820)0      Myanti-Lambda(1820)0
+
+
+Decay Lambda_b0sig
+  1.000      MyLambda(1820)0         gamma PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyLambda(1820)0  
+  1.000   p+          K-        PHSP;              
+Enddecay
+CDecay Myanti-Lambda(1820)0  
+
+End
+#

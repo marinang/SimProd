@@ -1,0 +1,27 @@
+# EventType: 14103001
+#
+# Descriptor: [B_c+ -> (rho(770)0 -> pi+ pi-) pi+]cc
+#
+# NickName: Bc_rho0pi+=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to rho0 and pi+, using BcVegPy generator and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Liang Zhong
+# Email: zhong-l09@mails.tsinghua.edu.cn
+# Date: 20111021
+#
+
+Decay B_c+sig
+  1.000     rho0   pi+             SVS;
+Enddecay
+CDecay B_c-sig
+#
+End
+#

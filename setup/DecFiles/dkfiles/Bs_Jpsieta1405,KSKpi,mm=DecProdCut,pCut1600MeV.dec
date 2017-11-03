@@ -1,0 +1,49 @@
+# EventType: 13246104
+#
+# Descriptor: [B_s0 => K+ pi- KS0 J/psi(1S)]cc
+#
+# NickName: Bs_Jpsieta1405,KSKpi,mm=DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Bs => K+ pi- KS J/psi, direct and via intermediate eta(1405)0 resonance eta(1405) -> K+ pi- KS0 
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: M M Reid
+# Email: mreid@cern.ch
+# Date: 20130718 
+#
+Alias		my_K_S0		K_S0
+ChargeConj	my_K_S0		my_K_S0
+
+Alias      	my_J/psi  	J/psi
+ChargeConj 	my_J/psi  	my_J/psi
+
+Alias       my_eta      eta(1405)0
+ChargeConj  my_eta      my_eta
+#
+Decay B_s0sig
+0.7				K+              pi-             my_K_S0         my_J/psi  		PHSP;
+0.3				my_eta          my_J/psi                    		            PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+#
+Decay my_K_S0
+1.0				pi+			    pi-			                                    PHSP;
+Enddecay
+#
+Decay my_J/psi
+1.0   		    mu+			    mu-    			                                VLL;
+Enddecay
+#
+Decay my_eta
+1.0		    	K+              pi-            		my_K_S0                     PHSP;
+Enddecay
+#
+End 
+

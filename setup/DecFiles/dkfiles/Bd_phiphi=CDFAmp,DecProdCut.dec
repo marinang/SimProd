@@ -1,0 +1,32 @@
+# EventType: 11104080
+#
+# Descriptor: [B0 -> (phi(1020) -> K+ K-) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bd_phiphi=CDFAmp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phi forced to K+ K-, decay products in acceptance
+# No direct CPV, uses CDF result for Bs2PhiPhi (hep-ex:1107.4999v1)
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Laurence Carson
+# Email: laurence.carson@cern.ch
+# Date: 20141106
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B0sig
+  1.0000       MyPhi     MyPhi    SVV_HELAMP 0.536 2.71 0.590 0.0 0.604 2.39;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

@@ -1,0 +1,32 @@
+# EventType: 13134091
+# 
+# Descriptor: [B_s0 -> (eta_c(1S) -> p+ p~-) K+ K-]cc
+# 
+# NickName: Bs_etacKK,pp=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch 
+# Tested: Yes
+# Responsible: Roberta Cardinale
+# Email: roberta.cardinale@cern.ch
+# Date: 20150623
+# CPUTime: < 1 min
+#
+#
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+#
+Decay B_s0sig
+  1.000  Myetac K+ K- PHSP; 
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myetac
+  1.000 p+ anti-p- PHSP;
+Enddecay
+End
+#

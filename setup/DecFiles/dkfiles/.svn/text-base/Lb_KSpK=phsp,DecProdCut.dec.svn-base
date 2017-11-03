@@ -1,0 +1,32 @@
+# EventType: 15104101
+#
+# Descriptor: [Lambda_b0  -> (KS0 -> pi+ pi-) p+ K-]cc
+#
+# NickName: Lb_KSpK=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Non resonant, K0s forced into pi+ pi-, 
+# decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Rafael Coutinho
+# Email: rsilvaco@cern.ch
+# Date: 20120405
+#
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+#
+Decay Lambda_b0sig
+  1.000        MyKs     p+      K-        PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyKs
+  1.000        pi+      pi-                 PHSP;
+Enddecay
+#
+End
+

@@ -1,0 +1,136 @@
+# EventType: 16875001
+# NickName: XibStar2_LbK,Lcmunu=DecProdCut
+# Descriptor: [Sigma_b- -> K- (Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) mu- anti-nu_mu)]cc
+#
+# Documentation:
+#   Decay Xib**- -> Lb0 K- with Lb0 -> Lc+ mu- nu and Lc+ --> p K- pi+
+#   Set deltaM=M(Xib**)-M(Lb0)-M(K) to be 116 MeV, as seen in data
+#   Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# Cuts: LHCbAcceptance
+#
+# ParticleValue: " Sigma_b-   114   5112 -1.0  6.228  6.000000e-020       Sigma_b-   5112  1.000000e-004", " Sigma_b~+  115  -5112  1.0  6.228  6.000000e-020  anti-Sigma_b+  -5112  1.000000e-004", " Xi_b0   124   5232  0.0  5.7918  1.480000e-012       Xi_b0   5232  0.000000e+000", " Xi_b~0  125  -5232  0.0  5.7918  1.480000e-012  anti-Xi_b0  -5232  0.000000e+000"
+#
+# Email: sblusk@syr.edu
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Steve Blusk
+# Date: 20170504
+#
+
+Alias MyLambda_b0       Lambda_b0
+Alias Myanti-Lambda_b0  anti-Lambda_b0
+ChargeConj MyLambda_b0  Myanti-Lambda_b0
+
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias MyLambda_c(2593)+       Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)-  anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+  Myanti-Lambda_c(2593)-
+#
+Alias MyLambda_c(2625)+       Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+  Myanti-Lambda_c(2625)-
+#
+Alias MySigma_c+       Sigma_c+
+Alias Myanti-Sigma_c-  anti-Sigma_c-
+ChargeConj MySigma_c+  Myanti-Sigma_c-
+#
+Alias MySigma_c++       Sigma_c++
+Alias Myanti-Sigma_c--  anti-Sigma_c--
+ChargeConj MySigma_c++  Myanti-Sigma_c--
+#
+Alias MySigma_c0       Sigma_c0
+Alias Myanti-Sigma_c0  anti-Sigma_c0
+ChargeConj MySigma_c0  Myanti-Sigma_c0
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+
+# Force Sb- (stand-in for Xib**-) to decay to Xib0 pi-:
+Decay Sigma_b-sig
+1.000    MyLambda_b0         K-     PHSP;
+Enddecay
+CDecay anti-Sigma_b+sig
+
+Decay MyLambda_b0
+  1.000    MyLambda_c+        mu-  anti-nu_mu     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+  0.0200   MyLambda_c(2593)+  mu-  anti-nu_mu     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+  0.0400   MyLambda_c(2625)+  mu-  anti-nu_mu     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+  0.00341  MyLambda_c+        Mytau- anti-nu_tau           PHSP;
+Enddecay
+CDecay Myanti-Lambda_b0
+# BR = 1
+
+Decay MyLambda_c+
+  0.02800         p+      K-      pi+          PHSP;
+  0.01065         p+      Myanti-K*0           PHSP;
+  0.00860         Delta++ K-                   PHSP;
+  0.00414         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+# BR = 1
+Decay MyLambda_c(2593)+
+  0.24000      MySigma_c++         pi-         PHSP;
+  0.24000      MySigma_c0          pi+         PHSP;
+  0.18000      MyLambda_c+         pi+    pi-  PHSP;
+  0.24000      MySigma_c+          pi0         PHSP;
+  0.09000      MyLambda_c+         pi0    pi0  PHSP;
+  0.01000      MyLambda_c+         gamma       PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+Decay MyLambda_c(2625)+
+  0.66000      MyLambda_c+         pi+    pi-  PHSP;
+  0.33000      MyLambda_c+         pi0         PHSP;
+  0.01000      MyLambda_c+         gamma       PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MySigma_c++
+  1.0000    MyLambda_c+  pi+                   PHSP;
+Enddecay
+CDecay Myanti-Sigma_c-- 
+#
+Decay MySigma_c+
+1.0000    MyLambda_c+  pi0                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c-
+#
+Decay MySigma_c0
+1.0000    MyLambda_c+  pi-                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+# 
+Decay Mytau-
+  0.1736       mu-  anti-nu_mu   nu_tau        TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+Decay MyK*0
+  0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyLambda(1520)0
+  0.23   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End
+
+
+

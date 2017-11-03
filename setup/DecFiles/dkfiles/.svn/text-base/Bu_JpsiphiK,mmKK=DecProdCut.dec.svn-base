@@ -1,0 +1,43 @@
+# EventType: 12145051
+#
+# Descriptor: [B+ -> (J/psi->mu+ mu-) (phi->K+ K-) K+]cc
+#
+# NickName: Bu_JpsiphiK,mmKK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B->J/psi phi K , phi-> KK
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Thomas Britton
+# Email: thbritto@syr.edu
+# Date: 20121213
+
+
+Alias       MyJ/psi     J/psi
+ChargeConj  MyJ/psi     MyJ/psi
+
+Alias       MyPhi       phi
+ChargeConj  MyPhi       MyPhi
+
+#  PDG Id = 521
+Decay B+sig
+ 1.0000   MyJ/psi MyPhi K+           PHSP;
+Enddecay
+CDecay B-sig
+
+#  PDG Id = 333
+Decay MyPhi
+ 1.0000    K+ K-                 PHSP;
+Enddecay
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   mu+   mu-                PHOTOS VLL;
+Enddecay
+
+
+
+End

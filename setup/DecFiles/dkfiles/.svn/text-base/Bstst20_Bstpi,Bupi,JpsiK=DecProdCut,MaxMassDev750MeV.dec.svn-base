@@ -1,0 +1,60 @@
+# EventType: 17444263
+#
+# Descriptor: [B*_20 ->  (B+ -> K+ (J/psi(1S) -> mu+ mu-)) pi-]cc, [B*_20 ->  (B+ -> (D~0 -> K+ pi-) pi+) pi-]cc, [B*_20 ->  ( B*+ -> (B+ -> K+ (J/psi(1S) -> mu+ mu- )) gamma ) pi-]cc, [B*_20 ->  ( B*+ -> (B+ -> (D~0 -> K+ pi-) pi+ ) gamma ) pi-]cc
+#
+# NickName:  Bstst20_Bstpi,Bupi,JpsiK=DecProdCut,MaxMassDev750MeV
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "B*_20    204  515    0.0  6.23000000  0.6582121e-024  B_2*0   515  0.750000", "B*_2~0    208    -515  0.0  6.23000000  0.6582121e-024  anti-B_2*0   -515  0.750000"
+#
+# Documentation: 
+# B** Spectroscopy
+# Study of efficicency in a large Bpi mass range
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:     Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20131021
+#
+Alias MyBstar B*+
+Alias MyantiBstar B*-
+ChargeConj MyBstar  MyantiBstar
+Alias MyB     B+
+Alias MyantiB     B-
+ChargeConj MyB      MyantiB
+Alias MyJpsi  J/psi
+Alias MyD0  D0
+Alias MyantiD0  anti-D0
+ChargeConj MyD0 MyantiD0
+#
+Decay B_2*0sig
+0.500   MyB      pi-            TSS;
+0.500   MyBstar  pi-            TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay anti-B_2*0sig
+#
+Decay MyBstar
+1.0000    MyB  gamma                       VSP_PWAVE;
+Enddecay
+CDecay MyantiBstar
+#
+Decay MyB
+0.5    MyJpsi    K+                         SVS;
+0.5    MyantiD0  pi+                        PHSP;
+Enddecay
+CDecay MyantiB
+#
+Decay MyJpsi
+1.000   mu+  mu-               PHOTOS   VLL;
+Enddecay
+#
+Decay MyantiD0
+1.000   K+  pi-                         PHSP;
+Enddecay
+CDecay MyD0
+#
+#
+End

@@ -1,0 +1,31 @@
+# EventType: 21101400
+#
+# Descriptor: [D- -> pi- ( pi0 -> gamma gamma )]cc 
+#
+# NickName: D+_pi+pi0,gg=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Inclusive production of D-. D- forced to decay to pi- pi0 as phase space, then pi0 to gamma gamma. Used to look at signal when a single gamma converts into e+ e- (Geant) inside LHCb. Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Ed Greening
+# Email: ed.greening@cern.ch
+# Date: 20131125
+#
+Alias      MyPi0        pi0
+ChargeConj MyPi0        MyPi0
+#
+Decay D-sig
+  1.00   MyPi0   pi-    PHSP;
+Enddecay
+CDecay D+sig
+#
+Decay MyPi0
+  1.00  gamma gamma     PHSP;
+Enddecay
+#
+End
+#

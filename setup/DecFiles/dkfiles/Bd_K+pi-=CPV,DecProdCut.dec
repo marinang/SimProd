@@ -1,0 +1,24 @@
+# EventType: 11102003
+#
+# Descriptor: {[[B0]nos -> K+ pi-]cc, [[B0]os -> K- pi+]cc}
+#
+# NickName: Bd_K+pi-=CPV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Direct CP violation and decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: yes
+# Responsible: Stefano Perazzini 
+# Email: stefano.perazzini@cern.ch
+# Date: 20111112
+#
+Decay B0sig
+  1.000        K+       pi-               SSD_DirectCP  -0.1 ;
+Enddecay
+CDecay anti-B0sig
+#
+End
+

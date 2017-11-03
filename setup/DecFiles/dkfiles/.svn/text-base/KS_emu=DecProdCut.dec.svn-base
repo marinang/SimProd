@@ -1,0 +1,24 @@
+# EventType: 34312000
+#
+# Descriptor: (K_S0 -> e+ mu-) (K_S0 -> e- mu+)
+#
+# NickName: KS_emu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: (K_S0 -> e mu) with phase space model, daughters in LHCb acceptance.
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Miguel Ramos Pernas
+# Email: Miguel.Ramos.Pernas@cern.ch
+# Date: 20170213
+#
+Decay K_S0sig
+  0.5     e+ mu-      PHSP;
+  0.5     e- mu+      PHSP;
+Enddecay
+#
+End

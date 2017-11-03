@@ -1,0 +1,153 @@
+# EventType: 15812401
+#
+# Descriptor: [Lambda_b0 -> N*+ mu- anti-nu_mu]cc
+#
+# NickName: Lb_Nstmunu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 2 min
+#
+# Documentation: Decay file for Lb->N*+munu using the Lb2Baryonlnu model with N*+ representing the lowest lying mass states for J^{P} = 1/2^{+}, 1/2^{-}, 3/2^{+}, 3/2^{-} decayed to p X  according to phase space.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut  = Generation().SignalPlain.TightCut
+# tightCut.Decay = "[ Lambda_b0 ==>   ^p+  ^mu- nu_mu~ {X} {X} {X} {X}  ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV" , 
+# "pmuPX = GCHILD(GPX,('p+' == GABSID )) + GCHILD(GPX,('mu-' == GABSID))",
+# "pmuPY = GCHILD(GPY,('p+' == GABSID )) + GCHILD(GPY,('mu-' == GABSID))",
+# "pmuPT2 = pmuPX * pmuPX + pmuPY * pmuPY"
+#  ]
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 950 * MeV ) & (GP > 14600 * MeV)" ,
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GPT > 1450 * MeV) &  (GP > 4900 * MeV) ",
+#'[Lambda_b0]cc'  : "pmuPT2 > 1960000"
+#   }
+#   
+#from Configurables import LHCb__ParticlePropertySvc
+#LHCb__ParticlePropertySvc().Particles = [ 
+# "N(1440)+              636       12212   1.0      1.4400000      2.194041e-24                 N(1440)+           21440      0.00",
+# "N(1440)~-             637      -12212  -1.0      1.4400000      2.194841e-24                   anti-N(1440)-           -21440      0.00",
+#"N(1520)+              420        2124   1.0      1.52000000      5.723584e-24                   N(1520)+           21520      0.00",
+# "N(1520)~-             421       -2124  -1.0      1.52000000     5.723584e-24                   anti-N(1520)-           -21520      0.00",
+#"N(1535)+              713       22212   1.0      1.53500000      4.388081e-24                   N(1535)+           21535      0.00",
+#"N(1535)~-             714      -22212  -1.0      1.53500000      4.388081e-24                   anti-N(1535)-           -21535      0.00",
+#"N(1720)+              775       32124   1.0      1.72000000      2.632849e-24                   N(1720)+           21720      0.00",
+#"N(1720)~-             776      -32124  -1.0      1.72000000      2.632849e-24                   anti-N(1720)-           -21720      0.00"
+#]
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL 
+# Tested: Yes
+# Responsible: William Sutcliffe
+# Email: william.lawrence.sutcliffe@cern.ch
+# Date: 20140313 
+#
+#
+#
+
+Alias        MyN(1440)+         N(1440)+
+Alias        Myanti-N(1440)-    anti-N(1440)-
+ChargeConj   MyN(1440)+         Myanti-N(1440)-
+
+Alias        MyDelta+           Delta+
+Alias        Myanti-Delta-    anti-Delta-
+ChargeConj   MyDelta+         Myanti-Delta-
+
+Alias        MyDelta++           Delta++
+Alias        Myanti-Delta--    anti-Delta--
+ChargeConj   MyDelta++         Myanti-Delta--
+
+Alias        MyDelta0           Delta0
+Alias        Myanti-Delta0    anti-Delta0
+ChargeConj   MyDelta0         Myanti-Delta0
+
+Alias        MyN(1535)+         N(1535)+
+Alias        Myanti-N(1535)-    anti-N(1535)-
+ChargeConj   MyN(1535)+         Myanti-N(1535)-
+
+Alias        MyN(1520)+         N(1520)+
+Alias        Myanti-N(1520)-    anti-N(1520)-
+ChargeConj   MyN(1520)+         Myanti-N(1520)-
+
+Alias        MyN(1720)+         N(1720)+
+Alias        Myanti-N(1720)-    anti-N(1720)-
+ChargeConj   MyN(1720)+         Myanti-N(1720)-
+
+Decay Lambda_b0sig
+ 2.92  MyN(1440)+  mu- anti-nu_mu  PHOTOS   Lb2Baryonlnu 1 1 1 1;
+ 1.42  MyN(1535)+  mu- anti-nu_mu  PHOTOS   Lb2Baryonlnu 1 1 1 1;
+ 1.54  MyN(1520)+  mu- anti-nu_mu  PHOTOS   Lb2Baryonlnu 1 1 1 1;
+ 1.03  MyN(1720)+  mu- anti-nu_mu  PHOTOS   Lb2Baryonlnu 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyN(1440)+
+  0.217    p+   pi0              PHSP;
+  0.125    MyDelta++ pi-               PHSP;
+  0.056    MyDelta+  pi0               PHSP;
+  0.0139   MyDelta0 pi+        PHSP;
+  0.067      p+ pi+ pi-          PHSP;
+  0.033      p+ pi0 pi0          PHSP;
+  0.00415      p+ gamma            PHSP;
+Enddecay
+CDecay Myanti-N(1440)-
+#
+Decay MyN(1520)+
+  0.20   p+   pi0              PHSP;
+  0.10    MyDelta++ pi-               PHSP;
+  0.044    MyDelta+  pi0               PHSP;
+  0.011   MyDelta0 pi+        PHSP;
+  0.20    p+   rho0              PHSP;
+  0.004      p+ gamma            PHSP;
+  0.0023       p+ eta              PHSP;
+Enddecay
+CDecay Myanti-N(1520)-
+#
+#
+Decay MyN(1535)+
+  0.15    p+   pi0              PHSP;
+  0.42    p+   eta              PHSP;
+  0.0133    p+   pi- pi+              PHSP;
+  0.0067    p+   pi0 pi0              PHSP;
+  0.0267      MyN(1440)+  pi0        PHSP;
+  0.00225      p+ gamma            PHSP;
+Enddecay
+CDecay Myanti-N(1535)-
+#
+Decay MyN(1720)+
+  0.037    p+   pi0              PHSP;
+  0.75    p+   rho0              PHSP;
+  0.14    MyDelta+ pi0              PHSP;
+  0.04    p+ eta                   PHSP;
+  0.0015  p+ gamma                 PHSP;
+Enddecay
+CDecay Myanti-N(1720)-
+#
+#
+Decay MyDelta+
+  1.0    p+   pi0              PHSP;
+Enddecay
+CDecay Myanti-Delta-
+
+
+Decay MyDelta++
+  1.0    p+   pi+              PHSP;
+Enddecay
+CDecay Myanti-Delta--
+
+
+Decay MyDelta0
+  1.0    p+   pi-              PHSP;
+Enddecay
+CDecay Myanti-Delta0
+#
+#
+End
+#

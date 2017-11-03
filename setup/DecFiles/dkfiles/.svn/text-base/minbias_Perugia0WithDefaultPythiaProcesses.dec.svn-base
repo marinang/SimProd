@@ -1,0 +1,20 @@
+# EventType: 30001320
+#
+# Descriptor: pp => ?
+#
+# NickName: minbias_Perugia0WithDefaultPythiaProcesses
+#
+# Cuts: None
+#
+# ExtraOptions: Perugia0_DefaultPythiaProcesses
+#
+# Documentation: Perugia 0 tune with default PYTHIA processes only.
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Raluca Muresan 
+# Email: raluca.muresan@cern.ch
+# Date: 20111031
+#
+End

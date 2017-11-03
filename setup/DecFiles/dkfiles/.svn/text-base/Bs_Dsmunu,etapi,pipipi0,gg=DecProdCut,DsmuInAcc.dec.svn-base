@@ -1,0 +1,50 @@
+# EventType: 13574410
+#
+# Descriptor: [B_s0 -> (D_s- -> (eta ->  pi+ pi- (pi0 -> gamma gamma) ) pi-) mu+ nu_mu ]cc 
+#
+# NickName: Bs_Dsmunu,etapi,pipipi0,gg=DecProdCut,DsmuInAcc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bs0 forced to decay to Ds- mu+ nu_mu, Ds- to pi- eta, eta to pi+ pi- pi0(gg). Decay products in acceptance.
+# EndDocumentation
+#
+# ExtraOptions: DsmuInAcc  
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Simone Stracka
+# Email: simone.stracka@cern.ch
+# Date: 20141213
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias       my_eta   eta
+ChargeConj  my_eta   my_eta
+#
+Alias       my_pi0   pi0
+ChargeConj  my_pi0   my_pi0
+#
+Decay B_s0sig
+  1.000   MyD_s-     mu+    nu_mu       PHOTOS  HQET2 1.17 1.074;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s-
+  1.000     my_eta   pi-    PHOTOS PHSP ;
+Enddecay
+CDecay MyD_s+
+#
+Decay  my_eta
+  1.000     pi+ pi-  my_pi0                     PHOTOS PHSP;
+Enddecay
+#
+Decay  my_pi0
+  1.000     gamma   gamma                    PHSP;
+Enddecay
+#
+End
+#

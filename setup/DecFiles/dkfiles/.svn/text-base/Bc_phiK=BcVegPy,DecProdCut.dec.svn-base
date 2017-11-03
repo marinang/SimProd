@@ -1,0 +1,33 @@
+# EventType: 14103011
+#
+# Descriptor: [B_c+ -> (phi(1020) -> K+ K-) K+]cc
+#
+# NickName: Bc_phiK=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: decay file for Bc-> phi(1020) + K, using BcVegPy and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Zhenwei Yang
+# Email: yangzhw@tsinghua.edu.cn
+# Date: 20110919
+#
+Alias       MyPhi   phi
+ChargeConj  MyPhi   MyPhi
+#
+Decay B_c+sig
+  1.000     MyPhi   K+             SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyPhi
+  1.000     K+       K-            VSS;
+Enddecay
+#
+End
+#

@@ -1,0 +1,44 @@
+# EventType: 12565002
+#
+# Descriptor: [B+ -> (D~0 -> K- pi+) (tau+ -> pi+ pi+ pi- anti-nu_tau) nu_tau]cc
+#
+# NickName: Bu_antiD0TauNu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ to D~0 tau, with D0 to K- pi+ final state, and also tau forced to 3pi nu final state. Signal Channel.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Conor Fitzpatrick
+# Email: conor.fitzpatrick@cern.ch
+# Date: 20120815
+#
+
+Alias      MyD0         D0
+Alias      MyAntiD0     anti-D0
+ChargeConj MyD0         MyAntiD0
+
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau- MyTau+
+
+Decay B+sig
+  1.000       MyAntiD0       MyTau+        nu_tau             ISGW2;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+  1.000   K-  pi+                              PHSP;
+Enddecay
+CDecay MyAntiD0
+
+#
+Decay MyTau-
+  1.000     pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

@@ -1,0 +1,44 @@
+# EventType:  27163231
+# This is the decay file for the decay D*+ -> ( D0 -> rho(770)0 (-> pi+ pi-) GAMMA ) pi+
+# Descriptor: [D*+ -> ( D0 -> (rho0 -> pi+ pi-) gamma ) pi+]cc
+#
+# NickName: Dst_D0pi,rhogamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Dst-> (D0 -> rho0(-> pi+ pi- ) gamma ) pi+
+# D0 decaying into rho gamma
+# rho decaying into pi+ pi-
+# All final-state products in the acceptance.
+# EndDocumentation 
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Jolanta Brodzicka
+# Email: Jolanta.Brodzicka@cern.ch
+# Date: 20170530
+# CPUTime: <1min
+#
+Alias myD0 D0
+Alias myantiD0 anti-D0
+ChargeConj myD0 myantiD0
+Alias      Myrho   rho0
+ChargeConj Myrho   Myrho
+#
+Decay D*+sig
+  1.000 myD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay myD0
+  1.0  Myrho        gamma      SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay myantiD0
+
+#
+Decay Myrho
+  1.000     pi+    pi-        VSS;
+Enddecay
+#
+End
+

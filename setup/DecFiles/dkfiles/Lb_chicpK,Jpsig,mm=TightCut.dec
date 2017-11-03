@@ -1,0 +1,96 @@
+# EventType: 15244202 
+#
+# Descriptor: [Lambda_b0 -> ( [chi_c1(1P) , chi_c2(1P)] -> (J/psi -> mu+ mu- ) gamma ) p+ K- ]cc
+#
+# NickName: Lb_chicpK,Jpsig,mm=TightCut 
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to chi_c12 p K-, with Lambda(1520) admixture
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation() 
+# signal     = generation.SignalPlain 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[Lambda_b0 ==> ^( Meson -> ^( J/psi(1S) => ^mu+ ^mu- ) ^gamma ) ^p+ ^K- ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity () ## to be sure ' , 
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'inEcalX      =  abs ( GPX / GPZ ) < 4.5 / 12.5              ' ,
+#     'inEcalY      =  abs ( GPY / GPZ ) < 3.5 / 12.5              ' ,
+#     'inECAL       =  inEcalX & inEcalY                           ' ,
+#     'fastTrack    =  ( GPT > 180 * MeV ) & ( GP  > 3.0 * GeV )   ' , 
+#     'goodTrack    =  inAcc & inEta & fastTrack                   ' ,     
+#     'longLived    =  75 * micrometer < GTIME                     ' , 
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )         ' , 
+#     'goodLb       =  inY & longLived                             ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[Lambda_b0]cc'  : 'goodLb    ' ,
+#     '[K+]cc'         : 'goodTrack ' , 
+#     '[pi+]cc'        : 'goodTrack ' , 
+#     '[p+]cc'         : 'goodTrack   & ( GP  >   9 * GeV ) ' , 
+#     '[mu+]cc'        : 'goodTrack   & ( GPT > 500 * MeV ) ' , 
+#     'gamma'          : '( GPZ > 0 ) & ( GPT > 180 * MeV ) & inECAL '
+#     }
+#
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GPT/GeV" , 0.0 , 20.0 , 40  )
+# tightCut.YAxis = ( "GY     " , 2.0 ,  4.5 , 10  )
+#
+# EndInsertPythonCode
+#
+# PhysicsWG:   Onia 
+# Tested:      Yes
+# Responsible: Ivan Polyakov 
+# Email:       ivan.polyakov@<no-spam>cern.ch
+# Date:        20140917
+# CPUTime:     4 min
+#
+Alias      MyJpsi                              J/psi
+ChargeConj MyJpsi                             MyJpsi
+#
+Alias      Mychi_c1                           chi_c1
+ChargeConj Mychi_c1                         Mychi_c1
+Alias      Mychi_c2                           chi_c2
+ChargeConj Mychi_c2                         Mychi_c2
+#
+Alias      MyLambda(1520)0             Lambda(1520)0
+Alias      Myanti-Lambda(1520)0   anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+#
+Decay  Lambda_b0sig
+   0.42    Mychi_c1             p+ K-             PHSP ;
+   0.42    Mychi_c2             p+ K-             PHSP ;
+   0.08    Mychi_c1             MyLambda(1520)0   PHSP ;
+   0.08    Mychi_c2             MyLambda(1520)0   PHSP ;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay  Mychi_c1 
+  1.000     MyJpsi      gamma  VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay  Mychi_c2 
+  1.000     MyJpsi      gamma  PHSP;
+Enddecay
+#
+Decay  MyJpsi
+  1.000     mu+         mu-                  PHOTOS VLL ;
+Enddecay
+#
+Decay  MyLambda(1520)0  
+  1.000   p+          K-        PHSP;              
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End
+#

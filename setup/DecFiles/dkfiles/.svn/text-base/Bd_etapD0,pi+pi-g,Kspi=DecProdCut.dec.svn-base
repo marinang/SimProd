@@ -1,0 +1,46 @@
+# EventType: 11164701
+# 
+# Descriptor: [B0 -> (D0 -> (K_S0 -> pi+ pi-) pi0) (eta' -> pi+ pi- gamma)]cc
+# 
+# NickName: Bd_etapD0,pi+pi-g,Kspi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: No CPV. D0 decays to KS0 pi0
+# EndDocumentation
+#
+# PhysicsWG: BnoC 
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: James Mccarthy
+# Email: james.mccarthy@cern.ch
+# Date: 20150108
+#
+Alias      MyEta'  eta'
+Alias      MyKs    K_S0
+Alias      MyD0    D0
+Alias      Myanti-D0  anti-D0
+ChargeConj MyEta'  MyEta'
+ChargeConj MyKs    MyKs
+ChargeConj MyD0    Myanti-D0
+#
+Decay B0sig
+  1.000  MyEta'  MyD0   PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyEta'
+  1.000        pi+   pi-   gamma           PHSP;
+Enddecay
+#
+Decay MyD0
+  1.000        MyKs   pi0           PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyKs
+  1.000        pi+      pi-                PHSP;
+Enddecay
+#
+End
+#

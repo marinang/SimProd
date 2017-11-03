@@ -1,0 +1,33 @@
+# EventType: 28142231
+#
+# Descriptor: chi_c0 -> (J/psi -> mu+ mu-) gamma
+#
+# NickName: chic0_Jpsigamma,mumu
+#
+# Cuts: None
+#
+# Documentation: chi_c0 decay to (J/psi ->mumu ) gamma
+#   This file is to be used to decay a particle gun which
+#   has the momentum (PT,PZ)   defined from a 2D histogram
+#   predefined and generated in a specific generator (SUPERCHIC).
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Kazu Akiba
+# Email: kazu.akiba@cern.ch
+# Date: 20140212
+#
+#
+Alias   MyJpsi  J/psi
+ChargeConj  MyJpsi   MyJpsi
+
+Decay chi_c0sig
+  1.000         gamma   MyJpsi       PHSP;
+Enddecay
+Decay MyJpsi
+  1.000  mu+      mu-    PHOTOS   VLL;
+Enddecay
+#
+End
+#

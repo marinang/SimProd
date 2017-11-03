@@ -1,0 +1,23 @@
+# EventType: 12105401
+#
+# Descriptor: [B+ -> pi+ pi+ pi+ pi- pi- pi0]cc
+#
+# NickName: Bu_3pi+2pi-pi0=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Alvaro Gomes
+# Email: agomesdo@cern.ch
+# Date: 20131221
+#
+Decay B+sig
+1.000	pi+	pi+	pi+	pi-	pi-	pi0	PHSP;
+Enddecay
+CDecay B-sig
+#
+End

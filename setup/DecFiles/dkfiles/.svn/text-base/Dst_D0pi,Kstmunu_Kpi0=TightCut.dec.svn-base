@@ -1,0 +1,66 @@
+# EventType: 27573401
+#
+# Descriptor: [D*+ -> (D0 -> (K*- -> K- pi0)  mu+ nu_mu) pi+]cc
+#
+# NickName: Dst_D0pi,Kstmunu_Kpi0=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation().SignalPlain.TightCut
+# tightCut.Decay     = "^[ D*(2010)+ -> ^( D0 => (K*(892)- -> ^K- pi0) ^mu+ nu_mu) ^pi+ ]CC"
+# tightCut.Preambulo += [
+#     'from LoKiCore.functions import in_range',
+#     'from GaudiKernel.SystemOfUnits import GeV, MeV',
+#     'inAcc        = (in_range (0.010, GTHETA, 0.400))',
+# ]
+#
+# tightCut.Cuts      =    {
+#     '[D*(2010)+]cc'  : 'inAcc',
+#     '[K-]cc'         : 'inAcc',
+#     '[mu+]cc'        : 'inAcc',
+#     '[pi+]cc'        : 'inAcc'
+#     }
+#
+# EndInsertPythonCode
+#
+# Documentation: D* tagged D0->K*(->K-pi0)MuNu (not reconstructed), requiring particles to decay in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min 
+# Responsible: S.Klaver
+# Email: sklaver@cern.ch
+# Date: 20141121
+#
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Alias      MyKst+    K*+
+Alias      MyKst-    K*-
+ChargeConj MyKst+    MyKst-
+
+#
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.000 MyKst- mu+ nu_mu PHOTOS ISGW2;  
+Enddecay
+CDecay MyantiD0
+#
+Decay MyKst-
+  1.000        K-      pi0             VSS;
+Enddecay
+CDecay MyKst+
+#
+End
+

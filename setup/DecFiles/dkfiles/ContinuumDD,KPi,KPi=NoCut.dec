@@ -1,0 +1,70 @@
+# EventType:  59984000
+#
+# Descriptor: [continuum] => ( D0 -> K- pi+ ) ( D~0 -> K+ pi- )
+#
+# NickName: ContinuumDD,KPi,KPi=NoCut
+#
+# Cuts: None
+#
+# ParticleValue: "  M 1234  12345  0.0 1.0 0.000000e+00  M 12345  0.000000"
+# 
+# Documentation: Continuum DDbar production according to flat distributions in DDbar: mass, pt, rapidity
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import ParticleGun, FlatNParticles, FlatPtRapidity
+# # Prepare particle gun
+# pgun = ParticleGun()
+#
+# pgun.SignalPdgCode = 12345
+#
+# pgun.SampleMass = True
+# pgun.MassRange_min = 4000. 
+# pgun.MassRange_max = 8000. 
+#
+# pgun.ParticleGunTool = "FlatPtRapidity"
+# pgun.addTool( FlatPtRapidity , name = "FlatPtRapidity" )
+# pgun.FlatPtRapidity.OutputLevel = 0 # Make debug
+# pgun.MassRange_min = 3730 
+# pgun.MassRange_max = 5500
+# pgun.FlatPtRapidity.PtMin = 0  
+# pgun.FlatPtRapidity.PtMax = 4000  
+# pgun.FlatPtRapidity.RapidityMin = 1.8  
+# pgun.FlatPtRapidity.RapidityMax = 4.7  
+# pgun.DecayTool = "EvtGenDecay"
+# pgun.FlatPtRapidity.PdgCodes = [ 12345 ]
+# pgun.NumberOfParticlesTool = "FlatNParticles"
+# pgun.addTool( FlatNParticles , name = "FlatNParticles" )
+#
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# Date: 20160302
+#
+##
+Alias Msig M
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+ChargeConj My_anti-D0 My_D0
+
+Decay Msig
+  1.0 My_D0 My_anti-D0 PHSP;
+Enddecay
+
+# This 'M' decay needs to be defined, even though it is not used here
+Decay M
+  1.0 My_D0 My_anti-D0 PHSP;
+Enddecay
+
+Decay My_D0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0
+
+End

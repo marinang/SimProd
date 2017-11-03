@@ -1,0 +1,57 @@
+# EventType: 15364310 
+#
+# Descriptor: [Lambda_b0 -> (D_*s- -> {gamma  (D_s- ->KS0 K-), {pi0  (D_s- ->KS0 K-) }) p+]cc
+#
+# NickName: Lb_Dsstp_KSK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Flat on square Dalitz plot, K0s forced into pi+ pi-, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible:  Rafael Coutinho
+# Email: rsilvaco@cern.ch
+# Date: 20130131
+#
+Alias      MyD_s*-    D_s*- 
+Alias      MyD_s*+    D_s*+
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyKs       K_S0
+ChargeConj MyKs       MyKs
+#
+#----------------------------------------------
+Decay Lambda_b0sig
+  1.000    MyD_s*-        p+         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#----------------------------------------------
+#
+#------------------------------------------------
+Decay MyD_s*- 
+  0.942     MyD_s-       gamma        PHSP;
+  0.058     MyD_s-       pi0          VSS;
+Enddecay
+CDecay MyD_s*+
+#------------------------------------------------
+#
+#------------------------------------------------
+Decay MyD_s-
+  1.000 MyKs    K-                    PHSP;
+Enddecay
+CDecay MyD_s+
+#------------------------------------------------
+CDecay MyD_s+
+#
+Decay MyKs
+  1.000   pi+     pi-         PHSP;
+Enddecay
+#
+End
+#

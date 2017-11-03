@@ -1,0 +1,38 @@
+# EventType: 13144051
+#
+# Descriptor: [B_s0 -> ( psi(2S) -> mu+ mu-) (f_0(980) -> pi+ pi-)]cc
+#
+# NickName: Bs_psi2Sf0,mm=980,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG:   Onia
+# Tested:      Yes
+# Responsible: Vanya Belyaev
+# Email:       Ivan.BElyaev@itep.ru
+# Date:        20120426
+#
+Alias      Mypsi2s  psi(2S)
+ChargeConj Mypsi2s  Mypsi2s
+Alias      Myf_0    f_0
+ChargeConj Myf_0    Myf_0
+Particle   Myf_0    0.980  0.092
+ChangeMassMin Myf_0 0
+#
+#
+Decay B_s0sig
+  1.000   Mypsi2s Myf_0  SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myf_0
+  1.000         pi+       pi-            PHSP;
+Enddecay
+#
+Decay Mypsi2s
+  1.000         mu+       mu-     PHOTOS       VLL;
+Enddecay
+End

@@ -1,0 +1,27 @@
+# EventType: 12113001
+#
+# Descriptor: [B+ -> K+ mu+ mu- {,gamma} {,gamma}]cc
+#
+# NickName: Bu_Kmumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: P. Koppenburg
+# Email: Patrick.Koppenburg@cern.ch
+# Date: 20111013
+#
+Decay B+sig
+  1.000        K+     mu+     mu-     BTOSLLBALL;
+Enddecay
+#
+Decay B-sig
+  1.000        K-     mu+     mu-     BTOSLLBALL;
+Enddecay
+#
+End
+#

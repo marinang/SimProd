@@ -1,0 +1,50 @@
+# EventType: 21123200
+#
+# Descriptor: [D- -> pi- (pi0 -> e+ e- gamma)]cc 
+#
+# NickName: D+_pi+pi0,eeg=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ D+ -> ^pi+ ( pi0 -> ^e+ ^e- gamma )]CC'
+# tightCut.Cuts      =    {
+#     '[e+]cc'  : ' inAcc & eCuts',
+#     '[pi+]cc' : ' inAcc & piCuts',
+#     '[D+]cc'  : ' Dcuts ' }
+# tightCut.Preambulo += [
+#     'inAcc = in_range ( 0.005, GTHETA, 0.400 ) ' , 
+#     'eCuts = ( (GPT > 100 * MeV) & ( GP > 600 * MeV))',
+#     'piCuts = ( (GPT > 200 * MeV) & ( GP > 600 * MeV))',
+#     'Dcuts = (GPT > 1000 * MeV)' ]
+# EndInsertPythonCode
+#
+# Documentation: D+ forced to decay to pi+ pi0, then pi0 to (e+ e- gamma) as 'PI0_DALITZ' with generator level cuts.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Tom Hadavizadeh
+# Email: tom.hadavizadeh@cern.ch
+# Date: 20150120
+#
+Alias      MyPi0        pi0
+ChargeConj MyPi0        MyPi0
+#
+Decay D-sig
+  1.00   MyPi0   pi-           PHSP;
+Enddecay
+CDecay D+sig
+#
+Decay MyPi0
+  1.00    e+  e- gamma        PI0_DALITZ;
+Enddecay
+#
+End
+#

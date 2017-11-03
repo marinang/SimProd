@@ -1,0 +1,42 @@
+# EventType: 14143006
+# 
+# Descriptor: [B_c+ -> (psi(2S) -> mu+ mu- ) (a_1+ -> rho0 pi+ )]cc
+# 
+# NickName: Bc_psi2Sa1,mmrhopi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: decay of B_c+ -> (psi(2S) -> mu+ mu- ) (a_1+ -> rho0 pi+ ),
+#  with eventually final state of psi(2S) + 3pi
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Yiming Li
+# Email: yiming.li@cern.ch
+# Date: 20130902
+#
+Alias      Mypsi2S    psi(2S)
+ChargeConj Mypsi2S    Mypsi2S
+Alias      Mya1+      a_1+
+Alias      Mya1-      a_1-
+ChargeConj Mya1+      Mya1-
+#
+Decay B_c+sig
+  1.000    Mypsi2S    Mya1+   SVV_HELAMP 0.458 0.0 0.866 0.0 0.200 0.0;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi2S
+  1.000    mu+    mu-  PHOTOS VLL;
+Enddecay
+#
+Decay Mya1+
+  1.000    rho0   pi+  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya1-
+#
+End
+#

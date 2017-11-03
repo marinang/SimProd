@@ -1,0 +1,36 @@
+# EventType: 16463030
+#
+# Descriptor: [Xi_b- -> (Xi_c0 -> p+ K-) K-]cc
+#
+# NickName: Xib_Xich-,ph-=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Generate flat over the SDP
+# EndDocumentation
+#
+# CPUTime: <2mins
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Abhijit Mathad
+# Email: amathad@cern.ch
+# Date: 20161104
+#
+Alias MyXi_c0 Xi_c0
+Alias Myanti-Xi_c0 anti-Xi_c0
+ChargeConj MyXi_c0 Myanti-Xi_c0
+#
+#
+Decay Xi_b-sig
+  1.0    	MyXi_c0	    K-       PHSP;
+  1.0    	MyXi_c0	    pi-      PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyXi_c0
+  1.0   	p+   	    K-       PHSP;
+  1.0   	p+   	    pi-      PHSP;
+Enddecay
+CDecay Myanti-Xi_c0
+#
+End

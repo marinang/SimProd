@@ -1,0 +1,54 @@
+# EventType: 15144003
+#
+# Descriptor: [ ( Lambda_b0  ->   p+ K- (mPsi -> mu+ mu-) )]CC
+#
+# NickName: Lb_pKmumu=phsp,Highq2,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ParticleValue: "mPsi 853   9030443 0 3.800 1.65e-24 mPsi 0 0"
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ ^( Lambda_b0  ->   ^p+ ^K- ^( mPsi -> ^mu+ ^mu- ) )]CC'
+# tightCut.Cuts      =    {
+#     '[mu+]cc'             : ' inAcc  ' ,
+#     '[K+]cc'              : ' inAcc  ' ,
+#     '[p+]cc'              : ' inAcc  ' ,
+#     '[Lambda_b0]cc'       : ' highq2   ' }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#     "highq2    = ( ( GMASS ( 'mu+' == GID , 'mu-' == GID ) ) > 3200 * MeV )  " ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Lambda_b0 to  p K mu mu decay with generic phase space requiring high q2 for dimuons. 
+#                Uses intermediate dimuon state to populate high q2 region.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes 
+# CPUTime: <1min
+# Responsible: Michal Kreps 
+# Email: M.Kreps@warwick.ac.uk
+# Date: 20140428
+#
+Alias mymPsi mPsi
+ChargeConj mymPsi mymPsi
+
+Decay Lambda_b0sig
+  1.000   p+ K-  mymPsi PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay mymPsi
+  1.000  mu+ mu-  PHSP;
+Enddecay
+
+End
+#

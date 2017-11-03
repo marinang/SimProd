@@ -1,0 +1,44 @@
+# EventType: 12103332
+# 
+# Descriptor: [B+ -> (anti-Sigma0 -> (anti-Lambda0 -> p~- pi+) p+ gamma) gamma]cc
+# 
+# NickName: Bu_Sigmapgamma=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  B+ decaying into p+, Sigma0bar, gamma
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Christoph Hombach
+# Email: Christoph.Hombach@hep.manchester.ac.uk
+# Date: 20130716
+#
+#
+
+Alias        MySigma         Sigma0
+Alias        MyantiSigma     anti-Sigma0
+ChargeConj   MySigma         MyantiSigma
+#
+Alias        MyLambda        Lambda0
+Alias        MyantiLambda    anti-Lambda0
+ChargeConj   MyLambda        MyantiLambda
+#
+Decay B+sig
+  1.000      MyantiSigma  p+     gamma   PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MySigma
+  1.000      MyLambda     gamma          PHSP;
+Enddecay
+CDecay MyantiSigma
+#
+Decay MyLambda
+  1.000      p+           pi-             PHSP;
+Enddecay
+CDecay MyantiLambda     
+#
+End
+#

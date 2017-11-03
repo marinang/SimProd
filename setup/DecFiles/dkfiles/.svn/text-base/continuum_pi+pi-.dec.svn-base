@@ -1,0 +1,61 @@
+# EventType:  59990001
+#
+# Descriptor: rho(770)0 => (pi+ pi-)
+#
+# NickName: continuum_pi+pi-
+#
+# Cuts: LHCbAcceptance
+#
+# ParticleValue: "rho(770)0 113  113  0.0 1. 0.  rho0 113  0.000000"
+# 
+# Documentation: Continuum dipion production according to flat distributions in mass, pt, rapidity. The rho0 mass is changed to 1GeV and its lifetime to 0.
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import ParticleGun, FlatNParticles, FlatPtRapidity
+# pgun = ParticleGun()
+#
+# pgun.SignalPdgCode = 113
+# pgun.EventType = 59990001
+#
+# pgun.SampleMass = True
+# pgun.MassRange_min = 300. 
+# pgun.MassRange_max = 4000. 
+#
+# pgun.ParticleGunTool = "FlatPtRapidity"
+# pgun.addTool( FlatPtRapidity , name = "FlatPtRapidity" )
+# pgun.MassRange_min = 300. 
+# pgun.MassRange_max = 4000.
+# pgun.FlatPtRapidity.PtMin = 0.  
+# pgun.FlatPtRapidity.PtMax = 3500.  
+# pgun.FlatPtRapidity.RapidityMin = 1.8  
+# pgun.FlatPtRapidity.RapidityMax = 5.2  
+# pgun.DecayTool = "EvtGenDecay"
+# pgun.FlatPtRapidity.PdgCodes = [ 113 ]
+# pgun.NumberOfParticlesTool = "FlatNParticles"
+# pgun.addTool( FlatNParticles , name = "FlatNParticles" )
+#
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Giovanni Veneziano
+# Email: giovanni.veneziano@cern.ch
+# Date: 20160922
+#
+##
+Alias rho0sig rho0
+ChargeConj rho0sig rho0sig
+
+Decay rho0sig
+  1.0 pi- pi+   PHSP;
+Enddecay
+
+Decay rho0
+  1.0 pi- pi+   PHSP;
+Enddecay
+      
+End

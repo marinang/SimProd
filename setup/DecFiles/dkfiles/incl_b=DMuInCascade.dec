@@ -1,0 +1,18 @@
+# EventType: 10074000
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b=DMuInCascade
+#
+# Cuts: DMuCascadeInAcc
+#
+# Documentation: b inclusive events where Xb->Xc(->K/pi K/pi K/pi) Xc(->mu)
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible:  Adam Webber
+# Email: Adam.Webber@hep.manchester.ac.uk 
+# Date:   20100817
+#
+End

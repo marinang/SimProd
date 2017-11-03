@@ -1,0 +1,34 @@
+# EventType: 11104011
+#
+# Descriptor: [B0 -> (K*(892)0 -> K+ pi-)  p+ p~-]cc
+# 
+# NickName: Bd_Kstpp=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Kst0 forced to K pi
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Tested: Yes
+# Responsible: Roberta Cardinale
+# Email: roberta.cardinale@cern.ch
+# Date: 20120206
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj Myanti-K*0 MyK*0 
+#
+Decay B0sig
+  1.000    MyK*0             p+ anti-p-   PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000    K+           pi-           VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+#

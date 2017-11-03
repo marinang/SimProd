@@ -1,0 +1,22 @@
+# EventType: 42112001
+#
+# Descriptor: pp -> (Z0/gamma* -> mu+ mu-) ... 
+#
+# NickName: Zg_mumu40GeV
+#
+# Cuts: PythiaHiggsType
+#                                                       
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 4*GeV LeptonIsFromMother true MotherOfLeptonMinMass 40*GeV NumberOfbquarks -1                                  
+# ExtraOptions: Zgmumu                        
+#
+# Documentation: 1 lepton with pT>4GeV, invariant mass cut 40GeV
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Wenchao Zhang
+# Email: Wenchao.Zhang@cern.ch
+# Date: 20111220
+#
+End
+#

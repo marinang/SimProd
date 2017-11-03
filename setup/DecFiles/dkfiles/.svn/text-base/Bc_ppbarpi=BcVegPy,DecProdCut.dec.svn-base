@@ -1,0 +1,27 @@
+# EventType: 14103031
+#
+# Descriptor: [B_c+ -> p+ p~- pi+]cc
+#
+# NickName: Bc_ppbarpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Using BcVegPy generator and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: yes
+# Responsible: Roberta Cardinale
+# Email: roberta.cardinale@cern.ch
+# Date: 20130715
+#
+#
+Decay B_c+sig
+  1.000        p+      anti-p-     pi+     PHSP;
+Enddecay
+CDecay B_c-sig
+#
+End
+

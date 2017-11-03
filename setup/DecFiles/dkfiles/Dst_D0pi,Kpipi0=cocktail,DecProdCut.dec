@@ -1,0 +1,100 @@
+# EventType: 27263400
+#
+# Descriptor: [D*(2010)+ -> (D0 -> K- pi+ pi0) pi+]cc
+#
+# NickName: Dst_D0pi,Kpipi0=cocktail,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#   D* -> D0 pi+, D0 decays to right-sign mode (K- pi+ pi0) with a D* tag. With intermediate resonances.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Lorenzo Capriotti, Federico Betti
+# Email: lorenzo.capriotti@cern.ch, federico.betti@cern.ch
+# Date: 20170317
+# CPUTime: <1min
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+Alias MyRho+ rho+
+Alias MyRho- rho-
+Alias MyRho1700+ rho(3S)+
+Alias MyRho1700- rho(3S)-
+Alias MyKst K*0
+Alias MyantiKst anti-K*0
+Alias MyKst+ K*+
+Alias MyKst- K*-
+Alias MyKst0 K_0*0
+Alias MyantiKst0 anti-K_0*0
+Alias MyKst0+ K_0*+
+Alias MyKst0- K_0*-
+Alias MyKst1+ K''*+
+Alias MyKst1- K''*-
+
+ChargeConj MyD0 MyantiD0
+ChargeConj MyRho+ MyRho-
+ChargeConj MyRho1700+ MyRho1700-
+ChargeConj MyKst MyantiKst
+ChargeConj MyKst0 MyantiKst0
+ChargeConj MyKst0+ MyKst0-
+ChargeConj MyKst1+ MyKst1-
+ChargeConj MyKst+ MyKst-
+
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  0.1110 MyRho+ K-      SVS;
+  0.0081 MyRho1700+ K-  SVS;
+  0.0228 MyKst- pi+     SVS;
+  0.0193 MyantiKst pi0  SVS;
+  0.0047 MyKst0- pi+    PHSP;
+  0.0058 MyantiKst0 pi0 PHSP;
+  0.0019 MyKst1- pi+    SVS; 
+# 0.0114 K- pi+ pi0     PHSP;
+Enddecay
+CDecay MyantiD0
+
+Decay MyRho+
+  1.0000 pi+ pi0 VSS;
+Enddecay
+CDecay MyRho-
+
+Decay MyRho1700+
+  1.0000 pi+ pi0 VSS;
+Enddecay
+CDecay MyRho1700-
+
+Decay MyKst+
+  1.0000 K+ pi0 VSS;
+Enddecay
+CDecay MyKst-
+
+Decay MyKst
+  1.0000 K- pi+ VSS;
+Enddecay
+CDecay MyantiKst
+
+Decay MyKst0
+  1.0000 K- pi+ PHSP;
+Enddecay
+CDecay MyantiKst0
+
+Decay MyKst0+
+  1.0000 K+ pi0 PHSP;
+Enddecay
+CDecay MyKst0-
+
+Decay MyKst1+
+  1.0000 K+ pi0 VSS;
+Enddecay
+CDecay MyKst1-
+#
+End
+ 

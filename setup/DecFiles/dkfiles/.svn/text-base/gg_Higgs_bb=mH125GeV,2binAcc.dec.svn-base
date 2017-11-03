@@ -1,0 +1,35 @@
+# EventType: 40900001
+#
+# Descriptor: pp -> (H_10 -> b anti-b) ... 
+#
+# NickName: gg_Higgs_bb=mH125GeV,2binAcc
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/Hwith2binAcc
+# ExtraOptions: HiggsGFbb
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "Hwith2binAcc" )
+# tracksInAcc = Generation().Hwith2binAcc
+# tracksInAcc.Code = "count ( isGoodBFromH ) > 1"
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodB = ( ( 'b' == GABSID ) & ( GTHETA < 400.0*mrad ) )"
+#    , "isFromH  = ( 1 == GNINTREE( 'H_10' == GABSID , 0 ) )"
+#    , "isGoodBFromH = ( isGoodB & isFromH )" ]
+# EndInsertPythonCode
+#
+# ParticleValue: "H_10 87 25 0.0 125.000 9.400e-026 Higgs0 25 0.000e+000"
+#
+# Documentation: Higgs produced by gluon fusion with 2 b in the acceptance
+# EndDocumentation
+#
+# PhysicsWG: Exotica 
+# Tested: Yes
+# Responsible: Victor Coco, Konstantinos A. Petridis
+# Email: victor.coco@cern.ch, konstantinos.petridis@cern.ch
+# Date: 20120524
+#
+End
+#

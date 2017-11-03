@@ -1,0 +1,22 @@
+# EventType: 42311003
+#
+# Descriptor: pp -> [W+ -> mu+ nu_mu]cc ... 
+#
+# NickName: W_munumu=10GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 10*GeV LeptonIsFromMother true NumberOfbquarks -1
+# ExtraOptions: Wmunu
+#
+# Documentation: 1 lepton with pT > 10 GeV 
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Philip Ilten
+# Email: philten@cern.ch
+# Date: 20131021
+#
+End
+#

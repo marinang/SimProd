@@ -1,0 +1,48 @@
+# EventType: 10002213
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b=KpigammaX,updated
+#
+# Cuts: LHCbAcceptance
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation().BRadiativeCut
+# radCut.Code = " has(myB) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "from PartProp.Nodes import LongLived,Beauty"
+#   , "inCaloAcc   = (in_range(  0.030 , abs ( GPX/GPZ ) , 0.300 ) |  in_range(  0.030 , abs ( GPY/GPZ ) , 0.250 ))"
+#   , "inAcc       = (in_range(  0.030 , GTHETA , 0.400 ))"
+#   , "HighPtNeut  = (((('gamma' == GABSID) | ('pi0' == GABSID) )& (GPT >2.0*GeV) & inCaloAcc))"
+#   , "NGoodGPi0   = (GINTREE(HighPtNeut))"
+#   , "NGoodpim    = (GINTREE((  (('pi-' == GID) )& (GPT >0.3*GeV) & inAcc)))"
+#   , "NGoodpip    = (GINTREE((  (('pi+' == GID) )& (GPT >0.3*GeV) & inAcc)))"
+#   , "NGoodKm     = (GINTREE((  (('K-' == GID) )& (GPT >0.3*GeV) & inAcc)))"
+#   , "NGoodKp     = (GINTREE((  (('K+' == GID) )& (GPT >0.3*GeV) & inAcc)))" 
+#   , "NGoodKpia   = ((NGoodpip)&(NGoodKm))"
+#   , "NGoodKpib   = ((NGoodpim)&(NGoodKp))"
+#   , "NGoodKpi    = ( NGoodKpia | NGoodKpib )"
+#   , "isnotB2Kstg = ((~GDECTREE('[B0 -> (K*(892)0 -> K+ pi-) gamma]CC')))"
+#   , "isnotB2K1g  = ((~GDECTREE('[B+ -> K_1(1270)+ gamma]CC')))"
+#   , "isGoodB     = ((GDECTREE('[(Beauty & LongLived) --> K+ pi- ...]CC')))"
+#   , "myB         = (isGoodB  & NGoodGPi0  &  NGoodKpi & isnotB2Kstg & isnotB2K1g)"
+#   ]
+#
+# EndInsertPythonCode
+#
+# Documentation: b inclusive events with high pt gamma and (Kpi)0
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:     Cedric Potterat	
+# Email: cedric.potterat@cern.ch
+# Date:   20131003
+#
+End
+

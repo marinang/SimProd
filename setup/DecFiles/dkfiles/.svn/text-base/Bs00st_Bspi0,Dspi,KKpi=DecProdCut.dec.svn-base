@@ -1,0 +1,61 @@
+# EventType: 17164451
+#
+# Descriptor: [B*_s00 -> ([B_s0]nos -> (D_s- -> K+ K- pi-) pi+, [B_s0]os -> (D_s+ -> K+ K- pi+) pi-) (pi0 -> gamma gamma)]cc
+#
+# NickName: Bs00st_Bspi0,Dspi,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "B_s1(L)0 211 10533 0.0 5.7070000 0.658000e-021 B_s10 10533 0.005000", "B_s1(L)~0 215 -10533 0.0 5.7070000 0.658000e-021 anti-B_s10 -10533 0.005000"
+#
+# Documentation: 
+# Excited Bs Spectroscopy
+# No decay flag for B*_s00. B_s1(L)0 is used instead.
+# Mass and width from Phys.Rev. D86 (2012) 054024
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:     Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20130724
+#
+Alias MyBs     B_s0
+Alias MyantiBs anti-B_s0
+ChargeConj MyBs      MyantiBs
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      Mypi0   pi0
+ChargeConj Mypi0   Mypi0
+#
+Decay B_s10sig
+1.0000     MyBs    Mypi0      PHSP;
+Enddecay
+CDecay anti-B_s10sig
+#
+Decay MyBs
+  1.000     MyD_s-     pi+      PHSP;
+Enddecay
+CDecay MyantiBs
+#
+Decay MyD_s-
+  1.000        K-        K+        pi-             D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+Decay Mypi0
+  1.000     gamma      gamma               PHSP;
+Enddecay
+#
+Decay B_s10
+1.0000     MyBs      Mypi0   PHSP;
+Enddecay
+#
+Decay anti-B_s10
+1.0000     MyantiBs  Mypi0   PHSP;
+Enddecay
+#
+End

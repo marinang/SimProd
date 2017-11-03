@@ -1,0 +1,33 @@
+# EventType: 28196070
+#
+# Descriptor: psi(3770) -> D+(K- pi+ pi+)  D-(K+ pi- pi-)
+#
+# NickName: psi3770_D+D-,Kpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: psi(3770) forced to decay to D+(K- pi+ pi+) D-(K+ pi- pi-). Daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Michele Veltri
+# Email: michele.veltri@uniurb.it
+# Date: 20140129
+#
+Decay psi(3770)sig
+  1.000         D+sig      D-sig                   VSS;
+Enddecay
+
+Decay D+sig
+  1.000         K-      pi+     pi+                D_DALITZ; #[Reconstructed PDG2011]
+Enddecay
+
+Decay D-sig
+  1.000         K+      pi-     pi-                D_DALITZ; #[Reconstructed PDG2011]
+Enddecay
+
+End
+
+
+

@@ -1,0 +1,40 @@
+# EventType: 12103491
+# 
+# Descriptor: [B+ -> K+ (eta' -> pi+ pi- (eta -> gamma gamma))]cc
+# 
+# NickName: Bu_EtapK,pipieta=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: eta_prime decays to pi+ pi- eta, eta to gamma gamma
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Timothy Williams
+# Email: timothy.williams@cern.ch
+# Date: 20170911
+# CPUTime: < 1 min
+
+Alias       myeta'  eta'
+ChargeConj  myeta'  myeta'
+Alias 	    myeta   eta
+ChargeConj  myeta   myeta
+#
+Decay B+sig
+  1.000     K+    myeta'      PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay   myeta'
+  1.000   pi+ pi- myeta		PHSP;
+Enddecay
+#
+Decay   myeta
+  1.000     gamma gamma		PHSP;
+Enddecay
+#
+End
+#
+
+

@@ -1,0 +1,40 @@
+# EventType: 11196030
+# NickName: Bd_D0D0Kst0,KPi,KPi,KPi=sqDalitz,DecProdCut
+# Descriptor: [B0 -> (D0 -> K- pi+) (D~0 -> K+ pi-) (K*0 -> K+ pi-)]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  K*0 forced to K+ pi-, decay products in acceptance. Forced flat in sq dalitz plot of B
+#    Decay file for B0 -> D0 D~0 K*0
+# EndDocumentation
+# CPUTime: < 1 min
+# 
+# Date:   20140808
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# PhysicsWG: B2OC
+# Tested: Yes
+
+Alias My_D0    D0
+Alias My_anti-D0    anti-D0
+Alias My_K*0    K*0
+Alias My_anti-K*0    anti-K*0
+ChargeConj My_D0   My_anti-D0 
+ChargeConj My_K*0  My_anti-K*0
+#
+Decay My_D0
+  1.000 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0
+#
+Decay My_K*0
+  1.000 K+ pi-  VSS;
+Enddecay
+CDecay My_anti-K*0
+#
+Decay B0sig
+  1.000 My_D0 My_anti-D0 My_K*0 FLATSQDALITZ;
+Enddecay
+CDecay anti-B0sig
+
+End

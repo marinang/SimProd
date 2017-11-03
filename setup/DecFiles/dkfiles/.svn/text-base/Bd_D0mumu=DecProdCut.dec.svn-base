@@ -1,0 +1,35 @@
+# EventType:  11174011
+#
+# Descriptor:  [B0 -> (D~0 -> K+ pi-) mu+ mu-]cc
+#
+# NickName:  Bd_D0mumu=DecProdCut
+#
+# Cuts:  DaughtersInLHCb
+#
+# Documentation:  Decay file for B0->D0MuMu 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested:  Yes
+# Responsible:    Sam Hall
+# Email:  shall@cern.ch
+# Date: 20130819
+#
+#
+Alias        MyD0         D0
+Alias        Myanti-D0    anti-D0
+ChargeConj   MyD0         Myanti-D0
+
+Decay B0sig
+  1.     Myanti-D0   mu-    mu+    PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD0
+  1.000      K-   pi+              PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+#
+End
+#

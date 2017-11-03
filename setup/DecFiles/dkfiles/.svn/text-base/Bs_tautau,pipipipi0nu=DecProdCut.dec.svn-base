@@ -1,0 +1,43 @@
+# EventType: 13506401
+#
+# Descriptor: [B_s0 -> (tau+ -> pi+ pi- pi+ (pi0 -> gamma gamma) anti-nu_tau) (tau- -> pi+ pi- pi- (pi0 -> gamma gamma) nu_tau)]cc
+#
+# NickName: Bs_tautau,pipipipi0nu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bs decay to two tau leptons with a phasespace model.
+# Both tau leptons decay into 3 charged pions and a pi0 with a phasespace model.
+# The pi0 is forced to gamma gamma.
+# All final-state products in the acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# Tested: Yes
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date: 20110414
+#
+Alias         Mytau+  tau+
+Alias         Mytau-  tau-
+ChargeConj    Mytau+  Mytau-
+Alias         Mypi0   pi0
+ChargeConj    Mypi0   Mypi0
+#
+#
+Decay B_s0sig
+  1.000       Mytau+        Mytau-             PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mytau-
+  1.00        nu_tau     pi-     pi+     pi-     Mypi0     PHSP;
+Enddecay
+CDecay Mytau+
+#
+Decay Mypi0
+  1.0000      gamma      gamma        PHSP;
+Enddecay
+#       
+End

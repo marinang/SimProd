@@ -1,0 +1,44 @@
+# EventType: 13134051
+# 
+# Descriptor: [B_s0 -> (J/psi -> K+ K-) (phi -> K+ K-)]cc
+# 
+# NickName: Bs_Jpsiphi,KK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, J/psi forced into K+K-, phi forced into K+K-
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: 5 s/Event
+# Responsible: Emmy Gabriel
+# Email: emmy.gabriel@cern.ch
+# Date: 20161021
+#
+#
+Define Aplus 0.688
+Define Azero 0.722
+Define Aminus 0.081
+Define pAplus 3.10
+Define pAzero 0.0
+Define pAminus -1.36
+#
+Alias MyPhi phi
+Alias MyJpsi J/psi
+ChargeConj MyPhi MyPhi
+ChargeConj MyJpsi MyJpsi
+#
+Decay B_s0sig
+  1.000   MyJpsi    MyPhi     SVV_HELAMP Aplus Azero Aminus pAplus pAzero pAminus; 
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000 K+ K- VSS;
+Enddecay
+Decay MyJpsi
+  1.000 K+ K- VSS;
+Enddecay
+End
+#

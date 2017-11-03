@@ -1,0 +1,56 @@
+# EventType: 22164112
+#
+# Descriptor: [D0 -> (KS0 -> pi+ pi-) (KS0 -> pi+ pi-)]cc
+#
+# NickName: D0_KSKS=DecProdCut,tightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# #gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# #tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[^(D0 ==> ^(KS0 -> ^pi+ ^pi-) ^(KS0 -> ^pi+ ^pi-))]CC'
+# tightCut.Cuts      =    {
+#     '[D0]cc'    : ' goodB     ' , 
+#     'KS0'   : ' goodKs ' , 
+#     '[pi+]cc'   : ' goodTrack ' }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.000 , GTHETA , 0.400 ) ' , 
+#     'goodB     = ( GP > 10 * GeV )   & inAcc            ' , 
+#     'goodTrack = ( GP >  1.5 * GeV )        ' , 
+#     'goodKs   = ( GP >  3 * GeV) & (GPT >  100 * MeV ) & inAcc              ' ] 
+#
+# EndInsertPythonCode
+#
+# Documentation: D0 -> K_S0(-> pi- pi+) K_S0(-> pi- pi+) phase space decay model
+# K0s decaying into pi- pi+
+# All final-state products in the acceptance, plus extra cuts on p and pt
+# EndDocumentation
+#
+# PhysicsWG: Charm
+#
+# Tested: Yes
+# Responsible: Markward BRITSCH
+# Email: markward@mpi-hd.mpg.de
+# Date: 20130404
+#
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+#
+Decay D0sig
+  1.0   MyK0s        MyK0s   PHSP;
+Enddecay
+CDecay anti-D0sig
+#
+Decay MyK0s
+  1.000    pi+          pi-           PHSP;
+Enddecay
+#
+End
+

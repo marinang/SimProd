@@ -1,0 +1,52 @@
+# EventType: 14175201
+# 
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu-) (D*(2007)0 -> (D0 -> K- pi+) gamma) K+]cc
+# 
+# NickName: Bc_JpsiDst0K,D0gamma,mmKpi=DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# CPUTime: < 1 min
+#
+# Documentation: Bc decay to J/psi (mu mu) D*0 (D0 (Kpi) gamma ) K decay. Charged daughters in the acceptance  
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20140603
+#
+Alias      MyJ/psi     J/psi
+ChargeConj MyJ/psi     MyJ/psi
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+#
+Decay B_c+sig
+  1.000  MyJ/psi    MyD*0  K+    PHSP ;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000    mu+        mu-       PHOTOS VLL ;
+Enddecay
+#
+Decay MyD*0
+1.000    MyD0  gamma                       VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD0
+  1.000        K-        pi+    PHSP ;
+Enddecay
+CDecay Myanti-D0
+#
+End
+#

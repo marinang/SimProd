@@ -1,0 +1,31 @@
+# EventType: 23113176
+#
+# Descriptor: [Ds+ -> (KS0 -> pi+ pi-) mu+ nu_mu]cc
+#
+# NickName: Ds+_Ksmu+nu_mu=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance, phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: S. Gregson
+# Email: sam.gregson@cern.ch
+# Date: 20111103
+#
+Alias        MyK0s   K_S0
+ChargeConj   MyK0s   MyK0s
+#
+Decay D_s+sig
+  1.000        MyK0s         mu+       nu_mu      PHSP;
+Enddecay
+
+CDecay D_s-sig
+#
+Decay MyK0s
+  1.000        pi+           pi-             PHSP;
+Enddecay
+#
+End

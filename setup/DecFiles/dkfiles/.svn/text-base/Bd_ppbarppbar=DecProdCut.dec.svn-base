@@ -1,0 +1,25 @@
+# EventType: 11104077
+#
+# Descriptor: [B0 -> p+ anti-p- p+ anti-p-]cc
+#
+# NickName: Bd_ppbarppbar=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date: 20150929
+#
+Decay B0sig
+  1.000       p+   anti-p-   p+   anti-p-   PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End

@@ -1,0 +1,65 @@
+# EventType: 12365561
+#
+# Descriptor: [B+ -> (D*(2007)~0 -> (D~0 -> (KS0 -> pi+ pi-) pi+ pi-) {pi0, gamma}) (K*(892)+ -> K+ pi0)]cc
+#
+# NickName: Bu_Dst0Kst+,KSpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Inclusive D*0 decays. KS0 forced into pi+ pi-, K* forced into K+ pi0. D0 decay without resonance, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Jackson Smith
+# Email: jackson.smith@cern.ch
+# Date: 20160223
+#
+
+Alias      MyD*0        D*0
+Alias      Myanti-D*0   anti-D*0
+ChargeConj MyD*0        Myanti-D*0
+Alias      MyK*+      K*+
+Alias      MyK*-      K*-
+ChargeConj MyK*+      MyK*-
+Alias      Myanti-D0    anti-D0
+Alias      MyD0         D0
+ChargeConj MyD0         Myanti-D0
+Alias      myK_S0     K_S0
+ChargeConj myK_S0     myK_S0
+##
+Decay B+sig
+1.000     Myanti-D*0  MyK*+           SVV_HELAMP 0.283 0.0 0.932 0.0 0.228 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay MyD*0
+0.6190    MyD0  pi0                   VSS;
+0.3810    MyD0  gamma                 VSP_PWAVE;
+Enddecay
+Decay Myanti-D*0
+0.6190    Myanti-D0  pi0              VSS;
+0.3810    Myanti-D0  gamma            VSP_PWAVE;
+Enddecay
+#
+#
+Decay MyK*+
+  1.00000000  K+ pi0                   VSS;
+Enddecay
+Decay MyK*-
+  1.00000000  K- pi0                   VSS;
+Enddecay
+#
+#
+Decay MyD0
+1.000     myK_S0 pi+  pi-        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay myK_S0
+1.000     pi+  pi-               PHSP;
+Enddecay
+#
+End
+

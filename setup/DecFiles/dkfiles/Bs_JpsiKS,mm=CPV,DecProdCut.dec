@@ -1,0 +1,54 @@
+# EventType: 13144102
+#
+# Descriptor: [B_s0 -> (KS0 -> pi+ pi-) (J/psi(1S) -> mu+ mu- ) ]cc
+#
+# NickName: Bs_JpsiKS,mm=CPV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: CP violation with decay products in acceptance with parameters
+# P(1) = deltaM     = 17.761e12              (HFAG March 2014)
+# P(2) = -dg/g      = -0.138                 (HFAG March 2014, with constraints, dg=gH-gL in constrast to dg defined in SSD_CP code)
+# P(3) = |q/p|      = 1                      (no mixing CPV in Bs)
+# P(4) = arg(q/p)   = -0.0363                (CKMfitter, fit results as of Moriond14, arg(q/p)=phis=-2betas)
+# P(5) = |Af|       = 1.0641*lambda_w*A_w    (|Af|^2 = lambda_w^2 A^2 * [ 1 - 2*a*cos(Theta+gamma_CKM) + a^2 ])
+# P(6) = arg(Af)    = +0.1535-pi             (arg(Af)=-acos([-1*(1-a*cos(Theta+gamma_CKM))]/[sqrt(1 - 2*a*cos(Theta+gamma_CKM) + a^2)]))
+# P(7) = |Abarf|    = 1.0767*lambda_w*A_w    (|Abarf|^2 = lambda_w^2 A^2 * [ 1 - 2*a*cos(Theta-gamma_CKM) + a^2 ])
+# P(8) = arg(Abarf) = -0.1471+pi             (arg(Abarf)=acos([-1*(1-a*cos(Theta-gamma_CKM))]/[sqrt(1 - 2*a*cos(Theta-gamma_CKM) + a^2)]))
+#
+# Using:
+#   Theta      = 3.1838   (Nikhef-2010-033 and private communication with K. De Bruyn)
+#   a          = 0.1707   (Nikhef-2010-033 and private communication with K. De Bruyn)
+#   gamma_CKM  = 1.2217   (CKMfitter, fit results as of Moriond14, direct meas. 70.0 degrees)
+#   A_w        = 0.813    (CKMfitter, fit results as of Moriond14)
+#   lambda_w   = 0.22551  (CKMfitter, fit results as of Moriond14)
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Julian Wishahi
+# Email: julian.wishahi@tu-dortmund.de
+# Date: 20140709
+#
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+Alias      MyKs     K_S0
+ChargeConj MyKs     MyKs
+#
+Decay B_s0sig
+  1.000         MyKs      MyJ/psi        SSD_CP 17.761e12 -0.138 1.0 -0.0363 0.1951 0.1535 0.1974 -0.1471;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyKs
+  1.000         pi+       pi-            PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+End
+

@@ -1,0 +1,21 @@
+# EventType: 30000091
+#
+# Descriptor: pp => ?
+#
+# NickName: minbias_diffractive
+#
+# Cuts: None
+#
+# ExtraOptions: Diffractive
+#
+# Documentation: produce only diffractive events
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20100224
+#
+End
+

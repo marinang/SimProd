@@ -1,0 +1,39 @@
+# EventType: 14103054
+#
+# Descriptor: [B_c+ -> (B0 -> K+ pi-) K+]cc
+#
+# NickName: Bc_BdK+,CPVKpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decays, uses BcVegPy generator, includes radiative mode
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: hicheur@if.ufrj.br
+# Date: 20140825
+#
+
+#
+Alias      MyB0   B0
+Alias      Myanti-B0    anti-B0
+ChargeConj MyB0   Myanti-B0
+
+#
+Decay B_c+sig
+  1.000         MyB0 K+          PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyB0
+  1.000        K+       pi-               SSD_DirectCP  -0.1 ;
+Enddecay
+CDecay Myanti-B0
+#
+
+#
+End

@@ -1,0 +1,56 @@
+# EventType: 11563020
+#
+# Descriptor: [B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (tau+ -> pi+ pi+ pi- pi0 anti-nu_tau) nu_tau]cc
+#
+# NickName: Bd_DstTauNu,Tau2PiPiPiPi0Nu=TAUOLA,pi0notreqinacc,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# Documentation: Bd to D* tau nu, with D* to pi D0 and D0 to Kpi final state. tau forced to 3pi pi0 nu final state. TAUOLA used for the tau->3pipi0 decay. This decfile must be used in place of 11566022, which doesn't use the correct model.
+#the pi0 is not forced into the acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible:  Federico Betti
+# Email: federico.betti@cern.ch
+# Date: 20160201
+#
+
+Alias             MyD0        D0
+Alias             anti-MyD0   anti-D0
+ChargeConj        MyD0        anti-MyD0
+
+Alias         MyD*+   D*+
+Alias         MyD*- D*-
+ChargeConj    MyD*+ MyD*-
+
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau- MyTau+
+
+Decay B0sig
+  1.000       MyD*-       MyTau+        nu_tau             ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*+
+  1.000     MyD0      pi+                 VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.0000      K-     pi+     PHSP;
+Enddecay
+CDecay anti-MyD0
+#    
+Decay MyTau-
+  #tau -> pi- pi+ pi- pi0 nu_tau
+  1. TAUOLA 8;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

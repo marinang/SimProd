@@ -1,0 +1,22 @@
+# EventType: 42100020
+#
+# Descriptor: pp -> (Z0 -> tau+ tau-) + jet ... 
+#
+# NickName: Z_tautaujet
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 4*GeV LeptonIsFromMother true NumberOfbquarks -1
+# ExtraOptions: Ztautaujet
+#
+# Documentation: 1 lepton with pT > 4 GeV
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: David Ward
+# Email: drw1@hep.phy.cam.ac.uk
+# Date: 20100809
+#
+End
+#

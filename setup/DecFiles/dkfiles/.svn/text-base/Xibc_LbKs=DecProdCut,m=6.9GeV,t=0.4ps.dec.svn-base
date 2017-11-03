@@ -1,0 +1,66 @@
+# EventType: 16266161
+# 
+# Descriptor: [ Xi_bc0 -> (KS0 -> pi+ pi-) (Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) pi-) ]cc
+# 
+# NickName: Xibc_LbKs=DecProdCut,m=6.9GeV,t=0.4ps
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCb
+#
+# ParticleValue: " Xi_bc0 522 5142 0.0 6.90000000 0.400000e-12 Xi_bc0 5142 0.00000000", " Xi_bc~0 523 -5142 0.0 6.90000000 0.400000e-12 anti-Xi_bc0 -5142 0.00000000"
+#
+# Documentation: Xibc -> Lb Ks, Lb -> Lc pi with Lc -> p K pi, decay products in acceptance. Includes K*0, Delta resonance in Lambda_c decay, Ks->pi+pi-
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Steve Blusk
+# Email: sblusk@syr.edu
+# Date: 20160621
+#
+
+Alias MyLambda_b0       Lambda_b0
+Alias Myanti-Lambda_b0  anti-Lambda_b0
+ChargeConj MyLambda_b0  Myanti-Lambda_b0
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+#
+
+Decay Xi_bc0sig
+  1.00   MyLambda_b0  MyKs                  PHSP;
+Enddecay
+CDecay anti-Xi_bc0sig
+
+Decay MyLambda_b0
+1.000        MyLambda_c+ pi-     PHSP;
+Enddecay
+CDecay Myanti-Lambda_b0
+#
+Decay MyLambda_c+
+ 0.008600000 Delta++ K-                                      PHSP;
+ 0.010700000 p+      Myanti-K*0                              PHSP;
+ 0.025400000 p+      K-      pi+                             PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+  1.000      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+
+Decay MyKs
+  1.000        pi+      pi-                 PHSP;
+Enddecay
+
+End

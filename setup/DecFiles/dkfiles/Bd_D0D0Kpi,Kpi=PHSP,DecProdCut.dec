@@ -1,0 +1,34 @@
+# EventType: 11196099
+# NickName: Bd_D0D0Kpi,Kpi=PHSP,DecProdCut
+# Descriptor: [B0 -> (D0 -> K- pi+) (D~0 -> K+ pi-) K+ pi-]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+#    Decay file for B0 -> D0 D~0 K+ pi-
+# EndDocumentation
+# 
+# Date: 20160627
+# Responsible: Renato Quagliani
+# Email: rquaglia@cern.ch
+# PhysicsWG: B2OC
+# CPUTime: < 1 min
+# Tested: Yes
+
+Alias MyD0         D0
+Alias Myanti_D0    anti-D0
+ChargeConj MyD0   Myanti_D0 
+#
+Decay MyD0
+  1.000 K- pi+   PHSP;
+Enddecay
+
+Decay Myanti_D0
+  1.000 K+ pi- PHSP;
+Enddecay
+
+Decay B0sig
+  1.000 MyD0 Myanti_D0 K+ pi-  PHSP;
+Enddecay
+CDecay anti-B0sig
+End

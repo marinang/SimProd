@@ -1,0 +1,43 @@
+# EventType: 27175008
+#
+# Descriptor: [ D*(2010)+ -> ( D0 -> pi+ pi- (omega -> mu+ mu-) )  pi+ ]cc
+#
+# NickName: Dst_D0pi,omegapipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Viaud
+# Email: viaud@lal.in2p3.fr
+# Date: 20120606
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Alias Myomega omega
+ChargeConj Myomega Myomega
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.00 pi+ pi- Myomega PHSP;  
+Enddecay
+CDecay MyantiD0
+
+Decay Myomega
+  1.000 mu+  mu-    VLL;
+Enddecay
+
+
+
+#
+End

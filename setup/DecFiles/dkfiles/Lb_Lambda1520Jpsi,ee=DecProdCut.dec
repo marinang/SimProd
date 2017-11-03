@@ -1,0 +1,42 @@
+# EventType: 15154040
+#
+# Descriptor: [Lambda_b0 -> (Lambda(1520)0 -> p+ K-) (J/psi -> e+ e-)]cc
+#
+# NickName: Lb_Lambda1520Jpsi,ee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:Lambda_b0 to Lambda(1520)0 Jpsi decay     
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Luca Pescatore 
+# Email: luca.pescatore@cern.ch
+# Date: 20161102
+#
+# CPUTime: < 1min
+#
+Alias		MyJpsi	J/psi
+ChargeConj	MyJpsi	MyJpsi
+
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+
+Decay Lambda_b0sig
+  1.000   MyLambda(1520)0  MyJpsi PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyJpsi
+1.000	e+	    e-	    PHOTOS  VLL;
+Enddecay
+
+Decay MyLambda(1520)0  
+  1.000   p+          K-        PHSP;              
+Enddecay
+CDecay Myanti-Lambda(1520)0
+
+End
+#

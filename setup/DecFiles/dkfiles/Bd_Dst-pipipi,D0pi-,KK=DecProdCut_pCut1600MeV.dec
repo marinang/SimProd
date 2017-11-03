@@ -1,0 +1,65 @@
+# EventType: 11266014
+#
+# Descriptor: {[[B0]nos -> (D*(2010)- -> (D~0 -> K+ K-) pi-) pi+ pi- pi+]cc, [[B0]os -> ( D*(2010)+ -> (D0 => K- K+) pi+) pi- pi+ pi-]cc}
+#
+# NickName: Bd_Dst-pipipi,D0pi-,KK=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: D*- --> D0 pi-, D0->KK
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: S. Blusk
+# Email: sblusk@syr.edu
+# Date: 20101012
+#
+Alias      MyD*-       D*-
+Alias      MyD*+       D*+
+ChargeConj MyD*+       MyD*-
+
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+#
+
+Decay B0sig
+0.70   MyD*- Mya_1+                      SVV_HELAMP 0.200 0.0 0.866 0.0 0.458 0.0; 
+0.13   MyD*-  Myf_2  pi+                PHSP;
+0.12   MyD*-  rho0  pi+                  PHSP;
+0.05   MyD*-  pi+ pi- pi+                PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Myanti-D0
+  1.000        K+        K-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyD*-
+  1.000        Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myf_2
+  1.0000  pi+ pi-                               TSS ;
+Enddecay
+#
+End
+

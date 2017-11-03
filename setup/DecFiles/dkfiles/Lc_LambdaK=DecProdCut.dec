@@ -1,0 +1,33 @@
+# EventType: 25103120
+#
+# Descriptor: [Lambda_c+ -> (Lambda0 -> p+ pi-) K+]cc
+#
+# NickName: Lc_LambdaK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Mat Charles
+# Email:       matthew.charles@cern.ch
+# Date:        20120521
+#
+
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+
+Decay MyLambda0
+  1.000   p+          pi-        PHSP;
+Enddecay
+CDecay MyAntiLambda0
+
+Decay Lambda_c+sig
+  1.0  MyLambda0  K+  PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+
+End 

@@ -1,0 +1,30 @@
+# EventType: 13144031
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) pi+ pi-]cc
+#
+# NickName: Bs_Jpsipipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Liming Zhang
+# Email: lzhang@physics.syr.edu
+# Date: 20081201
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+#
+Decay B_s0sig
+  1.000    MyJ/psi  pi+ pi- PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.000         mu+       mu-    PHOTOS        VLL;
+Enddecay
+End

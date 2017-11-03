@@ -1,0 +1,23 @@
+# EventType: 45000005
+#
+# Descriptor: pp -> (X -> ~chi_10 -> (u, d, s, c, b) + jet ... )
+#
+# NickName: KaplanNeutralino,mN=48GeV,tN=10ps,mH=125GeV
+#
+# Cuts: PythiaLSP
+#
+# ParticleTable: Kaplan_mh125mk48
+# SUSYModel: Kaplan_mh125mk48    10ps    
+#
+# Documentation: Neutralino from Higgs and SUSY (Kaplan model) in all final states, chi_10 mass = 48GeV, chi_10 lifetime = 10ps, mass Higgs = 125GeV
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Stephane Tourneur
+# Email: stephane.tourneur@epfl.ch
+# Date: 20120330
+#
+End
+#
+#

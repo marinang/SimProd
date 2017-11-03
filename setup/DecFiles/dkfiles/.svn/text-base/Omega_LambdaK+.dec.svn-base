@@ -1,0 +1,38 @@
+# EventType: 36103100
+#
+# Descriptor: [Omega- -> (Lambda0 -> p+ pi-) K-]cc
+#
+# NickName: Omega_LambdaK+
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Omega forced to go to Lambda0 Pi- for phase space decay model, and Lambda0 decaying into p+ pi- exclusively, LHCbAcceptance.
+# EndDocumentation
+#
+# PhysicsWG: QCD
+#
+# Tested: Yes
+# Responsible: Florin MACIUC
+# Email: florin.maciuc@cern.ch
+# Date: 20130423
+#
+#Alias      Omega-sig     Omega-
+#Alias      anti-Omega+sig anti-Omega+
+#ChargeConj Omega-sig      anti-Omega+sig
+#
+Alias      MyLambda   Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda   MyLambda
+#
+Decay Omega-sig
+1.000     MyLambda  K-                 PHSP;
+Enddecay
+CDecay anti-Omega+sig
+#
+Decay MyLambda
+1.000    p+         pi-                PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

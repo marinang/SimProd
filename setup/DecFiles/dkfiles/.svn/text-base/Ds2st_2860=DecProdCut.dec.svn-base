@@ -1,0 +1,79 @@
+# EventType: 27495731
+#
+# Descriptor: {[ D_s2*+ -> D0 K+, D*0 K+, D+ K_S0, D*+ K_S0 ]cc}
+#
+# NickName: Ds2st_2860=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# ParticleValue: "D*_s2+ 174 435 1.0 2.860 13.1642379809999994e-24 D_s2*+ 435 0.501483","D*_s2- 178 -435 -1.0 2.860 13.1642379809999994e-24 D_s2*- -435 0.501483"
+#
+# Documentation: Spectroscopy Dsj and Dj
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Diego Milanes
+# Email: Diego.Milanes@<nospam>ba.infn.it
+# Date: 20120113
+#
+#Alias D_s2*+sig    D_s2*+
+#Alias D_s2*-sig    D_s2*-
+#ChargeConj D_s2*+sig   D_s2*-sig
+#
+Alias MyD0     D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0    MyantiD0
+#
+Alias MyD*0     D*0
+Alias MyantiD*0 anti-D*0
+ChargeConj MyD*0    MyantiD*0
+#
+Alias MyD+   D+
+Alias MyD-   D-
+ChargeConj MyD+    MyD-
+#
+Alias MyD*+   D*+
+Alias MyD*-   D*-
+ChargeConj MyD*+    MyD*-
+#
+Alias MyK_S0   K_S0
+ChargeConj MyK_S0  MyK_S0
+#
+#
+#
+Decay D_s2*+sig
+  0.25   MyD0 K+          PHSP;
+  0.25   MyD+ MyK_S0      PHSP;
+  0.25   MyD*+ MyK_S0     PHSP;
+  0.25   MyD*0 K+         PHSP;
+Enddecay
+CDecay D_s2*-sig
+#
+Decay MyD*+
+0.6770    MyD0  pi+                        VSS;
+0.3070    MyD+  pi0                        VSS;
+0.0160    MyD+  gamma                      VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD*0
+0.619 MyD0      pi0                        VSS; 
+0.381 MyD0      gamma                      VSP_PWAVE; 
+Enddecay
+CDecay MyantiD*0
+#
+Decay MyD+
+  1.000 K-  pi+ pi+    D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+Decay MyD0
+  1.000   K-  pi+   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+Decay MyK_S0
+1.000     pi+  pi-             PHSP;
+Enddecay
+#
+End

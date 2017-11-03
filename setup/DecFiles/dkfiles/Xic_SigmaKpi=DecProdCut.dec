@@ -1,0 +1,26 @@
+# EventType: 26102095
+#
+# Descriptor: [Xi_c+ -> Sigma+ K- pi+ ]cc
+#
+# NickName: Xic_SigmaKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: < 1 min
+#
+# Documentation:
+# Phase-space decay of Xic+ to Sigma+K-pi+
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Louis Henry
+# Email: louis.henry@cern.ch
+# Date: 20170205
+#
+#
+Decay Xi_c+sig
+  1.000    Sigma+    K-    pi+    PHSP;
+Enddecay
+CDecay anti-Xi_c-sig
+#
+End

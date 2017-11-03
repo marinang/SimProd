@@ -1,0 +1,66 @@
+# EventType: 16266010
+# NickName: Xibst0_Xibminuspi,Xic0pi=DecProdCut
+# Descriptor: [Sigma_b0 -> (Xi_b- -> Xic0 pi-) pi+]cc
+#
+# Documentation:
+#   Decay Xib*0 -> Xib- pi+ with Xib- -> Xic0 pi- and Xic0 --> p K- K- pi+
+#   Set deltaM=M(Xib*)-M(Xib-)-M(pi) to be 16 MeV, (as seen by CMS)
+#   Daughters in LHCb Acceptance
+# EndDocumentation
+#
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: " Sigma_b0   112   5212 0.0  5.95320  6.000000e-020       Sigma_b0   5212  1.000000e-004", " Sigma_b~0  113  -5212  0.0  5.95320  6.000000e-020  anti-Sigma_b0  -5212  1.000000e-004", " Xi_b-   122   5132  -1.0  5.7977  1.600000e-012       Xi_b-   5132  0.000000e+000", " Xi_b~+  123  -5132  1.0  5.7977  1.600000e-012  anti-Xi_b+  -5132  0.000000e+000"
+#
+# Email: sblusk@syr.edu
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible:  Matthew Charles, Steve Blusk
+# Date: 20150121
+#
+#Alias Sigma_b0sig Sigma_b0
+#Alias anti-Sigma_b0sig anti-Sigma_b0
+#ChargeConj Sigma_b0sig anti-Sigma_b0sig
+
+Alias MyXi_c0 Xi_c0
+Alias Myanti-Xi_c0 anti-Xi_c0
+ChargeConj MyXi_c0 Myanti-Xi_c0
+#
+Alias      MyXib-      Xi_b-
+Alias      Myanti-Xib+ anti-Xi_b+
+ChargeConj Myanti-Xib+ MyXib-
+
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+
+
+# Force Sb- (stand-in for Xib*-) to decay to Xib0 pi-:
+Decay Sigma_b0sig
+1.000    MyXib-        pi+      PHSP;
+Enddecay
+CDecay anti-Sigma_b0sig
+
+Decay MyXib-
+1.000  MyXi_c0   pi-                           PHSP;
+Enddecay
+CDecay Myanti-Xib+
+
+Decay MyXi_c0
+  0.5   p+  K-     Myanti-K*0                           PHSP;
+  0.5   p+   K-  K-  pi+                                 PHSP;
+Enddecay
+CDecay Myanti-Xi_c0
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+
+
+End
+

@@ -1,0 +1,33 @@
+# EventType: 13774011
+#
+# Descriptor: {[[B_s0]nos => (D_s- => K+ K- pi-) nu_mu mu+]cc, [[B_s0]os => (D_s+ => K- K+ pi+) anti_nu_mu mu-]cc}
+#
+# NickName: Bs_Dsmunu,KKpi,hqet2=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Sum of D_s mu nu_mu and D_s tau nu_tau, includes resonances in Ds decay
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Alessandra Borgia
+# Email: aborgia@syr.edu
+# Date: 20110706
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+#
+Decay B_s0sig
+  0.0210   MyD_s-     mu+    nu_mu       PHOTOS  HQET2 1.17 1.074;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+  0.055     K+    K-     pi+             PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End

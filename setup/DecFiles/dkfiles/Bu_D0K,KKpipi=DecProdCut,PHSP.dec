@@ -1,0 +1,33 @@
+# EventType: 12165001
+#
+# Descriptor: [B+ -> (D~0 -> K+ K- pi+ pi-) K+]cc
+#
+# NickName: Bu_D0K,KKpipi=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D0 decay following phase space, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Philip Hunt
+# Email: p.hunt2@physics.ox.ac.uk
+# Date: 20051102
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+#
+Decay B+sig
+  1.000     Myanti-D0  K+               PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+  1.000        K+       K-     pi+        pi-         PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End

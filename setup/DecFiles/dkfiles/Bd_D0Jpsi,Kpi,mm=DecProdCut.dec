@@ -1,0 +1,41 @@
+# EventType:  11174020
+#
+# Descriptor:  [B0 -> (D~0 -> K+ pi-) (J/psi -> mu+ mu-)]cc
+#
+# NickName:  Bd_D0Jpsi,Kpi,mm=DecProdCut
+#
+# Cuts:  DaughtersInLHCb
+#
+# Documentation:  Decay file for B0->D0J/psi
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested:  Yes
+# Responsible:    Igor Babuschkin
+# Email:  igor.babuschkin@cern.ch
+# Date: 20150330
+#
+#
+Alias        MyD0         D0
+Alias        Myanti-D0    anti-D0
+ChargeConj   MyD0         Myanti-D0
+
+Alias        MyJ/psi      J/psi
+ChargeConj   MyJ/psi      MyJ/psi
+
+Decay B0sig
+  1.     Myanti-D0   MyJ/psi    PHSP;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyJ/psi
+  1.     mu+    mu-      PHOTOS  VLL;
+Enddecay
+
+Decay MyD0
+  1.000      K-   pi+           PHSP;
+Enddecay
+CDecay Myanti-D0
+
+End

@@ -1,0 +1,22 @@
+# EventType: 42912002
+#
+# Descriptor: pp -> (Z0 -> b b~) (Z0 -> b b~) ... 
+#
+# NickName: ZZ_bb,bb
+#
+# Cuts: LHCbAcceptance
+#
+# ExtraOptions: ZZbbbb
+#
+# Documentation: 2 b quarks with pz > 0 and 1 lepton with pT > 10 GeV
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Neal Gauvin 
+# Email: stephane.tourneur@epfl.ch
+# Date: 20090923
+#
+End
+#
+

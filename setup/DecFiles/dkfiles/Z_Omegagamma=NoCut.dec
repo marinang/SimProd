@@ -1,0 +1,50 @@
+# EventType: 42102600
+#
+# Descriptor: pp -> [Z -> (omega(782) -> pi+ pi- (pi0 -> gamma gamma)) gamma]cc ...
+# NickName: Z_Omegagamma=NoCut
+# Cuts: None
+#
+# InsertPythonCode:
+# # Stop pile-up generation.
+# Generation().PileUpTool = "FixedLuminosityForRareProcess"
+#
+# # Pythia8 options.
+# from Gaudi.Configuration import importOptions
+# from Configurables import Pythia8Production
+# importOptions('$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py')
+# Generation().Special.addTool(Pythia8Production)
+# Generation().Special.Pythia8Production.Commands += [
+#     'WeakSingleBoson:ffbar2gmZ = on',
+#     'WeakZ0:gmZmode = 2',
+#     '23:mayDecay = false']
+# 
+# EndInsertPythonCode
+#
+# Documentation: rare exclusive decay of Z0 to Omega gamma
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Hang Yin, Qundong Han
+# Email: hyin@cern.ch, qundong.han@cern.ch  
+# Date: 20160718
+#
+Alias myomega omega
+Alias mypi0 pi0
+ChargeConj myomega myomega
+ChargeConj mypi0 mypi0
+
+Decay Z0
+ 1.0 myomega gamma PHSP;
+Enddecay
+
+Decay myomega
+ 1.0 pi+ pi- mypi0  OMEGA_DALITZ;
+Enddecay
+
+Decay mypi0
+  1.000    gamma    gamma    PHSP;
+Enddecay
+
+End

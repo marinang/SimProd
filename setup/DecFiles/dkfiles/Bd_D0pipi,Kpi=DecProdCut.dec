@@ -1,0 +1,67 @@
+# EventType: 11264021
+#
+# Descriptor: {[[B0]nos => pi+ pi- (D~0 -> K+ pi-)]cc, [[B0]os => pi- pi+ (D0 -> K- pi+)]cc}
+#
+# NickName: Bd_D0pipi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 Dalitz decay, daughters in LHCb acceptance 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mark Whitehead 
+# Email: mwhitehe@cern.ch
+# Date: 20101112
+#
+
+Alias MyD0       D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+
+
+Decay B0sig
+1.0   Myanti-D0 pi+ pi-              PTO3P
+
+        MAXPDF 0.009
+	#SCANPDF 50000
+
+        AMPLITUDE	RESONANCE	CA	 D_2*-
+        ANGULAR		BC
+        TYPE		RBW_CLEO
+	BVFF		BLATTWEISSKOPF	4.0
+	DVFF		BLATTWEISSKOPF	4.0
+        COEFFICIENT	POLAR_RAD	1.000	 0.00
+
+        AMPLITUDE	RESONANCE	CA	 D_0*-
+        ANGULAR		BC
+        TYPE		RBW_CLEO
+	BVFF		BLATTWEISSKOPF	4.0
+	DVFF		BLATTWEISSKOPF	4.0
+        COEFFICIENT	POLAR_RAD	48.23	-3.00
+
+        AMPLITUDE	RESONANCE	BC	 rho0
+        ANGULAR		AB
+        TYPE		RBW_CLEO
+	BVFF		BLATTWEISSKOPF	4.0
+	DVFF		BLATTWEISSKOPF	4.0
+        COEFFICIENT	POLAR_RAD	2.10	 2.25
+
+        AMPLITUDE	RESONANCE	BC	 f_2
+        ANGULAR		CA
+        TYPE		RBW_CLEO
+	BVFF		BLATTWEISSKOPF	4.0
+	DVFF		BLATTWEISSKOPF	4.0
+        COEFFICIENT	POLAR_RAD	0.116	 2.97
+
+	;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD0
+1.0   K-  pi+                        PHSP;
+Enddecay
+CDecay Myanti-D0
+
+End

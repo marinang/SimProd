@@ -1,0 +1,30 @@
+# EventType: 11102402
+#
+# Descriptor: [B0 => pi+ pi- (pi0 -> gamma gamma)]cc
+#
+# NickName: Bd_pipipi=CPV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes CP violation, includes rho resonances, pi0 forced to gamma gamma
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Stephane Monteil
+# Email: monteil@in2p3.fr
+# Date: 20111013
+#
+Alias      Mypi0   pi0
+ChargeConj Mypi0   Mypi0
+Decay B0sig
+1.000       pi+     pi-     Mypi0     BTO3PI_CP dm alpha;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mypi0
+  1.000     gamma   gamma             PHSP;
+Enddecay
+#
+End
+

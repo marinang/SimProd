@@ -1,0 +1,63 @@
+# EventType: 49000041
+#
+# Descriptor: pp -> (c-jet + c-jet) ... 
+# NickName: dijet=c,pt10,pt15GeV
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/twoToTwoInAcc
+# Production: Pythia8
+#
+# InsertPythonCode:
+# # Switch off all Pythia 6 and Pythia 8 options.
+# from Gaudi.Configuration import importOptions
+# importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+#
+# # Pythia 6 options.
+# from Configurables import PythiaProduction
+# Generation().Special.addTool( PythiaProduction )
+# Generation().Special.PythiaProduction.Commands += [
+#     "pysubs msel 4",               # Hard process.
+#     "pysubs ckin 3 10.0",          # Minimum pT.
+#     "pysubs ckin 4 15.0"]          # Maximum pT.
+# 
+# # Pythia 8 options.
+# from Configurables import Pythia8Production
+# Generation().Special.addTool( Pythia8Production )
+# Generation().Special.Pythia8Production.Commands += [
+#     "HardQCD::hardccbar = on",     # Hard process.
+#     "PhaseSpace:pTHatMin = 10.0",  # Minimum pT.
+#     "PhaseSpace:pTHatMax = 15.0"]  # Maximum pT.
+# 
+# # Cuts.
+# # WARNING: this cut is based on the Pythia 8 event record structure
+# # and consequently is both fragile and generator specific.
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "twoToTwoInAcc" )
+# twoToTwoInAcc = Generation().twoToTwoInAcc
+# twoToTwoInAcc.Code = "( count( out1 ) == 1 ) & ( count( out2 ) == 1 )"
+# twoToTwoInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#     "out1 = ( ( GBARCODE == 5 ) "
+#     "& ( GTHETA < 400.0*mrad ) & ( GPT > 10.0*GeV ) )",
+#     "out2 = ( ( GBARCODE == 6 ) "
+#     "& ( GTHETA < 400.0*mrad ) & ( GPT > 10.0*GeV ) )"]
+# 
+# # Keep 2 -> 2 hard process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = (
+#     "( GBARCODE >= 1 ) & ( GBARCODE <= 6 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# c-dijet production, hard process in acceptance,
+# hard process pT between 10 and 15 GeV
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Philip Ilten
+# Email: philten@cern.ch
+# Date: 20141215
+#
+End
+

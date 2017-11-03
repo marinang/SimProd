@@ -1,0 +1,88 @@
+# EventType: 11876202
+# Descriptor: [B0 -> (D_s*+ -> (D_s+ -> K+ K- pi+) gamma) (D*- -> (anti-D0 -> K+ mu- anti-nu_mu ) pi- )]cc
+# NickName: Bd_DsstDst,DsgammaDpi,KKpimunuX=cocktail,LHCbAcceptance
+# CPUTime: < 1 min
+# Cuts: LHCbAcceptance
+# Documentation:  Forced B0 decay to a combination of DsD*, DsD, Ds*D and D*Ds*. Decay Ds to KKpi.
+#                 distribution. Force the D+-/D0 to a semileptonic decay.
+#                 For background study of semileptonic Bs->(Ds->KKpi)MuNu decays.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Stephen Ogilvy
+# Email: stephen.ogilvy@cern.ch
+# Date: 20170303
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+ChargeConj MyD_s+     MyD_s-
+Alias      MyD+       D+
+Alias      MyD-       D-
+ChargeConj MyD+       MyD-
+Alias      MyD*+      D*+
+Alias      MyD*-      D*-
+ChargeConj MyD*+      MyD*-
+Alias      MyD0       D0
+Alias      Myanti-D0  anti-D0
+ChargeConj MyD0       Myanti-D0
+#
+Decay B0sig
+  0.0072 MyD-        MyD_s+                      PHSP;
+  0.0080 MyD*-       MyD_s+                      SVS; 
+  0.0074 MyD_s*+     MyD-                        SVS; 
+  0.0177 MyD_s*+     MyD*-                       SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s*+
+  0.93500 MyD_s+    gamma                      VSP_PWAVE; 
+  0.05800 MyD_s+    pi0                        VSS; 
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s+
+  0.055     K+    K-     pi+          PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD*-
+  0.6770    Myanti-D0 pi-                        VSS;
+  0.3070    MyD-      pi0                        VSS;
+  0.0160    MyD-      gamma                      VSP_PWAVE;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD-
+  0.053000000 K*0     mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.093000000 K0      mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.002773020 K_10    mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.002927076 K_2*0   mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.003312218 pi0     mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.002002736 eta     mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.000385142 eta'    mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.002500000 rho0    mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.002156793 omega   mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.039000000 K+      pi-     mu-     anti-nu_mu              PHOTOS   PHSP; 
+  0.001078397 K0      pi0     mu-     anti-nu_mu              PHOTOS   PHSP; 
+  0.000382000 mu-     anti-nu_mu                              PHOTOS   SLN; 
+Enddecay
+CDecay MyD+
+#
+Decay MyD0
+  0.019200000 K*-     mu+     nu_mu                           PHOTOS  ISGW2;
+  0.033300000 K-      mu+     nu_mu                           PHOTOS  ISGW2;
+  0.000815539 K_1-    mu+     nu_mu                           PHOTOS  ISGW2;
+  0.001374504 K_2*-   mu+     nu_mu                           PHOTOS  ISGW2;
+  0.002370000 pi-     mu+     nu_mu                           PHOTOS  ISGW2;
+  0.002015940 rho-    mu+     nu_mu                           PHOTOS  ISGW2;
+  0.001007970 anti-K0 pi-     mu+     nu_mu                   PHOTOS   PHSP;
+  0.000549802 K-      pi0     mu+     nu_mu                   PHOTOS   PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End
+

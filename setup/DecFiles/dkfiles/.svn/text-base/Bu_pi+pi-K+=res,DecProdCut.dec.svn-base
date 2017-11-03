@@ -1,0 +1,72 @@
+# EventType: 12203021
+#
+# Descriptor: [B+ -> pi+ pi- K+]cc
+#
+# NickName: Bu_pi+pi-K+=res,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decay to pi+, pi- and K+ with Dalitz model, all daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Pascal DAVID, Michal Kreps
+# Email: M.Kreps@warwick.ac.uk
+# Date: 20110909
+#
+Decay B+sig
+
+1.0  pi+ pi- K+     PTO3P       
+
+        #MAXPDF 36.48
+        SCANPDF 100000
+      
+        # rho0(770) 
+        AMPLITUDE      RESONANCE       AB        rho0    
+        ANGULAR         BC              
+	TYPE            RBW_ZEMACH
+        COEFFICIENT     POLAR_RAD       1.000   -0.36
+	
+        # omega(780) 
+        AMPLITUDE	RESONANCE	AB	 omega	 
+        ANGULAR 	BC		 
+	TYPE		RBW_ZEMACH
+        COEFFICIENT	POLAR_RAD	0.043    1.74
+	
+        # f0(980) 
+        AMPLITUDE      RESONANCE       AB        f_0     
+        ANGULAR         BC
+        TYPE            RBW_ZEMACH
+        COEFFICIENT     POLAR_RAD       0.212    1.17
+	
+        # f2(1270) 
+        AMPLITUDE      RESONANCE       AB        f_2
+        ANGULAR         BC
+        TYPE            RBW_ZEMACH
+        COEFFICIENT     POLAR_RAD       1.414    2.44
+	
+	# k*(892)
+        AMPLITUDE      RESONANCE       BC        K*0
+        ANGULAR         AB      
+        TYPE            RBW_ZEMACH
+        COEFFICIENT     POLAR_DEG       1.170    0.0
+	
+	# k*(1430)0
+        AMPLITUDE      RESONANCE       BC        K_0*0
+        ANGULAR         AB      
+        TYPE            RBW_ZEMACH
+        COEFFICIENT     POLAR_DEG       1.330    0.95
+		
+        # Non-resonant
+        AMPLITUDE       PHASESPACE      
+        COEFFICIENT     POLAR_RAD       0.627    0.0
+	
+        ;  
+	
+Enddecay
+
+CDecay B-sig 
+
+End
+

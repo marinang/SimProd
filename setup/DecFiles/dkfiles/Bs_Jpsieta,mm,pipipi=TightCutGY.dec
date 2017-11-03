@@ -1,0 +1,64 @@
+# EventType: 13144404
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu-) (eta -> pi+ pi- pi0)]cc
+#
+# NickName: Bs_Jpsieta,mm,pipipi=TightCutGY
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = ' Beauty  -> ^( J/psi(1S) => ^mu+ ^mu-)  ^( eta -> ^pi+ ^pi- ( pi0 -> ^gamma ^gamma ) ) '
+# tightCut.Cuts      =    {
+#     'eta'       : ' goodX0    ' ,
+#     'gamma'     : ' goodGamma ' ,
+#     '[pi+]cc'   : ' goodPion  ' , 
+#     '[mu+]cc'   : ' goodMuon  ' , 
+#     'J/psi(1S)' : ' goodPsi   ' }
+# tightCut.Preambulo += [  "GY = LoKi.GenParticles.Rapidity()" ]
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5      ' , 
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5      ' , 
+#     'goodX0    =   GPT > 2.25 * GeV                  ' , 
+#     'goodMuon  = ( GPT > 500  * MeV ) & ( GP > 6 * GeV )     & inAcc   ' , 
+#     'goodPion  = ( GPT > 100  * MeV )                        & inAcc   ' , 
+#     'goodGamma = ( 0 < GPZ ) & ( 150 * MeV < GPT ) & inEcalX & inEcalY ' ,
+#     'goodPsi   = ( GPT > 500  * MeV ) & in_range ( 1.8 , GY , 4.5 )    ' ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Includes radiative mode, No CP violation, pi0 not forced. 
+#   Redefined GY to correct rapidity definition in old LOKI version.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vanya Belyaev 
+# Email: Ivan.Belyaev@cern.ch
+# Date:  20130228
+#
+Alias MyJ/psi  J/psi
+Alias MyEta    eta
+ChargeConj  MyJ/psi  MyJ/psi
+ChargeConj  MyEta    MyEta
+#
+Decay B_s0sig
+1.000         MyJ/psi     MyEta        SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+1.000         mu+         mu-          PHOTOS VLL;
+Enddecay
+#
+Decay MyEta
+1.000         pi-         pi+          pi0        ETA_DALITZ;
+Enddecay
+End
+#

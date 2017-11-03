@@ -1,0 +1,26 @@
+# EventType: 13102022
+#
+# Descriptor: [B_s0 -> pi+ pi-]cc
+#
+# NickName: Bs_pi+pi-=tightCut
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: Hb2hh 
+#
+# Documentation: cuts in Hb2hh.opts
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Stefano Perazzini
+# Email: stefano.perazzini@cern.ch
+# Date: 20111112
+#
+Decay B_s0sig
+  1.0000       pi+       pi-                PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+

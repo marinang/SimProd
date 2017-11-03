@@ -1,0 +1,31 @@
+# EventType: 21103240
+#
+# Descriptor: [D+ -> ( eta -> pi+ pi- gamma) pi+]cc
+#
+# NickName: D+_etapi,pipigamma=DecProdCut 
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation: Forces a D+ to ( eta -> pi+ pi- gamma ) pi+ with generator level cuts 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Simone Stracka
+# Email: simone.stracka@cern.ch
+# Date: 20141211
+#
+Alias       my_eta   eta
+ChargeConj  my_eta   my_eta
+#
+Decay  D+sig
+  1.000     my_eta   pi+    PHOTOS PHSP ;
+Enddecay
+CDecay D-sig
+#
+Decay  my_eta
+  1.000     pi+      pi-    gamma  PHOTOS PHSP ;
+Enddecay
+#
+End

@@ -1,0 +1,62 @@
+# EventType: 15574133
+# 
+# Descriptor: {[ Lambda_b0 -> (Lambda_c+ -> (Lambda0 -> p+ pi-) pi+)  anti-nu_mu mu-]cc}
+# 
+# NickName: Lb_Lcmunu,Relaxed_L0Pi=TightCut
+#
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut  = Generation().SignalPlain.TightCut
+# tightCut.Decay = "[ Lambda_b0 ==>  ^(Lambda_c+ ==> ^(Lambda0 ==>^p+ ^pi-) ^pi+ {X} {X} {X} {X} {X} )  ^mu- nu_mu~ {X} {X} {X} {X} {X} ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#  ]
+# tightCut.Cuts      =    {
+#'[mu-]cc'  : "  (GP > 700 * MeV) & (GPT > 350 * MeV)  "
+#   }
+# EndInsertPythonCode
+#
+# Documentation:Semlileptonic Lambda B decay into Lc Mu Nu. Lc is forced to Lambda0 pi+, and Lambda0 forced to pi+ pi-. where I relaxed the cuts on the momentums of the particles especially the muon to increase the retention factor.
+# EndDocumentation
+#
+#CPUTime: < 4 min
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Mohamad Kozeiha
+# Email: mohamad.kozeiha@cern.ch
+# Date: 20161118
+#
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+###
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        mu-  anti-nu_mu     PHOTOS   BaryonPCR  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000   MyLambda0 pi+	       PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda0
+  1.000   p+          pi-    PHSP;
+Enddecay
+#
+Decay Myanti-Lambda0
+  1.000   anti-p-    pi+     PHSP;
+Enddecay 
+#
+End

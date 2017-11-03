@@ -1,0 +1,23 @@
+# EventType: 31113001
+#
+# Descriptor: [tau- -> mu- mu+ mu-]cc
+#
+# NickName: tau_mumumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:     Nelly SAGIDOVA
+# Email:  jonathan.harrison@hep.manchester.ac.uk
+# Date:   20111013
+#
+Decay tau-sig
+  1.000       mu-  mu+ mu-              PHSP;
+Enddecay
+CDecay tau+sig
+#
+End

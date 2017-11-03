@@ -1,0 +1,44 @@
+# EventType: 26104081
+#
+# Descriptor: [Xi_c0 -> p+ K- K- pi+ ]cc
+#
+# NickName: Omegac_pKKpi=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: (prompt) Omega_c0 decays according to phase space decay model 
+#                 Xi_c0 is used to mimic Omegac**0
+# EndDocumentation
+#
+# ParticleValue: "Xi_c0               106        4132  0.0        2.69520000      6.856377e-14            Xi_c0        4132   0.000", "Xi_c~0              107       -4132  0.0        2.69520000      6.856377e-14          anti-Xi_c0       -4132   0.000"
+# 
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email:       marco.pappagallo@cern.ch
+# Date: 20150417
+#
+#
+#
+Decay Xi_c0sig
+  1.000         p+      K-    K-     pi+  PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+##### Overwrite forbidden decays
+Decay Xi'_c0
+1.0000    gamma Sigma_c0                     PHSP;
+Enddecay
+Decay anti-Xi'_c0
+1.0000    gamma anti-Sigma_c0                PHSP;
+Enddecay 
+#
+Decay Xi_c*0
+0.5000    Sigma_c0  pi0                     PHSP;
+0.5000    Sigma_c0  gamma                   PHSP;
+Enddecay
+CDecay anti-Xi_c*0
+#
+End 

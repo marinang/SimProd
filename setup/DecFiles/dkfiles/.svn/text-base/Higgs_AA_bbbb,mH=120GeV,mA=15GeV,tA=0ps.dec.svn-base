@@ -1,0 +1,38 @@
+# EventType: 43900050
+#
+# Descriptor: pp->(  H_20 -> ( H_30 -> b anti-b ) ( H_30 -> b anti-b) )
+#
+# NickName: Higgs_AA_bbbb,mH=120GeV,mA=15GeV,tA=0ps
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/FourTracksFromHVPionInAcceptance
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "FourTracksFromHVPionInAcceptance" )
+# tracksInAcc = Generation().FourTracksFromHVPionInAcceptance
+# tracksInAcc.Code = " count ( isGoodDVfromHVPion ) > 0 "
+# ### - LoKi::Constants::InfiniteTime       1.0e+10 ns
+# ### - HepMC::IteratorRange::descendants   4
+# tracksInAcc.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import ns, GeV, mrad"
+#     , "isHVPion           = ( 'H_30' == GID )"
+#     , "isGoodDVDaughter   = ( ( GTIME == 1.0e+10*ns ) & GCHARGED & ( GP > 2.0*GeV ) & ( GTHETA < 400.0*mrad ) )"
+#     , "isGoodDVfromHVPion = ( isHVPion & ( GNINTREE( isGoodDVDaughter, 4 ) > 3 ) )"
+#     ]
+# EndInsertPythonCode
+#
+# ExtraOptions: HidValleyH
+# ParticleValue: "H_20 88 35 0.0 120.0 9.4e-26 Higgs'0 35 0.0e+00" , "H_30 89 36 0.0  15.0 9.4e-26      A0 36 0.0e+00"
+#
+# Documentation: Higgs->AA->bbbb from NSSM and other models. Simulated using Pythia's H_30 and H_20 particles redefined for our needs.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Stephane Tourneur
+# Email: stephane.tourneur@epfl.ch
+# Date: 20120309
+#
+End
+#

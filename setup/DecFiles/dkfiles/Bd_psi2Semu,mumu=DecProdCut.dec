@@ -1,0 +1,37 @@
+# EventType: 11344000
+#
+# Descriptor: {[B0 -> (psi(2S) -> mu+ mu-) e+ mu-]cc,[B0 -> (psi(2S) -> mu+ mu-) e- mu+]cc}
+#
+# NickName: Bd_psi2Semu,mumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation: Decay file for B0 -> (psi(2S) -> mu+ mu-) e+ mu- (LFV,PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Alias      Mypsi(2S) psi(2S)
+ChargeConj Mypsi(2S) Mypsi(2S)
+#
+Decay B0sig
+ 0.5 Mypsi(2S) e+ mu- PHOTOS PHSP;
+ 0.5 Mypsi(2S) e- mu+ PHOTOS PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mypsi(2S)
+ 1.000 mu+ mu- PHOTOS VLL; 
+Enddecay
+#
+End
+#

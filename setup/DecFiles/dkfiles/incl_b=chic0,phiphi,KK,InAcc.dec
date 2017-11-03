@@ -1,0 +1,45 @@
+# EventType: 18104030
+#
+# Descriptor: chi_c0(1P) -> ( phi(1020) -> K+ K- ) ( phi(1020) -> K+ K- ) 
+#
+# NickName: incl_b=chic0,phiphi,KK,InAcc
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2Chic0Filter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2Chic0Filter" )
+# SignalFilter = Generation().b2Chic0Filter
+# SignalFilter.Code = " has(isB2cc)"
+# SignalFilter.Preambulo += [
+#  "isB2cc = ((GDECTREE('(Beauty & LongLived) --> chi_c0(1P) ...')))"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: chi_c0 decay to phi phi, keep only particles in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Andrii Usachov
+# Email: andrii.usachov@cern.ch
+# Date: 20140912
+#
+#
+Alias   Myphi  phi
+ChargeConj  Myphi   Myphi
+
+Decay chi_c0
+  1.000         Myphi  Myphi      PHSP;
+Enddecay
+Decay Myphi
+  1.000  K+      K-    VSS; 
+Enddecay
+#
+End
+#
+

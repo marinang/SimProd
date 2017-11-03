@@ -1,0 +1,120 @@
+# EventType: 13246002
+#
+# Descriptor:  [B_s0 ==> (J/psi(1S) => mu+ mu-) K+ K- pi+ pi-]CC
+#
+# NickName: Bs_JpsiKKpipi,mm=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = ' ^( ( Beauty & Strange ) ==> ^( J/psi(1S) => ^mu+ ^mu- ) ^K+ ^K- ^pi+ ^pi- ) '
+# tightCut.Cuts      = {
+#     '[mu+]cc'             : ' goodMuon  ' , 
+#     '[K+]cc'              : ' goodKaon  ' , 
+#     '[pi+]cc'             : ' goodPion  ' , 
+#     'J/psi(1S)'           : ' goodPsi   ' , 
+#     '[B_s0]cc'            : ' goodB     ' 
+#     }
+# 
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import micrometer              ',
+#     'GY         = LoKi.GenParticles.Rapidity () ## to be 100% sure ', 
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) & in_range ( 1.8 , GETA , 5.2 ) ' , 
+#     'inY        = in_range ( 1.9   , GY     , 4.6   ) ' , 
+#     'longLived  = 75 * micrometer < GTIME             ' , 
+#     'goodMuon   = ( GPT > 500  * MeV ) & ( GP > 6.0 * GeV ) & inAcc ' , 
+#     'goodKaon   = ( GPT > 150  * MeV ) & ( GP > 2.5 * GeV ) & inAcc ' , 
+#     'goodPion   = ( GPT > 150  * MeV ) & ( GP > 2.5 * GeV ) & inAcc ' , 
+#     'goodPsi    =                                             inY   ' ,
+#     'goodB      = longLived                                 & inY   ' 
+#     ]
+#
+# EndInsertPythonCode
+#
+# Documentation:  
+#   Bs -> J/psi K+K-pi+pi- final state, 
+#   taking into account the intermediate resonances.  
+#   The tight generator level cuts applied for all 
+#   final state particles, which increases the statistics 
+#   with a good factor factor of ~2.5.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vanya Belyaev 
+# Email: Ivan.Belyaev@itep.ru
+# Date: 20131118
+#
+Alias       MyPsi(2S)       psi(2S)
+ChargeConj  MyPsi(2S)     MyPsi(2S)
+
+Alias       MyJ/psi           J/psi
+ChargeConj  MyJ/psi         MyJ/psi
+
+Alias       MyPhi               phi
+ChargeConj  MyPhi             MyPhi
+
+Alias       MyX_1(3872)   X_1(3872)
+ChargeConj  MyX_1(3872) MyX_1(3872)
+
+Alias       Myrho0             rho0
+ChargeConj  Myrho0           Myrho0
+
+Alias       MyK*0               K*0
+Alias       Myanti-K*0     anti-K*0
+ChargeConj  MyK*0        Myanti-K*0
+
+# =======================================================
+#  #sum(K*)        = 75% 
+#       K*K*       = 30% 
+#  #sum(phi)       = 30% 
+#  #sum(psi')      = 30% 
+#       psi'phi    = 15%
+#  #sum(X(3870))   = 10% ## TOO MUCH (x10) !!! 
+#       X(3872)phi =  5% ## TOO MUCH (x10) !!! 
+# ======================================================= 
+Decay B_s0sig
+  0.3000   MyJ/psi     MyK*0    Myanti-K*0    PHSP ;
+  0.1500   MyJ/psi     MyK*0    K-  pi+       PHSP ;
+  0.0500   MyJ/psi     MyPhi    Myrho0        PHSP ;
+  0.0500   MyJ/psi     MyPhi    pi+ pi-       PHSP ;
+  0.0500   MyJ/psi     K+  pi-  K- pi+        PHSP ;
+  0.1500   MyPsi(2S)   MyPhi                  PHSP ;
+  0.1500   MyPsi(2S)   K+       K-            PHSP ;
+  0.0500   MyX_1(3872) MyPhi                  PHSP ;
+  0.0500   MyX_1(3872) K+       K-            PHSP ;
+Enddecay
+CDecay anti-B_s0sig
+
+Decay MyJ/psi
+  1.0000   mu+   mu-                VLL    ;
+Enddecay
+
+Decay MyPsi(2S)
+  1.0000   MyJ/psi  pi+  pi-        VVPIPI ;
+Enddecay
+
+Decay MyX_1(3872)
+  1.00000  MyJ/psi  Myrho0  HELAMP 0.707107 0  0.707107 0  0.707107 0  0 0  -0.707107 0  -0.707107 0  -0.707107 0; 
+Enddecay
+
+Decay MyPhi
+  1.0000   K+   K-                  VSS    ;
+Enddecay
+
+Decay Myrho0
+  1.000    pi+ pi-                  VSS    ;
+Enddecay
+
+Decay MyK*0
+  1.000    K+    pi-                VSS    ;
+Enddecay
+CDecay Myanti-K*0
+
+End

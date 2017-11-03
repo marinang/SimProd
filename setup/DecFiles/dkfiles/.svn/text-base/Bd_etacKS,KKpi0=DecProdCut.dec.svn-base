@@ -1,0 +1,46 @@
+# EventType: 11164522 
+#
+# Descriptor: [B0 -> (K_S0 -> pi+ pi-) (eta_c -> K+ K- (pi0 -> gamma gamma))]cc 
+#
+# NickName: Bd_etacKS,KKpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation:  etac forced into K+ K- pi0, K0S forced into pi+ pi
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Responsible:  Rafael Coutinho
+# Tested: Yes
+# CPUTime: < 1 min
+# Email: rsilvaco@cern.ch
+# Date: 20140530
+#
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+#
+Alias      MyKs       K_S0
+ChargeConj MyKs       MyKs
+#
+Alias      Mypi0      pi0
+ChargeConj Mypi0      Mypi0
+#
+Decay B0sig
+  1.000     Myetac     MyKs     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Myetac
+  1.000   K+    K-    Mypi0     PHSP;
+Enddecay
+#
+Decay Mypi0
+  1.000 gamma   gamma          PHSP;
+Enddecay
+#
+Decay MyKs
+  1.000        pi+      pi-     PHSP;
+Enddecay
+#
+End
+#

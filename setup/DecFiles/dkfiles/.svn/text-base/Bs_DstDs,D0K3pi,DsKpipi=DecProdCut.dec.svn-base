@@ -1,0 +1,76 @@
+# EventType: 13198030
+#
+# Descriptor: [B_s0 -> (D*(2010)- -> (anti-D0 -> K+ pi+ pi- pi-) pi-) (D_s+ -> K- K+ pi+ ) ]cc
+#
+#
+# NickName: Bs_DstDs,D0K3pi,DsKpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  Bs0->D*Ds lbAmpGen model for D0->K3pi decay, Dalitz decay model for D decay. 
+# Daughters in LHCb.
+#
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Basem khanji
+# Email: basem.khanji@cern.ch
+# Date: 20161101
+# CPUTime: < 2 min
+
+# -------------------------
+# DEFINE THE D*+ AND D*-
+# -------------------------
+Alias      MyD*+       D*+
+Alias      MyD*-       D*-
+ChargeConj MyD*+       MyD*-
+
+# -------------------------
+# THEN DEFINE THE D0 AND D~0
+# -------------------------
+Alias       MyD0        D0
+Alias       Myanti-D0   anti-D0
+ChargeConj  MyD0        Myanti-D0
+
+# -------------------------
+# THEN DEFINE THE D_s+ AND D_S-
+# -------------------------
+Alias      MyD_s+      D_s+
+Alias      MyD_s-      D_s-
+ChargeConj MyD_s+      MyD_s-
+
+# ---------------
+# DECAY OF THE B0
+# ---------------
+Decay B_s0sig
+	1.000      MyD*-   MyD_s+ PHSP ;
+Enddecay
+CDecay anti-B_s0sig
+
+# ---------------
+# DECAY OF THE D*-
+# ---------------
+Decay MyD*-
+  1.000        Myanti-D0 pi- 				VSS;
+Enddecay
+CDecay MyD*+
+
+# ---------------
+# DECAY OF THE D~0
+# ---------------
+Decay Myanti-D0
+  1.000        K+  pi-  pi-  pi+  LbAmpGen DtoKpipipi_v1 ;
+Enddecay
+CDecay MyD0
+
+# ---------------
+# DECAY OF THE D+
+# ---------------
+Decay MyD_s+
+  1.000  K- K+ pi+   D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End
+

@@ -1,0 +1,40 @@
+# EventType:  11174001
+#
+# Descriptor: [B0 -> (Lambda_c+ -> p+ K- pi+) mu-]cc
+#
+# NickName:   Bd_Lambdacmu,p+K-pi+=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 decay with phase space model, daughters in acceptance
+# Enddocumentation
+#
+# PhysicsWG: RD
+# Tested: yes
+# Responsible: Oliver Gruenberg
+# Email: oliver.gruenberg@cern.ch
+# Date: 20111025
+#
+
+Alias MyLc+ Lambda_c+
+Alias MyLc- anti-Lambda_c-
+
+ChargeConj MyLc+ MyLc-
+
+###################
+
+Decay B0sig
+1.00000  MyLc+ mu-		PHSP;
+Enddecay
+CDecay anti-B0sig
+
+###################
+
+Decay MyLc+
+1.00000  p+ K- pi+		PHSP;
+Enddecay
+CDecay MyLc-
+
+###################
+ 
+End

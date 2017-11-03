@@ -1,0 +1,63 @@
+# EventType: 15100010
+# NickName: Lb_Dsst+p-,KsPip=DecProdCut
+# Descriptor: [Lambda_b0 -> (D_*s- -> {gamma  (D_s- ->Ks h), {pi0  (D_s- ->Ks h) } p+]cc
+#
+# Documentation: Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+#
+# Cuts: DaughtersInLHCb
+#
+# Responsible:  Luigi Li Gioi
+# Email: luigi.li.gioi@cern.ch
+#
+# Tested: Yes
+# Date: 20111020
+#
+Alias      MyD_s*-    D_s*- 
+Alias      MyD_s*+    D_s*+
+ChargeConj MyD_s*+    MyD_s*-
+
+Alias      MyD_s-     D_s-
+
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+
+Alias      MyKs       K_S0
+ChargeConj MyKs       MyKs
+
+#----------------------------------------------
+Decay Lambda_b0sig
+  0.334    MyD_s-         p+         PHSP;
+  0.666    MyD_s*-        p+         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#----------------------------------------------
+
+
+
+#------------------------------------------------
+Decay MyD_s*- 
+  0.942     MyD_s-       gamma        PHSP;
+  0.058     MyD_s-       pi0          VSS;
+Enddecay
+CDecay MyD_s*+
+#------------------------------------------------
+
+
+#------------------------------------------------
+Decay MyD_s-
+  0.92 MyKs    K-                    PHSP;
+  0.08 MyKs    pi-                   PHSP;
+Enddecay
+CDecay MyD_s+
+#------------------------------------------------
+CDecay MyD_s+
+#
+Decay MyKs
+  1.000   pi+     pi-         PHSP;
+Enddecay
+#
+End
+

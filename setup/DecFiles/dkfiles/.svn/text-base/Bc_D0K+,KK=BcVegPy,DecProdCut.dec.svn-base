@@ -1,0 +1,40 @@
+# EventType: 14163003
+#
+# Descriptor: [B_c+ -> (D0 -> K- K+) K+]cc
+#
+# NickName: Bc_D0K+,KK=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decays, uses BcVegPy generator, includes radiative mode
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: hicheur@if.ufrj.br
+# Date: 20141222
+#
+
+#
+
+Alias      MyD0   D0
+Alias      Myanti-D0    anti-D0
+ChargeConj MyD0   Myanti-D0
+
+#
+Decay B_c+sig
+  1.000         MyD0 K+          PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyD0
+	  1.000       K-     K+    PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+
+#
+End

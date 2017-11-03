@@ -1,0 +1,30 @@
+# EventType: 12313001
+#
+# Descriptor:  {[B+ -> K+ e+ mu-]cc,[B+ -> K+ mu+ e-]cc }
+#
+# NickName: Bu_Kemu=DecProdCut,PHSP 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B to K e mu  decay. Daughters in acceptance. PHSP model!
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Marcin Chrzaszcz
+# Email: mchrzasz@cern.ch
+# Date: 20150524
+#
+Decay B+sig
+  0.500        K+    e+    mu-            PHSP;
+  0.500        K+    mu+    e-            PHSP;
+Enddecay
+#
+Decay B-sig
+  0.500        K-    e+    mu-            PHSP;
+  0.500        K-    mu+    e-            PHSP;
+Enddecay
+#
+End
+

@@ -1,0 +1,53 @@
+# EventType: 11164401
+#
+# Descriptor: {[[B0]nos -> (D- => K+ pi- pi-) (rho+ -> pi+ (pi0->gamma gamma))]cc, [[B0]os -> (D+ => K- pi+ pi+) (rho- ->pi- (pi0->gamma gamma)))]cc}
+#
+# NickName: Bd_D-rho+=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes resonances in D- decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes 
+# Responsible: Yasmine Amhis
+# Email: yasmine.amhis@epfl.ch
+# Date: 20071120
+#
+
+Alias        MyD-        D-
+Alias        MyD+        D+
+
+ChargeConj   MyD+        MyD-
+
+Alias        MyRho+     rho+
+Alias        MyRho-     rho-
+ChargeConj   MyRho+     MyRho-
+
+Alias        Mypi0      pi0
+ChargeConj   Mypi0      Mypi0
+
+
+#
+Decay B0sig
+ 1.000         MyRho+    MyD-        SVS;
+Enddecay
+CDecay anti-B0sig
+# 
+Decay MyD-
+   0.0951        K+               pi-    pi-          PHSP;
+Enddecay
+CDecay MyD+
+
+Decay MyRho+
+  1.000   pi+    Mypi0              VSS;
+Enddecay
+CDecay MyRho-
+#
+Decay Mypi0
+  1.000   gamma      gamma          PHSP;
+Enddecay
+#
+End
+

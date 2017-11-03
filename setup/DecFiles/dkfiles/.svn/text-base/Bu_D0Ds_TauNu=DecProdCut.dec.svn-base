@@ -1,0 +1,74 @@
+# EventType: 12595000
+#
+# Descriptor: [B--> (D0 -> K- pi+)(D_s- -> anti-nu_tau (tau- -> pi- pi- pi+ nu_tau))]cc
+#
+# NickName: Bu_D0Ds_TauNu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation:  B- ->DsD0 with Ds -> tau nu and D0 decaying to K- pi+. tau forced to 3pi pi0 nu final state.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Donal Hill
+# Email: donal.hill@cern.ch
+# Date: 20130205
+#
+
+# -------------------------
+# DEFINE THE D_s+-
+# -------------------------
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+# -------------------------
+# THEN DEFINE THE TAU
+# -------------------------
+Alias MyTau+ tau+
+Alias MyTau- tau-
+ChargeConj MyTau+ MyTau-
+
+# -------------------------
+# THEN DEFINE THE D0
+# -------------------------
+Alias             MyD0        D0
+Alias             anti-MyD0   anti-D0
+ChargeConj        MyD0        anti-MyD0
+
+# ---------------
+# DECAY OF THE B0
+# ---------------
+Decay B-sig
+  1.000     MyD0       MyD_s-           PHSP;
+Enddecay
+CDecay B+sig
+
+# -----------------
+# DECAY OF THE DS+-
+# -----------------
+Decay MyD_s+
+  1.0      MyTau+        nu_tau            SLN;
+Enddecay
+CDecay MyD_s-
+
+# ---------------
+# DECAY OF THE D0
+# ---------------
+Decay MyD0
+  1.000  K- pi+                 PHSP;
+Enddecay
+CDecay anti-MyD0
+#
+# ----------------
+# DECAY OF THE TAU
+# ----------------
+Decay MyTau-
+  1.000     pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay MyTau+
+#   
+End
+

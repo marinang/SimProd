@@ -1,0 +1,43 @@
+# EventType: 15576011
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c(2625)+ -> (Lambda_c+ -> p+ K- pi+) pi+ pi-) mu- anti-nu_mu]cc
+#
+# NickName: Lb_Lc2625munu,Lcpipi,pKpi=LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Lambda_b0 decaying to Lambda_c(2625)+ mu nu, Lambda_c(2625)+ forced to Lambda_c pi+ pi-, Lambda_c forced to p+ K- pi+
+#
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Scott Ely
+# Email: seely@syr.edu
+# Date: 20171011
+#
+Alias		MyLambda_c+		Lambda_c+
+Alias		MyAntiLambda_c-		anti-Lambda_c-
+ChargeConj 	MyLambda_c+		MyAntiLambda_c-
+#
+Alias		MyLambda_c(2625)+	Lambda_c(2625)+
+Alias		MyAntiLambda_c(2625)-	anti-Lambda_c(2625)-
+ChargeConj	MyLambda_c(2625)+	MyAntiLambda_c(2625)-
+#
+Decay Lambda_b0sig
+ 1.0	MyLambda_c(2625)+	mu-	anti-nu_mu	Lb2Baryonlnu 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c(2625)+
+ 1.0  MyLambda_c+	pi+	pi-	PHSP;
+Enddecay
+CDecay MyAntiLambda_c(2625)-
+#
+Decay MyLambda_c+
+ 1.0	p+	K-	pi+	PHSP;
+Enddecay
+CDecay MyAntiLambda_c-
+#
+End

@@ -1,0 +1,52 @@
+# EventType: 25113006
+# 
+# Descriptor: [Lambda_c+ -> p+ mu- mu+]cc
+# 
+# NickName: Lc_pmumu=OS,DecProdCut_FromD
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: PHSP MODEL.
+#                Neutral Current Fobidden
+#                in 25113001 (Lc_pmumuOS=DecProdCut_FromD).
+# EndDocumentation
+#                CPUTIME<1min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Marcin Chrzaszcz, Tadeusz Lesiak
+# Email:       mchrzasz@cern.ch, tadeusz.lesiak@ifj.edu.pl
+# Date:        20140216
+# 
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ Lambda_c+ ->  ^p+ ^mu+ ^mu- ]CC'
+# tightCut.Cuts      =    {
+#     '[mu+]cc'       : ' goodMuon    ' , 
+#     '[p+]cc'        : ' goodProton  ' , 
+#     '[Lambda_c+]cc' : ' goodLambdac ' }
+# tightCut.Preambulo += [
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodMuon   = ( GPT > 0.2 * GeV ) & ( GP > 2. * GeV ) & inAcc ' , 
+#     'goodProton = ( GPT > 0.2 * GeV ) & ( GP > 2. * GeV ) & inAcc ' , 
+#     'goodLambdac  = ~GHAS (GBEAUTY, HepMC.ancestors) ' ]
+#
+# EndInsertPythonCode
+
+
+
+
+
+
+Decay Lambda_c+sig
+  1.00000         p+      mu-      mu+     PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+ 
+#
+End

@@ -1,0 +1,43 @@
+# EventType: 16165438
+#
+# Descriptor: [Xi_b- -> (Lambda_c+ -> p K- pi+)(a_0(980)- -> pi- eta) K-]cc
+#
+# NickName: Xib_LambdacKa0,pKpi,pieta=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Generate flat over the SDP 
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: M. Whitehead
+# Email:  mwhitehe@cern.ch
+# Date: 20140814
+#
+Alias      MyLambda_c+      Lambda_c+
+Alias      MyLambda_c-      anti-Lambda_c-
+ChargeConj MyLambda_c+      MyLambda_c-
+#
+Alias      Mya_0- a_0-
+Alias      Mya_0+ a_0+
+ChargeConj Mya_0+ Mya_0-
+#
+Decay Xi_b-sig
+  1.0    K- Mya_0- MyLambda_c+  FLATSQDALITZ;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyLambda_c+
+  1.0   p+  K-  pi+            PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+Decay Mya_0-
+  1.0   pi- eta    PHSP;
+Enddecay
+CDecay Mya_0+
+#
+End
+

@@ -1,0 +1,39 @@
+# EventType: 12145111
+#
+# Descriptor: [B- -> (J/psi(1S) -> mu+ mu- ) p~- (Lambda0 -> p+ pi-)]cc
+#
+# NickName: Bu_JpsipLambda=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Non resonant, Jpsi forced into mu+ mu-, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Rafael Coutinho
+# Email: rsilvaco@cern.ch
+# Date: 20120607
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi    MyJ/psi
+#
+Decay B-sig
+  1.000        MyJ/psi     anti-p-     MyLambda     PHSP;
+Enddecay
+CDecay B+sig
+#
+Decay MyLambda
+  1.000   p+          pi-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+Decay MyJ/psi
+  1.000        mu+       mu-        VLL;
+Enddecay
+#
+End
+

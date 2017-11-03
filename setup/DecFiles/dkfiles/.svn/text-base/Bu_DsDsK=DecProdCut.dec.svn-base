@@ -1,0 +1,41 @@
+# EventType: 12297023
+# NickName: Bu_DsDsK=DecProdCut
+# Descriptor: [B+ -> D_s+ D_s- K+]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: 
+#   Decay file for B+- -> D_s+- D_s-+ pi+-
+# EndDocumentation
+# 
+# Date:   20121212
+#
+# Responsible: Sebastian Neubert
+# Email: sebastian.neubert@cern.ch
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+
+# -----------------
+# DECAY OF THE DS+-
+# -----------------
+Decay MyD_s+
+  1.0 K+         K-        pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+
+# ---------------------
+# DECAY OF THE B
+# ---------------------
+Decay B+sig
+  1.0 MyD_s+ MyD_s- K+ PHSP;
+Enddecay
+CDecay B-sig
+
+End

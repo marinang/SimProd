@@ -1,0 +1,47 @@
+# EventType: 49000150
+#
+# Descriptor: pp -> (tau + tau) ... 
+# NickName: ditau=gamma,m5,m10GeV
+# Cuts: PythiaHiggsType
+# CutsOptions: NumberOfLepton 2 LeptonPtMin 0 LeptonIsFromMother True NumberOfbquarks -1 MotherOfLepton ["Z0"] TypeOfLepton ["tau+"]
+# Production: Pythia8
+#
+# InsertPythonCode:
+# # Switch off all Pythia 6 and Pythia 8 options.
+# from Gaudi.Configuration import importOptions
+# importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+#
+# # Pythia 8 options.
+# from Configurables import Pythia8Production
+# Generation().Special.addTool( Pythia8Production )
+# Generation().Special.Pythia8Production.Commands += [
+#     "WeakZ0:gmZmode = 1",             # Only gamma contribution.
+#     "WeakSingleBoson:ffbar2gmZ = on", # Hard process.
+#     "PhaseSpace:mHatMin = 5.0",       # Minimum mass.
+#     "PhaseSpace:mHatMax = 10.0",      # Maximum mass.
+#     "23:mMin = 5.0",                  # Minimum Z mass.
+#     "23:onMode = off",                # Turn off all Z decays.
+#     "23:onIfMatch = -15 15"]          # Turn on ditau channel.
+# 
+# # Turn off EvtGen.
+# Generation().DecayTool = ""
+# Generation().Special.DecayTool = ""
+#
+# # Keep Z in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = "GABSID == 'Z0'"
+# EndInsertPythonCode
+#
+# Documentation:
+# ditau production, two taus in acceptance,
+# hard process mass between 5 and 10 GeV
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Philip Ilten
+# Email: philten@cern.ch
+# Date: 20141215
+#
+End

@@ -1,0 +1,28 @@
+# EventType: 11114041 
+#
+# Descriptor: [B0 -> mu+ mu- mu+ mu-]cc
+#
+# NickName: Bd_4mu=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: the B0 -> mu^+ mu^- mu^+ mu^- decay in the phase space approach 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Indrek Sepp (Imperial College, London)
+# Email: insepp@cern.ch
+# Date:  20120521
+#
+
+
+
+Decay B0sig
+   1.000   mu+  mu-  mu+  mu-   PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+

@@ -1,0 +1,39 @@
+# EventType: 11164131
+#
+# Descriptor: {[[B0]nos -> (D~0 -> K+ K-) KS0]cc, [[B0]os -> (D0 -> K- K+) KS0]cc}
+#
+# NickName: Bd_D0Ks,KK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: KS0 forced to pi+ pi-, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Maurizio Martinelli
+# Email: maurizio.martinelli@cern.ch
+# Date: 20121003
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+#
+Decay B0sig
+  1.000        MyK0s     Myanti-D0              PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Myanti-D0
+  1.000        K+        K-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay MyK0s
+  1.000    pi+          pi-           PHSP;
+Enddecay
+#
+End
+

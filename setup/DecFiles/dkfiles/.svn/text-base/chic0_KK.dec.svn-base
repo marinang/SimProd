@@ -1,0 +1,23 @@
+# EventType: 28102031
+#
+# Descriptor: [chi_c0 -> K+ K-]
+#
+# NickName: chic0_KK
+#
+# Cuts: None
+#
+# Documentation: chi_c0(1P) particle gun with decay to K+ K-.  chi_c0(1P)
+# momentum sampled from pt-pz distribution generated with SuperCHIC.
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Scott Stevenson
+# Email: scott.stevenson@cern.ch
+# Date: 20140212
+
+Decay chi_c0sig
+    1.00000    K+    K-    PHSP;
+Enddecay
+
+End

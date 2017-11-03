@@ -1,0 +1,55 @@
+#
+# EventType: 11965000
+#
+# Descriptor: [B0 => (D0b -> K- K+ pi- pi+) X]cc
+#
+# NickName: Bd_D0X,X=cocktail,D0=MINT,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Low mass background B0 -> D0b[K- K+ pi- pi+] X decays of the B+ -> D0b[K- K+ pi- pi+] h+ signal channel. The D0b decays via Mint using a model from CLEO-c. This file is intended to be expanded upon as the data sample increases to allow more low mass backgrounds to be considered. The full set of background files for this decay channel are
+# Bu_D0X,X=cocktail,D0=MINT,DecProdCut.dec
+# Bd_D0X,X=cocktail,D0=MINT,DecProdCut.dec
+# Bs_D0X,X=cocktail,D0=MINT,DecProdCut.dec
+# Lb_D0X,X=cocktail,D0=MINT,DecProdCut.dec
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Jeremy
+# Email: J.Dalseno@bristol.ac.uk
+# Date: 20150305
+# CPUTime: 3 min
+#
+
+Alias		My_D0		D0
+Alias		My_D*+		D*+
+Alias		My_anti-D0	anti-D0
+Alias		My_anti-D*+	D*-
+ChargeConj	My_D0		My_anti-D0
+ChargeConj	My_D*+		My_anti-D*+
+
+# Scale to account for modified D* branching fraction
+# B0 -> D*- pi+: 0.00276*0.677
+# B0 -> D*- rho+: 0.0068*0.677
+# B0 -> D*- K+: 0.000214*0.677
+
+Decay B0sig
+0.00032		rho0		My_anti-D0	SVS;
+0.00187		My_anti-D*+	pi+		PHOTOS SVS;
+0.00460		My_anti-D*+	rho+		SVV_HELAMP 0.152 1.47 0.936 0.0 0.317 0.19;
+0.000145	My_anti-D*+ 	K+		PHOTOS SVS;
+Enddecay
+CDecay anti-B0sig
+
+Decay My_D*+
+1.0   My_D0 pi+	PHOTOS VSS;
+Enddecay
+CDecay My_anti-D*+
+
+Decay My_D0
+1.0   K+ K- pi+ pi-	D_hhhh 11;
+Enddecay
+CDecay My_anti-D0
+
+End

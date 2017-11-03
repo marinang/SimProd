@@ -1,0 +1,33 @@
+# EventType: 13106001
+#
+# Descriptor: {[B_s0 ->  (phi(1020) -> K+ K-) K+ K- pi+ pi-]cc}
+#
+# NickName: Bs_phiKKpipi,KK=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: B_s0 forced to phi and non-resonant 2 charge tracks kaons and 2 charge tracks pions
+# EndDocumentation
+# 
+# PhysicsWG:   B2Ch
+# Tested:      Yes
+# Responsible: Morgan Martin
+# Email:       morgan.martin@cern.ch
+# Date:        20160510
+#
+#
+Alias       MyPhi       phi
+ChargeConj  MyPhi       MyPhi
+#
+Decay B_s0sig
+  1.0000    MyPhi       K+    K-    pi+    pi-           PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000     K+    K-                        VSS;
+Enddecay
+#
+End

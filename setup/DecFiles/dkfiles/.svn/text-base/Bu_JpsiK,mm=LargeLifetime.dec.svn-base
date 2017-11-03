@@ -1,0 +1,34 @@
+# EventType: 12143007
+#
+# Descriptor: [B+ -> K+ (J/psi(1S) -> mu+ mu- {,gamma} {,gamma})]cc
+#
+# NickName: Bu_JpsiK,mm=LargeLifetime
+#
+# Cuts: None
+#
+# ParticleValue: "B+ 71 521 1.0 5.27915    2e-011   B+ 521  0.000000e+000", "B- 72 -521 -1.0 5.27915  2e-011   B- -521  0.000000e+000"
+#
+# Documentation: Includes radiative mode, large lifetime
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Yuehong Xie
+# Email: Yuehong.Xie@cern.ch
+# Date: 20110518
+#
+ 
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Decay B+sig
+  1.000     MyJ/psi  K+                   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+End
+

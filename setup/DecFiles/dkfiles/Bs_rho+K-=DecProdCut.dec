@@ -1,0 +1,24 @@
+# EventType: 13102401
+#
+# Descriptor: [B_s0 -> rho+ K-]cc
+#
+# NickName: Bs_rho+K-=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: NO CPV
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: A. Martens
+# Email: aurelien.martens@cern.ch
+# Date: 20120209
+#
+Decay B_s0sig
+  1.000       rho+     K-       SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+

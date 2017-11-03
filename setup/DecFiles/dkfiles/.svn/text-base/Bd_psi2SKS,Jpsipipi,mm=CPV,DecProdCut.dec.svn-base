@@ -1,0 +1,42 @@
+# EventType: 11146100
+#
+# Descriptor: [B0 -> KS (psi(2S) -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) pi+pi-)]cc
+#
+# NickName: Bd_psi2SKS,Jpsipipi,mm=CPV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: CP violation and decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Neus Lopez March
+# Email: neus.lopezmarch@epfl.ch
+# Date: 20101013
+#
+Alias      Mypsi2s  psi(2S)
+Alias      MyJ/psi  J/psi
+ChargeConj Mypsi2s  Mypsi2s
+ChargeConj MyJ/psi  MyJ/psi
+Alias      MyKs     K_S0
+ChargeConj MyKs     MyKs
+#
+Decay B0sig
+  1.000    MyKs     Mypsi2s   SSD_CP 0.502e12 0.0 1.0 -0.775 1.0 0. -1.0 0.;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKs
+  1.000         pi+       pi-            PHSP;
+Enddecay
+#
+Decay Mypsi2s
+  1.000         MyJ/psi         pi+   pi-         VVPIPI;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+End
+

@@ -1,0 +1,40 @@
+# EventType: 13164452
+#
+# Descriptor: {[[B_s0]nos -> (D~0 -> K+ pi- pi0) (K*(892)~0 -> K- pi+)] cc, [B_s0]os -> (D0 -> K- pi+ pi0) (K*(892)0 -> K- pi+)]cc}
+#
+# NickName: Bs_D0Kst0,Kpipi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K*0 forced to K- pi+, D0 forced to K+ pi- pi0
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Nazim Hussain
+# Email: nazim.hussain@cern.ch
+# Date: 20130911
+#
+Alias MyK*0      K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0 Myanti-K*0
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+#
+Decay B_s0sig
+1.000      Myanti-K*0         Myanti-D0                SVS; 
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myanti-D0
+1.000    K+	pi-	pi0                        PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay Myanti-K*0
+  1.000    K-         pi+         VSS;
+Enddecay
+CDecay MyK*0
+#
+End

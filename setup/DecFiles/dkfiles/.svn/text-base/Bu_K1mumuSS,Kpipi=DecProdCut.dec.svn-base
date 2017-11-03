@@ -1,0 +1,56 @@
+# EventType: 12215036
+#
+# Descriptor: [B+ -> (K_1(1270)- -> (X ->  K- pi+ pi-) mu+ mu+) ]cc
+#
+# NickName: Bu_K1mumuSS,Kpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ -> (K_1(1270)- -> K- pi+ pi-) mu+ mu+ (LNV,PHSP)
+# EndDocumentation
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Fergus Wilson
+# Email:       Fergus.Wilson@stfc.ac.uk
+# Date:        20160329
+#
+# $Id$
+#
+Alias      MyK1_1270_+   K_1+ 
+Alias      MyK1_1270_-   K_1-
+ChargeConj MyK1_1270_+   MyK1_1270_-
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+Alias      MyOmega omega
+ChargeConj MyOmega MyOmega
+#
+Decay B+sig
+ 1.000        MyK1_1270_-     mu+     mu+  PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyK1_1270_+
+ 0.2716513        MyK*0        pi+                    PHSP;
+ 0.3564309        rho0         K+                     PHSP;
+ 0.0042848        MyOmega      K+                     PHSP;
+ 0.3676330        K+  pi+ pi-                         PHSP;
+Enddecay
+CDecay MyK1_1270_-
+#
+Decay MyK*0
+ 1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyOmega
+ 1.000        pi+        pi-  VSS;
+Enddecay
+#
+End
+#

@@ -1,0 +1,51 @@
+# EventType: 12297021
+# NickName: Bu_D20D0K=DecProdCut
+# Descriptor: {[B+ -> D*_2(2460)0 D~0 K+]cc,[B+ -> D*_2(2460)~0 D0 K+]cc}
+#
+# Cuts: DaughtersInLHCb
+# 
+# Documentation: 
+#   Decay file for B+- -> D_2^0 D0 K+-
+# EndDocumentation
+# 
+# Date:   20110913
+#
+# Responsible: Mike Williams
+# Email: michael.williams@imperial.ac.uk
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+Alias My_D+   D+
+Alias My_D-   D-
+Alias My_D20  D_2*0
+Alias My_anti-D20  anti-D_2*0
+
+ChargeConj My_anti-D0 My_D0
+ChargeConj My_D- My_D+
+ChargeConj My_D20 My_anti-D20
+
+Decay My_D0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay My_D-
+  1.0 K+ pi- pi- D_DALITZ;
+Enddecay
+CDecay My_D+
+
+Decay My_D20
+  1.0 D+ pi- PHSP;
+Enddecay
+CDecay My_anti-D20
+
+Decay B+sig
+  0.5 My_anti-D20 My_D0 K+ PHSP;
+  0.5 My_D20 My_anti-D0 K+ PHSP;
+Enddecay
+CDecay B-sig
+
+End

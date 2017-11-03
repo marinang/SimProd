@@ -1,0 +1,33 @@
+# EventType: 13144034 
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu-) mu+ mu-]cc
+#
+# NickName: Bs_Jpsimumu=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: B_s0 -> J/psi mu+ mu- decay with decay model PHSP.
+#                Decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Nikolai Nikitin (Moscow State Univ.)
+# Email: Nikolai.Nikitine@cern.ch
+# Date: 20140125
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Decay B_s0sig
+  1.0000       MyJ/psi     mu+  mu-   PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.000        mu+        mu-       PHOTOS VLL;
+Enddecay
+#
+End
+

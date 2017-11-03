@@ -1,0 +1,23 @@
+# EventType: 25103000
+#
+# Descriptor: [Lambda_c+ -> p+ K- pi+]cc
+#
+# NickName: Lc_pKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: JJJ Schmidt
+# Email:       patrick.spradlin@{nospam}cern.ch
+# Date:        20111010
+#
+Decay Lambda_c+sig
+  0.02800         p+      K-      pi+     PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+#
+End 

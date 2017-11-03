@@ -1,0 +1,36 @@
+# EventType: 40900002
+#
+# Descriptor: pp -> (H_10 -> b anti-b) + jet ...
+#
+# NickName: HiggsVBF_bb=mH125GeV,inAcc
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/HiggsVBFinAcc
+# ExtraOptions: HiggsVBF
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "HiggsVBFinAcc" )
+# tracksInAcc = Generation().HiggsVBFinAcc
+# tracksInAcc.Code = "( (count ( isGoodBFromH ) > 1) & (count(isGoodJet) > 0))"
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodB = ( ( 'b' == GABSID ) & ( GTHETA < 400.0*mrad ) )"
+#    , "isFromH  = ( 1 == GNINTREE( 'H_10' == GABSID , 0 ) )"
+#    , "isGoodBFromH = ( isGoodB & isFromH )"
+#    , "isGoodJet = ( ( 'u' == GABSID or 'd' == GABSID or 's' == GABSID ) & ( GTHETA < 400.0*mrad ) & (GPT > 10.0*GeV) )" ]
+# EndInsertPythonCode
+#
+# ParticleValue: "H_10 87 25 0.0 125.000 9.400e-026 Higgs0 25 0.000e+000"
+#
+# Documentation: Higgs produced by VBF with 2 b in the acceptance, one light jet in the acceptance with pt > 10 GeV.
+# EndDocumentation
+#
+# PhysicsWG: Exotica 
+# Tested: Yes
+# Responsible: lorenzo
+# Email: sestini@cern.ch
+# Date: 20160617
+#
+End
+#

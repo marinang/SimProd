@@ -1,0 +1,24 @@
+# EventType: 31115001
+#
+# Descriptor: [tau- -> mu- mu+ mu- mu+ mu-]cc
+#
+# NickName: tau_5mu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:     Konstantin SCHUBERT
+# Email:  konstantin.schubert@tu-dortmund.de
+# Date:   20160307
+# CPUTime: < 1 min
+#
+Decay tau-sig
+  1.000       mu-  mu+ mu-  mu-   mu+      PHSP;
+Enddecay
+CDecay tau+sig
+#
+End

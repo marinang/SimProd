@@ -1,0 +1,46 @@
+# EventType: 14195001
+#
+# Descriptor: [B_c+ -> (D+ -> K- pi+ pi+) (anti-D0 -> K+ pi-) ]cc
+#
+# NickName: Bc_D+D0,Kpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance, D phase space decay
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: S. Haines
+# Email: shaines@cern.ch
+# Date: 20150609
+#
+Alias MyD+ D+
+Alias MyD- D-
+ChargeConj MyD+ MyD-
+
+Alias      MyD0   D0
+Alias Myanti-D0   anti-D0
+ChargeConj MyD0   Myanti-D0
+
+Decay B_c+sig
+  1.000     MyD+       Myanti-D0       PHSP;
+Enddecay
+CDecay B_c-sig
+
+Decay MyD+
+  1.0000     K-         pi+        pi+    PHSP;
+Enddecay
+CDecay MyD-
+
+Decay Myanti-D0
+  1.000      K+      pi-     PHSP;
+Enddecay
+CDecay MyD0
+
+#
+End
+

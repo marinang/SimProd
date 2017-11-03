@@ -1,0 +1,35 @@
+# EventType: 11124002
+#
+# Descriptor: {[[B0]nos -> e+ e- (K*(892)0 -> K+ pi-)]cc, [[B0]os -> e- e+ (K*(892)~0 -> K- pi+)]cc}
+#
+# NickName: Bd_Kstee=btosllball05,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Alex Shires
+# Email: schunem@lal.in2p3.fr
+# Date: 20150120
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Decay B0sig
+  1.000        MyK*0    e+    e-           BTOSLLBALL 6;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000        K+       pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

@@ -1,0 +1,41 @@
+# EventType: 28142232
+#
+# Descriptor: chi_c0 -> ( J/psi -> mu+ mu- ) gamma 
+#
+# NickName: chic0_Jpsigamma,mumu=TightCut,LooserCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: <1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool as GenCutTool
+# #
+# Generation().SignalPlain.addTool( GenCutTool , 'TightCut' )
+# Generation().SignalPlain.TightCut.Decay = "chi_c0(1P) => ^( J/psi(1S) => ^mu+ ^mu-) ^gamma"
+# Generation().SignalPlain.TightCut.Cuts = {
+#     '[mu+]cc'   : ' in_range (0.005 , GTHETA , 0.400 )  '
+#     }
+# EndInsertPythonCode
+#
+# Documentation: chi_c0 decay to J/psi gamma. Muons are required to be inside LHCb, but gamma is left.
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Barak Raimond Gruberg Cazon
+# Email: barak.gruberg@cern.ch
+# Date: 20170919
+#
+#
+Alias   MyJpsi  J/psi
+ChargeConj  MyJpsi   MyJpsi
+
+Decay chi_c0sig
+  1.000         gamma   MyJpsi       PHSP;
+Enddecay
+Decay MyJpsi
+  1.000  mu+      mu-    PHOTOS   VLL;
+Enddecay
+#
+End

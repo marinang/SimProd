@@ -1,0 +1,75 @@
+# EventType: 13464601
+#
+# Descriptor: {[[B_s0]nos -> (D*_s- -> {gamma (D_s- => (phi -> K+ K-) (rho- -> pi- pi0)), pi0 (D_s- => (phi -> K+ K-) (rho- -> pi- pi0))}) (rho+ -> pi+ pi0)]cc, [[B_s0]os -> (D*_s+ -> {gamma (D_s+ => (phi -> K+ K-) (rho+ -> pi+ pi0)), pi0 (D_s+ => (phi -> K+ K-) (rho+ -> pi+ pi0))}) (rho- -> pi- pi0)]cc}
+# 
+#
+# NickName: Bs_Dsstrho,phirho=SVV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# B_s0 decay to Ds*- (D_s- gamma/pi0) rho+ (pi+ pi0) with Ds- -> phi (K K) rho- (pi pi0). SVV_HELAMP decay model for Ds- decay
+# Daughters in LHCb.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Stefano Gallorini
+# Email: stefano.gallorini@cern.ch
+# Date: 20131120
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+Alias      MyD_s1-    D_s1-
+Alias      MyD_s1+    D_s1+
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+Alias      Myrho+     rho+
+Alias      Myrho-     rho-
+Alias      Myphi      phi
+
+ChargeConj Myrho+     Myrho-
+ChargeConj Myphi      Myphi
+ChargeConj MyD_s+     MyD_s-
+ChargeConj MyD_s1+    MyD_s1-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Decay B_s0sig
+  0.03812282  MyD_s*- Myrho+                         SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0 ;
+  0.01143685  MyD_s1- Myrho+                         SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0 ;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s*-
+  0.942   MyD_s-           gamma     VSP_PWAVE;
+  0.058   MyD_s-           pi0       VSS;
+Enddecay
+CDecay MyD_s*+
+#
+Decay MyD_s1-
+  0.80000000  MyD_s*- pi0                             PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0 ;
+  0.20000000  MyD_s- gamma                            VSP_PWAVE ;
+Enddecay
+CDecay MyD_s1+
+#
+Decay MyD_s-
+  1.000     Myphi    Myrho-          SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; 
+Enddecay
+CDecay MyD_s+
+#
+Decay Myrho-
+  1.000     pi-     pi0            VSS;
+Enddecay
+CDecay Myrho+
+#
+Decay Myphi
+  1.000     K+      K-             VSS;
+Enddecay
+#
+Decay Myrho+
+  1.00000000  pi+ pi0                                  VSS ;
+Enddecay
+CDecay Myrho-
+#
+End
+#

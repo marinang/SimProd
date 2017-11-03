@@ -1,0 +1,20 @@
+# EventType: 30000320
+#
+# Descriptor: pp => ?
+#
+# NickName: minbias_Perugia0
+#
+# Cuts: None
+#
+# ExtraOptions: Perugia0
+#
+# Documentation: Perugia 0 tune
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Raluca Muresan
+# Email: raluca.muresan@cern.ch
+# Date: 20111031
+#
+End

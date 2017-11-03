@@ -1,0 +1,29 @@
+# EventType: 16103033
+#
+# Descriptor: [Xi_b-  -> pi- pi- p+]cc
+#
+# NickName: Omegab_pipip=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "Xi_b- 122 5132 -1.0 6.048 1.13e-012 Xi_b- 5132 0.000000e+000", "Xi_b~+ 123 -5132 1.0 6.071 1.1e-012 anti-Xi_b+ -5132 0.000000e+000"
+# 
+# Documentation: Flat on square Dalitz plot, decay products in acceptance.
+# Omega_b difficult to produce with Pythia (very low fragmentation prob) so alter Xib instead.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Abhijit Mathad
+# Email: amathad@cern.ch
+# Date: 20150417
+#
+#
+Decay Xi_b-sig
+  1.000        pi-      pi-      p+      FLATSQDALITZ;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+End
+

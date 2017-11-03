@@ -1,0 +1,23 @@
+# EventType: 42122000
+#
+# Descriptor: pp -> (Z0 -> e+ e-) ... 
+#
+# NickName: Z_ee
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 4*GeV LeptonIsFromMother true NumberOfbquarks -1
+# ExtraOptions: Zee
+#
+# Documentation: 1 lepton with pT > 4 GeV
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Karol Hennessy Wenchao Zhang
+# Email: Wenchao.Zhang@cern.ch
+# Date: 20110926
+#
+End
+#
+

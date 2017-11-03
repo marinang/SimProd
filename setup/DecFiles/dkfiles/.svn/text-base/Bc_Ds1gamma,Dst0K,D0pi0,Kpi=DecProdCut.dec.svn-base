@@ -1,0 +1,60 @@
+# EventType: 14163601
+#
+# Descriptor: [B_c+ -> (D_s1(2536)+ ->  (D*(2007)0 -> (D0 -> K- pi+) (pi0 -> gamma gamma)) K+ )  gamma]cc
+#
+# NickName: Bc_Ds1gamma,Dst0K,D0pi0,Kpi=DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# CPUTime: < 1 min
+#
+# Documentation: Bc forced to Ds1(2536) gamma, charged decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email:  marco.pappagallo@cern.ch
+# Date: 20140606
+#
+Alias      MyD'_s1+   D'_s1+
+Alias      MyD'_s1-   D'_s1-
+ChargeConj MyD'_s1-   MyD'_s1+
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+#
+Alias      Mypi0  pi0
+ChargeConj Mypi0  Mypi0
+#
+Decay B_c+sig
+  1.000        MyD'_s1+    gamma               SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyD'_s1+
+1.000   MyD*0 K+                            VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyD'_s1-
+#
+Decay MyD*0
+1.000    MyD0  Mypi0                        VSS;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD0
+  1.000        K-        pi+    PHSP ;
+Enddecay
+CDecay Myanti-D0
+#
+Decay Mypi0
+  1.000     gamma      gamma               PHSP;
+Enddecay
+End
+

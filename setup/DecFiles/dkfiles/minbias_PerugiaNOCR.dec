@@ -1,0 +1,20 @@
+# EventType: 30000324
+#
+# Descriptor: pp => ?
+#
+# NickName: minbias_PerugiaNOCR
+#
+# Cuts: None
+#
+# ExtraOptions: PerugiaNOCR
+#
+# Documentation: Perugia NOCR tune
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Raluca Muresan
+# Email: raluca.muresan@cern.ch
+# Date: 20111031
+#
+End

@@ -1,0 +1,39 @@
+# EventType: 15104411
+# 
+# Descriptor: [Lambda_b0 -> K- (eta' -> pi+ pi- (eta -> gamma gamma)) p+]cc
+# 
+# NickName: Lb_pKetap,etapipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: eta_prime decays to pi+ pi- eta, eta to gamma gamma
+# EndDocumentation
+#
+# CPUTime: 1 min
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: James Mccarthy
+# Email: james.mccarthy@cern.ch
+# Date: 20140606
+#
+#
+Alias       MyEtap  eta'
+ChargeConj  MyEtap  MyEtap
+Alias       MyEta   eta
+ChargeConj  MyEta   MyEta
+#
+Decay Lambda_b0sig
+  1.000   p+ K- MyEtap    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay  MyEtap
+  1.000   pi+ pi- MyEta    PHSP;
+Enddecay
+#
+Decay MyEta
+  1.000  gamma gamma     PHSP;
+Enddecay
+#
+End
+#

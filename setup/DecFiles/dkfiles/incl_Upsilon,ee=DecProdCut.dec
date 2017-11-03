@@ -1,0 +1,27 @@
+# EventType: 18122001
+#
+# Descriptor: Upsilon(1S) -> e+ e- {,gamma} {,gamma}
+#
+# NickName: incl_Upsilon,ee=DecProdCut
+#
+# ExtraOptions: Upsilon
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# Documentation: Upsilon(1S) decay to e+ e-, radiative mode included, Upsilon daughters in acceptance
+# EndDocumentation
+#
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Patrick Robbe
+# Email: robbe@lal.in2p3.fr
+# Date: 20110909
+#
+#
+Decay Upsilonsig
+  1.000         e+        e-        VLL;
+Enddecay
+#
+End
+#

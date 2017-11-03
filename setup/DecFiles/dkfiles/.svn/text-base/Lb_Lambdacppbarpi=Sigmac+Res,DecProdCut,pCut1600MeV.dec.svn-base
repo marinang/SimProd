@@ -1,0 +1,82 @@
+# EventType: 15266012
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p K+ pi-) anti-p p+ pi-]cc
+#
+# NickName: Lb_Lambdacppbarpi=Sigmac+Res,DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ParticleValue: "Np 369 229 0.0 2.05 2.777267e-24 Np 229 0.174"
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: decay through SigmaC X, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: S. Blusk
+# Email: sblusk@syr.edu
+# Date: 20120411
+#
+
+Alias        MyNp        Np
+ChargeConj   MyNp        MyNp
+
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+
+Alias MySigma_c0 Sigma_c0
+Alias Myanti-Sigma_c0 anti-Sigma_c0
+ChargeConj MySigma_c0 Myanti-Sigma_c0
+
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#Redefine masses
+Particle  Mya_1- 2450.0 200.0
+Particle  Mya_1+ 2450.0 200.0
+#
+Decay Lambda_b0sig
+  0.50    MySigma_c0 MyNp            PHSP;
+  0.50    Sigma_c*0 MyNp             PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mya_1-
+ 1.0  anti-p- p+ pi-         PHSP;
+Enddecay
+CDecay Mya_1+
+#
+Decay MyLambda_c+
+  0.008600000 Delta++ K-                                      PHSP;
+  0.010700000 p+      Myanti-K*0                              PHSP;
+  0.025400000 p+      K-      pi+                             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+#  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+
+Decay MySigma_c0
+1.0000    MyLambda_c+  pi-                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+
+#
+Decay MyNp
+ 1.0  anti-p- p+        PHSP;
+Enddecay
+
+#
+End
+

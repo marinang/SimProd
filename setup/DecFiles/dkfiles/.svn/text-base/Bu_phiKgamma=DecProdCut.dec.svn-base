@@ -1,0 +1,43 @@
+# EventType: 12103201
+#
+# Descriptor: [B+ -> (phi(1020) -> K+ K-) K+ gamma]cc
+#
+# NickName: Bu_phiKgamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#  ParticleValue: "K*(1680)+  749 30323 1.0 1.800000 1.324652e-024 K''*+ 0 0.700000", "K*(1680)- 750 -30323 -1.0 1.800000 1.324652e-024 K''*- 0 0.700000"
+#
+# Documentation: Phase space decay model, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Alexei Morozov
+# Email: apuig@ecm.ub.es
+# Date: 20111013
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+
+Alias      MyRes+  K''*+
+Alias      MyRes-  K''*-
+ChargeConj MyRes+  MyRes-
+
+#
+Decay B+sig
+1.000      MyRes+  gamma   SVP_HELAMP 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay MyRes+
+1.000      MyPhi   K+      VVS_PWAVE 1.0 0.0 0.0 0.0 1.0 1.5;
+Enddecay
+CDecay MyRes-
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

@@ -1,0 +1,30 @@
+# EventType: 23573002
+#
+# Descriptor: [Ds+ ->  phi( K+ K-) mu+ nu_mu]cc
+#
+# NickName: Ds+_phimunu
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Forces a Ds+ to phi (KK) mu nu
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Grant McGregor
+# Email: Grant.Mcgregor@<nospam>hep.manchester.ac.uk
+# Date: 20110406
+#
+Alias My_phi    phi
+ChargeConj  My_phi   My_phi
+#
+Decay D_s+sig
+  1.000        My_phi   mu+   nu_mu    PHOTOS  ISGW2;
+Enddecay
+CDecay D_s-sig
+#
+Decay My_phi
+  1.000        K+           K-             VSS;
+Enddecay
+#
+End
