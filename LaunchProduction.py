@@ -23,9 +23,6 @@ pwd = os.environ["PWD"]
 	
 def SubCondition( Options ):
 		
-	now = datetime.now()
-	hour = now.hour
-	
 	ti, tf = Options.subtime[0], Options.subtime[1]
 	if ti < tf:
 		allowed_time = range(ti,tf+1)
@@ -40,6 +37,9 @@ def SubCondition( Options ):
 		Nsimjobs_total = int( os.popen( "echo $(squeue | grep -c 'simProd')"                     ).read() )
 		Njobs_user     = int( os.popen( "echo $(squeue  | grep -c '{0}')".format(user)           ).read() )
 		Npendjobs_user = int( os.popen( "echo $(squeue -u {0} | grep -c 'PD')".format(user)      ).read() )
+		
+		now = datetime.now()
+		hour = now.hour
 		
 		#conditions
 		time          = hour in allowed_time
