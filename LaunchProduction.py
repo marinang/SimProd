@@ -95,20 +95,20 @@ if __name__ == "__main__" :
 
 	parser = argparse.ArgumentParser(description='')
 	
-	parser.add_argument('evttype',        metavar='<evttype>',       help="EvtType of the processus to generate", type=str)
-	parser.add_argument('nevents',        metavar='<nevents>',       help="Number of events to produce", type=int)
-	parser.add_argument('year',           metavar='<year>',          help="Year to simulate", type=int, choices=[2012,2015,2016])
-	parser.add_argument('--polarity',     metavar='<polarity>',      help="Magnet conditions to simulate", default='', choices=['MagUp','MagDown']) 
-	parser.add_argument('--neventsjobs',  metavar='<neventsjobs>',   help="Number of events per jobs", type=int, default=50)
-	parser.add_argument('--runnumber',    metavar='<runnumber>',     help="Run number for Gauss", type=int, default=base_runnumber)
+	parser.add_argument('evttype',        metavar='<evttype>',       help="EvtType of the processus to generate.", type=str)
+	parser.add_argument('nevents',        metavar='<nevents>',       help="Number of events to produce.", type=int)
+	parser.add_argument('year',           metavar='<year>',          help="Year to simulate.", type=int, choices=[2012,2015,2016])
+	parser.add_argument('--polarity',     metavar='<polarity>',      help="Magnet conditions to simulate.", default='', choices=['MagUp','MagDown']) 
+	parser.add_argument('--neventsjobs',  metavar='<neventsjobs>',   help="Number of events per jobs.", type=int, default=50)
+	parser.add_argument('--runnumber',    metavar='<runnumber>',     help="Run number for Gauss.", type=int, default=base_runnumber)
 	
 	#options to control job submission #
 	#ideally you would run with these options in a screen session #
-	parser.add_argument('--nsimjobs',     metavar='<nsimjobs>',      help="Maximum number of simultaneous simulation jobs running", type=int, default=-1)
-	parser.add_argument('--nsimuserjobs', metavar='<nsimjobs>',      help="Maximum number of simultaneous simulation jobs running for the user", type=int, default=-1)
-	parser.add_argument('--nuserjobs',    metavar='<nuserjobs>',     help="Maximum number of simultaneous jobs running for the user", type=int, default=-1)
-	parser.add_argument('--npendingjobs', metavar='<npendingjobs>',  help="Maximum number of pending jobs for the user", type=int, default=-1)
-	parser.add_argument('--subtime',      metavar='<subtime>',       help="Time interval when the jobs are sent", nargs='+', type=int, default=[0, 23])
+	parser.add_argument('--nsimjobs',     metavar='<nsimjobs>',      help="Maximum number of simultaneous simulation jobs running.", type=int, default=-1)
+	parser.add_argument('--nsimuserjobs', metavar='<nsimjobs>',      help="Maximum number of simultaneous simulation jobs running for the user.", type=int, default=-1)
+	parser.add_argument('--nuserjobs',    metavar='<nuserjobs>',     help="Maximum number of simultaneous jobs running for the user.", type=int, default=-1)
+	parser.add_argument('--npendingjobs', metavar='<npendingjobs>',  help="Maximum number of pending jobs for the user.", type=int, default=-1)
+	parser.add_argument('--subtime',      metavar='<subtime>',       help="Time interval when the jobs are sent.", nargs='+', type=int, default=[0, 23])
 		
 	opts = parser.parse_args()
 	
