@@ -37,15 +37,15 @@ def SubCondition( Options ):
 	while Submission == False:
 		
 		Nsimjobs_user  = int( os.popen( "echo $(squeue -u {0} | grep -c 'simProd')".format(user) ).read() )
-		Nsimjobs_total = int( os.popen( "echo $(squeue | grep -c 'simProd')" ).read() )
-		Njobs_user     = int( os.popen( "echo $(squeue  | grep -c '{0}')".format(user) ).read() )
-		Npendjobs_user = int( os.popen( "echo $(squeue -u {0} | grep -c 'PD')".format(user) ).read() )
+		Nsimjobs_total = int( os.popen( "echo $(squeue | grep -c 'simProd')"                     ).read() )
+		Njobs_user     = int( os.popen( "echo $(squeue  | grep -c '{0}')".format(user)           ).read() )
+		Npendjobs_user = int( os.popen( "echo $(squeue -u {0} | grep -c 'PD')".format(user)      ).read() )
 		
 		#conditions
-		time = hour in allowed_time
-		simjobs_total = Options.nsimjobs < Nsimjobs_total and Options.nsimjobs != -1
-		simjobs_user = Options.nsimuserjobs < Nsimjobs_user and Options.nsimuserjobs != -1
-		jobs_user = Options.nuserjobs < Njobs_user and Options.nuserjobs != -1
+		time          = hour in allowed_time
+		simjobs_total = Options.nsimjobs < Nsimjobs_total     and Options.nsimjobs != -1
+		simjobs_user  = Options.nsimuserjobs < Nsimjobs_user  and Options.nsimuserjobs != -1
+		jobs_user     = Options.nuserjobs < Njobs_user        and Options.nuserjobs != -1
 		pendjobs_user = Options.npendingjobs < Npendjobs_user and Options.npendingjobs != -1
 					
 		if not time:
@@ -106,7 +106,7 @@ if __name__ == "__main__" :
 	#ideally you would run with these options in a screen session #
 	parser.add_argument('--nsimjobs',     metavar='<nsimjobs>',      help="Maximum number of simultaneous simulation jobs running", type=int, default=-1)
 	parser.add_argument('--nsimuserjobs', metavar='<nsimjobs>',      help="Maximum number of simultaneous simulation jobs running for the user", type=int, default=-1)
-	parser.add_argument('--nuserjobs',    metavar='<nuserjobs>',      help="Maximum number of simultaneous jobs running for the user", type=int, default=-1)
+	parser.add_argument('--nuserjobs',    metavar='<nuserjobs>',     help="Maximum number of simultaneous jobs running for the user", type=int, default=-1)
 	parser.add_argument('--npendingjobs', metavar='<npendingjobs>',  help="Maximum number of pending jobs for the user", type=int, default=-1)
 	parser.add_argument('--subtime',      metavar='<subtime>',       help="Time interval when the jobs are sent", nargs='+', type=int, default=[0, 23])
 		

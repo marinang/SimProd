@@ -72,67 +72,38 @@ rm Boole-Files.py
 #     L0     #
 #------------#
 
-export CMTCONFIG=x86_64-slc6-gcc48-opt
-source LbLogin.sh -c x86_64-slc6-gcc48-opt
-source SetupProject.sh Moore v24r2 --use "AppConfig v3r268"
 #Prepare special conditions
 echo "from Gaudi.Configuration import *" > L0Configuration.py
 echo "from Configurables import L0App" >> L0Configuration.py
 echo 'L0App().outputFile="L0.digi"' >> L0Configuration.py
 echo "EventSelector().Input = [\"DATAFILE='PFN:./Boole.digi' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> L0Configuration.py
 # Run
-gaudirun.py $APPCONFIGOPTS/L0App/L0AppSimProduction.py $APPCONFIGOPTS/L0App/L0AppTCK-0x00a2.py $APPCONFIGOPTS/L0App/ForceLUTVersionV8.py $APPCONFIGOPTS/L0App/DataType-2015.py $APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py L0Configuration.py
+lb-run Moore/v24r2 gaudirun.py $APPCONFIGOPTS/L0App/L0AppSimProduction.py $APPCONFIGOPTS/L0App/L0AppTCK-0x00a2.py $APPCONFIGOPTS/L0App/ForceLUTVersionV8.py $APPCONFIGOPTS/L0App/DataType-2015.py $APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py L0Configuration.py
 
-#rm Boole.digi
+rm Boole.digi
+rm L0Configuration.py
 
 #------------#
 #   MOORE    #
 #------------#
 
-#cd $workdir
-#
-#export CMTCONFIG=x86_64-slc6-gcc48-opt
-#source LbLogin.sh -c x86_64-slc6-gcc48-opt
-#source SetupProject.sh Moore v24r2 --use "AppConfig v3r268"
 # Prepare special conditions
 echo "from Gaudi.Configuration import *" > MooreConfiguration.py
 echo "from Configurables import Moore" >> MooreConfiguration.py
-#echo 'LHCbApp().DDDBtag   = "dddb-20150724"' >> MooreConfiguration.py
-#echo 'LHCbApp().CondDBtag = "sim-20160606-vc-md100"' >> MooreConfiguration.py
-echo 'Moore().DDDBtag   = "dddb-20150724"' >> MooreConfiguration.py
-echo 'Moore().CondDBtag = "sim-20160606-vc-md100"' >> MooreConfiguration.py
+echo "Moore().DDDBtag   = 'dddb-20150724'" >> MooreConfiguration.py
+echo "Moore().CondDBtag = '$DBtag'" >> MooreConfiguration.py
 echo "EventSelector().Input = [\"DATAFILE='PFN:./L0.digi' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> MooreConfiguration.py
 echo "Moore().outputFile = 'Moore.digi'" >> MooreConfiguration.py
 # Run
 
 lb-run Moore/v24r2 gaudirun.py \$APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep2015.py \$APPCONFIGOPTS/Conditions/TCK-0x411400a2.py \$APPCONFIGOPTS/Moore/DataType-2015.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py MooreConfiguration.py
 
-#rm L0.digi
-
-#export CMTCONFIG=x86_64-slc6-gcc48-opt
-#source LbLogin.sh -c x86_64-slc6-gcc48-opt
-#source SetupProject.sh Moore v24r2 --use "AppConfig v3r308"
-#
-## Prepare special conditions
-#echo "from Gaudi.Configuration import *" > MooreConfiguration.py
-#echo "from Configurables import Moore" >> MooreConfiguration.py
-#echo "Moore().DDDBtag   = 'dddb-20150724'" >> MooreConfiguration.py
-#echo "Moore().CondDBtag = '$DBtag'" >> MooreConfiguration.py
-#echo "EventSelector().Input = [\"DATAFILE='PFN:./L0.digi' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> MooreConfiguration.py
-#echo "Moore().outputFile = 'Moore.digi'" >> MooreConfiguration.py
-#
-## Run
-#gaudirun.py $APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep2015.py $APPCONFIGOPTS/Conditions/TCK-0x411400a2.py $APPCONFIGOPTS/Moore/DataType-2015.py $APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py MooreConfiguration.py
-
-
+rm L0.digi
+rm MooreConfiguration.py
 
 #-------------#
 #   BRUNEL    #
 #-------------#
-
-#export CMTCONFIG=x86_64-slc6-gcc48-opt
-#source LbLogin.sh -c x86_64-slc6-gcc48-opt
-#source SetupProject.sh Brunel v48r2 --use "AppConfig v3r277"
 
 # Prepare files
 echo "from Gaudi.Configuration import *" >> Brunel-Files.py
@@ -147,10 +118,6 @@ rm Brunel-Files.py
 #------------------------#
 #   DAVINCI/STRIPPING    #
 #------------------------#
-
-#export CMTCONFIG=x86_64-slc6-gcc48-opt
-#source LbLogin.sh -c x86_64-slc6-gcc48-opt
-#source SetupProject.sh DaVinci v38r1p1 --use "AppConfig v3r262"
 
 # Prepare files
 echo "from Gaudi.Configuration import *" >> DaVinci-Files.py
