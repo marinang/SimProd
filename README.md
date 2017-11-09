@@ -1,6 +1,6 @@
 # SimulationProduction
 
-Mini framework to send simulation jobs to LPHE Cluster!
+Mini framework to send simulation jobs into a slurm batch system!
 
 You need to to know:
 
@@ -25,7 +25,7 @@ positional arguments:
 
 	<evttype>            EvtType of the processus to generate
 	<nevents>            Number of events to produce
-	>year>               Year to simulate
+	<year>               Year to simulate
 
 optional arguments:
 

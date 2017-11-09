@@ -14,8 +14,6 @@ from datetime import datetime
 
 ## Rutines
 
-## Main
-
 if __name__ == "__main__" :
 
     jobdir = os.getenv("JOBDIR")
@@ -23,7 +21,6 @@ if __name__ == "__main__" :
     if jobdir is None :
         jobdir = os.getenv("HOME")+"/jobs"
         os.system("mkdir -p "+jobdir)
-
         
     parser = ArgumentParser()
     parser.add_argument("-d", default="", dest="subdir", 

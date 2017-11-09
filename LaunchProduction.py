@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 ## Author: Matthieu Marinangeli
-## Mail: matthieu.marinangeli@epfl.ch
-## Description: produce simulation samples in the LPHE cluster
+## Mail: matthieu.marinangeli@cern.ch
+## Description: produce simulation samples using slurm batch system
 
 import argparse
 import os
@@ -17,9 +17,15 @@ now = datetime.now()
 base_runnumber = (now.minute + 100*now.hour + 10000*now.day + 100000*now.month) * 1000
 
 user = getpass.getuser()
-jobdir = '/panfs/{0}/SimulationJobs'.format(user)
-os.system( "mkdir -p {0}".format(jobdir) )
-pwd = os.environ["PWD"]
+
+jobdir = os.getenv("SIMOUTPUT")
+if jobdir is None :
+	jobdir = os.getenv("HOME")+"/SimulationJobs/"
+os.system("mkdir -p "+jobdir)
+
+pwd = os.getenv("PWD")
+
+decfiles_path = '/cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/Gen/DecFiles/v30r5'
 	
 def SubCondition( Options ):
 		
@@ -72,17 +78,38 @@ def SubCondition( Options ):
 			Submission = True
 				
 	return Submission
-				
-	 			
+					 			
 def SendJob(EvtType, Year, Polarity, Nevents, RunNumber):
 		
 	os.system( "mkdir -p EvtTypes" )
 	os.system( "mkdir -p EvtTypes/{0}".format(EvtType) )	
 
-	shutil.copyfile( "setup/DecFiles/options/{0}.py".format(EvtType), "EvtTypes/{0}/{0}.py".format(EvtType) )
-		
 	OptFile = "{0}/EvtTypes/{1}/{1}.py".format( pwd, EvtType )
-	
+
+	if not os.path.isfile( OptFile ):
+		
+		optfile = "{0}/options/{1}.py".format( decfiles_path ,EvtType )
+				
+		with open(optfile, 'r') as file:
+			lines = file.readlines()
+			
+		for i,l in enumerate(lines):
+			if "DECFILESROOT" in l and ".dec" in l:
+				decfile = l.split("DECFILESROOT/dkfiles/")[-1] 
+				decfile = decfile.replace( '"\n', '' )
+				index   = i 
+				
+		shutil.copyfile( "{0}/dkfiles/{1}".format( decfiles_path , decfile ), "{0}/EvtTypes/{1}/{2}".format( pwd, EvtType, decfile ) )		
+		
+		#modify the decfile location in the option file
+			
+		lines[index] = lines[index].replace( "$DECFILESROOT/dkfiles/", "{0}/EvtTypes/{1}/".format( pwd, EvtType ) )
+		
+		#write the new option file
+		
+		with open(OptFile, 'w') as file:
+			file.writelines( lines )
+			
 	runcmd =  "python scripts/submit.py"
 	runcmd += " -D {0}".format( jobdir )  
 	runcmd += " -d simProd_{0} -n {2}_{3}_{1}evts -r {4}".format( EvtType, Nevents, Year, Polarity, RunNumber )     
@@ -117,7 +144,7 @@ if __name__ == "__main__" :
 	
 	if opts.polarity == '':
 		polarity = ["MagUp" for i in range(0,int(opts.nevents / 2))]
-		polarity += ["MagUp" for i in range(int(opts.nevents / 2), opts.nevents)]
+		polarity += ["MagDown" for i in range(int(opts.nevents / 2), opts.nevents)]
 		shuffle(polarity)
 	else:
 		polarity = [opts.polarity for i in range(0, opts.nevents)]

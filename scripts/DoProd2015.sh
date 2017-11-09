@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#Stripping 24
+
 # 1 = EvtType
 # 2 = nbr of evts
 # 3 = Polarity

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#from https://its.cern.ch/jira/browse/LHCBGAUSS-957
+#Stripping 21
+
 Optfile=$1
 Nevents=$2
 Polarity=$3
@@ -16,9 +19,11 @@ else
   exit 1
 fi
 
+DDDBtag="dddb-20150928"
+
 # Prepare conditions
 echo "from Configurables import LHCbApp" >> Conditions.py
-echo "LHCbApp().DDDBtag   = 'dddb-20150928'" >> Conditions.py
+echo "LHCbApp().DDDBtag   = '$DDDBtag'" >> Conditions.py
 echo "LHCbApp().CondDBtag = '$DBtag'" >> Conditions.py
 
 #-------------# 
@@ -47,6 +52,8 @@ rm Gauss-Job.py
 #   BOOLE     #
 #-------------#
 
+export CMTCONFIG=x86_64-slc6-gcc48-opt
+source LbLogin.sh -c x86_64-slc6-gcc48-opt
 source SetupProject.sh Boole v30r1 --use "AppConfig v3r266"
 
 # Prepare files
@@ -65,7 +72,7 @@ rm Boole-Files.py
 
 export CMTCONFIG=x86_64-slc5-gcc46-opt
 source LbLogin.sh -c x86_64-slc5-gcc46-opt
-source SetupProject.sh Moore v20r4
+source SetupProject.sh Moore v20r4 --use "AppConfig v3r200"
 
 #Prepare special conditions
 echo "from Gaudi.Configuration import *" > L0Configuration.py
@@ -85,20 +92,20 @@ rm L0Configuration.py
 
 export CMTCONFIG=x86_64-slc5-gcc46-opt
 source LbLogin.sh -c x86_64-slc5-gcc46-opt
-source SetupProject.sh Moore v14r8p1 --use "AppConfig v3r241"
+source SetupProject.sh Moore v14r8p1 --use "AppConfig v3r263"
 
 # Prepare special conditions
 echo "from Gaudi.Configuration import *" > MooreConfiguration.py
 echo "from Configurables import LHCbApp, Moore" >> MooreConfiguration.py
-echo 'LHCbApp().DDDBtag   = "dddb-20150928"' >> MooreConfiguration.py
-echo 'LHCbApp().CondDBtag = "sim-20160321-2-vc-md100"' >> MooreConfiguration.py
-echo 'Moore().DDDBtag   = "dddb-20150928"' >> MooreConfiguration.py
-echo 'Moore().CondDBtag = "sim-20160321-2-vc-md100"' >> MooreConfiguration.py
+echo "LHCbApp().DDDBtag   = '$DDDBtag'" >> MooreConfiguration.py
+echo "LHCbApp().CondDBtag = '$DBtag'" >> MooreConfiguration.py
+echo "Moore().DDDBtag   = '$DDDBtag'" >> MooreConfiguration.py
+echo "Moore().CondDBtag = '$DBtag'" >> MooreConfiguration.py
 echo "EventSelector().Input = [\"DATAFILE='PFN:./L0.digi' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> MooreConfiguration.py
 echo "Moore().outputFile = 'Moore.digi'" >> MooreConfiguration.py
 
 # Run
-gaudirun.py $APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep.py $APPCONFIGOPTS/Conditions/TCK-0x409f0045.py $APPCONFIGOPTS/Moore/DataType-2012.py MooreConfiguration.py
+gaudirun.py $APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep.py $APPCONFIGOPTS/Conditions/Transform-0x409f0045-NoRichPIDLines.py $APPCONFIGOPTS/Moore/DataType-2012.py MooreConfiguration.py
 
 rm L0.digi
 rm MooreConfiguration.py
@@ -109,7 +116,7 @@ rm MooreConfiguration.py
 
 export CMTCONFIG=x86_64-slc5-gcc46-opt
 source LbLogin.sh -c x86_64-slc5-gcc46-opt
-source SetupProject.sh Brunel v43r2p11 --use "AppConfig v3r246"
+source SetupProject.sh Brunel v43r2p11 --use "AppConfig v3r307"
 
 # Prepare files
 echo "from Gaudi.Configuration import *" >> Brunel-Files.py
