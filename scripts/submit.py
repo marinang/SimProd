@@ -14,6 +14,52 @@ from datetime import datetime
 
 ## Rutines
 
+def getRdmNode() :
+
+    node = 'lxplus{0:04d}'.format(random.randint(1,500))
+    out = sub.check_output("ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no %s 'ls $HOME/.tcshrc' 2> /dev/null | wc -l" % node, shell = True)
+    return [node, out]
+
+def getAliveNode() :
+    
+    node, out = getRdmNode()
+    while int(out) != 1 :
+        node, out = getRdmNode()
+    return [node, out]
+
+def launch_interactive(dirname) :
+
+    print("Searching for an alive node...")
+    node, out = getAliveNode()
+    print("Submitting to ", node)
+    os.system('ssh -o StrictHostKeyChecking=no %s "cd ' % node + dirname  + '; chmod +x run.sh ; ./run.sh" &')
+    print("Start: ", datetime.now())
+    
+def CheckSlurm():
+    
+    try:
+        sub.Popen(['squeue'], stdout=sub.PIPE)
+    except OSError:
+        return False
+    else:
+        return True
+        
+def GetSlurmNodes():
+    
+    cmd = sub.Popen(['sinfo','-N'], stdout=sub.PIPE)
+    cmd_out, _ = cmd.communicate()    
+        
+    output = cmd_out.split("\n")
+    output.remove(output[0])
+    
+    list_nodes = []
+    for o in output:
+        if "batch" in o:
+            list_nodes.append( o.split(" ")[0] )
+            
+    return list_nodes
+    
+    
 if __name__ == "__main__" :
 
     jobdir = os.getenv("JOBDIR")
@@ -151,6 +197,8 @@ if __name__ == "__main__" :
         print("Running local")
         os.system( "cd " + dirname )
         os.system( dirname + "/run.sh &" )
+        
+    
 
     elif "lxplus" in os.getenv("HOSTNAME") :  ## Batch for lxplus
         if opts.interactive :
@@ -161,8 +209,9 @@ if __name__ == "__main__" :
                         dir=dirname,queue=opts.queue,
                         mail=opts.mail,jname=opts.subdir+opts.jobname)
             os.system(cmd)
+            
+    elif CheckSlurm():
 
-    elif 'lphe' in os.getenv("HOSTNAME") :    ## Batch for EPFL
         cmd = "sbatch "+dirname+"/run.sh"
 
         oldrun = open(dirname+"/run.sh")
@@ -181,8 +230,7 @@ if __name__ == "__main__" :
         fo.write("#SBATCH -t {0}:00:00\n\n\n".format(opts.m_time))
         if opts.m_exclude != 0:
             
-            nodes  = ["lphe0{0}".format(i) for i in range(1,10)]
-            nodes += ["lphe{0}".format(i) for i in range(10,21)]
+            nodes = GetSlurmNodes()
             random.shuffle(nodes)
             nodes = nodes[0:int(opts.m_exclude)]
             
@@ -192,8 +240,7 @@ if __name__ == "__main__" :
                     nodes2exclude += n
                 else:
                     nodes2exclude += n +","
-        
-            
+                    
             fo.write("#SBATCH --exclude={0}\n".format(nodes2exclude))
         
         fo.write(oldrunstr)
@@ -201,6 +248,6 @@ if __name__ == "__main__" :
         os.system(cmd)
 
     else :
-        print("Can run in batch mode only on lxplus or the EPFL cluster. Go there or run with '--local'")
+        print("Can run in batch mode only on lxplus or on a slurm batch system. Go there or run with '--local'")
 
 

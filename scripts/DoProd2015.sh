@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#from https://its.cern.ch/jira/browse/LHCBGAUSS-964
 #Stripping 24
 
 # 1 = EvtType

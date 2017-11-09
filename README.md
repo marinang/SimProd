@@ -49,4 +49,4 @@ optional arguments:
 	
 	--subtime <subtime> [<subtime> ...]	 Time interval when the jobs are sent.
 	
-If you wish to modify any option related to an EvtType prior to launch submission, the "GetEvtType.py" will copy every option file that are in "EvtType.py". It takes the EvtType as argument.
+If you wish to modify any option related to an EvtType prior to launch submission, the "GetEvtType.py" will copy every option file that are in "EvtType.py" to a directory called "EvtTypes". It takes the EvtType as argument.
