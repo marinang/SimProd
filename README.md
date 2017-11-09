@@ -10,7 +10,7 @@ You need to to know:
 
 	- Number of events you want to produce
 	
-Before launching make sure to add the output location that you want for your jobs otherwise they will be saved a 'SimulationProduction' folder in your own directory:
+Before launching make sure that you set the environnemnt variable "SIMOUTPUT" to the path of where you want to save the outputs of the jobs. This can be done using the setup script by doing "source steup.sh".
 
 The script to launch jobs is "LaunchProduction.py", usage:
 
