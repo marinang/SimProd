@@ -9,6 +9,8 @@ You need to to know:
 	- Year of data taking to simulate (Run I: 2012, Run II: 2015, 2016)
 
 	- Number of events you want to produce
+	
+Before launching make sure to add the output location that you want for your jobs otherwise they will be saved a 'SimulationProduction' folder in your own directory:
 
 The script to launch jobs is "LaunchProduction.py", usage:
 
