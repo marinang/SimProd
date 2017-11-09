@@ -1,4 +1,4 @@
-# SimulationProduction
+# Simulation production
 
 Mini framework to send simulation jobs into a slurm batch system!
 
@@ -48,3 +48,5 @@ optional arguments:
 	--npendingjobs <npendingjobs>   Maximum number of pending jobs for the user.
 	
 	--subtime <subtime> [<subtime> ...]	 Time interval when the jobs are sent.
+	
+If you wish to modify any option related to an EvtType prior to launch submission, the "GetEvtType.py" will copy every option file that are in "EvtType.py". It takes the EvtType as argument.

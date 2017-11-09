@@ -9,9 +9,9 @@ import os
 import getpass
 from datetime import datetime
 import subprocess
-import shutil
 from random import randint, shuffle
 from time import sleep
+import GetEvtType
 
 now = datetime.now()
 base_runnumber = (now.minute + 100*now.hour + 10000*now.day + 100000*now.month) * 1000
@@ -24,8 +24,6 @@ if jobdir is None :
 os.system("mkdir -p "+jobdir)
 
 pwd = os.getenv("PWD")
-
-decfiles_path = '/cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/Gen/DecFiles/v30r5'
 	
 def SubCondition( Options ):
 		
@@ -81,34 +79,11 @@ def SubCondition( Options ):
 					 			
 def SendJob(EvtType, Year, Polarity, Nevents, RunNumber):
 		
-	os.system( "mkdir -p EvtTypes" )
-	os.system( "mkdir -p EvtTypes/{0}".format(EvtType) )	
-
 	OptFile = "{0}/EvtTypes/{1}/{1}.py".format( pwd, EvtType )
 
 	if not os.path.isfile( OptFile ):
 		
-		optfile = "{0}/options/{1}.py".format( decfiles_path ,EvtType )
-				
-		with open(optfile, 'r') as file:
-			lines = file.readlines()
-			
-		for i,l in enumerate(lines):
-			if "DECFILESROOT" in l and ".dec" in l:
-				decfile = l.split("DECFILESROOT/dkfiles/")[-1] 
-				decfile = decfile.replace( '"\n', '' )
-				index   = i 
-				
-		shutil.copyfile( "{0}/dkfiles/{1}".format( decfiles_path , decfile ), "{0}/EvtTypes/{1}/{2}".format( pwd, EvtType, decfile ) )		
-		
-		#modify the decfile location in the option file
-			
-		lines[index] = lines[index].replace( "$DECFILESROOT/dkfiles/", "{0}/EvtTypes/{1}/".format( pwd, EvtType ) )
-		
-		#write the new option file
-		
-		with open(OptFile, 'w') as file:
-			file.writelines( lines )
+		GetEvtType.get(EvtType)
 			
 	runcmd =  "python scripts/submit.py"
 	runcmd += " -D {0}".format( jobdir )  
