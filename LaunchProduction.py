@@ -6,16 +6,14 @@
 
 import argparse
 import os
-import getpass
 from datetime import datetime
 import subprocess
 import GetEvtType
 from random import shuffle
+import sys
 
 now = datetime.now()
 base_runnumber = (now.minute + 100*now.hour + 10000*now.day + 100000*now.month) * 1000
-
-user = getpass.getuser()
 
 jobdir = os.getenv("SIMOUTPUT")
 if jobdir is None :
@@ -23,7 +21,8 @@ if jobdir is None :
 os.system("mkdir -p "+jobdir)
 
 pwd = os.getenv("PWD")
-	
+
+sys.path.append( "{0}/scripts/".format(pwd) )	
 	
 def CheckSubmission( Options ):
 	
@@ -31,18 +30,17 @@ def CheckSubmission( Options ):
 	try:
 		subprocess.Popen(['squeue'], stdout=subprocess.PIPE)
 	except OSError:
-		Slurm = True
-	else:
 		Slurm = False
-		
-	if Options.nsimjobs != -1 and Options.nsimuserjobs != -1 and Options.nuserjobs != -1 and  Options.npendingjobs != -1 \
-			and Options.subtime != [0, 23] and not Slurm:	
+	else:
+		Slurm = True
+
+	if (Options.nsimjobs != -1 or Options.nsimuserjobs != -1 or Options.nuserjobs != -1 or  Options.npendingjobs != -1 \
+			or  Options.subtime != [0, 23] ) and not Slurm:	
 		raise NotImplementedError( "These inputs were designed for slurm batch submission so please don't use them!" )
 	
 	if Slurm:
-		from scripts.SlurmSubCondition import SubCondition
+		from SlurmSubCondition import SubCondition
 		SubCondition( Options )
-	
 						 			
 def SendJob(EvtType, Year, Polarity, Nevents, RunNumber):
 		

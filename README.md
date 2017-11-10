@@ -10,15 +10,15 @@ You need to to know:
 
 * Number of events you want to produce.
 	
-Before launching make sure that you set the environnement variable _$SIMOUTPUT_ to the path of where you want to save the outputs of the jobs. This can be done using the setup script by doing "source setup.sh" or adding this variable to your _.bashrc_.
+Before launching make sure to set the environnement variable _$SIMOUTPUT_ to the path of where you want to save the outputs of the jobs. This can be done using the setup script by doing "source setup.sh" or adding this variable to your _.bashrc_.
 
 The script to launch jobs is **LaunchProduction.py**, usage: LaunchProduction.py EvtType Year #Events
 
 optional arguments:
 
-* --polarity: Magnet conditions to simulate.
+* --polarity: Magnet conditions to simulate [MagUp or MagDown, default: half MagUp, half MagDown].
 
-* --neventsjobs: Number of events per jobs.
+* --neventsjobs: Number of events per jobs [default: 50]. 
 
 * --runnumber: Run number for Gauss.
 	

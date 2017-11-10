@@ -7,10 +7,14 @@
 from random import randint
 from time import sleep
 from datetime import datetime
+import os
+import getpass
 
 def SubCondition( Options ):
-		
-	### additionnal submission condtions for SLURM batch system 
+	
+	user = getpass.getuser()
+	
+	#additionnal submission condtions for SLURM batch system 
 		
 	ti, tf = Options.subtime[0], Options.subtime[1]
 	if ti < tf:
