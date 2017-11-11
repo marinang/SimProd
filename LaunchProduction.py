@@ -35,14 +35,14 @@ def CheckSubmission( Options ):
 		Slurm = True
 
 	if (Options.nsimjobs != -1 or Options.nsimuserjobs != -1 or Options.nuserjobs != -1 or  Options.npendingjobs != -1 \
-			or  Options.subtime != [0, 23] ) and not Slurm:	
+			or  Options.subtime != [0, 23] or Options.nfreenodes != 0 ) and not Slurm:	
 		raise NotImplementedError( "These inputs were designed for slurm batch submission so please don't use them!" )
 	
 	if Slurm:
 		from SlurmSubCondition import SubCondition
 		SubCondition( Options )
 						 			
-def SendJob(EvtType, Year, Polarity, Nevents, RunNumber):
+def SendJob(EvtType, Year, Polarity, Nevents, RunNumber, Options):
 		
 	OptFile = "{0}/EvtTypes/{1}/{1}.py".format( pwd, EvtType )
 
@@ -54,6 +54,7 @@ def SendJob(EvtType, Year, Polarity, Nevents, RunNumber):
 	runcmd += " -D {0}".format( jobdir )  
 	runcmd += " -d simProd_{0} -n {2}_{3}_{1}evts -r {4}".format( EvtType, Nevents, Year, Polarity, RunNumber )     
 	runcmd += " 'scripts/DoProd{0}.sh {1} {2} {3} {4}'".format( Year, OptFile, Nevents, Polarity, RunNumber )
+	runcmd += " -exclude {0}".format( Options.nfreenodes )
 	runcmd += " --uexe"
 	
 	subprocess.call( runcmd, shell=True )
@@ -75,6 +76,7 @@ if __name__ == "__main__" :
 	parser.add_argument('--nsimuserjobs', metavar='<nsimjobs>',      help="(Slurm option) Maximum number of simultaneous simulation jobs running for the user.", type=int, default=-1)
 	parser.add_argument('--nuserjobs',    metavar='<nuserjobs>',     help="(Slurm option) Maximum number of simultaneous jobs running for the user.", type=int, default=-1)
 	parser.add_argument('--npendingjobs', metavar='<npendingjobs>',  help="(Slurm option) Maximum number of pending jobs for the user.", type=int, default=-1)
+	parser.add_argument('--nfreenodes',   metavar='<nfreenodes>',    help="(Slurm option) Number of nodes to be free of user simulation jobs.", type=int, default=0)
 	parser.add_argument('--subtime',      metavar='<subtime>',       help="(Slurm option) Time interval when the jobs are sent.", nargs='+', type=int, default=[0, 23])
 		
 	opts = parser.parse_args()
@@ -94,7 +96,7 @@ if __name__ == "__main__" :
 		#Check if ok to submit for slurm batch jobs
 		CheckSubmission( opts )
 		
-		SendJob( opts.evttype, opts.year, polarity[i], opts.neventsjobs, opts.runnumber + i )
+		SendJob( opts.evttype, opts.year, polarity[i], opts.neventsjobs, opts.runnumber + i, opts )
 						
 
 				
