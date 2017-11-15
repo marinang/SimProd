@@ -6,13 +6,13 @@ You need to to know:
 
 * the EvtType of the process you want to generate ([DecFiles webpage](http://lhcb-release-area.web.cern.ch/LHCb-release-area/DOC/decfiles/releases/dev/table_evttype.php))	
 
-* Year of data taking to simulate (Run I: 2012, Run II: 2015, 2016)
+* Year of data taking to simulate (Run I: 2011, 2012, Run II: 2015, 2016, 2017)
 
 * Number of events you want to produce.
 	
 Before launching make sure to set the environnement variable _$SIMOUTPUT_ to the path of where you want to save the outputs of the jobs. This can be done using the setup script by doing "source setup.sh" or adding this variable to your _.bashrc_.
 
-The script to launch jobs is **LaunchProduction.py**, usage: LaunchProduction.py EvtType Year #Events
+The script to launch jobs is **LaunchProduction.py**, usage: python LaunchProduction.py EvtType Year #Events
 
 optional arguments:
 
@@ -21,6 +21,12 @@ optional arguments:
 * --neventsjobs: Number of events per jobs [default: 50]. 
 
 * --runnumber: Run number for Gauss.
+
+* --simcond: Simulation condition [Sim09b, Sim09c, default: sim09c].
+
+* --turbo: Run the Turbo step (output has never been tested).
+
+* --mudst: Produce a muDST output.
 	
 If you wish to modify any option related to an EvtType prior to launch submission, the **GetEvtType.py** script will copy every option file that are in _EvtType.py_ to a directory called _EvtTypes_. It takes the EvtType as argument.
 
@@ -33,5 +39,7 @@ If you wish to send jobs on a **Slurm** batch system you can add the following o
 * --nuserjobs: Maximum number of simultaneous jobs running for the user.
 												
 * --npendingjobs: Maximum number of pending jobs for the user.
+
+* --nfreenodes: Number of nodes to be free of user's simulation jobs.
 		
 * --subtime: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 8pm).

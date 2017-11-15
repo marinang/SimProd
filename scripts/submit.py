@@ -94,7 +94,7 @@ def PrepareSlurmJob( Options, Dirname ):
     fo.write("#SBATCH --mem-per-cpu "+str(Options.m_cpu)+"\n")
     fo.write("#SBATCH -n 1\n")
     fo.write("#SBATCH -p batch\n")
-    fo.write("#SBATCH -t {0}:00:00\n\n\n".format(Options.m_time))
+    fo.write("#SBATCH -t {0}:00:00\n".format(Options.m_time))
     if Options.m_exclude != 0:
         
         nodes = GetSlurmNodes()
@@ -106,7 +106,7 @@ def PrepareSlurmJob( Options, Dirname ):
             if n == nodes[-1]: nodes2exclude += n
             else: nodes2exclude += n +","
                 
-        fo.write("#SBATCH --exclude={0}\n".format(nodes2exclude))
+        fo.write("#SBATCH --exclude={0}\n\n\n".format(nodes2exclude))
     
     fo.write(oldrunstr)
     fo.close()
@@ -148,11 +148,11 @@ if __name__ == "__main__" :
         help="Does not put the automatic ./ in front of the executable" )
     parser.add_argument("-m", dest="mail", default = "", action="store_const", const = "-u "+os.environ["USER"]+"@cern.ch",
         help="When job finished sends a mail to USER@cern.ch" )
-    parser.add_argument("-cpu", default=4000, dest="m_cpu", 
+    parser.add_argument("-cpu", default=4000, dest="m_cpu", type=int,
         help="Memory per cpu (Slurm).")
-    parser.add_argument("-time", default=20, dest="m_time", 
+    parser.add_argument("-time", default=20, dest="m_time", type=int,
         help="Maximum time of the job in hours (Slurm).")
-    parser.add_argument("-exclude", default=0, dest="m_exclude", 
+    parser.add_argument("-exclude", default=0, dest="m_exclude", type=int,
         help="Number of nodes to exclude (Slurm).")
     parser.add_argument("-in", dest="infiles", default = "", help="Files to copy over")
     parser.add_argument("command", help="Command to launch")
