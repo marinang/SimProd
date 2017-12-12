@@ -34,7 +34,7 @@ optional arguments:
 	
 If you wish to modify any option related to an EvtType prior to launch submission, the **GetEvtType.py** script will copy every option file that are in _EvtType.py_ to a directory called _EvtTypes_. It takes the EvtType as argument.
 
-If you wish to send jobs on a **Slurm** batch system you can add the following options for **LaunchProduction.py** (Note you would do that in a screen session usage: screen python LaunchProduction.py EvtType Year #Events ... + options).
+If you wish to send jobs on a **Slurm** batch system you can add the following options for **LaunchProduction.py**.
 
 * --nsimjobs: Maximum number of simultaneous simulation jobs running.
 		
@@ -47,3 +47,5 @@ If you wish to send jobs on a **Slurm** batch system you can add the following o
 * --nfreenodes: Number of nodes to be free of user's simulation jobs.
 		
 * --subtime: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 8pm).
+
+Note you would use these options in a screen session, usage: screen python LaunchProduction.py EvtType Year #Events ... + options
