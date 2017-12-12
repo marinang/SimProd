@@ -61,6 +61,13 @@ rm Gauss-Job.py
 # Prepare files
 echo "from Gaudi.Configuration import *" >> Boole-Files.py
 echo "EventSelector().Input = [\"DATAFILE='PFN:./Gauss.sim' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> Boole-Files.py
+if [ "$Turbo" == "True" ]; then
+	echo "from Configurables import Boole" >> Boole-Files.py
+	echo "Boole().DigiType = 'Extended'" >> Boole-Files.py
+	BooleOutput=Boole-Extended.digi
+else
+	BooleOutput=Boole.digi
+fi
 
 # Run
 lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r304" Boole/v30r2 gaudirun.py \$APPCONFIGOPTS/Boole/Default.py \$APPCONFIGOPTS/Boole/EnableSpillover.py \$APPCONFIGOPTS/Boole/DataType-2015.py \$APPCONFIGOPTS/Boole/Boole-SetOdinRndTrigger.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py Conditions.py Boole-Files.py
@@ -77,11 +84,11 @@ rm Boole-Files.py
 echo "from Gaudi.Configuration import *" > L0Configuration.py
 echo "from Configurables import L0App" >> L0Configuration.py
 echo 'L0App().outputFile="L0.digi"' >> L0Configuration.py
-echo "EventSelector().Input = [\"DATAFILE='PFN:./Boole.digi' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> L0Configuration.py
+echo "EventSelector().Input = [\"DATAFILE='PFN:./$BooleOutput' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> L0Configuration.py
 # Run
 lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r268" Moore/v24r2 gaudirun.py $APPCONFIGOPTS/L0App/L0AppSimProduction.py $APPCONFIGOPTS/L0App/L0AppTCK-0x00a2.py $APPCONFIGOPTS/L0App/ForceLUTVersionV8.py $APPCONFIGOPTS/L0App/DataType-2015.py $APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py L0Configuration.py
 
-rm Boole.digi
+rm $BooleOutput
 rm L0Configuration.py
 
 #------------#
@@ -109,6 +116,13 @@ rm MooreConfiguration.py
 # Prepare files
 echo "from Gaudi.Configuration import *" >> Brunel-Files.py
 echo "EventSelector().Input = [\"DATAFILE='PFN:./Moore.digi' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> Brunel-Files.py
+if [ "$Turbo" == "True" ]; then
+	echo "from Configurables import Brunel" >> Brunel-Files.py
+	echo "Brunel().OutputType = 'XDST'" >> Brunel-Files.py
+	BrunelOutput=Brunel.xdst
+else
+	BrunelOutput=Brunel.dst
+fi
 
 # Run
 lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r277" --use="SQLDDDB v7r10" Brunel/v48r2p1 gaudirun.py \$APPCONFIGOPTS/Brunel/DataType-2015.py \$APPCONFIGOPTS/Brunel/MC-WithTruth.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py Brunel-Files.py Conditions.py
@@ -116,18 +130,44 @@ lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r277" --use="SQLDDDB v7r10" B
 rm Moore.digi
 rm Brunel-Files.py
 
+if [ "$Turbo" == "True" ]; then
+	#-------------#
+	#    TURBO    #
+	#-------------#
+
+	# Prepare files
+	echo "from Gaudi.Configuration import *" >> Tesla-Files.py
+	echo "EventSelector().Input = [\"DATAFILE='PFN:./$BrunelOutput' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> Tesla-Files.py
+	if [ "$muDST" == "True" ]; then
+		echo 'importOptions("$APPCONFIGOPTS/Turbo/Tesla_FilterMC.py")' >> Tesla-Files.py
+	fi  
+
+	#run
+	lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r232" --use="TurboStreamProd v2r0" DaVinci/v40r1p3 gaudirun.py \$APPCONFIGOPTS/Turbo/Tesla_AllHlt2Lines_v10r0_0x00fa0051.py \$APPCONFIGOPTS/Turbo/Tesla_Simulation_2015_PVHLT2.py Conditions.py Tesla-Files.py
+
+	rm $BrunelOutput
+	rm Tesla-Files.py
+	
+	TurboOutput=Tesla.dst	
+else
+	TurboOutput=$BrunelOutput
+fi
+
 #------------------------#
 #   DAVINCI/STRIPPING    #
 #------------------------#
 
 # Prepare files
 echo "from Gaudi.Configuration import *" >> DaVinci-Files.py
-echo "EventSelector().Input = [\"DATAFILE='PFN:./Brunel.dst' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> DaVinci-Files.py
+echo "EventSelector().Input = [\"DATAFILE='PFN:./$TurboOutput' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> DaVinci-Files.py
+if [ "$muDST" == "True" ]; then
+	echo 'importOptions("$APPCONFIGOPTS/DaVinci/DV-Stripping-MC-muDST.py")'	>> DaVinci-Files.py
+fi
 
 # Run
 lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r277" DaVinci/v38r1p1 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping24-Stripping-MC-NoPrescaling.py \$APPCONFIGOPTS/DaVinci/DataType-2015.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py Conditions.py DaVinci-Files.py
 
-rm Brunel.dst
+rm $TurboOutput
 rm DaVinci-Files.py
 
 rm *.root
@@ -136,7 +176,11 @@ rm *.py
 rm test_catalog.xml
 rm NewCatalog.xml
 
-mv *AllStreams.dst ${Nevents}_events.dst
+if [ "$muDST" == "True" ]; then
+	mv *AllStreams.mdst ${Nevents}_events.mdst
+else
+	mv *AllStreams.dst ${Nevents}_events.dst
+fi
 
 # Finish
 

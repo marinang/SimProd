@@ -24,9 +24,13 @@ optional arguments:
 
 * --simcond: Simulation condition [Sim09b, Sim09c, default: sim09c].
 
+* --stripping: Version of the stripping (default = '').
+
 * --turbo: Run the Turbo step (output has never been tested).
 
 * --mudst: Produce a muDST output.
+
+* --decfiles: Version of the DecFiles package (default = v30r5)
 	
 If you wish to modify any option related to an EvtType prior to launch submission, the **GetEvtType.py** script will copy every option file that are in _EvtType.py_ to a directory called _EvtTypes_. It takes the EvtType as argument.
 

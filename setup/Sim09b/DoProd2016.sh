@@ -8,6 +8,8 @@ Optfile=$1
 Nevents=$2
 Polarity=$3
 RunNumber=$4
+Turbo=$5
+muDST=$6
 
 if [ "$Polarity" == "MagUp" ]; then
   SimCond=Gauss/Beam6500GeV-mu100-2016-nu1.6.py
@@ -57,6 +59,13 @@ rm Gauss-Job.py
 # Prepare files
 echo "from Gaudi.Configuration import *" >> Boole-Files.py
 echo "EventSelector().Input = [\"DATAFILE='PFN:./Gauss.sim' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> Boole-Files.py
+if [ "$Turbo" == "True" ]; then
+  echo "from Configurables import Boole" >> Boole-Files.py
+  echo "Boole().DigiType = 'Extended'" >> Boole-Files.py
+  BooleOutput=Boole-Extended.digi
+else
+  BooleOutput=Boole.digi
+fi
 
 # Run
 lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r304" Boole/v30r2 gaudirun.py \$APPCONFIGOPTS/Boole/Default.py \$APPCONFIGOPTS/Boole/EnableSpillover.py \$APPCONFIGOPTS/Boole/DataType-2015.py \$APPCONFIGOPTS/Boole/Boole-SetOdinRndTrigger.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py Conditions.py Boole-Files.py
@@ -72,12 +81,12 @@ rm Boole-Files.py
 echo "from Gaudi.Configuration import *" > L0Configuration.py
 echo "from Configurables import L0App" >> L0Configuration.py
 echo 'L0App().outputFile="L0.digi"' >> L0Configuration.py
-echo "EventSelector().Input = [\"DATAFILE='PFN:./Boole.digi' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> L0Configuration.py
+echo "EventSelector().Input = [\"DATAFILE='PFN:./$BooleOutput' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> L0Configuration.py
 
 # Run
 lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r297" Moore/v25r4 gaudirun.py \$APPCONFIGOPTS/L0App/L0AppSimProduction.py \$APPCONFIGOPTS/L0App/L0AppTCK-0x160F.py \$APPCONFIGOPTS/L0App/ForceLUTVersionV8.py \$APPCONFIGOPTS/L0App/DataType-2016.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py L0Configuration.py
 
-rm Boole.digi
+rm $BooleOutput
 rm L0Configuration.py
 
 #------------#
@@ -123,6 +132,13 @@ rm HLT2Configuration.py
 # Prepare files
 echo "from Gaudi.Configuration import *" >> Brunel-Files.py
 echo "EventSelector().Input = [\"DATAFILE='PFN:./HLT2.digi' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> Brunel-Files.py
+if [ "$Turbo" == "True" ]; then
+  echo "from Configurables import Brunel" >> Brunel-Files.py
+  echo "Brunel().OutputType = 'XDST'" >> Brunel-Files.py
+  BrunelOutput=Brunel.xdst
+else
+  BrunelOutput=Brunel.dst
+fi
 
 # Run
 lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r314" --use="SQLDDDB v7r10" Brunel/v50r2 gaudirun.py \$APPCONFIGOPTS/Brunel/DataType-2016.py \$APPCONFIGOPTS/Brunel/MC-WithTruth.py \$APPCONFIGOPTS/Brunel/SplitRawEventOutput.4.3.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py Brunel-Files.py Conditions.py
@@ -130,26 +146,28 @@ lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r314" --use="SQLDDDB v7r10" B
 rm HLT2.digi
 rm Brunel-Files.py
 
-#-------------#
-#    TURBO    #
-#-------------#
+if [ "$Turbo" == "True" ]; then
+  #-------------#
+  #    TURBO    #
+  #-------------#
 
-# Prepare files
-echo "from Gaudi.Configuration import *" >> Tesla-Files.py
-echo "EventSelector().Input = [\"DATAFILE='PFN:./Brunel.dst' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> Tesla-Files.py
+  # Prepare files
+  echo "from Gaudi.Configuration import *" >> Tesla-Files.py
+  echo "EventSelector().Input = [\"DATAFILE='PFN:./$BrunelOutput' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> Tesla-Files.py
+  if [ "$muDST" == "True" ]; then
+    echo 'importOptions("$APPCONFIGOPTS/Turbo/Tesla_FilterMC.py")' >> Tesla-Files.py
+  fi  
 
-echo "from Configurables import Tesla" >> Tesla-Files.py
-echo "Tesla().Pack = True" >> Tesla-Files.py
-echo "Tesla().InputType = 'DST'" >> Tesla-Files.py
-echo "Tesla().DataType = '2016'" >> Tesla-Files.py
-echo "Tesla().Simulation = True" >> Tesla-Files.py
-echo "Tesla().VertRepLoc = 'Hlt2'" >> Tesla-Files.py
+  #run
+  lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r322" --use="TurboStreamProd v4r1p4" DaVinci/v41r2p5 gaudirun.py \$APPCONFIGOPTS/Turbo/Tesla_2016_LinesFromStreams_MC.py \$APPCONFIGOPTS/Turbo/Tesla_PR_Truth_2016.py \$APPCONFIGOPTS/Turbo/Tesla_Simulation_2016.py Conditions.py Tesla-Files.py
 
-#run
-lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r322" --use="TurboStreamProd v4r1p4" DaVinci/v41r2p5 gaudirun.py \$APPCONFIGOPTS/Turbo/Tesla_2016_LinesFromStreams_MC.py \$APPCONFIGOPTS/Turbo/Tesla_PR_Truth_2016.py Conditions.py Tesla-Files.py
-
-rm Brunel.dst
-rm Tesla-Files.py
+  rm $BrunelOutput
+  rm Tesla-Files.py
+  
+  TurboOutput=Tesla.dst	
+else
+  TurboOutput=$BrunelOutput
+fi
 
 #------------------------#
 #   DAVINCI/STRIPPING    #
@@ -157,12 +175,15 @@ rm Tesla-Files.py
 
 # Prepare files
 echo "from Gaudi.Configuration import *" >> DaVinci-Files.py
-echo "EventSelector().Input = [\"DATAFILE='PFN:./Tesla.dst' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> DaVinci-Files.py
+echo "EventSelector().Input = [\"DATAFILE='PFN:./$TurboOutput' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> DaVinci-Files.py
+if [ "$muDST" == "True" ]; then
+  echo 'importOptions("$APPCONFIGOPTS/DaVinci/DV-Stripping-MC-muDST.py")' >> DaVinci-Files.py
+fi
 
 ## Run
 lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r322" DaVinci/v41r2p5 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping26-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2016.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py Conditions.py DaVinci-Files.py
 
-rm Brunel.dst
+rm $TurboOutput
 rm DaVinci-Files.py
 
 rm *.root
@@ -171,7 +192,11 @@ rm *.py
 rm test_catalog.xml
 rm NewCatalog.xml
 
-mv *AllStreams.dst ${Nevents}_events.dst
+if [ "$muDST" == "True" ]; then
+  mv *AllStreams.mdst ${Nevents}_events.mdst
+else
+  mv *AllStreams.dst ${Nevents}_events.dst
+fi
 
 # Finish
 

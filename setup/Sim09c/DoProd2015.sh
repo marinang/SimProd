@@ -1,12 +1,7 @@
 #!/bin/bash
 
 #from https://its.cern.ch/jira/browse/LHCBGAUSS-1184
-#Stripping 24r0p1
-
-# 1 = EvtType
-# 2 = nbr of evts
-# 3 = Polarity
-# 4 = muDST
+#Stripping 24r1/24r1p1
 
 Optfile=$1
 Nevents=$2
@@ -14,6 +9,7 @@ Polarity=$3
 RunNumber=$4
 Turbo=$5
 muDST=$6
+Stripping=$7
 
 if [ "$Polarity" == "MagUp" ]; then
 	SimCond=Gauss/Beam6500GeV-mu100-2015-nu1.6.py
@@ -102,6 +98,9 @@ echo "Moore().outputFile = 'Moore.digi'" >> MooreConfiguration.py
 # Run
 lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r268" Moore/v24r2 gaudirun.py \$APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep2015.py \$APPCONFIGOPTS/Conditions/TCK-0x411400a2.py \$APPCONFIGOPTS/Moore/DataType-2015.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py MooreConfiguration.py Conditions.py
 
+rm L0.digi
+rm MooreConfiguration.py
+
 #-------------#
 #   BRUNEL    #
 #-------------#
@@ -131,6 +130,9 @@ if [ "$Turbo" == "True" ]; then
 	# Prepare files
 	echo "from Gaudi.Configuration import *" >> Tesla-Files.py
 	echo "EventSelector().Input = [\"DATAFILE='PFN:./$BrunelOutput' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> Tesla-Files.py
+	if [ "$muDST" == "True" ]; then
+		echo 'importOptions("$APPCONFIGOPTS/Turbo/Tesla_FilterMC.py")' >> Tesla-Files.py
+	fi
 
 	#run
 	lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r232" --use="TurboStreamProd v2r0" DaVinci/v40r1p3 gaudirun.py \$APPCONFIGOPTS/Turbo/Tesla_AllHlt2Lines_v10r0_0x00fa0051.py \$APPCONFIGOPTS/Turbo/Tesla_Simulation_2015_PVHLT2.py Conditions.py Tesla-Files.py
@@ -151,9 +153,14 @@ fi
 echo "from Gaudi.Configuration import *" >> DaVinci-Files.py
 echo "EventSelector().Input = [\"DATAFILE='PFN:./$TurboOutput' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> DaVinci-Files.py
 if [ "$muDST" == "True" ]; then
-	lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r227" DaVinci/v38r1p1 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping24-Stripping-MC-NoPrescaling.py \$APPCONFIGOPTS/DaVinci/DV-Stripping-MC-muDST.py \$APPCONFIGOPTS/DaVinci/DataType-2015.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py Conditions.py DaVinci-Files.py
-else
-	lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r338" DaVinci/v38r1p1 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping24-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2015.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py Conditions.py DaVinci-Files.py
+	echo 'importOptions("$APPCONFIGOPTS/DaVinci/DV-Stripping-MC-muDST.py")'	>> DaVinci-Files.py
+fi
+
+if [ "$Stripping" == "24r1" ]; then
+	lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r343" DaVinci/v38r1p6 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping24r1-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2015.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py Conditions.py DaVinci-Files.py
+elif [ "$Stripping" == "24r1p1" ]; then
+	lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r343" DaVinci/v38r1p7 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping24r1p1-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2015.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py Conditions.py DaVinci-Files.py
+fi
 
 # Run
 
@@ -166,7 +173,11 @@ rm *.py
 rm test_catalog.xml
 rm NewCatalog.xml
 
-mv *AllStreams.dst ${Nevents}_events.dst
+if [ "$muDST" == "True" ]; then
+	mv *AllStreams.mdst ${Nevents}_events.mdst
+else
+	mv *AllStreams.dst ${Nevents}_events.dst
+fi
 
 # Finish
 

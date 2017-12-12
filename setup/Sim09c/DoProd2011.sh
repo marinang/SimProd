@@ -2,7 +2,7 @@
 
 #sim09c
 #from https://its.cern.ch/jira/browse/LHCBGAUSS-1185
-#Stripping 21
+#Stripping 21r1
 
 Optfile=$1
 Nevents=$2
@@ -95,6 +95,9 @@ echo "Moore().outputFile = 'Moore.digi'" >> MooreConfiguration.py
 # Run
 lb-run -c x86_64-slc5-gcc43-opt --use="AppConfig v3r268" Moore/v12r8g3 gaudirun.py \$APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep.py \$APPCONFIGOPTS/Conditions/TCK-0x40760037.py \$APPCONFIGOPTS/Moore/DataType-2011.py MooreConfiguration.py
 
+rm L0.digi
+rm MooreConfiguration.py
+
 #-------------#
 #   BRUNEL    #
 #-------------#
@@ -108,3 +111,29 @@ lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r302" Brunel/v43r2p11 gaudiru
 
 rm Moore.digi
 rm Brunel-Files.py
+
+#------------------------#
+#   DAVINCI/STRIPPING    #
+#------------------------#
+
+# Prepare files
+echo "from Gaudi.Configuration import *" >> DaVinci-Files.py
+echo "EventSelector().Input = [\"DATAFILE='PFN:./Brunel.dst' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> DaVinci-Files.py
+
+lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r338" DaVinci/v36r1p5 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping21r1-Stripping-MC-NoPrescaling.py \$APPCONFIGOPTS/DaVinci/DV-RedoCaloPID-Stripping21.py \$APPCONFIGOPTS/DaVinci/DataType-2011.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py Conditions.py DaVinci-Files.py
+
+# Run
+
+rm DaVinci-Files.py
+
+rm *.root
+rm *.py
+
+rm test_catalog.xml
+rm NewCatalog.xml
+
+mv *AllStreams.dst ${Nevents}_events.dst
+
+# Finish
+
+# EOF

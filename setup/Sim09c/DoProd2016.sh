@@ -2,7 +2,7 @@
 
 #2016
 #from https://its.cern.ch/jira/browse/LHCBGAUSS-1183
-#Stripping 28
+#Stripping 28r1/28r1p1
 
 Optfile=$1
 Nevents=$2
@@ -10,6 +10,7 @@ Polarity=$3
 RunNumber=$4
 Turbo=$5
 muDST=$6
+Stripping=$7
 
 if [ "$Polarity" == "MagUp" ]; then
   SimCond=Gauss/Beam6500GeV-mu100-2016-nu1.6.py
@@ -176,7 +177,11 @@ if [ "$muDST" == "True" ]; then
 fi
 
 ## Run
-lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r316" --use="TMVAWeights v1r8" DaVinci/v41r4p3 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping28-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2016.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py Conditions.py DaVinci-Files.py
+if [ "$Stripping" == "28r1" ]; then
+  lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r348" --use="TMVAWeights v1r9" DaVinci/v41r4p4 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping28r1-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2016.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py Conditions.py DaVinci-Files.py
+elif [ "$Stripping" == "28r1p1" ]; then
+  echo "TBD"
+fi
 
 rm $TurboOutput
 rm DaVinci-Files.py
@@ -187,7 +192,11 @@ rm *.py
 rm test_catalog.xml
 rm NewCatalog.xml
 
-mv *AllStreams.dst ${Nevents}_events.dst
+if [ "$muDST" == "True" ]; then
+  mv *AllStreams.mdst ${Nevents}_events.mdst
+else
+  mv *AllStreams.dst ${Nevents}_events.dst
+fi
 
 # Finish
 
