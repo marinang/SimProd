@@ -64,5 +64,5 @@ if __name__ == "__main__" :
 	
 	opts = parser.parse_args()			
 				
-	get( opts )	
+	get( vars(opts) )	
 				
