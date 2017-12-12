@@ -17,13 +17,13 @@ def get( Options ):
 	
 	decfiles_path = '/cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/Gen/DecFiles/{decfiles}'.format( **Options )
 	
-	if not os.path.isfile( decfile ):
-		raise NotImplementedError( "This DecFiles package version does not exist !" )
+	if not os.path.isdir( decfiles_path ):
+		raise NotImplementedError( "This DecFiles package version does not exist!" )
 	
 	optfile = "{0}/options/{evttype}.py".format( decfiles_path , **Options )
 	
 	if not os.path.isfile( optfile ):
-		raise NotImplementedError( "This Evttype does not exist !" )
+		raise NotImplementedError( "This Evttype does not exist!" )
 	
 	os.system( "mkdir -p EvtTypes" )
 	os.system( "mkdir -p EvtTypes/{evttype}".format( **Options ) )	
