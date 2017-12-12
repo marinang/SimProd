@@ -48,4 +48,4 @@ If you wish to send jobs on a **Slurm** batch system you can add the following o
 		
 * --subtime: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 8pm).
 
-Note you would use these options in a screen session, usage: screen python LaunchProduction.py EvtType Year #Events ... + options
+Note you would use these options in a **screen** session, usage: screen python LaunchProduction.py ....
