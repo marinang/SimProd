@@ -180,7 +180,7 @@ fi
 if [ "$Stripping" == "28r1" ]; then
   lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r348" --use="TMVAWeights v1r9" DaVinci/v41r4p4 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping28r1-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2016.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py Conditions.py DaVinci-Files.py
 elif [ "$Stripping" == "28r1p1" ]; then
-  echo "TBD"
+  lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r350" --use="TMVAWeights v1r9" DaVinci/v41r4p5 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping28r1p1-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2016.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py Conditions.py DaVinci-Files.py
 fi
 
 rm $TurboOutput
