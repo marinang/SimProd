@@ -98,10 +98,10 @@ def SendJob( Options ):
 		runcmd += "_Turbo"
 	if Options['mudst']:
 		runcmd += "_muDST"
-	runcmd += " -n {year}_{polarity}_{nevents}evts -r {runnumber}".format( **Options )
+	runcmd += " -n {year}_{polarity}_{neventsjobs}evts -r {runnumber}".format( **Options )
 	if Options['stripping'] != "":
 		runcmd = runcmd.replace("evts","evts_s" + Options['stripping'])	     
-	runcmd += " 'setup/{simcond}/DoProd{year}.sh {0} {nevents} {polarity} {runnumber} {turbo} {mudst} {stripping}'".format( OptFile, **Options )
+	runcmd += " 'setup/{simcond}/DoProd{year}.sh {0} {neventsjobs} {polarity} {runnumber} {turbo} {mudst} {stripping}'".format( OptFile, **Options )
 	runcmd += " -exclude {nfreenodes}".format( **Options )
 	runcmd += " --uexe"
 	
@@ -147,7 +147,7 @@ if __name__ == "__main__" :
 		polarity += ["MagDown" for i in range(int(Njobs / 2), Njobs)]
 		shuffle(polarity)
 	else:
-		polarity = [opts.polarity for i in range(0, opts.nevents)]
+		polarity = [opts.polarity for i in range(0, Njobs)]
 						
 	for i in range(Njobs):
 		
@@ -155,7 +155,7 @@ if __name__ == "__main__" :
 		CheckSubmission( opts )
 		
 		opts_i = vars(opts).copy()
-		opts_i['run'] = opts.runnumber + i
+		opts_i['runnumber'] = opts.runnumber + i
 		opts_i['polarity'] = polarity[i]
 			
 		SendJob( opts_i )
