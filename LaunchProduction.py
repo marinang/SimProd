@@ -76,7 +76,7 @@ def CheckSubmission( Options ):
 		Slurm = True
 
 	if (Options.nsimjobs != -1 or Options.nsimuserjobs != -1 or Options.nuserjobs != -1 or  Options.npendingjobs != -1 \
-			or  Options.subtime != [0, 23] or Options.nfreenodes != 0 ) and not Slurm:	
+				or  Options.subtime != [0, 23] or Options.nfreenodes != 0 or Options.cpu != 4000 ) and not Slurm:	
 		raise NotImplementedError( "These inputs were designed for Slurm batch submission so please don't use them!" )
 	
 	if Slurm:
@@ -103,6 +103,7 @@ def SendJob( Options ):
 		runcmd = runcmd.replace("evts","evts_s" + Options['stripping'])	     
 	runcmd += " 'setup/{simcond}/DoProd{year}.sh {0} {neventsjobs} {polarity} {runnumber} {turbo} {mudst} {stripping}'".format( OptFile, **Options )
 	runcmd += " -exclude {nfreenodes}".format( **Options )
+	runcmd += " -cpu {cpu}".format( **Options )
 	runcmd += " --uexe"
 	
 	subprocess.call( runcmd, shell=True )
@@ -125,6 +126,7 @@ if __name__ == "__main__" :
 			
 	#options to control slurm job submission #
 	#ideally you would run with these options in a screen session #
+	parser.add_argument('--cpu',          metavar='<cpu>',           help="(Slurm option) number of cpu memory per job.", type=int, default=4000)
 	parser.add_argument('--nsimjobs',     metavar='<nsimjobs>',      help="(Slurm option) Maximum number of simultaneous simulation jobs running.", type=int, default=-1)
 	parser.add_argument('--nsimuserjobs', metavar='<nsimjobs>',      help="(Slurm option) Maximum number of simultaneous simulation jobs running for the user.", type=int, default=-1)
 	parser.add_argument('--nuserjobs',    metavar='<nuserjobs>',     help="(Slurm option) Maximum number of simultaneous jobs running for the user.", type=int, default=-1)
