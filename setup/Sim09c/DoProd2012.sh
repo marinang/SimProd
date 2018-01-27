@@ -70,7 +70,7 @@ echo "from Configurables import L0App" >> L0Configuration.py
 echo 'L0App().outputFile="L0.digi"' >> L0Configuration.py
 echo "EventSelector().Input = [\"DATAFILE='PFN:./Boole.digi' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> L0Configuration.py
 # Run
-lb-run --use="AppConfig v3r200" Moore/v20r4 gaudirun.py \$APPCONFIGOPTS/L0App/L0AppSimProduction.py \$APPCONFIGOPTS/L0App/L0AppTCK-0x0045.py \$APPCONFIGOPTS/L0App/DataType-2012.py L0Configuration.py Conditions.py
+lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r200" Moore/v20r4 gaudirun.py \$APPCONFIGOPTS/L0App/L0AppSimProduction.py \$APPCONFIGOPTS/L0App/L0AppTCK-0x0045.py \$APPCONFIGOPTS/L0App/DataType-2012.py L0Configuration.py Conditions.py
 
 rm Boole.digi
 rm L0Configuration.py
@@ -88,7 +88,7 @@ echo "EventSelector().Input = [\"DATAFILE='PFN:./L0.digi' TYP='POOL_ROOTTREE' OP
 echo "Moore().outputFile = 'Moore.digi'" >> MooreConfiguration.py
 
 # Run
-lb-run --use="AppConfig v3r241" Moore/v14r8p1 gaudirun.py \$APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep2015.py \$APPCONFIGOPTS/Conditions/TCK-0x409f0045.py \$APPCONFIGOPTS/Moore/DataType-2012.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py MooreConfiguration.py Conditions.py
+lb-run -c x86_64-slc5-gcc46-opt --use="AppConfig v3r241" Moore/v14r8p1 gaudirun.py \$APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep2015.py \$APPCONFIGOPTS/Conditions/TCK-0x409f0045.py \$APPCONFIGOPTS/Moore/DataType-2012.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py MooreConfiguration.py Conditions.py
 
 rm L0.digi
 rm MooreConfiguration.py
