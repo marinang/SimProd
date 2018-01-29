@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #sim09c
-#from https://its.cern.ch/jira/browse/LHCBGAUSS-1185
+#from https://its.cern.ch/jira/browse/LHCBGAUSS-1186
 #Stripping 21r1
 
 Optfile=$1

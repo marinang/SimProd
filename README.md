@@ -9,6 +9,8 @@ You need to to know:
 * Year of data taking to simulate (Run I: 2011, 2012, Run II: 2015, 2016, 2017)
 
 * Number of events you want to produce.
+
+Simulations setups are taken from here [JIRA LHCb Gauss](https://its.cern.ch/jira/browse/LHCBGAUSS-602).
 	
 Before launching make sure to set the environnement variable _$SIMOUTPUT_ to the path of where you want to save the outputs of the jobs. This can be done using the setup script by doing "source setup.sh" or adding this variable to your _.bashrc_.
 
@@ -35,6 +37,10 @@ optional arguments:
 If you wish to modify any option related to an EvtType prior to launch submission, the **GetEvtType.py** script will copy every option file that are in _EvtType.py_ to a directory called _EvtTypes_. It takes the EvtType as argument.
 
 If you wish to send jobs on a **Slurm** batch system you can add the following options for **LaunchProduction.py**.
+
+* --cpu: Number of CPUs per simulation job.
+
+* --time: Maximum running time per simulation job in hours.
 
 * --nsimjobs: Maximum number of simultaneous simulation jobs running.
 		
