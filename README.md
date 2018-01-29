@@ -10,7 +10,7 @@ You need to to know:
 
 * Number of events you want to produce.
 
-Simulations setups are taken from here [JIRA LHCb Gauss](https://its.cern.ch/jira/browse/LHCBGAUSS-602).
+Simulation setups are taken from here [JIRA LHCb Gauss](https://its.cern.ch/jira/browse/LHCBGAUSS-602).
 	
 Before launching make sure to set the environnement variable _$SIMOUTPUT_ to the path of where you want to save the outputs of the jobs. This can be done using the setup script by doing "source setup.sh" or adding this variable to your _.bashrc_.
 
