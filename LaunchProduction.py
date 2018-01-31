@@ -14,7 +14,7 @@ import warnings
 from scripts import *
 
 now = datetime.now()
-base_runnumber = (now.minute + 100*now.hour + 10000*now.day + 100000*now.month) * 1000
+base_runnumber = (now.minute + 100*now.hour + 10000*now.day + 1000000*now.month) * 100
 
 jobdir = os.getenv("SIMOUTPUT")
 if jobdir is None :
