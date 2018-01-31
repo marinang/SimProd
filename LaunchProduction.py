@@ -11,9 +11,7 @@ import subprocess
 from random import shuffle
 import sys
 import warnings
-pwd = os.getenv("PWD")
-sys.path.append( "{0}/scripts/".format(pwd) )
-from utils import *
+from scripts import *
 
 now = datetime.now()
 base_runnumber = (now.second + 100*now.minute + 10000*now.hour + 1000000*now.day + 100000000*now.month) * 100
@@ -33,7 +31,7 @@ def CheckSimInputs( Options ):
 			if Options.stripping == "":
 				Options.stripping = args[0]
 				if len(args) > 1:
-					warnings.warn( red("Default stripping verion {0} used. {1} versions are available. \n".format( Options.stripping, args)), stacklevel = 2)
+					warnings.warn( red("Default stripping verion {0} used. {1} versions are available.".format( Options.stripping, args)), stacklevel = 2)
 			elif Options.stripping not in args:
 				raise NotImplementedError( "Stripping version {0} is not available for {1} {2}! Only {3}!".format(Options.stripping, Options.year, Options.simcond, args) )	
 					
@@ -79,34 +77,34 @@ def CheckSubmission( Options ):
 		Slurm = True
 	
 	if Slurm:
-		from SlurmSubCondition import SubCondition
 		SubCondition( Options )
 								 			
 def SendJob( Options ):
+	
+	from setup import DoProd
 		
 	OptFile = "{0}/EvtTypes/{evttype}/{evttype}.py".format( pwd, **Options )
 
 	if not os.path.isfile( OptFile ):
-		import GetEvtType
 		GetEvtType.get( Options )
-			
-	runcmd =  "python scripts/submit.py"
-	runcmd += " -D {}".format( jobdir )
-	runcmd += " -d simProd_{evttype}_{simcond}".format( **Options )
+		
+	subdir = 'simProd_{evttype}_{simcond}'.format( **Options )
 	if Options['turbo']:
-		runcmd += "_Turbo"
+		subdir += "_Turbo"
 	if Options['mudst']:
-		runcmd += "_muDST"
-	runcmd += " -n {year}_{polarity}_{neventsjob}evts -r {runnumber}".format( **Options )
-	if Options['stripping'] != "":
-		runcmd = runcmd.replace("evts","evts_s" + Options['stripping'])	     
-	runcmd += " 'setup/{simcond}/DoProd{year}.sh {0} {neventsjob} {polarity} {runnumber} {turbo} {mudst} {stripping}'".format( OptFile, **Options )
-	runcmd += " -exclude {nfreenodes}".format( **Options )
-	runcmd += " -cpu {cpu} -time {time}".format( **Options )
-	runcmd += " --uexe"
+		subdir += "_muDST"
+		
+	jobname = '{year}_{polarity}_{neventsjob}evts_s{stripping}'.format( **Options )
 	
-	subprocess.call( runcmd, shell=True )
-	
+	doprod  = DoProd( Options['simcond'], Options['year'])
+
+	command = '{0} {1} {neventsjob} {polarity} {runnumber} {turbo} {mudst} {stripping}'.format( doprod, OptFile, **Options )
+		
+	batchoptions = {"basedir": jobdir, "subdir":subdir, "jobname":jobname, "command": command, "run": Options['runnumber'],
+					"exclude": Options['nfreenodes'], "cpu": Options['cpu'], "time": Options['time'], "unique":True }
+					
+	submit( **batchoptions )
+				
 if __name__ == "__main__" :
 
 	parser = argparse.ArgumentParser(description='')
@@ -135,7 +133,7 @@ if __name__ == "__main__" :
 	parser.add_argument('--subtime',      metavar='<subtime>',       help="(Slurm option) Time interval when the jobs are sent.", nargs='+', type=int, default=[0, 23])
 
 	opts = parser.parse_args()
-	
+		
 	CheckSimInputs( opts )
 	
 	#Number of jobs
@@ -165,6 +163,7 @@ if __name__ == "__main__" :
 		SendJob( opts_i )
 		
 		print blue( "{0}/{1} jobs submitted!".format( n + 1, Njobs ) )
+		
 						
 
 				

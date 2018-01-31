@@ -43,12 +43,21 @@ def LaunchInteractive( Dirname ):
     
 def PrepareLxplusJob( Options, Dirname ):
     
+    subdir   = kwargs.get( "subdir", "" )
+    jobname  = kwargs.get( "jobname", "" )
+    dirname  = kwargs.get( "dirname" )
+    queue    = kwargs.get( "queue", "8nh") #Choose bach queue (default 8nh) (lxplus) 
+    mail     = kwargs.get( "mail", False) #When job finished sends a mail to USER@cern.ch (lxplus)
+    
+    if mail: mail = "-u "+os.environ["USER"]+"@cern.ch"
+    else: mail = ""
+        
     #prepare lxplus batch job submission
     
     command = "bsub -R 'pool>30000' -o {dir}/out -e {dir}/err \
             -q {queue} {mail} -J {jname} < {dir}/run.sh".format(
-                dir=Dirname,queue=Options.queue,
-                mail=Options.mail,jname=Options.subdir+Options.jobname)
+                dir = dirname, queue = queue,
+                mail = mail , jname = subdir + jobname)
     
     return command
 
@@ -64,10 +73,17 @@ def IsSlurm():
     else:
         return True
         
-def PrepareSlurmJob( Options, Dirname ):
+def PrepareSlurmJob( **kwargs ):
     
     #prepare slurm batch job submission
     
+    subdir   = kwargs.get( "subdir", "" )
+    jobname  = kwargs.get( "jobname", "" )
+    cpu      = kwargs.get( "cpu", 4000 )        #Memory per cpu (Slurm).
+    time     = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).
+    exclude  = kwargs.get( "exclude", 0 )       #Number of nodes to exclude (Slurm).
+    dirname  = kwargs.get( "dirname" )
+
     def GetSlurmNodes():
         
         cmd = sub.Popen(['sinfo','-N'], stdout=sub.PIPE)
@@ -81,25 +97,25 @@ def PrepareSlurmJob( Options, Dirname ):
                 list_nodes.append( o.split(" ")[0] )
                 
         return list_nodes
-
+        
     oldrun = open(dirname+"/run.sh")
     oldrunstr = oldrun.read()
     oldrun.close()
 
     fo = open(dirname+"/run.sh","w")
     fo.write("#!/bin/bash -fx\n")                       
-    fo.write("#SBATCH -o " + Dirname + "/out\n")
-    fo.write("#SBATCH -e " + Dirname + "/err\n")
-    fo.write("#SBATCH -J " + Options.subdir + Options.jobname + "\n")
-    fo.write("#SBATCH --mem-per-cpu "+str(Options.m_cpu)+"\n")
+    fo.write("#SBATCH -o " + dirname + "/out\n")
+    fo.write("#SBATCH -e " + dirname + "/err\n")
+    fo.write("#SBATCH -J " + subdir + jobname + "\n")
+    fo.write("#SBATCH --mem-per-cpu {0}".format( cpu ) +"\n")
     fo.write("#SBATCH -n 1\n")
     fo.write("#SBATCH -p batch\n")
-    fo.write("#SBATCH -t {0}:00:00\n".format(Options.m_time))
-    if Options.m_exclude != 0:
+    fo.write("#SBATCH -t {0}:00:00\n".format( time ))
+    if exclude != 0:
         
         nodes = GetSlurmNodes()
         random.shuffle(nodes)
-        nodes = nodes[0:int(opts.m_exclude)]
+        nodes = nodes[0:int(exclude)]
         
         nodes2exclude = ""
         for n in nodes:
@@ -111,62 +127,35 @@ def PrepareSlurmJob( Options, Dirname ):
     fo.write(oldrunstr)
     fo.close()
     
-    command = "sbatch "+Dirname+"/run.sh"
+    command = "sbatch "+dirname+"/run.sh"
     return command
     
-if __name__ == "__main__" :
-
+    
+def main( **kwargs ):
+    
     jobdir = os.getenv("JOBDIR")
     
     if jobdir is None :
         jobdir = os.getenv("HOME")+"/jobs"
         os.system("mkdir -p "+jobdir)
-        
-    parser = ArgumentParser()
-    parser.add_argument("-d", default="", dest="subdir", 
-        help="Folder of the job, notice that the job is created anyway in a folder called as the jobname, so this is intended to group jobs")
-    parser.add_argument("-r", default=-1, dest="run", help="Add run number")
-    parser.add_argument("-D", default=jobdir, dest="basedir",
-        help="This option bypasses the JOBDIR environment variable and creates the job's folder in the specified folder")
-    parser.add_argument("-n", default="", dest="jobname", 
-        help="Give a name to the job. The job will be also created in a folder with its name (default is the executable name)")
-    parser.add_argument("--bash", dest="shell", default = "", action="store_const", const = "#!/usr/bin/env bash",
-        help="Initialize a new bash shell before launching" )
-    parser.add_argument("--tcsh", dest="shell", default = "", action="store_const", const = "#!/usr/bin/env tcsh",
-        help="Initialize a new tcsh shell before launching" )
-    parser.add_argument("-q", dest="queue", default = "8nh", help="Choose bach queue (default 8nh)" )
-    parser.add_argument("-s", dest="setup", default = "", help="Add a setup line to the launching script" )
-    parser.add_argument("--noClean", dest="clean", action="store_false",
-        help="If the job folder already exists by default it cleans it up. This option bypasses the cleaning up" )
-    parser.add_argument("--interactive", dest="interactive", action="store_true",
-        help="Submits on lxplus without using the batch system" )
-    parser.add_argument("--uexe", dest="unique", action="store_true",
-        help="Copy the executable only once in the top folder (and not in each job folders)" )
-    parser.add_argument("--local", dest="local",  action="store_true",
-        help="Launch the jobs locally (and not in the batch system)" )
-    parser.add_argument("--noscript", dest="noscript",  action="store_true",
-        help="Does not put the automatic ./ in front of the executable" )
-    parser.add_argument("-m", dest="mail", default = "", action="store_const", const = "-u "+os.environ["USER"]+"@cern.ch",
-        help="When job finished sends a mail to USER@cern.ch" )
-    parser.add_argument("-cpu", default=4000, dest="m_cpu", type=int,
-        help="Memory per cpu (Slurm).")
-    parser.add_argument("-time", default=20, dest="m_time", type=int,
-        help="Maximum time of the job in hours (Slurm).")
-    parser.add_argument("-exclude", default=0, dest="m_exclude", type=int,
-        help="Number of nodes to exclude (Slurm).")
-    parser.add_argument("-in", dest="infiles", default = "", help="Files to copy over")
-    parser.add_argument("command", help="Command to launch")
-    opts = parser.parse_args()
+
+    subdir   = kwargs.get( "subdir", "" )       #Folder of the job, notice that the job is created anyway in a folder called as the jobname, so this is intended to group jobs.
+    run      = kwargs.get( "run", -1 )          #Add run number.
+    basedir  = kwargs.get( "basedir", jobdir )  #This option bypasses the JOBDIR environment variable and creates the job's folder in the specified folder.
+    jobname  = kwargs.get( "jobname", "" )      #Give a name to the job. The job will be also created in a folder with its name (default is the executable name).
+    clean    = kwargs.get( "clean", True )      #If the job folder already exists by default it cleans it up. This option bypasses the cleaning up.
+    unique   = kwargs.get( "unique", False )    #Copy the executable only once in the top folder (and not in each job folders).
+    infiles  = kwargs.get( "infiles", [] )      #Files to copy over.
+    command  = kwargs.get( "command", "" )      #Command to launch.
     
-
     exe, execname = None, None
-    commands = opts.command.split(' ')
-
+    commands = command.split(' ')
+    
     if(len(commands) < 1) : print("Not enough arguments")
     elif "." in commands[0] : 
         execname = commands[0].replace('./','')
         args = commands[1:]
-    elif "lb-run" in commands[0]:
+    elif "lb-run" in commands[0] :
         exe      = "{0} {1} {2}".format(commands[0],commands[1],commands[2])
         execname = commands[3]
         args = commands[4:]
@@ -180,26 +169,28 @@ if __name__ == "__main__" :
             args = commands[1:]
             
     else : sys.exit()
-    if(opts.jobname == "") :
+    if( jobname == "" ) :
         jobname = re.sub(r'\..*',"", execname.replace('./',''))
-   
+
     ########################################################################################
     ## Make the needed folders and copy the executable and everything else needed in them
     ########################################################################################
     
-    subdirname = opts.basedir
-    if opts.subdir != "" :
-        subdirname += "/"+opts.subdir
-    dirname = subdirname+"/"+opts.jobname
+    subdirname = basedir
+    if subdir != "" :
+        subdirname += "/"+subdir
+    dirname = subdirname+"/"+jobname
 
-    if opts.run > -1 :
-        dirname += "_"+str(opts.run)
+    if run > -1 :
+        dirname += "_"+str(run)
 
-    if os.path.exists(dirname) and opts.clean :
-        os.system("rm -fr " + dirname+"/*")
+    if os.path.exists(dirname) and clean :
+        os.system("rm -rf " + dirname+"/*")
     os.system("mkdir -p " + dirname)
+    
+    kwargs['dirname'] = dirname
 
-    if(opts.unique) : copyto = subdirname
+    if( unique ) : copyto = subdirname
     else : copyto = dirname
     
     if not execname == "":
@@ -207,9 +198,9 @@ if __name__ == "__main__" :
     if '/'  in execname :
         execname = execname.split("/")[-1]
     
-    for arg in opts.infiles.split() :
+    for arg in infiles :
         os.system("cp " + arg + " " + copyto )
-        if opts.unique :
+        if unique :
             os.system("ln -s {f1} {f2}".format(f1=copyto+'/'+arg,f2=dirname+'/'+arg))
             
     ########################################################################################
@@ -218,12 +209,9 @@ if __name__ == "__main__" :
 
     os.system( "cd " + dirname )
     runfile = open(dirname+"/run.sh","w")
-    if opts.shell != "" :                   ### Settings    
-        runfile.write(opts.shell + "\n")
     runfile.write( "cd " + dirname + "\n")
-    if opts.setup != "" :
-        runfile.write(opts.setup + "\n")
-    if exe is None and not opts.noscript:   ### Ensure executable
+
+    if exe is None:
         runfile.write("chmod 755 " + copyto + "/" +execname +'\n')
 
     if  execname == "":
@@ -236,8 +224,6 @@ if __name__ == "__main__" :
     else :
         runfile.write( '{exe} {dir} {args}'.format(exe=exe,dir=pathexec,args=' '.join(args)) + "\n")
 
-    if opts.local or opts.interactive :     ### Output
-        runfile.write( " >& " + dirname + "/out " )
     runfile.close()
     os.system( "chmod 755 " + dirname + "/run.sh" )
     
@@ -245,30 +231,24 @@ if __name__ == "__main__" :
     ## Run executable in local, interactive or batch mode
     ########################################################################################
     
-    if(opts.subdir != "") :
-        opts.subdir=(re.sub("^.*/","",opts.subdir)+"_")
-    
-    if opts.local :                           ## Local
-        print("Running local")
-        command  = "cd " + dirname
-        command += dirname + "/run.sh &"
+    if( subdir != "" ) :
+        subdir = (re.sub("^.*/","",subdir)+"_")
             
-    elif "lxplus" in os.getenv("HOSTNAME") :  ## Batch for lxplus
-        if opts.interactive :
-            command = LaunchInteractive(dirname)
-        else :
-            command = PrepareLxplusJob(opts, dirname)
+    if "lxplus" in os.getenv("HOSTNAME") :  ## Batch for lxplus
+        command = PrepareLxplusJob( **kwargs )
             
     elif IsSlurm():
-        command = PrepareSlurmJob(opts, dirname)
+        command = PrepareSlurmJob( **kwargs )
      
     else :
-        print("Can run in batch mode only on lxplus or on a slurm batch system. Go there or run with '--local'")
+        print("Can run in batch mode only on lxplus or on a slurm batch system.")
      
     ########################################################################################
     ## Execution of the job sending
     ########################################################################################
-       
+           
     os.system(command)
+        
+
 
 
