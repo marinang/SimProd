@@ -11,6 +11,9 @@ import subprocess
 from random import shuffle
 import sys
 import warnings
+pwd = os.getenv("PWD")
+sys.path.append( "{0}/scripts/".format(pwd) )
+from utils import *
 
 now = datetime.now()
 base_runnumber = (now.minute + 100*now.hour + 10000*now.day + 100000*now.month) * 1000
@@ -20,8 +23,6 @@ if jobdir is None :
 	jobdir = os.getenv("HOME")+"/SimulationJobs"
 os.system("mkdir -p "+jobdir)
 
-pwd = os.getenv("PWD")
-sys.path.append( "{0}/scripts/".format(pwd) )	
 
 def CheckSimInputs( Options ):
 	
@@ -30,7 +31,9 @@ def CheckSimInputs( Options ):
 		with warnings.catch_warnings():
 			warnings.simplefilter("always")	
 			if Options.stripping == "":
-				Options.stripping = args[0]	
+				Options.stripping = args[0]
+				if len(args) > 1:
+					warnings.warn( red("Default stripping verion {0} used. {1} versions are available. \n".format( Options.stripping, args)), stacklevel = 2)
 			elif Options.stripping not in args:
 				raise NotImplementedError( "Stripping version {0} is not available for {1} {2}! Only {3}!".format(Options.stripping, Options.year, Options.simcond, args) )	
 					
@@ -75,9 +78,9 @@ def CheckSubmission( Options ):
 	else:
 		Slurm = True
 
-	if (Options.nsimjobs != -1 or Options.nsimuserjobs != -1 or Options.nuserjobs != -1 or  Options.npendingjobs != -1 \
-				or  Options.subtime != [0, 23] or Options.nfreenodes != 0 or Options.cpu != 4000 or Options.time != 12 ) and not Slurm:	
-		raise NotImplementedError( "These inputs were designed for Slurm batch submission so please don't use them!" )
+#	if (Options['nsimjobs'] != -1 or Options['nsimuserjobs'] != -1 or Options['nuserjobs'] != -1 or  Options['npendingjobs'] != -1 \
+#				or  Options['subtime'] != [0, 23] or Options['nfreenodes'] != 0 or Options['cpu'] != 4000 or Options['time'] != 12 ) and not Slurm:	
+#		raise NotImplementedError( "These inputs were designed for Slurm batch submission so please don't use them!" )
 	
 	if Slurm:
 		from SlurmSubCondition import SubCondition
@@ -98,10 +101,10 @@ def SendJob( Options ):
 		runcmd += "_Turbo"
 	if Options['mudst']:
 		runcmd += "_muDST"
-	runcmd += " -n {year}_{polarity}_{neventsjobs}evts -r {runnumber}".format( **Options )
+	runcmd += " -n {year}_{polarity}_{neventsjob}evts -r {runnumber}".format( **Options )
 	if Options['stripping'] != "":
 		runcmd = runcmd.replace("evts","evts_s" + Options['stripping'])	     
-	runcmd += " 'setup/{simcond}/DoProd{year}.sh {0} {neventsjobs} {polarity} {runnumber} {turbo} {mudst} {stripping}'".format( OptFile, **Options )
+	runcmd += " 'setup/{simcond}/DoProd{year}.sh {0} {neventsjob} {polarity} {runnumber} {turbo} {mudst} {stripping}'".format( OptFile, **Options )
 	runcmd += " -exclude {nfreenodes}".format( **Options )
 	runcmd += " -cpu {cpu} -time {time}".format( **Options )
 	runcmd += " --uexe"
@@ -120,30 +123,30 @@ if __name__ == "__main__" :
 	parser.add_argument('--stripping',    metavar='<stripping>',     help="Version of the stripping.", type=str, default='')
 	parser.add_argument('--turbo',                                   help="Do the Turbo step.", action='store_true')
 	parser.add_argument('--mudst',                                   help="Create a muDST output instead of DST ouptut.", action='store_true')  
-	parser.add_argument('--neventsjobs',  metavar='<neventsjobs>',   help="Number of events per jobs.", type=int, default=50)
+	parser.add_argument('--neventsjob',   metavar='<neventsjob>',   help="Number of events per job.", type=int, default=50)
 	parser.add_argument('--runnumber',    metavar='<runnumber>',     help="Run number for Gauss.", type=int, default=base_runnumber)
 	parser.add_argument('--decfiles',     metavar='<decfiles>',      help="Version of the DecFiles package.", type=str, default='v30r5')
 			
 	#options to control slurm job submission #
 	#ideally you would run with these options in a screen session #
 	parser.add_argument('--cpu',          metavar='<cpu>',           help="(Slurm option) Number of CPUs per simulation job.", type=int, default=4000)
-	parser.add_argument('--time',         metavar='<time>',          help="(Slurm option) Maximum running time per simulation job in hours.", type=int, default=12)
-	parser.add_argument('--nsimjobs',     metavar='<nsimjobs>',      help="(Slurm option) Maximum number of simultaneous simulation jobs running.", type=int, default=-1)
-	parser.add_argument('--nsimuserjobs', metavar='<nsimjobs>',      help="(Slurm option) Maximum number of simultaneous simulation jobs running for the user.", type=int, default=-1)
-	parser.add_argument('--nuserjobs',    metavar='<nuserjobs>',     help="(Slurm option) Maximum number of simultaneous jobs running for the user.", type=int, default=-1)
-	parser.add_argument('--npendingjobs', metavar='<npendingjobs>',  help="(Slurm option) Maximum number of pending jobs for the user.", type=int, default=-1)
-	parser.add_argument('--nfreenodes',   metavar='<nfreenodes>',    help="(Slurm option) Number of nodes to be free of user's simulation jobs.", type=int, default=0)
+	parser.add_argument('--time',         metavar='<time>',          help="(Slurm option) Maximum running time per simulation job in hours.", type=int, default=10)
+	parser.add_argument('--nsimjobs',     metavar='<nsimjobs>',      help="(Slurm option) Maximum number of simultaneous simulation jobs running.", type=int, default=300)
+	parser.add_argument('--nsimuserjobs', metavar='<nsimjobs>',      help="(Slurm option) Maximum number of simultaneous simulation jobs running for the user.", type=int, default=100)
+	parser.add_argument('--nuserjobs',    metavar='<nuserjobs>',     help="(Slurm option) Maximum number of simultaneous jobs running for the user.", type=int, default=150)
+	parser.add_argument('--npendingjobs', metavar='<npendingjobs>',  help="(Slurm option) Maximum number of pending jobs for the user.", type=int, default=40)
+	parser.add_argument('--nfreenodes',   metavar='<nfreenodes>',    help="(Slurm option) Number of nodes to be free of user's simulation jobs.", type=int, default=4)
 	parser.add_argument('--subtime',      metavar='<subtime>',       help="(Slurm option) Time interval when the jobs are sent.", nargs='+', type=int, default=[0, 23])
 
 	opts = parser.parse_args()
 	
 	CheckSimInputs( opts )
-		
+	
 	#Number of jobs
-	Njobs = int( opts.nevents/ opts.neventsjobs )
+	Njobs = int( opts.nevents/ opts.neventsjob )
 	
 	if  Njobs == 0:
-		warnings.warn("WARNING: no jobs are being sent (make sure that nevents jobs is smaller than nevents)!")
+		warnings.warn( red(" WARNING: no jobs are being sent (make sure that neventsjob is smaller than nevents)! "), stacklevel = 2 )
 	
 	if opts.polarity == '':
 		polarity = ["MagUp" for i in range(0,int(Njobs / 2))]
@@ -152,16 +155,20 @@ if __name__ == "__main__" :
 	else:
 		polarity = [opts.polarity for i in range(0, Njobs)]
 						
-	for i in range(Njobs):
-		
-		#Check if ok to submit for slurm batch jobs
-		CheckSubmission( opts )
+	for i,n in enumerate( range(Njobs) ):
 		
 		opts_i = vars(opts).copy()
 		opts_i['runnumber'] = opts.runnumber + i
-		opts_i['polarity'] = polarity[i]
+		opts_i['polarity']  = polarity[i]
+		opts_i['nthisjob']  = n + 1
+		opts_i['njobs']     = Njobs
+		
+		#Check if ok to submit for slurm batch jobs
+		CheckSubmission( opts_i )
 			
 		SendJob( opts_i )
+		
+		print blue( "{0}/{1} jobs submitted!".format( n + 1, Njobs ) )
 						
 
 				
