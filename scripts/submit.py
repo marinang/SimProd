@@ -199,7 +199,7 @@ def main( **kwargs ):
         execname = execname.split("/")[-1]
     
     for arg in infiles :
-        os.system("cp " + arg + " " + copyto )
+        os.system("cp " + arg + " " + dirname )
             
     ########################################################################################
     ## Create the run.sh file containing the information about how the executable is run
