@@ -13,7 +13,7 @@ import random
 from datetime import datetime
 
 now = datetime.now()
-random.seed(now.day * 100 + now.hour)
+random.seed(now.day)
 
 #### Routines for intercative lxplus submission ####
 
