@@ -200,8 +200,6 @@ def main( **kwargs ):
     
     for arg in infiles :
         os.system("cp " + arg + " " + copyto )
-        if unique :
-            os.system("ln -s {f1} {f2}".format(f1=copyto+'/'+arg,f2=dirname+'/'+arg))
             
     ########################################################################################
     ## Create the run.sh file containing the information about how the executable is run

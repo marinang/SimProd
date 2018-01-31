@@ -99,9 +99,12 @@ def SendJob( Options ):
 	doprod  = DoProd( Options['simcond'], Options['year'])
 
 	command = '{0} {1} {neventsjob} {polarity} {runnumber} {turbo} {mudst} {stripping}'.format( doprod, OptFile, **Options )
+	
+	infiles = Options['infiles'].split()
 		
-	batchoptions = {"basedir": jobdir, "subdir":subdir, "jobname":jobname, "command": command, "run": Options['runnumber'],
-					"exclude": Options['nfreenodes'], "cpu": Options['cpu'], "time": Options['time'], "unique":True }
+	batchoptions = {"basedir": jobdir, "subdir":subdir, "jobname":jobname, "command": command, 
+					"run": Options['runnumber'], "exclude": Options['nfreenodes'], "cpu": Options['cpu'], 
+					"time": Options['time'], "unique":True, 'infiles':infiles }
 					
 	submit( **batchoptions )
 				
@@ -117,9 +120,10 @@ if __name__ == "__main__" :
 	parser.add_argument('--stripping',    metavar='<stripping>',     help="Version of the stripping.", type=str, default='')
 	parser.add_argument('--turbo',                                   help="Do the Turbo step.", action='store_true')
 	parser.add_argument('--mudst',                                   help="Create a muDST output instead of DST ouptut.", action='store_true')  
-	parser.add_argument('--neventsjob',   metavar='<neventsjob>',   help="Number of events per job.", type=int, default=50)
+	parser.add_argument('--neventsjob',   metavar='<neventsjob>',    help="Number of events per job.", type=int, default=50)
 	parser.add_argument('--runnumber',    metavar='<runnumber>',     help="Run number for Gauss.", type=int, default=base_runnumber)
 	parser.add_argument('--decfiles',     metavar='<decfiles>',      help="Version of the DecFiles package.", type=str, default='v30r5')
+	parser.add_argument('--infiles',      metavar='<infiles>',       help="External files to provide for generation, i.e LHE or HepMC files.", type=str, default='')
 			
 	#options to control slurm job submission #
 	#ideally you would run with these options in a screen session #
