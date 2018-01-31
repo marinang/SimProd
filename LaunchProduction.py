@@ -77,10 +77,6 @@ def CheckSubmission( Options ):
 		Slurm = False
 	else:
 		Slurm = True
-
-#	if (Options['nsimjobs'] != -1 or Options['nsimuserjobs'] != -1 or Options['nuserjobs'] != -1 or  Options['npendingjobs'] != -1 \
-#				or  Options['subtime'] != [0, 23] or Options['nfreenodes'] != 0 or Options['cpu'] != 4000 or Options['time'] != 12 ) and not Slurm:	
-#		raise NotImplementedError( "These inputs were designed for Slurm batch submission so please don't use them!" )
 	
 	if Slurm:
 		from SlurmSubCondition import SubCondition
