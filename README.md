@@ -10,9 +10,9 @@ You need to to know:
 
 * Number of events you want to produce.
 
-Simulation setups are taken from here [JIRA LHCb Gauss](https://its.cern.ch/jira/browse/LHCBGAUSS-602).
+Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/setup).
 	
-Before launching make sure to set the environnement variable _$SIMOUTPUT_ to the path of where you want to save the outputs of the jobs. This can be done using the setup script by doing "source setup.sh" or adding this variable to your _.bashrc_.
+Before launching make sure to set the environnement variable _$SIMOUTPUT_ to the path of where you want to save the outputs of the jobs. This can be done using the _setup.sh_ script or adding this variable to your _.bashrc_.
 
 The script to launch jobs is **LaunchProduction.py**, usage: python LaunchProduction.py EvtType Year #Events
 
@@ -20,7 +20,7 @@ optional arguments:
 
 * --polarity: Magnet conditions to simulate [MagUp or MagDown, default: half MagUp, half MagDown].
 
-* --neventsjobs: Number of events per jobs [default: 50]. 
+* --neventsjob: Number of events per jobs [default: 50]. 
 
 * --runnumber: Run number for Gauss.
 
@@ -33,6 +33,8 @@ optional arguments:
 * --mudst: Produce a muDST output.
 
 * --decfiles: Version of the DecFiles package (default = v30r5)
+
+* --infiles: External files to provide for generation (for example LHE or HepMC files).
 	
 If you wish to modify any option related to an EvtType prior to launch submission, the **GetEvtType.py** script will copy every option file that are in _EvtType.py_ to a directory called _EvtTypes_. It takes the EvtType as argument.
 
@@ -52,6 +54,6 @@ If you wish to send jobs on a **Slurm** batch system you can add the following o
 
 * --nfreenodes: Number of nodes to be free of user's simulation jobs.
 		
-* --subtime: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 8pm).
+* --subtime: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 6pm).
 
 Note you would use these options in a **screen** session, usage: screen python LaunchProduction.py ....
