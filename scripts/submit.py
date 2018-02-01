@@ -12,9 +12,6 @@ import subprocess as sub
 import random
 from datetime import datetime
 
-now = datetime.now()
-random.seed(now.day)
-
 #### Routines for intercative lxplus submission ####
 
 def getRdmNode() :
@@ -112,6 +109,9 @@ def PrepareSlurmJob( **kwargs ):
     fo.write("#SBATCH -p batch\n")
     fo.write("#SBATCH -t {0}:00:00\n".format( time ))
     if exclude != 0:
+        
+        now = datetime.now()
+        random.seed(now.day)
         
         nodes = GetSlurmNodes()
         random.shuffle(nodes)

@@ -153,18 +153,18 @@ if __name__ == "__main__" :
 	else:
 		polarity = [opts.polarity for i in range(0, Njobs)]
 						
-	for i,n in enumerate( range(Njobs) ):
+	for n in range(Njobs):
 		
-		opts_i = vars(opts).copy()
-		opts_i['runnumber'] = opts.runnumber + i
-		opts_i['polarity']  = polarity[i]
-		opts_i['nthisjob']  = n + 1
-		opts_i['njobs']     = Njobs
+		opts_n = vars(opts).copy()
+		opts_n['runnumber'] = opts.runnumber + n
+		opts_n['polarity']  = polarity[n]
+		opts_n['nthisjob']  = n + 1
+		opts_n['njobs']     = Njobs
 		
 		#Check if ok to submit for slurm batch jobs
-		CheckSubmission( opts_i )
+		CheckSubmission( opts_n )
 			
-		SendJob( opts_i )
+		SendJob( opts_n )
 		
 		print blue( "{0}/{1} jobs submitted!".format( n + 1, Njobs ) )
 		
