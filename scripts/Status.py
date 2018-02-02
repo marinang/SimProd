@@ -27,7 +27,7 @@ def JobPaths( Options ):
 	return jobpaths
 
 def SubmittedJobs( Options ):
-		return  "{0}/{njobs} jobs submitted!".format( nthisjob, **Options )
+		return  "{nthisjob}/{njobs} jobs submitted!".format( **Options )
 		
 def CompletedJobs( Options ):
 	ncompleted = 0
