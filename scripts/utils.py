@@ -26,3 +26,21 @@ def cyan( text ):
 	
 def yellow( text ):
 	return "{0} {1} {2}".format( _yellow, text, _default)
+	
+def baserunnumber():
+	from datetime import datetime
+	now = datetime.now()
+	
+	minute = now.minute
+	hour   = now.hour
+	day    = now.day
+	month  = now.month
+	
+	if month == 11:
+		month = 1
+		day  += 31
+	elif month == 12:
+		month = 2
+		day  += 31
+	
+	return (minute + 100*hour + 10000*day + 1000000*month) * 100
