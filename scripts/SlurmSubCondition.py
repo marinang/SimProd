@@ -14,8 +14,9 @@ from Status import Status
 
 def SetDefaultSlurmOptions( Options ):
 	
-	now = datetime.now()
-	hour = now.hour
+	now     = datetime.now()
+	hour    = now.hour
+	weekday = now.weekday()
 	
 	### During the day less job submission	
 	
@@ -31,6 +32,13 @@ def SetDefaultSlurmOptions( Options ):
 		nuserjobs    = 300
 		npendingjobs = 60
 		nfreenodes   = 1
+		
+	if weekday == 5 or weekday == 6:
+		nsimjobs     *= 1.5
+		nsimuserjobs += 1.5
+		nuserjobs    *= 1.5
+		npendingjobs *= 1.5
+		
 
 	if Options["nsimjobs"]     is None:
 		Options["nsimjobs"]     = nsimjobs
