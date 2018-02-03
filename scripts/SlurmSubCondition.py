@@ -35,7 +35,7 @@ def SetDefaultSlurmOptions( Options ):
 		
 	if weekday == 5 or weekday == 6:
 		nsimjobs     *= 1.5
-		nsimuserjobs += 1.5
+		nsimuserjobs *= 1.5
 		nuserjobs    *= 1.5
 		npendingjobs *= 1.5
 		
