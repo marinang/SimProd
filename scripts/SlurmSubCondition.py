@@ -53,8 +53,6 @@ def SetDefaultSlurmOptions( Options ):
 	
 def SubCondition( Options ):
 	
-	SetDefaultSlurmOptions( Options )
-	
 	user = getpass.getuser()
 
 	#additionnal submission conditions for SLURM batch system 
@@ -68,6 +66,8 @@ def SubCondition( Options ):
 	Submission = False
 
 	while Submission == False:
+		
+		SetDefaultSlurmOptions( Options )
 		
 		Nsimjobs_user  = int( os.popen( "echo $(squeue -u {0} | grep -c 'simProd')".format(user) ).read() )
 		Nsimjobs_total = int( os.popen( "echo $(squeue | grep -c 'simProd')"                     ).read() )
