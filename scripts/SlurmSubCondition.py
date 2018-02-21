@@ -12,13 +12,16 @@ import getpass
 from utils import *
 from Status import Status
 
-def SetDefaultSlurmOptions( Options ):
+
+def DefaultSlurmOptions( ):
 	
 	now     = datetime.now()
 	hour    = now.hour
 	weekday = now.weekday()
 	
-	### During the day less job submission	
+	### During the day less job submission
+	
+	options = {}	
 	
 	if hour > 6 and hour < 22:
 		nsimjobs     = 400
@@ -39,21 +42,63 @@ def SetDefaultSlurmOptions( Options ):
 		nuserjobs    *= 1.5
 		npendingjobs *= 1.5
 		
-
-	if Options["nsimjobs"]     is None:
-		Options["nsimjobs"]     = nsimjobs
+	options["nsimjobs"]     = nsimjobs
+	options["nsimuserjobs"] = nsimuserjobs
+	options["nuserjobs"]    = nuserjobs
+	options["npendingjobs"] = npendingjobs
+	options["nfreenodes"]   = nfreenodes
+		
+	return options
+	
+def SetDefaultSlurmOptions( Options ):
+	
+	default_options = DefaultSlurmOptions()
+			
+	if Options["nsimjobs"] is None :
+		Options["nsimjobs"]             = default_options["nsimjobs"]
+		Options["nsimjobs_default"]     = True
+		
 	if Options["nsimuserjobs"] is None:	
-		Options["nsimuserjobs"] = nsimuserjobs
-	if Options["nuserjobs"]    is None:
-		Options["nuserjobs"]    = nuserjobs
+		Options["nsimuserjobs"]         = default_options["nsimuserjobs"]
+		Options["nsimuserjobs_default"] = True
+		
+	if Options["nuserjobs"] is None:
+		Options["nuserjobs"]            = default_options["nuserjobs"]
+		Options["nuserjobs_default"]    = True
+		
 	if Options["npendingjobs"] is None:
-		Options["npendingjobs"] = npendingjobs
-	if Options["nfreenodes"]   is None:
-		Options["nfreenodes"]   = nfreenodes
+		Options["npendingjobs"]         = default_options["npendingjobs"]
+		Options["npendingjobs_default"] = True
+		
+	if Options["nfreenodes"] is None:
+		Options["nfreenodes"]           = default_options["nfreenodes"]
+		Options["nfreenodes_default"]   = True
+		
+def UpdateDefaultSlurmOptions( Options ):
+	
+	default_options = DefaultSlurmOptions()
+	
+	if Options.get("nsimjobs_default",     False):
+		Options["nsimjobs"]             = default_options["nsimjobs"]
+		
+	if Options.get("nsimuserjobs_default", False):
+		Options["nsimuserjobs"]         = default_options["nsimuserjobs"]
+			
+	if Options.get("nuserjobs_default",    False):
+		Options["nuserjobs"]            = default_options["nuserjobs"]
+			
+	if Options.get("npendingjobs_default", False):
+		Options["npendingjobs"]         = default_options["npendingjobs"]
+			
+	if Options.get("nfreenodes_default",   False):
+		Options["nfreenodes"]           = default_options["nfreenodes"]
+		
 	
 def SubCondition( Options ):
 	
 	user = getpass.getuser()
+	
+	SetDefaultSlurmOptions( Options )
 
 	#additionnal submission conditions for SLURM batch system 
 		
@@ -66,9 +111,7 @@ def SubCondition( Options ):
 	Submission = False
 
 	while Submission == False:
-		
-		SetDefaultSlurmOptions( Options )
-		
+				
 		Nsimjobs_user  = int( os.popen( "echo $(squeue -u {0} | grep -c 'simProd')".format(user) ).read() )
 		Nsimjobs_total = int( os.popen( "echo $(squeue | grep -c 'simProd')"                     ).read() )
 		Njobs_user     = int( os.popen( "echo $(squeue  | grep -c '{0}')".format(user)           ).read() )
@@ -120,5 +163,7 @@ def SubCondition( Options ):
 			continue
 		elif time and not simjobs_user and not simjobs_total and not jobs_user and not pendjobs_user:
 			Submission = True
+			
+		UpdateDefaultSlurmOptions( Options )
 				
 	return Submission
