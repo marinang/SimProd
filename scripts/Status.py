@@ -7,6 +7,7 @@
 import glob
 import os
 from utils import *
+import time
 
 def JobPaths( Options ):
 	
@@ -29,26 +30,54 @@ def JobPaths( Options ):
 def SubmittedJobs( Options ):
 		return  "{nthisjob}/{njobs} jobs submitted!".format( **Options )
 		
+		
+def IsFinished( Directory ):
+	
+	def DeltaT( time_event ):
+		#time_event in second
+		now = time.time()
+		deltat = (now - time_event) / 3600
+		return deltat
+		#in hour
+	
+	files = glob.glob(Directory+"/*")
+	
+	mtime = max([ os.path.getmtime(f) for f in files ])
+	
+	if DeltaT( mtime ) > 0.20 :
+		return True
+	else:
+		return False
+	
+		
 def CompletedJobs( Options ):
 	ncompleted = 0
 	
 	for p in JobPaths( Options ):
 		dst = p+"/{neventsjob}_events.dst".format( **Options )
-		if os.path.isfile(dst) and os.path.getsize( dst ) > 1000000:
+		if os.path.isfile(dst) and os.path.getsize( dst ) > 1000000 and IsFinished(p):
 			ncompleted += 1
 			
-	return ncompleted  
+	return ncompleted
+	
+def RunningJobs( Options ):
+	nrunning = 0
+	
+	for p in JobPaths( Options ):
+		files = glob.glob(p+"/*")
+		if len(files) > 5 and not IsFinished(p):
+			nrunning += 1
+			
+	return nrunning   
 	
 def FailedJobs( Options ):
 	nfailed = 0	
 	
 	for p in JobPaths( Options ):
-		dst = glob.glob( p + "/*events.dst")
-		if dst == []:
-			continue
-			
 		dst = p+"/{neventsjob}_events.dst".format( **Options )
-		if not os.path.isfile(dst) or os.path.getsize( dst ) < 1000000:
+		if not os.path.isfile(dst) and IsFinished(p):
+			nfailed += 1
+		elif os.path.isfile(dst) and os.path.getsize( dst ) < 1000000:
 			nfailed += 1
 			
 	return nfailed
@@ -56,5 +85,6 @@ def FailedJobs( Options ):
 def Status( Options ):
 		
 	print blue( SubmittedJobs( Options )  )
+	print cyan( "{0} jobs running!".format( RunningJobs( Options ) ) )
 	print green( "{0} jobs completed!".format( CompletedJobs( Options ) ) )
 	print magenta( "{0} jobs failed!".format( FailedJobs( Options ) ) )

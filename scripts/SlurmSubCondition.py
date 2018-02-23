@@ -99,7 +99,7 @@ def SubCondition( Options ):
 	user = getpass.getuser()
 	
 	SetDefaultSlurmOptions( Options )
-
+	
 	#additionnal submission conditions for SLURM batch system 
 		
 	ti, tf = Options['subtime'][0], Options['subtime'][1]
@@ -136,34 +136,40 @@ def SubCondition( Options ):
 			Status( atpreviousjobs )
 			print( "\n" )
 			sleep( randint(0,30) * 60 )
+			UpdateDefaultSlurmOptions( Options )
 			continue
 		elif simjobs_user:
 			print( red("You have already submitted {0} simulation jobs. Wait for submission!".format(Nsimjobs_user)) )
 			Status( atpreviousjobs )
 			print( "\n" )
 			sleep( randint(0,30) * 60 )
+			UpdateDefaultSlurmOptions( Options )
 			continue
 		elif simjobs_total:
 			print( red("{0} simulation jobs are submitted. Wait for submission!".format(Nsimjobs_total)) )
 			Status( atpreviousjobs )
 			print( "\n" )
 			sleep( randint(0,30) * 60 )
+			UpdateDefaultSlurmOptions( Options )
 			continue
 		elif jobs_user:
 			print( red("You have already submitted {0} jobs. Wait for submission!".format(Njobs_user)) )
 			Status( atpreviousjobs )
 			print( "\n" )
 			sleep( randint(0,30) * 60 )
+			UpdateDefaultSlurmOptions( Options )
 			continue
 		elif pendjobs_user:
 			print( red("You have already {0} jobs pending. Wait for submission!".format(Npendjobs_user)) )
 			Status( atpreviousjobs )
 			print( "\n" )
 			sleep( randint(0,30) * 60 )
+			UpdateDefaultSlurmOptions( Options )
 			continue
 		elif time and not simjobs_user and not simjobs_total and not jobs_user and not pendjobs_user:
 			Submission = True
 			
-		UpdateDefaultSlurmOptions( Options )
+		
+			
 				
 	return Submission
