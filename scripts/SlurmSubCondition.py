@@ -34,7 +34,7 @@ def DefaultSlurmOptions( ):
 		nsimuserjobs = 200
 		nuserjobs    = 300
 		npendingjobs = 60
-		nfreenodes   = 1
+		nfreenodes   = 0
 		
 	if weekday == 5 or weekday == 6:
 		nsimjobs     *= 1.5
@@ -93,10 +93,11 @@ def UpdateDefaultSlurmOptions( Options ):
 	if Options.get("nfreenodes_default",   False):
 		Options["nfreenodes"]           = default_options["nfreenodes"]
 		
-	
-def SubCondition( Options ):
+def SubCondition( Jobs ):
 	
 	user = getpass.getuser()
+	
+	Options = Jobs["options"]
 	
 	SetDefaultSlurmOptions( Options )
 	
@@ -126,50 +127,43 @@ def SubCondition( Options ):
 		simjobs_user  = Options['nsimuserjobs'] < Nsimjobs_user  
 		jobs_user     = Options['nuserjobs'] < Njobs_user        
 		pendjobs_user = Options['npendingjobs'] < Npendjobs_user
-				
-		atpreviousjobs = Options.copy()
-		atpreviousjobs['runnumber'] = Options['runnumber'] - 1
-		atpreviousjobs['nthisjob']  = Options['nthisjob'] - 1
-					
+								
 		if not time:
 			print( red("Jobs are sent between {0}h and {1}h!".format(ti, tf)) )
-			Status( atpreviousjobs )
+			Status( Jobs )
 			print( "\n" )
 			sleep( randint(0,30) * 60 )
 			UpdateDefaultSlurmOptions( Options )
 			continue
 		elif simjobs_user:
 			print( red("You have already submitted {0} simulation jobs. Wait for submission!".format(Nsimjobs_user)) )
-			Status( atpreviousjobs )
+			Status( Jobs )
 			print( "\n" )
 			sleep( randint(0,30) * 60 )
 			UpdateDefaultSlurmOptions( Options )
 			continue
 		elif simjobs_total:
 			print( red("{0} simulation jobs are submitted. Wait for submission!".format(Nsimjobs_total)) )
-			Status( atpreviousjobs )
+			Status( Jobs )
 			print( "\n" )
 			sleep( randint(0,30) * 60 )
 			UpdateDefaultSlurmOptions( Options )
 			continue
 		elif jobs_user:
 			print( red("You have already submitted {0} jobs. Wait for submission!".format(Njobs_user)) )
-			Status( atpreviousjobs )
+			Status( Jobs )
 			print( "\n" )
 			sleep( randint(0,30) * 60 )
 			UpdateDefaultSlurmOptions( Options )
 			continue
 		elif pendjobs_user:
 			print( red("You have already {0} jobs pending. Wait for submission!".format(Npendjobs_user)) )
-			Status( atpreviousjobs )
+			Status( Jobs )
 			print( "\n" )
 			sleep( randint(0,30) * 60 )
 			UpdateDefaultSlurmOptions( Options )
 			continue
 		elif time and not simjobs_user and not simjobs_total and not jobs_user and not pendjobs_user:
 			Submission = True
-			
-		
-			
-				
+					
 	return Submission

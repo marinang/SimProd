@@ -14,29 +14,6 @@ from datetime import datetime
 
 #### Routines for intercative lxplus submission ####
 
-def getRdmNode() :
-
-    node = 'lxplus{0:04d}'.format(random.randint(1,500))
-    out = sub.check_output("ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no %s 'ls $HOME/.tcshrc' 2> /dev/null | wc -l" % node, shell = True)
-    return [node, out]
-
-def getAliveNode() :
-    
-    node, out = getRdmNode()
-    while int(out) != 1 :
-        node, out = getRdmNode()
-    return [node, out]
-
-def LaunchInteractive( Dirname ):
-
-    print("Searching for an alive node...")
-    node, out = getAliveNode()
-    print("Submitting to ", node)
-    
-    command  = 'ssh -o StrictHostKeyChecking=no %s "cd ' % node + dirname  + '; chmod +x run.sh ; ./run.sh" &'
-    command += ' ; echo "Start: {0}"'.format(datetime.now()) 
-
-    return command 
     
 def PrepareLxplusJob( Options, Dirname ):
     
@@ -147,7 +124,7 @@ def main( **kwargs ):
     unique   = kwargs.get( "unique", False )    #Copy the executable only once in the top folder (and not in each job folders).
     infiles  = kwargs.get( "infiles", [] )      #Files to copy over.
     command  = kwargs.get( "command", "" )      #Command to launch.
-    
+        
     exe, execname = None, None
     commands = command.split(' ')
     
@@ -226,7 +203,7 @@ def main( **kwargs ):
     os.system( "chmod 755 " + dirname + "/run.sh" )
     
     ########################################################################################
-    ## Run executable in local, interactive or batch mode
+    ## Run executable in local, interactive or batch mode and send
     ########################################################################################
     
     if( subdir != "" ) :
@@ -234,18 +211,29 @@ def main( **kwargs ):
             
     if "lxplus" in os.getenv("HOSTNAME") :  ## Batch for lxplus
         command = PrepareLxplusJob( **kwargs )
-            
+        process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
+        out, err = process.communicate()
+        ID = int( out.split(" ")[1].replace(">","").replace("<","") )
+        print( "Submitted batch job {0}".format(ID) )
+        kwargs["thisjob"]["jobid"] = ""
+        
     elif IsSlurm():
         command = PrepareSlurmJob( **kwargs )
+        process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
+        out, err = process.communicate()
+        ID = int( out.split(" ")[-1] )
+        print( "Submitted batch job {0}".format(ID) )
+        kwargs["thisjob"]["jobid"] = ID
      
     else :
         print("Can run in batch mode only on lxplus or on a slurm batch system.")
      
     ########################################################################################
-    ## Execution of the job sending
+    ## Execution of the job sending and take id
     ########################################################################################
-           
-    os.system(command)
+          
+    
+         
         
 
 

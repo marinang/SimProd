@@ -11,12 +11,12 @@ from random import shuffle
 import sys
 import warnings
 from scripts import *
+import time
 
 jobdir = os.getenv("SIMOUTPUT")
 if jobdir is None :
 	jobdir = os.getenv("HOME")+"/SimulationJobs"
 os.system("mkdir -p "+jobdir)
-
 
 def CheckSimInputs( Options ):
 	
@@ -60,9 +60,8 @@ def CheckSimInputs( Options ):
 			
 	if Options.turbo and ( Options.year == 2012 or Options.year == 2011 ):
 		raise NotImplementedError( "Turbo is not implemented for {0}!".format(Options.year) )
-		
-	
-def CheckSubmission( Options ):
+			
+def CheckSubmission( Jobs ):
 	
 	### Slurm
 	try:
@@ -73,37 +72,105 @@ def CheckSubmission( Options ):
 		Slurm = True
 	
 	if Slurm:
-		SubCondition( Options )
-								 			
-def SendJob( Options ):
-	
-	from setup import DoProd
+		SubCondition( Jobs )
 		
-	OptFile = "{0}/EvtTypes/{evttype}/{evttype}.py".format( pwd, **Options )
-
+def PrepareJobs( Options, **kwargs ):
+		
+	#Number of jobs
+	Njobs = int( opts.nevents/ opts.neventsjob )
+	
+	jobs = {"njobs": Njobs}
+	
+	if  Njobs == 0:
+		warnings.warn( red(" WARNING: no jobs are being sent (make sure that neventsjob is smaller than nevents)! "), stacklevel = 2 )
+	
+	if Options.polarity == '':
+		polarity = ["MagUp" for i in range(0,int(Njobs / 2))]
+		polarity += ["MagDown" for i in range(int(Njobs / 2), Njobs)]
+		shuffle(polarity)
+	else:
+		polarity = [Options.polarity for i in range(0, Njobs)]
+		
+	options = vars(Options).copy()	
+	options.pop( 'polarity',  None )
+	options.pop( 'runnumber', None )
+	options.pop( 'infiles',   None )
+	
+	OptFile = "{0}/EvtTypes/{evttype}/{evttype}.py".format( pwd, **options )
+	
 	if not os.path.isfile( OptFile ):
-		GetEvtType.get( Options )
+		GetEvtType.get( **options )
 		
-	subdir = 'simProd_{evttype}_{simcond}'.format( **Options )
-	if Options['turbo']:
+	options["options_file"] = OptFile
+		
+	ext = "dst"	
+	subdir = 'simProd_{evttype}_{simcond}'.format( **options)
+	if options['turbo']:
 		subdir += "_Turbo"
-	if Options['mudst']:
+	if options['mudst']:
 		subdir += "_muDST"
+		ext     = "mdst"
 		
-	jobname = '{year}_{polarity}_{neventsjob}evts_s{stripping}'.format( **Options )
+	options["subdir"] = subdir		
+	options["jobdir"] = jobdir
 	
-	doprod  = DoProd( Options['simcond'], Options['year'])
+	jobs["options"] = options
+			
+	for n in range(Njobs):
+		
+		_polarity  = polarity[n]
+		_runnumber = opts.runnumber + n
+			
+		opts_n = {}
+		opts_n['runnumber'] = _runnumber
+		opts_n['polarity']  = _polarity
+		opts_n['infiles']   = ""
+		opts_n['submitted'] = False
+		opts_n['running']   = False
+		opts_n['completed'] = False
+		opts_n['failed']    = False
+			
+		jobname = '{year}_{0}_{neventsjob}evts_s{stripping}_{1}'.format( _polarity, _runnumber, **options )
+		opts_n["jobname"]            = jobname
+		opts_n["jobid"]              = ""
+		opts_n["production_folder"]  = "{0}/{1}/{2}".format( jobdir, subdir, jobname )
+		opts_n["production_file"]    = "{neventsjob}_events.{0}".format( ext, **options )
+		opts_n["destination_folder"] = "{0}/{evttype}/{year}/{simcond}/{1}".format( jobdir, _polarity, **options )
+		opts_n["destination_file"]   = "{neventsjob}evts_s{stripping}_{0}.{1}".format( _runnumber, ext, **options )
+		
+		jobs[str(n)] = opts_n
+			
+	return jobs
+		
+def SendJobs( Jobs ):
+	
+	for i in range( Jobs['njobs'] ):
+		SendJob( Jobs, i)
+			
+def SendJob( Jobs, Jobnumber ):
+		
+	from setup import DoProd
+	
+	Jobs["nthisjob"] = Jobnumber
+	CheckSubmission( Jobs )
+	
+	job     = Jobs[str(Jobnumber)]
+	options = Jobs["options"].copy()
+	options.update(job)
+	
+	doprod  = DoProd( options['simcond'], options['year'])
 
-	command = '{0} {1} {neventsjob} {polarity} {runnumber} {turbo} {mudst} {stripping}'.format( doprod, OptFile, **Options )
-	
-	infiles = Options['infiles'].split()
-		
-	batchoptions = {"basedir": jobdir, "subdir":subdir, "jobname":jobname, "command": command, 
-					"run": Options['runnumber'], "exclude": Options['nfreenodes'], "cpu": Options['cpu'], 
-					"time": Options['time'], "unique":True, 'infiles':infiles }
-					
+	command = '{0} {options_file} {neventsjob} {polarity} {runnumber} {turbo} {mudst} {stripping}'.format( doprod, **options )
+
+	batchoptions = {"basedir": options['jobdir'], "subdir": options['subdir'], "jobname": options['jobname'], "command": command, 
+					"exclude": options['nfreenodes'], "cpu": options['cpu'], "time": options['time'], "unique": True, 
+					'infiles': job['infiles'], 'thisjob': job }
+								
 	submit( **batchoptions )
-				
+	time.sleep(0.5)
+	print blue( "{0}/{1} jobs submitted!".format( Jobnumber+1, Jobs['njobs'] ) )
+	
+					
 if __name__ == "__main__" :
 
 	parser = argparse.ArgumentParser(description='')
@@ -123,7 +190,7 @@ if __name__ == "__main__" :
 			
 	#options to control slurm job submission #
 	#ideally you would run with these options in a screen session #
-	parser.add_argument('--cpu',          metavar='<cpu>',           help="(Slurm option) Number of CPUs per simulation job.", type=int, default=4000)
+	parser.add_argument('--cpu',          metavar='<cpu>',           help="(Slurm option) Number of CPUs per simulation job.", type=int, default=4140)
 	parser.add_argument('--time',         metavar='<time>',          help="(Slurm option) Maximum running time per simulation job in hours.", type=int, default=16)
 	parser.add_argument('--nsimjobs',     metavar='<nsimjobs>',      help="(Slurm option) Maximum number of simultaneous simulation jobs running.", type=int)
 	parser.add_argument('--nsimuserjobs', metavar='<nsimuserjobs>',  help="(Slurm option) Maximum number of simultaneous simulation jobs running for the user.", type=int)
@@ -133,36 +200,15 @@ if __name__ == "__main__" :
 	parser.add_argument('--subtime',      metavar='<subtime>',       help="(Slurm option) Time interval when the jobs are sent.", nargs='+', type=int, default=[0, 23])
 
 	opts = parser.parse_args()
-		
+	
+	# Check simulation inputs
 	CheckSimInputs( opts )
-	
-	#Number of jobs
-	Njobs = int( opts.nevents/ opts.neventsjob )
-	
-	if  Njobs == 0:
-		warnings.warn( red(" WARNING: no jobs are being sent (make sure that neventsjob is smaller than nevents)! "), stacklevel = 2 )
-	
-	if opts.polarity == '':
-		polarity = ["MagUp" for i in range(0,int(Njobs / 2))]
-		polarity += ["MagDown" for i in range(int(Njobs / 2), Njobs)]
-		shuffle(polarity)
-	else:
-		polarity = [opts.polarity for i in range(0, Njobs)]
-						
-	for n in range(Njobs):
-		
-		opts_n = vars(opts).copy()
-		opts_n['runnumber'] = opts.runnumber + n
-		opts_n['polarity']  = polarity[n]
-		opts_n['nthisjob']  = n + 1
-		opts_n['njobs']     = Njobs
-		
-		#Check if ok to submit for slurm batch jobs
-		CheckSubmission( opts_n )
 
-		SendJob( opts_n )
+	jobs = PrepareJobs( opts )
 		
-		print blue( "{0}/{1} jobs submitted!".format( n + 1, Njobs ) )
+	SendJobs( jobs )
+		
+		
 		
 						
 
