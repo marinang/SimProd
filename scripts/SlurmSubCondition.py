@@ -34,7 +34,7 @@ def DefaultSlurmOptions( ):
 		nsimuserjobs = 200
 		nuserjobs    = 300
 		npendingjobs = 60
-		nfreenodes   = 0
+		nfreenodes   = 1
 		
 	if weekday == 5 or weekday == 6:
 		nsimjobs     *= 1.5

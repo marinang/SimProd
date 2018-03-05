@@ -8,83 +8,158 @@ import glob
 import os
 from utils import *
 import time
+import subprocess
 
-def JobPaths( Options ):
+def GetStatus( Job ):
 	
-	nthisjob  = Options['nthisjob']
-	njobs     = Options['njobs']
-	runnumber = Options['runnumber']
-	runnumbers = [ runnumber - n for n in range(0,nthisjob) ]
+	JobID = Job["jobid"]
 	
-	jobdir = os.getenv("SIMOUTPUT")
-	if jobdir is None :
-		jobdir = os.getenv("HOME")+"/SimulationJobs"
-			
-	basejobpath = "{0}/simProd_{evttype}_{simcond}/{year}_*_{neventsjob}evts_s{stripping}".format( jobdir, **Options )
-	jobpaths = []
-	for r in runnumbers:
-		jobpaths.append( glob.glob("{0}_{1}".format( basejobpath, r))[0] )
-		
-	return jobpaths
-
-def SubmittedJobs( Options ):
-		return  "{nthisjob}/{njobs} jobs submitted!".format( **Options )
-		
-		
-def IsFinished( Directory ):
-	
-	def DeltaT( time_event ):
-		#time_event in second
-		now = time.time()
-		deltat = (now - time_event) / 3600
-		return deltat
-		#in hour
-	
-	files = glob.glob(Directory+"/*")
-	
-	mtime = max([ os.path.getmtime(f) for f in files ])
-	
-	if DeltaT( mtime ) > 0.20 :
-		return True
+	### Slurm
+	try:
+		subprocess.Popen(['squeue'], stdout=subprocess.PIPE)
+	except OSError:
+		Slurm = False
 	else:
-		return False
+		Slurm = True
 	
+	if Slurm:
 		
-def CompletedJobs( Options ):
-	ncompleted = 0
-	
-	for p in JobPaths( Options ):
-		dst = p+"/{neventsjob}_events.dst".format( **Options )
-		if os.path.isfile(dst) and os.path.getsize( dst ) > 1000000 and IsFinished(p):
-			ncompleted += 1
+		ntries = 20
+		n = 0
+		while n < ntries:
+			process  = subprocess.Popen(['sacct','-j', str(JobID), '--format=State'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			out, err = process.communicate()
+			status = out.split("\n")[-2].replace(" ","").lower()
 			
-	return ncompleted
+			if status == '----------':
+				time.sleep(0.5)
+			else:
+				break
+		
+		if status == '----------':
+			raise NotImplementedError("Job not found")
+				
+		return status
+						
+	elif "lxplus" in os.getenv("HOSTNAME"):
+		return NotImplemented
+		
+					
+def SetStatus ( Jobs ):
 	
-def RunningJobs( Options ):
-	nrunning = 0
+	nthisjob  = Jobs['nthisjob']
+	njobs     = Jobs['njobs']
 	
-	for p in JobPaths( Options ):
-		files = glob.glob(p+"/*")
-		if len(files) > 5 and not IsFinished(p):
-			nrunning += 1
-			
-	return nrunning   
-	
-def FailedJobs( Options ):
-	nfailed = 0	
-	
-	for p in JobPaths( Options ):
-		dst = p+"/{neventsjob}_events.dst".format( **Options )
-		if not os.path.isfile(dst) and IsFinished(p):
-			nfailed += 1
-		elif os.path.isfile(dst) and os.path.getsize( dst ) < 1000000:
-			nfailed += 1
-			
-	return nfailed
+	for i in range(nthisjob):
+		
+		job = Jobs[str(i)]
+		
+		if job["completed"] or job["failed"]:
+			continue
 
-def Status( Options ):
+		job["submitted"] = True
+			
+		IsRunning( job )
+
+		IsCompleted( job )
+
+		IsFailed( job )
 		
-	print blue( SubmittedJobs( Options )  )
-	print cyan( "{0} jobs running!".format( RunningJobs( Options ) ) )
-	print green( "{0} jobs completed!".format( CompletedJobs( Options ) ) )
-	print magenta( "{0} jobs failed!".format( FailedJobs( Options ) ) )
+		WriteStatus( job )
+			
+			
+def WriteStatus ( Job ):
+	
+	JobDirectory = Job["production_folder"]
+	
+	status_file = "{0}/status".format(JobDirectory)
+	
+	if os.path.isfile( status_file ):
+		os.remove( status_file )
+		
+	status_file = open(status_file, "w")
+	status_file.write("submitted: {0}\n".format( Job["submitted"] ) )
+	status_file.write("running: {0}\n".format( Job["running"] ) )
+	status_file.write("completed: {0}\n".format( Job["completed"] ) )
+	status_file.write("failed: {0}\n".format( Job["failed"] ) )
+	status_file.close()
+								
+def IsRunning( Job ):
+	
+	if Job["submitted"]:
+		if GetStatus( Job ) == "running":
+			Job["running"] = True
+		else:
+			Job["running"] = False
+		
+def IsCompleted( Job ):
+	
+	if Job["submitted"] and IsFinished( Job ):
+		JobDirectory = Job["production_folder"]
+		
+		if os.path.isdir( JobDirectory ):
+			dst = JobDirectory + "/" + Job["production_file"]
+				
+			if os.path.isfile( dst ) and os.path.getsize( dst ) > 1000000:
+				Job["completed"] = True
+		
+		elif IsMoved( Job ):
+			Job["completed"] = True
+		
+def IsFailed( Job ):
+	
+	if Job["submitted"] and IsFinished( Job ):
+		JobDirectory = Job["production_folder"]
+		
+		if os.path.isdir( JobDirectory ):
+			dst = JobDirectory + "/" + Job["production_file"]
+		
+			if os.path.isfile( dst ) and os.path.getsize( dst ) < 1000000:
+				Job["failed"] = True
+			elif not os.path.isfile( dst ):
+				Job["failed"] = True
+				
+def IsFinished( Job ):
+	
+	if Job["submitted"] and not Job["completed"] and not Job["failed"]:
+		completed = GetStatus( Job ) == "completed"
+		canceled  = GetStatus( Job ) == "canceled"
+		failed    = GetStatus( Job ) == "failed"
+		
+		if completed or canceled or failed:
+			return True
+		else:
+			return False
+		
+def IsMoved( Job ):
+	
+	JobDirectory = Job["production_folder"]
+	Destination  = Job["destination_folder"]
+	File         = Destination + "/" + Job["destination_file"]
+		
+	if os.path.isdir( JobDirectory ):
+		return False
+	else:
+		if  os.path.isfile( File ):
+			return True
+		else:
+			raise(NotImplementedError("File is lost!"))
+		
+def Status( Jobs ):
+	
+	def count( Jobs, status ):
+		n = 0
+		for i in range( Jobs["njobs"] ):
+			if Jobs[str(i)][status]:
+				n += 1
+		return n
+			
+	SetStatus( Jobs )
+	nrunning   = count( Jobs, "running")
+	ncompleted = count( Jobs, "completed")
+	nfailed    = count( Jobs, "failed")
+		
+	print blue( "{nthisjob}/{njobs} jobs submitted!".format( **Jobs )  )
+	print cyan( "{0} jobs running!".format( nrunning ) )
+	print green( "{0} jobs completed!".format( ncompleted ) )
+	print magenta( "{0} jobs failed!".format( nfailed ) )
