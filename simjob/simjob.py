@@ -254,10 +254,8 @@ class JobCollection(object):
 			self.jobs(n).send
 			time.sleep(0.5)
 			print( blue( "{0}/{1} jobs submitted!".format( n+1, self._njobs ) ) )
-			self.status
-			time.sleep(10)
-			
 
+			
 class SimulationJob(object):
 	"""
 	Class for simulation jobs
@@ -294,6 +292,7 @@ class SimulationJob(object):
 			raise NotImplementedError('batch command not defined!')
 			
 		self._send_options = self._batch_options.copy()
+		self._send_options["jobname"] = self._jobname
 		self._send_options["infiles"] = self._infiles
 		self._send_options["command"] = self._batch_command
 		
