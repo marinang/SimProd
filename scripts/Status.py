@@ -6,7 +6,7 @@
 
 import glob
 import os
-from utils import *
+from .utils import *
 import time
 import subprocess
 
@@ -159,7 +159,7 @@ def Status( Jobs ):
 	ncompleted = count( Jobs, "completed")
 	nfailed    = count( Jobs, "failed")
 		
-	print blue( "{nthisjob}/{njobs} jobs submitted!".format( **Jobs )  )
-	print cyan( "{0} jobs running!".format( nrunning ) )
-	print green( "{0} jobs completed!".format( ncompleted ) )
-	print magenta( "{0} jobs failed!".format( nfailed ) )
+	print( blue( "{nthisjob}/{njobs} jobs submitted!".format( **Jobs )  ) )
+	print( cyan( "{0} jobs running!".format( nrunning ) ) )
+	print( green( "{0} jobs completed!".format( ncompleted ) ) )
+	print( magenta( "{0} jobs failed!".format( nfailed ) ) )
