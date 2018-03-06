@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-import Sim09c
-import Sim09b
+from . import Sim09c
+from . import Sim09b
 
 Sim09b_path = Sim09b.__file__.replace( "pyc", "py" ).replace( "/__init__.py", "" )
 Sim09c_path = Sim09c.__file__.replace( "pyc", "py" ).replace( "/__init__.py", "" )

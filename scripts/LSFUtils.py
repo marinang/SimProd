@@ -23,12 +23,9 @@ def IsLSF():
 		
 def GetLSFStatus( ID ):
 	
-	ntries = 20
-	n = 0
-	while n < ntries:
-		process  = Popen(["bjobs", "-o", "stat", str(ID)], stdout=PIPE)
-		out, _ = process.communicate()
-		status = out.split("\n")[1].replace(" ","").lower()
+	process  = Popen(["bjobs", "-o", "stat", str(ID)], stdout=PIPE)
+	out, _ = process.communicate()
+	status = out.split("\n")[1].replace(" ","").lower()
 		
 	if status == "pend":
 		status = "pending"

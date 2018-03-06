@@ -146,7 +146,7 @@ class JobCollection(object):
 		
 	@property
 	def status( self):
-		
+
 		nrunning   = 0
 		ncompleted = 0 
 		nfailed    = 0
@@ -158,10 +158,13 @@ class JobCollection(object):
 				nsubmitted += 1
 			elif status == "running":
 				nrunning   += 1
+				nsubmitted += 1
 			elif status == "completed":
 				ncompleted += 1
+				nsubmitted += 1
 			elif status == "failed":
 				nfailed    += 1
+				nsubmitted += 1
 		
 		print(blue( "{0}/{1} jobs submitted!".format( nsubmitted, self._njobs )  )) 
 		print(cyan( "{0} jobs running!".format( nrunning ) )) 
@@ -205,32 +208,23 @@ class JobCollection(object):
 		
 		infiles = kwargs.get('infiles', [])
 
-		if job_number == None:
-			for n in range(self._njobs):
-				polarity  = self._polarity[n]
-				runnumber = self._runnumber + n
-		
-				options = {"infiles": infiles}
-				options["jobname"] = "{0}_{1}_{2}evts_s{3}_{4}".format( self._year, polarity, self._neventsjob, self._stripping, runnumber )
-				options["production_file"]  = "{0}/{1}_events.{2}".format( self._production_folder, self._neventsjob, self._ext )
-				options["destination_file"] = "{0}/{1}evts_s{2}_{3}.{4}".format( self._destination_folder, self._neventsjob, self._stripping, runnumber, self._ext )
-				options["batch_options"] = self.options
-				options["batch_command"] = self.command( polarity, runnumber)
-						
-				self._jobs[str(n)] = SimulationJob( **options )
-						
-		else:
-			polarity  = self._polarity[job_number]
-			runnumber = self._runnumber + job_number
+		for n in range(self._njobs):
+			
+			if job_number != None and job_number != n:
+				continue
+			
+			polarity  = self._polarity[n]
+			runnumber = self._runnumber + n
 	
-			options = {"infiles": infiles}		
+			options = {"infiles": infiles}
 			options["jobname"] = "{0}_{1}_{2}evts_s{3}_{4}".format( self._year, polarity, self._neventsjob, self._stripping, runnumber )
-			options["production_file"]  = "{0}/{1}_events.{2}".format( self._production_folder, self._neventsjob, ext )
-			options["destination_file"] = "{0}/{1}evts_s{2}_{3}.{4}".format( self._destination_folder, self._neventsjob, self._stripping, runnumber, ext )
+			options["production_file"]  = "{0}/{1}_events.{2}".format( self._production_folder, self._neventsjob, self._ext )
+			options["destination_file"] = "{0}/{1}evts_s{2}_{3}.{4}".format( self._destination_folder, self._neventsjob, self._stripping, runnumber, self._ext )
 			options["batch_options"] = self.options
-	
-			self._jobs[str(job_number)] = SimulationJob( **options )
-
+			options["batch_command"] = self.command( polarity, runnumber)
+					
+			self._jobs[str(n)] = SimulationJob( **options )
+						
 	def cansubmit( self):
 		if self._slurm:
 			#update default options
@@ -243,22 +237,26 @@ class JobCollection(object):
 			return True
 				
 	def send( self, job_number = None ):
-		if job_number == None:
-			for n in self._jobs.keys():
-				
-				SUBMIT = False
-				while SUBMIT == False:
-					SUBMIT = self.cansubmit()
-					if not SUBMIT:
-						self.status
-						print("")
-						time.sleep( randint(0,30) * 60 )
-									
-				self._jobs[n].send
-				time.sleep(0.5)
-				print( blue( "{0}/{1} jobs submitted!".format( n, self.njobs ) ) )	
-				
-				
+		
+		for n in range(self._njobs):
+			
+			if job_number != None and job_number != n:
+				continue
+		
+			SUBMIT = False
+			while SUBMIT == False:
+				SUBMIT = self.cansubmit()
+				if not SUBMIT:
+					self.status
+					print("")
+					time.sleep( randint(0,30) * 60 )
+								
+			self.jobs(n).send
+			time.sleep(0.5)
+			print( blue( "{0}/{1} jobs submitted!".format( n+1, self._njobs ) ) )
+			self.status
+			time.sleep(10)
+			
 
 class SimulationJob(object):
 	"""
@@ -307,7 +305,8 @@ class SimulationJob(object):
 	
 	@property	
 	def send( self):
-		self._jobid = submit( **self.__send_options )
+		send_options = self._send_options
+		self._jobid = submit( **send_options )
 		self._submitted = True
 			
 	@property
