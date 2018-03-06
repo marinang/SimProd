@@ -12,10 +12,7 @@ import subprocess as sub
 import random
 from datetime import datetime
 
-#### Routines for intercative lxplus submission ####
-
-    
-def PrepareLxplusJob( Options, Dirname ):
+def PrepareLxplusJob( **kwargs ):
     
     subdir   = kwargs.get( "subdir", "" )
     jobname  = kwargs.get( "jobname", "" )
@@ -35,18 +32,6 @@ def PrepareLxplusJob( Options, Dirname ):
     
     return command
 
-    
-def IsSlurm():
-    
-    # Check if there is a slurm batch system
-    
-    try:
-        sub.Popen(['squeue'], stdout=sub.PIPE)
-    except OSError:
-        return False
-    else:
-        return True
-        
 def PrepareSlurmJob( **kwargs ):
     
     #prepare slurm batch job submission
@@ -55,7 +40,7 @@ def PrepareSlurmJob( **kwargs ):
     jobname  = kwargs.get( "jobname", "" )
     cpu      = kwargs.get( "cpu", 4000 )        #Memory per cpu (Slurm).
     time     = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).
-    exclude  = kwargs.get( "exclude", 0 )       #Number of nodes to exclude (Slurm).
+    exclude  = kwargs.get( "nfreenodes", 0 )       #Number of nodes to exclude (Slurm).
     dirname  = kwargs.get( "dirname" )
 
     def GetSlurmNodes():
@@ -121,9 +106,11 @@ def main( **kwargs ):
     basedir  = kwargs.get( "basedir", jobdir )  #This option bypasses the JOBDIR environment variable and creates the job's folder in the specified folder.
     jobname  = kwargs.get( "jobname", "" )      #Give a name to the job. The job will be also created in a folder with its name (default is the executable name).
     clean    = kwargs.get( "clean", True )      #If the job folder already exists by default it cleans it up. This option bypasses the cleaning up.
-    unique   = kwargs.get( "unique", False )    #Copy the executable only once in the top folder (and not in each job folders).
+    unique   = kwargs.get( "unique", True )    #Copy the executable only once in the top folder (and not in each job folders).
     infiles  = kwargs.get( "infiles", [] )      #Files to copy over.
     command  = kwargs.get( "command", "" )      #Command to launch.
+    slurm    = kwargs.get( "slurm", False )
+    lsf      = kwargs.get( "lsf", False )
         
     exe, execname = None, None
     commands = command.split(' ')
@@ -209,21 +196,21 @@ def main( **kwargs ):
     if( subdir != "" ) :
         subdir = (re.sub("^.*/","",subdir)+"_")
             
-    if "lxplus" in os.getenv("HOSTNAME") :  ## Batch for lxplus
+    if "lxplus" in os.getenv("HOSTNAME") and lsf:  ## Batch for lxplus
         command = PrepareLxplusJob( **kwargs )
         process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
         out, err = process.communicate()
         ID = int( out.split(" ")[1].replace(">","").replace("<","") )
         print( "Submitted batch job {0}".format(ID) )
-        kwargs["thisjob"]["jobid"] = ""
+        return ID
         
-    elif IsSlurm():
+    elif slurm:
         command = PrepareSlurmJob( **kwargs )
         process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
         out, err = process.communicate()
         ID = int( out.split(" ")[-1] )
         print( "Submitted batch job {0}".format(ID) )
-        kwargs["thisjob"]["jobid"] = ID
+        return ID
      
     else :
         print("Can run in batch mode only on lxplus or on a slurm batch system.")
@@ -233,7 +220,7 @@ def main( **kwargs ):
     ########################################################################################
           
     
-         
+        
         
 
 
