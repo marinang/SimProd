@@ -10,9 +10,9 @@ import subprocess
 from random import shuffle
 import sys
 import warnings
-from scripts import *
+from simjob.scripts import *
 import time
-from simjob.simjob import JobCollection
+from simjob import JobCollection
 
 basedir = os.getenv("SIMOUTPUT")
 if basedir is None :

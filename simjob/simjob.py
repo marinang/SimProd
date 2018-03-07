@@ -5,11 +5,11 @@
 ## Description: simulation job class
 
 from random import shuffle
-from scripts import *
+from .scripts import *
 import os
 import time
 from random import randint
-from setup import DoProd
+from .setup import DoProd
 
 				
 class JobCollection(object):

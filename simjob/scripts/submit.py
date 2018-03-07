@@ -17,7 +17,7 @@ def PrepareLxplusJob( **kwargs ):
     subdir   = kwargs.get( "subdir", "" )
     jobname  = kwargs.get( "jobname", "" )
     dirname  = kwargs.get( "dirname" )
-    queue    = kwargs.get( "queue", "8nh") #Choose bach queue (default 8nh) (lxplus) 
+    queue    = kwargs.get( "queue", "1nd") #Choose bach queue (default 1nd) (lxplus) 
     mail     = kwargs.get( "mail", False) #When job finished sends a mail to USER@cern.ch (lxplus)
     
     if mail: mail = "-u "+os.environ["USER"]+"@cern.ch"
