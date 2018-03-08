@@ -10,7 +10,7 @@ You need to to know:
 
 * Number of events you want to produce.
 
-Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/setup).
+Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/simjob/setup).
 	
 Before launching make sure to set the environnement variable _$SIMOUTPUT_ to the path of where you want to save the outputs of the jobs. This can be done using the _setup.sh_ script or adding this variable to your _.bashrc_.
 
