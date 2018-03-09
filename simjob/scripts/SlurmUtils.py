@@ -9,6 +9,7 @@ from datetime import datetime
 import os
 import getpass
 from .utils import *
+import time
 
 def IsSlurm():
 	
