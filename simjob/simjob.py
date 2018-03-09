@@ -10,6 +10,7 @@ import os
 import time
 from random import randint
 from .setup import DoProd
+import warnings
 
 				
 class JobCollection(object):
@@ -18,7 +19,7 @@ class JobCollection(object):
 	"""
 	
 	def __init__(self, **kwargs):
-				
+						
 		self._jobs    = {}
 		self._options = {}
 		
@@ -41,6 +42,8 @@ class JobCollection(object):
 		self._mudst      = kwargs.get('mudst', False)
 		
 		self._runnumber  = kwargs.get('runnumber', baserunnumber())
+		
+		self._checksiminputs()
 	
 		#Number of jobs
 		self._njobs = int( self._nevents/ self._neventsjob )
@@ -83,14 +86,15 @@ class JobCollection(object):
 		self._destination_folder = "{0}/{1}/{2}/{3}/{4}".format( self._basedir, self._evttype, self._year, self._simcond, self._polarity)
 		self._doprod  = DoProd( self._simcond, self._year )
 		
+		self._options["cpu"]  = kwargs.get('cpu', None)
+		self._options["time"] = kwargs.get('time', None)
+		
 		if IsSlurm():
 			
 			self._options["lsf"]      = False
 			self._lsf                 = self._options["lsf"]
 			self._options["slurm"]    = True	
 			self._slurm               = self._options["slurm"]
-			self._options["cpu"]      = kwargs.get('cpu', None)
-			self._options["time"]     = kwargs.get('time', None)
 			self._options["subtime"]  = kwargs.get('subtime', None)
 						
 			default_options    = DefaultSlurmOptions( )
@@ -277,8 +281,51 @@ class JobCollection(object):
 			self.jobs(n).send
 			time.sleep(0.5)
 			print( blue( "{0}/{1} jobs submitted!".format( n+1, self._njobs ) ) )
-
 			
+	def _checksiminputs( self ):
+		
+		def StrippingVersion( *args ):
+			args = list(args)
+			with warnings.catch_warnings():
+				warnings.simplefilter("always")	
+				if self._stripping == "":
+					self._stripping = args[0]
+					if len(args) > 1:
+						warnings.warn( red("Default stripping verion {0} used. {1} versions are available.".format( self._stripping, args)), stacklevel = 2)
+				elif self._stripping not in args:
+					raise NotImplementedError( "Stripping version {0} is not available for {1} {2}! Only {3}!".format( self._stripping, self._year, self._simcond, args) )	
+						
+		if self._simcond == "Sim09b" and ( self._year == 2011 or self._year == 2017 ):
+			raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(self._year, self._simcond) )
+			
+		elif self._simcond == "Sim09c" and self._year == 2017:
+			raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(self._year, self._simcond) )
+		
+		if self._year == 2012:
+			if self._simcond == "Sim09b":
+				StrippingVersion("21")
+			elif self._simcond == "Sim09c":
+				StrippingVersion("21")
+			
+		elif self._year == 2015:
+			if self._simcond == "Sim09b":
+				StrippingVersion("24")
+			if self._simcond == "Sim09c":
+				StrippingVersion("24r1", "24r1p1")
+			
+		elif self._year == 2016:
+			if self._simcond == "Sim09b":
+				StrippingVersion("28")
+			if self._simcond == "Sim09c":
+				StrippingVersion("28r1", "28r1p1")	
+								
+		if self._mudst and ( self._year == 2012 or self._year == 2011 ):
+			raise NotImplementedError( "No micro DST output for {0}!".format(self._year) )
+				
+		if self._turbo and ( self._year == 2012 or self._year == 2011 ):
+			raise NotImplementedError( "Turbo is not implemented for {0}!".format(self._year) )
+
+				
 class SimulationJob(object):
 	"""
 	Class for simulation jobs

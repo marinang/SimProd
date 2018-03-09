@@ -14,6 +14,8 @@ from datetime import datetime
 
 def PrepareLxplusJob( **kwargs ):
     
+    cpu      = kwargs.get( "cpu", 4000 )        #Memory per cpu (Slurm).
+    time     = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).
     subdir   = kwargs.get( "subdir", "" )
     jobname  = kwargs.get( "jobname", "" )
     dirname  = kwargs.get( "dirname" )
@@ -26,9 +28,10 @@ def PrepareLxplusJob( **kwargs ):
     #prepare lxplus batch job submission
     
     command = "bsub -R 'pool>30000' -o {dir}/out -e {dir}/err \
-            -q {queue} {mail} -J {jname} < {dir}/run.sh".format(
-                dir = dirname, queue = queue,
-                mail = mail , jname = subdir + jobname)
+            -q {queue} {mail} -J {jname} < {dir}/run.sh -M {cpu}".format(
+                    dir = dirname, queue = queue,
+                    mail = mail, jname = subdir + jobname,
+                    cpu  = cpu )
     
     return command
 
@@ -198,6 +201,7 @@ def main( **kwargs ):
             
     if "lxplus" in os.getenv("HOSTNAME") and lsf:  ## Batch for lxplus
         command = PrepareLxplusJob( **kwargs )
+        print command
         process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
         out, err = process.communicate()
         ID = int( out.split(" ")[1].replace(">","").replace("<","") )
