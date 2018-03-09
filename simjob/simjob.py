@@ -132,17 +132,40 @@ class JobCollection(object):
 	@property
 	def nevents( self):
 		return self._nevents
-			
+		
+	@property
+	def neventsjob( self):
+		return self._neventsjob
+		
+	@property
+	def njobs( self):
+		return self._njobs
+		
+	@property
+	def evttype( self):
+		return self._evttype
+					
 	@property	
 	def options( self):
 		return self._options
 			
 	def jobs( self, job_number = None ):
-		
+		if job_number != None and not isinstance(job_number, int):
+			raise ValueError("Job number must be a 'int'. Got a '{0}' instead".format(job_number.__class__.__name__))
+			
 		if job_number == None:
 			return self._jobs.values()
 		else:
 			return self._jobs[str(job_number)]
+			
+	def runnumber( self, job_number = None ):
+		if job_number != None and not isinstance(job_number, int):
+			raise ValueError("Job number must be a 'int'. Got a '{0}' instead".format(job_number.__class__.__name__))
+		
+		if job_number == None:
+			return self._runnumber
+		else:
+			return self._runnumber + job_number
 		
 	@property
 	def status( self):
