@@ -201,7 +201,6 @@ def main( **kwargs ):
             
     if "lxplus" in os.getenv("HOSTNAME") and lsf:  ## Batch for lxplus
         command = PrepareLxplusJob( **kwargs )
-        print command
         process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
         out, err = process.communicate()
         ID = int( out.split(" ")[1].replace(">","").replace("<","") )
