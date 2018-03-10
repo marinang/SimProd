@@ -26,7 +26,7 @@ if __name__ == "__main__" :
 	parser.add_argument('nevents',        metavar='<nevents>',       help="Number of events to produce.", type=int)
 	parser.add_argument('year',           metavar='<year>',          help="Year to simulate.", type=int, choices=[2011,2012,2015,2016,2017])
 	parser.add_argument('--polarity',     metavar='<polarity>',      help="Magnet conditions to simulate.", default='', choices=['MagUp','MagDown'])
-	parser.add_argument('--simcond',      metavar='<simcond>',       help="Simulation condition.", default='Sim09b', choices=['Sim09b','Sim09c'])
+	parser.add_argument('--simcond',      metavar='<simcond>',       help="Simulation condition.", default='Sim09c', choices=['Sim09b','Sim09c'])
 	parser.add_argument('--stripping',    metavar='<stripping>',     help="Version of the stripping.", type=str, default='')
 	parser.add_argument('--turbo',                                   help="Do the Turbo step.", action='store_true')
 	parser.add_argument('--mudst',                                   help="Create a muDST output instead of DST ouptut.", action='store_true')  

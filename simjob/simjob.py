@@ -83,8 +83,10 @@ class JobCollection(object):
 		self._options["subdir"] = subdir
 		self._subdir = self._options["subdir"]	
 		self._production_folder  = "{0}/{1}".format( self._basedir, self._subdir)
-		self._destination_folder = "{0}/{1}/{2}/{3}/{4}".format( self._basedir, self._evttype, self._year, self._simcond, self._polarity)
+		self._destination_folder = "{0}/{1}/{2}/{3}".format( self._basedir, self._evttype, self._year, self._simcond)
 		self._doprod  = DoProd( self._simcond, self._year )
+		
+		print self._production_folder
 		
 		self._options["cpu"]  = kwargs.get('cpu', None)
 		self._options["time"] = kwargs.get('time', None)
@@ -245,8 +247,9 @@ class JobCollection(object):
 	
 			options = {"infiles": infiles}
 			options["jobname"] = "{0}_{1}_{2}evts_s{3}_{4}".format( self._year, polarity, self._neventsjob, self._stripping, runnumber )
-			options["production_file"]  = "{0}/{1}_events.{2}".format( self._production_folder, self._neventsjob, self._ext )
-			options["destination_file"] = "{0}/{1}evts_s{2}_{3}.{4}".format( self._destination_folder, self._neventsjob, self._stripping, runnumber, self._ext )
+			_subdir_production = "{0}/{1}_{2}_{3}evts_s{4}_{5}".format( self._production_folder, self._year, polarity, self._neventsjob, self._stripping, runnumber)
+			options["production_file"]  = "{0}/{1}_events.{2}".format( _subdir_production, self._neventsjob, self._ext )
+			options["destination_file"] = "{0}/{1}/{2}evts_s{3}_{4}.{5}".format( self._destination_folder, polarity, self._neventsjob, self._stripping, runnumber, self._ext )
 			options["batch_options"] = self.options
 			options["batch_command"] = self.command( polarity, runnumber)
 					
@@ -277,7 +280,9 @@ class JobCollection(object):
 					self.status
 					print("")
 					time.sleep( randint(0,30) * 60 )
-								
+				
+			print self.jobs(n)._production_file		
+			print self.jobs(n)._destination_file			
 			self.jobs(n).send
 			time.sleep(0.5)
 			print( blue( "{0}/{1} jobs submitted!".format( n+1, self._njobs ) ) )

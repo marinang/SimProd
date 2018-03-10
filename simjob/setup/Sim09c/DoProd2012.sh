@@ -84,6 +84,7 @@ echo "from Gaudi.Configuration import *" > MooreConfiguration.py
 echo "from Configurables import Moore" >> MooreConfiguration.py
 echo "Moore().DDDBtag   = '$DDDBtag'" >> MooreConfiguration.py
 echo "Moore().CondDBtag = '$DBtag'" >> MooreConfiguration.py
+echo "Moore().UseDBSnapshot = False" >> MooreConfiguration.py
 echo "EventSelector().Input = [\"DATAFILE='PFN:./L0.digi' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> MooreConfiguration.py
 echo "Moore().outputFile = 'Moore.digi'" >> MooreConfiguration.py
 
