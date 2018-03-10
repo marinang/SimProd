@@ -86,8 +86,6 @@ class JobCollection(object):
 		self._destination_folder = "{0}/{1}/{2}/{3}".format( self._basedir, self._evttype, self._year, self._simcond)
 		self._doprod  = DoProd( self._simcond, self._year )
 		
-		print self._production_folder
-		
 		self._options["cpu"]  = kwargs.get('cpu', None)
 		self._options["time"] = kwargs.get('time', None)
 		
@@ -280,9 +278,7 @@ class JobCollection(object):
 					self.status
 					print("")
 					time.sleep( randint(0,30) * 60 )
-				
-			print self.jobs(n)._production_file		
-			print self.jobs(n)._destination_file			
+							
 			self.jobs(n).send
 			time.sleep(0.5)
 			print( blue( "{0}/{1} jobs submitted!".format( n+1, self._njobs ) ) )
