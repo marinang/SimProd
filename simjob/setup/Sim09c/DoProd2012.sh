@@ -8,6 +8,9 @@ Optfile=$1
 Nevents=$2
 Polarity=$3
 RunNumber=$4
+Turbo=$5
+muDST=$6
+Stripping=$7
 
 if [ "$Polarity" == "MagUp" ]; then
   SimCond=Gauss/Sim08-Beam4000GeV-mu100-2012-nu2.5.py
