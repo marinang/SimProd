@@ -18,13 +18,13 @@ The script to launch jobs is **LaunchProduction.py**, usage: python LaunchProduc
 
 optional arguments:
 
-* --polarity: Magnet conditions to simulate [MagUp or MagDown, default: half MagUp, half MagDown].
+* --polarity: Magnet conditions to simulate (MagUp or MagDown, default: half MagUp, half MagDown).
 
-* --neventsjob: Number of events per jobs [default: 50]. 
+* --neventsjob: Number of events per jobs (default: 50). 
 
 * --runnumber: Run number for Gauss.
 
-* --simcond: Simulation condition [Sim09b, Sim09c, default: Sim09c].
+* --simcond: Simulation condition (Sim09b, Sim09c, default: Sim09c).
 
 * --stripping: Version of the stripping (default = '').
 
