@@ -24,7 +24,7 @@ optional arguments:
 
 * --runnumber: Run number for Gauss.
 
-* --simcond: Simulation condition [Sim09b, Sim09c (Preliminary), default: Sim09b].
+* --simcond: Simulation condition [Sim09b, Sim09c, default: Sim09c].
 
 * --stripping: Version of the stripping (default = '').
 
@@ -32,15 +32,15 @@ optional arguments:
 
 * --mudst: Produce a muDST output.
 
-* --decfiles: Version of the DecFiles package (default = v30r5)
+* --decfiles: Version of the DecFiles package (default = v30r5).
 
 * --infiles: External files to provide for generation (for example LHE or HepMC files).
+
+* --cpu: Number of CPUs per simulation job.
 	
 If you wish to modify any option related to an EvtType prior to launch submission, the **GetEvtType.py** script will copy every option file that are in _EvtType.py_ to a directory called _EvtTypes_. It takes the EvtType as argument.
 
 If you wish to send jobs on a **Slurm** batch system you can add the following options for **LaunchProduction.py**.
-
-* --cpu: Number of CPUs per simulation job.
 
 * --time: Maximum running time per simulation job in hours.
 
