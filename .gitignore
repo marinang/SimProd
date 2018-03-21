@@ -1,2 +1,7 @@
 /EvtTypes
 *.pyc
+/._simjobs_
+__pycache__
+*.egg-info
+/build
+/bin/*
