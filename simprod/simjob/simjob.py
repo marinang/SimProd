@@ -327,7 +327,7 @@ class SimulationJob(object):
 	@evttype.setter
 	def evttype( self, value ):
 		self._evttype = value		
-		self._setoptfile()
+		self.__setoptfile()
 		
 	@property	
 	def simcond( self):
@@ -563,22 +563,25 @@ class SimulationJob(object):
 			return True
 				
 	def send( self, job_number = None ):
-		for n in range(self.nsubjobs):
-			if job_number != None and job_number != n:
-				continue
-		
-			SUBMIT = False
-			while SUBMIT == False:
-				SUBMIT = self.__cansubmit()
-				if not SUBMIT:
-					print(self.__str__())
-					print("")
-					time.sleep( randint(0,30) * 60 )
+		try:
+			for n in range(self.nsubjobs):
+				if job_number != None and job_number != n:
+					continue
 			
-			if self[n]._submitted:
-				continue
-					
-			self[n].send
+				SUBMIT = False
+				while SUBMIT == False:
+					SUBMIT = self.__cansubmit()
+					if not SUBMIT:
+						print(self.__str__())
+						print("")
+						time.sleep( randint(0,30) * 60 )
+				
+				if self[n]._submitted:
+					continue	
+				self[n].send
+				
+		except TypeError:
+			raise NotImplementedError("Job is not prepared!") 
 			
 	def __checksiminputs( self ):
 		
@@ -1018,17 +1021,17 @@ class SimulationSubJob(object):
 		elif self._send_options["lsf"]:
 			status = GetLSFStatus( self.jobid )
 						
-		if status == "running" and not self._running:
-			self._running = True
+		if status == "running":
+			self._running   = True
 			
-		if status == "completed" or status == "canceled" or status == "failed" or status == "notfound":
+		elif status == "completed" or status == "canceled" or status == "failed" or status == "notfound":
 			self._running  = False
 			self._finished = True
 						
 			if self.output != "" and os.path.isfile( self.output ):							
-				if os.path.isfile( self.output ) and os.path.getsize( self.output ) > 1000000:
+				if os.path.isfile( self.output ) and os.path.getsize( self.output ) > 900000:
 					self._completed = True
-				elif os.path.isfile( self.output ) and os.path.getsize( self.output ) < 1000000:
+				elif os.path.isfile( self.output ) and os.path.getsize( self.output ) < 900000:
 					self._failed = True	
 			elif self.output == "":
 				self._failed = True
@@ -1051,22 +1054,21 @@ class SimulationSubJob(object):
 		if os.path.isdir(self._jobdir):
 			if keep_log:
 				files = glob.glob(self._jobdir + "/*")
-				if len(files) > 2:
-					print "EMPTY JOB {0} DIR".format(self._jobnumber)
-					for f in files:
-						if "out" in f or "err" in f:
-							continue
-						else:
-							os.remove(f) 
+				print "EMPTY JOB {0} DIR, keep log".format(self._runnumber)
+				for f in files:
+					if "out" in f or "err" in f:
+						continue
+					else:
+						os.remove(f) 
 			else:
-				print "EMPTY JOB {0} DIR".format(self._jobnumber)
+				print "EMPTY JOB {0} DIR".format(self._runnumber)
 				os.system("rm -rf {0}".format(self._jobdir))
 		if self._send_options["toeos"] and os.path.isdir(self._eosjobdir):
-			print "EMPTY EOS JOB {0} DIR".format(self._jobnumber)
+			print "EMPTY EOS JOB {0} DIR".format(self._runnumber)
 			os.system("rm -rf {0}".format(self._eosjobdir))
 			
 	def __move_jobs( self ):
-		print "MOVING JOB {0}".format(self._jobnumber)
+		print "MOVING JOB {0}".format(self._runnumber)
 		if self._send_options["toeos"]:
 			dst_prodfile = self.eosprodfile
 			mover = EosMove

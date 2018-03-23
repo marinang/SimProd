@@ -30,50 +30,71 @@ You need to to know:
 
 Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/simjob/setup). To start a new simulation job do:
 
-`$ j = SimulationJob(evttype = EVTTYPE, year = YEAR, nevents = NEVENTS)`
+`$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)`
 `$ j.prepare()`
 `$ j.send()`
 
-->![submission](/etc/submission.jpeg?raw=true =600x200)<-
+<p align="center">
+<img width="650" height="230" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/submission.png">
+</p>
 
-optional arguments:
+->![alt text](https://github.com/marinang/SimulationProduction/blob/userinterface/etc/submission.png?raw=true =650x230)<-
 
-* --polarity: Magnet conditions to simulate [MagUp or MagDown, default: half MagUp, half MagDown].
+### Options
 
-* --neventsjob: Number of events per jobs [default: 50]. 
+Your have other options by default that you can change:
 
-* --runnumber: Run number for Gauss.
+* polarity: Magnet conditions to simulate [MagUp or MagDown, default: half MagUp, half MagDown].
 
-* --simcond: Simulation condition [Sim09b, Sim09c (Preliminary), default: Sim09b].
+* neventsjob: Number of events per jobs [default: 50]. 
 
-* --stripping: Version of the stripping (default = '').
+* runnumber: Run number for simulation in Gauss.
 
-* --turbo: Run the Turbo step (output has never been tested).
+* simcond: Simulation condition [Sim09b, Sim09c, default: Sim09c].
 
-* --mudst: Produce a muDST output.
+* stripping: Version of the stripping (default = '').
 
-* --decfiles: Version of the DecFiles package (default = v30r5)
+* turbo: Run the Turbo step (output not test).
 
-* --infiles: External files to provide for generation (for example LHE or HepMC files).
+* mudst: Produce a muDST output.
+
+* decfiles: Version of the DecFiles package (default = v30r5)
+
+* infiles: External files to provide for generation (for example LHE or HepMC files).
+
+* cpu: Number of CPU memory (in MB) per simulation job.
 	
-If you wish to modify any option related to an EvtType prior to launch submission, the **GetEvtType.py** script will copy every option file that are in _EvtType.py_ to a directory called _EvtTypes_. It takes the EvtType as argument.
+These argument are all available at instantiation of a SimulationJob but also as property, i.e:
 
-If you wish to send jobs on a **Slurm** batch system you can add the following options for **LaunchProduction.py**.
+`$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS, neventsjob=NEVENTSJOB)`
 
-* --cpu: Number of CPUs per simulation job.
+is equivalent to
 
-* --time: Maximum running time per simulation job in hours.
+`$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)`
+`$ j.nevents = NEVENTSJOB`
 
-* --nsimjobs: Maximum number of simultaneous simulation jobs running.
+### Slurm options
+
+You have additionnal options for slurm batch system with default values designed for EPFL usage.
+
+* time: Maximum running time per simulation job in hours.
+
+* nsimjobs: Maximum number of simultaneous simulation jobs running.
 		
-* --nsimuserjobs: Maximum number of simultaneous simulation jobs running for the user.
+* nsimuserjobs: Maximum number of simultaneous simulation jobs running for the user.
 												
-* --nuserjobs: Maximum number of simultaneous jobs running for the user.
+* nuserjobs: Maximum number of simultaneous jobs running for the user.
 												
-* --npendingjobs: Maximum number of pending jobs for the user.
+* npendingjobs: Maximum number of pending jobs for the user.
 
-* --nfreenodes: Number of nodes to be free of user's simulation jobs.
+* nfreenodes: Number of nodes to be free of user's simulation jobs.
 		
-* --subtime: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 6pm).
+* subtime: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 6pm).
 
-Note you would use these options in a **screen** session, usage: screen python LaunchProduction.py ....
+## Monitoring
+
+Just after the lauching the program type `jobs` and you can see the status of submitted jobs:
+
+<p align="center">
+<img width="650" height="700" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/monitor.png">
+</p>
