@@ -15,12 +15,10 @@ You will be asked to enter some directories where you want to find your simulate
 To launch the module just type `$ simprod`.
 
 <p align="center">
-<img width="600" height="200" src="/etc/begin_interface.jpeg">
+<img width="600" height="200" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/begin_interface.png">
 </p>
 
-->![start](/etc/begin_interface.jpeg?raw=true =600x200)<-
-
-[//]: # ->![alt text](https://github.com/marinang/SimulationProduction/blob/userinterface/etc/begin_interface.png?raw=true =600x200)<-
+->![alt text](https://github.com/marinang/SimulationProduction/blob/userinterface/etc/begin_interface.png?raw=true =600x200)<-
 
 You need to to know:
 
