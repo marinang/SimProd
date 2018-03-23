@@ -2,7 +2,21 @@
 
 Mini framework to send LHCb simulation jobs on a batch system (LSF or Slurm)!
 
-![start](/etc/begin_interface.png?raw=true)
+## Installation
+
+To install the module do
+
+`$ python setup.py install`.
+
+You will be asked to enter some directories where you want to find your simulated samples.
+
+## Usage
+
+To launch the module just type `$ simprod`.
+
+->![start](/etc/begin_interface.jpeg?raw=true =600x200)<-
+
+[//]: #->![alt text](https://github.com/marinang/SimulationProduction/blob/userinterface/etc/begin_interface.png?raw=true =600x200)<-
 
 You need to to know:
 
@@ -12,11 +26,13 @@ You need to to know:
 
 * Number of events you want to produce.
 
-Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/simjob/setup).
-	
-Before launching make sure to set the environnement variable _$SIMOUTPUT_ to the path of where you want to save the outputs of the jobs. This can be done using the _setup.sh_ script or adding this variable to your _.bashrc_.
+Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/simjob/setup). To start a new simulation job do:
 
-The script to launch jobs is **LaunchProduction.py**, usage: python LaunchProduction.py EvtType Year #Events
+`$ j = SimulationJob(evttype = EVTTYPE, year = YEAR, nevents = NEVENTS)`
+`$ j.prepare()`
+`$ j.send()`
+
+->![submission](/etc/submission.jpeg?raw=true =600x200)<-
 
 optional arguments:
 

@@ -268,10 +268,14 @@ class SimulationJob(object):
 		elif IsLSF():
 			default_options    = DefaultLSFOptions()
 			self._options["default_options"] = []
-			self._options["toeos"]    = kwargs.get('toeos', False)
+			
+			if os.getenv("EOS_SIMOUTPUT"):
+				self._options["toeos"]    = kwargs.get('toeos', True)
+			else:
+				self._options["toeos"]    = kwargs.get('toeos', False)
 			
 			if self._options["toeos"]:				
-				self._options["eosdir"]  = kwargs.get('_eosdir', None)
+				self._options["eosdir"]  = kwargs.get('_eosdir', os.getenv("EOS_SIMOUTPUT"))
 				self._options["eosproddir"] = kwargs.get('_eosproddir',  None)
 				
 			self._options["lsf"]      = True
@@ -405,16 +409,16 @@ class SimulationJob(object):
 		else:
 			raise TypeError("mudst must be set to True/False!")
 			
-	@property	
-	def toeos( self):
-		return self._options["toeos"]
-		
-	@toeos.setter	
-	def toeos( self, value):
-		if isinstance(value, bool):
-			self._options["toeos"] = value			
-		else:
-			raise TypeError("toeos must be set to True/False!")
+#	@property	
+#	def toeos( self):
+#		return self._options["toeos"]
+#		
+#	@toeos.setter	
+#	def toeos( self, value):
+#		if isinstance(value, bool):
+#			self._options["toeos"] = value			
+#		else:
+#			raise TypeError("toeos must be set to True/False!")
 			
 	def subjobs( self ):			
 		return self._subjobs.values()
@@ -517,17 +521,8 @@ class SimulationJob(object):
 			if not self._proddir:
 				self._proddir  = "{0}/{1}".format( self.options["basedir"], self.options["subdir"])
 			
-			if self._options.get("toeos", False):
-				if not self._options["eosdir"]:			
-					_eos = os.getenv("EOS_SIMOUTPUT")
-										
-					if _eos is None:
-						self._options["eosdir"] = "/eos/lhcb/user/{0}/{1}/".format( user[0], user )
-					else:
-						self._options["eosdir"] = _eos
-						
-				if not self._options["eosproddir"]:	
-					self._options["eosproddir"]  = "{0}/{1}".format( self.options["eosdir"], self.options["subdir"])
+			if self._options.get("toeos", False) and not self._options["eosproddir"]:						
+				self._options["eosproddir"]  = "{0}/{1}".format( self.options["eosdir"], self.options["subdir"])
 				
 			if not self._destdir:
 				self._destdir = "{0}/{1}/{2}/{3}".format( self.__destination(), self._evttype, self._year, self._simcond)
@@ -548,7 +543,6 @@ class SimulationJob(object):
 			self._subjobs[str(n)] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, infiles=infiles, jobnumber=n )
 			
 		
-			
 	def cancelpreparation( self, job_number = None, **kwargs ):
 		
 		for n in range(self.nsubjobs):
@@ -595,7 +589,7 @@ class SimulationJob(object):
 				if self._stripping == None:
 					self._stripping = args[0]
 					if len(args) > 1:
-						warnings.warn( red("Default stripping verion {0} used. {1} versions are available.".format( 
+						warnings.warn( red("Default stripping version {0} used. {1} versions are available.".format( 
 										self._stripping, 
 									   	args)), 
 									   	stacklevel = 2)
@@ -809,7 +803,7 @@ class SimulationJob(object):
 		
 	def __destination(self):
 
-		if self.toeos:
+		if self.options["toeos"]:
 			return self.options["eosdir"]
 		else:
 			return self.options["basedir"]
@@ -1057,11 +1051,13 @@ class SimulationSubJob(object):
 		if os.path.isdir(self._jobdir):
 			if keep_log:
 				files = glob.glob(self._jobdir + "/*")
-				for f in files:
-					if "out" in f or "err" in f:
-						continue
-					else:
-						os.remove(f) 
+				if len(files) > 2:
+					print "EMPTY JOB {0} DIR".format(self._jobnumber)
+					for f in files:
+						if "out" in f or "err" in f:
+							continue
+						else:
+							os.remove(f) 
 			else:
 				print "EMPTY JOB {0} DIR".format(self._jobnumber)
 				os.system("rm -rf {0}".format(self._jobdir))
@@ -1073,16 +1069,20 @@ class SimulationSubJob(object):
 		print "MOVING JOB {0}".format(self._jobnumber)
 		if self._send_options["toeos"]:
 			dst_prodfile = self.eosprodfile
-			mover = Move
+			mover = EosMove
 		else:
 			dst_prodfile = self.prodfile
-			mover = EosMove
+			mover = Move
 			
 		xml_prodfile = os.path.dirname(dst_prodfile) + "/GeneratorLog.xml"	
 		dst_destfile = self.destfile
 		xml_destfile = os.path.dirname(self.destfile) + "/xml/{0}.xml".format(self.runnumber)
 
+		print dst_prodfile
+		print dst_destfile
 		mover( dst_prodfile, dst_destfile )
+		print xml_prodfile
+		print xml_destfile
 		mover( xml_prodfile, xml_destfile )
 		
 		self.__empty_proddir()
