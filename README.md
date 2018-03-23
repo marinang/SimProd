@@ -16,7 +16,7 @@ To launch the module just type `$ simprod`.
 
 ->![start](/etc/begin_interface.jpeg?raw=true =600x200)<-
 
-[//]: #->![alt text](https://github.com/marinang/SimulationProduction/blob/userinterface/etc/begin_interface.png?raw=true =600x200)<-
+[//]: # ->![alt text](https://github.com/marinang/SimulationProduction/blob/userinterface/etc/begin_interface.png?raw=true =600x200)<-
 
 You need to to know:
 
