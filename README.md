@@ -1,6 +1,8 @@
 # Simulation production
 
-Mini framework to send simulation jobs into lxplus or a slurm batch system (with access to cvmfs)!
+Mini framework to send LHCb simulation jobs on a batch system (LSF or Slurm)!
+
+![start](/etc/begin_interface.png?raw=true)
 
 You need to to know:
 

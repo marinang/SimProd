@@ -270,18 +270,8 @@ class SimulationJob(object):
 			self._options["default_options"] = []
 			self._options["toeos"]    = kwargs.get('toeos', False)
 			
-			if self._options["toeos"]:
-				def eos_get_set():
-					def getter(self):
-						return self._options["eosdir"]
-					def setter(self, directory):
-						if not os.path.isdir(directory):
-							os.system("mkdir -p {0}".format(directory))
-						self._options["eosdir"] = directory
-					return getter, setter
-				
+			if self._options["toeos"]:				
 				self._options["eosdir"]  = kwargs.get('_eosdir', None)
-				self.__add_var("eosdir", eos_get_set())
 				self._options["eosproddir"] = kwargs.get('_eosproddir',  None)
 				
 			self._options["lsf"]      = True
@@ -298,7 +288,7 @@ class SimulationJob(object):
 		self._destdir            = kwargs.get('_destdir', None)
 		self._nsubjobs           = kwargs.get('_nsubjobs',  None)
 		self._neventsjobs        = kwargs.get('_neventsjob',  None)
-		self._options["subdir"]  = kwargs.get('_subdir',  None)
+		self._options["subdir"]  = kwargs.get('subdir',  None)
 							
 	@property
 	def nevents( self):
@@ -541,6 +531,8 @@ class SimulationJob(object):
 				
 			if not self._destdir:
 				self._destdir = "{0}/{1}/{2}/{3}".format( self.__destination(), self._evttype, self._year, self._simcond)
+				
+		self._store_job()
 		
 		infiles = kwargs.get('infiles', [])
 
@@ -553,9 +545,9 @@ class SimulationJob(object):
 			
 			polarity  = self._polarity[n]
 			runnumber = self.__runnumber(n)
-			self._subjobs[str(n)] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, infiles=infiles )
+			self._subjobs[str(n)] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, infiles=infiles, jobnumber=n )
 			
-		self.__store_job()
+		
 			
 	def cancelpreparation( self, job_number = None, **kwargs ):
 		
@@ -589,14 +581,10 @@ class SimulationJob(object):
 					print("")
 					time.sleep( randint(0,30) * 60 )
 			
-			if self[n].status == "submitted":
+			if self[n]._submitted:
 				continue
 					
 			self[n].send
-			time.sleep(0.07)
-			print( blue( "{0}/{1} jobs submitted!".format( n+1, self.nsubjobs ) ) )
-			self.__store_job()
-			time.sleep(0.07)
 			
 	def __checksiminputs( self ):
 		
@@ -663,7 +651,7 @@ class SimulationJob(object):
 		setattr(SimulationJob, var, property(*get_set))
 		self.__dict__[var] = getattr(SimulationJob, var)
 		
-	def __store_job(self):
+	def _store_job(self):
 		simprod = os.getenv("SIMPRODPATH")+"/simprod"
 		jobsdir = "{0}/._simjobs_".format(simprod)
 		
@@ -700,137 +688,116 @@ class SimulationJob(object):
 				   } 
 				
 		if self._options["toeos"]:
-			outdict["_eosdir"] = self.eosdir
+			outdict["_eosdir"] = self.options["eosdir"]
 			outdict["_eosproddir"] = self.options["eosproddir"]
-			
-		for n in range(self.nsubjobs):
-			n_dict = {"runnumber":  self[n].runnumber,
-			          "polarity":   self[n].polarity,
-			          "jobid":      self[n].jobid,
-			          "status":     self[n].status,
-					  "_prodfile":  self[n].prodfile,
-					  "_destfile":  self[n].destfile,
-					  }
-					
-			if self._options["toeos"]:
-				n_dict["_eosfile"] = self[n].eosfile
-			
-			outdict["jobs"][str(n)] = n_dict
 			
 		jsondict = json.dumps(outdict)
 		f = open(jobfile, "w")
 		f.write(jsondict)
 		f.close()
 				
-		self.__jobfile = jobfile
-		
-	###TODO modify only the job part of a file
-	
-	###TODO fix __str__ when job is not prepared 
+		self._options["jobfile"] = jobfile
 		
 	def remove( self ):
 				
 		if self.status == "running":
 			raise NotImplementedError("Cannot remove running jobs!")
 
-		if os.path.isfile(self.__jobfile):
-			os.remove(self.__jobfile)
+		if os.path.isfile(self.options["jobfile"]):
+			os.remove(self.options["jobfile"])
 			
 		for i in range(self.nsubjobs):
 			job = self[i]
 			job.kill()
-				
-		if os.path.isdir(self.proddir):
-			silentrm(self.proddir)
-			
-		if self.toeos and os.path.isdir(self.options["eosproddir"]):
-			silentrm(self.options["eosproddir"])
-				
+								
 	@classmethod
 	def from_file(cls, file):
 		data = json.load(open(file))
 		simcollection = cls( **data )
-		simcollection.__jobfile = file
-		
+		simcollection.options["jobfile"] = file
 		### prepare like 
 				
 		jobs = data["jobs"]
-		
+				
 		for n in jobs.keys():
-			simcollection._subjobs[n] = SimulationSubJob(parent = simcollection, **jobs[n])
-												
+			simcollection._subjobs[n] = SimulationSubJob(parent = simcollection, jobnumber=n, **jobs[n])
+															
 		return simcollection
 		
 	def __str__(self):
-		toprint  = "evttype: {0}; year: {1}; #events {2}; stripping {3}; simcond {4}; {5} jobs\n".format( 
-					self.evttype,
-					self.year,
-					self.nevents,
-					self.stripping,
-					self.simcond,
-					self.nsubjobs )
 		
-		h_job        = "    #job "
-		h_jobID      = "    job ID "
-		h_status     = "       status "
-		h_runnumber  = "      runnumber "
-		h_polarity   = "   polarity "
-		h_nevents    = "  #events "
-		
-		header = "{0}|{1}|{2}|{3}|{4}|{5}|\n".format( 
-					h_job,
-					h_jobID, 
-					h_status, 
-					h_runnumber, 
-					h_polarity, 
-					h_nevents)
-					
-		line = "-"*(len(header) - 2) + "\n"	
-		toprint += line
-		toprint += header
-		
-		for i in range(self.nsubjobs):
+		if len(self._subjobs) > 0:
+			toprint  = "evttype: {0}; year: {1}; #events {2}; stripping {3}; simcond {4}; {5} jobs\n".format( 
+						self.evttype,
+						self.year,
+						self.nevents,
+						self.stripping,
+						self.simcond,
+						self.nsubjobs )
 			
-			job = self[i]
+			h_job        = "    #job "
+			h_jobID      = "    job ID "
+			h_status     = "       status "
+			h_runnumber  = "      runnumber "
+			h_polarity   = "   polarity "
+			h_nevents    = "  #events "
 			
+			header = "{0}|{1}|{2}|{3}|{4}|{5}|\n".format( 
+						h_job,
+						h_jobID, 
+						h_status, 
+						h_runnumber, 
+						h_polarity, 
+						h_nevents)
+						
+			line = "-"*(len(header) - 2) + "\n"	
 			toprint += line
+			toprint += header
 			
-			status    = job.status
-			jobID     = str(job.jobid)
-			runnumber = str(job.runnumber)
-			polarity  = job.polarity
-			nevents   = str(self.neventsjob)
-			
-			if status == "submitted":
-				color = cyan
-			elif status == "new":
-				color = cdefault
-			elif status == "running":
-				color = green
-			elif status == "completed":
-				color = blue
-			elif status == "failed":
-				color = red
-			
-			p_job       = " "*(len(h_job) - len(str(i)) - 1) + str(i) + " "
-			
-			p_jobID     = " "*(len(h_jobID) - len(jobID) - 1) + jobID + " "
-			
-			p_status    = " "*(len(h_status) - len(status) - 1) + status + " "
-			
-			p_runnumber = " "*(len(h_runnumber) - len(runnumber) - 1) + runnumber + " "
-			
-			p_polarity  = " "*(len(h_polarity) - len(polarity) - 1) + polarity + " "
-			
-			p_nevents   = " "*(len(h_nevents) - len(nevents) - 1) + nevents + " "
-									
-			toprint += color("{0}|{1}|{2}|{3}|{4}|{5}|\n".format( 
-						p_job, 
-						p_jobID,
-						p_status, 
-						p_runnumber, 
-						p_polarity, 
-						p_nevents))
+			for i in range(self.nsubjobs):
+				
+				job = self[i]
+				
+				toprint += line
+				
+				status    = job.status
+				jobID     = str(job.jobid)
+				runnumber = str(job.runnumber)
+				polarity  = job.polarity
+				nevents   = str(self.neventsjob)
+				
+				if status == "submitted":
+					color = cyan
+				elif status == "new":
+					color = cdefault
+				elif status == "running":
+					color = green
+				elif status == "completed":
+					color = blue
+				elif status == "failed":
+					color = red
+				
+				p_job       = " "*(len(h_job) - len(str(i)) - 1) + str(i) + " "
+				
+				p_jobID     = " "*(len(h_jobID) - len(jobID) - 1) + jobID + " "
+				
+				p_status    = " "*(len(h_status) - len(status) - 1) + status + " "
+				
+				p_runnumber = " "*(len(h_runnumber) - len(runnumber) - 1) + runnumber + " "
+				
+				p_polarity  = " "*(len(h_polarity) - len(polarity) - 1) + polarity + " "
+				
+				p_nevents   = " "*(len(h_nevents) - len(nevents) - 1) + nevents + " "
+										
+				toprint += color("{0}|{1}|{2}|{3}|{4}|{5}|\n".format( 
+							p_job, 
+							p_jobID,
+							p_status, 
+							p_runnumber, 
+							p_polarity, 
+							p_nevents))						
+		else:
+			toprint = self.__repr__()
 		
 		return toprint
 		
@@ -853,10 +820,11 @@ class SimulationSubJob(object):
 	Simulation subjob.
 	"""
 	
-	def __init__(self, parent, polarity, runnumber, **kwargs):
+	def __init__(self, parent, polarity, runnumber, jobnumber, **kwargs):
 		self._parent       = parent
 		self._polarity     = polarity
 		self._runnumber    = runnumber
+		self._jobnumber    = jobnumber
 		self._jobid        = kwargs.get("jobid", None)	
 		self._send_options = self._parent.options.copy()
 						
@@ -873,8 +841,7 @@ class SimulationSubJob(object):
 							self._parent.stripping, 
 							self._runnumber )
 							
-		_subdir_production = "{0}/{1}_{2}_{3}evts_s{4}_{5}".format( 
-							self._parent.proddir, 
+		_subdir = "{0}_{1}_{2}evts_s{3}_{4}".format( 
 							self._parent.year, 
 							self._polarity, 
 							self._parent.neventsjob, 
@@ -884,30 +851,48 @@ class SimulationSubJob(object):
 		self._ext = "dst"	
 		if self._parent.mudst:
 			self._ext = "mdst"
+			
+		self._jobdir = kwargs.get("_jobdir", None)
+		if not self._jobdir:					
+			self._jobdir = "{0}/{1}".format(
+							self._parent.proddir,
+							_subdir)		
 		
 		self._prodfile = kwargs.get("_prodfile", None)
-		if not self._prodfile:				
+		if not self._prodfile:		
 			self._prodfile = "{0}/{1}_events.{2}".format( 
-									_subdir_production, 
-									self._parent.neventsjob, 
-									self._ext )
+							self._jobdir,
+							self._parent.neventsjob, 
+							self._ext )
 							
-		if hasattr(self._parent, "eosdir") and self._send_options["toeos"]:
-			self._eosfile = kwargs.get("_eosfile", None)
-			if not self._eosfile:
-				self._eosfile = self._prodfile.replace( 
-											self._parent.proddir,
-											self._parent.eosdir)
-			def eos_get_set():
+		if self._send_options["toeos"]:
+			
+			self._eosjobdir = kwargs.get("_eosjobdir", None)
+			if not self._eosjobdir:
+				self._eosjobdir = "{0}/{1}".format(
+								self._send_options["eosproddir"],
+								_subdir)	
+			
+			self._eosprodfile = kwargs.get("_eosprodfile", None)
+			if not self._eosprodfile:
+				self._eosprodfile = "{0}/{1}_events.{2}".format( 
+								self._eosjobdir,
+								self._parent.neventsjob, 
+								self._ext )
+								
+			def eos_get_set(attribute):
 				def getter(self):
-					return self._eosfile
+					return attribute
 				def setter(self, directory):
-					return self._eosfile
+					return attribute
 				return getter, setter
 				
-			setattr(SimulationSubJob, "eosfile", property(*eos_get_set()))
-			self.__dict__["eosfile"] = getattr(SimulationSubJob, "eosfile")
+			setattr(SimulationSubJob, "eosjobdir", property(*eos_get_set(self._eosjobdir)))
+			self.__dict__["eosjobdir"] = getattr(SimulationSubJob, "eosjobdir")
 				
+			setattr(SimulationSubJob, "eosprodfile", property(*eos_get_set(self._eosprodfile)))
+			self.__dict__["eosprodfile"] = getattr(SimulationSubJob, "eosprodfile")
+			
 		self._destfile = kwargs.get("_destfile", None)															
 		if not self._destfile:
 							
@@ -923,14 +908,16 @@ class SimulationSubJob(object):
 		self._send_options["infiles"] = self._infiles
 		self._send_options["command"] = self._command()
 		
-		if self._jobid:
-			self._submitted = True
-		else:
-			self._submitted = False
-		self._running   = False
-		self._finished  = False
-		self._completed = False
-		self._failed    = False
+		self._submitted = kwargs.get("_submitted", False)
+		self._running   = kwargs.get("_running", False)
+		self._finished  = kwargs.get("_finished", False)
+		self._completed = kwargs.get("_completed", False)
+		self._failed    = kwargs.get("_failed", False)
+		self._store_subjob()
+		
+	@property
+	def jobdir( self):
+		return self._jobdir
 				
 	@property
 	def prodfile( self):
@@ -942,10 +929,20 @@ class SimulationSubJob(object):
 				
 	@property	
 	def send( self):
-		if not self._submitted:
+		if not self._submitted or self._failed:
 			send_options = self._send_options
 			self._jobid = submit( **send_options )
 			self._submitted = True
+			self._running   = False
+			self._finished  = False
+			self._completed = False
+			self._failed    = False
+			self._store_subjob()
+						
+			time.sleep(0.07)
+			print( blue( "{0}/{1} jobs submitted!".format( int(self._jobnumber) + 1, self._parent.nsubjobs ) ) )
+			time.sleep(0.07)
+			
 			
 	@property
 	def jobid( self):
@@ -972,8 +969,12 @@ class SimulationSubJob(object):
 		elif self._submitted and not self._running and self._finished:
 			if self._completed:
 				self._status = "completed"
+				if not self.output == self.destfile:
+					self.__move_jobs()
 			elif self._failed:
 				self._status = "failed"
+				self.__empty_proddir(keep_log = True)
+				
 		return self._status
 				
 	@property
@@ -998,9 +999,9 @@ class SimulationSubJob(object):
 			return self._prodfile
 		elif os.path.isfile( self._destfile):
 			return self._destfile
-		elif self._send_options["toeos"] and os.path.isfile( self._eosfile):
-			return self._eosfile
-		else:	
+		elif self._send_options["toeos"] and os.path.isfile(self._eosprodfile):
+			return self._eosprodfile		
+		else:
 			return ""
 			
 	def _command( self ):
@@ -1022,19 +1023,19 @@ class SimulationSubJob(object):
 			status = GetSlurmStatus( self.jobid )								
 		elif self._send_options["lsf"]:
 			status = GetLSFStatus( self.jobid )
-			
+						
 		if status == "running" and not self._running:
 			self._running = True
 			
 		if status == "completed" or status == "canceled" or status == "failed" or status == "notfound":
 			self._running  = False
 			self._finished = True
-			
-			if self.output != "" and os.path.isfile( self.output ):
+						
+			if self.output != "" and os.path.isfile( self.output ):							
 				if os.path.isfile( self.output ) and os.path.getsize( self.output ) > 1000000:
 					self._completed = True
 				elif os.path.isfile( self.output ) and os.path.getsize( self.output ) < 1000000:
-					self._failed = True
+					self._failed = True	
 			elif self.output == "":
 				self._failed = True
 				
@@ -1048,14 +1049,70 @@ class SimulationSubJob(object):
 			self._failed = True
 			self._running = False
 			self._completed = False
-				
-	### TO DO copy file to destination once completed
-	
-	### TO DO if failed, remove big files except out and err
-		
-
-
-
-
+			self._finished  = True
+			self._store_subjob()
+			self.__empty_proddir()
 			
+	def __empty_proddir( self, keep_log = False ):
+		if os.path.isdir(self._jobdir):
+			if keep_log:
+				files = glob.glob(self._jobdir + "/*")
+				for f in files:
+					if "out" in f or "err" in f:
+						continue
+					else:
+						os.remove(f) 
+			else:
+				print "EMPTY JOB {0} DIR".format(self._jobnumber)
+				os.system("rm -rf {0}".format(self._jobdir))
+		if self._send_options["toeos"] and os.path.isdir(self._eosjobdir):
+			print "EMPTY EOS JOB {0} DIR".format(self._jobnumber)
+			os.system("rm -rf {0}".format(self._eosjobdir))
+			
+	def __move_jobs( self ):
+		print "MOVING JOB {0}".format(self._jobnumber)
+		if self._send_options["toeos"]:
+			dst_prodfile = self.eosprodfile
+			mover = Move
+		else:
+			dst_prodfile = self.prodfile
+			mover = EosMove
+			
+		xml_prodfile = os.path.dirname(dst_prodfile) + "/GeneratorLog.xml"	
+		dst_destfile = self.destfile
+		xml_destfile = os.path.dirname(self.destfile) + "/xml/{0}.xml".format(self.runnumber)
+
+		mover( dst_prodfile, dst_destfile )
+		mover( xml_prodfile, xml_destfile )
 		
+		self.__empty_proddir()
+		
+	def _store_subjob(self):
+		
+		_jobfile = self._parent.options["jobfile"]
+		_dict = json.load(open(_jobfile))	
+		
+		_subjob = _dict["jobs"]
+		
+		_subjob[str(self._jobnumber)] = {
+			       "runnumber":   self.runnumber,
+			       "polarity":    self.polarity,
+			       "jobid":       self.jobid,
+				   "_prodfile":   self.prodfile,
+			       "_jobdir":     self.jobdir,
+				   "_destfile":   self.destfile,
+				   "_submitted":  self._submitted,
+				   "_running":    self._running,
+				   "_finished":   self._finished,
+				   "_completed":  self._completed,
+				   "_failed":     self._failed
+					  }
+		if self._send_options["toeos"]:
+			_subjob[str(self._jobnumber)]["_eosprodfile"] = self.eosprodfile
+			_subjob[str(self._jobnumber)]["_eosjobdir"] = self.eosjobdir
+						
+		jsondict = json.dumps(_dict)
+		f = open(_jobfile, "w")
+		f.write(jsondict)
+		f.close()		
+

@@ -13,7 +13,7 @@ import sys
 def KillLSF( ID ):
 	
 	kill = Popen(['bkill',str(ID)], stdout=PIPE, stderr=PIPE)
-	_, _ = kill.communicate()
+	out, err = kill.communicate()	
 
 def IsLSF():
 	

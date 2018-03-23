@@ -65,6 +65,8 @@ if __name__ == "__main__" :
 	
 	banner2  = 'production directory: {0}\n'.format(simoutput)
 	
+	#_banner2  = 'destination directory: {0}\n'.format(eos_simoutput)
+	
 	config = Config()
 	
 	jobs = JobCollection()

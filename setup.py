@@ -94,6 +94,7 @@ class PostInstallSetting(install):
 				
 			_basesimprod = _basesimprod.replace("simoutput = None","simoutput = '{0}'".format(prodpath))
 			
+		os.system("mkdir -p ./bin")
 		simprod = open( "./bin/simprod", "w")
 		simprod.write(_basesimprod)
 		simprod.close()
@@ -113,7 +114,7 @@ setup(name = 'simprod',
 	  maintainer = 'Matthieu Marinangeli',
 	  maintainer_email = 'matthieu.marinangeli@cern.ch',
 	  url = 'https://github.com/marinang/SimulationProduction',
-	  install_requires = ['pyparsing>=2.1.9', 'ipython>=3.2.1' ], 
+	  install_requires = [ 'ipython>=3.2.1', 'screenutils' ], 
 	  classifiers=[
 			'Programming Language :: Python :: 2.7',
 			'Programming Language :: Python :: 3.4',
