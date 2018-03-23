@@ -29,7 +29,9 @@ You need to to know:
 Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/simjob/setup). To start a new simulation job do:
 
 `$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)`
+
 `$ j.prepare()`
+
 `$ j.send()`
 
 <p align="center">
@@ -67,6 +69,7 @@ These argument are all available at instantiation of a SimulationJob but also as
 is equivalent to
 
 `$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)`
+
 `$ j.nevents = NEVENTSJOB`
 
 ### Slurm options
