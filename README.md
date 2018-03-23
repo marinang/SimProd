@@ -14,7 +14,9 @@ You will be asked to enter some directories where you want to find your simulate
 
 To launch the module just type `$ simprod`.
 
-<img align="center" width="600" height="200" src="/etc/begin_interface.jpeg">
+<p align="center">
+<img width="600" height="200" src="/etc/begin_interface.jpeg">
+</p>
 
 ->![start](/etc/begin_interface.jpeg?raw=true =600x200)<-
 
