@@ -18,8 +18,6 @@ To launch the module just type `$ simprod`.
 <img width="600" height="200" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/begin_interface.png">
 </p>
 
-->![alt text](https://github.com/marinang/SimulationProduction/blob/userinterface/etc/begin_interface.png?raw=true =600x200)<-
-
 You need to to know:
 
 * the EvtType of the process you want to generate ([DecFiles webpage](http://lhcb-release-area.web.cern.ch/LHCb-release-area/DOC/decfiles/releases/dev/table_evttype.php))	
@@ -35,10 +33,8 @@ Description of simulation setups can be found [here](https://github.com/marinang
 `$ j.send()`
 
 <p align="center">
-<img width="650" height="230" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/submission.png">
+<img width="750" height="300" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/submission.png">
 </p>
-
-->![alt text](https://github.com/marinang/SimulationProduction/blob/userinterface/etc/submission.png?raw=true =650x230)<-
 
 ### Options
 
@@ -96,5 +92,5 @@ You have additionnal options for slurm batch system with default values designed
 Just after the lauching the program type `jobs` and you can see the status of submitted jobs:
 
 <p align="center">
-<img width="650" height="700" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/monitor.png">
+<img width="540" height="500" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/monitor.png">
 </p>
