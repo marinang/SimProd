@@ -2,7 +2,6 @@
 
 ## Author: Matthieu Marinangeli
 ## Mail: matthieu.marinangeli@cern.ch
-## Description: addtionnal submission conditon for slurm batch user
 
 from subprocess import Popen, PIPE
 from datetime import datetime

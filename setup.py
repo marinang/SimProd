@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import os
-from sys import version_info
+import os, sys
+from subprocess import Popen, PIPE
 
 from setuptools import find_packages
 from setuptools import setup
@@ -9,7 +9,7 @@ from setuptools.command.install import install
 
 modulepath = os.path.dirname(os.path.realpath(__file__))
 
-py3 = version_info[0] > 2 #creates boolean value for test that Python major version > 2
+py3 = sys.version_info[0] > 2 #creates boolean value for test that Python major version > 2
 
 if py3:
 	_input = input
@@ -27,7 +27,30 @@ def canmkdir(folder):
 			print(e.message)
 			print(e.strerror)
 			return False
-
+			
+def IsSlurm():
+	
+	try:
+		P = Popen(['squeue'], stdout=PIPE)
+		_, _ = P.communicate()
+	except OSError:
+		return False
+	else:
+		return True
+		
+def HasPySlurm():
+	try:
+		import pyslurm
+		return True
+	except ImportError:
+		return False
+				
+install_list = [ 'ipython>=3.2.1,<6.0;python_version<="2.7"', 
+				 'ipython>=3.2.1;python_version>"2.7"',
+			     'screenutils', 
+			     'Cython' ]
+dependency = []
+			
 class PostInstallSetting(install):
 	"""Post-installation for installation mode."""
 	def run(self):
@@ -101,7 +124,37 @@ class PostInstallSetting(install):
 			
 		print("\nDone.\n")
 		
-		install.run(self)
+		if IsSlurm() and not HasPySlurm():
+			os.system("mkdir -p ./ext")
+			currentdir = os.getcwd()
+			os.chdir(currentdir+"/ext/")
+			os.system("git clone -b 17.02.0 git@github.com:PySlurm/pyslurm.git")
+			os.chdir(currentdir+"/ext/pyslurm")
+			os.system("python setup.py build")
+			os.system("python setup.py install --user")
+			os.system("rm -rf scripts")
+			os.system("rm -rf tests")
+			os.system("rm -rf doc")
+			os.system("rm -rf example")
+			os.system("rm -rf debian")
+			os.system("rm *.rst")
+			os.system("rm *.txt")
+			os.system("rm *.yml")
+			os.system("rm *.py")
+			os.chdir(currentdir)
+		
+		caller = sys._getframe(2)
+		caller_module = caller.f_globals.get('__name__','')
+		caller_name = caller.f_code.co_name
+
+		if caller_module != 'distutils.dist' or caller_name!='run_commands':
+			# We weren't called from the command line or setup(), so we
+			# should run in backward-compatibility mode to support bdist_*
+			# commands.
+			install.run(self)
+		else:
+			self.do_egg_install()
+		
 
 
 setup(name = 'simprod',
@@ -114,7 +167,8 @@ setup(name = 'simprod',
 	  maintainer = 'Matthieu Marinangeli',
 	  maintainer_email = 'matthieu.marinangeli@cern.ch',
 	  url = 'https://github.com/marinang/SimulationProduction',
-	  install_requires = [ 'ipython>=3.2.1', 'screenutils', 'Cython' ], 
+	  install_requires = install_list, 
+	  dependency_links = dependency,
 	  classifiers=[
 			'Programming Language :: Python :: 2.7',
 			'Programming Language :: Python :: 3.4',

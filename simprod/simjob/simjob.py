@@ -193,7 +193,7 @@ class SimulationJob(object):
 
 		self._options["basedir"] = kwargs.get('basedir', _basedir)
 		
-		self._options["time"]  = kwargs.get('time', None)
+		self._options["time"]    = kwargs.get('time', 16)
 																			
 		if IsSlurm():
 			default_options    = DefaultSlurmOptions( )
@@ -202,7 +202,8 @@ class SimulationJob(object):
 			self._lsf                 = self._options["lsf"]
 			self._options["slurm"]    = True	
 			self._slurm               = self._options["slurm"]
-			self._options["subtime"]  = kwargs.get('subtime', None)
+			self._options["subtime"]  = kwargs.get('subtime', [0, 23])
+			self._options["toeos"]    = False
 						
 			self._options["default_options"] = []
 							
@@ -210,7 +211,7 @@ class SimulationJob(object):
 				
 				def make_get_set(var):
 					def getter(self):
-						return self._options["var"]
+						return self._options[var]
 					def setter(self, value):
 						if isinstance(value, (int, float) ):
 							self._options[var] = int( value )
@@ -276,7 +277,6 @@ class SimulationJob(object):
 			
 			if self._options["toeos"]:				
 				self._options["eosdir"]  = kwargs.get('_eosdir', os.getenv("EOS_SIMOUTPUT"))
-				self._options["eosproddir"] = kwargs.get('_eosproddir',  None)
 				
 			self._options["lsf"]      = True
 			self._lsf                 = self._options["lsf"]
@@ -288,12 +288,9 @@ class SimulationJob(object):
 				self._options["cpu"]                  = default_options['cpu']
 				self._options["default_options"]     += ["cpu"]
 				
-		self._proddir            = kwargs.get('_proddir',  None)
-		self._destdir            = kwargs.get('_destdir', None)
-		self._nsubjobs           = kwargs.get('_nsubjobs',  None)
-		self._neventsjobs        = kwargs.get('_neventsjob',  None)
-		self._options["subdir"]  = kwargs.get('subdir',  None)
-							
+		self._screensessions = []
+		self._inscreen       = False
+											
 	@property
 	def nevents( self):
 		return self._nevents
@@ -411,6 +408,27 @@ class SimulationJob(object):
 						
 	def subjobs( self ):			
 		return self._subjobs.values()
+		
+	def screensessions( self, i = None ):
+		
+		if not i:
+			return self._screensessions
+		else:
+			if len(self._screensessions) < 1:
+				raise NotImplementedError("No screen session attached to this simulation job.")
+			elif i > len(self._screensessions):
+				raise IndexError()
+			elif ScreenExist(self._screensessions[i]["name"]):
+				OpenScreenSession(self._screensessions[i]["name"])
+			else:
+				print("This screen does not exist!")
+				KillScreenSession(self._screensessions[i]["name"])
+				self._screensessions.remove(self._screensessions[i])
+				
+	def __removescreens( self ):
+		for sc in self._screensessions:
+			KillScreenSession(sc["name"])	
+		self._screensessions = []
 			
 	def __getitem__(self, job_number):
 		if not isinstance(job_number, int):
@@ -448,17 +466,22 @@ class SimulationJob(object):
 				nsubmitted += 1
 				
 		if nsubmitted == 0:
-			return "new"	
+			_status = "new"	
 		elif nsubmitted < self.nsubjobs and nsubmitted > 0:
-			return "submitting"
+			_status = "submitting"
 		elif nsubmitted == self.nsubjobs and nrunning == 0 and nfailed == 0 and ncompleted == 0:
-			return "submitted"
+			_status = "submitted"
 		elif nsubmitted == self.nsubjobs and nrunning > 0:
-			return "running"
+			_status = "running"
 		elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted == self.nsubjobs and nfailed == 0:
-			return "completed"
+			_status = "completed"
 		elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted < self.nsubjobs and nfailed > 0:
-			return "failed"
+			_status = "failed"
+			
+		if _status != "submitting" or _status != "new":
+			self.__removescreens()
+			
+		return _status
 																		
 	def prepare( self, job_number = None, **kwargs ):
 		
@@ -481,12 +504,11 @@ class SimulationJob(object):
 				
 			self.__checksiminputs()
 			
-			if not self._nsubjobs:
-				#Number of jobs
-				self._nsubjobs = int( self._nevents/ self._neventsjob )
-				
-				if  self._nsubjobs  == 0:
-					warnings.warn( red(" WARNING: no jobs are being sent (make sure that neventsjob is smaller than nevents)! "), stacklevel = 2 )
+			#Number of jobs
+			self._nsubjobs = int( self._nevents/ self._neventsjob )
+			
+			if  self._nsubjobs  == 0:
+				warnings.warn( red(" WARNING: no jobs are being sent (make sure that neventsjob is smaller than nevents)! "), stacklevel = 2 )
 			
 			if not isinstance(self._polarity, list) or len(self._polarity) < self.nsubjobs:
 				
@@ -498,23 +520,20 @@ class SimulationJob(object):
 				else:
 					self._polarity = [self._polarity for i in range(0, self.nsubjobs)]
 				
-			if not self._options.get("subdir", None):
-				subdir = "simProd_{0}_{1}".format( self._evttype, self._simcond)
-				if self._turbo:
-					subdir += "_Turbo"
-				if self._mudst:
-					subdir += "_muDST"
-				
-				self._options["subdir"] = subdir
-				
-			if not self._proddir:
-				self._proddir  = "{0}/{1}".format( self.options["basedir"], self.options["subdir"])
+			subdir = "simProd_{0}_{1}".format( self._evttype, self._simcond)
+			if self._turbo:
+				subdir += "_Turbo"
+			if self._mudst:
+				subdir += "_muDST"
 			
-			if self._options.get("toeos", False) and not self._options["eosproddir"]:						
+			self._options["subdir"] = subdir
+				
+			self._proddir  = "{0}/{1}".format( self.options["basedir"], self.options["subdir"])
+			
+			if self._options.get("toeos", False):						
 				self._options["eosproddir"]  = "{0}/{1}".format( self.options["eosdir"], self.options["subdir"])
 				
-			if not self._destdir:
-				self._destdir = "{0}/{1}/{2}/{3}".format( self.__destination(), self._evttype, self._year, self._simcond)
+			self._destdir = "{0}/{1}/{2}/{3}".format( self.__destination(), self._evttype, self._year, self._simcond)
 				
 		self._store_job()
 		
@@ -552,26 +571,42 @@ class SimulationJob(object):
 			return True
 				
 	def send( self, job_number = None ):
-		try:
-			for n in range(self.nsubjobs):
-				if job_number != None and job_number != n:
-					continue
-			
-				SUBMIT = False
-				while SUBMIT == False:
-					SUBMIT = self.__cansubmit()
-					if not SUBMIT:
-						print(self.__str__())
-						print("")
-						time.sleep( randint(0,30) * 60 )
+		
+		if (self._slurm and self._inscreen) or self._lsf:		
+			try:
+				for n in range(self.nsubjobs):
+					if job_number != None and job_number != n:
+						continue
+					
+					SUBMIT = False
+					while SUBMIT == False:
+						SUBMIT = self.__cansubmit()
+						if not SUBMIT:
+							time.sleep( randint(0,30) * 60 )
+											
+					if self[n]._submitted:
+						continue	
+					self[n].send
+					
+			except TypeError as e:
+				print(e.message)
+				raise NotImplementedError("Job is not prepared!") 
 				
-				if self[n]._submitted:
-					continue	
-				self[n].send
-				
-		except TypeError:
-			raise NotImplementedError("Job is not prepared!") 
+		elif self._slurm and not self._inscreen:
 			
+			### prepare the job submission through a screen session!
+			
+			cmdpy = self.__screencommandfile()
+			
+			screename = cmdpy.replace(".py","")
+			screename = screename.replace(os.path.dirname(screename)+"/","")
+			
+			_id = SendInScreen( screename, cmdpy)
+			
+			print(red("Job submission is done in a screen session!"))
+			
+			self._screensessions.append({"name":screename, "id":_id})
+
 	def __checksiminputs( self ):
 		
 		def StrippingVersion( *args ):
@@ -653,29 +688,40 @@ class SimulationJob(object):
 					self._runnumber,
 					)
 					
-		outdict = {"evttype":     self.evttype,
-				   "year"   :	  self.year,
-				   "nevents":     self.nevents,
-				   "neventsjob":  self.neventsjob,
-				   "_nsubjobs":   self.nsubjobs,
-				   "simcond":     self.simcond,
-				   "stripping":   self.stripping,
-				   "basedir":     self.options["basedir"],
-				   "subdir":      self.options["subdir"],
-				   "_proddir" :   self.proddir,
-				   "_destdir":    self.destdir,
-				   "runnumber":   self._runnumber,
-				   "slurm":       self.options["slurm"],
-				   "lsf":         self.options["lsf"],
-				   "toeos":		  self.options["toeos"],
-				   "mudst":       self.mudst,
-				   "turbo":       self.turbo,
+		outdict = {"evttype":         self.evttype,
+				   "year"   :	      self.year,
+				   "nevents":         self.nevents,
+				   "neventsjob":      self.neventsjob,
+				   "runnumber":       self._runnumber,
+				   "simcond":         self.simcond,
+				   "stripping":       self.stripping,
+				   "mudst":           self.mudst,
+				   "turbo":           self.turbo,
+				   "basedir":         self.options["basedir"],
+				   "nsubjobs":        self.nsubjobs,
+				   "proddir" :        self.proddir,
+				   "destdir":         self.destdir,
+				   "subdir":          self.options["subdir"],
+				   "slurm":           self.options["slurm"],
+				   "lsf":             self.options["lsf"],
+				   "toeos":		      self.options["toeos"],
+				   "_screensessions": self._screensessions,
 				   "jobs":        {}
 				   } 
 				
 		if self._options["toeos"]:
-			outdict["_eosdir"] = self.options["eosdir"]
-			outdict["_eosproddir"] = self.options["eosproddir"]
+			outdict["eosdir"] = self.options["eosdir"]
+			outdict["eosproddir"] = self.options["eosproddir"]
+			
+		outdict["default_options"] = self.options["default_options"]
+		outdict["cpu"]             = self.options["cpu"]
+			
+		if self._options["slurm"]:	
+			outdict["nsimjobs"]     = self.options["nsimjobs"]
+			outdict["nsimuserjobs"] = self.options["nsimuserjobs"]
+			outdict["nuserjobs"]    = self.options["nuserjobs"]
+			outdict["npendingjobs"] = self.options["npendingjobs"]
+			outdict["nfreenodes"]   = self.options["nfreenodes"]
 			
 		jsondict = json.dumps(outdict)
 		f = open(jobfile, "w")
@@ -691,24 +737,67 @@ class SimulationJob(object):
 
 		if os.path.isfile(self.options["jobfile"]):
 			os.remove(self.options["jobfile"])
-			
-		for i in range(self.nsubjobs):
-			job = self[i]
+		
+		for k in self._subjobs.keys():
+			job = self[int(k)]
 			job.kill()
-								
+			
+		self.__removescreens()
+													
 	@classmethod
-	def from_file(cls, file):
+	def from_file(cls, file, inscreen = False):
 		data = json.load(open(file))
-		simcollection = cls( **data )
-		simcollection.options["jobfile"] = file
+		simjob = cls( 
+					evttype    = data["evttype"],
+					year       = data["year"],
+					nevents    = data["nevents"],
+					neventsjob = data["neventsjob"],
+					runnumber  = data["runnumber"],
+					simcond    = data["simcond"],
+					stripping  = data["stripping"],
+					mudst      = data["mudst"],
+					turbo      = data["turbo"],	
+					basedir    = data["basedir"]
+					)						
+			
+		simjob._nsubjobs = data["nsubjobs"]
+		simjob._proddir  = data["proddir"]
+		simjob._destdir  = data["destdir"]
+		simjob._options["subdir"] = data["subdir"]
+		simjob._options["slurm"]  = data["slurm"]
+		simjob._options["lsf"]    = data["lsf"]
+		simjob._options["toeos"]  = data["toeos"]
+		simjob._options["jobfile"] = file
+		
+		if simjob._options["toeos"]:
+			simjob._options["eosdir"]     = data["eosdir"]
+			simjob._options["eosproddir"] = data["eosproddir"]
+			
+		simjob._options["cpu"]             = data["cpu"]
+		simjob._options["default_options"] = data["default_options"]
+		
+		if simjob._options["slurm"]:
+			simjob._options["nsimjobs"]     = data["nsimjobs"]
+			simjob._options["nsimuserjobs"] = data["nsimuserjobs"]
+			simjob._options["nuserjobs"]    = data["nuserjobs"]
+			simjob._options["npendingjobs"] = data["npendingjobs"]
+			simjob._options["nfreenodes"]   = data["nfreenodes"]
+			
+		if inscreen:
+			simjob._inscreen = True
+		else:
+			simjob._screensessions = data["_screensessions"]
+
 		### prepare like 
 				
 		jobs = data["jobs"]
 				
 		for n in jobs.keys():
-			simcollection._subjobs[n] = SimulationSubJob(parent = simcollection, jobnumber=n, **jobs[n])
-															
-		return simcollection
+			simjob._subjobs[n] = SimulationSubJob.from_dict(
+										parent = simjob, 
+										jobnumber = n, 
+										dict = jobs[n])													
+		return simjob
 		
 	def __str__(self):
 		
@@ -799,6 +888,39 @@ class SimulationJob(object):
 			return self.options["eosdir"]
 		else:
 			return self.options["basedir"]
+			
+	def __screencommandfile(self):
+		
+		simprod = os.getenv("SIMPRODPATH")+"/simprod"
+		jobsdir = "{0}/._simjobs_".format(simprod)
+		
+		screenfile = "{0}/{1}_{2}_{3}_{4}_{5}_{6}.py".format(
+					jobsdir,
+					self.evttype,
+					self.year,
+					self.nevents,
+					self.neventsjob,
+					self._runnumber,
+					len(self._screensessions)
+					)
+		
+		f = open(screenfile, "w")
+		f.write("#!/usr/bin/python\n\n")
+		
+		f.write("import os\n")
+		f.write("os.environ['SIMPRODPATH'] = '{0}'\n".format(os.getenv("SIMPRODPATH")))
+		f.write("os.environ['SIMOUTPUT'] = '{0}'\n".format(os.getenv("SIMOUTPUT")))
+		f.write("from simprod import *\n\n")
+		
+		f.write("job = SimulationJob().from_file('{0}', inscreen = {1})\n".format(
+										self._options["jobfile"],
+										True,
+										))
+		f.write("job.send()\n\n")
+		f.write("os.remove(__file__)\n\n")
+		f.close()
+		
+		return screenfile
 		
 					
 class SimulationSubJob(object):
@@ -811,7 +933,7 @@ class SimulationSubJob(object):
 		self._polarity     = polarity
 		self._runnumber    = runnumber
 		self._jobnumber    = jobnumber
-		self._jobid        = kwargs.get("jobid", None)	
+		self._jobid        = None
 		self._send_options = self._parent.options.copy()
 		self._status       = "new"
 						
@@ -838,56 +960,46 @@ class SimulationSubJob(object):
 		self._ext = "dst"	
 		if self._parent.mudst:
 			self._ext = "mdst"
+								
+		self._jobdir = "{0}/{1}".format(
+						self._parent.proddir,
+						_subdir)		
 			
-		self._jobdir = kwargs.get("_jobdir", None)
-		if not self._jobdir:					
-			self._jobdir = "{0}/{1}".format(
-							self._parent.proddir,
-							_subdir)		
-		
-		self._prodfile = kwargs.get("_prodfile", None)
-		if not self._prodfile:		
-			self._prodfile = "{0}/{1}_events.{2}".format( 
-							self._jobdir,
-							self._parent.neventsjob, 
-							self._ext )
+		self._prodfile = "{0}/{1}_events.{2}".format( 
+						self._jobdir,
+						self._parent.neventsjob, 
+						self._ext )
 							
 		if self._send_options["toeos"]:
+			self._eosjobdir = "{0}/{1}".format(
+							self._send_options["eosproddir"],
+							_subdir)	
 			
-			self._eosjobdir = kwargs.get("_eosjobdir", None)
-			if not self._eosjobdir:
-				self._eosjobdir = "{0}/{1}".format(
-								self._send_options["eosproddir"],
-								_subdir)	
-			
-			self._eosprodfile = kwargs.get("_eosprodfile", None)
-			if not self._eosprodfile:
-				self._eosprodfile = "{0}/{1}_events.{2}".format( 
-								self._eosjobdir,
-								self._parent.neventsjob, 
-								self._ext )
+			self._eosprodfile = "{0}/{1}_events.{2}".format( 
+							self._eosjobdir,
+							self._parent.neventsjob, 
+							self._ext )
 											
-		self._destfile = kwargs.get("_destfile", None)															
-		if not self._destfile:
-							
-			self._destfile = "{0}/{1}/{2}evts_s{3}_{4}.{5}".format( 
-									self._parent.destdir, 
-									self._polarity, 
-									self._parent.neventsjob, 
-									self._parent.stripping, 
-									self.runnumber, 
-									self._ext )
+		self._destfile = "{0}/{1}/{2}evts_s{3}_{4}.{5}".format( 
+								self._parent.destdir, 
+								self._polarity, 
+								self._parent.neventsjob, 
+								self._parent.stripping, 
+								self.runnumber, 
+								self._ext )
 		
 		self._send_options["jobname"] = self._jobname
 		self._send_options["infiles"] = self._infiles
 		self._send_options["command"] = self._command()
 		
-		self._submitted = kwargs.get("_submitted", False)
-		self._running   = kwargs.get("_running", False)
-		self._finished  = kwargs.get("_finished", False)
-		self._completed = kwargs.get("_completed", False)
-		self._failed    = kwargs.get("_failed", False)
-		self._store_subjob()
+		self._submitted = False
+		self._running   = False
+		self._finished  = False
+		self._completed = False
+		self._failed    = False
+		
+		if not kwargs.get("from_dict", False):
+			self._store_subjob()
 		
 	@property
 	def jobdir( self):
@@ -952,7 +1064,7 @@ class SimulationSubJob(object):
 				self._status = "failed"
 				self.__empty_proddir(keep_log = True)
 				
-		if _previous != self._status and _previous != "new":
+		if _previous != self._status:
 			print("status of job (evttype {0}, year {1}, run number {2}) changed from '{3}' to '{4}'.".format(
 							self._parent.evttype,
 							self._parent.year,
@@ -960,6 +1072,7 @@ class SimulationSubJob(object):
 							_previous, 
 							self._status)
 							)
+			self._store_subjob()
 				
 		return self._status
 				
@@ -1084,7 +1197,7 @@ class SimulationSubJob(object):
 		_subjob[str(self._jobnumber)] = {
 			       "runnumber":   self.runnumber,
 			       "polarity":    self.polarity,
-			       "jobid":       self.jobid,
+			       "_jobid":      self.jobid,
 				   "_prodfile":   self.prodfile,
 			       "_jobdir":     self.jobdir,
 				   "_destfile":   self.destfile,
@@ -1092,7 +1205,8 @@ class SimulationSubJob(object):
 				   "_running":    self._running,
 				   "_finished":   self._finished,
 				   "_completed":  self._completed,
-				   "_failed":     self._failed
+				   "_failed":     self._failed,
+				   "_status":     self._status,
 					  }
 		if self._send_options["toeos"]:
 			_subjob[str(self._jobnumber)]["_eosprodfile"] = self._eosprodfile
@@ -1101,5 +1215,39 @@ class SimulationSubJob(object):
 		jsondict = json.dumps(_dict)
 		f = open(_jobfile, "w")
 		f.write(jsondict)
-		f.close()		
+		f.close()
+		
+	@classmethod
+	def from_dict(cls, parent, jobnumber, dict):
+		
+		simsubjob = cls( parent    = parent, 
+						 polarity  = dict["polarity"],
+		                 runnumber = dict["runnumber"],
+						 jobnumber = jobnumber,
+						 from_dict = True
+						)
+						
+		simsubjob._jobid     = dict["_jobid"]
+		simsubjob._profile   = dict["_prodfile"]
+		simsubjob._jobdir    = dict["_jobdir"]
+		simsubjob._destfile  = dict["_destfile"]
+		simsubjob._submitted = dict["_submitted"]
+		simsubjob._running   = dict["_running"]
+		simsubjob._finished  = dict["_finished"]
+		simsubjob._completed = dict["_completed"]
+		simsubjob._failed    = dict["_failed"]
+		simsubjob._status    = dict["_status"]
+				
+		if simsubjob._send_options["toeos"]:
+			simsubjob._eosprodfile = dict["_eosprodfile"]
+			simsubjob._eosjobdir   = dict["_eosjobdir"]
+		
+		return simsubjob
+		
+	
+	
+		
+		
+		
+				
 

@@ -2,7 +2,6 @@
 
 ## Author: Matthieu Marinangeli
 ## Mail: matthieu.marinangeli@cern.ch
-## Description: addtionnal submission conditon for slurm batch user
 
 from subprocess import Popen, PIPE
 from datetime import datetime
@@ -11,7 +10,7 @@ import getpass
 from .utils import *
 import time
 import sys
-#import pyslurm
+import pyslurm
 
 def KillSlurm( ID ):
 	
@@ -29,18 +28,17 @@ def IsSlurm():
 		return False
 	else:
 		return True
-		
+			
 def GetSlurmStatus( ID ):
-	
+		
 	ntries = 20
 	n = 0
 	while n < ntries:
-		if sys.version_info[0] > 2:
-			process  = Popen(['sacct','-j', str(ID), '--format=State'], stdout=PIPE, encoding='utf8')
-		else:
-			process  = Popen(['sacct','-j', str(ID), '--format=State'], stdout=PIPE)
-		out, _ = process.communicate()
-		status = out.split("\n")[-2].replace(" ","").lower()
+		
+		j = pyslurm.job()
+		j = j.find_id(str(ID))[0]
+		
+		status = j["job_state"].lower()
 		
 		if status == '----------':
 			time.sleep(0.5)
@@ -51,27 +49,6 @@ def GetSlurmStatus( ID ):
 		status = "notfound"
 		
 	return status
-	
-#def GetSlurmStatus( ID ):
-#		
-#	ntries = 20
-#	n = 0
-#	while n < ntries:
-#		
-#		j = pyslurm.job()
-#		j = j.find_id(str(ID))[0]
-#		
-#		status = j["job_state"].lower()
-#		
-#		if status == '----------':
-#			time.sleep(0.5)
-#		else:
-#			break
-#	
-#	if status == '----------':
-#		status = "notfound"
-#		
-#	return status
 	
 	
 def DefaultSlurmOptions( ):
@@ -159,3 +136,4 @@ def SubCondition( Options ):
 		Submission = True
 				
 	return Submission
+	
