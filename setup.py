@@ -114,7 +114,7 @@ setup(name = 'simprod',
 	  maintainer = 'Matthieu Marinangeli',
 	  maintainer_email = 'matthieu.marinangeli@cern.ch',
 	  url = 'https://github.com/marinang/SimulationProduction',
-	  install_requires = [ 'ipython>=3.2.1', 'screenutils' ], 
+	  install_requires = [ 'ipython>=3.2.1', 'screenutils', 'Cython' ], 
 	  classifiers=[
 			'Programming Language :: Python :: 2.7',
 			'Programming Language :: Python :: 3.4',

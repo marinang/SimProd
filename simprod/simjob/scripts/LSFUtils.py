@@ -29,7 +29,7 @@ def IsLSF():
 def DefaultLSFOptions( ):
 	
 	options = {}		
-	options["cpu"]  = 6200
+	options["cpu"]  = 8400
 		
 	return options
 		
@@ -57,5 +57,7 @@ def GetLSFStatus( ID ):
 			status = "failed"
 			
 	return status
+	
+	#### put a try and catch
 	
 	

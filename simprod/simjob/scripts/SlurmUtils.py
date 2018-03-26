@@ -11,6 +11,7 @@ import getpass
 from .utils import *
 import time
 import sys
+#import pyslurm
 
 def KillSlurm( ID ):
 	
@@ -51,6 +52,27 @@ def GetSlurmStatus( ID ):
 		
 	return status
 	
+#def GetSlurmStatus( ID ):
+#		
+#	ntries = 20
+#	n = 0
+#	while n < ntries:
+#		
+#		j = pyslurm.job()
+#		j = j.find_id(str(ID))[0]
+#		
+#		status = j["job_state"].lower()
+#		
+#		if status == '----------':
+#			time.sleep(0.5)
+#		else:
+#			break
+#	
+#	if status == '----------':
+#		status = "notfound"
+#		
+#	return status
+	
 	
 def DefaultSlurmOptions( ):
 	
@@ -62,7 +84,7 @@ def DefaultSlurmOptions( ):
 	
 	options = {}	
 	
-	if hour > 6 and hour < 22:
+	if hour > 5 and hour < 22:
 		nsimjobs     = 400
 		nsimuserjobs = 100
 		nuserjobs    = 150
