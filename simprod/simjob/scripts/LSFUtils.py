@@ -28,7 +28,7 @@ def IsLSF():
 def DefaultLSFOptions( ):
 	
 	options = {}		
-	options["cpu"]  = 8400
+	options["cpu"]  = 9000
 		
 	return options
 		
