@@ -16,41 +16,18 @@ def KillSlurm( ID ):
 	
 	kill = Popen(['scancel',str(ID)], stdout=PIPE, stderr=PIPE)
 	_, _ = kill.communicate()
-
-
-def IsSlurm():
-	
-	### Slurm
-	try:
-		P = Popen(['squeue'], stdout=PIPE)
-		_, _ = P.communicate()
-	except OSError:
-		return False
-	else:
-		return True
 			
 def GetSlurmStatus( ID ):
 		
-	ntries = 20
-	n = 0
-	while n < ntries:
-		
+	try:
 		j = pyslurm.job()
 		j = j.find_id(str(ID))[0]
-		
 		status = j["job_state"].lower()
-		
-		if status == '----------':
-			time.sleep(0.5)
-		else:
-			break
-	
-	if status == '----------':
+	except ValueError:
 		status = "notfound"
 		
 	return status
-	
-	
+		
 def DefaultSlurmOptions( ):
 	
 	now     = datetime.now()

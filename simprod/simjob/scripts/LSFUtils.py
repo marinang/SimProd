@@ -13,17 +13,6 @@ def KillLSF( ID ):
 	
 	kill = Popen(['bkill',str(ID)], stdout=PIPE, stderr=PIPE)
 	out, err = kill.communicate()	
-
-def IsLSF():
-	
-	### Slurm
-	try:
-		P = Popen(['bjobs'], stdout=PIPE)
-		_, _ = P.communicate()
-	except OSError:
-		return False
-	else:
-		return True
 		
 def DefaultLSFOptions( ):
 	
