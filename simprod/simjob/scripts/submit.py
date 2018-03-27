@@ -83,6 +83,7 @@ def PrepareSlurmJob( **kwargs ):
     cpu      = kwargs.get( "cpu", 4000 )        #Memory per cpu (Slurm).
     time     = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).
     exclude  = kwargs.get( "nfreenodes", 0 )       #Number of nodes to exclude (Slurm).
+    nodestoexclude  = kwargs.get( "nodestoexclude", [] )   #Nodes to exclude (Slurm).
     dirname  = kwargs.get( "dirname" )
 
     def GetSlurmNodes():
@@ -112,7 +113,7 @@ def PrepareSlurmJob( **kwargs ):
     fo.write("#SBATCH -n 1\n")
     fo.write("#SBATCH -p batch\n")
     fo.write("#SBATCH -t {0}:00:00\n".format( time ))
-    if exclude != 0:
+    if exclude != 0 or len(nodestoexclude) > 1:
         
         now = datetime.now()
         random.seed(now.day)

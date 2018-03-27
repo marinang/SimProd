@@ -262,6 +262,13 @@ class SimulationJob(object):
 				self._options["default_options"]     += ["nfreenodes"]
 				
 			addvars("nfreenodes")
+			
+			self._options["nodestoexclude"] = kwargs.get('nodestoexclude', None)
+			if not self._options["nodestoexclude"]:
+				self._options["nodestoexclude"]       = default_options['nodestoexclude']
+				self._options["default_options"]     += ["nodestoexclude"]
+				
+			addvars("nodestoexclude")
 								
 			self._options["cpu"]  = kwargs.get('cpu', None)
 			if not self._options["cpu"]:

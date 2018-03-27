@@ -6,6 +6,7 @@ from subprocess import Popen, PIPE
 from setuptools import find_packages
 from setuptools import setup
 from setuptools.command.install import install
+from setuptools import Command
 
 modulepath = os.path.dirname(os.path.realpath(__file__))
 
@@ -56,7 +57,7 @@ dependency = []
 class PostInstallSetting(install):
 	"""Post-installation for installation mode."""
 	def run(self):
-		
+			
 		print("\n##### Setting up Simulation Production! #####\n")
 		
 		basesimprod = open( "./simprod/scripts/base_simprod.py", "r")
@@ -119,8 +120,7 @@ class PostInstallSetting(install):
 				
 			_basesimprod = _basesimprod.replace("simoutput = None","simoutput = '{0}'".format(prodpath))
 			
-		os.system("mkdir -p ./bin")
-		simprod = open( "./bin/simprod", "w")
+		simprod = open( "./simprod/scripts/simprod", "w")
 		simprod.write(_basesimprod)
 		simprod.close()
 			
@@ -144,11 +144,11 @@ class PostInstallSetting(install):
 			os.system("rm *.yml")
 			os.system("rm *.py")
 			os.chdir(currentdir)
-		
+			
 		caller = sys._getframe(2)
 		caller_module = caller.f_globals.get('__name__','')
 		caller_name = caller.f_code.co_name
-
+			
 		if caller_module != 'distutils.dist' or caller_name!='run_commands':
 			# We weren't called from the command line or setup(), so we
 			# should run in backward-compatibility mode to support bdist_*
@@ -156,13 +156,13 @@ class PostInstallSetting(install):
 			install.run(self)
 		else:
 			self.do_egg_install()
-		
 
+		os.system("rm -rf ./simprod.egg-info")
 
 setup(name = 'simprod',
 	  version = '1.0',
 	  packages = find_packages(),
-	  scripts = ['bin/simprod'],
+	  scripts = ['./simprod/scripts/simprod'],
 	  description = 'Mini framework to send LHCb simulation jobs into lxplus or a slurm batch system (with access to cvmfs)!',
 	  author = 'Matthieu Marinangeli',
 	  author_email = 'matthieu.marinangeli@cern.ch',
@@ -179,6 +179,6 @@ setup(name = 'simprod',
 			'Programming Language :: Python :: 3.7',
 	  ],
 	  platforms = 'Any',
-	  cmdclass={ 'install': PostInstallSetting },
+	  cmdclass={ 'install': PostInstallSetting}
 	  )
 	  

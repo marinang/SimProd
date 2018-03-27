@@ -27,17 +27,35 @@ def GetSlurmStatus( ID ):
 		status = "notfound"
 		
 	return status
+	
+def GetConfig():
 		
-def DefaultSlurmOptions( ):
+	def_config = DefaultSlurmConfig() 
+	
+	if "lphe" in os.getenv("HOSTNAME"):
+		configfile = "/share/lphe/home/marinang/SimulationConfigLPHE.py"
+		configdir  = "/share/lphe/home/marinang/"
+		if os.path.isfile(configfile):
+			try:
+				from SimulationConfigLPHE import config
+			except ImportError:
+				sys.path.insert(0, configdir)
+				from SimulationConfigLPHE import config	
+		else:
+			config = def_config		
+	else:
+		config = def_config
+			
+	return config
+			
+def DefaultSlurmConfig( ):
 	
 	now     = datetime.now()
 	hour    = now.hour
 	weekday = now.weekday()
 	
 	### During the day less job submission
-	
-	options = {}	
-	
+		
 	if hour > 5 and hour < 22:
 		nsimjobs     = 400
 		nsimuserjobs = 100
@@ -63,9 +81,14 @@ def DefaultSlurmOptions( ):
 	options["npendingjobs"] = npendingjobs
 	options["nfreenodes"]   = nfreenodes
 	options["cpu"]          = 4140
-		
-	return options	
-		
+			
+	return config
+	
+def DefaultSlurmOptions( ):
+	
+	config = GetConfig()
+	return config
+				
 def SubCondition( Options ):
 	
 	user = getpass.getuser()
