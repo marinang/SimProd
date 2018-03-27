@@ -1,0 +1,5 @@
+# Include the license ifile
+include LICENSE
+
+# Include the MANIFEST itself
+include MANIFEST.in

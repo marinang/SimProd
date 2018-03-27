@@ -11,8 +11,13 @@ from argparse import ArgumentParser
 import subprocess as sub
 import random
 from datetime import datetime
+import time
+import getpass
+import warnings
 
 def PrepareLxplusJob( **kwargs ):
+    
+    user = getpass.getuser()
     
     cpu      = kwargs.get( "cpu", 4000 )        #Memory per cpu (Slurm).
     time     = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).
@@ -21,10 +26,11 @@ def PrepareLxplusJob( **kwargs ):
     dirname  = kwargs.get( "dirname" )
     queue    = kwargs.get( "queue", "1nd") #Choose bach queue (default 1nd) (lxplus) 
     mail     = kwargs.get( "mail", False) #When job finished sends a mail to USER@cern.ch (lxplus)
+    toeos    = kwargs.get( "toeos", False )
     
-    if mail: mail = "-u "+os.environ["USER"]+"@cern.ch"
+    if mail: mail = "-u "+user+"@cern.ch"
     else: mail = ""
-        
+
     #prepare lxplus batch job submission
     
     command = "bsub -R 'pool>30000' -o {dir}/out -e {dir}/err \
@@ -32,8 +38,42 @@ def PrepareLxplusJob( **kwargs ):
                     dir = dirname, queue = queue,
                     mail = mail, jname = subdir + jobname,
                     cpu  = cpu )
+                    
+    if toeos:
+        eosdir = os.getenv("EOS_SIMOUTPUT")
+        
+        if eosdir is None:
+            eos_dirname = "/eos/lhcb/user/{0}/{1}/{2}/{3}".format( user[0], user, subdir, jobname)
+        else:
+            eos_dirname = "{0}/{1}/{2}".format( eosdir, subdir, jobname)
+        
+        oldrun = open(dirname+"/run.sh")
+        oldrunstr = oldrun.read()
+        oldrun.close()
+        
+        fo = open(dirname+"/run.sh","w")
+        fo.write( oldrunstr )
+        fo.write( '\n' )
+        fo.write( 'rm {0}/*.sh\n'.format( dirname ))
+        fo.write( 'xrdfs root://eoslhcb.cern.ch/ mkdir -p {0}\n'.format( eos_dirname ))
+        fo.write( 'xrdcp -r {0}/ root://eoslhcb.cern.ch/{1}\n'.format( dirname, eos_dirname ))
+        fo.write( 'rm {0}/*\n'.format( dirname ))
+        fo.close()
     
     return command
+    
+def SendCommand( command ):
+    
+    if sys.version_info[0] > 2:
+        process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE, encoding='utf8')
+    else:
+        process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
+        
+    time.sleep(0.03)
+    out, err = process.communicate()
+    
+    return out
+    
 
 def PrepareSlurmJob( **kwargs ):
     
@@ -44,6 +84,7 @@ def PrepareSlurmJob( **kwargs ):
     cpu      = kwargs.get( "cpu", 4000 )        #Memory per cpu (Slurm).
     time     = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).
     exclude  = kwargs.get( "nfreenodes", 0 )       #Number of nodes to exclude (Slurm).
+    nodestoexclude  = kwargs.get( "nodestoexclude", [] )   #Nodes to exclude (Slurm).
     dirname  = kwargs.get( "dirname" )
 
     def GetSlurmNodes():
@@ -73,14 +114,34 @@ def PrepareSlurmJob( **kwargs ):
     fo.write("#SBATCH -n 1\n")
     fo.write("#SBATCH -p batch\n")
     fo.write("#SBATCH -t {0}:00:00\n".format( time ))
-    if exclude != 0:
+    if exclude != 0 or len(nodestoexclude) > 1:
         
         now = datetime.now()
         random.seed(now.day)
         
         nodes = GetSlurmNodes()
         random.shuffle(nodes)
-        nodes = nodes[0:int(exclude)]
+        
+        n2exclude = int(exclude) + len(nodestoexclude)
+        
+        #### check if nodes exit
+        exists = all(n in nodes for n in nodestoexclude)
+        
+        if not exists:
+            _nodestoexclude = []
+            for n in nodestoexclude:
+                if not n in nodes:
+                    warnings.warn( red(" WARNING: node {0} does not exist. \
+                                It will be removed!".format(n)), stacklevel = 2 )
+                else:
+                    _nodestoexclude.append(n)
+            nodestoexclude = _nodestoexclude
+            
+        for n in nodestoexclude:
+            nodes.remove(n)
+
+        nodes = nodes[0:(n2exclude - len(nodestoexclude))]
+        nodes += nodestoexclude
         
         nodes2exclude = ""
         for n in nodes:
@@ -94,11 +155,10 @@ def PrepareSlurmJob( **kwargs ):
     
     command = "sbatch "+dirname+"/run.sh"
     return command
-    
-    
+
 def main( **kwargs ):
     
-    jobdir = os.getenv("JOBDIR")
+    jobdir = os.getenv("SIMOUTPUT")
     
     if jobdir is None :
         jobdir = os.getenv("HOME")+"/jobs"
@@ -109,12 +169,13 @@ def main( **kwargs ):
     basedir  = kwargs.get( "basedir", jobdir )  #This option bypasses the JOBDIR environment variable and creates the job's folder in the specified folder.
     jobname  = kwargs.get( "jobname", "" )      #Give a name to the job. The job will be also created in a folder with its name (default is the executable name).
     clean    = kwargs.get( "clean", True )      #If the job folder already exists by default it cleans it up. This option bypasses the cleaning up.
-    unique   = kwargs.get( "unique", True )    #Copy the executable only once in the top folder (and not in each job folders).
+    unique   = kwargs.get( "unique", True )     #Copy the executable only once in the top folder (and not in each job folders).
     infiles  = kwargs.get( "infiles", [] )      #Files to copy over.
     command  = kwargs.get( "command", "" )      #Command to launch.
+    toeos    = kwargs.get( "toeos", False )     #Send output of jobs to eos after completing.
     slurm    = kwargs.get( "slurm", False )
     lsf      = kwargs.get( "lsf", False )
-        
+
     exe, execname = None, None
     commands = command.split(' ')
     
@@ -188,7 +249,7 @@ def main( **kwargs ):
         runfile.write( '{dir} {args}'.format(dir=pathexec,args=' '.join(args)) + "\n")
     else :
         runfile.write( '{exe} {dir} {args}'.format(exe=exe,dir=pathexec,args=' '.join(args)) + "\n")
-
+        
     runfile.close()
     os.system( "chmod 755 " + dirname + "/run.sh" )
     
@@ -201,16 +262,14 @@ def main( **kwargs ):
             
     if "lxplus" in os.getenv("HOSTNAME") and lsf:  ## Batch for lxplus
         command = PrepareLxplusJob( **kwargs )
-        process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
-        out, err = process.communicate()
+        out = SendCommand( command )
         ID = int( out.split(" ")[1].replace(">","").replace("<","") )
         print( "Submitted batch job {0}".format(ID) )
         return ID
         
     elif slurm:
         command = PrepareSlurmJob( **kwargs )
-        process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
-        out, err = process.communicate()
+        out = SendCommand( command )
         ID = int( out.split(" ")[-1] )
         print( "Submitted batch job {0}".format(ID) )
         return ID

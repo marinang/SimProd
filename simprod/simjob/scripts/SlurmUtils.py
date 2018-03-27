@@ -2,7 +2,6 @@
 
 ## Author: Matthieu Marinangeli
 ## Mail: matthieu.marinangeli@cern.ch
-## Description: addtionnal submission conditon for slurm batch user
 
 from subprocess import Popen, PIPE
 from datetime import datetime
@@ -10,49 +9,57 @@ import os
 import getpass
 from .utils import *
 import time
+import sys
+import pyslurm
 
-def IsSlurm():
+def KillSlurm( ID ):
 	
-	### Slurm
-	try:
-		P = Popen(['squeue'], stdout=PIPE)
-		_, _ = P.communicate()
-	except OSError:
-		return False
-	else:
-		return True
-		
+	kill = Popen(['scancel',str(ID)], stdout=PIPE, stderr=PIPE)
+	_, _ = kill.communicate()
+			
 def GetSlurmStatus( ID ):
-	
-	ntries = 20
-	n = 0
-	while n < ntries:
-		process  = Popen(['sacct','-j', str(ID), '--format=State'], stdout=PIPE)
-		out, _ = process.communicate()
-		status = out.split("\n")[-2].replace(" ","").lower()
 		
-		if status == '----------':
-			time.sleep(0.5)
-		else:
-			break
-	
-	if status == '----------':
-		raise NotImplementedError("Job not found")
+	try:
+		j = pyslurm.job()
+		j = j.find_id(str(ID))[0]
+		status = j["job_state"].lower()
+	except ValueError:
+		status = "notfound"
 		
 	return status
 	
+def GetConfig():
+		
+	def_config = DefaultSlurmConfig() 
 	
-def DefaultSlurmOptions( ):
+	if "lphe" in os.getenv("HOSTNAME"):
+		configfile = "/share/lphe/home/marinang/SimulationLPHEConfig.py"
+		configdir  = "/share/lphe/home/marinang/"
+		if os.path.isfile(configfile):
+			try:
+				from SimulationLPHEConfig import config as _conf
+			except ImportError:
+				sys.path.insert(0, configdir)
+				from SimulationLPHEConfig import config	as _conf
+			config = _conf()
+		else:
+			config = def_config		
+	else:
+		config = def_config
+			
+	return config
+			
+def DefaultSlurmConfig( ):
 	
 	now     = datetime.now()
 	hour    = now.hour
 	weekday = now.weekday()
 	
+	config = {}
+	
 	### During the day less job submission
-	
-	options = {}	
-	
-	if hour > 6 and hour < 22:
+		
+	if hour > 5 and hour < 22:
 		nsimjobs     = 400
 		nsimuserjobs = 100
 		nuserjobs    = 150
@@ -71,14 +78,20 @@ def DefaultSlurmOptions( ):
 		nuserjobs    *= 1.5
 		npendingjobs *= 1.5
 		
-	options["nsimjobs"]     = nsimjobs
-	options["nsimuserjobs"] = nsimuserjobs
-	options["nuserjobs"]    = nuserjobs
-	options["npendingjobs"] = npendingjobs
-	options["nfreenodes"]   = nfreenodes
-		
-	return options	
-		
+	config["nsimjobs"]     = nsimjobs
+	config["nsimuserjobs"] = nsimuserjobs
+	config["nuserjobs"]    = nuserjobs
+	config["npendingjobs"] = npendingjobs
+	config["nfreenodes"]   = nfreenodes
+	config["cpu"]          = 4140
+			
+	return config
+	
+def DefaultSlurmOptions( ):
+	
+	config = GetConfig()
+	return config
+				
 def SubCondition( Options ):
 	
 	user = getpass.getuser()
@@ -126,3 +139,4 @@ def SubCondition( Options ):
 		Submission = True
 				
 	return Submission
+	

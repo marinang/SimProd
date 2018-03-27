@@ -10,10 +10,9 @@ import os
 import shutil
 import sys
 
-
-pwd = os.getenv("PWD")
-
-def get( Options ):
+def get( **Options ):
+	
+	moddir = os.getenv("SIMPRODPATH")
 	
 	decfiles_path = '/cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/Gen/DecFiles/{decfiles}'.format( **Options )
 	
@@ -25,8 +24,8 @@ def get( Options ):
 	if not os.path.isfile( optfile ):
 		raise NotImplementedError( "This Evttype does not exist!" )
 	
-	os.system( "mkdir -p EvtTypes" )
-	os.system( "mkdir -p EvtTypes/{evttype}".format( **Options ) )	
+	os.system( "mkdir -p {0}/EvtTypes".format(moddir) )
+	os.system( "mkdir -p {0}/EvtTypes/{evttype}".format( moddir, **Options ) )	
 			
 	with open(optfile, 'r') as file:
 		lines = file.readlines()
@@ -43,12 +42,12 @@ def get( Options ):
 	for f in decfileroot_files:
 		filename = f["file"].split('/')[-1]
 		index = f["index"]
-		shutil.copyfile( "{0}/{1}".format( decfiles_path , f["file"] ), "{0}/EvtTypes/{evttype}/{1}".format( pwd, filename, **Options ) )
+		shutil.copyfile( "{0}/{1}".format( decfiles_path , f["file"] ), "{0}/EvtTypes/{evttype}/{1}".format( moddir, filename, **Options ) )
 		
 		#modify the locations in the option file		
-		lines[index] = lines[index].replace( "$DECFILESROOT{0}".format(f["file"]) , "{0}/EvtTypes/{evttype}/{1}".format( pwd, filename, **Options ) )
+		lines[index] = lines[index].replace( "$DECFILESROOT{0}".format(f["file"]) , "{0}/EvtTypes/{evttype}/{1}".format( moddir, filename, **Options ) )
 	
-	OptFile = "{0}/EvtTypes/{evttype}/{evttype}.py".format( pwd, **Options )
+	OptFile = "{0}/EvtTypes/{evttype}/{evttype}.py".format( moddir, **Options )
 	
 	with open(OptFile, 'w') as file:
 			file.writelines( lines )
@@ -64,5 +63,5 @@ if __name__ == "__main__" :
 	
 	opts = parser.parse_args()			
 				
-	get( vars(opts) )	
+	get( **vars(opts) )	
 				

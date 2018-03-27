@@ -1,30 +1,36 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-## Author: Matthieu Marinangeli
-## Mail: matthieu.marinangeli@cern.ch
-## Description: produce simulation samples using lxplus or slurm batch system
+import os, getpass
+
+modulepath = None
+os.environ["SIMPRODPATH"] = modulepath
+
+simoutput = None
+if simoutput is None :
+	simoutput = os.getenv("HOME")+"/SimulationJobs"
+os.system("mkdir -p "+simoutput)
+os.environ["SIMOUTPUT"] = simoutput
+
+#_eos_simoutput_ = None
+#_if eos_simoutput is None :
+#_	user = getpass.getuser()
+#_	eos_simoutput = "/eos/lhcb/user/{0}/{1}".format( user[0], user )
+#_os.system("mkdir -p "+eos_simoutput)
+#_os.environ["EOS_SIMOUTPUT"] = eos_simoutput
 
 import argparse
-import os
-import subprocess
-from random import shuffle
-import sys
-from simjob.scripts import *
-import time
-from simjob import JobCollection
+from simprod import *
+from IPython import start_ipython
+from traitlets.config.loader import Config
 
-basedir = os.getenv("SIMOUTPUT")
-if basedir is None :
-	basedir = os.getenv("HOME")+"/SimulationJobs"
-os.system("mkdir -p "+basedir)
-								
 if __name__ == "__main__" :
 
 	parser = argparse.ArgumentParser(description='')
 	
-	parser.add_argument('evttype',        metavar='<evttype>',       help="EvtType of the processus to generate.", type=str)
-	parser.add_argument('nevents',        metavar='<nevents>',       help="Number of events to produce.", type=int)
-	parser.add_argument('year',           metavar='<year>',          help="Year to simulate.", type=int, choices=[2011,2012,2015,2016,2017])
+	parser.add_argument('--evttype',      metavar='<evttype>',       help="EvtType of the processus to generate.", type=str)
+	parser.add_argument('--nevents',      metavar='<nevents>',       help="Number of events to produce.", type=int)
+	parser.add_argument('--year',         metavar='<year>',          help="Year to simulate.", type=int, choices=[2011,2012,2015,2016,2017])
 	parser.add_argument('--polarity',     metavar='<polarity>',      help="Magnet conditions to simulate.", choices=['MagUp','MagDown'])
 	parser.add_argument('--simcond',      metavar='<simcond>',       help="Simulation condition.", default='Sim09c', choices=['Sim09b','Sim09c'])
 	parser.add_argument('--stripping',    metavar='<stripping>',     help="Version of the stripping.", type=str)
@@ -51,21 +57,43 @@ if __name__ == "__main__" :
 	parser.add_argument('--toeos',                                   help="Move the jobs outputs to EOS when finished.", action='store_true') 
 	
 	opts = parser.parse_args()
-		
-	opts = vars(opts).copy()
 	
-	opts["basedir"] = basedir
+	banner1  = '\n'
+	banner1 += green(' Welcome on the mini LHCb simulation production framework!\n')
+	banner1 += '\n'
+	banner1 += green(' author: Matthieu Marinangeli, matthieu.marinangeli@cern.ch.\n')
 	
-	Jobs = JobCollection( **opts )
-
-	Jobs.prepare()
+	banner2  = 'production directory: {0}\n'.format(simoutput)
 	
-	Jobs.send()
+	#_banner2  = 'destination directory: {0}\n'.format(eos_simoutput)
+	
+	config = Config()
+	
+	jobs = JobCollection()
+	
+	if opts.evttype and opts.year and opts.nevents:
+		print(banner1)
+		print(banner2)
 		
-
+		opts = vars(opts).copy()
+		opts["basedir"] = simoutput
+		Jobs = JobCollection( **opts )
+		Jobs.prepare()
+		Jobs.send()
 		
-						
+		config.TerminalInteractiveShell.banner1 = ""
+		config.TerminalInteractiveShell.banner2 = ""
+	
+	else:
+		config.TerminalInteractiveShell.banner1 = banner1
+		config.TerminalInteractiveShell.banner2 = banner2
+		
+	_vars = globals().copy()
+	_vars.update( locals() )
 
-				
-							
-						
+	start_ipython ( argv = [] , user_ns = _vars, config= config )
+	
+	jobs._store_collection()
+
+	print(blue("\n\t Bye Bye.\n"))
+	

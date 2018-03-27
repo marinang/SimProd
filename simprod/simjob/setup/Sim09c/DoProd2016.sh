@@ -40,12 +40,12 @@ echo "GaussGen = GenInit('GaussGen')"    >> Gauss-Job.py
 echo "GaussGen.FirstEventNumber = 1"     >> Gauss-Job.py
 echo "GaussGen.RunNumber = $RunNumber"   >> Gauss-Job.py
 echo "LHCbApp().EvtMax = $Nevents"       >> Gauss-Job.py
+echo "from Configurables import OutputStream" >> Gauss-Job.py
+echo "OutputStream('GaussTape').Output = \"DATAFILE='PFN:./Gauss.sim' TYP='POOL_ROOTTREE' OPT='RECREATE'\"" >> Gauss-Job.py
 
 # Run
 lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r335" Gauss/v49r8 gaudirun.py \$APPCONFIGOPTS/$SimCond \$APPCONFIGOPTS/Gauss/EnableSpillover-25ns.py \$APPCONFIGOPTS/Gauss/DataType-2016.py \$APPCONFIGOPTS/Gauss/RICHRandomHits.py \$LBPYTHIA8ROOT/options/Pythia8.py \$APPCONFIGOPTS/Gauss/G4PL_FTFP_BERT_EmNoCuts.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py $Optfile Conditions.py Gauss-Job.py
 
-# Prepare output
-mv `ls *.sim` Gauss.sim
 rm Gauss-Job.py
 
 #-------------#
@@ -157,7 +157,7 @@ if [ "$Turbo" == "True" ]; then
   #run
   lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r322" --use="TurboStreamProd v4r1p4" DaVinci/v41r4p3 gaudirun.py \$APPCONFIGOPTS/Turbo/Tesla_2016_LinesFromStreams_MC.py \$APPCONFIGOPTS/Turbo/Tesla_PR_Truth_2016.py \$APPCONFIGOPTS/Turbo/Tesla_Simulation_2016.py Conditions.py Tesla-Files.py 
 
-  rm $BrunelOutput
+#  rm $BrunelOutput
   rm Tesla-Files.py
   
   TurboOutput=Tesla.dst	

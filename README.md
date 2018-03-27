@@ -1,6 +1,22 @@
 # Simulation production
 
-Mini framework to send simulation jobs into lxplus or a slurm batch system (with access to cvmfs)!
+Mini framework to send LHCb simulation jobs on a batch system (LSF or Slurm)!
+
+## Installation
+
+To install the module do
+
+`$ python setup.py install (--user)`.
+
+You will be asked to enter some directories where you want to find your simulated samples.
+
+## Usage
+
+To launch the module just type `$ simprod`.
+
+<p align="center">
+<img width="600" height="200" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/begin_interface.png">
+</p>
 
 You need to to know:
 
@@ -10,50 +26,73 @@ You need to to know:
 
 * Number of events you want to produce.
 
-Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/simjob/setup).
+Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/simjob/setup). To start a new simulation job do:
+
+`$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)`
+
+`$ j.prepare()`
+
+`$ j.send()`
+
+<p align="center">
+<img width="750" height="300" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/submission.png">
+</p>
+
+
+### Options
+
+Your have other options by default that you can change:
+
+* polarity: Magnet conditions to simulate [MagUp or MagDown, default: half MagUp, half MagDown].
+
+* neventsjob: Number of events per jobs [default: 50]. 
+
+* runnumber: Run number for simulation in Gauss.
+
+* simcond: Simulation condition [Sim09b, Sim09c, default: Sim09c].
+
+* stripping: Version of the stripping (default = '').
+
+* turbo: Run the Turbo step (output not test).
+
+* mudst: Produce a muDST output.
+
+* decfiles: Version of the DecFiles package (default = v30r5)
+
+* infiles: External files to provide for generation (for example LHE or HepMC files).
+
+* cpu: Number of CPU memory (in MB) per simulation job.
 	
-Before launching make sure to set the environnement variable _$SIMOUTPUT_ to the path of where you want to save the outputs of the jobs. This can be done using the _setup.sh_ script or adding this variable to your _.bashrc_.
+These argument are all available at instantiation of a SimulationJob but also as property, i.e:
 
-The script to launch jobs is **LaunchProduction.py**, usage: python LaunchProduction.py EvtType Year #Events
+`$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS, neventsjob=NEVENTSJOB)`
 
-optional arguments:
+is equivalent to
 
-* --polarity: Magnet conditions to simulate (MagUp or MagDown, default: half MagUp, half MagDown).
+`$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)`
 
-* --neventsjob: Number of events per jobs (default: 50). 
+### Slurm options
 
-* --runnumber: Run number for Gauss.
+You have additionnal options for slurm batch system with default values designed for EPFL usage.
 
-* --simcond: Simulation condition (Sim09b, Sim09c, default: Sim09c).
+* time: Maximum running time per simulation job in hours.
 
-* --stripping: Version of the stripping (default = '').
-
-* --turbo: Run the Turbo step (output has never been tested).
-
-* --mudst: Produce a muDST output.
-
-* --decfiles: Version of the DecFiles package (default = v30r5).
-
-* --infiles: External files to provide for generation (for example LHE or HepMC files).
-
-* --cpu: Number of CPUs per simulation job.
-	
-If you wish to modify any option related to an EvtType prior to launch submission, the **GetEvtType.py** script will copy every option file that are in _EvtType.py_ to a directory called _EvtTypes_. It takes the EvtType as argument.
-
-If you wish to send jobs on a **Slurm** batch system you can add the following options for **LaunchProduction.py**.
-
-* --time: Maximum running time per simulation job in hours.
-
-* --nsimjobs: Maximum number of simultaneous simulation jobs running.
+* nsimjobs: Maximum number of simultaneous simulation jobs running.
 		
-* --nsimuserjobs: Maximum number of simultaneous simulation jobs running for the user.
+* nsimuserjobs: Maximum number of simultaneous simulation jobs running for the user.
 												
-* --nuserjobs: Maximum number of simultaneous jobs running for the user.
+* nuserjobs: Maximum number of simultaneous jobs running for the user.
 												
-* --npendingjobs: Maximum number of pending jobs for the user.
+* npendingjobs: Maximum number of pending jobs for the user.
 
-* --nfreenodes: Number of nodes to be free of user's simulation jobs.
+* nfreenodes: Number of nodes to be free of user's simulation jobs.
 		
-* --subtime: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 6pm).
+* subtime: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 6pm).
 
-Note you would use these options in a **screen** session, usage: screen python LaunchProduction.py ....
+## Monitoring
+
+Just after the lauching the program type `jobs` and you can see the status of submitted jobs:
+
+<p align="center">
+<img width="540" height="500" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/monitor.png">
+</p>

@@ -1,10 +1,9 @@
 #!/usr/bin/python
 
-from . import Sim09c
-from . import Sim09b
+import os
 
-Sim09b_path = Sim09b.__file__.replace( "pyc", "py" ).replace( "/__init__.py", "" )
-Sim09c_path = Sim09c.__file__.replace( "pyc", "py" ).replace( "/__init__.py", "" )
+Sim09b_path = os.getenv("SIMPRODPATH")+"/simprod/simjob/setup/Sim09b"
+Sim09c_path = os.getenv("SIMPRODPATH")+"/simprod/simjob/setup/Sim09c"
 
 def DoProd( SimCond, Year ):
 	
