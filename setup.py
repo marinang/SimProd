@@ -45,10 +45,12 @@ def HasPySlurm():
 	except ImportError:
 		return False
 				
-install_list = [ 'ipython>=3.2.1,<6.0;python_version<="2.7"', 
-				 'ipython>=3.2.1;python_version>"2.7"',
-			     'screenutils', 
-			     'Cython' ]
+install_list = [ 
+			'ipython>=3.2.1,<6.0;python_version<="2.7"', 
+			'ipython>=3.2.1;python_version>"2.7"',
+			'screenutils',
+			'Cython' ]
+			
 dependency = []
 			
 class PostInstallSetting(install):
