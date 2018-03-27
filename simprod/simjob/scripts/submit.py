@@ -13,6 +13,7 @@ import random
 from datetime import datetime
 import time
 import getpass
+import warnings
 
 def PrepareLxplusJob( **kwargs ):
     
@@ -120,7 +121,27 @@ def PrepareSlurmJob( **kwargs ):
         
         nodes = GetSlurmNodes()
         random.shuffle(nodes)
-        nodes = nodes[0:int(exclude)]
+        
+        n2exclude = int(exclude) + len(nodestoexclude)
+        
+        #### check if nodes exit
+        exists = all(n in nodes for n in nodestoexclude)
+        
+        if not exists:
+            _nodestoexclude = []
+            for n in nodestoexclude:
+                if not n in nodes:
+                    warnings.warn( red(" WARNING: node {0} does not exist. \
+                                It will be removed!".format(n)), stacklevel = 2 )
+                else:
+                    _nodestoexclude.append(n)
+            nodestoexclude = _nodestoexclude
+            
+        for n in nodestoexclude:
+            nodes.remove(n)
+
+        nodes = nodes[0:(n2exclude - len(nodestoexclude))]
+        nodes += nodestoexclude
         
         nodes2exclude = ""
         for n in nodes:

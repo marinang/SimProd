@@ -33,14 +33,15 @@ def GetConfig():
 	def_config = DefaultSlurmConfig() 
 	
 	if "lphe" in os.getenv("HOSTNAME"):
-		configfile = "/share/lphe/home/marinang/SimulationConfigLPHE.py"
+		configfile = "/share/lphe/home/marinang/SimulationLPHEConfig.py"
 		configdir  = "/share/lphe/home/marinang/"
 		if os.path.isfile(configfile):
 			try:
-				from SimulationConfigLPHE import config
+				from SimulationLPHEConfig import config as _conf
 			except ImportError:
 				sys.path.insert(0, configdir)
-				from SimulationConfigLPHE import config	
+				from SimulationLPHEConfig import config	as _conf
+			config = _conf()
 		else:
 			config = def_config		
 	else:
@@ -53,6 +54,8 @@ def DefaultSlurmConfig( ):
 	now     = datetime.now()
 	hour    = now.hour
 	weekday = now.weekday()
+	
+	config = {}
 	
 	### During the day less job submission
 		
@@ -75,12 +78,12 @@ def DefaultSlurmConfig( ):
 		nuserjobs    *= 1.5
 		npendingjobs *= 1.5
 		
-	options["nsimjobs"]     = nsimjobs
-	options["nsimuserjobs"] = nsimuserjobs
-	options["nuserjobs"]    = nuserjobs
-	options["npendingjobs"] = npendingjobs
-	options["nfreenodes"]   = nfreenodes
-	options["cpu"]          = 4140
+	config["nsimjobs"]     = nsimjobs
+	config["nsimuserjobs"] = nsimuserjobs
+	config["nuserjobs"]    = nuserjobs
+	config["npendingjobs"] = npendingjobs
+	config["nfreenodes"]   = nfreenodes
+	config["cpu"]          = 4140
 			
 	return config
 	
