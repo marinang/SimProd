@@ -38,6 +38,7 @@ Description of simulation setups can be found [here](https://github.com/marinang
 <img width="750" height="300" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/submission.png">
 </p>
 
+
 ### Options
 
 Your have other options by default that you can change:
@@ -69,8 +70,6 @@ These argument are all available at instantiation of a SimulationJob but also as
 is equivalent to
 
 `$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)`
-
-`$ j.nevents = NEVENTSJOB`
 
 ### Slurm options
 
