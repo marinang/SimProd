@@ -77,7 +77,7 @@ if __name__ == "__main__" :
 		
 		opts = vars(opts).copy()
 		opts["basedir"] = simoutput
-		Jobs = JobCollection( **opts )
+		Jobs = SimulationJob( **opts )
 		Jobs.prepare()
 		Jobs.send()
 		

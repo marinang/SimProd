@@ -9,9 +9,11 @@ import os
 import subprocess
 from random import shuffle
 import sys
-from simjob.scripts import *
+#from simjob.scripts import *
 import time
-from simjob import JobCollection
+#from simjob import JobCollection
+
+from simprod import *
 
 basedir = os.getenv("SIMOUTPUT")
 if basedir is None :
@@ -56,7 +58,7 @@ if __name__ == "__main__" :
 	
 	opts["basedir"] = basedir
 	
-	Jobs = JobCollection( **opts )
+	Jobs = SimulationJob( **opts )
 
 	Jobs.prepare()
 	

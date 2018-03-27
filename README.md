@@ -38,6 +38,9 @@ Description of simulation setups can be found [here](https://github.com/marinang
 <img width="750" height="300" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/submission.png">
 </p>
 
+You can also launch a job by doing:
+
+`$ simprod --evttype EVTTYPE --year YEAR --nevents NEVENTS`
 
 ### Options
 

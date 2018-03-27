@@ -171,6 +171,7 @@ setup(name = 'simprod',
 	  url = 'https://github.com/marinang/SimulationProduction',
 	  install_requires = install_list, 
 	  dependency_links = dependency,
+	  license = 'GPL-3.0',
 	  classifiers=[
 			'Programming Language :: Python :: 2.7',
 			'Programming Language :: Python :: 3.4',
