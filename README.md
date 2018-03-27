@@ -6,7 +6,7 @@ Mini framework to send LHCb simulation jobs on a batch system (LSF or Slurm)!
 
 To install the module do
 
-`$ python setup.py install`.
+`$ python setup.py install (--user)`.
 
 You will be asked to enter some directories where you want to find your simulated samples.
 

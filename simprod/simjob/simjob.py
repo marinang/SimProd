@@ -161,7 +161,11 @@ class JobCollection(object):
 		jsondict = json.dumps(self._jsondict)
 		f = open(self._collection_file, "w")
 		f.write(jsondict)
-		f.close()				
+		f.close()
+		
+#		for i in self._keys():
+#			job = self._jobs[str(i)]		
+#		job._store_job()		
 				
 class SimulationJob(object):
 	"""
@@ -672,7 +676,7 @@ class SimulationJob(object):
 		setattr(SimulationJob, var, property(*get_set))
 		self.__dict__[var] = getattr(SimulationJob, var)
 		
-	def _store_job(self):
+	def _store_job(self, storesubjobs = False):
 		simprod = os.getenv("SIMPRODPATH")+"/simprod"
 		jobsdir = "{0}/._simjobs_".format(simprod)
 		
@@ -722,11 +726,16 @@ class SimulationJob(object):
 			outdict["nuserjobs"]    = self.options["nuserjobs"]
 			outdict["npendingjobs"] = self.options["npendingjobs"]
 			outdict["nfreenodes"]   = self.options["nfreenodes"]
-			
+					
 		jsondict = json.dumps(outdict)
 		f = open(jobfile, "w")
 		f.write(jsondict)
 		f.close()
+		
+		if storesubjobs:
+			for i in range(self.nsubjobs):
+				job = self[i]
+				job._store_subjob()
 				
 		self._options["jobfile"] = jobfile
 		
@@ -1191,10 +1200,8 @@ class SimulationSubJob(object):
 		
 		_jobfile = self._parent.options["jobfile"]
 		_dict = json.load(open(_jobfile))	
-		
-		_subjob = _dict["jobs"]
-		
-		_subjob[str(self._jobnumber)] = {
+				
+		_subjob = {
 			       "runnumber":   self.runnumber,
 			       "polarity":    self.polarity,
 			       "_jobid":      self.jobid,
@@ -1209,8 +1216,10 @@ class SimulationSubJob(object):
 				   "_status":     self._status,
 					  }
 		if self._send_options["toeos"]:
-			_subjob[str(self._jobnumber)]["_eosprodfile"] = self._eosprodfile
-			_subjob[str(self._jobnumber)]["_eosjobdir"] = self._eosjobdir
+			_subjob["_eosprodfile"] = self._eosprodfile
+			_subjob["_eosjobdir"]   = self._eosjobdir
+			
+		_dict["jobs"][str(self._jobnumber)] = _subjob
 						
 		jsondict = json.dumps(_dict)
 		f = open(_jobfile, "w")
