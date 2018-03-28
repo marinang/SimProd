@@ -190,7 +190,7 @@ rm $DAVINCIFILES
 
 rm *.root
 rm *.py
-rm core*
+rm core.*
 
 rm test_catalog.xml
 rm NewCatalog.xml

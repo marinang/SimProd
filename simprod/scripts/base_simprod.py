@@ -53,8 +53,8 @@ if __name__ == "__main__" :
 	parser.add_argument('--nfreenodes',   metavar='<nfreenodes>',    help="(Slurm option) Number of nodes to be free of user's simulation jobs.", type=int)
 	parser.add_argument('--subtime',      metavar='<subtime>',       help="(Slurm option) Time interval when the jobs are sent.", nargs='+', type=int, default=[0, 23])
 	
-#	#lxplus options
-#	parser.add_argument('--toeos',                                   help="Move the jobs outputs to EOS when finished.", action='store_true') 
+	parser.add_argument('--noui',                                    help="No user intefrace.", action='store_true') 
+	parser.add_argument('--inscreen',                                help="In screen session.", action='store_true') 
 	
 	opts = parser.parse_args()
 	
@@ -70,12 +70,13 @@ if __name__ == "__main__" :
 	jobs = JobCollection()
 	
 	if opts.evttype and opts.year and opts.nevents:
-		print(banner1)
-		print(banner2)
+		if not opts.noui:
+			print(banner1)
+			print(banner2)
 		
-		opts = vars(opts).copy()
-		opts["basedir"] = simoutput
-		Jobs = SimulationJob( **opts )
+		_opts = vars(opts).copy()
+		_opts["basedir"] = simoutput
+		Jobs = SimulationJob( **_opts )
 		Jobs.prepare()
 		Jobs.send()
 		
@@ -88,10 +89,11 @@ if __name__ == "__main__" :
 		
 	_vars = globals().copy()
 	_vars.update( locals() )
-
-	start_ipython ( argv = [] , user_ns = _vars, config= config )
 	
-	jobs._store_collection()
+	if not opts.noui:
 
-	print(blue("\n\t Bye Bye.\n"))
+		start_ipython ( argv = [] , user_ns = _vars, config= config )
+		print(blue("\n\t Bye Bye.\n"))
+		
+	jobs._store_collection()
 	

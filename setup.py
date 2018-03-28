@@ -130,6 +130,7 @@ class PostInstallSetting(install):
 				
 				print("\nJobs will produced at this location:")
 				print(prodpath)
+				pathprint()
 				
 				valid_path = False
 				while valid_path == False:
@@ -144,8 +145,7 @@ class PostInstallSetting(install):
 				
 				print("\nJobs will produced at this location:")
 				print(prodpath)
-				
-				print(prodpath)
+				pathprint()
 				
 				valid_path = False
 				while valid_path == False:

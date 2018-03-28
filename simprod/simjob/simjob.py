@@ -186,6 +186,7 @@ class SimulationJob(object):
 		self._mudst      = kwargs.get('mudst', False)
 		self._runnumber  = kwargs.get('runnumber', baserunnumber())
 		self._decfiles   = kwargs.get('decfiles', 'v30r5')
+		self._inscreen   = kwargs.get('inscreen', False)
 		
 		self._evttype = kwargs.get('evttype', None)	
 		if self._evttype:
@@ -197,7 +198,7 @@ class SimulationJob(object):
 
 		self._options["basedir"] = kwargs.get('basedir', _basedir)
 		
-		self._options["time"]    = kwargs.get('time', 16)
+		self._options["time"]    = kwargs.get('time', 12)
 																			
 		if IsSlurm():
 			default_options    = DefaultSlurmOptions( )
@@ -207,7 +208,7 @@ class SimulationJob(object):
 			self._options["slurm"]    = True	
 			self._slurm               = self._options["slurm"]
 			self._options["subtime"]  = kwargs.get('subtime', [0, 23])
-			self._options["loginprod"] = False
+			self._options["loginprod"] = True
 						
 			self._options["default_options"] = []
 							
@@ -300,7 +301,6 @@ class SimulationJob(object):
 				self._options["default_options"]     += ["cpu"]
 				
 		self._screensessions = []
-		self._inscreen       = False
 											
 	@property
 	def nevents( self):
@@ -375,6 +375,7 @@ class SimulationJob(object):
 					
 	@property	
 	def options( self):
+		self.__updateoptions()
 		return self._options
 		
 	@property	
@@ -494,7 +495,7 @@ class SimulationJob(object):
 			
 		return _status
 																		
-	def prepare( self, job_number = None, **kwargs ):
+	def prepare( self, **kwargs ):
 		
 		if len(self._subjobs) < 1:
 				
@@ -541,7 +542,7 @@ class SimulationJob(object):
 				
 			self._proddir  = "{0}/{1}".format( self.options["basedir"], self.options["subdir"])
 						
-			if not self.options.get("loginprod", False):						
+			if not self.options.get("loginprod", True):						
 					self._options["logdestdir"]  = "{0}/{1}".format( self.options["logdir"], self.options["subdir"])
 				
 			self._destdir = "{0}/{1}/{2}/{3}".format( self.__destination(), self._evttype, self._year, self._simcond)
@@ -550,10 +551,7 @@ class SimulationJob(object):
 		
 		infiles = kwargs.get('infiles', [])
 
-		for n in range(self.nsubjobs):
-			if job_number != None and job_number != n:
-				continue
-				
+		for n in range(self.nsubjobs):				
 			if self._subjobs.get(str(n), None):
 				continue
 			
@@ -562,22 +560,22 @@ class SimulationJob(object):
 			self._subjobs[str(n)] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, infiles=infiles, jobnumber=n )
 			
 		
-	def cancelpreparation( self, job_number = None, **kwargs ):
-		
-		for n in range(self.nsubjobs):
-			if job_number != None and job_number != n:
-				continue
-				
+	def cancelpreparation( self, **kwargs ):	
+		for n in range(self.nsubjobs):				
 			if self._subjobs.get(str(n), None):
 				del self._subjobs[str(n)]
-						
-	def __cansubmit( self):
+				
+	def __updateoptions(self):
 		if self._slurm:
 			#update default options
 			default_options  = DefaultSlurmOptions( )
-			for opt in self.options["default_options"]:
-				self.options[opt] = default_options[opt]
-			return SubCondition( self.options )
+			for opt in self._options["default_options"]:
+				self._options[opt] = default_options[opt]
+						
+	def __cansubmit( self):
+		self.__updateoptions()
+		if self._slurm:
+			return SubCondition( self._options )
 		else:
 			return True
 				
@@ -750,13 +748,13 @@ class SimulationJob(object):
 				
 		if self.status == "running":
 			raise NotImplementedError("Cannot remove running jobs!")
-
-		if os.path.isfile(self.options["jobfile"]):
-			os.remove(self.options["jobfile"])
 		
 		for k in self._subjobs.keys():
 			job = self[int(k)]
 			job.kill()
+			
+		if os.path.isfile(self.options["jobfile"]):
+			os.remove(self.options["jobfile"])
 			
 		self.__removescreens()
 													
@@ -1078,6 +1076,16 @@ class SimulationSubJob(object):
 			self._store_subjob()
 				
 		return self._status
+		
+	@property
+	def infiles( self):
+		return self._send_options["infiles"]
+		
+	@infiles.setter
+	def infiles( self, listfiles):
+		if not isinstance(listfiles, list):
+			raise ValueError("infiles shoud be a list!")
+		self._send_options["infiles"] = listfiles
 				
 	@property
 	def step( self):
@@ -1140,18 +1148,18 @@ class SimulationSubJob(object):
 				self._failed = True
 				
 	def kill( self ):
-		if self._running and not self._finished:
+		if self._submitted:
 			if self._send_options["slurm"]:
 				KillSlurm( self.jobid )
 			elif self._send_options["lsf"]:
 				KillLSF( self.jobid )
 				
-			self._failed = True
-			self._running = False
-			self._completed = False
-			self._finished  = True
-			self._store_subjob()
-			self.__empty_proddir()
+		self._failed = True
+		self._running = False
+		self._completed = False
+		self._finished  = True
+		self._store_subjob()
+		self.__empty_proddir()
 			
 	def __empty_proddir( self, keep_log = False ):
 		if os.path.isdir(self._jobdir):
@@ -1209,6 +1217,7 @@ class SimulationSubJob(object):
 				   "_completed":  self._completed,
 				   "_failed":     self._failed,
 				   "_status":     self._status,
+				   "_infiles":    self._infiles,
 					  }
 					
 		if not self._send_options["loginprod"]:
@@ -1241,8 +1250,9 @@ class SimulationSubJob(object):
 		simsubjob._completed = dict["_completed"]
 		simsubjob._failed    = dict["_failed"]
 		simsubjob._status    = dict["_status"]
+		simsubjob._infiles   = dict.get("_infiles",[])
 								
-		if simsubjob._send_options["loginprod"]:
+		if not simsubjob._send_options["loginprod"]:
 			simsubjob._logjobdir   = dict["_logjobdir"]
 		
 		return simsubjob
