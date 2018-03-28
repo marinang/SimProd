@@ -17,7 +17,7 @@ def KillLSF( ID ):
 def DefaultLSFOptions( ):
 	
 	options = {}		
-	options["cpu"]  = 9000
+	options["cpu"]  = 5500
 		
 	return options
 		
