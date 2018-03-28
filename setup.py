@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, sys
+import os, sys, getpass
 from subprocess import Popen, PIPE
 
 from setuptools import find_packages
@@ -12,11 +12,18 @@ modulepath = os.path.dirname(os.path.realpath(__file__))
 
 py3 = sys.version_info[0] > 2 #creates boolean value for test that Python major version > 2
 
-if py3:
-	_input = input
-else:
-	_input = raw_input
+
+def _input( question, default_answer = None ):
+
+	if py3:
+		func = input
+	else:
+		func = raw_input
+		
+	result = func(question) or default_answer
 	
+	return result
+			
 def canmkdir(folder):
 	try:
 		os.makedirs(folder)
@@ -45,6 +52,12 @@ def HasPySlurm():
 		return True
 	except ImportError:
 		return False
+		
+def pathprint():
+	
+	print("\n\t- Press ENTER to confirm the location")
+	print("\t- Press CTRL-C to abort the installation")
+	print("\t- Or specify a different location below\n")
 				
 install_list = [ 
 			'ipython>=3.2.1,<6.0;python_version<="2.7"', 
@@ -53,6 +66,8 @@ install_list = [
 			'Cython' ]
 			
 dependency = []
+
+user = getpass.getuser()
 			
 class PostInstallSetting(install):
 	"""Post-installation for installation mode."""
@@ -68,47 +83,77 @@ class PostInstallSetting(install):
 		
 		if "lxplus" in os.getenv("HOSTNAME"):
 			
-			print("Recommandation for productions in lxplus is to produce the jobs in the AFS WORK space and to direct to the jobs to EOS once finished!\n")
-			print("Do you want to produce the jobs in AFS work and send them once completed to EOS?\n")
+			print("Recommandation for productions in lxplus is to produce the jobs in the EOS space and to have the stdout and stderr stored in AFS WORK!\n")
+			print("Do you agree with that?\n")
 			
 			valid_answer = False
 			while valid_answer == False:
 				answer = _input("[yes/no]:")
-				
+								
 				if answer in ["yes","no"]:
 					valid_answer = True
 				else:
 					valid_answer = False
 					
 			if answer == "yes":
-				print("\nChoose a production folder for the simulation jobs! (/afs/cern.ch/work/...)")
 				
+				eospath = "/eos/lhcb/user/{0}/{1}/SimulationJobs".format( user[0], user )
+				
+				print("\nJobs will produced at this location:")
+				print(eospath)
+				pathprint()
+						
 				valid_path = False
 				while valid_path == False:
-					prodpath = _input("path:")
-					valid_path = canmkdir(prodpath)
-					
-				_basesimprod = _basesimprod.replace("simoutput = None","simoutput = '{0}'".format(prodpath))
-					
-				print("\nChoose a destination folder for the simulation jobs! (/eos/lhcb/user/...)")
-				
-				valid_path = False
-				while valid_path == False:
-					eospath = _input("path:")
+					eospath = _input("[{0}] >>> ".format(eospath),eospath)
 					valid_path = canmkdir(eospath)
 					
-				_basesimprod = _basesimprod.replace("#_","")
-				_basesimprod = _basesimprod.replace("eos_simoutput_ = None","eos_simoutput = '{0}'".format(eospath))
+				_basesimprod = _basesimprod.replace("simoutput = None","simoutput = '{0}'".format(eospath))
 				
-			elif answer == "no":
-				print("Choose a destination folder for the simulation jobs!")
+				workpath = "/afs/cern.ch/work/{0}/{1}/SimulationJobs".format( user[0], user )
+					
+				print("\nStdout and stderr of the jobs will be stored at this location:")
+				print(workpath)
+				pathprint()
 				
 				valid_path = False
 				while valid_path == False:
-					prodpath = _input("path:")
+					workpath = _input("[{0}] >>> ".format(workpath),workpath)
+					valid_path = canmkdir(workpath)
+					
+				_basesimprod = _basesimprod.replace("#_","")
+				_basesimprod = _basesimprod.replace("log_simoutput_ = None","log_simoutput = '{0}'".format(workpath))
+				
+			elif answer == "no":
+				
+				prodpath = "/eos/lhcb/user/{0}/{1}/SimulationJobs".format( user[0], user )
+				
+				print("\nJobs will produced at this location:")
+				print(prodpath)
+				
+				valid_path = False
+				while valid_path == False:
+					prodpath = _input("[{0}] >>> ".format(prodpath),prodpath)
 					valid_path = canmkdir(prodpath)
 					
 				_basesimprod = _basesimprod.replace("simoutput = None","simoutput = '{0}'".format(prodpath))
+				
+		elif "lphe" in os.getenv("HOSTNAME"):
+			
+				prodpath = "/panfs/{0}/SimulationJobs".format( user )
+				
+				print("\nJobs will produced at this location:")
+				print(prodpath)
+				
+				print(prodpath)
+				
+				valid_path = False
+				while valid_path == False:
+					prodpath = _input("[{0}] >>> ".format(prodpath),prodpath)
+					valid_path = canmkdir(prodpath)
+					
+				_basesimprod = _basesimprod.replace("simoutput = None","simoutput = '{0}'".format(prodpath))
+			
 			
 		else:
 			print("Choose a destination folder for the simulation jobs!")

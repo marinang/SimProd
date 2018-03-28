@@ -33,9 +33,9 @@ def OpenScreenSession( screename ):
 	
 def KillScreenSession( screename ):	
 	
-	s = screenutils.Screen( screename, True )
-	
-	s.kill()
+	if ScreenExist(screename):
+		s = screenutils.Screen( screename )
+		s.kill()
 	
 def ScreenExist( screename ):
 	

@@ -12,12 +12,12 @@ if simoutput is None :
 os.system("mkdir -p "+simoutput)
 os.environ["SIMOUTPUT"] = simoutput
 
-#_eos_simoutput_ = None
-#_if eos_simoutput is None :
+#_log_simoutput_ = None
+#_if log_simoutput is None :
 #_	user = getpass.getuser()
-#_	eos_simoutput = "/eos/lhcb/user/{0}/{1}".format( user[0], user )
-#_os.system("mkdir -p "+eos_simoutput)
-#_os.environ["EOS_SIMOUTPUT"] = eos_simoutput
+#_	log_simoutput = "/afs/cern.ch/work/{0}/{1}".format( user[0], user )
+#_os.system("mkdir -p "+log_simoutput)
+#_os.environ["LOG_SIMOUTPUT"] = log_simoutput
 
 import argparse
 from simprod import *
@@ -53,8 +53,8 @@ if __name__ == "__main__" :
 	parser.add_argument('--nfreenodes',   metavar='<nfreenodes>',    help="(Slurm option) Number of nodes to be free of user's simulation jobs.", type=int)
 	parser.add_argument('--subtime',      metavar='<subtime>',       help="(Slurm option) Time interval when the jobs are sent.", nargs='+', type=int, default=[0, 23])
 	
-	#lxplus options
-	parser.add_argument('--toeos',                                   help="Move the jobs outputs to EOS when finished.", action='store_true') 
+#	#lxplus options
+#	parser.add_argument('--toeos',                                   help="Move the jobs outputs to EOS when finished.", action='store_true') 
 	
 	opts = parser.parse_args()
 	
@@ -64,9 +64,7 @@ if __name__ == "__main__" :
 	banner1 += green(' author: Matthieu Marinangeli, matthieu.marinangeli@cern.ch.\n')
 	
 	banner2  = 'production directory: {0}\n'.format(simoutput)
-	
-	#_banner2  = 'destination directory: {0}\n'.format(eos_simoutput)
-	
+
 	config = Config()
 	
 	jobs = JobCollection()

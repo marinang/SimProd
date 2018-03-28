@@ -26,40 +26,35 @@ def PrepareLxplusJob( **kwargs ):
     dirname  = kwargs.get( "dirname" )
     queue    = kwargs.get( "queue", "1nd") #Choose bach queue (default 1nd) (lxplus) 
     mail     = kwargs.get( "mail", False) #When job finished sends a mail to USER@cern.ch (lxplus)
-    toeos    = kwargs.get( "toeos", False )
+    loginprod = kwargs.get( "loginprod", True )
+    clean    = kwargs.get( "clean", True )
     
     if mail: mail = "-u "+user+"@cern.ch"
     else: mail = ""
 
     #prepare lxplus batch job submission
-    
-    command = "bsub -R 'pool>30000' -o {dir}/out -e {dir}/err \
+        
+    if not loginprod:
+        logdir = os.getenv("LOG_SIMOUTPUT")
+        
+        if logdir is None:
+            logdirname = "/afs/cern.ch/work/{0}/{1}/{2}/{3}".format( user[0], user, subdir, jobname)
+        else:
+            logdirname = "{0}/{1}/{2}".format( logdir, subdir, jobname)
+            
+        if os.path.exists(logdirname) and clean :
+            os.system("rm -rf {0}".format(logdirname))
+        os.system("mkdir -p {0}".format(logdirname))    
+        
+    else:
+        logdirname = dirname
+        
+    command = "bsub -R 'pool>30000' -o {logdir}/out -e {logdir}/err \
             -q {queue} {mail} -J {jname} < {dir}/run.sh -M {cpu}".format(
                     dir = dirname, queue = queue,
                     mail = mail, jname = subdir + jobname,
-                    cpu  = cpu )
-                    
-    if toeos:
-        eosdir = os.getenv("EOS_SIMOUTPUT")
-        
-        if eosdir is None:
-            eos_dirname = "/eos/lhcb/user/{0}/{1}/{2}/{3}".format( user[0], user, subdir, jobname)
-        else:
-            eos_dirname = "{0}/{1}/{2}".format( eosdir, subdir, jobname)
-        
-        oldrun = open(dirname+"/run.sh")
-        oldrunstr = oldrun.read()
-        oldrun.close()
-        
-        fo = open(dirname+"/run.sh","w")
-        fo.write( oldrunstr )
-        fo.write( '\n' )
-        fo.write( 'rm {0}/*.sh\n'.format( dirname ))
-        fo.write( 'xrdfs root://eoslhcb.cern.ch/ mkdir -p {0}\n'.format( eos_dirname ))
-        fo.write( 'xrdcp -r {0}/ root://eoslhcb.cern.ch/{1}\n'.format( dirname, eos_dirname ))
-        fo.write( 'rm {0}/*\n'.format( dirname ))
-        fo.close()
-    
+                    cpu  = cpu, logdir = logdirname )
+            
     return command
     
 def SendCommand( command ):
@@ -172,7 +167,7 @@ def main( **kwargs ):
     unique   = kwargs.get( "unique", True )     #Copy the executable only once in the top folder (and not in each job folders).
     infiles  = kwargs.get( "infiles", [] )      #Files to copy over.
     command  = kwargs.get( "command", "" )      #Command to launch.
-    toeos    = kwargs.get( "toeos", False )     #Send output of jobs to eos after completing.
+#    toeos    = kwargs.get( "toeos", False )     #Send output of jobs to eos after completing.
     slurm    = kwargs.get( "slurm", False )
     lsf      = kwargs.get( "lsf", False )
 

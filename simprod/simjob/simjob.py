@@ -207,7 +207,7 @@ class SimulationJob(object):
 			self._options["slurm"]    = True	
 			self._slurm               = self._options["slurm"]
 			self._options["subtime"]  = kwargs.get('subtime', [0, 23])
-			self._options["toeos"]    = False
+			self._options["loginprod"] = False
 						
 			self._options["default_options"] = []
 							
@@ -281,13 +281,13 @@ class SimulationJob(object):
 			default_options    = DefaultLSFOptions()
 			self._options["default_options"] = []
 			
-			if os.getenv("EOS_SIMOUTPUT"):
-				self._options["toeos"]    = kwargs.get('toeos', True)
+			if os.getenv("LOG_SIMOUTPUT"):
+				self._options["loginprod"] = kwargs.get('loginprod', False)
 			else:
-				self._options["toeos"]    = kwargs.get('toeos', False)
-			
-			if self._options["toeos"]:				
-				self._options["eosdir"]  = kwargs.get('_eosdir', os.getenv("EOS_SIMOUTPUT"))
+				self._options["loginprod"] = kwargs.get('loginprod', True)
+				
+			if not self._options["loginprod"]:
+				self._options["logdir"]  = kwargs.get('logdir', os.getenv("LOG_SIMOUTPUT"))
 				
 			self._options["lsf"]      = True
 			self._lsf                 = self._options["lsf"]
@@ -540,9 +540,9 @@ class SimulationJob(object):
 			self._options["subdir"] = subdir
 				
 			self._proddir  = "{0}/{1}".format( self.options["basedir"], self.options["subdir"])
-			
-			if self._options.get("toeos", False):						
-				self._options["eosproddir"]  = "{0}/{1}".format( self.options["eosdir"], self.options["subdir"])
+						
+			if not self.options.get("loginprod", False):						
+					self._options["logdestdir"]  = "{0}/{1}".format( self.options["logdir"], self.options["subdir"])
 				
 			self._destdir = "{0}/{1}/{2}/{3}".format( self.__destination(), self._evttype, self._year, self._simcond)
 				
@@ -715,15 +715,15 @@ class SimulationJob(object):
 				   "subdir":          self.options["subdir"],
 				   "slurm":           self.options["slurm"],
 				   "lsf":             self.options["lsf"],
-				   "toeos":		      self.options["toeos"],
+				   "loginprod":       self.options["loginprod"],    
 				   "_screensessions": self._screensessions,
 				   "jobs":        {}
 				   } 
 				
-		if self._options["toeos"]:
-			outdict["eosdir"] = self.options["eosdir"]
-			outdict["eosproddir"] = self.options["eosproddir"]
-			
+		if not self.options["loginprod"]:
+			outdict["logdir"]     = self.options["logdir"]
+			outdict["logdestdir"] = self.options["logdestdir"]
+				
 		outdict["default_options"] = self.options["default_options"]
 		outdict["cpu"]             = self.options["cpu"]
 			
@@ -782,12 +782,12 @@ class SimulationJob(object):
 		simjob._options["subdir"] = data["subdir"]
 		simjob._options["slurm"]  = data["slurm"]
 		simjob._options["lsf"]    = data["lsf"]
-		simjob._options["toeos"]  = data["toeos"]
+		simjob._options["loginprod"] = data["loginprod"]
 		simjob._options["jobfile"] = file
 		
-		if simjob._options["toeos"]:
-			simjob._options["eosdir"]     = data["eosdir"]
-			simjob._options["eosproddir"] = data["eosproddir"]
+		if not simjob._options["loginprod"]:
+			simjob._options["logdir"]     = data["logdir"]
+			simjob._options["logdestdir"] = data["logdestdir"]
 			
 		simjob._options["cpu"]             = data["cpu"]
 		simjob._options["default_options"] = data["default_options"]
@@ -900,10 +900,7 @@ class SimulationJob(object):
 		
 	def __destination(self):
 
-		if self.options["toeos"]:
-			return self.options["eosdir"]
-		else:
-			return self.options["basedir"]
+		return self.options["basedir"]
 			
 	def __screencommandfile(self):
 		
@@ -926,6 +923,7 @@ class SimulationJob(object):
 		f.write("import os\n")
 		f.write("os.environ['SIMPRODPATH'] = '{0}'\n".format(os.getenv("SIMPRODPATH")))
 		f.write("os.environ['SIMOUTPUT'] = '{0}'\n".format(os.getenv("SIMOUTPUT")))
+				
 		f.write("from simprod import *\n\n")
 		
 		f.write("job = SimulationJob().from_file('{0}', inscreen = {1})\n".format(
@@ -965,37 +963,26 @@ class SimulationSubJob(object):
 							self._parent.neventsjob, 
 							self._parent.stripping, 
 							self._runnumber )
-							
-		_subdir = "{0}_{1}_{2}evts_s{3}_{4}".format( 
-							self._parent.year, 
-							self._polarity, 
-							self._parent.neventsjob, 
-							self._parent.stripping, 
-							self._runnumber)
-							
+														
 		self._ext = "dst"	
 		if self._parent.mudst:
 			self._ext = "mdst"
 								
 		self._jobdir = "{0}/{1}".format(
 						self._parent.proddir,
-						_subdir)		
+						self._jobname)		
 			
 		self._prodfile = "{0}/{1}_events.{2}".format( 
 						self._jobdir,
 						self._parent.neventsjob, 
 						self._ext )
 							
-		if self._send_options["toeos"]:
-			self._eosjobdir = "{0}/{1}".format(
-							self._send_options["eosproddir"],
-							_subdir)	
+		if not self._send_options["loginprod"]:
+			self._logjobdir = "{0}/{1}".format(
+							self._send_options["logdestdir"],
+							self._jobname)
 			
-			self._eosprodfile = "{0}/{1}_events.{2}".format( 
-							self._eosjobdir,
-							self._parent.neventsjob, 
-							self._ext )
-											
+														
 		self._destfile = "{0}/{1}/{2}evts_s{3}_{4}.{5}".format( 
 								self._parent.destdir, 
 								self._polarity, 
@@ -1113,9 +1100,7 @@ class SimulationSubJob(object):
 		if os.path.isfile( self._prodfile):
 			return self._prodfile
 		elif os.path.isfile( self._destfile):
-			return self._destfile
-		elif self._send_options["toeos"] and os.path.isfile(self._eosprodfile):
-			return self._eosprodfile		
+			return self._destfile	
 		else:
 			return ""
 			
@@ -1170,7 +1155,7 @@ class SimulationSubJob(object):
 			
 	def __empty_proddir( self, keep_log = False ):
 		if os.path.isdir(self._jobdir):
-			if keep_log:
+			if keep_log and self._send_options["loginprod"]:
 				files = glob.glob(self._jobdir + "/*")
 				for f in files:
 					if "out" in f:
@@ -1181,18 +1166,21 @@ class SimulationSubJob(object):
 						os.remove(f) 
 			else:
 				os.system("rm -rf {0}".format(self._jobdir))
-		if self._send_options["toeos"] and os.path.isdir(self._eosjobdir):
-			os.system("rm -rf {0}".format(self._eosjobdir))
-			
+				
+		if not self._send_options["loginprod"] and not keep_log:
+			if os.path.isdir(self._logjobdir):
+				os.system("rm -rf {0}".format(self._logjobdir))
+				
+				
 	def __move_jobs( self ):
 		
-		if self._send_options["toeos"]:
-			dst_prodfile = self._eosprodfile
+		dst_prodfile = self._prodfile
+
+		if "eos" in dst_prodfile:
 			mover = EosMove
 		else:
-			dst_prodfile = self._prodfile
 			mover = Move
-			
+				
 		xml_prodfile = os.path.dirname(dst_prodfile) + "/GeneratorLog.xml"	
 		dst_destfile = self.destfile
 		xml_destfile = os.path.dirname(self.destfile) + "/xml/{0}.xml".format(self.runnumber)
@@ -1222,9 +1210,9 @@ class SimulationSubJob(object):
 				   "_failed":     self._failed,
 				   "_status":     self._status,
 					  }
-		if self._send_options["toeos"]:
-			_subjob["_eosprodfile"] = self._eosprodfile
-			_subjob["_eosjobdir"]   = self._eosjobdir
+					
+		if not self._send_options["loginprod"]:
+			_subjob["_logjobdir"]   = self._logjobdir
 			
 		_dict["jobs"][str(self._jobnumber)] = _subjob
 						
@@ -1253,10 +1241,9 @@ class SimulationSubJob(object):
 		simsubjob._completed = dict["_completed"]
 		simsubjob._failed    = dict["_failed"]
 		simsubjob._status    = dict["_status"]
-				
-		if simsubjob._send_options["toeos"]:
-			simsubjob._eosprodfile = dict["_eosprodfile"]
-			simsubjob._eosjobdir   = dict["_eosjobdir"]
+								
+		if simsubjob._send_options["loginprod"]:
+			simsubjob._logjobdir   = dict["_logjobdir"]
 		
 		return simsubjob
 		
