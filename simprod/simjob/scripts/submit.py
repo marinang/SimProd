@@ -19,7 +19,7 @@ def PrepareLxplusJob( **kwargs ):
     
     user = getpass.getuser()
     
-    cpu      = kwargs.get( "cpu", 3000 ) * 1000       #Memory per cpu (Slurm). in MB
+#    cpu      = kwargs.get( "cpu", 3000 ) * 1000       #Memory per cpu (Slurm). in MB
     time     = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).
     subdir   = kwargs.get( "subdir", "" )
     jobname  = kwargs.get( "jobname", "" )
@@ -50,10 +50,10 @@ def PrepareLxplusJob( **kwargs ):
         logdirname = dirname
         
     command = "bsub -R 'pool>30000' -o {logdir}/out -e {logdir}/err \
-            -q {queue} {mail} -J {jname} < {dir}/run.sh -M {cpu}".format(
+            -q {queue} {mail} -J {jname} < {dir}/run.sh".format(
                     dir = dirname, queue = queue,
                     mail = mail, jname = subdir + jobname,
-                    cpu  = cpu, logdir = logdirname )
+                    logdir = logdirname )
             
     return command
     
@@ -66,6 +66,8 @@ def SendCommand( command ):
         
     time.sleep(0.03)
     out, err = process.communicate()
+    
+    print out,err
         
     return out
     
