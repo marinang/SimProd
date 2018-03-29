@@ -182,7 +182,7 @@ class SimulationJob(object):
 		self._turbo      = kwargs.get('turbo', False)
 		self._mudst      = kwargs.get('mudst', False)
 		self._runnumber  = kwargs.get('runnumber', baserunnumber())
-		self._decfiles   = kwargs.get('decfiles', 'v30r5')
+		self._decfiles   = kwargs.get('decfiles', 'v30r14')
 		self._inscreen   = kwargs.get('inscreen', False)
 		
 		self._evttype = kwargs.get('evttype', None)	
@@ -478,7 +478,7 @@ class SimulationJob(object):
 			_status = "new"	
 		elif nsubmitted < self.nsubjobs and nsubmitted > 0:
 			_status = "submitting"
-		elif nsubmitted == self.nsubjobs and nrunning == 0 and nfailed < self.nsubjobs and ncompleted < self.nsubjobs:
+		elif nsubmitted == self.nsubjobs and nrunning == 0 and nfailed == 0 and ncompleted < self.nsubjobs:
 			_status = "submitted"
 		elif nsubmitted == self.nsubjobs and nrunning > 0:
 			_status = "running"

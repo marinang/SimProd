@@ -50,7 +50,7 @@ def PrepareLxplusJob( **kwargs ):
         logdirname = dirname
         
     command = "bsub -R 'pool>30000' -o {logdir}/out -e {logdir}/err \
-            -q {queue} {mail} -J {jname} < {dir}/run.sh -M {cpu}".format(
+            -q {queue} {mail} -J {jname} < {dir}/run.sh -M {cpu}M".format(
                     dir = dirname, queue = queue,
                     mail = mail, jname = subdir + jobname,
                     cpu  = cpu, logdir = logdirname )
