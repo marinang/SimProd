@@ -138,7 +138,7 @@ class JobCollection(object):
 				self._jsondict.pop(k, None)
 				self._jobs.pop(k, None)
 
-			elif self._jobs[str(k)].status == "new":
+			elif self._jobs[str(k)].status == "new" or self._jobs[str(k)].status == "submitting":
 				self._jobs[str(k)] = SimulationJob().from_file(_file)
 				
 		for js in jsonfiles:
@@ -1086,6 +1086,7 @@ class SimulationSubJob(object):
 		if not isinstance(listfiles, list):
 			raise ValueError("infiles shoud be a list!")
 		self._send_options["infiles"] = listfiles
+		self._infiles = listfiles
 				
 	@property
 	def step( self):
@@ -1251,6 +1252,7 @@ class SimulationSubJob(object):
 		simsubjob._failed    = dict["_failed"]
 		simsubjob._status    = dict["_status"]
 		simsubjob._infiles   = dict.get("_infiles",[])
+		simsubjob._send_options["infiles"] = dict.get("_infiles",[])
 								
 		if not simsubjob._send_options["loginprod"]:
 			simsubjob._logjobdir   = dict["_logjobdir"]

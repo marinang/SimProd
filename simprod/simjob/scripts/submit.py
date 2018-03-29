@@ -109,7 +109,7 @@ def PrepareSlurmJob( **kwargs ):
     fo.write("#SBATCH -n 1\n")
     fo.write("#SBATCH -p batch\n")
     fo.write("#SBATCH -t {0}:00:00\n".format( time ))
-    if exclude != 0 or len(nodestoexclude) > 1:
+    if exclude != 0 or len(nodestoexclude) > 0:
         
         now = datetime.now()
         random.seed(now.day)
