@@ -66,9 +66,7 @@ def SendCommand( command ):
         
     time.sleep(0.03)
     out, err = process.communicate()
-    
-    print out,err
-        
+            
     return out
     
 
