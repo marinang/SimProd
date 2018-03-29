@@ -162,10 +162,7 @@ class JobCollection(object):
 		f = open(self._collection_file, "w")
 		f.write(jsondict)
 		f.close()
-		
-#		for i in self._keys():
-#			job = self._jobs[str(i)]		
-#		job._store_job()		
+			
 				
 class SimulationJob(object):
 	"""
@@ -481,7 +478,7 @@ class SimulationJob(object):
 			_status = "new"	
 		elif nsubmitted < self.nsubjobs and nsubmitted > 0:
 			_status = "submitting"
-		elif nsubmitted == self.nsubjobs and nrunning == 0 and nfailed == 0 and ncompleted == 0:
+		elif nsubmitted == self.nsubjobs and nrunning == 0 and nfailed < self.nsubjobs and ncompleted < self.nsubjobs:
 			_status = "submitted"
 		elif nsubmitted == self.nsubjobs and nrunning > 0:
 			_status = "running"
@@ -572,7 +569,7 @@ class SimulationJob(object):
 			for opt in self._options["default_options"]:
 				self._options[opt] = default_options[opt]
 						
-	def __cansubmit( self):
+	def _cansubmit( self):
 		self.__updateoptions()
 		if self._slurm:
 			return SubCondition( self._options )
@@ -589,7 +586,7 @@ class SimulationJob(object):
 					
 					SUBMIT = False
 					while SUBMIT == False:
-						SUBMIT = self.__cansubmit()
+						SUBMIT = self._cansubmit()
 						if not SUBMIT:
 							time.sleep( randint(0,30) * 60 )
 											
@@ -675,7 +672,7 @@ class SimulationJob(object):
 		self._optfile = "{0}/EvtTypes/{1}/{1}.py".format( moddir, self._evttype )
 	
 		if not os.path.isfile( self._optfile ):
-			GetEvtType.get( evttype = self._evttype, decfiles = self._decfiles )
+			getevttype( evttype = self._evttype, decfiles = self._decfiles )
 			
 	def __add_var(self, var, get_set):
 		setattr(SimulationJob, var, property(*get_set))
@@ -1016,6 +1013,13 @@ class SimulationSubJob(object):
 				
 	@property	
 	def send( self):
+		
+		SUBMIT = False
+		while SUBMIT == False:
+			SUBMIT = self._parent._cansubmit()
+			if not SUBMIT:
+				time.sleep( randint(0,30) * 60 )
+		
 		if not self._submitted or self._failed:
 			send_options = self._send_options
 			self._jobid = submit( **send_options )

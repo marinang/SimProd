@@ -99,3 +99,11 @@ Just after the lauching the program type `jobs` and you can see the status of su
 <p align="center">
 <img width="540" height="500" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/monitor.png">
 </p>
+
+## Evttypes
+
+For generation Gauss needs an option file callled EVTTYPE.py which is stored in a folder called **Evttypes**. In you need to modify your option file prior to submission you can type in the simprod prompt 
+
+`$ getevttype(EVTTYPE)`,
+
+and all option files related to this EVTTYPE should be downloaded into the **Evttypes** directory.

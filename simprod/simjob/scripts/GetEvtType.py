@@ -10,7 +10,9 @@ import os
 import shutil
 import sys
 
-def get( **Options ):
+def getevttype( evttype, decfiles = "v30r5" ):
+	
+	Options = {"evttype": evttype, "decfiles": decfiles}
 	
 	moddir = os.getenv("SIMPRODPATH")
 	
@@ -52,16 +54,4 @@ def get( **Options ):
 	with open(OptFile, 'w') as file:
 			file.writelines( lines )
 				
-				
-if __name__ == "__main__" :
-
-	parser = argparse.ArgumentParser(description='')
-	
-	parser.add_argument('evttype',        metavar='<evttype>',       help="EvtType of the processus to generate.", type=str)
-	
-	parser.add_argument('--decfiles',     metavar='<decfiles>',      help="Version of the DecFiles package.", type=str, default='v30r5')
-	
-	opts = parser.parse_args()			
-				
-	get( **vars(opts) )	
-				
+								
