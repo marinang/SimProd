@@ -195,7 +195,7 @@ class SimulationJob(object):
 
 		self._options["basedir"] = kwargs.get('basedir', _basedir)
 		
-		self._options["time"]    = kwargs.get('time', 12)
+		self._options["time"]    = kwargs.get('time', 10)
 																			
 		if IsSlurm():
 			default_options    = DefaultSlurmOptions( )

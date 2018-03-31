@@ -105,6 +105,7 @@ def PrepareSlurmJob( **kwargs ):
     fo.write("#SBATCH -o " + dirname + "/out\n")
     fo.write("#SBATCH -e " + dirname + "/err\n")
     fo.write("#SBATCH -J " + subdir + jobname + "\n")
+    fo.write("#SBATCH --mem {0}".format( 4000 ) +"\n")
     fo.write("#SBATCH --mem-per-cpu {0}".format( cpu ) +"\n")
     fo.write("#SBATCH -n 1\n")
     fo.write("#SBATCH -p batch\n")
