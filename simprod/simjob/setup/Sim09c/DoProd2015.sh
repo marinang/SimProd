@@ -50,8 +50,6 @@ echo "OutputStream('GaussTape').Output = \"DATAFILE='PFN:$GAUSSOUTPUT' TYP='POOL
 # Run
 lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r335" Gauss/v49r8 gaudirun.py \$APPCONFIGOPTS/$SimCond \$APPCONFIGOPTS/Gauss/EnableSpillover-25ns.py \$APPCONFIGOPTS/Gauss/DataType-2015.py \$APPCONFIGOPTS/Gauss/RICHRandomHits.py \$LBPYTHIA8ROOT/options/Pythia8.py \$APPCONFIGOPTS/Gauss/G4PL_FTFP_BERT_EmNoCuts.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py $Optfile $CONDITIONS $GAUSSJOB
 
-# Prepare output
-mv `ls *.sim` $GAUSSOUTPUT
 rm $GAUSSJOB
 
 #-------------#
@@ -124,7 +122,7 @@ BRUNELFILES=$PWD/Brunel-Files.py
 
 # Prepare files
 echo "from Gaudi.Configuration import *" >> $BRUNELFILES
-echo "EventSelector().Input = [\"DATAFILE='PFN:./$MOOREOUTPUT' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> $BRUNELFILES
+echo "EventSelector().Input = [\"DATAFILE='PFN:$MOOREOUTPUT' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> $BRUNELFILES
 if [ "$Turbo" == "True" ]; then
 	echo "from Configurables import Brunel" >> $BRUNELFILES
 	echo "Brunel().OutputType = 'XDST'" >> $BRUNELFILES
@@ -148,7 +146,7 @@ if [ "$Turbo" == "True" ]; then
 
 	# Prepare files
 	echo "from Gaudi.Configuration import *" >> $TESLAFILES
-	echo "EventSelector().Input = [\"DATAFILE='PFN:./$BRUNELOUTPUT' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> $TESLAFILES
+	echo "EventSelector().Input = [\"DATAFILE='PFN:$BRUNELOUTPUT' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> $TESLAFILES
 	if [ "$muDST" == "True" ]; then
 		echo 'importOptions("$APPCONFIGOPTS/Turbo/Tesla_FilterMC.py")' >> $TESLAFILES
 	fi
@@ -172,7 +170,7 @@ DAVINCIFILES=$PWD/DaVinci-Files.py
 
 # Prepare files
 echo "from Gaudi.Configuration import *" >> $DAVINCIFILES
-echo "EventSelector().Input = [\"DATAFILE='PFN:./$TurboOutput' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> $DAVINCIFILES
+echo "EventSelector().Input = [\"DATAFILE='PFN:$TurboOutput' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> $DAVINCIFILES
 if [ "$muDST" == "True" ]; then
 	echo 'importOptions("$APPCONFIGOPTS/DaVinci/DV-Stripping-MC-muDST.py")'	>> $DAVINCIFILES
 fi
