@@ -170,7 +170,7 @@ DAVINCIFILES=$PWD/DaVinci-Files.py
 
 # Prepare files
 echo "from Gaudi.Configuration import *" >> $DAVINCIFILES
-echo "EventSelector().Input = [\"DATAFILE='PFN:$TurboOutput' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> $DAVINCIFILES
+echo "EventSelector().Input = [\"DATAFILE='PFN:$TURBOOUTPUT' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> $DAVINCIFILES
 if [ "$muDST" == "True" ]; then
 	echo 'importOptions("$APPCONFIGOPTS/DaVinci/DV-Stripping-MC-muDST.py")'	>> $DAVINCIFILES
 fi
@@ -183,7 +183,7 @@ fi
 
 # Run
 
-rm $TurboOutput
+rm $TURBOOUTPUT
 rm $DAVINCIFILES
 
 rm *.root
