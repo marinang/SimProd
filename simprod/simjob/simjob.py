@@ -195,7 +195,9 @@ class SimulationJob(object):
 
 		self._options["basedir"] = kwargs.get('basedir', _basedir)
 		
-		self._options["time"]    = kwargs.get('time', 10)
+		self._options["time"]    = kwargs.get('time', None)
+		if not self._options["time"]:
+			self._options["time"] = 10 
 																			
 		if IsSlurm():
 			default_options    = DefaultSlurmOptions( )
@@ -272,7 +274,7 @@ class SimulationJob(object):
 			if not self._options["cpu"]:
 				self._options["cpu"]                  = default_options['cpu']
 				self._options["default_options"]     += ["cpu"]
-				
+								
 			addvars("npendingjobs")
 								
 		elif IsLSF():
@@ -517,7 +519,12 @@ class SimulationJob(object):
 			self._nsubjobs = int( self._nevents/ self._neventsjob )
 			
 			if  self._nsubjobs  == 0:
-				warnings.warn( red(" WARNING: no jobs are being sent (make sure that neventsjob is smaller than nevents)! "), stacklevel = 2 )
+				
+				self._neventsjob = int(self._nevents / 2)
+				self._nevents    = self._neventsjob * 2
+				self._nsubjobs   = 2
+				
+#				warnings.warn( red(" WARNING: no jobs are being sent (make sure that neventsjob is smaller than nevents)! "), stacklevel = 2 )
 			
 			if not isinstance(self._polarity, list) or len(self._polarity) < self.nsubjobs:
 				
@@ -1063,7 +1070,7 @@ class SimulationSubJob(object):
 		elif self._submitted and not self._running and self._finished:
 			if self._completed:
 				self._status = "completed"
-				if not self.output == self.destfile:
+				if not self.output == self.destfile and not self.output == "":
 					self.__move_jobs()
 			elif self._failed:
 				self._status = "failed"
@@ -1184,25 +1191,29 @@ class SimulationSubJob(object):
 			if os.path.isdir(self._logjobdir):
 				os.system("rm -rf {0}".format(self._logjobdir))
 				
-				
 	def __move_jobs( self ):
 		
-		dst_prodfile = self._prodfile
-
-		if "eos" in dst_prodfile:
-			mover = EosMove
+		if not os.path.isdir(self._jobdir):
+			warnings.warn( red(" WARNING: production folder has been removed, if the jobs is marked as failed the output has\
+			been probably lost!"), stacklevel = 2 )
+			
 		else:
-			mover = Move
-				
-		xml_prodfile = os.path.dirname(dst_prodfile) + "/GeneratorLog.xml"	
-		dst_destfile = self.destfile
-		xml_destfile = os.path.dirname(self.destfile) + "/xml/{0}.xml".format(self.runnumber)
+			dst_prodfile = self._prodfile
 
-		print("Moving job (evttype {0}, year {1}, run number {2}) to final destination!".format(self._parent.evttype, self._parent.year, self._runnumber))
-		mover( dst_prodfile, dst_destfile )
-		mover( xml_prodfile, xml_destfile )
-		
-		self.__empty_proddir()
+			if "eos" in dst_prodfile:
+				mover = EosMove
+			else:
+				mover = Move
+					
+			xml_prodfile = os.path.dirname(dst_prodfile) + "/GeneratorLog.xml"	
+			dst_destfile = self.destfile
+			xml_destfile = os.path.dirname(self.destfile) + "/xml/{0}.xml".format(self.runnumber)
+
+			print("Moving job (evttype {0}, year {1}, run number {2}) to final destination!".format(self._parent.evttype, self._parent.year, self._runnumber))
+			mover( dst_prodfile, dst_destfile )
+			mover( xml_prodfile, xml_destfile )
+			
+			self.__empty_proddir()
 		
 	def _store_subjob(self):
 		

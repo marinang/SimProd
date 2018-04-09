@@ -59,13 +59,23 @@ def PrepareLxplusJob( **kwargs ):
     
 def SendCommand( command ):
     
-    if sys.version_info[0] > 2:
-        process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE, encoding='utf8')
-    else:
-        process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
-        
-    time.sleep(0.03)
-    out, err = process.communicate()
+    SENT = False
+    
+    while SENT == False:
+    
+        if sys.version_info[0] > 2:
+            process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE, encoding='utf8')
+        else:
+            process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
+            
+        time.sleep(0.03)
+        out, err = process.communicate()
+
+        try:
+            _ = out.split(" ")[1]
+            SENT = True
+        except IndexError:
+            continue
             
     return out
     
@@ -74,13 +84,15 @@ def PrepareSlurmJob( **kwargs ):
     
     #prepare slurm batch job submission
     
-    subdir   = kwargs.get( "subdir", "" )
-    jobname  = kwargs.get( "jobname", "" )
-    cpu      = kwargs.get( "cpu", 4000 )        #Memory per cpu (Slurm).
-    time     = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).
-    exclude  = kwargs.get( "nfreenodes", 0 )       #Number of nodes to exclude (Slurm).
+    subdir    = kwargs.get( "subdir", "" )
+    jobname   = kwargs.get( "jobname", "" )        
+#    cpumemory = kwargs.get( "cpumemory", 2800 )
+    cpumemory = kwargs.get( "cpu", 2800 )        #Memory per cpu (Slurm).
+    totmemory = kwargs.get( "totmemory", 4000 )
+    time      = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).
+    exclude   = kwargs.get( "nfreenodes", 0 )       #Number of nodes to exclude (Slurm).
     nodestoexclude  = kwargs.get( "nodestoexclude", [] )   #Nodes to exclude (Slurm).
-    dirname  = kwargs.get( "dirname" )
+    dirname   = kwargs.get( "dirname" )
 
     def GetSlurmNodes():
         
@@ -105,8 +117,8 @@ def PrepareSlurmJob( **kwargs ):
     fo.write("#SBATCH -o " + dirname + "/out\n")
     fo.write("#SBATCH -e " + dirname + "/err\n")
     fo.write("#SBATCH -J " + subdir + jobname + "\n")
-    fo.write("#SBATCH --mem {0}".format( 4000 ) +"\n")
-    fo.write("#SBATCH --mem-per-cpu {0}".format( cpu ) +"\n")
+    fo.write("#SBATCH --mem {0}".format( totmemory ) +"\n")
+    fo.write("#SBATCH --mem-per-cpu {0}".format( cpumemory ) +"\n")
     fo.write("#SBATCH -n 1\n")
     fo.write("#SBATCH -p batch\n")
     fo.write("#SBATCH -t {0}:00:00\n".format( time ))
