@@ -74,7 +74,7 @@ is equivalent to
 
 `$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)`
 
-`$ j.neventsjobs = NEVENTSJOB`
+`$ j.neventsjob = NEVENTSJOB`
 
 ### Slurm options
 
