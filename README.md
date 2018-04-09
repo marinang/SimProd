@@ -74,6 +74,8 @@ is equivalent to
 
 `$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)`
 
+`$ j.neventsjobs = NEVENTSJOB`
+
 ### Slurm options
 
 You have additionnal options for slurm batch system with default values designed for EPFL usage.
