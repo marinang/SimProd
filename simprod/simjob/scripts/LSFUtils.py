@@ -17,7 +17,7 @@ def KillLSF( ID ):
 def DefaultLSFOptions( ):
 	
 	options = {}		
-	options["cpu"]  = 5500
+	options["cpu"]  = 4000
 		
 	return options
 		
@@ -32,17 +32,20 @@ def GetLSFStatus( ID ):
 	if err == "Job <{0}> is not found\n".format(ID):
 		status = "notfound"
 	else:
-		status = out.split("\n")[1].replace(" ","").lower()
-		if status == "pend":
+		try:
+			status = out.split("\n")[1].replace(" ","").lower()
+			if status == "pend":
+				status = "pending"
+			elif status == "run":
+				status = "running"
+			elif status == "done":
+				status = "completed"
+			elif status == "exit" or status == "ususp" or status == "ssusp":
+				status = "canceled"
+			elif status == "unkwn" or status == "zombi":
+				status = "failed"
+		except IndexError:
 			status = "pending"
-		elif status == "run":
-			status = "running"
-		elif status == "done":
-			status = "completed"
-		elif status == "exit" or status == "ususp" or status == "ssusp":
-			status = "canceled"
-		elif status == "unkwn" or status == "zombi":
-			status = "failed"
 			
 	return status
 	

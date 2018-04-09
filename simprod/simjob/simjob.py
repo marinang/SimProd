@@ -1030,18 +1030,21 @@ class SimulationSubJob(object):
 		if not self._submitted or self._failed:
 			send_options = self._send_options
 			self._jobid = submit( **send_options )
-			self._submitted = True
-			self._running   = False
-			self._finished  = False
-			self._completed = False
-			self._failed    = False
-			self._store_subjob()
-						
-			time.sleep(0.07)
-			print( blue( "{0}/{1} jobs submitted!".format( int(self._jobnumber) + 1, self._parent.nsubjobs ) ) )
-			time.sleep(0.07)
 			
-			
+			if self._jobid:
+				self._submitted = True
+				self._running   = False
+				self._finished  = False
+				self._completed = False
+				self._failed    = False
+				self._store_subjob()
+							
+				time.sleep(0.07)
+				print( blue( "{0}/{1} jobs submitted!".format( int(self._jobnumber) + 1, self._parent.nsubjobs ) ) )
+				time.sleep(0.07)
+			else:
+				print( red( "job {0}/{1} submission failed, try later!".format( int(self._jobnumber) + 1, self._parent.nsubjobs ) ) )
+					
 	@property
 	def jobid( self):
 		return self._jobid

@@ -58,28 +58,17 @@ def PrepareLxplusJob( **kwargs ):
     return command
     
 def SendCommand( command ):
-    
-    SENT = False
-    
-    while SENT == False:
-    
-        if sys.version_info[0] > 2:
-            process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE, encoding='utf8')
-        else:
-            process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
-            
-        time.sleep(0.03)
-        out, err = process.communicate()
-
-        try:
-            _ = out.split(" ")[1]
-            SENT = True
-        except IndexError:
-            continue
+        
+    if sys.version_info[0] > 2:
+        process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE, encoding='utf8')
+    else:
+        process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
+        
+    time.sleep(0.03)
+    out, err = process.communicate()
             
     return out
     
-
 def PrepareSlurmJob( **kwargs ):
     
     #prepare slurm batch job submission
@@ -180,7 +169,6 @@ def main( **kwargs ):
     unique   = kwargs.get( "unique", True )     #Copy the executable only once in the top folder (and not in each job folders).
     infiles  = kwargs.get( "infiles", [] )      #Files to copy over.
     command  = kwargs.get( "command", "" )      #Command to launch.
-#    toeos    = kwargs.get( "toeos", False )     #Send output of jobs to eos after completing.
     slurm    = kwargs.get( "slurm", False )
     lsf      = kwargs.get( "lsf", False )
 
@@ -271,9 +259,12 @@ def main( **kwargs ):
     if "lxplus" in os.getenv("HOSTNAME") and lsf:  ## Batch for lxplus
         command = PrepareLxplusJob( **kwargs )
         out = SendCommand( command )
-        ID = int( out.split(" ")[1].replace(">","").replace("<","") )
-        print( "Submitted batch job {0}".format(ID) )
-        return ID
+        try:
+            ID = int( out.split(" ")[1].replace(">","").replace("<","") )
+            print( "Submitted batch job {0}".format(ID) )
+            return ID
+        except IndexError:
+            return None
         
     elif slurm:
         command = PrepareSlurmJob( **kwargs )
