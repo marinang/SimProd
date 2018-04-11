@@ -649,6 +649,10 @@ class SimulationJob(object):
 			raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
 										self._year, 
 										self._simcond) )
+										
+		if self._year == 2011:
+			if self._simcond == "Sim09c":
+				StrippingVersion("21r1")
 		
 		if self._year == 2012:
 			if self._simcond == "Sim09b":

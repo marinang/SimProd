@@ -36,12 +36,17 @@ def GetConfig():
 		configfile = "/share/lphe/home/marinang/SimulationLPHEConfig.py"
 		configdir  = "/share/lphe/home/marinang/"
 		if os.path.isfile(configfile):
-			try:
-				from SimulationLPHEConfig import config as _conf
-			except ImportError:
-				sys.path.insert(0, configdir)
-				from SimulationLPHEConfig import config	as _conf
-			config = _conf()
+			
+			if "SimulationLPHEConfig" in sys.modules:
+				import SimulationLPHEConfig
+				reload(SimulationLPHEConfig)
+			else:		
+				try:
+					import SimulationLPHEConfig
+				except ImportError:
+					sys.path.insert(0, configdir)
+					import SimulationLPHEConfig
+			config = SimulationLPHEConfig.config()
 		else:
 			config = def_config		
 	else:
