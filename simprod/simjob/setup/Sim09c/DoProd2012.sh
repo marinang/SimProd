@@ -58,6 +58,7 @@ rm $GAUSSJOB
 #-------------#
 
 BOOLEFILES=$PWD/Boole-Files.py
+BOOLEOUTPUT=$PWD/Boole.digi
 
 # Prepare files
 echo "from Gaudi.Configuration import *" >> $BOOLEFILES
@@ -142,8 +143,6 @@ if [ "$Stripping" == "21" ]; then
 elif [ "$Stripping" == "21r0p1" ]; then
   echo "TBD"
 fi
-
-
 
 # Run
 

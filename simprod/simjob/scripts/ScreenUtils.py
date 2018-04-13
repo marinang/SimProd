@@ -9,10 +9,11 @@ def SendInScreen( screename, py_file ):
 	
 	s = screenutils.Screen( screename, True )
 	
-	time.sleep(2)
+	time.sleep(1)
 	
 	f = open(py_file, "r")
 	old_py_file = f.read()
+	f.close()
 	
 	f = open(py_file, "w")
 	f.write(old_py_file)
@@ -20,6 +21,7 @@ def SendInScreen( screename, py_file ):
 	f.write("s = Screen('{0}')\n".format(screename))
 	f.write("if s.exists:\n".format(screename))
 	f.write("\ts.kill()\n".format(screename))
+	f.close()
 	
 	s.send_commands("python {0}".format(py_file))
 	

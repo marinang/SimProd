@@ -489,7 +489,7 @@ class SimulationJob(object):
 		elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted < self.nsubjobs and nfailed > 0:
 			_status = "failed"
 			
-		if _status != "submitting" or _status != "new":
+		if _status != "submitting" and _status != "new":
 			self.__removescreens()
 			
 		return _status
@@ -523,8 +523,6 @@ class SimulationJob(object):
 				self._neventsjob = int(self._nevents / 2)
 				self._nevents    = self._neventsjob * 2
 				self._nsubjobs   = 2
-				
-#				warnings.warn( red(" WARNING: no jobs are being sent (make sure that neventsjob is smaller than nevents)! "), stacklevel = 2 )
 			
 			if not isinstance(self._polarity, list) or len(self._polarity) < self.nsubjobs:
 				
@@ -619,6 +617,8 @@ class SimulationJob(object):
 			print(red("Job submission is done in a screen session!"))
 			
 			self._screensessions.append({"name":screename, "id":_id})
+			
+			self._store_job(storesubjobs = True)
 
 	def __checksiminputs( self ):
 		
@@ -790,6 +790,7 @@ class SimulationJob(object):
 		simjob._options["lsf"]    = data["lsf"]
 		simjob._options["loginprod"] = data["loginprod"]
 		simjob._options["jobfile"] = file
+		simjob._screensessions = data["_screensessions"]
 		
 		if not simjob._options["loginprod"]:
 			simjob._options["logdir"]     = data["logdir"]
@@ -807,9 +808,7 @@ class SimulationJob(object):
 			
 		if inscreen:
 			simjob._inscreen = True
-		else:
-			simjob._screensessions = data["_screensessions"]
-
+			
 		### prepare like 
 				
 		jobs = data["jobs"]
@@ -927,10 +926,13 @@ class SimulationJob(object):
 		f.write("#!/usr/bin/python\n\n")
 		
 		f.write("import os\n")
+		f.write("import time\n")
 		f.write("os.environ['SIMPRODPATH'] = '{0}'\n".format(os.getenv("SIMPRODPATH")))
 		f.write("os.environ['SIMOUTPUT'] = '{0}'\n".format(os.getenv("SIMOUTPUT")))
-				
+					
 		f.write("from simprod import *\n\n")
+		
+		f.write("time.sleep(1.5)\n\n")
 		
 		f.write("job = SimulationJob().from_file('{0}', inscreen = {1})\n".format(
 										self._options["jobfile"],
