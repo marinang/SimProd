@@ -114,8 +114,8 @@ echo "Moore().outputFile = '$HLT1OUTPUT'" >> $HLT1CONFIG
 # Run
 lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r297" Moore/v25r4 gaudirun.py \$APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep2015.py \$APPCONFIGOPTS/Conditions/TCK-0x5138160F.py \$APPCONFIGOPTS/Moore/DataType-2016.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py \$APPCONFIGOPTS/Moore/MooreSimProductionHlt1.py $HLT1CONFIG $CONDITIONS
 
-#rm $L0OUTPUT
-#rm $HLT1CONFIG
+rm $L0OUTPUT
+rm $HLT1CONFIG
 
 #------------#
 #    HLT2    #
@@ -133,10 +133,10 @@ echo "EventSelector().Input = [\"DATAFILE='PFN:$HLT1OUTPUT' TYP='POOL_ROOTTREE' 
 echo "Moore().outputFile = '$HLT2OUTPUT'" >> $HLT2CONFIG
 
 # Run
-lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r297" Moore/v25r4 gaudirun.py \$APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep2015.py \$APPCONFIGOPTS/Conditions/TCK-0x6139160F.py \$APPCONFIGOPTS/Moore/DataType-2016.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py \$APPCONFIGOPTS/Moore/MooreSimProductionHlt2.py $HLT2CONFIG $CONDITIONS
+lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r297" Moore/v25r4 gaudirun.py \$APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep2015.py \$APPCONFIGOPTS/Conditions/TCK-0x6138160F.py \$APPCONFIGOPTS/Moore/DataType-2016.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py \$APPCONFIGOPTS/Moore/MooreSimProductionHlt2.py $HLT2CONFIG $CONDITIONS
 
-#rm $HLT1OUTPUT
-#rm $HLT2CONFIG
+rm $HLT1OUTPUT
+rm $HLT2CONFIG
 
 #-------------#
 #   BRUNEL    #
@@ -158,8 +158,8 @@ fi
 # Run
 lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r314" --use="SQLDDDB v7r10" Brunel/v50r2 gaudirun.py \$APPCONFIGOPTS/Brunel/DataType-2016.py \$APPCONFIGOPTS/Brunel/MC-WithTruth.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py $BRUNELFILES $CONDITIONS
 
-#rm $HLT2OUTPUT
-#rm $BRUNELFILES
+rm $HLT2OUTPUT
+rm $BRUNELFILES
 
 if [ "$Turbo" == "True" ]; then
   #-------------#
@@ -178,8 +178,8 @@ if [ "$Turbo" == "True" ]; then
   #run
   lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r322" --use="TurboStreamProd v4r1p4" DaVinci/v41r4p3 gaudirun.py \$APPCONFIGOPTS/Turbo/Tesla_2016_LinesFromStreams_MC.py \$APPCONFIGOPTS/Turbo/Tesla_PR_Truth_2016.py \$APPCONFIGOPTS/Turbo/Tesla_Simulation_2016.py $CONDITIONS $TESLAFILES 
 
-#  rm $BrunelOutput
-#  rm $TESLAFILES
+  rm $BrunelOutput
+  rm $TESLAFILES
   
   TURBOOUTPUT=$PWD/Tesla.dst	
 else
@@ -206,11 +206,11 @@ elif [ "$Stripping" == "28r1p1" ]; then
   lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r350" --use="TMVAWeights v1r9" DaVinci/v41r4p5 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping28r1p1-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2016.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py $CONDITIONS $DAVINCIFILES
 fi
 
-#rm $TURBOOUTPUT
-#rm $DAVINCIFILES
+rm $TURBOOUTPUT
+rm $DAVINCIFILES
 
 rm *.root
-#rm *.py
+rm *.py
 rm core.*
 
 rm test_catalog.xml

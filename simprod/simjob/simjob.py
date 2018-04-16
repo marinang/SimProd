@@ -1031,7 +1031,7 @@ class SimulationSubJob(object):
 		while SUBMIT == False:
 			SUBMIT = self._parent._cansubmit()
 			if not SUBMIT:
-				time.sleep( randint(0,30) * 60 )
+				time.sleep( randint(0,20) * 60 )
 		
 		if not self._submitted or self._failed:
 			send_options = self._send_options
