@@ -60,8 +60,8 @@ def pathprint():
 	print("\t- Or specify a different location below\n")
 				
 install_list = [ 
-			'ipython>=3.2.1,<6.0;python_version<"3.0"', 
-			'ipython>=3.2.1;python_version>="3.0"',
+			'ipython>=5.0,<6.0;python_version<"3.0"', 
+			'ipython>=5.0;python_version>="3.0"',
 			'screenutils',
 			'Cython' ]
 			
@@ -179,7 +179,8 @@ class PostInstallSetting(install):
 			if os.path.isdir(currentdir+"/ext/pyslurm"):
 				os.system("rm -rf {0}/ext/pyslurm".format(currentdir))
 			
-			os.system("git clone -b 17.02.0 git@github.com:PySlurm/pyslurm.git")
+			os.system("pip install Cython --user")
+			os.system("git clone -b 17.02.0 https://github.com/PySlurm/pyslurm.git")
 			os.chdir(currentdir+"/ext/pyslurm")
 			os.system("python setup.py build")
 			os.system("python setup.py install --user")
