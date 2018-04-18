@@ -755,12 +755,11 @@ class SimulationJob(object):
 	def remove( self ):
 				
 		if self.status == "running":
-			raise NotImplementedError("Cannot remove running jobs!")
-		
-		for k in self._subjobs.keys():
-			job = self[int(k)]
-			job.kill()
-			
+			for sj in self.subjobs():
+				if sj.status == "running":
+					sj.kill()
+#			raise NotImplementedError("Cannot remove running jobs!")
+
 		if os.path.isfile(self.options["jobfile"]):
 			os.remove(self.options["jobfile"])
 			
