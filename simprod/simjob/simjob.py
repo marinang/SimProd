@@ -36,7 +36,7 @@ class JobCollection(object):
 			for cj in _collectedjobs.keys():
 				if not os.path.isfile(_collectedjobs[cj]):
 					continue
-				self._jobs[cj]     = SimulationJob().from_file(_collectedjobs[cj])
+				self._jobs[cj]     = SimulationJob().from_file(_collectedjobs[cj], cj)
 				self._jsondict[cj] = _collectedjobs[cj]
 				
 		self.__update()
@@ -139,7 +139,7 @@ class JobCollection(object):
 				self._jobs.pop(k, None)
 
 			elif self._jobs[str(k)].status == "new" or self._jobs[str(k)].status == "submitting":
-				self._jobs[str(k)] = SimulationJob().from_file(_file)
+				self._jobs[str(k)] = SimulationJob().from_file(_file, k)
 				
 		for js in jsonfiles:
 			if js not in self._jsondict.values():
@@ -148,7 +148,7 @@ class JobCollection(object):
 				else:
 					maxindex = max(self._keys())
 					index    = str(maxindex + 1) 
-				self._jobs[str(index)] = SimulationJob().from_file(js) 
+				self._jobs[str(index)] = SimulationJob().from_file(js, index) 
 				self._jsondict[str(index)] = js
 				
 		self._store_collection()
@@ -184,6 +184,7 @@ class SimulationJob(object):
 		self._runnumber  = kwargs.get('runnumber', baserunnumber())
 		self._decfiles   = kwargs.get('decfiles', 'v30r14')
 		self._inscreen   = kwargs.get('inscreen', False)
+		self._jobnumber  = None
 		
 		self._evttype = kwargs.get('evttype', None)	
 		if self._evttype:
@@ -527,12 +528,12 @@ class SimulationJob(object):
 			if not isinstance(self._polarity, list) or len(self._polarity) < self.nsubjobs:
 				
 				if not self._polarity:
-					polarity = ["MagUp" for i in range(0,int(self.nsubjobs / 2))]
-					polarity += ["MagDown" for i in range(int(self.nsubjobs / 2), self.nsubjobs)]
+					polarity = ["MagUp" for i in xrange(0,int(self.nsubjobs / 2))]
+					polarity += ["MagDown" for i in xrange(int(self.nsubjobs / 2), self.nsubjobs)]
 					shuffle(polarity)
 					self._polarity = polarity
 				else:
-					self._polarity = [self._polarity for i in range(0, self.nsubjobs)]
+					self._polarity = [self._polarity for i in xrange(0, self.nsubjobs)]
 				
 			subdir = "simProd_{0}_{1}".format( self._evttype, self._simcond)
 			if self._turbo:
@@ -553,17 +554,17 @@ class SimulationJob(object):
 		
 		infiles = kwargs.get('infiles', [])
 
-		for n in range(self.nsubjobs):				
+		for n in xrange(self.nsubjobs):				
 			if self._subjobs.get(str(n), None):
 				continue
 			
 			polarity  = self._polarity[n]
 			runnumber = self.__runnumber(n)
-			self._subjobs[str(n)] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, infiles=infiles, jobnumber=n )
+			self._subjobs[str(n)] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, infiles=infiles, subjobnumber=n )
 			
 		
 	def cancelpreparation( self, **kwargs ):	
-		for n in range(self.nsubjobs):				
+		for n in xrange(self.nsubjobs):				
 			if self._subjobs.get(str(n), None):
 				del self._subjobs[str(n)]
 				
@@ -583,9 +584,13 @@ class SimulationJob(object):
 				
 	def send( self, job_number = None ):
 		
+		if self.status == "failed":
+			for sj in self.subjobs():
+				sj.reset()
+		
 		if (self._slurm and self._inscreen) or self._lsf:		
 			try:
-				for n in range(self.nsubjobs):
+				for n in xrange(self.nsubjobs):
 					if job_number != None and job_number != n:
 						continue
 					
@@ -746,13 +751,19 @@ class SimulationJob(object):
 		f.close()
 		
 		if storesubjobs:
-			for i in range(self.nsubjobs):
+			for i in xrange(self.nsubjobs):
 				job = self[i]
 				job._store_subjob()
 				
 		self._options["jobfile"] = jobfile
 		
 	def remove( self ):
+		
+		if self._jobnumber:
+			info_msg = "INFO\tremoving job {0}".format(self._jobnumber)
+		else:
+			info_msg = "INFO\tremoving job"
+		print(info_msg)
 				
 		if self.status == "running":
 			for sj in self.subjobs():
@@ -766,7 +777,7 @@ class SimulationJob(object):
 		self.__removescreens()
 													
 	@classmethod
-	def from_file(cls, file, inscreen = False):
+	def from_file(cls, file, jobnumber = None, inscreen = False):
 		data = json.load(open(file))
 		simjob = cls( 
 					evttype    = data["evttype"],
@@ -780,7 +791,8 @@ class SimulationJob(object):
 					turbo      = data["turbo"],	
 					basedir    = data["basedir"]
 					)						
-			
+		
+		simjob._jobnumber = jobnumber	
 		simjob._nsubjobs = data["nsubjobs"]
 		simjob._proddir  = data["proddir"]
 		simjob._destdir  = data["destdir"]
@@ -815,7 +827,7 @@ class SimulationJob(object):
 		for n in jobs.keys():
 			simjob._subjobs[n] = SimulationSubJob.from_dict(
 										parent = simjob, 
-										jobnumber = n, 
+										subjobnumber = n, 
 										dict = jobs[n])													
 		return simjob
 		
@@ -851,7 +863,7 @@ class SimulationJob(object):
 			
 			toprint += line
 			
-			for i in range(self.nsubjobs):
+			for i in xrange(self.nsubjobs):
 				
 				job = self[i]
 								
@@ -949,11 +961,11 @@ class SimulationSubJob(object):
 	Simulation subjob.
 	"""
 	
-	def __init__(self, parent, polarity, runnumber, jobnumber, **kwargs):
+	def __init__(self, parent, polarity, runnumber, subjobnumber, **kwargs):
 		self._parent       = parent
 		self._polarity     = polarity
 		self._runnumber    = runnumber
-		self._jobnumber    = jobnumber
+		self._subjobnumber = subjobnumber
 		self._jobid        = None
 		self._send_options = self._parent.options.copy()
 		self._status       = "new"
@@ -1045,10 +1057,10 @@ class SimulationSubJob(object):
 				self._store_subjob()
 							
 				time.sleep(0.07)
-				print( blue( "{0}/{1} jobs submitted!".format( int(self._jobnumber) + 1, self._parent.nsubjobs ) ) )
+				print( blue( "{0}/{1} jobs submitted!".format( int(self._subjobnumber) + 1, self._parent.nsubjobs ) ) )
 				time.sleep(0.07)
 			else:
-				print( red( "job {0}/{1} submission failed, try later!".format( int(self._jobnumber) + 1, self._parent.nsubjobs ) ) )
+				print( red( "job {0}/{1} submission failed, try later!".format( int(self._subjobnumber) + 1, self._parent.nsubjobs ) ) )
 					
 	@property
 	def jobid( self):
@@ -1085,7 +1097,7 @@ class SimulationSubJob(object):
 				self.__empty_proddir(keep_log = True)
 				
 		if _previous != self._status:
-			print("status of job (evttype {0}, year {1}, run number {2}) changed from '{3}' to '{4}'.".format(
+			print("INFO\tstatus of job (evttype {0}, year {1}, run number {2}) changed from '{3}' to '{4}'.".format(
 							self._parent.evttype,
 							self._parent.year,
 							self._runnumber, 
@@ -1132,6 +1144,13 @@ class SimulationSubJob(object):
 		else:
 			return ""
 			
+	def reset( self):
+		self._submitted = False
+		self._running   = False
+		self._finished  = False
+		self._completed = False
+		self._failed    = False
+			
 	def _command( self ):
 		doprod  = DoProd( self._parent.simcond, self._parent.year)
 		
@@ -1168,6 +1187,15 @@ class SimulationSubJob(object):
 				self._failed = True
 				
 	def kill( self ):
+		
+		if self._parent._jobnumber:
+			info_msg = "INFO\tkilling subjob {0}.{1}".format( self._parent._jobnumber,
+															  self._subjobnumber)
+		else:
+			info_msg = "INFO\tkilling subjob {0}".format(self._subjobnumber)
+		
+		print(info_msg)
+		
 		if self._submitted:
 			if self._send_options["slurm"]:
 				KillSlurm( self.jobid )
@@ -1217,7 +1245,7 @@ class SimulationSubJob(object):
 			dst_destfile = self.destfile
 			xml_destfile = os.path.dirname(self.destfile) + "/xml/{0}.xml".format(self.runnumber)
 
-			print("Moving job (evttype {0}, year {1}, run number {2}) to final destination!".format(self._parent.evttype, self._parent.year, self._runnumber))
+			print("INFO\tMoving job (evttype {0}, year {1}, run number {2}) to final destination!".format(self._parent.evttype, self._parent.year, self._runnumber))
 			mover( dst_prodfile, dst_destfile )
 			mover( xml_prodfile, xml_destfile )
 			
@@ -1247,7 +1275,7 @@ class SimulationSubJob(object):
 		if not self._send_options["loginprod"]:
 			_subjob["_logjobdir"]   = self._logjobdir
 			
-		_dict["jobs"][str(self._jobnumber)] = _subjob
+		_dict["jobs"][str(self._subjobnumber)] = _subjob
 						
 		jsondict = json.dumps(_dict)
 		f = open(_jobfile, "w")
@@ -1255,12 +1283,12 @@ class SimulationSubJob(object):
 		f.close()
 		
 	@classmethod
-	def from_dict(cls, parent, jobnumber, dict):
+	def from_dict(cls, parent, subjobnumber, dict):
 		
 		simsubjob = cls( parent    = parent, 
 						 polarity  = dict["polarity"],
 		                 runnumber = dict["runnumber"],
-						 jobnumber = jobnumber,
+						 subjobnumber = subjobnumber,
 						 from_dict = True
 						)
 						
