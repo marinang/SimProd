@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys
+import sys, os
 from subprocess import Popen, PIPE
 
 # Definition of handy colours for printing
