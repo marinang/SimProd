@@ -4,7 +4,7 @@
 ## Description: script to submit jobs (mostly done for lxplus but for local submissions works anywhere)
 ## N.B.: Needs an environment variable "JOBDIR" which is the location to put jobs outputs
 
-import os, sys
+import os, sys, shutil
 from string import *
 import re
 from argparse import ArgumentParser
@@ -43,8 +43,8 @@ def PrepareLxplusJob( **kwargs ):
             logdirname = "{0}/{1}/{2}".format( logdir, subdir, jobname)
             
         if os.path.exists(logdirname) and clean :
-            os.system("rm -rf {0}".format(logdirname))
-        os.system("mkdir -p {0}".format(logdirname))    
+            shutil.rmtree(logdirname, ignore_errors = True)
+        os.makedirs(logdirname) 
         
     else:
         logdirname = dirname
@@ -159,7 +159,7 @@ def main( **kwargs ):
     
     if jobdir is None :
         jobdir = os.getenv("HOME")+"/jobs"
-        os.system("mkdir -p "+jobdir)
+        os.makedirs(jobdir)
 
     subdir   = kwargs.get( "subdir", "" )       #Folder of the job, notice that the job is created anyway in a folder called as the jobname, so this is intended to group jobs.
     run      = kwargs.get( "run", -1 )          #Add run number.
@@ -209,8 +209,8 @@ def main( **kwargs ):
         dirname += "_"+str(run)
 
     if os.path.exists(dirname) and clean :
-        os.system("rm -rf " + dirname+"/*")
-    os.system("mkdir -p " + dirname)
+        shutil.rmtree(dirname, ignore_errors = True)
+    os.makedirs(dirname)
     
     kwargs['dirname'] = dirname
 
@@ -218,18 +218,17 @@ def main( **kwargs ):
     else : copyto = dirname
     
     if not execname == "":
-        os.system("cp " + execname + " " + copyto )
+        shutil.copyfile(execname, "{0}/{1}".format(copyto, os.path.basename(execname)))
     if '/'  in execname :
         execname = execname.split("/")[-1]
     
     for arg in infiles :
-        os.system("cp " + arg + " " + dirname )
+        shutil.copyfile(arg, "{0}/{1}".format(dirname, os.path.basename(arg)))
             
     ########################################################################################
     ## Create the run.sh file containing the information about how the executable is run
     ########################################################################################
 
-    os.system( "cd " + dirname )
     runfile = open(dirname+"/run.sh","w")
     runfile.write( "cd " + dirname + "\n")
 
@@ -247,7 +246,7 @@ def main( **kwargs ):
         runfile.write( '{exe} {dir} {args}'.format(exe=exe,dir=pathexec,args=' '.join(args)) + "\n")
         
     runfile.close()
-    os.system( "chmod 755 " + dirname + "/run.sh" )
+    sub.call(['chmod', '775', dirname + "/run.sh"])
     
     ########################################################################################
     ## Run executable in local, interactive or batch mode and send

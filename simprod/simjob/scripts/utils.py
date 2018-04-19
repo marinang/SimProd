@@ -56,23 +56,13 @@ def silentrm( path ):
 	P = Popen(['rm','-rf',path], stdout=PIPE, stderr=PIPE)
 	_, _ = P.communicate()
 	
-	
+	if "eos" in path and os.path.isdir(path):
+		P = Popen(['eos','rm','-rF',path], stdout=PIPE, stderr=PIPE)
+		_, _ = P.communicate()
+			
 # -----------------------------------------------------------------------------
 # Python 2 and 3 "conversions"
 # -----------------------------------------------------------------------------
 if sys.version_info[0] > 2:
-	string_types = (bytes, str)
 	xrange = range
-	long = int
-	from io import IOBase
-	file = IOBase
-
-	def head(x):
-		return iter(x).__next__()
-
-else:
-	string_types = (str, unicode)
-
-
-	def head(x):
-		return iter(x).next()
+	

@@ -7,7 +7,7 @@ def Move( initial_file, destination_file ):
 	destination_dir = os.path.dirname(destination_file)
 	
 	if not os.path.isdir(destination_dir):
-		os.system("mkdir -p {0}".format(destination_dir))
+		os.makedirs(destination_dir)
 		
 	shutil.move( initial_file, destination_file )
 	

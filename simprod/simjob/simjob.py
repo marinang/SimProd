@@ -5,7 +5,6 @@
 ## Mail: matthieu.marinangeli@cern.ch
 ## Description: simulation job class
 
-from random import shuffle
 from .scripts import *
 import os
 import time
@@ -14,7 +13,7 @@ from .setup import DoProd
 import warnings
 import glob
 import json
-
+import bisect
 
 class JobCollection(object):
 	"""
@@ -22,8 +21,9 @@ class JobCollection(object):
 	"""
 	
 	def __init__(self, **kwargs):
-		self._jobs     = {}	
-		self._jsondict = {}	
+		self._jobs     = {}
+		self._jsondict = {}
+		self._keys     = []	
 		
 		simprod = os.getenv("SIMPRODPATH")+"/simprod"		
 		self._jobsdir   = "{0}/._simjobs_".format(simprod)
@@ -34,21 +34,20 @@ class JobCollection(object):
 			self._jsondict = _collectedjobs
 			
 			for cj in _collectedjobs.keys():
+				bisect.insort(self._keys, int(cj))
 				if not os.path.isfile(_collectedjobs[cj]):
 					continue
-				self._jobs[cj]     = SimulationJob().from_file(_collectedjobs[cj], cj)
-				self._jsondict[cj] = _collectedjobs[cj]
+				self._jobs[int(cj)]     = SimulationJob().from_file(_collectedjobs[cj], cj)
+				self._jsondict[int(cj)] = _collectedjobs[cj]
 				
 		self.__update()
 								
-	def _keys(self):
-		_keys = [int(k) for k in self._jobs.keys()]
-		return sorted(_keys, key=int)
-			
 	def __str__(self):
 		self.__update()
 		
-		toprint  = "{0} jobs\n".format(len(self._jobs))
+		toprint = []
+		
+		toprint.append("{0} jobs".format(len(self._jobs)))
 		
 		h_job     = "    #job "
 		h_status  = "       status "
@@ -57,23 +56,16 @@ class JobCollection(object):
 		h_nevents = "  #events "
 		h_subjobs = "  #subjobs "
 		
-		header = "{0}|{1}|{2}|{3}|{4}|{5}|\n".format( 
-					h_job, 
-					h_status, 
-					h_evttype, 
-					h_year, 
-					h_nevents, 
-					h_subjobs)
-					
-		line = "-"*(len(header) - 2) + "\n"
+		header = "|".join([h_job, h_status, h_evttype, h_year, h_nevents, h_subjobs]) + "|"
+		line   = "".join(["-" for i in xrange(len(header) - 2)])
 				
-		toprint += line
-		toprint += header
-		toprint += line
-	
-		for i in self._keys():
+		toprint.append(line)
+		toprint.append(header)
+		toprint.append(line)
+		
+		for k in self._keys:
 			
-			job     = self._jobs[str(i)]
+			job     = self._jobs[k]
 			status  = job.status
 			evttype = job.evttype
 			year    = job.year
@@ -93,7 +85,7 @@ class JobCollection(object):
 			elif status == "failed":
 				color = red
 								
-			p_job     = "{n:{fill}{al}{w}} ".format(w=(len(h_job)-1), al='>', fill='', n=i)
+			p_job     = "{n:{fill}{al}{w}} ".format(w=(len(h_job)-1), al='>', fill='', n=k)
 						
 			p_status  = "{n:{fill}{al}{w}} ".format(w=(len(h_status)-1), al='>', fill='', n=status)
 			
@@ -104,15 +96,13 @@ class JobCollection(object):
 			p_nevents = "{n:{fill}{al}{w}} ".format(w=(len(h_nevents)-1), al='>', fill='', n=nevents)
 			
 			p_subjobs = "{n:{fill}{al}{w}} ".format(w=(len(h_subjobs)-1), al='>', fill='', n=subjobs)
+			
+			linejob = "|".join([p_job, p_status, p_evttype, p_year, p_nevents, p_subjobs]) + "|"
 						
-			toprint += color("{0}|{1}|{2}|{3}|{4}|{5}|\n".format( 
-						p_job, 
-						p_status, 
-						p_evttype, 
-						p_year, 
-						p_nevents, 
-						p_subjobs))
-	
+			toprint.append(color(linejob))
+			
+		toprint = "\n".join(toprint)
+						
 		return toprint
 		
 	def _repr_pretty_(self, p, cycle):
@@ -122,41 +112,43 @@ class JobCollection(object):
 		p.text(self.__str__())
 		
 	def __getitem__(self, i):
-		if i not in self._keys():
+		if i != None and not isinstance(i, int):
+			raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(i.__class__.__name__))
+		if i not in self._jobs.keys():
 			self.__update()
-		if i not in self._keys():
-			raise ValueError("jobs({0}) not found!".format(i))
+		if i not in self._jobs.keys():
+			raise ValueError("job {0} not found!".format(i))
 		else:
-			return self._jobs[str(i)]
+			return self._jobs[i]
 			
 	def __update(self):
-		jsonfiles = glob.glob("{0}/*_*_*_*_*.json".format(self._jobsdir))
+		jsonfiles = glob.iglob("{0}/*_*_*_*_*.json".format(self._jobsdir))
 		
-		for k in self._jsondict.keys():
-			_file = self._jsondict[k]
+		for k,_file in self._jsondict.iteritems():
 			if not os.path.isfile(_file):
-				self._jsondict.pop(k, None)
-				self._jobs.pop(k, None)
-
-			elif self._jobs[str(k)].status == "new" or self._jobs[str(k)].status == "submitting":
-				self._jobs[str(k)] = SimulationJob().from_file(_file, k)
+				self._jsondict.pop(int(k), None)
+				self._jobs.pop(int(k), None)
+				del self._keys[int(k)]
+				
+			elif self._jobs[int(k)].status == "new" or self._jobs[int(k)].status == "submitting":
+				self._jobs[int(k)] = SimulationJob().from_file(_file, k)
 				
 		for js in jsonfiles:
 			if js not in self._jsondict.values():
 				if len(self._jsondict) < 1:
 					index = 0
 				else:
-					maxindex = max(self._keys())
-					index    = str(maxindex + 1) 
-				self._jobs[str(index)] = SimulationJob().from_file(js, index) 
-				self._jsondict[str(index)] = js
+					index = self._keys[-1] + 1
+				self._jobs[int(index)] = SimulationJob().from_file(js, index) 
+				self._jsondict[int(index)] = js
+				bisect.insort(self._keys, index)
 				
 		self._store_collection()
 							
 	def _store_collection(self):
 				
 		if not os.path.isdir(self._jobsdir):
-			os.system("mkdir -p {0}".format(self._jobsdir))
+			os.makedirs(self._jobsdir)
 								
 		jsondict = json.dumps(self._jsondict)
 		f = open(self._collection_file, "w")
@@ -221,7 +213,7 @@ class SimulationJob(object):
 						if isinstance(value, (int, float) ):
 							self._options[var] = int( value )
 							if var in self._options["default_options"]:
-								self._options["default_options"].remove(var)
+								del self._options["default_options"][var]
 						else:
 							raise TypeError(var + " must be a int!")
 					return getter, setter
@@ -271,12 +263,19 @@ class SimulationJob(object):
 				
 			addvars("nodestoexclude")
 								
-			self._options["cpu"]  = kwargs.get('cpu', None)
-			if not self._options["cpu"]:
-				self._options["cpu"]                  = default_options['cpu']
-				self._options["default_options"]     += ["cpu"]
+			self._options["cpumemory"]      = kwargs.get('cpumemory', None)
+			if not self._options["cpumemory"]:
+				self._options["cpumemory"]            = default_options['cpumemory']
+				self._options["default_options"]     += ["cpumemory"]
+				
+			addvars("cpumemory")
+				
+			self._options["totmemory"]      = kwargs.get('totmemory', None)
+			if not self._options["totmemory"]:
+				self._options["totmemory"]           = default_options['totmemory']
+				self._options["default_options"]     += ["totmemory"]
 								
-			addvars("npendingjobs")
+			addvars("totmemory")
 								
 		elif IsLSF():
 			default_options    = DefaultLSFOptions()
@@ -288,17 +287,17 @@ class SimulationJob(object):
 				self._options["loginprod"] = kwargs.get('loginprod', True)
 				
 			if not self._options["loginprod"]:
-				self._options["logdir"]  = kwargs.get('logdir', os.getenv("LOG_SIMOUTPUT"))
+				self._options["logdir"]    = kwargs.get('logdir', os.getenv("LOG_SIMOUTPUT"))
 				
 			self._options["lsf"]      = True
 			self._lsf                 = self._options["lsf"]
 			self._options["slurm"]    = False	
 			self._slurm               = self._options["slurm"]
 			
-			self._options["cpu"]  = kwargs.get('cpu', None)
-			if not self._options["cpu"]:
-				self._options["cpu"]                  = default_options['cpu']
-				self._options["default_options"]     += ["cpu"]
+			self._options["cpumemory"]     = kwargs.get('cpumemory', None)
+			if not self._options["cpumemory"]:
+				self._options["cpumemory"]           = default_options['cpumemory']
+				self._options["default_options"]    += ["cpumemory"]
 				
 		self._screensessions = []
 											
@@ -385,7 +384,7 @@ class SimulationJob(object):
 	@proddir.setter	
 	def proddir( self, directory):
 		if not os.path.isdir(directory):
-			os.system("mkdir -p {0}".format(directory))
+			os.makedirs(directory)
 		self._proddir = directory
 		
 	@property	
@@ -417,9 +416,10 @@ class SimulationJob(object):
 			self._mudst = value
 		else:
 			raise TypeError("mudst must be set to True/False!")
-						
-	def subjobs( self ):			
-		return self._subjobs.values()
+	
+	@property					
+	def subjobs( self ):	
+		return self._subjobs.itervalues()		
 		
 	def screensessions( self, i = None ):
 		
@@ -435,7 +435,7 @@ class SimulationJob(object):
 			else:
 				print("This screen does not exist!")
 				KillScreenSession(self._screensessions[i]["name"])
-				self._screensessions.remove(self._screensessions[i])
+				del self._screensessions[self._screensessions[i]]
 				
 	def __removescreens( self ):
 		for sc in self._screensessions:
@@ -463,7 +463,7 @@ class SimulationJob(object):
 		nfailed    = 0
 		nsubmitted = 0
 		
-		for j in self.subjobs():
+		for j in self.subjobs:
 			status = j.status
 			if status == "submitted":
 				nsubmitted += 1
@@ -530,6 +530,7 @@ class SimulationJob(object):
 				if not self._polarity:
 					polarity = ["MagUp" for i in xrange(0,int(self.nsubjobs / 2))]
 					polarity += ["MagDown" for i in xrange(int(self.nsubjobs / 2), self.nsubjobs)]
+					from random import shuffle
 					shuffle(polarity)
 					self._polarity = polarity
 				else:
@@ -585,7 +586,7 @@ class SimulationJob(object):
 	def send( self, job_number = None ):
 		
 		if self.status == "failed":
-			for sj in self.subjobs():
+			for sj in self.subjobs:
 				sj.reset()
 		
 		if (self._slurm and self._inscreen) or self._lsf:		
@@ -699,7 +700,7 @@ class SimulationJob(object):
 		jobsdir = "{0}/._simjobs_".format(simprod)
 		
 		if not os.path.isdir(jobsdir):
-			os.system("mkdir -p {0}".format(jobsdir))
+			os.makedirs(jobsdir)
 				
 		jobfile = "{0}/{1}_{2}_{3}_{4}_{5}.json".format(
 					jobsdir,
@@ -736,7 +737,7 @@ class SimulationJob(object):
 			outdict["logdestdir"] = self.options["logdestdir"]
 				
 		outdict["default_options"] = self.options["default_options"]
-		outdict["cpu"]             = self.options["cpu"]
+		outdict["cpumemory"]       = self.options["cpumemory"]
 			
 		if self._options["slurm"]:	
 			outdict["nsimjobs"]     = self.options["nsimjobs"]
@@ -744,6 +745,7 @@ class SimulationJob(object):
 			outdict["nuserjobs"]    = self.options["nuserjobs"]
 			outdict["npendingjobs"] = self.options["npendingjobs"]
 			outdict["nfreenodes"]   = self.options["nfreenodes"]
+			outdict["totmemory"]    = self.options["totmemory"]
 					
 		jsondict = json.dumps(outdict)
 		f = open(jobfile, "w")
@@ -766,10 +768,9 @@ class SimulationJob(object):
 		print(info_msg)
 				
 		if self.status == "running":
-			for sj in self.subjobs():
+			for sj in self.subjobs:
 				if sj.status == "running":
 					sj.kill()
-#			raise NotImplementedError("Cannot remove running jobs!")
 
 		if os.path.isfile(self.options["jobfile"]):
 			os.remove(self.options["jobfile"])
@@ -807,7 +808,10 @@ class SimulationJob(object):
 			simjob._options["logdir"]     = data["logdir"]
 			simjob._options["logdestdir"] = data["logdestdir"]
 			
-		simjob._options["cpu"]             = data["cpu"]
+		simjob._options["cpumemory"]       = data.get("cpumemory",None)
+		if not simjob._options["cpumemory"]:
+			simjob._options["cpumemory"]   = data.get("cpu",None)
+		
 		simjob._options["default_options"] = data["default_options"]
 		
 		if simjob._options["slurm"]:
@@ -816,7 +820,7 @@ class SimulationJob(object):
 			simjob._options["nuserjobs"]    = data["nuserjobs"]
 			simjob._options["npendingjobs"] = data["npendingjobs"]
 			simjob._options["nfreenodes"]   = data["nfreenodes"]
-			
+			simjob._options["totmemory"]    = data.get("totmemory",None)
 		if inscreen:
 			simjob._inscreen = True
 			
@@ -834,13 +838,16 @@ class SimulationJob(object):
 	def __str__(self):
 		
 		if len(self._subjobs) > 0:
-			toprint  = "evttype: {0}; year: {1}; #events {2}; stripping {3}; simcond {4}; {5} jobs\n".format( 
+			
+			toprint = []
+			
+			toprint.append("evttype: {0}; year: {1}; #events {2}; stripping {3}; simcond {4}; {5} jobs".format( 
 						self.evttype,
 						self.year,
 						self.nevents,
 						self.stripping,
 						self.simcond,
-						self.nsubjobs )
+						self.nsubjobs ))
 			
 			h_job        = "    #job "
 			h_jobID      = "    job ID "
@@ -849,22 +856,16 @@ class SimulationJob(object):
 			h_polarity   = "   polarity "
 			h_nevents    = "  #events "
 			
-			header = "{0}|{1}|{2}|{3}|{4}|{5}|\n".format( 
-						h_job,
-						h_jobID, 
-						h_status, 
-						h_runnumber, 
-						h_polarity, 
-						h_nevents)
-						
-			line = "-"*(len(header) - 2) + "\n"	
-			toprint += line
-			toprint += header
-			
-			toprint += line
-			
+			header = [h_job, h_jobID, h_status, h_runnumber, h_polarity, h_nevents]
+			header = "|".join(header) + "|"	
+			line   = "".join(["-" for i in xrange(len(header) - 2)])
+					
+			toprint.append(line)
+			toprint.append(header)
+			toprint.append(line)
+
 			for i in xrange(self.nsubjobs):
-				
+								
 				job = self[i]
 								
 				status    = job.status
@@ -895,14 +896,13 @@ class SimulationJob(object):
 				p_polarity  = "{n:{fill}{al}{w}} ".format(w=(len(h_polarity)-1), al='>', fill='', n=polarity)
 				
 				p_nevents   = "{n:{fill}{al}{w}} ".format(w=(len(h_nevents)-1), al='>', fill='', n=nevents)
-										
-				toprint += color("{0}|{1}|{2}|{3}|{4}|{5}|\n".format( 
-							p_job, 
-							p_jobID,
-							p_status, 
-							p_runnumber, 
-							p_polarity, 
-							p_nevents))						
+				
+				linejob = "|".join([p_job, p_jobID, p_status, p_runnumber, p_polarity, p_nevents]) + "|"
+				
+				toprint.append(color(linejob))
+				
+			toprint = "\n".join(toprint)
+									
 		else:
 			toprint = self.__repr__()
 		
@@ -1097,13 +1097,23 @@ class SimulationSubJob(object):
 				self.__empty_proddir(keep_log = True)
 				
 		if _previous != self._status:
-			print("INFO\tstatus of job (evttype {0}, year {1}, run number {2}) changed from '{3}' to '{4}'.".format(
-							self._parent.evttype,
-							self._parent.year,
-							self._runnumber, 
-							_previous, 
-							self._status)
-							)
+			
+			if self._parent._jobnumber:
+				info_msg = "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'".format( 
+											self._parent._jobnumber,
+										    self._subjobnumber,
+											_previous,
+											self._status)
+			else:
+				info_msg = "INFO\tstatus of job (evttype {0}, year {1}, run number {2}) changed from '{3}' to '{4}'.".format(
+											self._parent.evttype,
+											self._parent.year,
+											self._runnumber, 
+											_previous, 
+											self._status)
+					
+			print(info_msg)
+							
 			self._store_subjob()
 				
 		return self._status
@@ -1145,11 +1155,18 @@ class SimulationSubJob(object):
 			return ""
 			
 	def reset( self):
+				
+		self.__empty_proddir()
+		
+		self._jobid     = None
 		self._submitted = False
 		self._running   = False
 		self._finished  = False
 		self._completed = False
 		self._failed    = False
+		self._status    = "new"
+		
+		self._store_subjob()
 			
 	def _command( self ):
 		doprod  = DoProd( self._parent.simcond, self._parent.year)
@@ -1212,7 +1229,7 @@ class SimulationSubJob(object):
 	def __empty_proddir( self, keep_log = False ):
 		if os.path.isdir(self._jobdir):
 			if keep_log and self._send_options["loginprod"]:
-				files = glob.glob(self._jobdir + "/*")
+				files = glob.iglob(self._jobdir + "/*")
 				for f in files:
 					if "out" in f:
 						continue
@@ -1221,11 +1238,11 @@ class SimulationSubJob(object):
 					else:
 						os.remove(f) 
 			else:
-				os.system("rm -rf {0}".format(self._jobdir))
+				silentrm(self._jobdir)
 				
 		if not self._send_options["loginprod"] and not keep_log:
 			if os.path.isdir(self._logjobdir):
-				os.system("rm -rf {0}".format(self._logjobdir))
+				silentrm(self._logjobdir)
 				
 	def __move_jobs( self ):
 		
@@ -1244,8 +1261,18 @@ class SimulationSubJob(object):
 			xml_prodfile = os.path.dirname(dst_prodfile) + "/GeneratorLog.xml"	
 			dst_destfile = self.destfile
 			xml_destfile = os.path.dirname(self.destfile) + "/xml/{0}.xml".format(self.runnumber)
-
-			print("INFO\tMoving job (evttype {0}, year {1}, run number {2}) to final destination!".format(self._parent.evttype, self._parent.year, self._runnumber))
+			
+			
+			if self._parent._jobnumber:
+				info_msg = "INFO\tMoving subjob {0}.{1} to final destination!".format( self._parent._jobnumber,
+																    self._subjobnumber)
+			else:
+				info_msg = "INFO\tMoving subjob (evttype {0}, year {1}, run number {2}) to final destination!".format(
+											self._parent.evttype,
+											self._parent.year,
+											self._runnumber)
+					
+			print(info_msg)
 			mover( dst_prodfile, dst_destfile )
 			mover( xml_prodfile, xml_destfile )
 			
