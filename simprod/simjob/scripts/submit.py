@@ -278,7 +278,7 @@ def main( **kwargs ):
             print("Can run in batch mode only on lxplus or on a slurm batch system.")
      
     
-    exept IOError:
+    except IOError:
         return None
     
     

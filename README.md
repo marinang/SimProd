@@ -56,7 +56,7 @@ Your have other options by default that you can change:
 
 * stripping: Version of the stripping (default = '').
 
-* turbo: Run the Turbo step (output not test).
+* turbo: Run the Turbo step (output not tested).
 
 * mudst: Produce a muDST output.
 
