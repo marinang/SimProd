@@ -195,6 +195,23 @@ class SimulationJob(object):
 		self._options["time"]    = kwargs.get('time', None)
 		if not self._options["time"]:
 			self._options["time"] = 10 
+			
+		def addvars(var):
+			
+			def make_get_set(var):
+				def getter(self):
+					return self._options[var]
+				def setter(self, value):
+					if isinstance(value, (int, float) ):
+						self._options[var] = int( value )
+						if var in self._options["default_options"]:
+							del self._options["default_options"][var]
+					else:
+						raise TypeError(var + " must be a int!")
+				return getter, setter
+			
+			get_set = make_get_set(var)
+			self.__add_var(var, get_set)
 																			
 		if IsSlurm():
 			default_options    = DefaultSlurmOptions( )
@@ -207,24 +224,7 @@ class SimulationJob(object):
 			self._options["loginprod"] = True
 						
 			self._options["default_options"] = []
-							
-			def addvars(var):
-				
-				def make_get_set(var):
-					def getter(self):
-						return self._options[var]
-					def setter(self, value):
-						if isinstance(value, (int, float) ):
-							self._options[var] = int( value )
-							if var in self._options["default_options"]:
-								del self._options["default_options"][var]
-						else:
-							raise TypeError(var + " must be a int!")
-					return getter, setter
-				
-				get_set = make_get_set(var)
-				self.__add_var(var, get_set)
-			
+						
 			self._options["nsimjobs"]     = kwargs.get('nsimjobs', None)
 			if not self._options["nsimjobs"]:
 				self._options["nsimjobs"]             = default_options['nsimjobs']
