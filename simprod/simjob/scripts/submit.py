@@ -24,7 +24,7 @@ def PrepareLxplusJob( **kwargs ):
     subdir   = kwargs.get( "subdir", "" )
     jobname  = kwargs.get( "jobname", "" )
     dirname  = kwargs.get( "dirname" )
-    queue    = kwargs.get( "queue", "1nd") #Choose bach queue (default 1nd) (lxplus) 
+    queue    = kwargs.get( "queue", "8nh") #Choose bach queue (default 1nd) (lxplus) 
     mail     = kwargs.get( "mail", False) #When job finished sends a mail to USER@cern.ch (lxplus)
     loginprod = kwargs.get( "loginprod", True )
     clean    = kwargs.get( "clean", True )
@@ -200,84 +200,88 @@ def main( **kwargs ):
     ## Make the needed folders and copy the executable and everything else needed in them
     ########################################################################################
     
-    subdirname = basedir
-    if subdir != "" :
-        subdirname += "/"+subdir
-    dirname = subdirname+"/"+jobname
-
-    if run > -1 :
-        dirname += "_"+str(run)
-
-    if os.path.exists(dirname) and clean :
-        shutil.rmtree(dirname, ignore_errors = True)
-    os.makedirs(dirname)
+    try:
     
-    kwargs['dirname'] = dirname
+        subdirname = basedir
+        if subdir != "" :
+            subdirname += "/"+subdir
+        dirname = subdirname+"/"+jobname
 
-    if( unique ) : copyto = subdirname
-    else : copyto = dirname
-    
-    if not execname == "":
-        shutil.copyfile(execname, "{0}/{1}".format(copyto, os.path.basename(execname)))
-    if '/'  in execname :
-        execname = execname.split("/")[-1]
-    
-    for arg in infiles :
-        shutil.copyfile(arg, "{0}/{1}".format(dirname, os.path.basename(arg)))
-            
-    ########################################################################################
-    ## Create the run.sh file containing the information about how the executable is run
-    ########################################################################################
+        if run > -1 :
+            dirname += "_"+str(run)
 
-    runfile = open(dirname+"/run.sh","w")
-    runfile.write( "cd " + dirname + "\n")
-
-    if exe is None:
-        runfile.write("chmod 755 " + copyto + "/" +execname +'\n')
-
-    if  execname == "":
-        pathexec = ""
-    else:
-        pathexec = copyto+"/"+execname
+        if os.path.exists(dirname) and clean :
+            shutil.rmtree(dirname, ignore_errors = True)
+        os.makedirs(dirname)
         
-    if exe is None:
-        runfile.write( '{dir} {args}'.format(dir=pathexec,args=' '.join(args)) + "\n")
-    else :
-        runfile.write( '{exe} {dir} {args}'.format(exe=exe,dir=pathexec,args=' '.join(args)) + "\n")
+        kwargs['dirname'] = dirname
+
+        if( unique ) : copyto = subdirname
+        else : copyto = dirname
         
-    runfile.close()
-    sub.call(['chmod', '775', dirname + "/run.sh"])
-    
-    ########################################################################################
-    ## Run executable in local, interactive or batch mode and send
-    ########################################################################################
-    
-    if( subdir != "" ) :
-        subdir = (re.sub("^.*/","",subdir)+"_")
+        if not execname == "":
+            shutil.copyfile(execname, "{0}/{1}".format(copyto, os.path.basename(execname)))
+        if '/'  in execname :
+            execname = execname.split("/")[-1]
+        
+        for arg in infiles :
+            shutil.copyfile(arg, "{0}/{1}".format(dirname, os.path.basename(arg)))
+                
+        ########################################################################################
+        ## Create the run.sh file containing the information about how the executable is run
+        ########################################################################################
+
+        runfile = open(dirname+"/run.sh","w")
+        runfile.write( "cd " + dirname + "\n")
+
+        if exe is None:
+            runfile.write("chmod 755 " + copyto + "/" +execname +'\n')
+
+        if  execname == "":
+            pathexec = ""
+        else:
+            pathexec = copyto+"/"+execname
             
-    if "lxplus" in os.getenv("HOSTNAME") and lsf:  ## Batch for lxplus
-        command = PrepareLxplusJob( **kwargs )
-        out = SendCommand( command )
-        try:
-            ID = int( out.split(" ")[1].replace(">","").replace("<","") )
+        if exe is None:
+            runfile.write( '{dir} {args}'.format(dir=pathexec,args=' '.join(args)) + "\n")
+        else :
+            runfile.write( '{exe} {dir} {args}'.format(exe=exe,dir=pathexec,args=' '.join(args)) + "\n")
+            
+        runfile.close()
+        sub.call(['chmod', '775', dirname + "/run.sh"])
+        
+        ########################################################################################
+        ## Run executable in local, interactive or batch mode and send
+        ########################################################################################
+        
+        if( subdir != "" ) :
+            subdir = (re.sub("^.*/","",subdir)+"_")
+                
+        if "lxplus" in os.getenv("HOSTNAME") and lsf:  ## Batch for lxplus
+            command = PrepareLxplusJob( **kwargs )
+            out = SendCommand( command )
+            try:
+                ID = int( out.split(" ")[1].replace(">","").replace("<","") )
+                print( "Submitted batch job {0}".format(ID) )
+                return ID
+            except IndexError:
+                return None
+            
+        elif slurm:
+            command = PrepareSlurmJob( **kwargs )
+            out = SendCommand( command )
+            ID = int( out.split(" ")[-1] )
             print( "Submitted batch job {0}".format(ID) )
             return ID
-        except IndexError:
-            return None
         
-    elif slurm:
-        command = PrepareSlurmJob( **kwargs )
-        out = SendCommand( command )
-        ID = int( out.split(" ")[-1] )
-        print( "Submitted batch job {0}".format(ID) )
-        return ID
+        else :
+            print("Can run in batch mode only on lxplus or on a slurm batch system.")
      
-    else :
-        print("Can run in batch mode only on lxplus or on a slurm batch system.")
-     
-    ########################################################################################
-    ## Execution of the job sending and take id
-    ########################################################################################
+    
+    exept IOError:
+        return None
+    
+    
           
     
         

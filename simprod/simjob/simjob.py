@@ -293,15 +293,20 @@ class SimulationJob(object):
 			if not self._options["loginprod"]:
 				self._options["logdir"]    = kwargs.get('logdir', os.getenv("LOG_SIMOUTPUT"))
 				
-			self._options["lsf"]      = True
-			self._lsf                 = self._options["lsf"]
-			self._options["slurm"]    = False	
-			self._slurm               = self._options["slurm"]
+			self._options["lsf"]    = True
+			self._lsf               = self._options["lsf"]
+			self._options["slurm"]  = False	
+			self._slurm             = self._options["slurm"]
 			
 			self._options["cpumemory"]     = kwargs.get('cpumemory', None)
 			if not self._options["cpumemory"]:
-				self._options["cpumemory"]           = default_options['cpumemory']
-				self._options["default_options"]    += ["cpumemory"]
+				self._options["cpumemory"]        = default_options['cpumemory']
+				self._options["default_options"] += ["cpumemory"]
+				
+			addvars("cpumemory")
+			
+			self._options["queue"] = kwargs.get('queue', '8nh')
+			addvars("queue")
 				
 		self._screensessions = []
 											
