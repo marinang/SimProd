@@ -126,12 +126,16 @@ class JobCollection(object):
 		
 		for k,_file in self._jsondict.iteritems():
 			if not os.path.isfile(_file):
-				self._jsondict.pop(int(k), None)
-				self._jobs.pop(int(k), None)
-				del self._keys[int(k)]
+				try:
+					self._keys.remove(int(k))
+				except ValueError:
+					continue
 				
 			elif self._jobs[int(k)].status == "new" or self._jobs[int(k)].status == "submitting":
 				self._jobs[int(k)] = SimulationJob().from_file(_file, k)
+				
+		self._jsondict = { k : v for k,v in self._jsondict.iteritems() if k in self._keys }
+		self._jobs     = { k : v for k,v in self._jobs.iteritems() if k in self._keys }
 				
 		for js in jsonfiles:
 			if js not in self._jsondict.values():
