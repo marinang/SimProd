@@ -196,18 +196,20 @@ class SimulationJob(object):
 		if not self._options["time"]:
 			self._options["time"] = 10 
 			
-		def addvars(var):
+		def addvars(var, _type = (int, float), allowed_values = []):
 			
 			def make_get_set(var):
 				def getter(self):
 					return self._options[var]
 				def setter(self, value):
-					if isinstance(value, (int, float) ):
-						self._options[var] = int( value )
+					if isinstance(value, _type ):
+						if len(allowed_values) > 1 and not value in allowed_values:
+							raise ValueError("Allowed values for {0} are {1}".format(var, allowed_values))
+						self._options[var] = value	
 						if var in self._options["default_options"]:
 							del self._options["default_options"][var]
 					else:
-						raise TypeError(var + " must be a int!")
+						raise TypeError(var + " must be a {0}!".format(_type))
 				return getter, setter
 			
 			get_set = make_get_set(var)
@@ -305,8 +307,8 @@ class SimulationJob(object):
 				
 			addvars("cpumemory")
 			
-			self._options["queue"] = kwargs.get('queue', '8nh')
-			addvars("queue")
+			self._options["queue"] = kwargs.get('queue', '1nd')
+			addvars("queue", _type = (str), allowed_values = ["8nm","1nh","8nh","1nd","2nd","1nw","2nw"])
 				
 		self._screensessions = []
 											

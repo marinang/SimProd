@@ -26,7 +26,7 @@ You need to to know:
 
 * Number of events you want to produce.
 
-Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/simjob/setup). To start a new simulation job do:
+Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/simprod/simjob/setup). To start a new simulation job do:
 
 `$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)`
 
