@@ -25,9 +25,11 @@ def getevttype( evttype, decfiles = "v30r5" ):
 	
 	if not os.path.isfile( optfile ):
 		raise NotImplementedError( "This Evttype does not exist!" )
-	
-	os.makedirs("{0}/EvtTypes".format(moddir) )
-	os.makedirs("{0}/EvtTypes/{evttype}".format( moddir, **Options ) )	
+		
+	if not os.path.isdir("{0}/EvtTypes".format(moddir)):
+		os.makedirs("{0}/EvtTypes".format(moddir) )
+	if not os.path.isdir("{0}/EvtTypes/{evttype}".format( moddir, **Options )):
+		os.makedirs("{0}/EvtTypes/{evttype}".format( moddir, **Options ) )	
 			
 	with open(optfile, 'r') as file:
 		lines = file.readlines()
