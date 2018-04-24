@@ -67,8 +67,6 @@ if __name__ == "__main__" :
 
 	config = Config()
 	
-	jobs = JobCollection()
-	
 	if opts.evttype and opts.year and opts.nevents:
 		if not opts.noui:
 			print(banner1)
@@ -87,13 +85,15 @@ if __name__ == "__main__" :
 		config.TerminalInteractiveShell.banner1 = banner1
 		config.TerminalInteractiveShell.banner2 = banner2
 		
-	_vars = globals().copy()
-	_vars.update( locals() )
-	
 	if not opts.noui:
+		
+		jobs = JobCollection()
+		
+		_vars = globals().copy()
+		_vars.update( locals() )
 
 		start_ipython ( argv = [] , user_ns = _vars, config= config )
 		print(blue("\n\t Bye Bye.\n"))
 		
-	jobs._store_collection()
+		jobs._store_collection()
 	

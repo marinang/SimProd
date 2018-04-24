@@ -63,7 +63,8 @@ install_list = [
 			'ipython>=5.0,<6.0;python_version<"3.0"', 
 			'ipython>=5.0;python_version>="3.0"',
 			'screenutils',
-			'Cython' ]
+			'Cython',
+			'tqdm' ]
 			
 dependency = []
 

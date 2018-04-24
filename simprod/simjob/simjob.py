@@ -14,6 +14,12 @@ import warnings
 import glob
 import json
 import bisect
+from tqdm import tqdm
+
+
+def DeltaT( init, end ):
+	
+	return end - init 
 
 class JobCollection(object):
 	"""
@@ -21,6 +27,7 @@ class JobCollection(object):
 	"""
 	
 	def __init__(self, **kwargs):
+
 		self._jobs     = {}
 		self._jsondict = {}
 		self._keys     = []	
@@ -33,20 +40,24 @@ class JobCollection(object):
 			_collectedjobs = json.load(open(self._collection_file))
 			self._jsondict = _collectedjobs
 			
-			for cj in _collectedjobs.keys():
-				bisect.insort(self._keys, int(cj))
-				if not os.path.isfile(_collectedjobs[cj]):
-					continue
-				self._jobs[int(cj)]     = SimulationJob().from_file(_collectedjobs[cj], cj)
-				self._jsondict[int(cj)] = _collectedjobs[cj]
-				
-		self.__update()
-								
+			if len(_collectedjobs) > 0:			
+				print(red("\nLoading Jobs:"))
+				t = tqdm(total=len(_collectedjobs))
+				for cj in _collectedjobs.keys():
+					bisect.insort(self._keys, int(cj))
+					if not os.path.isfile(_collectedjobs[cj]):
+						t.update(1)
+						continue
+					self._jobs[str(cj)]     = SimulationJob().from_file(_collectedjobs[cj], cj)
+					self._jsondict[str(cj)] = _collectedjobs[cj]
+					t.update(1)
+				t.close()
+		self.__update(in_init = True)
+							
 	def __str__(self):
 		self.__update()
 		
-		toprint = []
-		
+		toprint = []		
 		toprint.append("{0} jobs".format(len(self._jobs)))
 		
 		h_job     = "    #job "
@@ -65,7 +76,7 @@ class JobCollection(object):
 		
 		for k in self._keys:
 			
-			job     = self._jobs[k]
+			job     = self._jobs[str(k)]
 			status  = job.status
 			evttype = job.evttype
 			year    = job.year
@@ -114,14 +125,14 @@ class JobCollection(object):
 	def __getitem__(self, i):
 		if i != None and not isinstance(i, int):
 			raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(i.__class__.__name__))
-		if i not in self._jobs.keys():
+		if i not in self._keys and i > max(self._keys):
 			self.__update()
-		if i not in self._jobs.keys():
+		if i not in self._keys:
 			raise ValueError("job {0} not found!".format(i))
 		else:
-			return self._jobs[i]
+			return self._jobs[str(i)]
 			
-	def __update(self):
+	def __update(self, in_init = False):		
 		jsonfiles = glob.iglob("{0}/*_*_*_*_*.json".format(self._jobsdir))
 		
 		for k,_file in self._jsondict.iteritems():
@@ -130,24 +141,27 @@ class JobCollection(object):
 					self._keys.remove(int(k))
 				except ValueError:
 					continue
-				
-			elif self._jobs[int(k)].status == "new" or self._jobs[int(k)].status == "submitting":
-				self._jobs[int(k)] = SimulationJob().from_file(_file, k)
-				
-		self._jsondict = { k : v for k,v in self._jsondict.iteritems() if k in self._keys }
-		self._jobs     = { k : v for k,v in self._jobs.iteritems() if k in self._keys }
-				
-		for js in jsonfiles:
+			elif not in_init:
+				jobstatus = self._jobs[str(k)].status
+				if jobstatus == "new" or jobstatus == "submitting":
+					self._jobs[str(k)]._update_subjobs()
+#					self._jobs[str(k)] = SimulationJob().from_file(_file, k)
+													
+		self._jsondict = { k : v for k,v in self._jsondict.iteritems() if int(k) in self._keys }
+		self._jobs     = { k : v for k,v in self._jobs.iteritems() if int(k) in self._keys }
+					
+		for js in jsonfiles:			
 			if js not in self._jsondict.values():
 				if len(self._jsondict) < 1:
 					index = 0
 				else:
 					index = self._keys[-1] + 1
-				self._jobs[int(index)] = SimulationJob().from_file(js, index) 
-				self._jsondict[int(index)] = js
+				self._jobs[str(index)] = SimulationJob().from_file(js, index) 
+				self._jsondict[str(index)] = js
 				bisect.insort(self._keys, index)
 				
 		self._store_collection()
+		
 							
 	def _store_collection(self):
 				
@@ -433,7 +447,6 @@ class SimulationJob(object):
 		return self._subjobs.itervalues()		
 		
 	def screensessions( self, i = None ):
-		
 		if not i:
 			return self._screensessions
 		else:
@@ -469,12 +482,14 @@ class SimulationJob(object):
 		
 	@property
 	def status( self):
+				
 		nrunning   = 0
 		ncompleted = 0 
 		nfailed    = 0
 		nsubmitted = 0
 		
 		for j in self.subjobs:
+			
 			status = j.status
 			if status == "submitted":
 				nsubmitted += 1
@@ -507,7 +522,6 @@ class SimulationJob(object):
 		return _status
 																		
 	def prepare( self, **kwargs ):
-		
 		if len(self._subjobs) < 1:
 				
 			if not self._evttype:
@@ -562,7 +576,7 @@ class SimulationJob(object):
 				
 			self._destdir = "{0}/{1}/{2}/{3}".format( self.__destination(), self._evttype, self._year, self._simcond)
 				
-		self._store_job()
+		self.__store_job()
 		
 		infiles = kwargs.get('infiles', [])
 
@@ -614,7 +628,7 @@ class SimulationJob(object):
 											
 					if self[n]._submitted:
 						continue	
-					self[n].send
+					self[n].send()
 					
 			except TypeError as e:
 				print(e.message)
@@ -635,7 +649,7 @@ class SimulationJob(object):
 			
 			self._screensessions.append({"name":screename, "id":_id})
 			
-			self._store_job(storesubjobs = True)
+		self.__store_job(storesubjobs = True)
 
 	def __checksiminputs( self ):
 		
@@ -706,7 +720,7 @@ class SimulationJob(object):
 		setattr(SimulationJob, var, property(*get_set))
 		self.__dict__[var] = getattr(SimulationJob, var)
 		
-	def _store_job(self, storesubjobs = False):
+	def __store_job(self, storesubjobs = False):
 		simprod = os.getenv("SIMPRODPATH")+"/simprod"
 		jobsdir = "{0}/._simjobs_".format(simprod)
 		
@@ -789,8 +803,8 @@ class SimulationJob(object):
 		self.__removescreens()
 													
 	@classmethod
-	def from_file(cls, file, jobnumber = None, inscreen = False):
-		data = json.load(open(file))
+	def from_file(cls, file, jobnumber = None, inscreen = False):	
+		data = json.load(open(file, 'r'))
 		simjob = cls( 
 					evttype    = data["evttype"],
 					year       = data["year"],
@@ -814,7 +828,7 @@ class SimulationJob(object):
 		simjob._options["loginprod"] = data["loginprod"]
 		simjob._options["jobfile"] = file
 		simjob._screensessions = data["_screensessions"]
-		
+				
 		if not simjob._options["loginprod"]:
 			simjob._options["logdir"]     = data["logdir"]
 			simjob._options["logdestdir"] = data["logdestdir"]
@@ -835,16 +849,17 @@ class SimulationJob(object):
 		if inscreen:
 			simjob._inscreen = True
 			
-		### prepare like 
-				
+		### prepare like 				
 		jobs = data["jobs"]
 				
 		for n in jobs.keys():
-			simjob._subjobs[n] = SimulationSubJob.from_dict(
+			simjob._subjobs[str(n)] = SimulationSubJob.from_dict(
 										parent = simjob, 
-										subjobnumber = n, 
-										dict = jobs[n])													
-		return simjob
+										subjobnumber = str(n), 
+										jobdict = jobs[n])
+										
+		return simjob	
+										
 		
 	def __str__(self):
 		
@@ -966,6 +981,23 @@ class SimulationJob(object):
 		
 		return screenfile
 		
+	def _update_subjobs(self, status="new"):
+		
+		data = json.load(open(self._options["jobfile"]))		
+		jobs = data["jobs"]
+		
+		for n in xrange(self.nsubjobs):
+			sj = self[n]
+			if sj.status == status:
+				try:
+					subjob = jobs[n]
+				except KeyError:
+					subjob = jobs[str(n)]
+					
+				if subjob["_submitted"]:
+					self._subjobs[n] = SimulationSubJob.from_dict( parent = self, 
+																   subjobnumber = n, 
+																   jobdict = subjob)	
 					
 class SimulationSubJob(object):
 	"""
@@ -1023,7 +1055,7 @@ class SimulationSubJob(object):
 		
 		self._send_options["jobname"] = self._jobname
 		self._send_options["infiles"] = self._infiles
-		self._send_options["command"] = self._command()
+		self._send_options["command"] = self.__command()
 		
 		self._submitted = False
 		self._running   = False
@@ -1046,7 +1078,6 @@ class SimulationSubJob(object):
 	def destfile( self):
 		return self._destfile
 				
-	@property	
 	def send( self):
 		
 		SUBMIT = False
@@ -1069,7 +1100,7 @@ class SimulationSubJob(object):
 							
 				time.sleep(0.07)
 				print( blue( "{0}/{1} jobs submitted!".format( int(self._subjobnumber) + 1, self._parent.nsubjobs ) ) )
-				time.sleep(0.07)
+				time.sleep(0.07)				
 			else:
 				print( red( "job {0}/{1} submission failed, try later!".format( int(self._subjobnumber) + 1, self._parent.nsubjobs ) ) )
 					
@@ -1090,42 +1121,42 @@ class SimulationSubJob(object):
 		
 		_previous = self._status
 		
-		if not self._finished and self._submitted:
-			self.__updatestatus()
-		if not self._submitted:
-			self._status = "new"
-		elif self._submitted and not self._running and not self._finished:
-			self._status = "submitted"
-		elif self._submitted and self._running and not self._finished:
-			self._status = "running"
-		elif self._submitted and not self._running and self._finished:
-			if self._completed:
-				self._status = "completed"
-				if not self.output == self.destfile and not self.output == "":
-					self.__move_jobs()
-			elif self._failed:
-				self._status = "failed"
-				self.__empty_proddir(keep_log = True)
-				
-		if _previous != self._status:
+		if not(_previous == "failed" or _previous == "completed"):
 			
-			if self._parent._jobnumber:
-				info_msg = "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'".format( 
-											self._parent._jobnumber,
-										    self._subjobnumber,
-											_previous,
-											self._status)
-			else:
-				info_msg = "INFO\tstatus of job (evttype {0}, year {1}, run number {2}) changed from '{3}' to '{4}'.".format(
-											self._parent.evttype,
-											self._parent.year,
-											self._runnumber, 
-											_previous, 
-											self._status)
+			if not self._finished and self._submitted:
+				self.__updatestatus()
+			if not self._submitted:
+				self._status = "new"
+			elif self._submitted and not self._running and not self._finished:
+				self._status = "submitted"
+			elif self._submitted and self._running and not self._finished:
+				self._status = "running"
+			elif self._submitted and not self._running and self._finished:
+				if self._completed:
+					self._status = "completed"
+					if not self.output == self.destfile and not self.output == "":
+						self.__move_jobs()
+				elif self._failed:
+					self._status = "failed"
+					self.__empty_proddir(keep_log = True)
 					
-			print(info_msg)
-							
-			self._store_subjob()
+			if _previous != self._status:
+				
+				if self._parent._jobnumber:
+					info_msg = "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'".format( 
+												self._parent._jobnumber,
+											    self._subjobnumber,
+												_previous,
+												self._status)
+				else:
+					info_msg = "INFO\tstatus of job (evttype {0}, year {1}, run number {2}) changed from '{3}' to '{4}'.".format(
+												self._parent.evttype,
+												self._parent.year,
+												self._runnumber, 
+												_previous, 
+												self._status)					
+				print(info_msg)	
+				self._store_subjob()
 				
 		return self._status
 		
@@ -1165,10 +1196,8 @@ class SimulationSubJob(object):
 		else:
 			return ""
 			
-	def reset( self):
-				
+	def reset( self):	
 		self.__empty_proddir()
-		
 		self._jobid     = None
 		self._submitted = False
 		self._running   = False
@@ -1176,10 +1205,9 @@ class SimulationSubJob(object):
 		self._completed = False
 		self._failed    = False
 		self._status    = "new"
-		
 		self._store_subjob()
 			
-	def _command( self ):
+	def __command( self ):
 		doprod  = DoProd( self._parent.simcond, self._parent.year)
 		
 		command  = doprod
@@ -1234,6 +1262,7 @@ class SimulationSubJob(object):
 		self._running = False
 		self._completed = False
 		self._finished  = True
+		self._status    = "failed"
 		self._store_subjob()
 		self.__empty_proddir()
 			
@@ -1258,8 +1287,8 @@ class SimulationSubJob(object):
 	def __move_jobs( self ):
 		
 		if not os.path.isdir(self._jobdir):
-			warnings.warn( red(" WARNING: production folder has been removed, if the jobs is marked as failed the output has\
-			been probably lost!"), stacklevel = 2 )
+			warnings.warn( red(" WARNING: production folder has been removed, if the jobs is marked as failed the output has "
+			+"been probably lost!"), stacklevel = 2 )
 			
 		else:
 			dst_prodfile = self._prodfile
@@ -1308,7 +1337,7 @@ class SimulationSubJob(object):
 				   "_failed":     self._failed,
 				   "_status":     self._status,
 				   "_infiles":    self._infiles,
-					  }
+				   }
 					
 		if not self._send_options["loginprod"]:
 			_subjob["_logjobdir"]   = self._logjobdir
@@ -1321,30 +1350,34 @@ class SimulationSubJob(object):
 		f.close()
 		
 	@classmethod
-	def from_dict(cls, parent, subjobnumber, dict):
+	def from_dict(cls, parent, subjobnumber, jobdict):
+		
+		
+#		print("{0}.{1}".format( parent._jobnumber, subjobnumber))
+#		print(jobdict)
 		
 		simsubjob = cls( parent    = parent, 
-						 polarity  = dict["polarity"],
-		                 runnumber = dict["runnumber"],
+						 polarity  = jobdict["polarity"],
+		                 runnumber = jobdict["runnumber"],
 						 subjobnumber = subjobnumber,
 						 from_dict = True
 						)
 						
-		simsubjob._jobid     = dict["_jobid"]
-		simsubjob._profile   = dict["_prodfile"]
-		simsubjob._jobdir    = dict["_jobdir"]
-		simsubjob._destfile  = dict["_destfile"]
-		simsubjob._submitted = dict["_submitted"]
-		simsubjob._running   = dict["_running"]
-		simsubjob._finished  = dict["_finished"]
-		simsubjob._completed = dict["_completed"]
-		simsubjob._failed    = dict["_failed"]
-		simsubjob._status    = dict["_status"]
-		simsubjob._infiles   = dict.get("_infiles",[])
-		simsubjob._send_options["infiles"] = dict.get("_infiles",[])
+		simsubjob._jobid     = jobdict["_jobid"]
+		simsubjob._profile   = jobdict["_prodfile"]
+		simsubjob._jobdir    = jobdict["_jobdir"]
+		simsubjob._destfile  = jobdict["_destfile"]
+		simsubjob._submitted = jobdict["_submitted"]
+		simsubjob._running   = jobdict["_running"]
+		simsubjob._finished  = jobdict["_finished"]
+		simsubjob._completed = jobdict["_completed"]
+		simsubjob._failed    = jobdict["_failed"]
+		simsubjob._status    = jobdict["_status"]
+		simsubjob._infiles   = jobdict.get("_infiles",[])
+		simsubjob._send_options["infiles"] = jobdict.get("_infiles",[])
 								
 		if not simsubjob._send_options["loginprod"]:
-			simsubjob._logjobdir   = dict["_logjobdir"]
+			simsubjob._logjobdir   = jobdict["_logjobdir"]
 		
 		return simsubjob
 		
