@@ -195,6 +195,7 @@ class SimulationJob(object):
 		self._decfiles   = kwargs.get('decfiles', 'v30r14')
 		self._inscreen   = kwargs.get('inscreen', False)
 		self._jobnumber  = None
+		self._status     = "new"
 		
 		self._evttype = kwargs.get('evttype', None)	
 		if self._evttype:
@@ -482,44 +483,55 @@ class SimulationJob(object):
 		
 	@property
 	def status( self):
-				
-		nrunning   = 0
-		ncompleted = 0 
-		nfailed    = 0
-		nsubmitted = 0
 		
-		for j in self.subjobs:
-			
-			status = j.status
-			if status == "submitted":
-				nsubmitted += 1
-			elif status == "running":
-				nrunning   += 1
-				nsubmitted += 1
-			elif status == "completed":
-				ncompleted += 1
-				nsubmitted += 1
-			elif status == "failed":
-				nfailed    += 1
-				nsubmitted += 1
+		if not(self._status == "completed" or self._status == "failed"):
 				
-		if nsubmitted == 0:
-			_status = "new"	
-		elif nsubmitted < self.nsubjobs and nsubmitted > 0:
-			_status = "submitting"
-		elif nsubmitted == self.nsubjobs and nrunning == 0 and nfailed == 0 and ncompleted < self.nsubjobs:
-			_status = "submitted"
-		elif nsubmitted == self.nsubjobs and nrunning > 0:
-			_status = "running"
-		elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted == self.nsubjobs and nfailed == 0:
-			_status = "completed"
-		elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted < self.nsubjobs and nfailed > 0:
-			_status = "failed"
+			nrunning   = 0
+			ncompleted = 0 
+			nfailed    = 0
+			nsubmitted = 0
 			
-		if _status != "submitting" and _status != "new":
-			self.__removescreens()
+			for j in self.subjobs:
+				
+				status = j.status
+				if status == "submitted":
+					nsubmitted += 1
+				elif status == "running":
+					nrunning   += 1
+					nsubmitted += 1
+				elif status == "completed":
+					ncompleted += 1
+					nsubmitted += 1
+				elif status == "failed":
+					nfailed    += 1
+					nsubmitted += 1
+					
+			if nsubmitted == 0:
+				_status = "new"	
+			elif nsubmitted < self.nsubjobs and nsubmitted > 0:
+				_status = "submitting"
+			elif nsubmitted == self.nsubjobs and nrunning == 0 and nfailed == 0 and ncompleted < self.nsubjobs:
+				_status = "submitted"
+			elif nsubmitted == self.nsubjobs and nrunning > 0:
+				_status = "running"
+			elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted == self.nsubjobs and nfailed == 0:
+				_status = "completed"
+			elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted < self.nsubjobs and nfailed > 0:
+				_status = "failed"
+				
+			if _status != "submitting" and _status != "new":
+				self.__removescreens()
+				
+			if _status != self._status:
+				info_msg = "INFO\tstatus of job {0} changed from '{1}' to '{2}'".format( 
+																					self._jobnumber,
+																					self._status,
+																					_status)														
+				print(info_msg)
+				
+			self._status = _status
 			
-		return _status
+		return self._status
 																		
 	def prepare( self, **kwargs ):
 		if len(self._subjobs) < 1:
@@ -754,6 +766,7 @@ class SimulationJob(object):
 				   "lsf":             self.options["lsf"],
 				   "loginprod":       self.options["loginprod"],    
 				   "_screensessions": self._screensessions,
+				   "status":          self._status,
 				   "jobs":        {}
 				   } 
 				
@@ -828,14 +841,15 @@ class SimulationJob(object):
 		simjob._options["loginprod"] = data["loginprod"]
 		simjob._options["jobfile"] = file
 		simjob._screensessions = data["_screensessions"]
+		simjob._status = data.get("status", "new")
 				
 		if not simjob._options["loginprod"]:
 			simjob._options["logdir"]     = data["logdir"]
 			simjob._options["logdestdir"] = data["logdestdir"]
 			
-		simjob._options["cpumemory"]       = data.get("cpumemory",None)
+		simjob._options["cpumemory"]       = data.get("cpumemory", None)
 		if not simjob._options["cpumemory"]:
-			simjob._options["cpumemory"]   = data.get("cpu",None)
+			simjob._options["cpumemory"]   = data.get("cpu", None)
 		
 		simjob._options["default_options"] = data["default_options"]
 		
@@ -845,7 +859,7 @@ class SimulationJob(object):
 			simjob._options["nuserjobs"]    = data["nuserjobs"]
 			simjob._options["npendingjobs"] = data["npendingjobs"]
 			simjob._options["nfreenodes"]   = data["nfreenodes"]
-			simjob._options["totmemory"]    = data.get("totmemory",None)
+			simjob._options["totmemory"]    = data.get("totmemory", None)
 		if inscreen:
 			simjob._inscreen = True
 			
