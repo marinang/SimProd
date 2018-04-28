@@ -470,7 +470,12 @@ class SimulationJob(object):
 	def __getitem__(self, job_number):
 		if not isinstance(job_number, int):
 			raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(job_number.__class__.__name__))
-		return self._subjobs[str(job_number)]
+		try:
+			return self._subjobs[str(job_number)]
+		except KeyError:
+			print("WARNING\tsubjob {0}.{1} has been lost!".format(self._jobnumber, job_number))
+			self._preparesubjobs( job_number )
+			return self._subjobs[str(job_number)]
 			
 	def __runnumber( self, job_number = None ):
 		if job_number != None and not isinstance(job_number, int):
@@ -484,7 +489,7 @@ class SimulationJob(object):
 	@property
 	def status( self):
 		
-		if not(self._status == "completed" or self._status == "failed"):
+		if not(self._status == "completed"):
 				
 			nrunning   = 0
 			ncompleted = 0 
@@ -567,8 +572,6 @@ class SimulationJob(object):
 				if not self._polarity:
 					polarity = ["MagUp" for i in xrange(0,int(self.nsubjobs / 2))]
 					polarity += ["MagDown" for i in xrange(int(self.nsubjobs / 2), self.nsubjobs)]
-					from random import shuffle
-					shuffle(polarity)
 					self._polarity = polarity
 				else:
 					self._polarity = [self._polarity for i in xrange(0, self.nsubjobs)]
@@ -595,11 +598,22 @@ class SimulationJob(object):
 		for n in xrange(self.nsubjobs):				
 			if self._subjobs.get(str(n), None):
 				continue
+				
+			self._preparesubjobs(n, infiles = infiles)
 			
-			polarity  = self._polarity[n]
-			runnumber = self.__runnumber(n)
-			self._subjobs[str(n)] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, infiles=infiles, subjobnumber=n )
+	def _preparesubjobs( self, sjn, **kwargs ):
+		
+		if self._polarity:		
+			polarity  = self._polarity[sjn]
+		else:
+			if sjn <= int(self.nsubjobs/2):
+				polarity = "MagUp"
+			else:
+				polarity = "MagDown"
 			
+		runnumber = self.__runnumber(sjn)
+		self._subjobs[str(sjn)] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, subjobnumber=sjn, **kwargs )
+					
 		
 	def cancelpreparation( self, **kwargs ):	
 		for n in xrange(self.nsubjobs):				
@@ -1101,6 +1115,9 @@ class SimulationSubJob(object):
 				time.sleep( randint(0,20) * 60 )
 		
 		if not self._submitted or self._failed:
+			if self._failed:
+				self.reset()
+			
 			send_options = self._send_options
 			self._jobid = submit( **send_options )
 			
@@ -1365,10 +1382,6 @@ class SimulationSubJob(object):
 		
 	@classmethod
 	def from_dict(cls, parent, subjobnumber, jobdict):
-		
-		
-#		print("{0}.{1}".format( parent._jobnumber, subjobnumber))
-#		print(jobdict)
 		
 		simsubjob = cls( parent    = parent, 
 						 polarity  = jobdict["polarity"],
