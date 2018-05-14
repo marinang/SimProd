@@ -132,6 +132,17 @@ class JobCollection(object):
 		else:
 			return self._jobs[str(i)]
 			
+	def __iter__(self):
+		for k in self._keys:
+			yield self._jobs[str(k)]		
+	
+	def __len__(self):
+		return len(self._keys)
+			
+	def select(self, status):
+		return [self._jobs[str(k)] for k in self._keys if self._jobs[str(k)].status == status]
+		
+		
 	def __update(self, in_init = False):		
 		jsonfiles = glob.iglob("{0}/*_*_*_*_*.json".format(self._jobsdir))
 		
@@ -145,7 +156,6 @@ class JobCollection(object):
 				jobstatus = self._jobs[str(k)].status
 				if jobstatus == "new" or jobstatus == "submitting":
 					self._jobs[str(k)]._update_subjobs()
-#					self._jobs[str(k)] = SimulationJob().from_file(_file, k)
 													
 		self._jsondict = { k : v for k,v in self._jsondict.iteritems() if int(k) in self._keys }
 		self._jobs     = { k : v for k,v in self._jobs.iteritems() if int(k) in self._keys }
@@ -633,6 +643,46 @@ class SimulationJob(object):
 			return SubCondition( self._options )
 		else:
 			return True
+			
+	def resend( self):
+		
+		jobnumbers = []
+		
+		for n in xrange(self.nsubjobs):
+			if self[n].status == "failed":
+				jobnumbers.append(n)
+				
+		if len(jobnumbers) > 0:
+				
+			if (self._slurm and self._inscreen) or self._lsf:
+				for j in jobnumbers:
+					
+					SUBMIT = False
+					while SUBMIT == False:
+						SUBMIT = self._cansubmit()
+						if not SUBMIT:
+							time.sleep( randint(0,30) * 60 )
+											
+					if self[j]._submitted:
+						continue	
+					self[j].send()
+					
+			elif self._slurm and not self._inscreen:
+				
+				cmdpy = self.__screencommandfile( jobnumbers )
+				
+				screename = cmdpy.replace(".py","")
+				screename = screename.replace(os.path.dirname(screename)+"/","")
+				
+				_id = SendInScreen( screename, cmdpy)
+				
+				print(red("Job submission is done in a screen session!"))
+				
+				self._screensessions.append({"name":screename, "id":_id})
+				
+			self.__store_job(storesubjobs = True)
+		else:
+			print("INFO\tNothing to re-send!")
 				
 	def send( self, job_number = None ):
 		
@@ -972,7 +1022,7 @@ class SimulationJob(object):
 
 		return self.options["basedir"]
 			
-	def __screencommandfile(self):
+	def __screencommandfile(self, jobnumbers = None):
 		
 		simprod = os.getenv("SIMPRODPATH")+"/simprod"
 		jobsdir = "{0}/._simjobs_".format(simprod)
@@ -1003,7 +1053,12 @@ class SimulationJob(object):
 										self._options["jobfile"],
 										True,
 										))
-		f.write("job.send()\n\n")
+		if jobnumbers:
+			for j in jobnumbers:
+				f.write("job.send({0})\n".format(j))
+		else:
+			f.write("job.send()\n")
+		f.write("\n")
 		f.write("os.remove(__file__)\n\n")
 		f.close()
 		
