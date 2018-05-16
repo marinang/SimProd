@@ -19,7 +19,7 @@ def PrepareLxplusJob( **kwargs ):
     
     user = getpass.getuser()
     
-#    cpu      = kwargs.get( "cpu", 3000 ) * 1000       #Memory per cpu (Slurm). in MB
+#    cpu      = kwargs.get( "cpu", 3000 ) * 1000   #Memory per cpu (Slurm). in MB
     time     = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).
     subdir   = kwargs.get( "subdir", "" )
     jobname  = kwargs.get( "jobname", "" )
@@ -75,7 +75,6 @@ def PrepareSlurmJob( **kwargs ):
     
     subdir    = kwargs.get( "subdir", "" )
     jobname   = kwargs.get( "jobname", "" )        
-#    cpumemory = kwargs.get( "cpumemory", 2800 )
     cpumemory = kwargs.get( "cpu", 2800 )        #Memory per cpu (Slurm).
     totmemory = kwargs.get( "totmemory", 4000 )
     time      = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).

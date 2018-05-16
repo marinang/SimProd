@@ -487,6 +487,9 @@ class SimulationJob(object):
 			self._preparesubjobs( job_number )
 			return self._subjobs[str(job_number)]
 			
+	def select(self, status):
+		return [self[n] for n in xrange(self.nsubjobs) if self[n].status == status]
+			
 	def __runnumber( self, job_number = None ):
 		if job_number != None and not isinstance(job_number, int):
 			raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(job_number.__class__.__name__))
@@ -646,16 +649,15 @@ class SimulationJob(object):
 			
 	def resend( self):
 		
-		jobnumbers = []
-		
-		for n in xrange(self.nsubjobs):
-			if self[n].status == "failed":
-				jobnumbers.append(n)
+		failedsubjobs = self.select("failed")
 				
-		if len(jobnumbers) > 0:
+		if len(failedsubjobs) > 0:
+			
+			for sj in failedsubjobs:
+				sj.reset()
 				
 			if (self._slurm and self._inscreen) or self._lsf:
-				for j in jobnumbers:
+				for sj in failedsubjobs:
 					
 					SUBMIT = False
 					while SUBMIT == False:
@@ -663,13 +665,15 @@ class SimulationJob(object):
 						if not SUBMIT:
 							time.sleep( randint(0,30) * 60 )
 											
-					if self[j]._submitted:
+					if sj._submitted:
 						continue	
-					self[j].send()
+					sj.send()
 					
 			elif self._slurm and not self._inscreen:
 				
-				cmdpy = self.__screencommandfile( jobnumbers )
+				subjobnumbers = [sj._subjobnumber for sj in failedsubjobs]
+				
+				cmdpy = self.__screencommandfile( subjobnumbers )
 				
 				screename = cmdpy.replace(".py","")
 				screename = screename.replace(os.path.dirname(screename)+"/","")
@@ -685,11 +689,7 @@ class SimulationJob(object):
 			print("INFO\tNothing to re-send!")
 				
 	def send( self, job_number = None ):
-		
-		if self.status == "failed":
-			for sj in self.subjobs:
-				sj.reset()
-		
+				
 		if (self._slurm and self._inscreen) or self._lsf:		
 			try:
 				for n in xrange(self.nsubjobs):
@@ -1022,7 +1022,7 @@ class SimulationJob(object):
 
 		return self.options["basedir"]
 			
-	def __screencommandfile(self, jobnumbers = None):
+	def __screencommandfile(self, subjobnumbers = None):
 		
 		simprod = os.getenv("SIMPRODPATH")+"/simprod"
 		jobsdir = "{0}/._simjobs_".format(simprod)
@@ -1053,8 +1053,8 @@ class SimulationJob(object):
 										self._options["jobfile"],
 										True,
 										))
-		if jobnumbers:
-			for j in jobnumbers:
+		if subjobnumbers:
+			for j in subjobnumbers:
 				f.write("job.send({0})\n".format(j))
 		else:
 			f.write("job.send()\n")
