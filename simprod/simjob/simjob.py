@@ -202,8 +202,9 @@ class SimulationJob(object):
 		self._turbo      = kwargs.get('turbo', False)
 		self._mudst      = kwargs.get('mudst', False)
 		self._runnumber  = kwargs.get('runnumber', baserunnumber())
-		self._decfiles   = kwargs.get('decfiles', 'v30r14')
-		self._inscreen   = kwargs.get('inscreen', False)
+		self._decfiles   = kwargs.get('decfiles', 'v30r16')
+		self._inscreen   = kwargs.get('inscreen', True)
+		self._keeplogs   = kwargs.get('keeplogs', False)
 		self._jobnumber  = None
 		self._status     = "new"
 		
@@ -612,7 +613,7 @@ class SimulationJob(object):
 			if self._subjobs.get(str(n), None):
 				continue
 				
-			self._preparesubjobs(n, infiles = infiles)
+			self._preparesubjobs(n, infiles = infiles, keeplog = self._keeplogs)
 			
 	def _preparesubjobs( self, sjn, **kwargs ):
 		
@@ -831,6 +832,7 @@ class SimulationJob(object):
 				   "loginprod":       self.options["loginprod"],    
 				   "_screensessions": self._screensessions,
 				   "status":          self._status,
+				   "keeplogs":        self._keeplogs,
 				   "jobs":        {}
 				   } 
 				
@@ -906,6 +908,7 @@ class SimulationJob(object):
 		simjob._options["jobfile"] = file
 		simjob._screensessions = data["_screensessions"]
 		simjob._status = data.get("status", "new")
+		simjob._keeplogs = data.get("keeplogs", True)
 				
 		if not simjob._options["loginprod"]:
 			simjob._options["logdir"]     = data["logdir"]
@@ -1095,6 +1098,7 @@ class SimulationSubJob(object):
 		self._jobid        = None
 		self._send_options = self._parent.options.copy()
 		self._status       = "new"
+		self._keeplog      = kwargs.get('keeplog', True)
 						
 		self._infiles = kwargs.get('infiles', [])
 		if not isinstance(self._infiles, list) and " " in self._infiles:
@@ -1399,10 +1403,18 @@ class SimulationSubJob(object):
 											self._runnumber)
 					
 			print(info_msg)
-			mover( dst_prodfile, dst_destfile )
-			mover( xml_prodfile, xml_destfile )
 			
-			self.__empty_proddir()
+			if os.path.isfile(dst_prodfile):
+				mover( dst_prodfile, dst_destfile )
+			else:
+				warn_msg = red("WARNING\tdst output is not found. It has probably been moved or erased manually")
+				
+			if os.path.isfile(xml_prodfile):
+				mover( xml_prodfile, xml_destfile )
+			else:
+				warn_msg = red("WARNING\tGeneratorLog.xml is not found. It has probably been moved or erased manually")
+				
+			self.__empty_proddir( self._keeplog )
 		
 	def _store_subjob(self):
 		
@@ -1423,6 +1435,7 @@ class SimulationSubJob(object):
 				   "_failed":     self._failed,
 				   "_status":     self._status,
 				   "_infiles":    self._infiles,
+				   "_keeplog":    self._keeplog,
 				   }
 					
 		if not self._send_options["loginprod"]:
@@ -1456,6 +1469,7 @@ class SimulationSubJob(object):
 		simsubjob._failed    = jobdict["_failed"]
 		simsubjob._status    = jobdict["_status"]
 		simsubjob._infiles   = jobdict.get("_infiles",[])
+		simsubjob._keeplog   = jobdict.get("_keeplog", True)
 		simsubjob._send_options["infiles"] = jobdict.get("_infiles",[])
 								
 		if not simsubjob._send_options["loginprod"]:

@@ -6,7 +6,9 @@ Mini framework to send LHCb simulation jobs on a batch system (LSF or Slurm)!
 
 To install the module do
 
-`$ python setup.py install --user`.
+```
+python setup.py install --user
+```
 
 You will be asked to enter some directories where you want to find your simulated samples.
 
@@ -28,11 +30,11 @@ You need to to know:
 
 Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/simprod/simjob/setup). To start a new simulation job do:
 
-`$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)`
-
-`$ j.prepare()`
-
-`$ j.send()`
+```python 
+j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)
+j.prepare()
+j.send()
+```
 
 <p align="center">
 <img width="750" height="300" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/submission.png">
@@ -40,7 +42,9 @@ Description of simulation setups can be found [here](https://github.com/marinang
 
 You can also launch a job by doing:
 
-`$ simprod --evttype EVTTYPE --year YEAR --nevents NEVENTS`
+```
+simprod --evttype EVTTYPE --year YEAR --nevents NEVENTS
+```
 
 ### Options
 
@@ -60,21 +64,26 @@ Your have other options by default that you can change:
 
 * mudst: Produce a muDST output.
 
-* decfiles: Version of the DecFiles package (default = v30r5)
+* decfiles: Version of the DecFiles package (default = v30r16).
 
 * infiles: External files to provide for generation (for example LHE or HepMC files).
 
 * cpu: Number of CPU memory (in MB) per simulation job.
+
+* keeplogs: keeps the log files even if the jobs is marked as completed (default = True).
 	
 These argument are all available at instantiation of a SimulationJob but also as property, i.e:
 
-`$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS, neventsjob=NEVENTSJOB)`
+```python 
+j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS, neventsjob=NEVENTSJOB)
+```
 
 is equivalent to
 
-`$ j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)`
-
-`$ j.neventsjob = NEVENTSJOB`
+```python 
+j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)
+j.neventsjob = NEVENTSJOB
+```
 
 ### Slurm options
 
@@ -102,10 +111,54 @@ Just after the lauching the program type `jobs` and you can see the status of su
 <img width="540" height="500" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/monitor.png">
 </p>
 
+### Resend failed subjobs
+
+There are two ways:
+
+* Select failed jobs and loop over them to resend them:
+```python 
+for sj in jobs[JOBNUMBER].select("failed"):
+    sj.send()`
+```
+
+* Use the JobCollection method **resend**:
+```python 
+jobs[JOBNUMBER].resend()
+```
+
+### Kill a subjob
+
+```python 
+jobs[JOBNUMBER][SUBJOBNUMBER].kill()
+```
+
+### Remove jobs from the collection
+
+If you wish to remove a job from the `jobs` container do
+
+```python 
+jobs[JOBNUMBER].remove()
+```
+and the simulation job will not be seen anymore when typing `jobs`. Note that if subjobs are still running they will be killed.
+
+If you wish to remove only completed jobs do
+
+```python 
+for j in jobs.select("completed"):
+	j.remove()
+```
+The log files are also with removed with the job.
+
 ## Evttypes
 
 For generation Gauss needs an option file callled EVTTYPE.py which is stored in a folder called **Evttypes**. In you need to modify your option file prior to submission you can type in the simprod prompt 
 
-`$ getevttype(EVTTYPE)`,
+```python
+getevttype(EVTTYPE)
+```
 
 and all option files related to this EVTTYPE should be downloaded into the **Evttypes** directory.
+
+## Contributing
+
+Please feel free to contribute to contribute by the mean of Pull Requests.
