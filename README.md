@@ -161,4 +161,6 @@ getevttype(EVTTYPE)
 
 and all option files related to this EVTTYPE should be downloaded into the **Evttypes** directory.
 
-## Contributi
+## Contributing
+
+Feel free to contribute by the mean of Pull Requests.
