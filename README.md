@@ -120,7 +120,7 @@ There are two ways:
 * Select failed jobs and loop over them to resend them:
 ```python 
 for sj in jobs[JOBNUMBER].select("failed"):
-    sj.send()`
+    sj.send()
 ```
 
 * Use the JobCollection method **resend**:
