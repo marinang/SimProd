@@ -53,8 +53,9 @@ if __name__ == "__main__" :
 	parser.add_argument('--nfreenodes',   metavar='<nfreenodes>',    help="(Slurm option) Number of nodes to be free of user's simulation jobs.", type=int)
 	parser.add_argument('--subtime',      metavar='<subtime>',       help="(Slurm option) Time interval when the jobs are sent.", nargs='+', type=int, default=[0, 23])
 	
-	parser.add_argument('--noui',                                    help="No user intefrace.", action='store_true') 
-	parser.add_argument('--inscreen',                                help="In screen session.", action='store_true') 
+	parser.add_argument('--noui',                                    help="No user interface.", action='store_true') 
+	parser.add_argument('--inscreen',                                help="In screen session.", action='store_true')
+	parser.add_argument('--keeplogs',                                help="Keep logs in production dir.", action='store_false')  
 	
 	opts = parser.parse_args()
 	

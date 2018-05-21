@@ -71,6 +71,8 @@ Your have other options by default that you can change:
 * cpu: Number of CPU memory (in MB) per simulation job.
 
 * keeplogs: keeps the log files even if the jobs is marked as completed (default = True).
+
+* keepxmls: keeps the generator log xml files (default = True).
 	
 These argument are all available at instantiation of a SimulationJob but also as property, i.e:
 
@@ -159,6 +161,4 @@ getevttype(EVTTYPE)
 
 and all option files related to this EVTTYPE should be downloaded into the **Evttypes** directory.
 
-## Contributing
-
-Please feel free to contribute to contribute by the mean of Pull Requests.
+## Contributi

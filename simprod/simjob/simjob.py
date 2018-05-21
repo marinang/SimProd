@@ -203,8 +203,9 @@ class SimulationJob(object):
 		self._mudst      = kwargs.get('mudst', False)
 		self._runnumber  = kwargs.get('runnumber', baserunnumber())
 		self._decfiles   = kwargs.get('decfiles', 'v30r16')
-		self._inscreen   = kwargs.get('inscreen', True)
-		self._keeplogs   = kwargs.get('keeplogs', False)
+		self._inscreen   = kwargs.get('inscreen', False)
+		self._keeplogs   = kwargs.get('keeplogs', True)
+		self._keepxmls   = kwargs.get('keepxmls', True)
 		self._jobnumber  = None
 		self._status     = "new"
 		
@@ -613,7 +614,7 @@ class SimulationJob(object):
 			if self._subjobs.get(str(n), None):
 				continue
 				
-			self._preparesubjobs(n, infiles = infiles, keeplog = self._keeplogs)
+			self._preparesubjobs(n, infiles = infiles, keeplog = self._keeplogs, keepxml = self._keepxmls)
 			
 	def _preparesubjobs( self, sjn, **kwargs ):
 		
@@ -833,6 +834,7 @@ class SimulationJob(object):
 				   "_screensessions": self._screensessions,
 				   "status":          self._status,
 				   "keeplogs":        self._keeplogs,
+				   "keepxmls":        self._keepxmls,
 				   "jobs":        {}
 				   } 
 				
@@ -909,6 +911,7 @@ class SimulationJob(object):
 		simjob._screensessions = data["_screensessions"]
 		simjob._status = data.get("status", "new")
 		simjob._keeplogs = data.get("keeplogs", True)
+		simjob._keepxmls = data.get("keepxmls", True)
 				
 		if not simjob._options["loginprod"]:
 			simjob._options["logdir"]     = data["logdir"]
@@ -1052,9 +1055,10 @@ class SimulationJob(object):
 		
 		f.write("time.sleep(1.5)\n\n")
 		
-		f.write("job = SimulationJob().from_file('{0}', inscreen = {1})\n".format(
+		f.write("job = SimulationJob().from_file('{0}', inscreen = {1}, jobnumber = {2})\n".format(
 										self._options["jobfile"],
 										True,
+										self._jobnumber
 										))
 		if subjobnumbers:
 			for j in subjobnumbers:
@@ -1067,8 +1071,7 @@ class SimulationJob(object):
 		
 		return screenfile
 		
-	def _update_subjobs(self, status="new"):
-		
+	def _update_subjobs(self, status="new"):		
 		data = json.load(open(self._options["jobfile"]))		
 		jobs = data["jobs"]
 		
@@ -1081,9 +1084,9 @@ class SimulationJob(object):
 					subjob = jobs[str(n)]
 					
 				if subjob["_submitted"]:
-					self._subjobs[n] = SimulationSubJob.from_dict( parent = self, 
-																   subjobnumber = n, 
-																   jobdict = subjob)	
+					self._subjobs[str(n)] = SimulationSubJob.from_dict( parent = self, 
+																        subjobnumber = str(n), 
+																        jobdict = subjob)
 					
 class SimulationSubJob(object):
 	"""
@@ -1099,6 +1102,7 @@ class SimulationSubJob(object):
 		self._send_options = self._parent.options.copy()
 		self._status       = "new"
 		self._keeplog      = kwargs.get('keeplog', True)
+		self._keepxml      = kwargs.get('keepxml', True)
 						
 		self._infiles = kwargs.get('infiles', [])
 		if not isinstance(self._infiles, list) and " " in self._infiles:
@@ -1286,7 +1290,11 @@ class SimulationSubJob(object):
 		else:
 			return ""
 			
-	def reset( self):	
+	def reset( self):
+		
+		if self._status == "completed":
+			self.kill()
+			
 		self.__empty_proddir()
 		self._jobid     = None
 		self._submitted = False
@@ -1408,11 +1416,14 @@ class SimulationSubJob(object):
 				mover( dst_prodfile, dst_destfile )
 			else:
 				warn_msg = red("WARNING\tdst output is not found. It has probably been moved or erased manually")
+				print(warn_msg)
 				
-			if os.path.isfile(xml_prodfile):
-				mover( xml_prodfile, xml_destfile )
-			else:
-				warn_msg = red("WARNING\tGeneratorLog.xml is not found. It has probably been moved or erased manually")
+			if self._keepxml:		
+				if os.path.isfile(xml_prodfile):
+					mover( xml_prodfile, xml_destfile )
+				else:
+					warn_msg = red("WARNING\tGeneratorLog.xml is not found. It has probably been moved or erased manually")
+					print(warn_msg)
 				
 			self.__empty_proddir( self._keeplog )
 		
@@ -1436,6 +1447,7 @@ class SimulationSubJob(object):
 				   "_status":     self._status,
 				   "_infiles":    self._infiles,
 				   "_keeplog":    self._keeplog,
+				   "_keepxml":    self._keepxml,
 				   }
 					
 		if not self._send_options["loginprod"]:
@@ -1470,6 +1482,7 @@ class SimulationSubJob(object):
 		simsubjob._status    = jobdict["_status"]
 		simsubjob._infiles   = jobdict.get("_infiles",[])
 		simsubjob._keeplog   = jobdict.get("_keeplog", True)
+		simsubjob._keepxml   = jobdict.get("_keepxml", True)
 		simsubjob._send_options["infiles"] = jobdict.get("_infiles",[])
 								
 		if not simsubjob._send_options["loginprod"]:
