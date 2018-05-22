@@ -60,8 +60,8 @@ def pathprint():
 	print("\t- Or specify a different location below\n")
 				
 install_list = [ 
-			'ipython>=5.0,<6.0;python_version<"3.0"', 
-			'ipython>=5.0;python_version>="3.0"',
+			'ipython>=5.0,<6.0;python_version<="2.7"', 
+			'ipython>=5.0;python_version>="3.4"',
 			'screenutils',
 			'Cython',
 			'tqdm' ]
