@@ -206,6 +206,7 @@ class SimulationJob(object):
 		self._inscreen   = kwargs.get('inscreen', False)
 		self._keeplogs   = kwargs.get('keeplogs', True)
 		self._keepxmls   = kwargs.get('keepxmls', True)
+		self._redecay    = kwargs.get('redecay', False)
 		self._jobnumber  = None
 		self._status     = "new"
 		
@@ -454,6 +455,40 @@ class SimulationJob(object):
 			self._mudst = value
 		else:
 			raise TypeError("mudst must be set to True/False!")
+			
+	@property
+	def keeplogs( self):
+		return self._keeplogs
+		
+	@keeplogs.setter	
+	def keeplogs( self, value):
+		if isinstance(value, bool):
+			self._keeplogs = value
+		else:
+			raise TypeError("keeplogs must be set to True/False!")
+			
+	@property
+	def keepxmls( self):
+		return self._keepxmls
+		
+	@keepxmls.setter	
+	def keepxmls( self, value):
+		if isinstance(value, bool):
+			self._keepxmls = value
+		else:
+			raise TypeError("keepxmls must be set to True/False!")
+			
+	@property
+	def redecay( self):
+		return self._redecay
+		
+	@redecay.setter	
+	def redecay( self, value):
+		if isinstance(value, bool):
+			self._redecay = value
+		else:
+			raise TypeError("redecay must be set to True/False!")
+	
 	
 	@property					
 	def subjobs( self ):	
@@ -835,6 +870,7 @@ class SimulationJob(object):
 				   "status":          self._status,
 				   "keeplogs":        self._keeplogs,
 				   "keepxmls":        self._keepxmls,
+				   "redecay":         self._redecay,
 				   "jobs":        {}
 				   } 
 				
@@ -912,6 +948,7 @@ class SimulationJob(object):
 		simjob._status = data.get("status", "new")
 		simjob._keeplogs = data.get("keeplogs", True)
 		simjob._keepxmls = data.get("keepxmls", True)
+		simjob._redecay  = data.get("redecay", False)
 				
 		if not simjob._options["loginprod"]:
 			simjob._options["logdir"]     = data["logdir"]
@@ -1316,6 +1353,7 @@ class SimulationSubJob(object):
 		command += ' {0}'.format( self._parent.turbo)
 		command += ' {0}'.format( self._parent.mudst)
 		command += ' {0}'.format( self._parent.stripping)
+		command += ' {0}'.format( self._parent.redecay)
 			
 		return command
 					

@@ -73,6 +73,8 @@ Your have other options by default that you can change:
 * keeplogs: keeps the log files even if the jobs is marked as completed (default = True).
 
 * keepxmls: keeps the generator log xml files (default = True).
+
+* redecay: use redecay at generation (default = False).
 	
 These argument are all available at instantiation of a SimulationJob but also as property, i.e:
 

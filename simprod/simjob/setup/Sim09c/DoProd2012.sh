@@ -11,6 +11,7 @@ RunNumber=$4
 Turbo=$5
 muDST=$6
 Stripping=$7
+ReDecay=$8
 
 if [ "$Polarity" == "MagUp" ]; then
   SimCond=Gauss/Sim08-Beam4000GeV-mu100-2012-nu2.5.py
@@ -49,7 +50,12 @@ echo "from Configurables import OutputStream" >> $GAUSSJOB
 echo "OutputStream('GaussTape').Output = \"DATAFILE='PFN:$GAUSSOUTPUT' TYP='POOL_ROOTTREE' OPT='RECREATE'\"" >> $GAUSSJOB
 
 # Run
-lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r342" Gauss/v49r8 gaudirun.py \$APPCONFIGOPTS/$SimCond \$APPCONFIGOPTS/Gauss/DataType-2012.py \$APPCONFIGOPTS/Gauss/RICHRandomHits.py \$APPCONFIGOPTS/Gauss/NoPacking.py \$LBPYTHIA8ROOT/options/Pythia8.py \$APPCONFIGOPTS/Gauss/G4PL_FTFP_BERT_EmNoCuts.py $Optfile $CONDITIONS $GAUSSJOB
+
+if [ "$ReDecay" == "True" ]; then
+  lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r342" Gauss/v49r8 gaudirun.py \$APPCONFIGOPTS/$SimCond \$APPCONFIGOPTS/Gauss/DataType-2012.py \$APPCONFIGOPTS/Gauss/RICHRandomHits.py \$APPCONFIGOPTS/Gauss/NoPacking.py \$LBPYTHIA8ROOT/options/Pythia8.py \$APPCONFIGOPTS/Gauss/G4PL_FTFP_BERT_EmNoCuts.py \$APPCONFIGOPTS/Gauss/ReDecay-100times.py \$$PPCONFIGOPTS/Gauss/ReDecay-SignalRepeatedHadronization-fix.py $Optfile $CONDITIONS $GAUSSJOB
+else
+  lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r342" Gauss/v49r8 gaudirun.py \$APPCONFIGOPTS/$SimCond \$APPCONFIGOPTS/Gauss/DataType-2012.py \$APPCONFIGOPTS/Gauss/RICHRandomHits.py \$APPCONFIGOPTS/Gauss/NoPacking.py \$LBPYTHIA8ROOT/options/Pythia8.py \$APPCONFIGOPTS/Gauss/G4PL_FTFP_BERT_EmNoCuts.py $Optfile $CONDITIONS $GAUSSJOB
+fi
 
 rm $GAUSSJOB
 
