@@ -640,6 +640,10 @@ class SimulationJob(object):
 					self._options["logdestdir"]  = "{0}/{1}".format( self.options["logdir"], self.options["subdir"])
 				
 			self._destdir = "{0}/{1}/{2}/{3}".format( self.__destination(), self._evttype, self._year, self._simcond)
+			
+			if self._redecay: 
+				self._proddir += "ReDecay"
+				self._destdir += "ReDecay"
 				
 		self.__store_job()
 		
