@@ -16,11 +16,6 @@ import json
 import bisect
 from tqdm import tqdm
 
-
-def DeltaT( init, end ):
-	
-	return end - init 
-
 class JobCollection(object):
 	"""
 	Simulation job collection.
@@ -631,6 +626,8 @@ class SimulationJob(object):
 				subdir += "_Turbo"
 			if self._mudst:
 				subdir += "_muDST"
+			if self._redecay: 
+				subdir += "_ReDecay"
 			
 			self._options["subdir"] = subdir
 				
@@ -641,8 +638,7 @@ class SimulationJob(object):
 				
 			self._destdir = "{0}/{1}/{2}/{3}".format( self.__destination(), self._evttype, self._year, self._simcond)
 			
-			if self._redecay: 
-				self._proddir += "_ReDecay"
+			if self._redecay:
 				self._destdir += "_ReDecay"
 				
 		self.__store_job()
