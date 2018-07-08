@@ -773,6 +773,7 @@ class SimulationJob(object):
 																					self._status,
 																					_status)														
 				print(info_msg)
+				self.__store_job(True)
 				
 			self._status = _status
 			
@@ -988,6 +989,8 @@ class SimulationJob(object):
 											parent = simjob, 
 											subjobnumber = str(n), 
 											file   = subjob)
+											
+			self.__store_job(True)
 			
 		else:	
 				
