@@ -771,8 +771,9 @@ class SimulationJob(object):
 				info_msg = "INFO\tstatus of job {0} changed from '{1}' to '{2}'".format( 
 																					self._jobnumber,
 																					self._status,
-																					_status)														
+																					_status)													
 				print(info_msg)
+				self._status = _status
 				self.__store_job(True)
 				
 			self._status = _status
