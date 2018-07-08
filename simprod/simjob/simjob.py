@@ -139,7 +139,7 @@ class JobCollection(object):
 		
 		
 	def __update(self, in_init = False):		
-		jsonfiles = glob.iglob("{0}/*_*_*_*_*.json".format(self._jobsdir))
+		jsonfiles = glob.iglob("{0}/*/job.json".format(self._jobsdir))
 		
 		for k,_file in self._jsondict.iteritems():
 			if not os.path.isfile(_file):
@@ -154,7 +154,7 @@ class JobCollection(object):
 													
 		self._jsondict = { k : v for k,v in self._jsondict.iteritems() if int(k) in self._keys }
 		self._jobs     = { k : v for k,v in self._jobs.iteritems() if int(k) in self._keys }
-					
+		
 		for js in jsonfiles:			
 			if js not in self._jsondict.values():
 				if len(self._jsondict) < 1:
@@ -484,44 +484,10 @@ class SimulationJob(object):
 		else:
 			raise TypeError("redecay must be set to True/False!")
 	
-	
 	@property					
 	def subjobs( self ):	
-		return self._subjobs.itervalues()		
+		return self._subjobs.itervalues()
 		
-	def screensessions( self, i = None ):
-		if not i:
-			return self._screensessions
-		else:
-			if len(self._screensessions) < 1:
-				raise NotImplementedError("No screen session attached to this simulation job.")
-			elif i > len(self._screensessions):
-				raise IndexError()
-			elif ScreenExist(self._screensessions[i]["name"]):
-				OpenScreenSession(self._screensessions[i]["name"])
-			else:
-				print("This screen does not exist!")
-				KillScreenSession(self._screensessions[i]["name"])
-				del self._screensessions[self._screensessions[i]]
-				
-	def __removescreens( self ):
-		for sc in self._screensessions:
-			KillScreenSession(sc["name"])	
-		self._screensessions = []
-			
-	def __getitem__(self, job_number):
-		if not isinstance(job_number, int):
-			raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(job_number.__class__.__name__))
-		try:
-			return self._subjobs[str(job_number)]
-		except KeyError:
-			print("WARNING\tsubjob {0}.{1} has been lost!".format(self._jobnumber, job_number))
-			self._preparesubjobs( job_number )
-			return self._subjobs[str(job_number)]
-			
-	def select(self, status):
-		return [self[n] for n in xrange(self.nsubjobs) if self[n].status == status]
-			
 	def __runnumber( self, job_number = None ):
 		if job_number != None and not isinstance(job_number, int):
 			raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(job_number.__class__.__name__))
@@ -531,58 +497,6 @@ class SimulationJob(object):
 		else:
 			return self._runnumber + job_number
 		
-	@property
-	def status( self):
-		
-		if not(self._status == "completed"):
-				
-			nrunning   = 0
-			ncompleted = 0 
-			nfailed    = 0
-			nsubmitted = 0
-			
-			for j in self.subjobs:
-				
-				status = j.status
-				if status == "submitted":
-					nsubmitted += 1
-				elif status == "running":
-					nrunning   += 1
-					nsubmitted += 1
-				elif status == "completed":
-					ncompleted += 1
-					nsubmitted += 1
-				elif status == "failed":
-					nfailed    += 1
-					nsubmitted += 1
-					
-			if nsubmitted == 0:
-				_status = "new"	
-			elif nsubmitted < self.nsubjobs and nsubmitted > 0:
-				_status = "submitting"
-			elif nsubmitted == self.nsubjobs and nrunning == 0 and nfailed == 0 and ncompleted < self.nsubjobs:
-				_status = "submitted"
-			elif nsubmitted == self.nsubjobs and nrunning > 0:
-				_status = "running"
-			elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted == self.nsubjobs and nfailed == 0:
-				_status = "completed"
-			elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted < self.nsubjobs and nfailed > 0:
-				_status = "failed"
-				
-			if _status != "submitting" and _status != "new":
-				self.__removescreens()
-				
-			if _status != self._status:
-				info_msg = "INFO\tstatus of job {0} changed from '{1}' to '{2}'".format( 
-																					self._jobnumber,
-																					self._status,
-																					_status)														
-				print(info_msg)
-				
-			self._status = _status
-			
-		return self._status
-																		
 	def prepare( self, **kwargs ):
 		if len(self._subjobs) < 1:
 				
@@ -662,21 +576,60 @@ class SimulationJob(object):
 				polarity = "MagDown"
 			
 		runnumber = self.__runnumber(sjn)
-		self._subjobs[str(sjn)] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, subjobnumber=sjn, **kwargs )
+		self._subjobs[str(sjn)] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, subjobnumber=sjn, **kwargs )	
+						
+	def send( self, job_number = None ):
+				
+		if (self._slurm and self._inscreen) or self._lsf:		
+			try:
+				for n in xrange(self.nsubjobs):
+					if job_number != None and job_number != n:
+						continue
 					
+					SUBMIT = False
+					while SUBMIT == False:
+						SUBMIT = self._cansubmit()
+						if not SUBMIT:
+							time.sleep( randint(0,30) * 60 )
+											
+					if self[n]._submitted:
+						continue	
+					self[n].send()
+					
+			except TypeError as e:
+				print(e.message)
+				raise NotImplementedError("Job is not prepared!") 
+				
+		elif self._slurm and not self._inscreen:
+			
+			### prepare the job submission through a screen session!
+			
+			cmdpy = self.__screencommandfile()
+			
+			screename = cmdpy.replace(".py","")
+			screename = screename.replace(os.path.dirname(screename)+"/","")
+			
+			_id = SendInScreen( screename, cmdpy)
+			
+			print(red("Job submission is done in a screen session!"))
+			
+			self._screensessions.append({"name":screename, "id":_id})
+			
+		self.__store_job(storesubjobs = True)	
 		
+					
 	def cancelpreparation( self, **kwargs ):	
 		for n in xrange(self.nsubjobs):				
 			if self._subjobs.get(str(n), None):
 				del self._subjobs[str(n)]
-				
+			
 	def __updateoptions(self):
 		if self._slurm:
 			#update default options
 			default_options  = DefaultSlurmOptions( )
 			for opt in self._options["default_options"]:
 				self._options[opt] = default_options[opt]
-						
+					
 	def _cansubmit( self):
 		self.__updateoptions()
 		if self._slurm:
@@ -684,8 +637,24 @@ class SimulationJob(object):
 		else:
 			return True
 			
-	def resend( self):
+	def remove( self ):
 		
+		if self._jobnumber:
+			info_msg = "INFO\tremoving job {0}".format(self._jobnumber)
+		else:
+			info_msg = "INFO\tremoving job"
+		print(info_msg)
+				
+		for sj in self.subjobs:
+			if sj.status == "running":
+				sj.kill()
+
+		if os.path.isdir(self.options["job_storage_dir"]):
+			silentrm( self.options["job_storage_dir"] )
+			
+		self.__removescreens()
+		
+	def resend( self):		
 		failedsubjobs = self.select("failed")
 				
 		if len(failedsubjobs) > 0:
@@ -724,46 +693,93 @@ class SimulationJob(object):
 			self.__store_job(storesubjobs = True)
 		else:
 			print("INFO\tNothing to re-send!")
+	
+	def screensessions( self, i = None ):
+		if not i:
+			return self._screensessions
+		else:
+			if len(self._screensessions) < 1:
+				raise NotImplementedError("No screen session attached to this simulation job.")
+			elif i > len(self._screensessions):
+				raise IndexError()
+			elif ScreenExist(self._screensessions[i]["name"]):
+				OpenScreenSession(self._screensessions[i]["name"])
+			else:
+				print("This screen does not exist!")
+				KillScreenSession(self._screensessions[i]["name"])
+				del self._screensessions[self._screensessions[i]]
 				
-	def send( self, job_number = None ):
-				
-		if (self._slurm and self._inscreen) or self._lsf:		
-			try:
-				for n in xrange(self.nsubjobs):
-					if job_number != None and job_number != n:
-						continue
+	def __removescreens( self ):
+		for sc in self._screensessions:
+			KillScreenSession(sc["name"])	
+		self._screensessions = []
+			
+	def __getitem__(self, job_number):
+		if not isinstance(job_number, int):
+			raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(job_number.__class__.__name__))
+		try:
+			return self._subjobs[str(job_number)]
+		except KeyError:
+			print("WARNING\tsubjob {0}.{1} has been lost!".format(self._jobnumber, job_number))
+			self._preparesubjobs( job_number )
+			return self._subjobs[str(job_number)]
+			
+	def select(self, status):
+		return [self[n] for n in xrange(self.nsubjobs) if self[n].status == status]
 					
-					SUBMIT = False
-					while SUBMIT == False:
-						SUBMIT = self._cansubmit()
-						if not SUBMIT:
-							time.sleep( randint(0,30) * 60 )
-											
-					if self[n]._submitted:
-						continue	
-					self[n].send()
-					
-			except TypeError as e:
-				print(e.message)
-				raise NotImplementedError("Job is not prepared!") 
+	@property
+	def status( self):	
+		if not(self._status == "completed"):
 				
-		elif self._slurm and not self._inscreen:
+			nrunning   = 0
+			ncompleted = 0 
+			nfailed    = 0
+			nsubmitted = 0
 			
-			### prepare the job submission through a screen session!
+			for j in self.subjobs:
+				
+				status = j.status
+				if status == "submitted":
+					nsubmitted += 1
+				elif status == "running":
+					nrunning   += 1
+					nsubmitted += 1
+				elif status == "completed":
+					ncompleted += 1
+					nsubmitted += 1
+				elif status == "failed":
+					nfailed    += 1
+					nsubmitted += 1
+					
+			if nsubmitted == 0:
+				_status = "new"	
+			elif nsubmitted < self.nsubjobs and nsubmitted > 0:
+				_status = "submitting"
+			elif nsubmitted == self.nsubjobs and nrunning == 0 and nfailed == 0 and ncompleted < self.nsubjobs:
+				_status = "submitted"
+			elif nsubmitted == self.nsubjobs and nrunning > 0:
+				_status = "running"
+			elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted == self.nsubjobs and nfailed == 0:
+				_status = "completed"
+			elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted < self.nsubjobs and nfailed > 0:
+				_status = "failed"
+				
+			if _status != "submitting" and _status != "new":
+				self.__removescreens()
+				
+			if _status != self._status:
+				info_msg = "INFO\tstatus of job {0} changed from '{1}' to '{2}'".format( 
+																					self._jobnumber,
+																					self._status,
+																					_status)													
+				print(info_msg)
+				self._status = _status
+				self.__store_job(True)
+				
+			self._status = _status
 			
-			cmdpy = self.__screencommandfile()
-			
-			screename = cmdpy.replace(".py","")
-			screename = screename.replace(os.path.dirname(screename)+"/","")
-			
-			_id = SendInScreen( screename, cmdpy)
-			
-			print(red("Job submission is done in a screen session!"))
-			
-			self._screensessions.append({"name":screename, "id":_id})
-			
-		self.__store_job(storesubjobs = True)
-
+		return self._status
+																		
 	def __checksiminputs( self ):
 		
 		def StrippingVersion( *args ):
@@ -784,7 +800,7 @@ class SimulationJob(object):
 									   	self._simcond, 
 									   	args) )	
 						
-		if self._simcond == "Sim09b" and ( self._year == 2011 or self._year == 2017 ):
+		if self._simcond == "Sim09b" and self._year in [2011, 2017]:
 			raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
 										self._year, 
 										self._simcond) )
@@ -793,6 +809,12 @@ class SimulationJob(object):
 			raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
 										self._year, 
 										self._simcond) )
+			
+		elif self._simcond == "Sim09d" and self._year in [2011, 2012, 2015, 2016, 2017]:
+			raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
+										self._year, 
+										self._simcond) )							
+		
 										
 		if self._year == 2011:
 			if self._simcond == "Sim09c":
@@ -835,19 +857,24 @@ class SimulationJob(object):
 		
 	def __store_job(self, storesubjobs = False):
 		simprod = os.getenv("SIMPRODPATH")+"/simprod"
-		jobsdir = "{0}/._simjobs_".format(simprod)
+		_dir_ = "{0}/._simjobs_".format(simprod)
 		
-		if not os.path.isdir(jobsdir):
-			os.makedirs(jobsdir)
-				
-		jobfile = "{0}/{1}_{2}_{3}_{4}_{5}.json".format(
-					jobsdir,
+		if not os.path.isdir(_dir_):
+			os.makedirs(_dir_)
+		
+		job_storage_dir = "{0}/{1}_{2}_{3}_{4}_{5}".format(
+					_dir_,
 					self.evttype,
 					self.year,
 					self.nevents,
 					self.neventsjob,
 					self._runnumber,
 					)
+					
+		if not os.path.isdir(job_storage_dir):
+			os.makedirs(job_storage_dir)
+			
+		job_jsonfile = "{0}/job.json".format(job_storage_dir)
 					
 		outdict = {"evttype":         self.evttype,
 				   "year"   :	      self.year,
@@ -867,11 +894,10 @@ class SimulationJob(object):
 				   "lsf":             self.options["lsf"],
 				   "loginprod":       self.options["loginprod"],    
 				   "_screensessions": self._screensessions,
-				   "status":          self._status,
+				   "status":          self.status,
 				   "keeplogs":        self._keeplogs,
 				   "keepxmls":        self._keepxmls,
-				   "redecay":         self._redecay,
-				   "jobs":        {}
+				   "redecay":         self._redecay
 				   } 
 				
 		if not self.options["loginprod"]:
@@ -890,38 +916,24 @@ class SimulationJob(object):
 			outdict["totmemory"]    = self.options["totmemory"]
 					
 		jsondict = json.dumps(outdict)
-		f = open(jobfile, "w")
-		f.write(jsondict)
-		f.close()
+		
+		with open(job_jsonfile, 'w') as f:
+			f.write(jsondict)
+		
+		self._options["job_storage_dir"] = job_storage_dir
+		self._options["job_jsonfile"]  = job_jsonfile
 		
 		if storesubjobs:
 			for i in xrange(self.nsubjobs):
 				job = self[i]
 				job._store_subjob()
-				
-		self._options["jobfile"] = jobfile
-		
-	def remove( self ):
-		
-		if self._jobnumber:
-			info_msg = "INFO\tremoving job {0}".format(self._jobnumber)
-		else:
-			info_msg = "INFO\tremoving job"
-		print(info_msg)
-				
-		if self.status == "running":
-			for sj in self.subjobs:
-				if sj.status == "running":
-					sj.kill()
-
-		if os.path.isfile(self.options["jobfile"]):
-			os.remove(self.options["jobfile"])
-			
-		self.__removescreens()
-													
+																	
 	@classmethod
-	def from_file(cls, file, jobnumber = None, inscreen = False):	
-		data = json.load(open(file, 'r'))
+	def from_file(cls, file, jobnumber = None, inscreen = False):
+		
+		with open(file, 'r') as f:
+			data = json.load(f)
+			
 		simjob = cls( 
 					evttype    = data["evttype"],
 					year       = data["year"],
@@ -943,7 +955,8 @@ class SimulationJob(object):
 		simjob._options["slurm"]  = data["slurm"]
 		simjob._options["lsf"]    = data["lsf"]
 		simjob._options["loginprod"] = data["loginprod"]
-		simjob._options["jobfile"] = file
+		simjob._options["job_jsonfile"] = file
+		simjob._options["job_storage_dir"] = data.get("job_storage_dir", os.path.dirname(file))
 		simjob._screensessions = data["_screensessions"]
 		simjob._status = data.get("status", "new")
 		simjob._keeplogs = data.get("keeplogs", True)
@@ -969,19 +982,47 @@ class SimulationJob(object):
 			simjob._options["totmemory"]    = data.get("totmemory", None)
 		if inscreen:
 			simjob._inscreen = True
-			
-		### prepare like 				
-		jobs = data["jobs"]
-				
-		for n in jobs.keys():
-			simjob._subjobs[str(n)] = SimulationSubJob.from_dict(
-										parent = simjob, 
-										subjobnumber = str(n), 
-										jobdict = jobs[n])
-										
-		return simjob	
-										
 		
+		
+		if "jobs" in data:
+			for n, subjob in data["jobs"].items():
+				 simjob._subjobs[str(n)] = SimulationSubJob.from_file(
+											parent = simjob, 
+											subjobnumber = str(n), 
+											file   = subjob)
+											
+			self.__store_job(True)
+			
+		else:	
+				
+			for n in range(simjob._nsubjobs):
+				job_storage_dir = simjob._options["job_storage_dir"]
+					
+				subjobfile = "{0}/subjob_{1}.json".format(job_storage_dir, n)
+				
+				simjob._subjobs[str(n)] = SimulationSubJob.from_file(
+											parent = simjob, 
+											subjobnumber = str(n), 
+											file   = subjobfile)										
+		return simjob	
+		
+	def _update_subjobs(self, status="new"):	
+		job_storage_dir = self.options["job_storage_dir"]
+					
+		for n in xrange(self.nsubjobs):
+			sj = self[n]
+			if sj.status == status:		
+				
+				subjobfile = "{0}/subjob_{1}.json".format(job_storage_dir, n)
+				
+				with open(subjobfile, 'r') as f:
+					subjob = json.load(f)
+							
+				if subjob["_submitted"]:
+					self._subjobs[str(n)] = SimulationSubJob.from_file( parent = self, 
+																        	subjobnumber = str(n), 
+																        	file = subjobfile)
+																								
 	def __str__(self):
 		
 		if len(self._subjobs) > 0:
@@ -1093,7 +1134,7 @@ class SimulationJob(object):
 		f.write("time.sleep(1.5)\n\n")
 		
 		f.write("job = SimulationJob().from_file('{0}', inscreen = {1}, jobnumber = {2})\n".format(
-										self._options["jobfile"],
+										self._options["job_jsonfile"],
 										True,
 										self._jobnumber
 										))
@@ -1107,24 +1148,7 @@ class SimulationJob(object):
 		f.close()
 		
 		return screenfile
-		
-	def _update_subjobs(self, status="new"):		
-		data = json.load(open(self._options["jobfile"]))		
-		jobs = data["jobs"]
-		
-		for n in xrange(self.nsubjobs):
-			sj = self[n]
-			if sj.status == status:
-				try:
-					subjob = jobs[n]
-				except KeyError:
-					subjob = jobs[str(n)]
-					
-				if subjob["_submitted"]:
-					self._subjobs[str(n)] = SimulationSubJob.from_dict( parent = self, 
-																        subjobnumber = str(n), 
-																        jobdict = subjob)
-					
+							
 class SimulationSubJob(object):
 	"""
 	Simulation subjob.
@@ -1191,7 +1215,7 @@ class SimulationSubJob(object):
 		self._completed = False
 		self._failed    = False
 		
-		if not kwargs.get("from_dict", False):
+		if not kwargs.get("from_file", False):
 			self._store_subjob()
 		
 	@property
@@ -1467,10 +1491,11 @@ class SimulationSubJob(object):
 		
 	def _store_subjob(self):
 		
-		_jobfile = self._parent.options["jobfile"]
-		_dict = json.load(open(_jobfile))	
+		job_storage_dir = self._parent.options["job_storage_dir"]
+			
+		subjobfile = "{0}/subjob_{1}.json".format(job_storage_dir, self._subjobnumber)
 				
-		_subjob = {
+		outdict = {
 			       "runnumber":   self.runnumber,
 			       "polarity":    self.polarity,
 			       "_jobid":      self.jobid,
@@ -1489,42 +1514,46 @@ class SimulationSubJob(object):
 				   }
 					
 		if not self._send_options["loginprod"]:
-			_subjob["_logjobdir"]   = self._logjobdir
-			
-		_dict["jobs"][str(self._subjobnumber)] = _subjob
+			outdict["_logjobdir"]   = self._logjobdir
 						
-		jsondict = json.dumps(_dict)
-		f = open(_jobfile, "w")
-		f.write(jsondict)
-		f.close()
+		jsondict = json.dumps(outdict)
+		
+		with open(subjobfile, 'w') as f:
+			f.write(jsondict)
 		
 	@classmethod
-	def from_dict(cls, parent, subjobnumber, jobdict):
+	def from_file(cls, parent, subjobnumber, file):
+		
+		if isinstance(file, dict):
+			data = file
+		else:	
+			with open(file, 'r') as f:
+				data = json.load(f)
 		
 		simsubjob = cls( parent    = parent, 
-						 polarity  = jobdict["polarity"],
-		                 runnumber = jobdict["runnumber"],
+						 polarity  = data["polarity"],
+		                 runnumber = data["runnumber"],
 						 subjobnumber = subjobnumber,
-						 from_dict = True
+						 from_file = True
 						)
 						
-		simsubjob._jobid     = jobdict["_jobid"]
-		simsubjob._profile   = jobdict["_prodfile"]
-		simsubjob._jobdir    = jobdict["_jobdir"]
-		simsubjob._destfile  = jobdict["_destfile"]
-		simsubjob._submitted = jobdict["_submitted"]
-		simsubjob._running   = jobdict["_running"]
-		simsubjob._finished  = jobdict["_finished"]
-		simsubjob._completed = jobdict["_completed"]
-		simsubjob._failed    = jobdict["_failed"]
-		simsubjob._status    = jobdict["_status"]
-		simsubjob._infiles   = jobdict.get("_infiles",[])
-		simsubjob._keeplog   = jobdict.get("_keeplog", True)
-		simsubjob._keepxml   = jobdict.get("_keepxml", True)
-		simsubjob._send_options["infiles"] = jobdict.get("_infiles",[])
+		simsubjob._jobid     = data["_jobid"]
+		simsubjob._profile   = data["_prodfile"]
+		simsubjob._jobdir    = data["_jobdir"]
+		simsubjob._destfile  = data["_destfile"]
+		simsubjob._submitted = data["_submitted"]
+		simsubjob._running   = data["_running"]
+		simsubjob._finished  = data["_finished"]
+		simsubjob._completed = data["_completed"]
+		simsubjob._failed    = data["_failed"]
+		simsubjob._status    = data["_status"]
+		simsubjob._infiles   = data.get("_infiles",[])
+		simsubjob._keeplog   = data.get("_keeplog", True)
+		simsubjob._keepxml   = data.get("_keepxml", True)
+		simsubjob._send_options["infiles"] = data.get("_infiles",[])
 								
 		if not simsubjob._send_options["loginprod"]:
-			simsubjob._logjobdir   = jobdict["_logjobdir"]
+			simsubjob._logjobdir = data["_logjobdir"]
 		
 		return simsubjob
 		
