@@ -987,7 +987,7 @@ class SimulationJob(object):
 				 simjob._subjobs[str(n)] = SimulationSubJob.from_file(
 											parent = simjob, 
 											subjobnumber = str(n), 
-											file   = subjobfile)
+											file   = subjob)
 			
 		else:	
 				
