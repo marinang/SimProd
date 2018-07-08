@@ -982,7 +982,7 @@ class SimulationJob(object):
 			simjob._inscreen = True
 		
 		
-		if hasattr(data, "jobs"):
+		if "jobs" in data:
 			for n, subjob in data["jobs"].items():
 				 simjob._subjobs[str(n)] = SimulationSubJob.from_file(
 											parent = simjob, 
