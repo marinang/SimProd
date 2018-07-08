@@ -893,7 +893,7 @@ class SimulationJob(object):
 				   "lsf":             self.options["lsf"],
 				   "loginprod":       self.options["loginprod"],    
 				   "_screensessions": self._screensessions,
-				   "status":          self._status,
+				   "status":          self.status,
 				   "keeplogs":        self._keeplogs,
 				   "keepxmls":        self._keepxmls,
 				   "redecay":         self._redecay
