@@ -980,17 +980,26 @@ class SimulationJob(object):
 			simjob._options["totmemory"]    = data.get("totmemory", None)
 		if inscreen:
 			simjob._inscreen = True
+		
+		
+		if hasattr(data, "jobs"):
+			for n, subjob in data["jobs"].items():
+				 simjob._subjobs[str(n)] = SimulationSubJob.from_file(
+											parent = simjob, 
+											subjobnumber = str(n), 
+											file   = subjobfile)
 			
+		else:	
 				
-		for n in range(simjob._nsubjobs):
-			job_storage_dir = simjob._options["job_storage_dir"]
+			for n in range(simjob._nsubjobs):
+				job_storage_dir = simjob._options["job_storage_dir"]
+					
+				subjobfile = "{0}/subjob_{1}.json".format(job_storage_dir, n)
 				
-			subjobfile = "{0}/subjob_{1}.json".format(job_storage_dir, n)
-			
-			simjob._subjobs[str(n)] = SimulationSubJob.from_file(
-										parent = simjob, 
-										subjobnumber = str(n), 
-										file   = subjobfile)										
+				simjob._subjobs[str(n)] = SimulationSubJob.from_file(
+											parent = simjob, 
+											subjobnumber = str(n), 
+											file   = subjobfile)										
 		return simjob	
 		
 	def _update_subjobs(self, status="new"):	
@@ -1511,8 +1520,11 @@ class SimulationSubJob(object):
 	@classmethod
 	def from_file(cls, parent, subjobnumber, file):
 		
-		with open(file, 'r') as f:
-			data = json.load(f)
+		if isinstance(file, dict):
+			data = file
+		else:	
+			with open(file, 'r') as f:
+				data = json.load(f)
 		
 		simsubjob = cls( parent    = parent, 
 						 polarity  = data["polarity"],
