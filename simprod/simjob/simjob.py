@@ -555,7 +555,7 @@ class SimulationJob(object):
 			if self._redecay:
 				self._destdir += "_ReDecay"
 				
-		self.__store_job()
+		self._store_job()
 		
 		infiles = kwargs.get('infiles', [])
 
@@ -615,7 +615,7 @@ class SimulationJob(object):
 			
 			self._screensessions.append({"name":screename, "id":_id})
 			
-		self.__store_job(storesubjobs = True)	
+		self._store_job(storesubjobs = True)	
 		
 					
 	def cancelpreparation( self, **kwargs ):	
@@ -690,7 +690,7 @@ class SimulationJob(object):
 				
 				self._screensessions.append({"name":screename, "id":_id})
 				
-			self.__store_job(storesubjobs = True)
+			self._store_job(storesubjobs = True)
 		else:
 			print("INFO\tNothing to re-send!")
 	
@@ -774,7 +774,7 @@ class SimulationJob(object):
 																					_status)													
 				print(info_msg)
 				self._status = _status
-				self.__store_job(True)
+				self._store_job(True)
 				
 			self._status = _status
 			
@@ -855,7 +855,7 @@ class SimulationJob(object):
 		setattr(SimulationJob, var, property(*get_set))
 		self.__dict__[var] = getattr(SimulationJob, var)
 		
-	def __store_job(self, storesubjobs = False):
+	def _store_job(self, storesubjobs = False):
 		simprod = os.getenv("SIMPRODPATH")+"/simprod"
 		_dir_ = "{0}/._simjobs_".format(simprod)
 		
@@ -991,7 +991,7 @@ class SimulationJob(object):
 											subjobnumber = str(n), 
 											file   = subjob)
 											
-			self.__store_job(True)
+			simjob._store_job(True)
 			
 		else:	
 				
