@@ -55,6 +55,8 @@ class JobCollection(object):
 							continue
 						
 						if _collectedjobs[cj]["status"] == "completed":
+							print("HEHO")
+							print(cj)
 							job = None
 						else:
 							job = SimulationJob().from_file(_file, cj)
@@ -109,6 +111,12 @@ class JobCollection(object):
 				year    = job.year
 				nevents = job.nevents
 				subjobs = job.nsubjobs
+				self._jsondict[str(k)]["status"]   = status
+				self._jsondict[str(k)]["evttype"]  = evttype
+				self._jsondict[str(k)]["year"]     = year
+				self._jsondict[str(k)]["nevents"]  = nevents
+				self._jsondict[str(k)]["nsubjobs"] = subjobs
+			
 			else:
 				status  = self._jsondict[str(k)]["status"]
 				evttype = self._jsondict[str(k)]["evttype"]
@@ -796,11 +804,24 @@ class SimulationJob(object):
 		if not isinstance(job_number, int):
 			raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(job_number.__class__.__name__))
 		try:
-			return self._subjobs[str(job_number)]
+			self._subjobs[str(job_number)]
 		except KeyError:
 			print("WARNING\tsubjob {0}.{1} has been lost!".format(self._jobnumber, job_number))
 			self._preparesubjobs( job_number )
-			return self._subjobs[str(job_number)]
+			
+		if self._subjobs[str(job_number)] is None:
+			
+			job_storage_dir = self._options["job_storage_dir"]
+				
+			subjobfile = "{0}/subjob_{1}.json".format(job_storage_dir, job_number)
+			
+			subjob = SimulationSubJob.from_file( parent = self, 
+												 subjobnumber = str(job_number), 
+											     file   = subjobfile)
+											
+			self._subjobs[str(job_number)] = subjob
+
+		return self._subjobs[str(job_number)]
 			
 	def select(self, status):
 		return [self[n] for n in xrange(self.nsubjobs) if self[n].status == status]
@@ -1014,7 +1035,8 @@ class SimulationJob(object):
 		if storesubjobs:
 			for i in xrange(self.nsubjobs):
 				job = self[i]
-				job._store_subjob()
+				if job:
+					job._store_subjob()
 																	
 	@classmethod
 	def from_file(cls, file, jobnumber = None, inscreen = False):
@@ -1085,16 +1107,21 @@ class SimulationJob(object):
 			simjob._store_job(True)
 			
 			
-		else:		
+		else:
+			to_store = False
+					
 			for n in range(simjob._nsubjobs):
 				job_storage_dir = simjob._options["job_storage_dir"]
 					
 				subjobfile = "{0}/subjob_{1}.json".format(job_storage_dir, n)
 				
-				if not str(n) in simjob._subjobs_dict:
-					subjob = SimulationSubJob.from_file( parent = simjob, 
-														 subjobnumber = str(n), 
-														 file   = subjobfile)
+				
+				subjob = SimulationSubJob.from_file( parent = simjob, 
+													 subjobnumber = str(n), 
+												     file   = subjobfile)
+														
+				if not str(n) in simjob._subjobs_dict:								
+					to_store = True
 														
 					simjob._subjobs[str(n)] = subjob
 					_dict = {}					
@@ -1103,12 +1130,15 @@ class SimulationJob(object):
 					_dict["polarity"] = subjob.polarity	
 					simjob._subjobs_dict[str(n)] = _dict
 					
-					t.update(1)
-					
-				elif simjob._subjobs_dict[str(n)]["status"] == "completed":
-					
-					simjob._subjobs[str(n)] = None					
-					t.update(1)
+				if simjob._subjobs_dict[str(n)]["status"] == "completed":
+					simjob._subjobs[str(n)] = None	
+				else:
+					simjob._subjobs[str(n)] = subjob
+									
+				t.update(1)
+										
+			if to_store:
+				simjob._store_job(False)
 																					
 		t.close()
 												
@@ -1161,7 +1191,7 @@ class SimulationJob(object):
 			toprint.append(header)
 			toprint.append(line)
 
-			for i in xrange(self.nsubjobs):
+			for n in xrange(self.nsubjobs):
 				
 				if self._subjobs[str(n)] is None:
 					job = self._subjobs_dict[str(n)]
@@ -1170,7 +1200,7 @@ class SimulationJob(object):
 					runnumber = self.__runnumber(n)
 					polarity  = job["polarity"]
 				else:				
-					job = self[i]				
+					job = self[n]				
 					status    = job.status
 					jobID     = job.jobid
 					runnumber = job.runnumber
@@ -1189,7 +1219,7 @@ class SimulationJob(object):
 				elif status == "failed":
 					color = red
 						
-				p_job       = "{n:{fill}{al}{w}} ".format(w=(len(h_job)-1), al='>', fill='', n=i)
+				p_job       = "{n:{fill}{al}{w}} ".format(w=(len(h_job)-1), al='>', fill='', n=n)
 				
 				p_jobID     = "{n:{fill}{al}{w}} ".format(w=(len(h_jobID)-1), al='>', fill='', n=jobID)
 				
