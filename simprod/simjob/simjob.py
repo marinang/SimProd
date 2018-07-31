@@ -161,33 +161,59 @@ class JobCollection(object):
 			return
 		p.text(self.__str__())
 		
-	def __getitem__(self, i):
-		if i != None and not isinstance(i, int):
-			raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(i.__class__.__name__))
-		if i not in self._keys and i > max(self._keys):
-			self.__update()
-		if i not in self._keys:
-			raise ValueError("job {0} not found!".format(i))
-		else:
-			if self._jobs[str(i)] is None:
-				print(green("\nLoading Job {0}:".format(i)))
-				_file = self._jsondict[str(i)]["file"]
-				job = SimulationJob().from_file(_file, i)
-				self._jobs[str(i)] = job 
-			else:
-				job = self._jobs[str(i)]
+#	def __getitem__(self, i):
+#		
+#		
+#		if i != None and not isinstance(i, int):
+#			raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(i.__class__.__name__))
+#		if i not in self._keys and i > max(self._keys):
+#			self.__update()
+#		if i not in self._keys:
+#			raise ValueError("job {0} not found!".format(i))
+#		else:
+#			if self._jobs[str(i)] is None:
+#				print(green("Loading Job {0}:".format(i)))
+#				_file = self._jsondict[str(i)]["file"]
+#				job = SimulationJob().from_file(_file, i)
+#				self._jobs[str(i)] = job 
+#			else:
+#				job = self._jobs[str(i)]
+#			
+#			return job
 			
-			return job
+	def __geti__(self, i, printlevel = 1):
+			if i != None and not isinstance(i, int):
+				raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(i.__class__.__name__))
+			if i not in self._keys and i > max(self._keys):
+				self.__update()
+			if i not in self._keys:
+				raise ValueError("job {0} not found!".format(i))
+			else:
+				if self._jobs[str(i)] is None:
+					if printlevel > 1:
+						print(green("Loading Job {0}:".format(i)))
+					_file = self._jsondict[str(i)]["file"]
+					job = SimulationJob().from_file(_file, i, printlevel = printlevel)
+					self._jobs[str(i)] = job 
+				else:
+					job = self._jobs[str(i)]
+				
+				return job
+				
+	def __getitem__(self, i):
+		return self.__geti__(i, printlevel = 1)
 			
 	def __iter__(self):
+		printlevel = -1
 		for k in self._keys:
-			yield self._jobs[str(k)]		
+			yield self.__geti__(k, printlevel)		
 	
 	def __len__(self):
 		return len(self._keys)
 			
 	def select(self, status):
-		return [self[k] for k in self._keys if self[k].status == status]
+		printlevel = -1
+		return [self.__geti__(k, printlevel) for k in self._keys if self.__geti__(k, printlevel).status == status]
 		
 	def __update(self, in_init = False):		
 		jsonfiles = glob.iglob("{0}/*/job.json".format(self._jobsdir))
@@ -729,8 +755,10 @@ class SimulationJob(object):
 			info_msg = "INFO\tremoving job"
 		print(info_msg)
 				
-		for sj in self.subjobs:
-			if sj.status == "running":
+		for n in xrange(self._nsubjobs):
+			sj = self._subjobs[str(n)]
+			
+			if sj and sj.status == "running":
 				sj.kill()
 
 		if os.path.isdir(self.options["job_storage_dir"]):
@@ -820,6 +848,10 @@ class SimulationJob(object):
 			self._subjobs[str(job_number)] = subjob
 
 		return self._subjobs[str(job_number)]
+		
+	def __iter__(self):
+		for n in xrange(self._nsubjobs):
+			yield self[n]
 			
 	def select(self, status):
 		return [self[n] for n in xrange(self.nsubjobs) if self[n].status == status]
@@ -1037,7 +1069,7 @@ class SimulationJob(object):
 					job._store_subjob()
 																	
 	@classmethod
-	def from_file(cls, file, jobnumber = None, inscreen = False):
+	def from_file(cls, file, jobnumber = None, inscreen = False, printlevel = 1):
 		
 		with open(file, 'r') as f:
 			data = json.load(f)
@@ -1092,7 +1124,8 @@ class SimulationJob(object):
 		if inscreen:
 			simjob._inscreen = True
 		
-		t = tqdm(total=simjob._nsubjobs, bar_format="{l_bar}%s{bar}%s{r_bar}" % (Fore.BLUE, Fore.RESET), desc = cyan("\tLoading subjobs"))
+		if printlevel > 0:
+			t = tqdm(total=simjob._nsubjobs, bar_format="{l_bar}%s{bar}%s{r_bar}" % (Fore.BLUE, Fore.RESET), desc = cyan("\tLoading subjobs"))
 
 		if "jobs" in data:
 			for n, subjob in data["jobs"].items():				
@@ -1100,7 +1133,8 @@ class SimulationJob(object):
 											parent = simjob, 
 											subjobnumber = str(n), 
 											file   = subjob)
-				t.update(1)
+				if printlevel > 0:
+					t.update(1)
 											
 			simjob._store_job(True)
 			
@@ -1132,13 +1166,15 @@ class SimulationJob(object):
 					simjob._subjobs[str(n)] = None	
 				else:
 					simjob._subjobs[str(n)] = subjob
-									
-				t.update(1)
+				
+				if printlevel > 0:					
+					t.update(1)
 										
 			if to_store:
 				simjob._store_job(False)
-																					
-		t.close()
+		
+		if printlevel > 0:																			
+			t.close()
 												
 		return simjob	
 		
