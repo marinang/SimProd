@@ -604,12 +604,17 @@ class SimulationJob(object):
 			if not isinstance(self._polarity, list):
 				
 				if not self._polarity:
-					polarity = ["MagUp" for i in xrange(0,int(self.nsubjobs / 2))]
-					polarity += ["MagDown" for i in xrange(int(self.nsubjobs / 2), self.nsubjobs)]
-					self._polarity = shuffle(polarity)
+					polarities = ["MagUp", "MagDown"]
+					i = randint(0, 1)
+					p1 = polarities.pop(i)
+					p2 = polarities[0]
+					
+					polarity = [p1 for i in xrange(0,int(self.nsubjobs / 2))]
+					polarity += [p2 for i in xrange(int(self.nsubjobs / 2), self.nsubjobs)]
+					shuffle(polarity)
+					self._polarity = polarity
 				else:
 					self._polarity = [self._polarity for i in xrange(0, self.nsubjobs)]
-					
 				
 			subdir = "simProd_{0}_{1}".format( self._evttype, self._simcond)
 			if self._turbo:
