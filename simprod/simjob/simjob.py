@@ -15,6 +15,7 @@ import glob
 import json
 import bisect
 from tqdm import tqdm
+from colorama import Fore
 
 class JobCollection(object):
 	"""
@@ -983,18 +984,20 @@ class SimulationJob(object):
 		if inscreen:
 			simjob._inscreen = True
 		
-		
+		t = tqdm(total=simjob._nsubjobs, bar_format="{l_bar}%s{bar}%s{r_bar}" % (Fore.BLUE, Fore.RESET), desc = cyan("\tLoading subjobs"))
+
 		if "jobs" in data:
 			for n, subjob in data["jobs"].items():
-				 simjob._subjobs[str(n)] = SimulationSubJob.from_file(
+				simjob._subjobs[str(n)] = SimulationSubJob.from_file(
 											parent = simjob, 
 											subjobnumber = str(n), 
 											file   = subjob)
+				t.write(red("\tLoading Subjobs")) ; t.update(1)
 											
 			simjob._store_job(True)
 			
-		else:	
-				
+			
+		else:		
 			for n in range(simjob._nsubjobs):
 				job_storage_dir = simjob._options["job_storage_dir"]
 					
@@ -1003,7 +1006,12 @@ class SimulationJob(object):
 				simjob._subjobs[str(n)] = SimulationSubJob.from_file(
 											parent = simjob, 
 											subjobnumber = str(n), 
-											file   = subjobfile)										
+											file   = subjobfile)
+				t.update(1)
+											
+											
+		t.close()
+												
 		return simjob	
 		
 	def _update_subjobs(self, status="new"):	
@@ -1022,6 +1030,8 @@ class SimulationJob(object):
 					self._subjobs[str(n)] = SimulationSubJob.from_file( parent = self, 
 																        	subjobnumber = str(n), 
 																        	file = subjobfile)
+																
+			
 																								
 	def __str__(self):
 		
@@ -1522,7 +1532,7 @@ class SimulationSubJob(object):
 			f.write(jsondict)
 		
 	@classmethod
-	def from_file(cls, parent, subjobnumber, file):
+	def from_file(cls, parent, subjobnumber, file, tqdm = None):
 		
 		if isinstance(file, dict):
 			data = file

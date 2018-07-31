@@ -64,7 +64,8 @@ install_list = [
 			'ipython>=5.0;python_version>="3.4"',
 			'screenutils',
 			'Cython',
-			'tqdm' ]
+			'tqdm',
+			'colorama']
 			
 dependency = []
 
