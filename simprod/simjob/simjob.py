@@ -38,13 +38,16 @@ class JobCollection(object):
 				_collectedjobs = json.load(f)
 			self._jsondict = _collectedjobs
 			
-			if len(_collectedjobs) > 0:			
+			if len(_collectedjobs) > 0:	
+						
 				print(red("\nLoading Jobs:"))
 				t = tqdm(total=len(_collectedjobs))
+				
 				for cj in _collectedjobs.keys():
 					bisect.insort(self._keys, int(cj))
+					fields = ["file", "status", "evttype", "year", "nevents", "nsubjobs"]
 					
-					if all(i in _collectedjobs[cj] for i in ["file", "status", "evttype", "year", "nevents", "nsubjobs"]):
+					if all(i in _collectedjobs[cj] for i in fields):
 						
 						_file = _collectedjobs[cj]["file"]
 						if not os.path.isfile(_file):
@@ -69,19 +72,10 @@ class JobCollection(object):
 							t.update(1)
 							continue
 							
-						job = SimulationJob().from_file(_file, cj)
-						self._jobs[str(cj)] = job
-						_dict = {}
-						_dict["file"]     = _file
-						_dict["status"]   = job.last_status
-						_dict["evttype"]  = job.evttype
-						_dict["year"]     = job.year
-						_dict["nevents"]  = job.nevents
-						_dict["nsubjobs"] = job.nsubjobs
-						
-						self._jsondict[str(cj)] = _dict
-					
+						self._add_job(_file, cj)
+							
 					t.update(1)
+					
 				t.close()
 		self.__update(in_init = True)
 							
@@ -116,11 +110,11 @@ class JobCollection(object):
 				nevents = job.nevents
 				subjobs = job.nsubjobs
 			else:
-				status  = self._jobs[str(k)]["status"]
-				evttype = self._jobs[str(k)]["evttype"]
-				year    = self._jobs[str(k)]["year"]
-				nevents = self._jobs[str(k)]["nevents"]
-				subjobs = self._jobs[str(k)]["nsubjobs"]
+				status  = self._jsondict[str(k)]["status"]
+				evttype = self._jsondict[str(k)]["evttype"]
+				year    = self._jsondict[str(k)]["year"]
+				nevents = self._jsondict[str(k)]["nevents"]
+				subjobs = self._jsondict[str(k)]["nsubjobs"]
 			
 			if status == "submitted":
 				color = cyan
@@ -169,11 +163,11 @@ class JobCollection(object):
 		if i not in self._keys:
 			raise ValueError("job {0} not found!".format(i))
 		else:
-			
 			if self._jobs[str(i)] is None:
 				print(green("\nLoading Job {0}:".format(i)))
 				_file = self._jsondict[str(i)]["file"]
 				job = SimulationJob().from_file(_file, i)
+				self._jobs[str(i)] = job 
 			else:
 				job = self._jobs[str(i)]
 			
@@ -188,7 +182,6 @@ class JobCollection(object):
 			
 	def select(self, status):
 		return [self._jobs[str(k)] for k in self._keys if self._jobs[str(k)].status == status]
-		
 		
 	def __update(self, in_init = False):		
 		jsonfiles = glob.iglob("{0}/*/job.json".format(self._jobsdir))
@@ -208,7 +201,7 @@ class JobCollection(object):
 		self._jsondict = { k : v for k,v in self._jsondict.iteritems() if int(k) in self._keys }
 		self._jobs     = { k : v for k,v in self._jobs.iteritems() if int(k) in self._keys }
 		
-		files = [ i["file"] for i in self._jsondict.values()]
+		files = [i["file"] for i in self._jsondict.values()]
 		
 		for js in jsonfiles:			
 			if js not in files:
@@ -216,23 +209,27 @@ class JobCollection(object):
 					index = 0
 				else:
 					index = self._keys[-1] + 1
-				print(green("\nLoading new Job {0}:".format(index)))
-				job = SimulationJob().from_file(js, index)
-				self._jobs[str(index)] = job 
-				
-				_dict = {}
-				_dict["file"] = js
-				_dict["status"] = job.last_status
-				_dict["evttype"]  = job.evttype
-				_dict["year"]     = job.year
-				_dict["nevents"]  = job.nevents
-				_dict["nsubjobs"] = job.nsubjobs
-				self._jsondict[str(index)] = _dict
+				print(green("\nLoading new Job {0}:".format(index)))	
+				self._add_job(js, index)
 				
 				bisect.insort(self._keys, index)
 				
 		self._store_collection()
-									
+		
+	def _add_job(self, jsonfile, index):
+		
+		job = SimulationJob().from_file(jsonfile, index)
+		self._jobs[str(index)] = job 
+		
+		_dict = {}
+		_dict["file"] = js
+		_dict["status"] = job.last_status
+		_dict["evttype"]  = job.evttype
+		_dict["year"]     = job.year
+		_dict["nevents"]  = job.nevents
+		_dict["nsubjobs"] = job.nsubjobs
+		self._jsondict[str(index)] = _dict
+		
 	def _store_collection(self):
 				
 		if not os.path.isdir(self._jobsdir):
@@ -251,6 +248,7 @@ class SimulationJob(object):
 	
 	def __init__(self, **kwargs):			
 		self._subjobs = {}
+		self._subjobs_dict = {}
 		self._options = {}
 					
 		self._nevents    = kwargs.get('nevents', None)
@@ -632,18 +630,31 @@ class SimulationJob(object):
 			self._preparesubjobs(n, infiles = infiles, keeplog = self._keeplogs, keepxml = self._keepxmls)
 						
 	def _preparesubjobs( self, sjn, **kwargs ):
-		
+						
 		if self._polarity:	
-			print("YOOOOO")	
 			polarity  = self._polarity[sjn]
 		else:
 			if sjn <= int(self.nsubjobs/2):
 				polarity = "MagUp"
 			else:
 				polarity = "MagDown"
+				
+		_dict = {}
+		
+		status    = job.status
+		jobID     = job.jobid
+		runnumber = job.runnumber
+		polarity  = job.polarity
+		nevents   = self.neventsjob
+		
+		_dict["jobid"] = None
+		_dict["status"] = "new"
+		_dict["polarity"] = polarity
 			
 		runnumber = self.__runnumber(sjn)
 		self._subjobs[str(sjn)] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, subjobnumber=sjn, **kwargs )	
+		
+		self._subjobs_dict[str(sjn)] = _dict
 						
 	def send( self, job_number = None ):
 				
@@ -801,15 +812,20 @@ class SimulationJob(object):
 	@property
 	def status( self):	
 		if not(self._status == "completed"):
-				
+							
 			nrunning   = 0
 			ncompleted = 0 
 			nfailed    = 0
 			nsubmitted = 0
 			
-			for j in self.subjobs:
+			for n in xrange(self._nsubjobs):
 				
-				status = j.status
+				if self._subjobs[str(n)] is None:
+					status = self._subjobs_dict[str(n)]["status"]
+					
+				else:
+					status = self[n].status
+							
 				if status == "submitted":
 					nsubmitted += 1
 				elif status == "running":
@@ -968,7 +984,8 @@ class SimulationJob(object):
 				   "status":          self.status,
 				   "keeplogs":        self._keeplogs,
 				   "keepxmls":        self._keepxmls,
-				   "redecay":         self._redecay
+				   "redecay":         self._redecay,
+				   "subjobs_dict":    self._subjobs_dict
 				   } 
 				
 		if not self.options["loginprod"]:
@@ -1033,6 +1050,7 @@ class SimulationJob(object):
 		simjob._keeplogs = data.get("keeplogs", True)
 		simjob._keepxmls = data.get("keepxmls", True)
 		simjob._redecay  = data.get("redecay", False)
+		simjob._subjobs_dict  = data.get("subjobs_dict", {})
 				
 		if not simjob._options["loginprod"]:
 			simjob._options["logdir"]     = data["logdir"]
@@ -1057,12 +1075,12 @@ class SimulationJob(object):
 		t = tqdm(total=simjob._nsubjobs, bar_format="{l_bar}%s{bar}%s{r_bar}" % (Fore.BLUE, Fore.RESET), desc = cyan("\tLoading subjobs"))
 
 		if "jobs" in data:
-			for n, subjob in data["jobs"].items():
+			for n, subjob in data["jobs"].items():				
 				simjob._subjobs[str(n)] = SimulationSubJob.from_file(
 											parent = simjob, 
 											subjobnumber = str(n), 
 											file   = subjob)
-				t.write(red("\tLoading Subjobs")) ; t.update(1)
+				t.update(1)
 											
 			simjob._store_job(True)
 			
@@ -1073,13 +1091,25 @@ class SimulationJob(object):
 					
 				subjobfile = "{0}/subjob_{1}.json".format(job_storage_dir, n)
 				
-				simjob._subjobs[str(n)] = SimulationSubJob.from_file(
-											parent = simjob, 
-											subjobnumber = str(n), 
-											file   = subjobfile)
-				t.update(1)
-											
-											
+				if not str(n) in simjob._subjobs_dict:
+					subjob = SimulationSubJob.from_file( parent = simjob, 
+														 subjobnumber = str(n), 
+														 file   = subjobfile)
+														
+					simjob._subjobs[str(n)] = subjob
+					_dict = {}					
+					_dict["jobid"]    = subjob.jobid
+					_dict["status"]   = subjob.last_status
+					_dict["polarity"] = subjob.polarity	
+					simjob._subjobs_dict[str(n)] = _dict
+					
+					t.update(1)
+					
+				elif simjob._subjobs_dict[str(n)]["status"] == "completed":
+					
+					simjob._subjobs[str(n)] = None					
+					t.update(1)
+																					
 		t.close()
 												
 		return simjob	
@@ -1101,8 +1131,7 @@ class SimulationJob(object):
 																        	subjobnumber = str(n), 
 																        	file = subjobfile)
 																
-			
-																								
+																																								
 	def __str__(self):
 		
 		if len(self._subjobs) > 0:
@@ -1133,13 +1162,20 @@ class SimulationJob(object):
 			toprint.append(line)
 
 			for i in xrange(self.nsubjobs):
-								
-				job = self[i]
-								
-				status    = job.status
-				jobID     = job.jobid
-				runnumber = job.runnumber
-				polarity  = job.polarity
+				
+				if self._subjobs[str(n)] is None:
+					job = self._subjobs_dict[str(n)]
+					status    = job["status"] 
+					jobID     = job["jobid"]
+					runnumber = self.__runnumber(n)
+					polarity  = job["polarity"]
+				else:				
+					job = self[i]				
+					status    = job.status
+					jobID     = job.jobid
+					runnumber = job.runnumber
+					polarity  = job.polarity
+					
 				nevents   = self.neventsjob
 				
 				if status == "submitted":
@@ -1350,6 +1386,10 @@ class SimulationSubJob(object):
 	@property
 	def runnumber( self):
 		return self._runnumber
+		
+	@property
+	def last_status( self):
+		return self._status
 					
 	@property
 	def status( self):
