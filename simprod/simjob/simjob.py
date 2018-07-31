@@ -55,8 +55,6 @@ class JobCollection(object):
 							continue
 						
 						if _collectedjobs[cj]["status"] == "completed":
-							print("HEHO")
-							print(cj)
 							job = None
 						else:
 							job = SimulationJob().from_file(_file, cj)
