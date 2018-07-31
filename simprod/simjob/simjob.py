@@ -181,11 +181,7 @@ class JobCollection(object):
 		return len(self._keys)
 			
 	def select(self, status):
-<<<<<<< HEAD
 		return [self[k] for k in self._keys if self[k].status == status]
-=======
-		return [self._jobs[str(k)] for k in self._keys if self._jobs[str(k)].status == status]
->>>>>>> c273aa9c663dd85dbbde7e4252824d970dbebe57
 		
 	def __update(self, in_init = False):		
 		jsonfiles = glob.iglob("{0}/*/job.json".format(self._jobsdir))
