@@ -160,27 +160,7 @@ class JobCollection(object):
 			p.text('job collection...')
 			return
 		p.text(self.__str__())
-		
-#	def __getitem__(self, i):
-#		
-#		
-#		if i != None and not isinstance(i, int):
-#			raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(i.__class__.__name__))
-#		if i not in self._keys and i > max(self._keys):
-#			self.__update()
-#		if i not in self._keys:
-#			raise ValueError("job {0} not found!".format(i))
-#		else:
-#			if self._jobs[str(i)] is None:
-#				print(green("Loading Job {0}:".format(i)))
-#				_file = self._jsondict[str(i)]["file"]
-#				job = SimulationJob().from_file(_file, i)
-#				self._jobs[str(i)] = job 
-#			else:
-#				job = self._jobs[str(i)]
-#			
-#			return job
-			
+					
 	def __geti__(self, i, printlevel = 1):
 			if i != None and not isinstance(i, int):
 				raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(i.__class__.__name__))
@@ -254,8 +234,8 @@ class JobCollection(object):
 		self._jobs[str(index)] = job 
 		
 		_dict = {}
-		_dict["file"] = js
-		_dict["status"] = job.last_status
+		_dict["file"]     = jsonfile
+		_dict["status"]   = job.last_status
 		_dict["evttype"]  = job.evttype
 		_dict["year"]     = job.year
 		_dict["nevents"]  = job.nevents
@@ -672,13 +652,7 @@ class SimulationJob(object):
 				polarity = "MagDown"
 				
 		_dict = {}
-		
-		status    = job.status
-		jobID     = job.jobid
-		runnumber = job.runnumber
-		polarity  = job.polarity
-		nevents   = self.neventsjob
-		
+				
 		_dict["jobid"] = None
 		_dict["status"] = "new"
 		_dict["polarity"] = polarity
@@ -871,11 +845,14 @@ class SimulationJob(object):
 			
 			for n in xrange(self._nsubjobs):
 				
-				if self._subjobs[str(n)] is None:
-					status = self._subjobs_dict[str(n)]["status"]
-					
-				else:
-					status = self[n].status
+				try:
+					if self._subjobs[str(n)] is None:
+						status = self._subjobs_dict[str(n)]["status"]
+						
+					else:
+						status = self[n].status
+				except KeyError:
+					status = "new"
 							
 				if status == "submitted":
 					nsubmitted += 1
