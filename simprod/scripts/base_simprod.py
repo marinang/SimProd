@@ -59,7 +59,7 @@ if __name__ == "__main__" :
 	
 	opts = parser.parse_args()
 	
-	banner1  = '\n'
+	banner1  = '\n\n'
 	banner1 += green(' Welcome on the mini LHCb simulation production framework!\n')
 	banner1 += '\n'
 	banner1 += green(' author: Matthieu Marinangeli, matthieu.marinangeli@cern.ch.\n')

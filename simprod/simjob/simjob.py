@@ -8,7 +8,7 @@
 from .scripts import *
 import os
 import time
-from random import randint
+from random import randint, shuffle
 from .setup import DoProd
 import warnings
 import glob
@@ -27,13 +27,15 @@ class JobCollection(object):
 		self._jobs     = {}
 		self._jsondict = {}
 		self._keys     = []	
+		self._slurm    = IsSlurm()
 		
 		simprod = os.getenv("SIMPRODPATH")+"/simprod"		
 		self._jobsdir   = "{0}/._simjobs_".format(simprod)
 		self._collection_file = "{0}/collection.json".format(self._jobsdir)
 
 		if os.path.isfile( self._collection_file ):
-			_collectedjobs = json.load(open(self._collection_file))
+			with open(self._collection_file, 'r') as f:
+				_collectedjobs = json.load(f)
 			self._jsondict = _collectedjobs
 			
 			if len(_collectedjobs) > 0:			
@@ -41,11 +43,44 @@ class JobCollection(object):
 				t = tqdm(total=len(_collectedjobs))
 				for cj in _collectedjobs.keys():
 					bisect.insort(self._keys, int(cj))
-					if not os.path.isfile(_collectedjobs[cj]):
-						t.update(1)
-						continue
-					self._jobs[str(cj)]     = SimulationJob().from_file(_collectedjobs[cj], cj)
-					self._jsondict[str(cj)] = _collectedjobs[cj]
+					
+					if all(i in _collectedjobs[cj] for i in ["file", "status", "evttype", "year", "nevents", "nsubjobs"]):
+						
+						_file = _collectedjobs[cj]["file"]
+						if not os.path.isfile(_file):
+							t.update(1)
+							continue
+						
+						if _collectedjobs[cj]["status"] == "completed":
+							job = None
+						else:
+							job = SimulationJob().from_file(_file, cj)
+							
+						self._jobs[str(cj)] = job
+						self._jsondict[str(cj)] = _collectedjobs[cj] 
+						
+					else:
+						if "file" in _collectedjobs[cj]:
+							_file = _collectedjobs[cj]["file"]
+						else:
+							_file = _collectedjobs[cj]
+
+						if not os.path.isfile(_file):
+							t.update(1)
+							continue
+							
+						job = SimulationJob().from_file(_file, cj)
+						self._jobs[str(cj)] = job
+						_dict = {}
+						_dict["file"]     = _file
+						_dict["status"]   = job.last_status
+						_dict["evttype"]  = job.evttype
+						_dict["year"]     = job.year
+						_dict["nevents"]  = job.nevents
+						_dict["nsubjobs"] = job.nsubjobs
+						
+						self._jsondict[str(cj)] = _dict
+					
 					t.update(1)
 				t.close()
 		self.__update(in_init = True)
@@ -73,11 +108,19 @@ class JobCollection(object):
 		for k in self._keys:
 			
 			job     = self._jobs[str(k)]
-			status  = job.status
-			evttype = job.evttype
-			year    = job.year
-			nevents = job.nevents
-			subjobs = job.nsubjobs
+			
+			if job is not None:
+				status  = job.status
+				evttype = job.evttype
+				year    = job.year
+				nevents = job.nevents
+				subjobs = job.nsubjobs
+			else:
+				status  = self._jobs[str(k)]["status"]
+				evttype = self._jobs[str(k)]["evttype"]
+				year    = self._jobs[str(k)]["year"]
+				nevents = self._jobs[str(k)]["nevents"]
+				subjobs = self._jobs[str(k)]["nsubjobs"]
 			
 			if status == "submitted":
 				color = cyan
@@ -126,7 +169,15 @@ class JobCollection(object):
 		if i not in self._keys:
 			raise ValueError("job {0} not found!".format(i))
 		else:
-			return self._jobs[str(i)]
+			
+			if self._jobs[str(i)] is None:
+				print(green("\nLoading Job {0}:".format(i)))
+				_file = self._jsondict[str(i)]["file"]
+				job = SimulationJob().from_file(_file, i)
+			else:
+				job = self._jobs[str(i)]
+			
+			return job
 			
 	def __iter__(self):
 		for k in self._keys:
@@ -142,33 +193,46 @@ class JobCollection(object):
 	def __update(self, in_init = False):		
 		jsonfiles = glob.iglob("{0}/*/job.json".format(self._jobsdir))
 		
-		for k,_file in self._jsondict.iteritems():
+		for k, item in self._jsondict.iteritems():
+			_file = item["file"]
 			if not os.path.isfile(_file):
 				try:
 					self._keys.remove(int(k))
 				except ValueError:
 					continue
-			elif not in_init:
-				jobstatus = self._jobs[str(k)].status
+			elif not in_init and self._slurm:
+				jobstatus = item["status"]
 				if jobstatus == "new" or jobstatus == "submitting":
-					self._jobs[str(k)]._update_subjobs()
-													
+					self._jobs[str(k)]._update_subjobs(jobstatus)
+																	
 		self._jsondict = { k : v for k,v in self._jsondict.iteritems() if int(k) in self._keys }
 		self._jobs     = { k : v for k,v in self._jobs.iteritems() if int(k) in self._keys }
 		
+		files = [ i["file"] for i in self._jsondict.values()]
+		
 		for js in jsonfiles:			
-			if js not in self._jsondict.values():
+			if js not in files:
 				if len(self._jsondict) < 1:
 					index = 0
 				else:
 					index = self._keys[-1] + 1
-				self._jobs[str(index)] = SimulationJob().from_file(js, index) 
-				self._jsondict[str(index)] = js
+				print(green("\nLoading new Job {0}:".format(index)))
+				job = SimulationJob().from_file(js, index)
+				self._jobs[str(index)] = job 
+				
+				_dict = {}
+				_dict["file"] = js
+				_dict["status"] = job.last_status
+				_dict["evttype"]  = job.evttype
+				_dict["year"]     = job.year
+				_dict["nevents"]  = job.nevents
+				_dict["nsubjobs"] = job.nsubjobs
+				self._jsondict[str(index)] = _dict
+				
 				bisect.insort(self._keys, index)
 				
 		self._store_collection()
-		
-							
+									
 	def _store_collection(self):
 				
 		if not os.path.isdir(self._jobsdir):
@@ -527,14 +591,15 @@ class SimulationJob(object):
 				self._nevents    = self._neventsjob * 2
 				self._nsubjobs   = 2
 			
-			if not isinstance(self._polarity, list) or len(self._polarity) < self.nsubjobs:
+			if not isinstance(self._polarity, list):
 				
 				if not self._polarity:
 					polarity = ["MagUp" for i in xrange(0,int(self.nsubjobs / 2))]
 					polarity += ["MagDown" for i in xrange(int(self.nsubjobs / 2), self.nsubjobs)]
-					self._polarity = polarity
+					self._polarity = shuffle(polarity)
 				else:
 					self._polarity = [self._polarity for i in xrange(0, self.nsubjobs)]
+					
 				
 			subdir = "simProd_{0}_{1}".format( self._evttype, self._simcond)
 			if self._turbo:
@@ -565,10 +630,11 @@ class SimulationJob(object):
 				continue
 				
 			self._preparesubjobs(n, infiles = infiles, keeplog = self._keeplogs, keepxml = self._keepxmls)
-			
+						
 	def _preparesubjobs( self, sjn, **kwargs ):
 		
-		if self._polarity:		
+		if self._polarity:	
+			print("YOOOOO")	
 			polarity  = self._polarity[sjn]
 		else:
 			if sjn <= int(self.nsubjobs/2):
@@ -727,6 +793,10 @@ class SimulationJob(object):
 			
 	def select(self, status):
 		return [self[n] for n in xrange(self.nsubjobs) if self[n].status == status]
+		
+	@property
+	def last_status( self):	
+		return self._status
 					
 	@property
 	def status( self):	
