@@ -208,7 +208,7 @@ class JobCollection(object):
 			elif not in_init and self._slurm:
 				jobstatus = item["status"]
 				if jobstatus == "new" or jobstatus == "submitting":
-					self._jobs[str(k)]._update_subjobs(jobstatus)
+					self._jobs[str(k)]._update_subjobs("new")
 																	
 		self._jsondict = { k : v for k,v in self._jsondict.iteritems() if int(k) in self._keys }
 		self._jobs     = { k : v for k,v in self._jobs.iteritems() if int(k) in self._keys }
@@ -891,7 +891,8 @@ class SimulationJob(object):
 				info_msg = "INFO\tstatus of job {0} changed from '{1}' to '{2}'".format( 
 																					self._jobnumber,
 																					self._status,
-																					_status)													
+																					_status)
+				self._subjobs_dict[str(n)]["status"] = _status													
 				print(info_msg)
 				self._status = _status
 				self._store_job(True)
@@ -1128,13 +1129,14 @@ class SimulationJob(object):
 				job_storage_dir = simjob._options["job_storage_dir"]
 					
 				subjobfile = "{0}/subjob_{1}.json".format(job_storage_dir, n)
-				
-				
-				subjob = SimulationSubJob.from_file( parent = simjob, 
-													 subjobnumber = str(n), 
-												     file   = subjobfile)
-														
-				if not str(n) in simjob._subjobs_dict:								
+																		
+				if not str(n) in simjob._subjobs_dict:
+#					print("A")
+					
+					subjob = SimulationSubJob.from_file( parent = simjob, 
+														 subjobnumber = str(n), 
+													     file   = subjobfile)
+													
 					to_store = True
 														
 					simjob._subjobs[str(n)] = subjob
@@ -1144,9 +1146,14 @@ class SimulationJob(object):
 					_dict["polarity"] = subjob.polarity	
 					simjob._subjobs_dict[str(n)] = _dict
 					
+#				print(simjob._subjobs_dict[str(n)]["status"])
+					
 				if simjob._subjobs_dict[str(n)]["status"] == "completed":
 					simjob._subjobs[str(n)] = None	
 				else:
+					subjob = SimulationSubJob.from_file( parent = simjob, 
+														 subjobnumber = str(n), 
+													     file   = subjobfile)
 					simjob._subjobs[str(n)] = subjob
 				
 				if printlevel > 0:					
@@ -1162,6 +1169,9 @@ class SimulationJob(object):
 		
 	def _update_subjobs(self, status="new"):	
 		job_storage_dir = self.options["job_storage_dir"]
+		
+		
+		#TODO only update up to 10 subjobs after the completed, running ones ....
 					
 		for n in xrange(self.nsubjobs):
 			sj = self[n]
@@ -1174,8 +1184,8 @@ class SimulationJob(object):
 							
 				if subjob["_submitted"]:
 					self._subjobs[str(n)] = SimulationSubJob.from_file( parent = self, 
-																        	subjobnumber = str(n), 
-																        	file = subjobfile)
+																        subjobnumber = str(n), 
+																       	file = subjobfile)
 																
 																																								
 	def __str__(self):
