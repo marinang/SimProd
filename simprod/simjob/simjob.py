@@ -644,7 +644,8 @@ class SimulationJob(object):
 			if self._subjobs.get(str(n), None):
 				continue
 				
-			self._preparesubjobs(n, infiles = infiles, keeplog = self._keeplogs, keepxml = self._keepxmls)
+#			self._preparesubjobs(n, infiles = infiles, keeplog = self._keeplogs, keepxml = self._keepxmls)
+			self._preparesubjobs(n, infiles = infiles)
 						
 	def _preparesubjobs( self, sjn, **kwargs ):
 						
@@ -1334,8 +1335,8 @@ class SimulationSubJob(object):
 		self._jobid        = None
 		self._send_options = self._parent.options.copy()
 		self._status       = "new"
-		self._keeplog      = kwargs.get('keeplog', True)
-		self._keepxml      = kwargs.get('keepxml', True)
+		self._keeplog      = self._parent.keeplogs
+		self._keepxml      = self._parent.keepxmls
 						
 		self._infiles = kwargs.get('infiles', [])
 		if not isinstance(self._infiles, list) and " " in self._infiles:
@@ -1724,8 +1725,8 @@ class SimulationSubJob(object):
 		simsubjob._failed    = data["_failed"]
 		simsubjob._status    = data["_status"]
 		simsubjob._infiles   = data.get("_infiles",[])
-		simsubjob._keeplog   = data.get("_keeplog", True)
-		simsubjob._keepxml   = data.get("_keepxml", True)
+		simsubjob._keeplog   = parent.keeplogs
+		simsubjob._keepxml   = parent.keepxmls
 		simsubjob._send_options["infiles"] = data.get("_infiles",[])
 								
 		if not simsubjob._send_options["loginprod"]:
