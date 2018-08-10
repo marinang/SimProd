@@ -1410,7 +1410,8 @@ class SimulationJob(object):
 					simcond    = simcond,
 					stripping  = stripping
 					)
-					
+				
+		simjob._jobnumber = jobnumber	
 		simjob._options["job_storage_dir"] = folder
 					
 		if inscreen:
