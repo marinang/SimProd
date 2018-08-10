@@ -66,3 +66,36 @@ def silentrm( path ):
 if sys.version_info[0] > 2:
 	xrange = range
 	
+def iterkeys(d):
+	"""Python 2/3 compatibility function for dict.iterkeys()"""
+	
+#	print("\nLAAAA")
+#	print(d)
+#	print(type(d))
+	if not isinstance(d, dict):
+		raise ValueError("")
+	if sys.version_info[0] > 2:
+		return d.keys()
+	else:
+		return d.iterkeys()
+
+
+def itervalues(d):
+	"""Python 2/3 compatibility function for dict.itervalues()"""
+	if not isinstance(d, dict):
+		raise ValueError("")
+	if sys.version_info[0] > 2:
+		return d.values()
+	else:
+		return d.itervalues()
+
+
+def iteritems(d):
+	"""Python 2/3 compatibility function for dict.iteritems()"""
+	if not isinstance(d, dict):
+		raise ValueError("")
+	if sys.version_info[0] > 2:
+		return d.items()
+	else:
+		return d.iteritems()
+	
