@@ -213,9 +213,11 @@ class JobCollection(object):
 		
 		if in_init:
 			print("\n")
-				
-		jsonfiles = glob.iglob("{0}/*/job.json".format(self._jobsdir))
+			
+		jsondirs  = glob.glob("{0}/*".format(self._jobsdir))
 		
+		jsondirs = [js for js in jsondirs if not "." in js.split("/")[-1]]
+						
 		for k, item in iteritems(self._jsondict):
 			_file = item["file"]
 			if not os.path.isfile(_file):
@@ -233,8 +235,11 @@ class JobCollection(object):
 		
 		files = [i["file"] for i in itervalues(self._jsondict)]
 		
-		for js in jsonfiles:			
-			if js not in files:
+		for js in jsondirs:	
+			
+			js_file = "{0}/job.json".format(js)
+				
+			if js_file not in files:
 				if len(self._jsondict) < 1:
 					index = 0
 				else:
@@ -246,9 +251,14 @@ class JobCollection(object):
 							
 		self._store_collection(False)
 		
-	def _add_job(self, jsonfile, index):
+	def _add_job(self, jsondir, index):
 		
-		job = SimulationJob().from_file(jsonfile, index)
+		jsonfile = "{0}/job.json".format(jsondir)
+		
+		if os.path.isfile(jsonfile):
+			job = SimulationJob().from_file(jsonfile, index)
+		else:
+			job = SimulationJob().from_subjobs(jsondir, index)
 		
 		if job.last_status == "new" or job.last_status == "submitting":
 			job._update_subjobs("new")
@@ -432,6 +442,9 @@ class SimulationJob(object):
 			
 			self._options["queue"] = kwargs.get('queue', '1nd')
 			addvars("queue", _type = (str), allowed_values = ["8nm","1nh","8nh","1nd","2nd","1nw","2nw"])
+			
+		if not self.options.get("loginprod", True):						
+				self._options["logdestdir"]  = "{0}/{1}".format( self.options["logdir"], self.subdir())
 				
 		self._screensessions = []
 		
@@ -463,6 +476,7 @@ class SimulationJob(object):
 		
 	@property
 	def nsubjobs( self):
+		self._nsubjobs = int( self.nevents/ self.neventsjob )		
 		return self._nsubjobs
 		
 	@property
@@ -515,8 +529,22 @@ class SimulationJob(object):
 		self.__updateoptions()
 		return self._options
 		
+	def subdir( self):
+		subdir = "simProd_{0}_{1}".format( self._evttype, self._simcond)
+		if self._turbo:
+			subdir += "_Turbo"
+		if self._mudst:
+			subdir += "_muDST"
+		if self._redecay: 
+			subdir += "_ReDecay"
+		
+		self._options["subdir"] = subdir
+		
+		return subdir
+	
 	@property	
 	def proddir( self):
+		self._proddir  = "{0}/{1}".format( self.options["basedir"], self.subdir())
 		return self._proddir
 		
 	@proddir.setter	
@@ -527,6 +555,9 @@ class SimulationJob(object):
 		
 	@property	
 	def destdir( self):
+		self._destdir = "{0}/{1}/{2}/{3}".format( self.__destination(), self.evttype, self.year, self.simcond)
+		if self._redecay:
+			self._destdir += "_ReDecay"
 		return self._destdir
 		
 	@property	
@@ -621,15 +652,11 @@ class SimulationJob(object):
 				
 			self.__checksiminputs()
 			
-			#Number of jobs
-			self._nsubjobs = int( self._nevents/ self._neventsjob )
+			if  self.nsubjobs  == 0:
 			
-			if  self._nsubjobs  == 0:
-				
-				self._neventsjob = int(self._nevents / 2)
-				self._nevents    = self._neventsjob * 2
-				self._nsubjobs   = 2
-			
+				self.neventsjob = int(self.nevents / 2)
+				self.nevents    = self.neventsjob * 2
+						
 			if not isinstance(self._polarity, list):
 				
 				if not self._polarity:
@@ -644,27 +671,7 @@ class SimulationJob(object):
 					self._polarity = polarity
 				else:
 					self._polarity = [self._polarity for i in xrange(0, self.nsubjobs)]
-				
-			subdir = "simProd_{0}_{1}".format( self._evttype, self._simcond)
-			if self._turbo:
-				subdir += "_Turbo"
-			if self._mudst:
-				subdir += "_muDST"
-			if self._redecay: 
-				subdir += "_ReDecay"
-			
-			self._options["subdir"] = subdir
-				
-			self._proddir  = "{0}/{1}".format( self.options["basedir"], self.options["subdir"])
-						
-			if not self.options.get("loginprod", True):						
-					self._options["logdestdir"]  = "{0}/{1}".format( self.options["logdir"], self.options["subdir"])
-				
-			self._destdir = "{0}/{1}/{2}/{3}".format( self.__destination(), self._evttype, self._year, self._simcond)
-			
-			if self._redecay:
-				self._destdir += "_ReDecay"
-				
+																		
 		infiles = kwargs.get('infiles', [])
 
 		for n in xrange(self.nsubjobs):				
@@ -778,8 +785,8 @@ class SimulationJob(object):
 			info_msg = "INFO\tremoving job"
 		print(info_msg)
 				
-		for n in xrange(self._nsubjobs):
-			sj = self._subjobs[str(n)]
+		for n in xrange(self.nsubjobs):
+			sj = self[n]
 			
 			if sj and sj.status == "running":
 				sj.kill(store_parent = False)
@@ -904,7 +911,11 @@ class SimulationJob(object):
 		
 		
 	def __iter__(self):
-		for n in xrange(self._nsubjobs):
+		for n in xrange(self.nsubjobs):
+			yield self[n]
+	
+	def __iter__1(self):
+		for n in iterkeys(self._subjobs):
 			yield self[n]
 			
 	def select(self, status):
@@ -957,7 +968,7 @@ class SimulationJob(object):
 			ncompleted = 0
 			nfailed    = 0
 															
-			for n in xrange(self._nsubjobs):
+			for n in xrange(self.nsubjobs):
 
 				try:
 					if self._subjobs[str(n)] is None:
@@ -1119,15 +1130,22 @@ class SimulationJob(object):
 					self._runnumber,
 					)
 					
-		if os.path.isdir(old_job_storage_dir):
-			silentrm(old_job_storage_dir)
-			storesubjobs = True
-					
+		job_jsonfile = "{0}/job.json".format(job_storage_dir)
+				
+		self._options["job_storage_dir"] = job_storage_dir
+		self._options["job_jsonfile"]  = job_jsonfile
+		
 		if not os.path.isdir(job_storage_dir):
 			os.makedirs(job_storage_dir)
-			
-		job_jsonfile = "{0}/job.json".format(job_storage_dir)
-		
+								
+		if os.path.isdir(old_job_storage_dir):
+			silentrm(old_job_storage_dir)
+			### store subjobs now!
+			for i in xrange(self.nsubjobs):
+				job = self._subjobs[str(i)]
+				if job:
+					job._store_subjob()
+							
 		status = self.status
 					
 		outdict = {"evttype":         self.evttype,
@@ -1140,7 +1158,7 @@ class SimulationJob(object):
 				   "mudst":           self.mudst,
 				   "turbo":           self.turbo,
 				   "basedir":         self.options["basedir"],
-				   "nsubjobs":        self.nsubjobs,
+#				   "nsubjobs":        self.nsubjobs,
 				   "proddir" :        self.proddir,
 				   "destdir":         self.destdir,
 				   "subdir":          self.options["subdir"],
@@ -1174,15 +1192,16 @@ class SimulationJob(object):
 		
 		with open(job_jsonfile, 'w') as f:
 			f.write(jsondict)
-		
-		self._options["job_storage_dir"] = job_storage_dir
-		self._options["job_jsonfile"]  = job_jsonfile
-		
+				
 		if storesubjobs:
-			for i in xrange(self.nsubjobs):
-				job = self[i]
-				if job:
-					job._store_subjob()
+			for sj in self.__iter__1():
+				if sj:
+					sj._store_subjob()
+			
+#			for i in xrange(self.nsubjobs):
+#				job = self[i]
+#				if job:
+#					job._store_subjob()
 																	
 	@classmethod
 	def from_file(cls, file, jobnumber = None, inscreen = False, printlevel = 1):
@@ -1209,7 +1228,7 @@ class SimulationJob(object):
 					)						
 		
 		simjob._jobnumber = jobnumber	
-		simjob._nsubjobs = data["nsubjobs"]
+#		simjob._nsubjobs = data["nsubjobs"]
 		simjob._proddir  = data["proddir"]
 		simjob._destdir  = data["destdir"]
 		simjob._options["subdir"] = data["subdir"]
@@ -1261,7 +1280,7 @@ class SimulationJob(object):
 			
 			job_storage_dir = simjob._options["job_storage_dir"]
 
-			if len(simjob._subjobs) < simjob._nsubjobs:
+			if len(simjob._subjobs) < simjob.nsubjobs:
 				
 				for n in xrange(simjob.nsubjobs):
 						
@@ -1367,17 +1386,17 @@ class SimulationJob(object):
 	def from_subjobs(cls, folder, jobnumber = None, inscreen = False, printlevel = 1):
 		
 		## TODO: cases with redecay, mudst, turbo.
-		
-		folder     = folder.split("_")
-		evttype    = int(folder[0])
-		year       = int(folder[1])
-		nevents    = int(folder[2])
-		neventsjob = int(folder[3])
-		runnumber  = int(folder[4])
+		 
+		params     = folder.split("._simjobs_/")[-1].split("_")
+		evttype    = int(params[0])
+		year       = int(params[1])
+		nevents    = int(params[2])
+		neventsjob = int(params[3])
+		runnumber  = int(params[4])
 	
 		try:
-			simcond    = int(folder[5])
-			stripping  = int(folder[6])
+			simcond    = params[5]
+			stripping  = params[6]
 		except KeyError:
 			simcond    = "Sim09c"
 			stripping  = None 
@@ -1392,11 +1411,13 @@ class SimulationJob(object):
 					stripping  = stripping
 					)
 					
+		simjob._options["job_storage_dir"] = folder
+					
 		if inscreen:
 			simjob._inscreen = True
 					
 		if printlevel > 0:
-			t = tqdm(total=simjob._nsubjobs, bar_format="{l_bar}%s{bar}%s{r_bar}" % (Fore.BLUE, Fore.RESET), desc = cyan("\tLoading subjobs"))
+			t = tqdm(total=simjob.nsubjobs, bar_format="{l_bar}%s{bar}%s{r_bar}" % (Fore.BLUE, Fore.RESET), desc = cyan("\tLoading subjobs"))
 		else:
 			t = None
 					
@@ -1420,8 +1441,9 @@ class SimulationJob(object):
 			t.close()	
 																	
 		simjob._store_job(True)
-
-								
+		
+		return simjob
+						
 	def _update_subjobs(self, status="new"):	
 		
 #		print("In SimulationJob._update_subjobs")						
