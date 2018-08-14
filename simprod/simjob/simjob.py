@@ -84,6 +84,8 @@ class JobCollection(object):
 	def __str__(self):
 		self.__update()
 		
+#		print("in JobCollection.__str__")
+		
 		toprint = []		
 		toprint.append("{0} jobs".format(len(self._jobs)))
 		
@@ -117,7 +119,7 @@ class JobCollection(object):
 				self._jsondict[str(k)]["nevents"]  = nevents
 				self._jsondict[str(k)]["nsubjobs"] = subjobs
 				
-				if status == "completed":
+				if status in ["completed", "failed"]:
 					self._jobs[str(k)] = None
 			
 			else:
@@ -184,7 +186,7 @@ class JobCollection(object):
 			raise ValueError("job {0} not found!".format(i))
 		else:
 			if self._jobs[str(i)] is None:
-				if printlevel > 1:
+				if printlevel > 0:
 					print(green("Loading Job {0}:".format(i)))
 				_file = self._jsondict[str(i)]["file"]
 				job = SimulationJob().from_file(_file, i, printlevel = printlevel)
@@ -210,6 +212,8 @@ class JobCollection(object):
 		return [self.__geti__(k, printlevel) for k in self._keys if self.__geti__(k, printlevel).status == status]
 		
 	def __update(self, in_init = False):
+		
+#		print("In JobCollection.__update")
 		
 		if in_init:
 			print("\n")
@@ -280,8 +284,8 @@ class JobCollection(object):
 			os.makedirs(self._jobsdir)
 		
 		for k, jdict in iteritems(self._jsondict):
-			if jdict["status"] != "completed":
-				self[k]._store_job(store_subjobs)
+			if jdict["status"] not in ["completed","failed"]:
+				self.__geti__(k, printlevel = 0)._store_job(store_subjobs)
 		
 		with open(self._collection_file, 'w') as f:
 			jsondict = json.dumps(self._jsondict)
@@ -651,6 +655,7 @@ class SimulationJob(object):
 				raise NotImplementedError('simcond not defined!')
 				
 			self.__checksiminputs()
+			self.subdir()
 			
 			if  self.nsubjobs  == 0:
 			
@@ -673,7 +678,7 @@ class SimulationJob(object):
 					self._polarity = [self._polarity for i in xrange(0, self.nsubjobs)]
 																		
 		infiles = kwargs.get('infiles', [])
-
+		
 		for n in xrange(self.nsubjobs):				
 			if self._subjobs.get(str(n), None):
 				continue
@@ -923,23 +928,7 @@ class SimulationJob(object):
 		
 	def _select(self, status):
 		return [self._subjobs[str(n)] for n, sjd in iteritems(self._subjobs_dict) if sjd["status"] == status]
-		
-#	@property
-#	def nrunning( self):
-#		return len(self.select("running"))
-#
-#	@property
-#	def ncompleted( self):
-#		return len(self._select("completed"))
-#		
-#	@property
-#	def nfailed( self):
-#		return len(self._select("failed"))
-#		
-#	@property
-#	def nsubmitted( self):
-#		return len(self.select("submitted"))
-		
+				
 	@property
 	def last_status( self):	
 		return self._status
@@ -948,21 +937,6 @@ class SimulationJob(object):
 	def status( self):	
 		if not(self.last_status == "completed"):
 			
-#			if len(self._subjobs) < 1:
-#				nsubmitted = 0
-#				nrunning   = 0
-#				ncompleted = 0
-#				nfailed    = 0
-#			else:
-#				print("\nA")
-#				nsubmitted = self.nsubmitted
-#				print("B")
-#				nrunning   = self.nrunning
-#				print("C") 
-#				ncompleted = self.ncompleted
-#				print("D")
-#				nfailed    = self.nfailed
-#				
 			nsubmitted = 0
 			nrunning   = 0
 			ncompleted = 0
@@ -980,7 +954,7 @@ class SimulationJob(object):
 						self._subjobs_dict[str(n)]["status"] = status
 						self._subjobs_dict[str(n)]["jobid"]  =  jobid
 						
-						if status == "completed":
+						if status in ["completed", "failed"]:
 							self[n] = None
 						
 				except KeyError:
@@ -1158,7 +1132,6 @@ class SimulationJob(object):
 				   "mudst":           self.mudst,
 				   "turbo":           self.turbo,
 				   "basedir":         self.options["basedir"],
-#				   "nsubjobs":        self.nsubjobs,
 				   "proddir" :        self.proddir,
 				   "destdir":         self.destdir,
 				   "subdir":          self.options["subdir"],
@@ -1206,6 +1179,8 @@ class SimulationJob(object):
 	@classmethod
 	def from_file(cls, file, jobnumber = None, inscreen = False, printlevel = 1):
 		
+#		print("in SimulationJob.from_file")
+		
 		try:
 			with open(file, 'r') as f:
 				data = json.load(f)	
@@ -1228,7 +1203,6 @@ class SimulationJob(object):
 					)						
 		
 		simjob._jobnumber = jobnumber	
-#		simjob._nsubjobs = data["nsubjobs"]
 		simjob._proddir  = data["proddir"]
 		simjob._destdir  = data["destdir"]
 		simjob._options["subdir"] = data["subdir"]
@@ -1345,21 +1319,18 @@ class SimulationJob(object):
 		return sj
 			
 		
-	def _load_subjob_dict( self, nsj, pbar = None, printlevel = 0 ):
+	def _load_subjob_dict( self, nsj, pbar = None, printlevel = 0,  ):
 		
 		sj_dict = self._subjobs_dict[str(nsj)]
 		
 		_nsj = int(nsj)
 		
-		if sj_dict["status"] == "completed":
-			subjob = None
-		else:
-			polarity  = sj_dict["polarity"]
-			runnumber = self._getrunnumber(_nsj)
-			jobid     = sj_dict["jobid"]
-			status    = sj_dict["status"]
-			
-			subjob = SimulationSubJob.from_dict( self, polarity, runnumber, _nsj, jobid, status)
+		polarity  = sj_dict["polarity"]
+		runnumber = self._getrunnumber(_nsj)
+		jobid     = sj_dict["jobid"]
+		status    = sj_dict["status"]
+		
+		subjob = SimulationSubJob.from_dict( self, polarity, runnumber, _nsj, jobid, status)
 			
 		if printlevel > 0:			
 			pbar.update(1)
@@ -1384,6 +1355,8 @@ class SimulationJob(object):
 		
 	@classmethod
 	def from_subjobs(cls, folder, jobnumber = None, inscreen = False, printlevel = 1):
+		
+#		print("in SimulationJob.from_subjobs")
 		
 		## TODO: cases with redecay, mudst, turbo.
 		 
@@ -2092,63 +2065,7 @@ class SimulationSubJob(object):
 		return simsubjob
 		
 ########################################################################################
-		
-#def getsubjobs( simjob ):
-#	
-#	#	print("\n in getsubjobs")
-#
-#	pbar = tqdm(total=simjob.nsubjobs, bar_format="{l_bar}%s{bar}%s{r_bar}" % (Fore.BLUE, Fore.RESET), desc = cyan("\tLoading subjobs"))
-#	
-#	def update(*args):
-#		pbar.update(1)
-#	
-#	manager = multiprocessing.Manager()
-#	return_dict = manager.dict()
-#	
-#	print("\n")
-#	print(blue(simjob.jobnumber))
-#
-#	gc.collect()
-#	p = multiprocessing.Pool()
-#
-#	print(red("HEYYYY"))
-#		
-#	count = 0
-#	limit = 10
-#		
-#	for n, sj_dict in iteritems(simjob._subjobs_dict):
-#		if count < limit:
-#			print(n, sj_dict)
-#		count += 1
-#		r = p.apply_async(getsubjob, args=(simjob, n, sj_dict, return_dict), callback=update)		
-#	
-#	p.close()
-#	p.join()
-#	
-#	print("\n")
-#	print(blue(simjob.jobnumber))
-#	
-#	pbar.close()
-#	
-#	return dict(return_dict)
-#		
-#def getsubjob( simjob, nsj, sj_dict, pbar ):
-#	
-#	_nsj = int(nsj)
-#	
-#	if sj_dict["status"] == "completed":
-#		subjob = None
-#	else:
-#		polarity  = sj_dict["polarity"]
-#		runnumber = simjob._getrunnumber(_nsj)
-#		jobid     = sj_dict["jobid"]
-#		status    = sj_dict["status"]
-#		
-#		subjob = SimulationSubJob.from_dict( simjob, polarity, runnumber, _nsj, jobid, status)
-#				
-#	pbar.update(1)
-#		
-#	return subjob
+
 		
 		
 		

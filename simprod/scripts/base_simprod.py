@@ -78,7 +78,7 @@ if __name__ == "__main__" :
 		Jobs = SimulationJob( **_opts )
 		Jobs.prepare()
 		Jobs.send()
-		
+				
 		config.TerminalInteractiveShell.banner1 = ""
 		config.TerminalInteractiveShell.banner2 = ""
 	
