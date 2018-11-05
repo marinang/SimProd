@@ -12,7 +12,10 @@ from random import randint, shuffle
 from .setup import DoProd
 import warnings
 import glob
-import json
+try:
+	import ujson as json
+except ImportError:
+	import json
 import bisect
 from tqdm import tqdm
 from colorama import Fore
@@ -1095,6 +1098,13 @@ class SimulationJob(object):
 					self.stripping
 					)
 					
+		if self._turbo:
+			job_storage_dir += "_Turbo"
+		if self._mudst:
+			job_storage_dir += "_muDST"
+		if self._redecay: 
+			job_storage_dir += "_ReDecay"
+								
 		old_job_storage_dir = "{0}/{1}_{2}_{3}_{4}_{5}".format(
 					_dir_,
 					self.evttype,
@@ -1170,11 +1180,7 @@ class SimulationJob(object):
 			for sj in self.__iter__1():
 				if sj:
 					sj._store_subjob()
-			
-#			for i in xrange(self.nsubjobs):
-#				job = self[i]
-#				if job:
-#					job._store_subjob()
+
 																	
 	@classmethod
 	def from_file(cls, file, jobnumber = None, inscreen = False, printlevel = 1):
@@ -1187,8 +1193,7 @@ class SimulationJob(object):
 		except ValueError:
 			job_directory = os.path.dirname(file)		
 			return SimulationJob().from_subjobs( job_directory, jobnumber, inscreen, printlevel)
-
-			
+		
 		simjob = cls( 
 					evttype    = data["evttype"],
 					year       = data["year"],
@@ -1319,7 +1324,7 @@ class SimulationJob(object):
 		return sj
 			
 		
-	def _load_subjob_dict( self, nsj, pbar = None, printlevel = 0,  ):
+	def _load_subjob_dict( self, nsj, pbar = None, printlevel = 0 ):
 		
 		sj_dict = self._subjobs_dict[str(nsj)]
 		
@@ -1357,9 +1362,21 @@ class SimulationJob(object):
 	def from_subjobs(cls, folder, jobnumber = None, inscreen = False, printlevel = 1):
 		
 #		print("in SimulationJob.from_subjobs")
+				
+		params = folder.split("._simjobs_/")[-1].split("_")				
 		
-		## TODO: cases with redecay, mudst, turbo.
-		 
+		turbo, mudst, redecay = False, False, False
+		
+		if "ReDecay" in params:
+			redecay = True
+			params.remove("ReDecay")	
+		if "muDST" in params:
+			mudst = True 
+			params.remove("muDST")
+		if "Turbo" in params:
+			turbo = True 
+			params.remove("Turbo")
+				 
 		params     = folder.split("._simjobs_/")[-1].split("_")
 		evttype    = int(params[0])
 		year       = int(params[1])
@@ -1381,7 +1398,10 @@ class SimulationJob(object):
 					neventsjob = neventsjob,
 					runnumber  = runnumber,
 					simcond    = simcond,
-					stripping  = stripping
+					stripping  = stripping,
+					turbo = turbo,
+					mudst = mudst,
+					redecay = redecay
 					)
 				
 		simjob._jobnumber = jobnumber	
@@ -1433,8 +1453,7 @@ class SimulationJob(object):
 					
 					self[n] = self._load_subjob( n )
 					
-					
-																																																				
+											
 	def __str__(self):
 		
 		if len(self._subjobs) > 0:

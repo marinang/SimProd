@@ -139,7 +139,7 @@ echo "EventSelector().Input = [\"DATAFILE='PFN:$HLT1OUTPUT' TYP='POOL_ROOTTREE' 
 echo "Moore().outputFile = '$HLT2OUTPUT'" >> $HLT2CONFIG
 
 # Run
-lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r297" Moore/v25r4 gaudirun.py \$APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep2015.py \$APPCONFIGOPTS/Conditions/TCK-0x6138160F.py \$APPCONFIGOPTS/Moore/DataType-2016.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py \$APPCONFIGOPTS/Moore/MooreSimProductionHlt2.py $HLT2CONFIG $CONDITIONS
+lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r297" Moore/v25r4 gaudirun.py \$APPCONFIGOPTS/Moore/MooreSimProductionForSeparateL0AppStep2015.py \$APPCONFIGOPTS/Conditions/TCK-0x6139160F.py \$APPCONFIGOPTS/Moore/DataType-2016.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py \$APPCONFIGOPTS/Moore/MooreSimProductionHlt2.py $HLT2CONFIG $CONDITIONS
 
 rm $HLT1OUTPUT
 rm $HLT2CONFIG
