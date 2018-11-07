@@ -69,9 +69,6 @@ if sys.version_info[0] > 2:
 def iterkeys(d):
 	"""Python 2/3 compatibility function for dict.iterkeys()"""
 	
-#	print("\nLAAAA")
-#	print(d)
-#	print(type(d))
 	if not isinstance(d, dict):
 		raise ValueError("")
 	if sys.version_info[0] > 2:

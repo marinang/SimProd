@@ -7,7 +7,7 @@ import screenutils, os, time
 
 def SendInScreen( screename, py_file ):
 	
-	s = screenutils.Screen( screename, True )
+	s = screenutils.Screen(screename, True )
 	
 	time.sleep(1)
 	

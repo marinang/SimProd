@@ -95,7 +95,9 @@ if __name__ == "__main__" :
 
 		start_ipython ( argv = [] , user_ns = _vars, config= config )
 
-		jobs._store_collection(store_subjobs = False)
+		jobs._update()
+		
+		DATABASE.close()
 		
 		print(blue("\n\t Bye Bye.\n"))
 	

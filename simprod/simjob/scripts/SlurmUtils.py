@@ -10,22 +10,63 @@ import getpass
 from .utils import *
 import time
 import sys
-import pyslurm
+from .submit import main as submit
+from .ScreenUtils import *
+from tinydb import TinyDB, JSONStorage
+from tinydb.middlewares import CachingMiddleware
+from random import randint
 
-def KillSlurm( ID ):
+try:
+	import pyslurm
+	haspyslurm = True
+except ImportError:
+	haspyslurm = False
+
+def Kill( ID ):
 	
 	kill = Popen(['scancel',str(ID)], stdout=PIPE, stderr=PIPE)
 	_, _ = kill.communicate()
 			
-def GetSlurmStatus( ID ):
+def GetStatus( ID ):
+	
+	if haspyslurm:
+		try:
+			j = pyslurm.job()
+			j = j.find_id(str(ID))[0]
+			status = j["job_state"].lower()
+		except ValueError:
+			status = "notfound"
+			
+	else:
 		
-	try:
-		j = pyslurm.job()
-		j = j.find_id(str(ID))[0]
-		status = j["job_state"].lower()
-	except ValueError:
-		status = "notfound"
+		command = ["squeue", "--job", str(ID), "-o", "'%T"]
 		
+		if sys.version_info[0] > 2:	
+			process  = Popen(command, stdout=PIPE, stderr=PIPE, encoding='utf8')
+		else:
+			process  = Popen(command, stdout=PIPE, stderr=PIPE)
+		
+		out, err = process.communicate()
+			
+		if err == "slurm_load_jobs error: Invalid job id specified":
+			status = "notfound"
+		else:
+			try:
+				status = out.split("\n")[1].replace("'","").lower()
+				
+				if status == "pending":
+					status = "pending"
+				elif status in ["runnning", "completing"]:
+					status = "running"
+				elif status == "completed":
+					status = "completed"
+				elif status in ["suspended", "cancelled", "stopped"]:
+					status = "cancelled"
+				elif status in ["failed", "timeout"]:
+					status = "failed"
+			except IndexError:
+				status = "pending"
+
 	return status
 	
 def GetConfig():
@@ -145,3 +186,263 @@ def SubCondition( Options ):
 				
 	return Submission
 	
+	
+class DeliveryClerk(object):
+	
+	def __init__(self, **kwargs):
+		
+		default_options = DefaultSlurmOptions()
+		self.default_options = default_options
+		
+		self.defaults = []
+		options = {}
+		
+		options["subtime"] = kwargs.get("subtime", [0, 23])
+		
+		options["nsimjobs"] = kwargs.get("nsimjobs", default_options['nsimjobs'])
+		self.defaults += ["nsimjobs"]
+		
+		options["nsimjobs"] = kwargs.get("nsimuserjobs", default_options['nsimuserjobs'])
+		self.defaults += ["nsimuserjobs"]
+		
+		options["nuserjobs"] = kwargs.get("nuserjobs", default_options['nuserjobs'])
+		self.defaults += ["nuserjobs"]
+		
+		options["npendingjobs"] = kwargs.get("npendingjobs", default_options['npendingjobs'])
+		self.defaults += ["npendingjobs"]
+		
+		options["nfreenodes"] = kwargs.get("freenode", default_options['nfreenodes'])
+		self.defaults += ["nfreenodes"]
+		
+		options["nodestoexclude"] = kwargs.get("nodestoexclude", default_options['nodestoexclude'])
+		self.defaults += ["nodestoexclude"]
+		
+		options["cpumemory"] = kwargs.get("cpumemory", default_options['cpumemory'])
+		self.defaults += ["cpumemory"]
+		
+		options["totmemory"] = kwargs.get("totmemorry", default_options['totmemory'])
+		self.defaults += ["totmemory"]
+		
+		self.screensessions = []
+		
+		self.options = options
+		
+		for var in self.defaults:
+			self.addvar(var)
+			
+	
+	def outdict(self):
+		return {"options": self.options, "screensessions": self.screensessions}
+		
+	@classmethod
+	def from_dict(cls, dict):
+		deliveryclerk = cls(**dict["options"])	
+		deliveryclerk.screensessions = dict["screensessions"]	
+		
+		return deliveryclerk
+		
+	def updateoptions(self):
+		for opt in self.defaults:
+			self.options[opt] = self.default_options[opt]
+			
+			
+	def send_job(self, job):
+		
+		cmdpy = screencommandfile(job)
+		
+		screename = cmdpy.replace(".py","")
+		screename = screename.replace(os.path.dirname(screename)+"/","")
+
+		_id = SendInScreen( screename, cmdpy)
+
+		print(red("Job submission is done in a screen session!"))
+
+		self.screensessions.append({"name":screename, "id":_id})
+		
+#		for n in job.range_subjobs:	
+#				job[n].send()
+				
+						
+	def send_subjob(self, subjob):
+		
+		self.updateoptions()
+		
+		SUBMIT = False
+		while SUBMIT is False:
+			SUBMIT = SubCondition(self.options)
+			if not SUBMIT:
+				time.sleep(randint(0, 20) * 60)
+		
+		if not subjob._submitted or subjob._failed:
+			if subjob._failed:
+				subjob.reset()
+			
+			send_options = subjob.send_options
+			send_options["slurm"] = True
+			subjobid = submit(**send_options)
+			
+			return subjobid		
+			
+	def send_subjob_inscreen(self, subjob, storage):
+		
+		subjobid = None
+		
+		self.updateoptions()
+		
+		SUBMIT = False
+		while SUBMIT is False:
+			SUBMIT = SubCondition(self.options)
+			if not SUBMIT:
+				storage.flush()
+				time.sleep(randint(0, 20) * 60)
+		
+		if not subjob._submitted or subjob._failed:
+			if subjob._failed:
+				subjob.reset()
+			
+			send_options = subjob.send_options
+			send_options["slurm"] = True
+			subjobid = submit(**send_options)
+			
+		subjob.jobid = subjobid
+		
+		if subjob.jobid:
+			subjob._submitted = True
+			subjob._running = False
+			subjob._finished = False
+			subjob._completed = False
+			subjob._failed = False
+			subjob._status = "submitted"
+						
+			time.sleep(0.07)
+			print(blue("{0}/{1} jobs submitted!".format(subjob.subjobnumber, subjob.parent.nsubjobs)))
+			time.sleep(0.07)				
+		else:
+			print(red("job {0}/{1} submission failed, try later!".format(subjob.subjobnumber, subjob.parent.nsubjobs)))
+		
+		subjob._update_subjob_table()
+
+		
+	def get_update_subjobs(self, job):
+		
+		simprod = os.getenv("SIMPRODPATH")
+		name = "job_{0}".format(job.jobnumber)	
+		fname = simprod + "/" + name + ".json"
+		
+		if os.path.isfile(fname):
+			DATABASE = getdatabase(fname)
+			table = DATABASE.table(name)
+			DATABASE.close()
+			return table
+		else:
+			return None
+			
+			
+	def clear(self, job):
+
+		simprod = os.getenv("SIMPRODPATH")
+		name = "{0}/job_{1}".format(simprod, job.jobnumber)	
+		dbname = name + ".json"
+		pyname = name + ".py"
+
+		if os.path.isfile(dbname):
+			os.remove(dbname)
+		if os.path.isfile(pyname):
+			os.remove(pyname)
+			
+			
+	def kill(self):
+		for sc in self.screensessions:
+			KillScreenSession(sc["name"])	
+			self.screensessions = []
+		
+				
+	def addvar(self, var):
+		
+		def make_get_set(var):
+			def getter(self):
+				return self.options[var]
+			def setter(self, value):
+				if type(value) != type(self.default_options[var]):
+					msg = "A {} is required!".format(type(self.default_options[var]))
+					raise TypeError(msg)
+					
+				self.options[var] = value
+				if var in self.defaults:
+					self.defaults.remove(var)
+				
+			return getter, setter
+		
+		get_set = make_get_set(var)
+		
+		setattr(DeliveryClerk, var, property(*get_set))
+		self.__dict__[var] = getattr(DeliveryClerk, var)
+		
+	
+def getdatabase(file):
+	storage = CachingMiddleware(JSONStorage)
+	storage.WRITE_CACHE_SIZE = 20
+	return TinyDB(file, storage=storage)
+#	return TinyDB(file)
+			
+def screencommandfile(job):
+	
+	simprod = os.getenv("SIMPRODPATH")
+		
+	name = "{0}/job_{1}".format(simprod, job.jobnumber)	
+	pyfile = name + ".py"				
+	dbasefile = name + ".json"
+
+	f = open(pyfile, "w")
+	f.write("#!/usr/bin/python\n\n")
+	
+	f.write("import os\n")
+	f.write("import time\n")
+	f.write("from tinydb import TinyDB, JSONStorage, Query\n")
+	f.write("from tinydb.middlewares import CachingMiddleware\n")
+	f.write("os.environ['SIMPRODPATH'] = '{0}'\n".format(os.getenv("SIMPRODPATH")))
+	f.write("os.environ['SIMOUTPUT'] = '{0}'\n".format(os.getenv("SIMOUTPUT")))	                      
+	f.write("from simprod import *\n\n")
+				
+	f.write("time.sleep(1.5)\n\n")
+
+	f.write("storage = CachingMiddleware(JSONStorage)\n")
+	f.write("storage.WRITE_CACHE_SIZE = 20\n")
+	f.write("DATABASE = TinyDB('{}', storage=storage)\n".format(dbasefile)) 
+	
+	f.write("job_dict = {}\n".format(job.outdict()))
+			
+	f.write("job = SimulationJob.from_dict(job_dict, {})\n".format(job.jobnumber))
+	f.write("job.database = DATABASE\n\n")
+	
+	if job.status == "new":
+		f.write("job.prepare(update_table=False)\n")
+		f.write("for n in job.range_subjobs:\n")
+		f.write("\tjob_dict = job[n].outdict()\n")
+		f.write("\tjob_dict['subjobnumber'] = n\n")
+		towrite = "\tjob.jobtable.upsert(job_dict, Query().runnumber"
+		towrite += " == job.getrunnumber(n))\n"
+		f.write(towrite)
+		towrite = "\tjob.deliveryclerk.send_subjob_inscreen(job[n], storage)\n"
+		f.write(towrite)
+	else:
+		for sj in job.select("new"):
+			sjnum = sj.subjobnumber
+			towrite = "job_dict_{0} = {1}\n"
+			f.write(towrite.format(sjnum, sj.outdict()))
+			towrite = "job_dict_{0}['subjobnumber'] = {0}\n"
+			f.write(towrite.format(sjnum))
+			towrite = "job[{0}] = SimulationSubJob.from_dict(job, job_dict_{0}, {0}, to_store=False)\n"
+			f.write(towrite.format(sjnum))
+			towrite = "job.jobtable.upsert(job_dict_{0}, Query().runnumber"
+			towrite += " == job.getrunnumber({0}))\n"
+			f.write(towrite.format(sjnum))
+			towrite = "job.deliveryclerk.send_subjob_inscreen(job[{}], storage)\n\n"
+			f.write(towrite.format(sjnum))
+		
+	f.write("\n")
+	f.write("os.remove(__file__)\n\n")
+	f.write("DATABASE.close()\n")
+	f.close()
+	
+	return pyfile

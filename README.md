@@ -12,6 +12,16 @@ python setup.py install --user
 
 You will be asked to enter some directories where you want to find your simulated samples.
 
+### Dependencies:
+
+* ([IPython](https://ipython.org))
+
+* ([TinyDB](https://tinydb.readthedocs.io/en/latest/index.html))
+
+* ([PySlurm](https://pyslurm.github.io/#)  (Optionnal, only if in a Slurm batch system).
+
+* ([UltraJSON](https://github.com/esnme/ultrajson)  (Optionnal, Recommended).
+
 ## Usage
 
 To launch the module just type `$ simprod`.

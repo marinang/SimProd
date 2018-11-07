@@ -15,19 +15,18 @@ import time
 import getpass
 import warnings
 
-def PrepareLxplusJob( **kwargs ):
+def PrepareLxplusJob(**kwargs):
     
     user = getpass.getuser()
     
-#    cpu      = kwargs.get( "cpu", 3000 ) * 1000   #Memory per cpu (Slurm). in MB
-    time     = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).
-    subdir   = kwargs.get( "subdir", "" )
-    jobname  = kwargs.get( "jobname", "" )
-    dirname  = kwargs.get( "dirname" )
-    queue    = kwargs.get( "queue", "1nd") #Choose bach queue (default 1nd) (lxplus) 
-    mail     = kwargs.get( "mail", False) #When job finished sends a mail to USER@cern.ch (lxplus)
-    loginprod = kwargs.get( "loginprod", True )
-    clean    = kwargs.get( "clean", True )
+    time     = kwargs.get("time", 20) #Maximum time of the job in hours (Slurm).
+    subdir   = kwargs.get("subdir", "")
+    jobname  = kwargs.get("jobname", "")
+    dirname  = kwargs.get("dirname" )
+    queue    = kwargs.get("queue", "1nd") #Choose bach queue (default 1nd) (lxplus) 
+    mail     = kwargs.get("mail", False) #When job finished sends a mail to USER@cern.ch (lxplus)
+    loginprod = kwargs.get("loginprod", True)
+    clean    = kwargs.get("clean", True)
     
     if mail: mail = "-u "+user+"@cern.ch"
     else: mail = ""
@@ -57,30 +56,30 @@ def PrepareLxplusJob( **kwargs ):
             
     return command
     
-def SendCommand( command ):
+def SendCommand(command):
         
     if sys.version_info[0] > 2:
-        process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE, encoding='utf8')
+        process = sub.Popen(command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE, encoding='utf8')
     else:
-        process = sub.Popen( command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE )
+        process = sub.Popen(command, shell = True, stdout=sub.PIPE, stderr=sub.PIPE)
         
     time.sleep(0.03)
     out, err = process.communicate()
             
     return out
     
-def PrepareSlurmJob( **kwargs ):
+def PrepareSlurmJob(**kwargs):
     
     #prepare slurm batch job submission
     
-    subdir    = kwargs.get( "subdir", "" )
-    jobname   = kwargs.get( "jobname", "" )        
-    cpumemory = kwargs.get( "cpu", 2800 )        #Memory per cpu (Slurm).
-    totmemory = kwargs.get( "totmemory", 4000 )
-    time      = kwargs.get( "time", 20 )         #Maximum time of the job in hours (Slurm).
-    exclude   = kwargs.get( "nfreenodes", 0 )       #Number of nodes to exclude (Slurm).
-    nodestoexclude  = kwargs.get( "nodestoexclude", [] )   #Nodes to exclude (Slurm).
-    dirname   = kwargs.get( "dirname" )
+    subdir    = kwargs.get("subdir", "")
+    jobname   = kwargs.get("jobname", "")        
+    cpumemory = kwargs.get("cpu", 2800)        #Memory per cpu (Slurm).
+    totmemory = kwargs.get("totmemory", 4000)
+    time      = kwargs.get("time", 20 )         #Maximum time of the job in hours (Slurm).
+    exclude   = kwargs.get("nfreenodes", 0)       #Number of nodes to exclude (Slurm).
+    nodestoexclude  = kwargs.get("nodestoexclude", [])   #Nodes to exclude (Slurm).
+    dirname   = kwargs.get("dirname")
 
     def GetSlurmNodes():
         
@@ -105,11 +104,11 @@ def PrepareSlurmJob( **kwargs ):
     fo.write("#SBATCH -o " + dirname + "/out\n")
     fo.write("#SBATCH -e " + dirname + "/err\n")
     fo.write("#SBATCH -J " + subdir + jobname + "\n")
-    fo.write("#SBATCH --mem {0}".format( totmemory ) +"\n")
-    fo.write("#SBATCH --mem-per-cpu {0}".format( cpumemory ) +"\n")
+    fo.write("#SBATCH --mem {0}".format(totmemory) + "\n")
+    fo.write("#SBATCH --mem-per-cpu {0}".format(cpumemory) + "\n")
     fo.write("#SBATCH -n 1\n")
     fo.write("#SBATCH -p batch\n")
-    fo.write("#SBATCH -t {0}:00:00\n".format( time ))
+    fo.write("#SBATCH -t {0}:00:00\n".format(time))
     if exclude != 0 or len(nodestoexclude) > 0:
         
         now = datetime.now()
@@ -160,16 +159,16 @@ def main( **kwargs ):
         jobdir = os.getenv("HOME")+"/jobs"
         os.makedirs(jobdir)
 
-    subdir   = kwargs.get( "subdir", "" )       #Folder of the job, notice that the job is created anyway in a folder called as the jobname, so this is intended to group jobs.
-    run      = kwargs.get( "run", -1 )          #Add run number.
-    basedir  = kwargs.get( "basedir", jobdir )  #This option bypasses the JOBDIR environment variable and creates the job's folder in the specified folder.
-    jobname  = kwargs.get( "jobname", "" )      #Give a name to the job. The job will be also created in a folder with its name (default is the executable name).
-    clean    = kwargs.get( "clean", True )      #If the job folder already exists by default it cleans it up. This option bypasses the cleaning up.
-    unique   = kwargs.get( "unique", True )     #Copy the executable only once in the top folder (and not in each job folders).
-    infiles  = kwargs.get( "infiles", [] )      #Files to copy over.
-    command  = kwargs.get( "command", "" )      #Command to launch.
-    slurm    = kwargs.get( "slurm", False )
-    lsf      = kwargs.get( "lsf", False )
+    subdir   = kwargs.get("subdir", "")       #Folder of the job, notice that the job is created anyway in a folder called as the jobname, so this is intended to group jobs.
+    run      = kwargs.get("run", -1)          #Add run number.
+    basedir  = kwargs.get("basedir", jobdir)  #This option bypasses the JOBDIR environment variable and creates the job's folder in the specified folder.
+    jobname  = kwargs.get("jobname", "")      #Give a name to the job. The job will be also created in a folder with its name (default is the executable name).
+    clean    = kwargs.get("clean", True)      #If the job folder already exists by default it cleans it up. This option bypasses the cleaning up.
+    unique   = kwargs.get("unique", True)     #Copy the executable only once in the top folder (and not in each job folders).
+    infiles  = kwargs.get("infiles", [])      #Files to copy over.
+    command  = kwargs.get("command", "")      #Command to launch.
+    slurm    = kwargs.get("slurm", False)
+    lsf      = kwargs.get("lsf", False)
 
     exe, execname = None, None
     commands = command.split(' ')

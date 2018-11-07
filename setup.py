@@ -12,7 +12,6 @@ modulepath = os.path.dirname(os.path.realpath(__file__))
 
 py3 = sys.version_info[0] > 2 #creates boolean value for test that Python major version > 2
 
-
 def _input( question, default_answer = None ):
 
 	if py3:
@@ -46,12 +45,6 @@ def IsSlurm():
 	else:
 		return True
 		
-def HasPySlurm():
-	try:
-		import pyslurm
-		return True
-	except ImportError:
-		return False
 		
 def pathprint():
 	
@@ -59,13 +52,12 @@ def pathprint():
 	print("\t- Press CTRL-C to abort the installation")
 	print("\t- Or specify a different location below\n")
 				
-install_list = [ 
-			'ipython>=5.0,<6.0;python_version<="2.7"', 
-			'ipython>=5.0;python_version>="3.4"',
-			'screenutils',
-			'Cython',
-			'tqdm',
-			'colorama']
+install_list = [ 'ipython>=5.0,<6.0;python_version<="2.7"', 
+			     'ipython>=5.0;python_version>="3.4"',
+			     'screenutils',
+			     'tqdm',
+			     'colorama',
+			     'tinydb']
 			
 dependency = []
 
@@ -172,31 +164,7 @@ class PostInstallSetting(install):
 		simprod.close()
 			
 		print("\nDone.\n")
-		
-		if IsSlurm() and not HasPySlurm():
-			os.system("mkdir -p ./ext")
-			currentdir = os.getcwd()
-			os.chdir(currentdir+"/ext/")
-			
-			if os.path.isdir(currentdir+"/ext/pyslurm"):
-				os.system("rm -rf {0}/ext/pyslurm".format(currentdir))
-			
-			os.system("pip install Cython --user")
-			os.system("git clone -b 17.02.0 https://github.com/PySlurm/pyslurm.git")
-			os.chdir(currentdir+"/ext/pyslurm")
-			os.system("python setup.py build")
-			os.system("python setup.py install --user")
-			os.system("rm -rf scripts")
-			os.system("rm -rf tests")
-			os.system("rm -rf doc")
-			os.system("rm -rf example")
-			os.system("rm -rf debian")
-			os.system("rm *.rst")
-			os.system("rm *.txt")
-			os.system("rm *.yml")
-			os.system("rm *.py")
-			os.chdir(currentdir)
-			
+					
 		caller = sys._getframe(2)
 		caller_module = caller.f_globals.get('__name__','')
 		caller_name = caller.f_code.co_name

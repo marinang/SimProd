@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 from .GetEvtType import getevttype
-from .submit import main as submit
 from .utils import * 
 from .Status import *
 from .MoveJobs import *
