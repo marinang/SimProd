@@ -14,17 +14,17 @@ You will be asked to enter some directories where you want to find your simulate
 
 ### Dependencies:
 
-* ([IPython](https://ipython.org))
+* [IPython](https://ipython.org)
 
-* ([TinyDB](https://tinydb.readthedocs.io/en/latest/index.html))
+* [TinyDB](https://tinydb.readthedocs.io/en/latest/index.html)
 
-* ([PySlurm](https://pyslurm.github.io/#)  (Optionnal, only if in a Slurm batch system).
+* [PySlurm](https://github.com/PySlurm/pyslurm/wiki/Installing-PySlurm)  (Optionnal, only if in a Slurm batch system).
 
-* ([UltraJSON](https://github.com/esnme/ultrajson)  (Optionnal, Recommended).
+* [UltraJSON](https://github.com/esnme/ultrajson)  (Optionnal, Recommended).
 
 ## Usage
 
-To launch the module just type `$ simprod`.
+To launch the module just type simprod`.
 
 <p align="center">
 <img width="600" height="200" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/begin_interface.png">
@@ -89,13 +89,13 @@ Your have other options by default that you can change:
 These argument are all available at instantiation of a SimulationJob but also as property, i.e:
 
 ```python 
-j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS, neventsjob=NEVENTSJOB)
+j = SimulationJob(evttype=EVTTYPE, year=YEAR, nevents=NEVENTS, neventsjob=NEVENTSJOB)
 ```
 
 is equivalent to
 
 ```python 
-j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)
+j = SimulationJob(evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)
 j.neventsjob = NEVENTSJOB
 ```
 
@@ -117,6 +117,8 @@ You have additionnal options for slurm batch system with default values designed
 		
 * subtime: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 6pm).
 
+If using the EPFL cluster, please avoid using these options, a configuration file is read with ageed values for these options.
+
 ## Monitoring
 
 Just after the lauching the program type `jobs` and you can see the status of submitted jobs:
@@ -127,18 +129,11 @@ Just after the lauching the program type `jobs` and you can see the status of su
 
 ### Resend failed subjobs
 
-There are two ways:
-
-* Select failed jobs and loop over them to resend them:
-```python 
-for sj in jobs[JOBNUMBER].select("failed"):
-    sj.send()
-```
-
-* Use the JobCollection method **resend**:
+Use the SimulationJob method **send**:
 ```python 
 jobs[JOBNUMBER].resend()
 ```
+This will send only unsubmitted and failed jobs.
 
 ### Kill a subjob
 
@@ -159,7 +154,7 @@ If you wish to remove only completed jobs do
 
 ```python 
 for j in jobs.select("completed"):
-	j.remove()
+    j.remove()
 ```
 The log files are also with removed with the job.
 
