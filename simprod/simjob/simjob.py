@@ -1112,23 +1112,25 @@ class SimulationSubJob(object):
                                     
     def send(self):
         
-        self.jobid = self.parent.deliveryclerk.send_subjob(self)
+        if not self._submitted:
         
-        if self.jobid:
-            self._submitted = True
-            self._running   = False
-            self._finished  = False
-            self._completed = False
-            self._failed    = False
-            self._status    = "submitted"
-                        
-            time.sleep(0.07)
-            print(blue("{0}/{1} jobs submitted!".format(int(self.subjobnumber), self.parent.nsubjobs)))
-            time.sleep(0.07)				
-        else:
-            print(red("job {0}/{1} submission failed, try later!".format(int(self.subjobnumber), self.parent.nsubjobs)))
-                
-        self._update_subjob_table()
+            self.jobid = self.parent.deliveryclerk.send_subjob(self)
+            
+            if self.jobid:
+                self._submitted = True
+                self._running   = False
+                self._finished  = False
+                self._completed = False
+                self._failed    = False
+                self._status    = "submitted"
+                            
+                time.sleep(0.07)
+                print(blue("{0}/{1} jobs submitted!".format(int(self.subjobnumber), self.parent.nsubjobs)))
+                time.sleep(0.07)				
+            else:
+                print(red("job {0}/{1} submission failed, try later!".format(int(self.subjobnumber), self.parent.nsubjobs)))
+                    
+            self._update_subjob_table()
                     
 
     @property
@@ -1220,7 +1222,6 @@ class SimulationSubJob(object):
         self._failed = False
         self._status = "new"
         self._update_subjob_table()
-#		self.parent._store_job()
             
     def _command(self):
         doprod = DoProd(self.parent.simcond, self.parent.year)
