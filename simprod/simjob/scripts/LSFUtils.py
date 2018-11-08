@@ -8,6 +8,7 @@ from datetime import datetime
 import os
 from .utils import *
 import sys
+from .submit import main as submit
 
 def Kill(ID):
 	
@@ -115,7 +116,7 @@ class DeliveryClerk(object):
 	def kill(self):
 		pass
 				
-	def addvar(self, var, allowed_values):
+	def addvar(self, var, allowed_values=[]):
 		
 		def make_get_set(var):
 			def getter(self):

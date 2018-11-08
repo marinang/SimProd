@@ -190,11 +190,17 @@ class JobCollection(object):
         
         if DEBUG > 0:
             print("In JobCollection._udpate")
-            
-        condition = (self.query.status == "new") | (self.query.status == "submitting")
-        condition = condition | (self.query.status == "submitted")
-        to_update = self.jobcollection.search(condition)
+
         
+	if len(self.jobcollection) > 0:
+    
+            condition = (self.query.status == "new") | (self.query.status == "submitting")
+            condition = condition | (self.query.status == "submitted")
+            to_update = self.jobcollection.search(condition)
+	else:
+	    to_update = []        
+
+
         for j in to_update:
             if j.doc_id not in self.jobs.keys():
                 self.jobs[j.doc_id] = SimulationJob.from_doc(j)
@@ -1381,7 +1387,7 @@ class SimulationSubJob(object):
             simsubjob._completed = True
                             
         if not simsubjob.send_options["loginprod"]:
-            simsubjob.logjobdir = dict["_logjobdir"]
+            simsubjob.logjobdir = dict["logjobdir"]
             
         if to_store:
             simsubjob._update_subjob_table()
