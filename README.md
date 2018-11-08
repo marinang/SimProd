@@ -24,7 +24,7 @@ You will be asked to enter some directories where you want to find your simulate
 
 ## Usage
 
-To launch the module just type simprod`.
+To launch the module just type `simprod`.
 
 <p align="center">
 <img width="600" height="200" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/begin_interface.png">
