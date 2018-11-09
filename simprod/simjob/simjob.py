@@ -41,7 +41,6 @@ class JobCollection(object):
         
         simprod = os.getenv("SIMPRODPATH")+"/simprod"		
         self.jobs = {}
-        self.query = Query()
         
         jobs = self.jobcollection
 
@@ -190,15 +189,13 @@ class JobCollection(object):
         
         if DEBUG > 0:
             print("In JobCollection._udpate")
-
         
-	if len(self.jobcollection) > 0:
-    
-            condition = (self.query.status == "new") | (self.query.status == "submitting")
-            condition = condition | (self.query.status == "submitted")
+        if len(self.jobcollection) > 0:
+            condition = (Query().status == "new") | (Query().status == "submitting")
+            condition = condition | (Query().status == "submitted")
             to_update = self.jobcollection.search(condition)
-	else:
-	    to_update = []        
+        else:
+            to_update = []        
 
 
         for j in to_update:
