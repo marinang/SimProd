@@ -28,7 +28,7 @@ def Kill( ID ):
 	_, _ = kill.communicate()
 			
 def GetStatus( ID ):
-	
+
 	if haspyslurm:
 		try:
 			j = pyslurm.job()
@@ -47,8 +47,8 @@ def GetStatus( ID ):
 			process  = Popen(command, stdout=PIPE, stderr=PIPE)
 		
 		out, err = process.communicate()
-			
-		if err == "slurm_load_jobs error: Invalid job id specified":
+					
+		if "slurm_load_jobs error: Invalid job id specified" in err:
 			status = "notfound"
 		else:
 			try:

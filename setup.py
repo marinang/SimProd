@@ -57,7 +57,7 @@ install_list = [ 'ipython>=5.0,<6.0;python_version<="2.7"',
 			     'screenutils',
 			     'tqdm',
 			     'colorama',
-			     'tinydb==v3.11.1']
+			     'tinydb>=v3.12.1']
 			
 dependency = []
 
