@@ -4,8 +4,6 @@ import os
 import glob
 
 sim_path = os.getenv("SIMPRODPATH")+"/simprod/simjob/setup/"
-Sim09c_path = os.getenv("SIMPRODPATH")+"/simprod/simjob/setup/Sim09c"
-Sim09c_path = os.getenv("SIMPRODPATH")+"/simprod/simjob/setup/Sim09c"
 
 def DoProd( SimCond, Year ):
 	
@@ -19,5 +17,5 @@ def DoProd( SimCond, Year ):
 		doprod = "{0}/{1}".format( sim_path + SimCond, doprod ) 
 		return doprod
 	else:
-		raise ValueError("...")
+		raise ValueError("Error {0} {1} not found.".format(SimCond, Year))
 				
