@@ -124,12 +124,14 @@ def DefaultSlurmConfig( ):
 		nuserjobs    *= 1.5
 		npendingjobs *= 1.5
 		
-	config["nsimjobs"]     = nsimjobs
+	config["nsimjobs"] = nsimjobs
 	config["nsimuserjobs"] = nsimuserjobs
-	config["nuserjobs"]    = nuserjobs
+	config["nuserjobs"] = nuserjobs
 	config["npendingjobs"] = npendingjobs
-	config["nfreenodes"]   = nfreenodes
-	config["cpu"]          = 4140
+	config["nfreenodes"] = nfreenodes
+	config["nodestoexclude"] = []
+	config["cpumemory"] = 2800
+	config["totmemory"] = 4140
 			
 	return config
 	
@@ -161,11 +163,11 @@ def SubCondition( Options ):
 	
 	#conditions
 	time          = hour in allowed_time
-	simjobs_total = Options['nsimjobs'] < Nsimjobs_total     
-	simjobs_user  = Options['nsimuserjobs'] < Nsimjobs_user  
-	jobs_user     = Options['nuserjobs'] < Njobs_user        
-	pendjobs_user = Options['npendingjobs'] < Npendjobs_user
-							
+	simjobs_total = Options['nsimjobs'] <= Nsimjobs_total     
+	simjobs_user  = Options['nsimuserjobs'] <= Nsimjobs_user  
+	jobs_user     = Options['nuserjobs'] <= Njobs_user        
+	pendjobs_user = Options['npendingjobs'] <= Npendjobs_user
+			
 	if not time:
 		print( red("Jobs are sent between {0}h and {1}h!".format(ti, tf)) )
 		Submission = False
@@ -191,48 +193,50 @@ class DeliveryClerk(object):
 	
 	def __init__(self, **kwargs):
 		
-		default_options = DefaultSlurmOptions()
-		self.default_options = default_options
-		
 		self.defaults = []
 		options = {}
-		
+				
 		options["subtime"] = kwargs.get("subtime", [0, 23])
 		
-		options["nsimjobs"] = kwargs.get("nsimjobs", default_options['nsimjobs'])
+		options["nsimjobs"] = kwargs.get("nsimjobs", self.default_options['nsimjobs'])
 		self.defaults += ["nsimjobs"]
 		
-		options["nsimjobs"] = kwargs.get("nsimuserjobs", default_options['nsimuserjobs'])
+		options["nsimjobs"] = kwargs.get("nsimuserjobs", self.default_options['nsimuserjobs'])
 		self.defaults += ["nsimuserjobs"]
 		
-		options["nuserjobs"] = kwargs.get("nuserjobs", default_options['nuserjobs'])
+		options["nuserjobs"] = kwargs.get("nuserjobs", self.default_options['nuserjobs'])
 		self.defaults += ["nuserjobs"]
 		
-		options["npendingjobs"] = kwargs.get("npendingjobs", default_options['npendingjobs'])
+		options["npendingjobs"] = kwargs.get("npendingjobs", self.default_options['npendingjobs'])
 		self.defaults += ["npendingjobs"]
 		
-		options["nfreenodes"] = kwargs.get("freenode", default_options['nfreenodes'])
+		options["nfreenodes"] = kwargs.get("freenode", self.default_options['nfreenodes'])
 		self.defaults += ["nfreenodes"]
 		
-		options["nodestoexclude"] = kwargs.get("nodestoexclude", default_options['nodestoexclude'])
+		options["nodestoexclude"] = kwargs.get("nodestoexclude", self.default_options['nodestoexclude'])
 		self.defaults += ["nodestoexclude"]
 		
-		options["cpumemory"] = kwargs.get("cpumemory", default_options['cpumemory'])
+		options["cpumemory"] = kwargs.get("cpumemory", self.default_options['cpumemory'])
 		self.defaults += ["cpumemory"]
 		
-		options["totmemory"] = kwargs.get("totmemorry", default_options['totmemory'])
+		options["totmemory"] = kwargs.get("totmemorry", self.default_options['totmemory'])
 		self.defaults += ["totmemory"]
 		
 		self.screensessions = []
 		
 		self.options = options
 		
-		for var in self.defaults:
+		self.inscreen = kwargs.get("inscreen", False)
+		
+		for var in self.options.keys():
 			self.addvar(var)
 			
-	
+	@property
+	def default_options(self):
+		return DefaultSlurmOptions()
+		
 	def outdict(self):
-		return {"options": self.options, "screensessions": self.screensessions}
+		return {"options": self.options, "screensessions": self.screensessions, "defaults": self.defaults}
 		
 	@classmethod
 	def from_dict(cls, dict):
@@ -245,24 +249,34 @@ class DeliveryClerk(object):
 		for opt in self.defaults:
 			self.options[opt] = self.default_options[opt]
 			
+	def new_send_options(self, options):
+		options = dict(options)
+		options["cpumemory"] = self.options["cpumemory"]
+		options["totmemory"] = self.options["totmemory"]
+		options["nfreenodes"] = self.options["nfreenodes"]
+		options["nodestoexclude"] = self.options["nodestoexclude"]
+		options["slurm"] = True
+		return options
 			
 	def send_job(self, job):
 		
-		cmdpy = screencommandfile(job)
+		if self.inscreen:
+			for n in job.range_subjobs:	
+				job[n].send()
+		else:
 		
-		screename = cmdpy.replace(".py","")
-		screename = screename.replace(os.path.dirname(screename)+"/","")
+			cmdpy = screencommandfile(job)
+			
+			screename = cmdpy.replace(".py","")
+			screename = screename.replace(os.path.dirname(screename)+"/","")
 
-		_id = SendInScreen( screename, cmdpy)
+			_id = SendInScreen( screename, cmdpy)
 
-		print(red("Job submission is done in a screen session!"))
+			print(red("Job submission is done in a screen session!"))
 
-		self.screensessions.append({"name":screename, "id":_id})
-		
-#		for n in job.range_subjobs:	
-#				job[n].send()
-				
-						
+			self.screensessions.append({"name":screename, "id":_id})
+			
+					
 	def send_subjob(self, subjob):
 		
 		self.updateoptions()
@@ -278,7 +292,7 @@ class DeliveryClerk(object):
 				subjob.reset()
 			
 			send_options = subjob.send_options
-			send_options["slurm"] = True
+			send_options = self.new_send_options(send_options)
 			subjobid = submit(**send_options)
 			
 			return subjobid		
@@ -287,8 +301,7 @@ class DeliveryClerk(object):
 		
 		subjobid = None
 		
-		self.updateoptions()
-		
+		self.updateoptions()		
 		SUBMIT = False
 		while SUBMIT is False:
 			SUBMIT = SubCondition(self.options)
@@ -301,7 +314,7 @@ class DeliveryClerk(object):
 				subjob.reset()
 			
 			send_options = subjob.send_options
-			send_options["slurm"] = True
+			send_options = self.new_send_options(send_options)
 			subjobid = submit(**send_options)
 			
 		subjob.jobid = subjobid
@@ -390,8 +403,11 @@ def screencommandfile(job):
 	simprod = os.getenv("SIMPRODPATH")
 		
 	name = "{0}/job_{1}".format(simprod, job.jobnumber)	
-	pyfile = name + ".py"				
+	pyfile = name + ".py"
 	dbasefile = name + ".json"
+	if job.status == "new" and os.path.isfile(dbasefile):
+		os.remove(dbasefile)				
+	
 
 	f = open(pyfile, "w")
 	f.write("#!/usr/bin/python\n\n")

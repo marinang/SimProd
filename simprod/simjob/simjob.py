@@ -70,7 +70,7 @@ class JobCollection(object):
 
     @property
     def keys(self):
-        return [j.doc_id for j in self.jobcollection.all()]
+        return sorted([j.doc_id for j in self.jobcollection.all()], key=int)
         
     def __str__(self):
         
@@ -247,15 +247,19 @@ class SimulationJob(object):
         self._options = {}
                     
         self._nevents = kwargs.get('nevents', None)
+        if self._nevents is None:
+            raise ValueError("Please set nevents!")
         self._neventsjob = kwargs.get('neventsjob', 50)
         self._year = kwargs.get('year', None)
-        self._polarity = kwargs.get('polarity', None)
-        self._simcond = kwargs.get('simcond', "Sim09c")
+        if self._year is None:
+            raise ValueError("Please set year!")
+        self._polarities = kwargs.get('polarities', None)
+        self._simcond = kwargs.get('simcond', "Sim09e")
         self._stripping = kwargs.get('stripping', None)
         self._turbo = kwargs.get('turbo', False)
         self._mudst = kwargs.get('mudst', False)
         self._runnumber = kwargs.get('runnumber', baserunnumber())
-        self._decfiles = kwargs.get('decfiles', 'v30r16')
+        self._decfiles = kwargs.get('decfiles', 'v30r25')
         self._inscreen = kwargs.get('inscreen', False)
         self._keeplogs = kwargs.get('keeplogs', True)
         self._keepxmls = kwargs.get('keepxmls', True)
@@ -263,7 +267,9 @@ class SimulationJob(object):
         self._status = "new"
         
         self._evttype = kwargs.get('evttype', None)	
-        if self._evttype:
+        if self._evttype is None:
+            raise ValueError("Please set evttype!")
+        else:
             self.__setoptfile()
         
         _basedir = os.getenv("SIMOUTPUT")
@@ -272,7 +278,7 @@ class SimulationJob(object):
 
         self._options["basedir"] = kwargs.get('basedir', _basedir)
         
-        self.deliveryclerk = DeliveryClerk()
+        self.deliveryclerk = DeliveryClerk(inscreen=self._inscreen)
         
         if IsSlurm():
             self._options["loginprod"] = True
@@ -299,7 +305,9 @@ class SimulationJob(object):
         if kwargs.get("newjob", True):
             jobstable = self.database.table("jobs")
             jobstable.insert(self.outdict())
-            self.jobnumber = jobstable.all()[-1].doc_id
+            self.jobnumber = jobstable._last_id
+            if DEBUG > 0:
+                print("newjob:", self.jobnumber)
         else:
             self.jobnumber = kwargs.get("jobnumber", None)
             
@@ -307,7 +315,6 @@ class SimulationJob(object):
     @property
     def jobtable(self):
         return self.database.table("job_{}".format(self.jobnumber))
-
 
     @property
     def range_subjobs(self):
@@ -380,34 +387,30 @@ class SimulationJob(object):
     def stripping(self, value):
         if not isinstance(value, str):
             raise TypeError("simcond must be a str!")
-        if not value in ["21", "24", "28", "24r1", "24r1p1", "28r1", "28r1p1"]:
-            raise ValueError("stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', or '28r1p1'!")
+        if not value in ["21", "24", "28", "24r1", "24r1p1", "28r1", "28r1p1", "29r2"]:
+            raise ValueError("stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1' or '29r2!")
         self._simcond = value
         
         
     @property	
     def year(self):
         return self._year
-        
-        
+    
     @year.setter
     def year(self, value):
         if not isinstance(value, int):
             raise TypeError("nevents must be a int!")
-        if not value in [2011,2012,2015,2016,2017]:
-            raise ValueError("year must be 2011, 2012, 2015, 2016 or 2017!")
+        if not value in [2011,2012,2015,2016,2017,2018]:
+            raise ValueError("year must be 2011, 2012, 2015, 2016, 2017 or 2018!")
         self._year = value
-        
         
     @property
     def keys(self):
         return self.subjobs.keys()
         
-                    
     @property	
     def options(self):
         return self._options
-        
         
     def subdir(self):
         subdir = "simProd_{0}_{1}".format(self.evttype, self.simcond)
@@ -544,26 +547,34 @@ class SimulationJob(object):
             
                 self.neventsjob = int(self.nevents / 2)
                 self.nevents    = self.neventsjob * 2
-                        
-            if not isinstance(self._polarity, list):
+        
+            def sample_polarities():
+                polarities = ["MagUp", "MagDown"]
+                i = randint(0, 1)
+                p1 = polarities.pop(i)
+                p2 = polarities[0]
                 
-                if not self._polarity:
-                    polarities = ["MagUp", "MagDown"]
-                    i = randint(0, 1)
-                    p1 = polarities.pop(i)
-                    p2 = polarities[0]
-                    
-                    polarity = [p1 for i in xrange(1, int(self.nsubjobs / 2) + 1)]
-                    polarity += [p2 for i in xrange(int(self.nsubjobs / 2) + 1, self.nsubjobs + 1)]
-                    shuffle(polarity)
-                    self._polarity = polarity
+                polarity = [p1 for i in xrange(1, int(self.nsubjobs / 2) + 1)]
+                polarity += [p2 for i in xrange(int(self.nsubjobs / 2) + 1, self.nsubjobs + 1)]
+                return shuffle(polarity)
+                        
+            if not isinstance(self._polarities, list):
+                if self._polarities is None:
+                    self._polarities = sample_polarities()
+                elif self._polarities in ["MagUp", "MagDown"]:
+                    self._polarities = [self._polarities for i in self.range_subjobs]
                 else:
-                    self._polarity = [self._polarity for i in self.range_subjobs]
+                    raise ValueError()
+            else:
+                if len(self._polarities) != self.nsubjobs:
+                    self._polarities = sample_polarities()
+                elif not all(p in ["MagUp", "MagDown"] for p in self._polarities):
+                    raise ValueError()
                                                                         
         infiles = kwargs.get('infiles', [])
                 
         for n in self.range_subjobs:				
-            if self.subjobs.get(n, None):
+            if self.subjobs.get(n, None) is not None:
                 continue
                 
             self._preparesubjobs(n, infiles=infiles)
@@ -573,17 +584,21 @@ class SimulationJob(object):
         
                             
     def _preparesubjobs( self, sjn, **kwargs ):
+        
+        if DEBUG > 2:
+            print(sjn)
                         
-        if self._polarity:	
-            polarity  = self._polarity[sjn-1]
+        if self._polarities:	
+            polarity  = self._polarities[sjn-1]
         else:
             if sjn <= int(self.nsubjobs/2):
                 polarity = "MagUp"
             else:
                 polarity = "MagDown"
-            
-        runnumber = self.getrunnumber(sjn)
-        self.subjobs[sjn] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, subjobnumber=sjn, **kwargs )	
+                
+        if sjn not in self.keys:
+            runnumber = self.getrunnumber(sjn)
+            self.subjobs[sjn] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, subjobnumber=sjn, **kwargs )	
         
 
     def send( self, job_number = None ):
@@ -596,9 +611,9 @@ class SimulationJob(object):
             if len(failedsubjobs) > 0:
                 for sj in failedsubjobs:
                     sj.reset()
+            self.deliveryclerk.send_job(self)
+            self._update_job_table(True)            
             
-            self.deliveryclerk.send_job(self)            
-            self._update_job_table(True)
         
         
     def cancelpreparation( self, **kwargs ):	
@@ -780,6 +795,7 @@ class SimulationJob(object):
                    "nsubjobs": self.nsubjobs,
                    "runnumber": self._runnumber,
                    "simcond": self.simcond,
+                   "polarities": self._polarities,
                    "stripping": self.stripping,
                    "mudst": self.mudst,
                    "turbo": self.turbo,
@@ -813,10 +829,9 @@ class SimulationJob(object):
         jobstable.update(self.outdict(), doc_ids=[self.jobnumber])
         
         if update_subjobs:
+            if DEBUG > 0:
+                print("in SimulationJob._update_job_table, update subjobs")
             table = self.deliveryclerk.get_update_subjobs(self)
-                        
-#            if table is not None:
-#                assert len(table) == self.nsubjobs
                                 
             for n in self.range_subjobs:
                 
@@ -835,7 +850,7 @@ class SimulationJob(object):
                     
                     if doc is not None:
                         if DEBUG > 0:
-                            print(n)
+                            print(n, doc["runnumber"], self.getrunnumber(n))
                         assert doc["runnumber"] == self.getrunnumber(n)
                         _dict = {}
                         
@@ -865,6 +880,7 @@ class SimulationJob(object):
                     nevents=dict["nevents"],
                     neventsjob=dict["neventsjob"],
                     runnumber=dict["runnumber"],
+                    polarities=dict.get("polarities", None),
                     simcond=dict["simcond"],
                     stripping=dict["stripping"],
                     mudst=dict["mudst"],
@@ -1058,8 +1074,8 @@ class SimulationSubJob(object):
         self.send_options = self.parent.options.copy()
         self._status = "new"
                         
-        self.infiles = kwargs.get("infiles", [])
-        self.send_options["infiles"] = self.infiles
+        self._infiles = kwargs.get("infiles", [])
+        self.send_options["infiles"] = self._infiles
         self.keeplog = self.parent.keeplogs
         self.keepxml = self.parent.keepxmls
         
@@ -1102,7 +1118,7 @@ class SimulationSubJob(object):
         
         if kwargs.get("newsubjob", True):
             self.parenttable.insert(self.outdict())
-            assert self.parenttable.all()[-1].doc_id == subjobnumber
+            assert self.parenttable._last_id == subjobnumber
         
         if kwargs.get("to_store", False):
             self._update_subjob_table()
@@ -1111,6 +1127,22 @@ class SimulationSubJob(object):
     @property
     def parenttable(self):
         return self.parent.jobtable
+        
+        
+    @property
+    def infiles(self):
+        return self._infiles
+        
+    @infiles.setter
+    def infiles(self, files):
+        if not isinstance(files, (list, tuple)):
+            raise TypeError("A list/tuple with infiles must me provided.")
+            
+        if not all(isinstance(f, str) for f in files):
+            raise TypeError("Infiles must be str.")
+            
+        self._infiles = files
+        self.send_options["infiles"] = files
                                 
                                     
     def send(self):
@@ -1347,8 +1379,8 @@ class SimulationSubJob(object):
         return outdict
                     
     def _update_subjob_table(self):
-                
-        self.parenttable.update(self.outdict(), doc_ids=[self.subjobnumber])
+        
+        self.parenttable.update(self.outdict(), Query().runnumber == self.runnumber)
                           
 
     @classmethod
@@ -1423,20 +1455,25 @@ def checksiminputs(job):
                                    	job._simcond, 
                                    	args) )	
                     
-    if job._simcond == "Sim09b" and job._year in [2011, 2017]:
+    if job._simcond == "Sim09b" and job._year in [2011, 2017, 2018]:
         raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
                                     job._year, 
                                     job._simcond) )
         
-    elif job._simcond == "Sim09c" and job._year == 2017:
+    elif job._simcond == "Sim09c" and job._year in [2017, 2018]:
         raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
                                     job._year, 
                                     job._simcond) )
         
-    elif job._simcond == "Sim09d" and job._year in [2011, 2012, 2015, 2016, 2017]:
+    elif job._simcond == "Sim09d" and job._year in [2011, 2012, 2015, 2016, 2017, 2018]:
         raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
                                     job._year, 
-                                    job._simcond) )							
+                                    job._simcond) )
+                                    
+    elif job._simcond == "Sim09e" and job._year in [2011, 2012, 2018]:
+        raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
+                                    job._year, 
+                                    job._simcond) )									
     
                                     
     if job._year == 2011:
@@ -1452,14 +1489,17 @@ def checksiminputs(job):
     elif job._year == 2015:
         if job._simcond == "Sim09b":
             StrippingVersion("24")
-        if job._simcond == "Sim09c":
+        if job._simcond in ["Sim09c", "Sim09e"]:
             StrippingVersion("24r1", "24r1p1")
         
     elif job._year == 2016:
         if job._simcond == "Sim09b":
             StrippingVersion("28")
-        if job._simcond == "Sim09c":
+        if job._simcond in ["Sim09c", "Sim09e"]:
             StrippingVersion("28r1", "28r1p1")	
+            
+    elif job._year == 2017:
+        StrippingVersion("29r2")
                             
     if job._mudst and ( job._year == 2012 or job._year == 2011 ):
         raise NotImplementedError( "No micro DST output for {0}!".format(job._year) )

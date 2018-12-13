@@ -10,7 +10,7 @@ import os
 import shutil
 import sys
 
-def getevttype( evttype, decfiles = "v30r16" ):
+def getevttype( evttype, decfiles = "v30r25" ):
 	
 	Options = {"evttype": evttype, "decfiles": decfiles}
 	

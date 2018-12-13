@@ -66,7 +66,7 @@ Your have other options by default that you can change:
 
 * runnumber: Run number for simulation in Gauss.
 
-* simcond: Simulation condition [Sim09b, Sim09c, default: Sim09c].
+* simcond: Simulation condition [Sim09b, Sim09c, Sim09e, default: Sim09e].
 
 * stripping: Version of the stripping (default = '').
 
@@ -74,7 +74,7 @@ Your have other options by default that you can change:
 
 * mudst: Produce a muDST output.
 
-* decfiles: Version of the DecFiles package (default = v30r16).
+* decfiles: Version of the DecFiles package (default = v30r25).
 
 * infiles: External files to provide for generation (for example LHE or HepMC files).
 
@@ -117,7 +117,7 @@ You have additionnal options for slurm batch system with default values designed
 		
 * subtime: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 6pm).
 
-If using the EPFL cluster, please avoid using these options, a configuration file is read with ageed values for these options.
+If using the EPFL cluster, please avoid using these options, a configuration file is read with agreed values for these options.
 
 ## Monitoring
 
