@@ -198,29 +198,13 @@ class DeliveryClerk(object):
 				
 		options["subtime"] = kwargs.get("subtime", [0, 23])
 		
-		options["nsimjobs"] = kwargs.get("nsimjobs", self.default_options['nsimjobs'])
-		self.defaults += ["nsimjobs"]
-		
-		options["nsimjobs"] = kwargs.get("nsimuserjobs", self.default_options['nsimuserjobs'])
-		self.defaults += ["nsimuserjobs"]
-		
-		options["nuserjobs"] = kwargs.get("nuserjobs", self.default_options['nuserjobs'])
-		self.defaults += ["nuserjobs"]
-		
-		options["npendingjobs"] = kwargs.get("npendingjobs", self.default_options['npendingjobs'])
-		self.defaults += ["npendingjobs"]
-		
-		options["nfreenodes"] = kwargs.get("freenode", self.default_options['nfreenodes'])
-		self.defaults += ["nfreenodes"]
-		
-		options["nodestoexclude"] = kwargs.get("nodestoexclude", self.default_options['nodestoexclude'])
-		self.defaults += ["nodestoexclude"]
-		
-		options["cpumemory"] = kwargs.get("cpumemory", self.default_options['cpumemory'])
-		self.defaults += ["cpumemory"]
-		
-		options["totmemory"] = kwargs.get("totmemorry", self.default_options['totmemory'])
-		self.defaults += ["totmemory"]
+		parameters = ["nsimjobs", "nsimjobs", "nuserjobs", "nuserjobs", "npendingjobs", "nfreenodes", "nodestoexclude",
+					  "cpumemory", "totmemory", "nsimuserjobs"]
+					
+		for p in parameters:
+			options[p] = kwargs.get(p, self.default_options[p])
+			if options[p] == self.default_options[p]:
+				self.defaults.append(p)
 		
 		self.screensessions = []
 		
@@ -442,7 +426,7 @@ def screencommandfile(job):
 		towrite = "\tjob.deliveryclerk.send_subjob_inscreen(job[n], storage)\n"
 		f.write(towrite)
 	else:
-		for sj in job.select("new"):
+		for sj in job.select("new", update=False):
 			sjnum = sj.subjobnumber
 			towrite = "job_dict_{0} = {1}\n"
 			f.write(towrite.format(sjnum, sj.outdict()))

@@ -32,6 +32,11 @@ DATABASE = getdatabase()
 
 DEBUG = 0
 
+TIME_NEW = 15 #minutes, time between check of status if status is new
+TIME_RUNNING = 5
+TIME_FAILED = 0
+TIME_SUBMITTED = 15
+
 class JobCollection(object):
     """
     Simulation job collection.
@@ -682,8 +687,11 @@ class SimulationJob(object):
             yield self[n]
             
         
-    def select(self, status):
-        return [self[n] for n in self.range_subjobs if self[n].status == status]
+    def select(self, status, update=True):
+        if update:
+            return [self[n] for n in self.range_subjobs if self[n].status == status]
+        else:
+            return [self[n] for n in self.range_subjobs if self[n].last_status == status]
                 
     @property
     def last_status( self):	
