@@ -32,7 +32,7 @@ To launch the module just type `simprod`.
 
 You need to to know:
 
-* the EvtType of the process you want to generate ([DecFiles webpage](http://lhcb-release-area.web.cern.ch/LHCb-release-area/DOC/decfiles/releases/dev/table_evttype.php))	
+* the EvtType of the process you want to generate ([DecFiles webpage](http://lhcbdoc.web.cern.ch/lhcbdoc/decfiles/))	
 
 * Year of data taking to simulate (Run I: 2011, 2012, Run II: 2015, 2016, 2017)
 

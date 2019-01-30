@@ -22,6 +22,6 @@ Simulations setups are taken from here [JIRA LHCb Gauss](https://its.cern.ch/jir
 	
 * 2015: [JIRA 2015 Sim09c](https://its.cern.ch/jira/browse/LHCBGAUSS-1184), Stripping: **24r1/24r1p1**, DDDBtag: **dddb-20170721-3**, CondDBtag: **sim-20161124-vc-mu100/sim-20161124-vc-md100**.
 
-* 2016: [JIRA 2016 Sim09c](https://its.cern.ch/jira/browse/LHCBGAUSS-1183), Stripping: **24r1/24r1p1**, DDDBtag: **dddb-20170721-3**, CondDBtag: **sim-20170721-2-vc-mu100/sim-20170721-2-vc-md100**.
+* 2016: [JIRA 2016 Sim09c](https://its.cern.ch/jira/browse/LHCBGAUSS-1183), Stripping: **28r1/28r1p1**, DDDBtag: **dddb-20170721-3**, CondDBtag: **sim-20170721-2-vc-mu100/sim-20170721-2-vc-md100**.
 
 * 2017: Not Implemented.
