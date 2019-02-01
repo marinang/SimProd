@@ -28,7 +28,7 @@ def getdatabase():
     
 DATABASE = getdatabase()
 
-DEBUG = 2
+DEBUG = 0
 
 TIME_NEW = 20 #minutes, time between check of status if status is new
 TIME_RUNNING = 5
@@ -46,6 +46,14 @@ class JobCollection(object):
         self.jobs = {}
         
         jobs = self.jobcollection
+        
+        if IsHTCondor():
+            self.htcondor = True
+            self.scheduler = Scheduler()
+            self.cwargs = {"scheduler": self.scheduler}
+        else:
+            self.htcondor = False
+            self.cwargs = {"scheduler": None}
 
         if len(jobs) > 0:	
                         
@@ -59,11 +67,12 @@ class JobCollection(object):
                 if job_k["status"] == "completed":
                     self.jobs[k] = None
                 else:
-                    self.jobs[k] = SimulationJob.from_doc(job_k)
+                    self.jobs[k] = SimulationJob.from_doc(job_k, **self.cwargs)
                     
                 t.update(1)
                 
             t.close()
+            
 
         self._update(in_init = True)
         
@@ -195,7 +204,7 @@ class JobCollection(object):
                 if printlevel > 0:
                     print(green("Loading Job {0}:".format(i)))
                     job_i_doc = self.jobcollection.get(doc_id=i)
-                    job_i = SimulationJob.from_doc(job_i_doc)
+                    job_i = SimulationJob.from_doc(job_i_doc,  **self.cwargs)
                     self.jobs[i] = job_i
                 
         return self.jobs[i]
@@ -229,9 +238,9 @@ class JobCollection(object):
 
         for j in to_update:
             if j.doc_id not in self.jobs.keys():
-                self.jobs[j.doc_id] = SimulationJob.from_doc(j)
+                self.jobs[j.doc_id] = SimulationJob.from_doc(j, **self.cwargs)
             elif len(self.jobs[j.doc_id].subjobs) == 0:
-                self.jobs[j.doc_id] = SimulationJob.from_doc(j)
+                self.jobs[j.doc_id] = SimulationJob.from_doc(j, **self.cwargs)
             else:
                 self.jobs[j.doc_id]._update_job_table(True)
         
@@ -247,7 +256,7 @@ class JobCollection(object):
             job_doc = self.jobcollection.get(doc_id=k)
             
             if k not in self.jobs.keys():
-                job = SimulationJob.from_doc(job_doc)
+                job = SimulationJob.from_doc(job_doc, **self.cwargs)
                 self.jobs[k] = job
             else:
                 job = self.jobs[k]
@@ -265,6 +274,7 @@ class JobCollection(object):
 
         if DEBUG > 0:
             print("Out of JobCollection._udpate")
+
 
 class SimulationJob(object):
     """
@@ -307,13 +317,12 @@ class SimulationJob(object):
 
         self._options["basedir"] = kwargs.get('basedir', _basedir)
         
-        self.deliveryclerk = DeliveryClerk(inscreen=self._inscreen)
+        self.htcondor = False
         
         if IsSlurm():
             self._options["loginprod"] = True
             
         elif IsHTCondor() or IsLSF():
-        
             if os.getenv("LOG_SIMOUTPUT"):
                 self._options["loginprod"] = kwargs.get('loginprod', False)
             else:
@@ -321,6 +330,14 @@ class SimulationJob(object):
                 
             if not self._options["loginprod"]:
                 self._options["logdir"] = kwargs.get('logdir', os.getenv("LOG_SIMOUTPUT"))
+                
+        if IsHTCondor():
+            self.htcondor = True
+            
+        self.scheduler = kwargs.get("scheduler", None)
+        
+        self.deliveryclerk = DeliveryClerk(inscreen=self._inscreen, scheduler=self.scheduler)
+        
                             
         if not self.options.get("loginprod", True):						
                 self._options["logdestdir"]  = "{0}/{1}".format( self.options["logdir"], self.subdir())
@@ -661,16 +678,17 @@ class SimulationJob(object):
         else:
             info_msg = "INFO\tremoving job"
         print(info_msg)
+        
+        sjkill = self.deliveryclerk.kill(job=self)
                 
         for n in self.range_subjobs:
             sj = self[n]
             
             if sj and sj.status == "running":
-                sj.kill(storeparent = False)
+                sj.kill(storeparent = False, sjkill=sjkill)
             
         self.database.purge_table("job_{}".format(self.jobnumber))
         self.database.table("jobs").remove(doc_ids=[self.jobnumber])
-        self.deliveryclerk.kill()
         
     
     def __getitem__(self, sjob_number):
@@ -923,9 +941,9 @@ class SimulationJob(object):
             print("Out of SimulationJob._update_job_table, jobnumber:{0}".format(self.jobnumber))
                         
     @classmethod
-    def from_dict(cls, dict, jobnumber, inscreen = False, printlevel = 1):
+    def from_dict(cls, dict, jobnumber, inscreen = False, printlevel = 1, **kwargs):
         
-        if DEBUG > 0:
+        if DEBUG > 1:
             print("in SimulationJob.from_dict")
                 
         simjob = cls( 
@@ -941,7 +959,8 @@ class SimulationJob(object):
                     turbo=dict["turbo"],	
                     basedir=dict["basedir"],
                     newjob=False,
-                    jobnumber=jobnumber
+                    jobnumber=jobnumber,
+                    **kwargs
                     )						
 
         simjob.jobnumber = jobnumber	
@@ -962,9 +981,9 @@ class SimulationJob(object):
         if not simjob._options["cpumemory"]:
             simjob._options["cpumemory"] = dict.get("cpu", None)
                 
-        simjob.deliveryclerk = DeliveryClerk.from_dict(dict["deliveryclerk"])
+        simjob.deliveryclerk = DeliveryClerk.from_dict(dict["deliveryclerk"], **kwargs)
                     
-        if DEBUG > 0:
+        if DEBUG > 1:
             print(simjob.jobtable)
             
         if len(simjob.jobtable) > 0:
@@ -987,13 +1006,13 @@ class SimulationJob(object):
         return simjob
             
     @classmethod
-    def from_doc(cls, doc, inscreen = False, printlevel = 1):
+    def from_doc(cls, doc, inscreen = False, printlevel = 1, **kwargs):
         
-        if DEBUG > 0:
+        if DEBUG > 1:
             print("in SimulationJob.from_doc")
 
         jobnumber = doc.doc_id
-        simjob = cls.from_dict(doc, jobnumber, inscreen, printlevel)
+        simjob = cls.from_dict(doc, jobnumber, inscreen, printlevel, **kwargs)
                 
         return simjob
         
@@ -1113,7 +1132,6 @@ class SimulationJob(object):
         p.text(self.__str__())   
                  
 
-                    
 class SimulationSubJob(object):
     """
     Simulation subjob.
@@ -1157,19 +1175,8 @@ class SimulationSubJob(object):
         if not self.send_options["loginprod"]:
             self.logjobdir = "{0}/{1}".format(self.send_options["logdestdir"],
                                               self.jobname)
-            
-        
-#        self.send_options["jobname"] = self.jobname
-#        self.send_options["infiles"] = self.infiles
-#        self.send_options["command"] = self._command()
         
         self._status = Status(status="new", output=self.output)
-        
-#        self._submitted = False
-#        self._running   = False
-#        self._finished  = False
-#        self._completed = False
-#        self._failed    = False
         
         if kwargs.get("newsubjob", True):
             self.parenttable.insert(self.outdict())
@@ -1207,12 +1214,6 @@ class SimulationSubJob(object):
             self.jobid = self.parent.deliveryclerk.send_subjob(self)
             
             if self.jobid:
-#                self._submitted = True
-#                self._running   = False
-#                self._finished  = False
-#                self._completed = False
-#                self._failed    = False
-#                self._status    = "submitted"
                 self._status = Status("submitted", self.output)
                             
                 time.sleep(0.07)
@@ -1250,26 +1251,17 @@ class SimulationSubJob(object):
                     if DEBUG > 0:
                         toprint += " C"
                     status = self.parent.deliveryclerk.getstatus(self.jobid)
-                    self._status = Status(status, self.output)
+                    if status != "error":
+                        self._status = Status(status, self.output)
                     
             if DEBUG > 0:
                 print(toprint)
-            
-#            if not self._finished and self._submitted:
-#                self._updatestatus()
-#            if not self._submitted:
-#                self._status = "new"
-#            elif self._submitted and not self._running and not self._finished:
-#                self._status = "submitted"
-#            elif self._submitted and self._running and not self._finished:
-#                self._status = "running"
+
             elif self._status.submitted and not self._status.running and self._status.finished:
                 if self._status.completed:
-#                    self._status = "completed"
                     if not self.output == self.destfile and not self.output == "":
                         self._move_jobs()
                 elif self._status.failed:
-#                    self._status = "failed"
                     self._empty_proddir(keep_log = True)
                     
             if _previous != self._status:
@@ -1289,25 +1281,7 @@ class SimulationSubJob(object):
                 
         return repr(self._status)
         
-#    def _updatestatus(self):
-#        
-#        status = self.parent.deliveryclerk.getstatus(self.jobid)	
-#                        
-#        if status == "running":
-#            self._running = True
-#            
-#        elif status == "completed" or status == "cancelled" or status == "failed" or status == "notfound":
-#            self._running = False
-#            self._finished = True
-#                        
-#            if self.output != "" and os.path.isfile(self.output):							
-#                if os.path.isfile(self.output) and os.path.getsize(self.output) > 900000:
-#                    self._completed = True
-#                elif os.path.isfile(self.output) and os.path.getsize(self.output) < 900000:
-#                    self._failed = True	
-#            elif self.output == "":
-#                self._failed = True
-                                        
+                                                
     @property
     def output(self):
         if os.path.isfile(self.prodfile):
@@ -1324,12 +1298,6 @@ class SimulationSubJob(object):
             
         self._empty_proddir()
         self.jobid = None
-#        self._submitted = False
-#        self._running = False
-#        self._finished = False
-#        self._completed = False
-#        self._failed = False
-#        self._status = "new"
         self._status = Status("new", self.output)
         self._update_subjob_table()
             
@@ -1344,22 +1312,10 @@ class SimulationSubJob(object):
         command["args"].append(self.parent.mudst)
         command["args"].append(self.parent.stripping)
         command["args"].append(self.parent.redecay)
-        
-#        command = doprod
-#        command += ' {0}'.format(self.parent.optfile)
-#        command += ' {0}'.format(self.parent.neventsjob)
-#        command += ' {0}'.format(self.polarity)
-#        command += ' {0}'.format(self.runnumber)
-#        command += ' {0}'.format(self.parent.turbo)
-#        command += ' {0}'.format(self.parent.mudst)
-#        command += ' {0}'.format(self.parent.stripping)
-#        command += ' {0}'.format(self.parent.redecay)
-            
         return command
         
-    
-                                    
-    def kill(self, storeparent=True):
+
+    def kill(self, storeparent=True, sjkill=True):
         
         if self.parent.jobnumber:
             info_msg = "INFO\tkilling subjob {0}.{1}"
@@ -1370,20 +1326,17 @@ class SimulationSubJob(object):
         
         print(info_msg)
         
-        if self._status.submitted:
-            self.parent.deliveryclerk.killsubjob(self.jobid)
+        if sjkill:
+            if self._status.submitted:
+                self.parent.deliveryclerk.killsubjob(self.jobid)
                 
-#        self._failed = True
-#        self._running = False
-#        self._completed = False
-#        self._finished  = True
-#        self._status    = "failed"
         self._status = Status("failed", self.output)
         self._update_subjob_table()
         if storeparent:
             self.parent._store_job_table()
         self._empty_proddir()
-            
+       
+         
     def _empty_proddir(self, keep_log=False):
         if os.path.isdir(self.jobdir):
             if keep_log and self.send_options["loginprod"]:
@@ -1481,7 +1434,7 @@ class SimulationSubJob(object):
                         newsubjob = False 
                         )
                         
-        if DEBUG > 0:
+        if DEBUG > 1:
             print("In SimulationSubJob.from_dict, subjob={0}.".format(subjobnumber))
                         
         simsubjob.jobid = dict["jobid"]
@@ -1491,22 +1444,6 @@ class SimulationSubJob(object):
         status = dict["status"]
         
         simsubjob._status = Status(status, simsubjob.output)
-        
-#        simsubjob._status = dict["status"]
-#        
-#        if status == "submitted":
-#            simsubjob._submitted = True
-#        elif status == "running":
-#            simsubjob._submitted = True
-#            simsubjob._running   = True
-#        elif status == "failed":
-#            simsubjob._submitted = True
-#            simsubjob._finished  = True
-#            simsubjob._failed    = True
-#        elif status == "completed":
-#            simsubjob._submitted = True
-#            simsubjob._finished  = True
-#            simsubjob._completed = True
                             
         if not simsubjob.send_options["loginprod"]:
             simsubjob.logjobdir = dict["logjobdir"]
@@ -1525,7 +1462,6 @@ class SimulationSubJob(object):
                 
         return simsubjob
                 
-        
 # utilities
 
 def checksiminputs(job):

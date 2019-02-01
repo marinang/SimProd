@@ -1,6 +1,6 @@
 # Simulation production
 
-Mini framework to send LHCb simulation jobs on a batch system (LSF or Slurm)!
+Mini framework to send LHCb simulation jobs on a batch system (HTCondor, LSF or Slurm)!
 
 ## Installation
 

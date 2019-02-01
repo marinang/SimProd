@@ -224,7 +224,7 @@ class DeliveryClerk(object):
 		return {"options": self.options, "screensessions": self.screensessions, "defaults": self.defaults}
 		
 	@classmethod
-	def from_dict(cls, dict):
+	def from_dict(cls, dict, **kwargs):
 		deliveryclerk = cls(**dict["options"])	
 		deliveryclerk.screensessions = dict["screensessions"]	
 		
@@ -305,12 +305,6 @@ class DeliveryClerk(object):
 		subjob.jobid = subjobid
 		
 		if subjob.jobid:
-#			subjob._submitted = True
-#			subjob._running = False
-#			subjob._finished = False
-#			subjob._completed = False
-#			subjob._failed = False
-#			subjob._status = "submitted"
 			self._status = Status("submitted", self.output)
 			
 						
@@ -353,10 +347,11 @@ class DeliveryClerk(object):
 			os.remove(pyname)
 			
 			
-	def kill(self):
+	def kill(self, **kwargs):
 		for sc in self.screensessions:
 			KillScreenSession(sc["name"])	
 			self.screensessions = []
+		return True
 		
 	def killsubjob(self, ID):
 		Kill(ID)

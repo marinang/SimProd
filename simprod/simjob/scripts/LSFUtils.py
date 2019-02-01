@@ -85,7 +85,7 @@ class DeliveryClerk(object):
 		
 		
 	@classmethod
-	def from_dict(cls, dict):
+	def from_dict(cls, dict, **kwargs):
 		deliveryclerk = cls(**dict["options"])	
 		
 		return deliveryclerk
@@ -117,8 +117,8 @@ class DeliveryClerk(object):
 	def clear(self, job):
 		pass
 		
-	def kill(self):
-		pass
+	def kill(self, **kwargs):
+		return True
 		
 	def killsubjob(self, ID):
 		Kill(ID)

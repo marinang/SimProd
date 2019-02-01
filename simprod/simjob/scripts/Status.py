@@ -11,11 +11,11 @@ import time
 import subprocess
 import datetime
 
-TIME_NEW = 0 #minutes, time between check of status if status is new
-TIME_RUNNING = 5
+TIME_NEW = 20 #minutes, time between check of status if status is new
+TIME_RUNNING = 10
 TIME_FAILED = 35
-TIME_SUBMITTED = 1
-DEBUG = 2
+TIME_SUBMITTED = 5
+DEBUG = 0
 
 class Status(object):
 	
@@ -93,10 +93,6 @@ class Status(object):
 			print("In Status.isvalid: Delta={0}; elapsed time={1}, valid={2}".format(delta, minutes, valid))
 		
 		return valid		
-#		if minutes > delta:
-#			return False
-#		else:
-#			return True
 			
 	def __eq__(self, other):
 		if isinstance(other, Status):
@@ -105,6 +101,9 @@ class Status(object):
 			return self.status == other
 		else:
 			raise ValueError()
+			
+	def __ne__(self, other):
+		return not self.__eq__(other)
 			
 	def __repr__(self):
 		return self.status
@@ -244,21 +243,3 @@ def IsMoved( Job ):
 		else:
 			raise(NotImplementedError("File is lost!"))
 		
-#def Status( Jobs ):
-#	
-#	def count( Jobs, status ):
-#		n = 0
-#		for i in range( Jobs["njobs"] ):
-#			if Jobs[str(i)][status]:
-#				n += 1
-#		return n
-#			
-#	SetStatus( Jobs )
-#	nrunning   = count( Jobs, "running")
-#	ncompleted = count( Jobs, "completed")
-#	nfailed    = count( Jobs, "failed")
-#		
-#	print( blue( "{nthisjob}/{njobs} jobs submitted!".format( **Jobs )  ) )
-#	print( cyan( "{0} jobs running!".format( nrunning ) ) )
-#	print( green( "{0} jobs completed!".format( ncompleted ) ) )
-#	print( magenta( "{0} jobs failed!".format( nfailed ) ) )
