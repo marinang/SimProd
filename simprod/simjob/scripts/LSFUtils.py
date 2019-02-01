@@ -9,6 +9,7 @@ import os
 from .utils import *
 import sys
 from .submit import main as submit
+from .Status import Status
 
 def Kill(ID):
 	
@@ -96,8 +97,8 @@ class DeliveryClerk(object):
 			
 						
 	def send_subjob(self, subjob):
-		if not subjob._submitted or subjob._failed:
-			if subjob._failed:
+		if not subjob._status.submitted or subjob._status.failed:
+			if subjob._status.failed:
 				subjob.reset()
 			
 			send_options = subjob.send_options
@@ -110,11 +111,17 @@ class DeliveryClerk(object):
 	def get_update_subjobs(self, job):
 		return None
 		
+	def getstatus(self, ID):
+		return GetStatus(ID)
+		
 	def clear(self, job):
 		pass
 		
 	def kill(self):
 		pass
+		
+	def killsubjob(self, ID):
+		Kill(ID)
 				
 	def addvar(self, var, allowed_values=[]):
 		

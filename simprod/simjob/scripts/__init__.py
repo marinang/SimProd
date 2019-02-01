@@ -5,6 +5,7 @@ from .utils import *
 from .Status import *
 from .MoveJobs import *
 from .ScreenUtils import *
+import os
 
 def IsSlurm():
 	
@@ -19,7 +20,7 @@ def IsSlurm():
 		
 def IsLSF():
 	
-	### Slurm
+	### LSF
 	try:
 		P = Popen(['bjobs'], stdout=PIPE)
 		_, _ = P.communicate()
@@ -28,10 +29,33 @@ def IsLSF():
 	else:
 		return True
 		
+def IsHTCondor():
+	
+	### HTCondor
+	
+	out = os.popen("which condor_q").read()
+	
+	if "condor_q" in out:
+		return True
+	else:
+		return False
+#	
+#	
+#	try:
+#		P = Popen(['condor_q'], stdout=PIPE)
+#		_, _ = P.communicate()
+#	except OSError:
+#		return False
+#	else:
+#		return True
+		
 if IsSlurm():
 	from .SlurmUtils import *
 	
-if IsLSF():
+elif IsHTCondor():
+	from .HTCondorUtils import *
+	
+elif IsLSF():
 	from .LSFUtils import *
 
 

@@ -1,6 +1,4 @@
 #!/usr/bin/python
-
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 ## Author: Matthieu Marinangeli
@@ -30,12 +28,12 @@ def getdatabase():
     
 DATABASE = getdatabase()
 
-DEBUG = 0
+DEBUG = 2
 
-TIME_NEW = 15 #minutes, time between check of status if status is new
+TIME_NEW = 20 #minutes, time between check of status if status is new
 TIME_RUNNING = 5
-TIME_FAILED = 0
-TIME_SUBMITTED = 15
+TIME_FAILED = 5
+TIME_SUBMITTED = 1
 
 class JobCollection(object):
     """
@@ -93,8 +91,13 @@ class JobCollection(object):
         h_year = "   year "
         h_nevents = "  #events "
         h_subjobs = "  #subjobs "
+        h_running = "  #R "
+        h_completed = "  #C "
+        h_failed = "  #F "
             
-        header = "|".join([h_job, h_status, h_evttype, h_year, h_nevents, h_subjobs]) + "|"
+        tojoin = [h_job, h_status, h_evttype, h_year, h_nevents, h_subjobs, h_running, h_completed,
+                  h_failed]
+        header = "|".join(tojoin) + "|"
         line   = "".join(["-" for i in xrange(len(header) - 2)])
                     
         toprint.append(line)
@@ -109,7 +112,15 @@ class JobCollection(object):
                 evttype = job.evttype
                 year    = job.year
                 nevents = job.nevents
-                subjobs = job.nsubjobs            
+                subjobs = job.nsubjobs
+                if status == "new":
+                    nrunning = 0
+                    ncompleted = 0
+                    nfailed = 0
+                else:
+                    nrunning = len(job.select("running"))
+                    ncompleted = len(job.select("completed"))    
+                    nfailed = len(job.select("failed"))            
             else:
                 job_doc = self.jobcollection.get(doc_id=k)
                 status  = job_doc["status"]
@@ -117,6 +128,10 @@ class JobCollection(object):
                 year    = job_doc["year"]
                 nevents = job_doc["nevents"]
                 subjobs = job_doc["nsubjobs"]
+                nrunning = job_doc["nrunning"]
+                ncompleted = job_doc["ncompleted"]
+                nfailed = job_doc["nfailed"]
+
                     
             if status == "submitted":
                 color = cyan
@@ -143,7 +158,16 @@ class JobCollection(object):
             
             p_subjobs = "{n:{fill}{al}{w}} ".format(w=(len(h_subjobs)-1), al='>', fill='', n=subjobs)
             
-            linejob = "|".join([p_job, p_status, p_evttype, p_year, p_nevents, p_subjobs]) + "|"
+            p_running = "{n:{fill}{al}{w}} ".format(w=(len(h_running)-1), al='>', fill='', n=nrunning)
+            
+            p_completed = "{n:{fill}{al}{w}} ".format(w=(len(h_completed)-1), al='>', fill='', n=ncompleted)
+            
+            p_failed = "{n:{fill}{al}{w}} ".format(w=(len(h_failed)-1), al='>', fill='', n=nfailed)
+            
+            tojoin = [p_job, p_status, p_evttype, p_year, p_nevents, p_subjobs, p_running, p_completed,
+                      p_failed]
+            
+            linejob = "|".join(tojoin) + "|"
                         
             toprint.append(color(linejob))
                 
@@ -270,7 +294,7 @@ class SimulationJob(object):
         self._keepxmls = kwargs.get('keepxmls', True)
         self._redecay = kwargs.get('redecay', False)
         self._status = "new"
-        
+                
         self._evttype = kwargs.get('evttype', None)	
         if self._evttype is None:
             raise ValueError("Please set evttype!")
@@ -288,8 +312,8 @@ class SimulationJob(object):
         if IsSlurm():
             self._options["loginprod"] = True
             
-        elif IsLSF():            
-            
+        elif IsHTCondor() or IsLSF():
+        
             if os.getenv("LOG_SIMOUTPUT"):
                 self._options["loginprod"] = kwargs.get('loginprod', False)
             else:
@@ -382,6 +406,9 @@ class SimulationJob(object):
             raise ValueError("simcond must be Sim09b or Sim09c!")
         self._simcond = value
         
+    @property
+    def doprod(self):
+        return DoProd(self.simcond, self.year)
         
     @property	
     def stripping(self):
@@ -655,7 +682,10 @@ class SimulationJob(object):
         if not isinstance(sjob_number, int):
             msg = "Job number must be a 'int'. Got a '{0}' instead!"
             raise TypeError(msg.format(sjob_number.__class__.__name__))
-            
+         
+        if len(self.keys) == 0:
+            raise ValueError("Please 'prepare' the job before doing this!")
+           
         if not sjob_number in self.keys:
             print("WARNING\tsubjob {0}.{1} has been lost!".format(self.jobnumber, sjob_number))
             self.subjobs[sjob_number] = self._load_subjob(sjob_number, force_load = True)
@@ -819,6 +849,19 @@ class SimulationJob(object):
                    "redecay": self._redecay,
                    "deliveryclerk": self.deliveryclerk.outdict()
                    } 
+          
+        outdict["nrunning"] = 0
+        outdict["ncompleted"] = 0
+        outdict["nfailed"] = 0      
+                
+        if not outdict["status"] == "new":
+            try:
+                outdict["nrunning"] = len(self.select("running", False))
+                outdict["ncompleted"] = len(self.select("completed", False))
+                outdict["nfailed"] = len(self.select("failed", False))
+            except TypeError:
+                pass
+            
             
         if not self.options["loginprod"]:
             outdict["logdir"]     = self.options["logdir"]
@@ -845,6 +888,9 @@ class SimulationJob(object):
                 
                 job = self[n]
                 
+                if job._status.isvalid and not job.status == "submitted":
+                    continue
+                
                 if job.status  == "completed":
                     continue
                     
@@ -865,10 +911,10 @@ class SimulationJob(object):
                         if doc["jobid"] != job.jobid:
                             job.jobid = doc["jobid"]
                         if doc["status"] != job.status and job.status == "new":
-                            job._status = doc["status"]
+                            job._status = Status(doc["status"], job.output)
                             
                         if doc["status"] != "new" and doc["jobid"] is not None:
-                            job._submitted = True
+                            job._status.submitted = True
                             
                     else:
                         job._update_subjob_table()
@@ -1080,7 +1126,6 @@ class SimulationSubJob(object):
         self.subjobnumber = subjobnumber
         self.jobid = None
         self.send_options = self.parent.options.copy()
-        self._status = "new"
                         
         self._infiles = kwargs.get("infiles", [])
         self.send_options["infiles"] = self._infiles
@@ -1108,21 +1153,23 @@ class SimulationSubJob(object):
                                                               self.parent.stripping, 
                                                               self.runnumber, 
                                                               ext)
-                                                                                    
+                                                                                                                                                
         if not self.send_options["loginprod"]:
             self.logjobdir = "{0}/{1}".format(self.send_options["logdestdir"],
                                               self.jobname)
             
         
-        self.send_options["jobname"] = self.jobname
-        self.send_options["infiles"] = self.infiles
-        self.send_options["command"] = self._command()
+#        self.send_options["jobname"] = self.jobname
+#        self.send_options["infiles"] = self.infiles
+#        self.send_options["command"] = self._command()
         
-        self._submitted = False
-        self._running   = False
-        self._finished  = False
-        self._completed = False
-        self._failed    = False
+        self._status = Status(status="new", output=self.output)
+        
+#        self._submitted = False
+#        self._running   = False
+#        self._finished  = False
+#        self._completed = False
+#        self._failed    = False
         
         if kwargs.get("newsubjob", True):
             self.parenttable.insert(self.outdict())
@@ -1130,7 +1177,7 @@ class SimulationSubJob(object):
         
         if kwargs.get("to_store", False):
             self._update_subjob_table()
-            
+
             
     @property
     def parenttable(self):
@@ -1155,17 +1202,18 @@ class SimulationSubJob(object):
                                     
     def send(self):
         
-        if not self._submitted:
+        if not self._status.submitted:
         
             self.jobid = self.parent.deliveryclerk.send_subjob(self)
             
             if self.jobid:
-                self._submitted = True
-                self._running   = False
-                self._finished  = False
-                self._completed = False
-                self._failed    = False
-                self._status    = "submitted"
+#                self._submitted = True
+#                self._running   = False
+#                self._finished  = False
+#                self._completed = False
+#                self._failed    = False
+#                self._status    = "submitted"
+                self._status = Status("submitted", self.output)
                             
                 time.sleep(0.07)
                 print(blue("{0}/{1} jobs submitted!".format(int(self.subjobnumber), self.parent.nsubjobs)))
@@ -1183,64 +1231,82 @@ class SimulationSubJob(object):
     @property
     def status(self):
         
+        if DEBUG > 0:
+            print("in SimulationSubJob.status")
+        
         _previous = self.last_status
+        
+        toprint = ""
                 
         if not(_previous == "failed" or _previous == "completed"):
             
-            if not self._finished and self._submitted:
-                self._updatestatus()
-            if not self._submitted:
-                self._status = "new"
-            elif self._submitted and not self._running and not self._finished:
-                self._status = "submitted"
-            elif self._submitted and self._running and not self._finished:
-                self._status = "running"
-            elif self._submitted and not self._running and self._finished:
-                if self._completed:
-                    self._status = "completed"
+            if DEBUG > 0:
+                toprint += " A"
+            
+            if not self._status.finished and self._status.submitted:
+                if DEBUG > 0:
+                    toprint += " B"
+                if not self._status.isvalid:
+                    if DEBUG > 0:
+                        toprint += " C"
+                    status = self.parent.deliveryclerk.getstatus(self.jobid)
+                    self._status = Status(status, self.output)
+                    
+            if DEBUG > 0:
+                print(toprint)
+            
+#            if not self._finished and self._submitted:
+#                self._updatestatus()
+#            if not self._submitted:
+#                self._status = "new"
+#            elif self._submitted and not self._running and not self._finished:
+#                self._status = "submitted"
+#            elif self._submitted and self._running and not self._finished:
+#                self._status = "running"
+            elif self._status.submitted and not self._status.running and self._status.finished:
+                if self._status.completed:
+#                    self._status = "completed"
                     if not self.output == self.destfile and not self.output == "":
                         self._move_jobs()
-                elif self._failed:
-                    self._status = "failed"
+                elif self._status.failed:
+#                    self._status = "failed"
                     self._empty_proddir(keep_log = True)
-                    
-            
                     
             if _previous != self._status:
                 
                 if self.parent.jobnumber:
                     info_msg = "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'"
                     info_msg = info_msg.format(self.parent.jobnumber, self.subjobnumber,
-                                               _previous, self._status)
+                                                _previous, self._status)
                 else:
                     info_msg = "INFO\tstatus of job (evttype {0}, year {1}, run number {2})"
                     info_msg += " changed from '{3}' to '{4}'."
                     info_msg = info_msg.format(self.parent.evttype, self.parent.year,
-                                               self.runnumber, _previous, self._status)
+                                                self.runnumber, _previous, self._status)
                                                                                                                                                                     
                 print(info_msg)	
                 self._update_subjob_table()
                 
-        return self._status
+        return repr(self._status)
         
-    def _updatestatus(self):
-        
-        status = GetStatus(self.jobid)	
-                        
-        if status == "running":
-            self._running = True
-            
-        elif status == "completed" or status == "cancelled" or status == "failed" or status == "notfound":
-            self._running = False
-            self._finished = True
-                        
-            if self.output != "" and os.path.isfile(self.output):							
-                if os.path.isfile(self.output) and os.path.getsize(self.output) > 900000:
-                    self._completed = True
-                elif os.path.isfile(self.output) and os.path.getsize(self.output) < 900000:
-                    self._failed = True	
-            elif self.output == "":
-                self._failed = True
+#    def _updatestatus(self):
+#        
+#        status = self.parent.deliveryclerk.getstatus(self.jobid)	
+#                        
+#        if status == "running":
+#            self._running = True
+#            
+#        elif status == "completed" or status == "cancelled" or status == "failed" or status == "notfound":
+#            self._running = False
+#            self._finished = True
+#                        
+#            if self.output != "" and os.path.isfile(self.output):							
+#                if os.path.isfile(self.output) and os.path.getsize(self.output) > 900000:
+#                    self._completed = True
+#                elif os.path.isfile(self.output) and os.path.getsize(self.output) < 900000:
+#                    self._failed = True	
+#            elif self.output == "":
+#                self._failed = True
                                         
     @property
     def output(self):
@@ -1253,33 +1319,45 @@ class SimulationSubJob(object):
             
     def reset(self):
         
-        if self._status == "completed":
+        if self._status == "running":
             self.kill()
             
         self._empty_proddir()
         self.jobid = None
-        self._submitted = False
-        self._running = False
-        self._finished = False
-        self._completed = False
-        self._failed = False
-        self._status = "new"
+#        self._submitted = False
+#        self._running = False
+#        self._finished = False
+#        self._completed = False
+#        self._failed = False
+#        self._status = "new"
+        self._status = Status("new", self.output)
         self._update_subjob_table()
             
-    def _command(self):
-        doprod = DoProd(self.parent.simcond, self.parent.year)
+    def command(self):
+        command = dict(doprod=self.parent.doprod)
+        command["args"] = []
+        command["args"].append(self.parent.optfile)
+        command["args"].append(self.parent.neventsjob)
+        command["args"].append(self.polarity)
+        command["args"].append(self.runnumber)
+        command["args"].append(self.parent.turbo)
+        command["args"].append(self.parent.mudst)
+        command["args"].append(self.parent.stripping)
+        command["args"].append(self.parent.redecay)
         
-        command = doprod
-        command += ' {0}'.format(self.parent.optfile)
-        command += ' {0}'.format(self.parent.neventsjob)
-        command += ' {0}'.format(self.polarity)
-        command += ' {0}'.format(self.runnumber)
-        command += ' {0}'.format(self.parent.turbo)
-        command += ' {0}'.format(self.parent.mudst)
-        command += ' {0}'.format(self.parent.stripping)
-        command += ' {0}'.format(self.parent.redecay)
+#        command = doprod
+#        command += ' {0}'.format(self.parent.optfile)
+#        command += ' {0}'.format(self.parent.neventsjob)
+#        command += ' {0}'.format(self.polarity)
+#        command += ' {0}'.format(self.runnumber)
+#        command += ' {0}'.format(self.parent.turbo)
+#        command += ' {0}'.format(self.parent.mudst)
+#        command += ' {0}'.format(self.parent.stripping)
+#        command += ' {0}'.format(self.parent.redecay)
             
         return command
+        
+    
                                     
     def kill(self, storeparent=True):
         
@@ -1292,14 +1370,15 @@ class SimulationSubJob(object):
         
         print(info_msg)
         
-        if self._submitted:
-            Kill( self.jobid )
+        if self._status.submitted:
+            self.parent.deliveryclerk.killsubjob(self.jobid)
                 
-        self._failed = True
-        self._running = False
-        self._completed = False
-        self._finished  = True
-        self._status    = "failed"
+#        self._failed = True
+#        self._running = False
+#        self._completed = False
+#        self._finished  = True
+#        self._status    = "failed"
+        self._status = Status("failed", self.output)
         self._update_subjob_table()
         if storeparent:
             self.parent._store_job_table()
@@ -1377,7 +1456,7 @@ class SimulationSubJob(object):
                "runnumber": self.runnumber,
                "polarity": self.polarity,
                "jobid": self.jobid,
-               "status": self._status,
+               "status": repr(self._status),
                "infiles": self.infiles
                }
             
@@ -1402,26 +1481,32 @@ class SimulationSubJob(object):
                         newsubjob = False 
                         )
                         
+        if DEBUG > 0:
+            print("In SimulationSubJob.from_dict, subjob={0}.".format(subjobnumber))
+                        
         simsubjob.jobid = dict["jobid"]
         simsubjob.infiles = dict.get("infiles",[])
         simsubjob.send_options["infiles"] = dict.get("infiles",[])
         
         status = dict["status"]
-        simsubjob._status = dict["status"]
         
-        if status == "submitted":
-            simsubjob._submitted = True
-        elif status == "running":
-            simsubjob._submitted = True
-            simsubjob._running   = True
-        elif status == "failed":
-            simsubjob._submitted = True
-            simsubjob._finished  = True
-            simsubjob._failed    = True
-        elif status == "completed":
-            simsubjob._submitted = True
-            simsubjob._finished  = True
-            simsubjob._completed = True
+        simsubjob._status = Status(status, simsubjob.output)
+        
+#        simsubjob._status = dict["status"]
+#        
+#        if status == "submitted":
+#            simsubjob._submitted = True
+#        elif status == "running":
+#            simsubjob._submitted = True
+#            simsubjob._running   = True
+#        elif status == "failed":
+#            simsubjob._submitted = True
+#            simsubjob._finished  = True
+#            simsubjob._failed    = True
+#        elif status == "completed":
+#            simsubjob._submitted = True
+#            simsubjob._finished  = True
+#            simsubjob._completed = True
                             
         if not simsubjob.send_options["loginprod"]:
             simsubjob.logjobdir = dict["logjobdir"]
@@ -1439,7 +1524,7 @@ class SimulationSubJob(object):
         simsubjob = cls.from_dict(parent, doc, subjobnumber, to_store)
                 
         return simsubjob
-        
+                
         
 # utilities
 

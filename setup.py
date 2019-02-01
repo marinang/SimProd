@@ -45,6 +45,24 @@ def IsSlurm():
 	else:
 		return True
 		
+def IsHTCondor():
+	
+	out = os.popen("which condor_q").read()
+
+	if "condor_q" in out:
+		return True
+	else:
+		return False
+	
+#	### HTCondor
+#	try:
+#		P = Popen(['condor_q'], stdout=PIPE)
+#		_, _ = P.communicate()
+#	except OSError:
+#		return False
+#	else:
+#		return True
+		
 		
 def pathprint():
 	
@@ -88,6 +106,9 @@ class PostInstallSetting(install):
 					valid_answer = True
 				else:
 					valid_answer = False
+					
+			if IsHTCondor():
+				install_list.append("htcondor")
 					
 			if answer == "yes":
 				

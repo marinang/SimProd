@@ -15,6 +15,7 @@ from .ScreenUtils import *
 from tinydb import TinyDB, JSONStorage
 from tinydb.middlewares import CachingMiddleware
 from random import randint
+from .Status import Status
 
 try:
 	import pyslurm
@@ -271,8 +272,8 @@ class DeliveryClerk(object):
 			if not SUBMIT:
 				time.sleep(randint(0, 20) * 60)
 		
-		if not subjob._submitted or subjob._failed:
-			if subjob._failed:
+		if not subjob._status.submitted or subjob._status.failed:
+			if subjob._status.failed:
 				subjob.reset()
 			
 			send_options = subjob.send_options
@@ -304,12 +305,14 @@ class DeliveryClerk(object):
 		subjob.jobid = subjobid
 		
 		if subjob.jobid:
-			subjob._submitted = True
-			subjob._running = False
-			subjob._finished = False
-			subjob._completed = False
-			subjob._failed = False
-			subjob._status = "submitted"
+#			subjob._submitted = True
+#			subjob._running = False
+#			subjob._finished = False
+#			subjob._completed = False
+#			subjob._failed = False
+#			subjob._status = "submitted"
+			self._status = Status("submitted", self.output)
+			
 						
 			time.sleep(0.07)
 			print(blue("{0}/{1} jobs submitted!".format(subjob.subjobnumber, subjob.parent.nsubjobs)))
@@ -334,6 +337,8 @@ class DeliveryClerk(object):
 		else:
 			return None
 			
+	def getstatus(self, ID):
+		return GetStatus(ID)
 			
 	def clear(self, job):
 
@@ -353,6 +358,8 @@ class DeliveryClerk(object):
 			KillScreenSession(sc["name"])	
 			self.screensessions = []
 		
+	def killsubjob(self, ID):
+		Kill(ID)
 				
 	def addvar(self, var):
 		

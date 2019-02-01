@@ -15,7 +15,9 @@ import time
 import getpass
 import warnings
 
-def PrepareLxplusJob(**kwargs):
+DEBUG = 2
+
+def PrepareLSFJob(**kwargs):
     
     user = getpass.getuser()
     
@@ -56,6 +58,54 @@ def PrepareLxplusJob(**kwargs):
             
     return command
     
+def PrepareHTCondorJob(**kwargs):
+    
+    user = getpass.getuser()
+    
+    time     = kwargs.get("time", 7) #Maximum time of the job in hours (Slurm).
+    subdir   = kwargs.get("subdir", "")
+    jobname  = kwargs.get("jobname", "")
+    dirname  = kwargs.get("dirname" )
+    queue    = kwargs.get("queue", "1nd") #Choose bach queue (default 1nd) (lxplus) 
+    
+    loginprod = kwargs.get("loginprod", True)
+    clean    = kwargs.get("clean", True)
+        
+    if not loginprod:
+        logdir = os.getenv("LOG_SIMOUTPUT")
+        
+        if logdir is None:
+            logdirname = "/afs/cern.ch/work/{0}/{1}/{2}/{3}".format( user[0], user, subdir, jobname)
+        else:
+            logdirname = "{0}/{1}/{2}".format( logdir, subdir, jobname)
+            
+        if os.path.exists(logdirname) and clean :
+            shutil.rmtree(logdirname, ignore_errors = True)
+        os.makedirs(logdirname) 
+        
+    else:
+        logdirname = dirname
+        
+    kwargs["logdir"] = logdirname
+    
+    shutil.move("{dirname}/run.sh".format(**kwargs), "{logdir}/run.sh".format(**kwargs))
+    sub.call(['chmod', '775', logdirname + "/run.sh"])
+    
+    condor = open("{logdir}/run.sub".format(**kwargs), "w")
+    condor.write("executable = {logdir}/run.sh\n".format(**kwargs))
+    condor.write("output = {logdir}/out\n".format(**kwargs))
+    condor.write("error = {logdir}/err\n".format(**kwargs))
+    condor.write("log = {logdir}/log\n".format(**kwargs))
+    condor.write("+JobFlavour = {jobflavour}\n".format(**kwargs))
+    condor.write("queue")
+    condor.close()
+
+    #prepare lxplus batch job submission
+    
+    command = "condor_submit {logdir}/run.sub".format(**kwargs)
+            
+    return command
+    
 def SendCommand(command):
         
     if sys.version_info[0] > 2:
@@ -65,6 +115,10 @@ def SendCommand(command):
         
     time.sleep(0.03)
     out, err = process.communicate()
+    
+    if DEBUG > 0:
+        print(out)
+        print(err)
             
     return out
     
@@ -159,16 +213,14 @@ def main( **kwargs ):
         jobdir = os.getenv("HOME")+"/jobs"
         os.makedirs(jobdir)
 
-    subdir   = kwargs.get("subdir", "")       #Folder of the job, notice that the job is created anyway in a folder called as the jobname, so this is intended to group jobs.
-    run      = kwargs.get("run", -1)          #Add run number.
-    basedir  = kwargs.get("basedir", jobdir)  #This option bypasses the JOBDIR environment variable and creates the job's folder in the specified folder.
-    jobname  = kwargs.get("jobname", "")      #Give a name to the job. The job will be also created in a folder with its name (default is the executable name).
-    clean    = kwargs.get("clean", True)      #If the job folder already exists by default it cleans it up. This option bypasses the cleaning up.
-    unique   = kwargs.get("unique", True)     #Copy the executable only once in the top folder (and not in each job folders).
-    infiles  = kwargs.get("infiles", [])      #Files to copy over.
-    command  = kwargs.get("command", "")      #Command to launch.
-    slurm    = kwargs.get("slurm", False)
-    lsf      = kwargs.get("lsf", False)
+    subdir   = kwargs.get("subdir", "")       
+    run      = kwargs.get("run", -1)          
+    basedir  = kwargs.get("basedir", jobdir) 
+    jobname  = kwargs.get("jobname", "")   
+    clean    = kwargs.get("clean", True)  
+    unique   = kwargs.get("unique", True)
+    infiles  = kwargs.get("infiles", [])
+    command  = kwargs.get("command", "") 
 
     exe, execname = None, None
     commands = command.split(' ')
@@ -177,10 +229,6 @@ def main( **kwargs ):
     elif "." in commands[0] : 
         execname = commands[0].replace('./','')
         args = commands[1:]
-    elif "lb-run" in commands[0] :
-        exe      = "{0} {1} {2}".format(commands[0],commands[1],commands[2])
-        execname = commands[3]
-        args = commands[4:]
     elif len(commands) > 1 : 
         execname = commands[1]
         exe      = commands[0]
@@ -230,6 +278,7 @@ def main( **kwargs ):
         ########################################################################################
 
         runfile = open(dirname+"/run.sh","w")
+        runfile.write("#!/bin/bash\n")
         runfile.write( "cd " + dirname + "\n")
 
         if exe is None:
@@ -255,19 +304,29 @@ def main( **kwargs ):
         if( subdir != "" ) :
             subdir = (re.sub("^.*/","",subdir)+"_")
                 
-        if "lxplus" in os.getenv("HOSTNAME") and lsf:  ## Batch for lxplus
-            command = PrepareLxplusJob( **kwargs )
-            out = SendCommand( command )
-            try:
-                ID = int( out.split(" ")[1].replace(">","").replace("<","") )
-                print( "Submitted batch job {0}".format(ID) )
-                return ID
-            except IndexError:
-                return None
+        if "lxplus" in os.getenv("HOSTNAME"):
+            if lsf:  ## Batch for lxplus
+                command = PrepareLSFJob(**kwargs)
+                out = SendCommand(command)
+                try:
+                    ID = int( out.split(" ")[1])
+                    print( "Submitted batch job {0}".format(ID) )
+                    return ID
+                except IndexError:
+                    return None
+            elif htcondor:
+                command = PrepareHTCondorJob(**kwargs)
+                out = SendCommand(command)
+                try:
+                    ID = int(float(out.split("\n")[1].split(" ")[-1]))
+                    print( "Submitted batch job {0}".format(ID) )
+                    return ID
+                except IndexError:
+                    return None
             
         elif slurm:
-            command = PrepareSlurmJob( **kwargs )
-            out = SendCommand( command )
+            command = PrepareSlurmJob(**kwargs)
+            out = SendCommand(command)
             ID = int( out.split(" ")[-1] )
             print( "Submitted batch job {0}".format(ID) )
             return ID
