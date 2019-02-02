@@ -1443,7 +1443,7 @@ class SimulationSubJob(object):
         
         status = dict["status"]
         
-        simsubjob._status = Status(status, simsubjob.output)
+        simsubjob._status = Status(status, simsubjob.output, in_init=True)
                             
         if not simsubjob.send_options["loginprod"]:
             simsubjob.logjobdir = dict["logjobdir"]

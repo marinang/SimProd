@@ -19,13 +19,14 @@ DEBUG = 0
 
 class Status(object):
 	
-	def __init__(self, status, output):
+	def __init__(self, status, output, in_init=False):
 		
 		self.submitted = False
-		self.running   = False
-		self.finished  = False
+		self.running = False
+		self.finished = False
 		self.completed = False
-		self.failed    = False
+		self.failed = False
+		self.in_init = in_init
 		
 		self.status = status
 		self.output = output
@@ -71,7 +72,11 @@ class Status(object):
 			print("In Status.__init__, status={0}, time={1}".format(status, self.creation_time))   
 
 	@property
-	def isvalid(self):        
+	def isvalid(self):
+		
+		if self.in_init:
+			return False
+
 		if self.status == "new":
 			delta = TIME_NEW
 		elif self.status == "running":

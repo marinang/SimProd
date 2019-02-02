@@ -15,7 +15,7 @@ import time
 import getpass
 import warnings
 
-DEBUG = 2
+DEBUG = 0
 
 def PrepareLSFJob(**kwargs):
     
