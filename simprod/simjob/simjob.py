@@ -660,6 +660,7 @@ class SimulationJob(object):
             if len(failedsubjobs) > 0:
                 for sj in failedsubjobs:
                     sj.reset()
+            self._update_job_table(True)  
             self.deliveryclerk.send_job(self)
             self._update_job_table(True)            
             
@@ -811,7 +812,11 @@ class SimulationJob(object):
             elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted == self.nsubjobs and nfailed == 0:
                 _status = "completed"
             elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted < self.nsubjobs and nfailed > 0:
-                _status = "failed"
+#                print(self.nsubjobs, ncompleted, nfailed)
+                if ncompleted + nfailed == self.nsubjobs:
+                    _status = "failed"
+                else:
+                    _status = "submitted"
                 
             if _status == "completed":
                 self.deliveryclerk.clear(self)
