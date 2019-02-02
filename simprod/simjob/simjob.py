@@ -23,7 +23,7 @@ jobsfile = "{0}/simjobs.json".format(simprod)
 
 def getdatabase():
     storage = CachingMiddleware(JSONStorage)
-    storage.WRITE_CACHE_SIZE = 1000
+    storage.WRITE_CACHE_SIZE = 750
     return TinyDB(jobsfile, storage=storage)
     
 DATABASE = getdatabase()
@@ -660,7 +660,7 @@ class SimulationJob(object):
             if len(failedsubjobs) > 0:
                 for sj in failedsubjobs:
                     sj.reset()
-            self._update_job_table(True)  
+#            self._update_job_table(True)  
             self.deliveryclerk.send_job(self)
             self._update_job_table(True)            
             
