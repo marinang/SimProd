@@ -277,6 +277,10 @@ class DeliveryClerk(object):
 				subjob.reset()
 			
 			send_options = subjob.send_options
+			command = subjob.command()["doprod"] + " "
+			command += " ".join(str(a) for a in subjob.command()["args"])
+			send_options["command"] = command
+			send_options["slurm"] = True
 			send_options = self.new_send_options(send_options)
 			subjobid = submit(**send_options)
 			
@@ -285,7 +289,7 @@ class DeliveryClerk(object):
 	def send_subjob_inscreen(self, subjob, storage):
 		
 		subjobid = None
-		
+
 		self.updateoptions()		
 		SUBMIT = False
 		while SUBMIT is False:
@@ -294,27 +298,31 @@ class DeliveryClerk(object):
 				storage.flush()
 				time.sleep(randint(0, 20) * 60)
 		
-		if not subjob._submitted or subjob._failed:
-			if subjob._failed:
+		if not subjob._status.submitted or subjob._status.failed:
+			if subjob._status.failed:
 				subjob.reset()
 			
 			send_options = subjob.send_options
+			command = subjob.command()["doprod"] + " "
+			command += " ".join(str(a) for a in subjob.command()["args"])
+			send_options["command"] = command
+			send_options["slurm"] = True
 			send_options = self.new_send_options(send_options)
 			subjobid = submit(**send_options)
+				
+			subjob.jobid = subjobid
 			
-		subjob.jobid = subjobid
-		
-		if subjob.jobid:
-			self._status = Status("submitted", self.output)
+			if subjob.jobid:
+				self._status = Status("submitted", subjob.output)
+				
+							
+				time.sleep(0.07)
+				print(blue("{0}/{1} jobs submitted!".format(subjob.subjobnumber, subjob.parent.nsubjobs)))
+				time.sleep(0.07)				
+			else:
+				print(red("job {0}/{1} submission failed, try later!".format(subjob.subjobnumber, subjob.parent.nsubjobs)))
 			
-						
-			time.sleep(0.07)
-			print(blue("{0}/{1} jobs submitted!".format(subjob.subjobnumber, subjob.parent.nsubjobs)))
-			time.sleep(0.07)				
-		else:
-			print(red("job {0}/{1} submission failed, try later!".format(subjob.subjobnumber, subjob.parent.nsubjobs)))
-		
-		subjob._update_subjob_table()
+			subjob._update_subjob_table()
 
 		
 	def get_update_subjobs(self, job):

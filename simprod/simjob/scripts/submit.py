@@ -58,54 +58,6 @@ def PrepareLSFJob(**kwargs):
             
     return command
     
-def PrepareHTCondorJob(**kwargs):
-    
-    user = getpass.getuser()
-    
-    time     = kwargs.get("time", 7) #Maximum time of the job in hours (Slurm).
-    subdir   = kwargs.get("subdir", "")
-    jobname  = kwargs.get("jobname", "")
-    dirname  = kwargs.get("dirname" )
-    queue    = kwargs.get("queue", "1nd") #Choose bach queue (default 1nd) (lxplus) 
-    
-    loginprod = kwargs.get("loginprod", True)
-    clean    = kwargs.get("clean", True)
-        
-    if not loginprod:
-        logdir = os.getenv("LOG_SIMOUTPUT")
-        
-        if logdir is None:
-            logdirname = "/afs/cern.ch/work/{0}/{1}/{2}/{3}".format( user[0], user, subdir, jobname)
-        else:
-            logdirname = "{0}/{1}/{2}".format( logdir, subdir, jobname)
-            
-        if os.path.exists(logdirname) and clean :
-            shutil.rmtree(logdirname, ignore_errors = True)
-        os.makedirs(logdirname) 
-        
-    else:
-        logdirname = dirname
-        
-    kwargs["logdir"] = logdirname
-    
-    shutil.move("{dirname}/run.sh".format(**kwargs), "{logdir}/run.sh".format(**kwargs))
-    sub.call(['chmod', '775', logdirname + "/run.sh"])
-    
-    condor = open("{logdir}/run.sub".format(**kwargs), "w")
-    condor.write("executable = {logdir}/run.sh\n".format(**kwargs))
-    condor.write("output = {logdir}/out\n".format(**kwargs))
-    condor.write("error = {logdir}/err\n".format(**kwargs))
-    condor.write("log = {logdir}/log\n".format(**kwargs))
-    condor.write("+JobFlavour = {jobflavour}\n".format(**kwargs))
-    condor.write("queue")
-    condor.close()
-
-    #prepare lxplus batch job submission
-    
-    command = "condor_submit {logdir}/run.sub".format(**kwargs)
-            
-    return command
-    
 def SendCommand(command):
         
     if sys.version_info[0] > 2:
@@ -221,6 +173,8 @@ def main( **kwargs ):
     unique   = kwargs.get("unique", True)
     infiles  = kwargs.get("infiles", [])
     command  = kwargs.get("command", "") 
+    slurm  = kwargs.get("slurm", False) 
+    lsf  = kwargs.get("lsf", False) 
 
     exe, execname = None, None
     commands = command.split(' ')
@@ -310,15 +264,6 @@ def main( **kwargs ):
                 out = SendCommand(command)
                 try:
                     ID = int( out.split(" ")[1])
-                    print( "Submitted batch job {0}".format(ID) )
-                    return ID
-                except IndexError:
-                    return None
-            elif htcondor:
-                command = PrepareHTCondorJob(**kwargs)
-                out = SendCommand(command)
-                try:
-                    ID = int(float(out.split("\n")[1].split(" ")[-1]))
                     print( "Submitted batch job {0}".format(ID) )
                     return ID
                 except IndexError:

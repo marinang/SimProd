@@ -6,12 +6,13 @@ from .Status import *
 from .MoveJobs import *
 from .ScreenUtils import *
 import os
+import subprocess
 
 def IsSlurm():
 	
 	### Slurm
 	try:
-		P = Popen(['squeue'], stdout=PIPE)
+		P = subprocess.Popen(['squeue'], stdout=subprocess.PIPE)
 		_, _ = P.communicate()
 	except OSError:
 		return False
@@ -22,7 +23,7 @@ def IsLSF():
 	
 	### LSF
 	try:
-		P = Popen(['bjobs'], stdout=PIPE)
+		P = subprocess.Popen(['bjobs'], stdout=subprocess.PIPE)
 		_, _ = P.communicate()
 	except OSError:
 		return False
@@ -33,21 +34,23 @@ def IsHTCondor():
 	
 	### HTCondor
 	
-	out = os.popen("which condor_q").read()
+	command = ["which condor_q"]
+	
+	if sys.version_info[0] > 2:
+		process = subprocess.Popen(command, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf8')
+	else:
+		process = subprocess.Popen(command, shell = True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		
+	time.sleep(0.03)
+	out, _ = process.communicate()
+	
+#	out = os.popen("which condor_q").read()
 	
 	if "condor_q" in out:
 		return True
 	else:
 		return False
-#	
-#	
-#	try:
-#		P = Popen(['condor_q'], stdout=PIPE)
-#		_, _ = P.communicate()
-#	except OSError:
-#		return False
-#	else:
-#		return True
+		
 		
 if IsSlurm():
 	from .SlurmUtils import *
