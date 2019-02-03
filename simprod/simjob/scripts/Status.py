@@ -11,8 +11,8 @@ import time
 import subprocess
 import datetime
 
-TIME_NEW = 20 #minutes, time between check of status if status is new
-TIME_RUNNING = 10
+TIME_NEW = 60 #minutes, time between check of status if status is new
+TIME_RUNNING = 15
 TIME_FAILED = 35
 TIME_SUBMITTED = 5
 DEBUG = 0

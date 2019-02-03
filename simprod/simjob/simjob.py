@@ -23,7 +23,7 @@ jobsfile = "{0}/simjobs.json".format(simprod)
 
 def getdatabase():
     storage = CachingMiddleware(JSONStorage)
-    storage.WRITE_CACHE_SIZE = 750
+    storage.WRITE_CACHE_SIZE = 1000
     return TinyDB(jobsfile, storage=storage)
     
 DATABASE = getdatabase()
@@ -663,7 +663,7 @@ class SimulationJob(object):
             if len(failedsubjobs) > 0:
                 for sj in failedsubjobs:
                     sj.reset()
-#            self._update_job_table(True)  
+            self._update_job_table(True)  
             self.deliveryclerk.send_job(self)
             self.status
             self._update_job_table(True)            
@@ -1031,6 +1031,7 @@ class SimulationJob(object):
     def _load_subjob( self, nsj, pbar = None, printlevel = 0, force_load = False ):
                 
         sj_doc = self.jobtable.get(doc_id=nsj)
+#        print(sj_doc)
         status = sj_doc["status"]
         
         if status in ["completed", "failed"] and not force_load:
@@ -1156,7 +1157,6 @@ class SimulationSubJob(object):
         self.subjobnumber = subjobnumber
         self.jobid = None
         self.send_options = self.parent.options.copy()
-                        
         self._infiles = kwargs.get("infiles", [])
         self.send_options["infiles"] = self._infiles
         self.keeplog = self.parent.keeplogs
@@ -1168,7 +1168,10 @@ class SimulationSubJob(object):
                                                          self.parent.stripping, 
                                                          self.runnumber)
                                                         
+        self.send_options["jobname"] = self.jobname
+                                                        
         self.jobdir = "{0}/{1}".format(self.parent.proddir, self.jobname)
+        
         
         ext = "dst"	
         if self.parent.mudst:
@@ -1201,8 +1204,7 @@ class SimulationSubJob(object):
     @property
     def parenttable(self):
         return self.parent.jobtable
-        
-        
+               
     @property
     def infiles(self):
         return self._infiles

@@ -193,6 +193,7 @@ def main( **kwargs ):
             args = commands[1:]
             
     else : sys.exit()
+    
     if( jobname == "" ) :
         jobname = re.sub(r'\..*',"", execname.replace('./',''))
 
