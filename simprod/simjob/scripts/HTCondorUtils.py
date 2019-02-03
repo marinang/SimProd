@@ -369,7 +369,9 @@ class DeliveryClerk(object):
 		cluster_ids = []
 		for sj in job:
 			ID = sj.jobid
-			if not isinstance(ID, str):
+			if ID is None:
+				continue
+			elif not isinstance(ID, str):
 				ID = str(ID)
 			ClusterID = int(ID.split(".")[0])
 			
