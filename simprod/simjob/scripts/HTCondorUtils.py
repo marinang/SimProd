@@ -122,7 +122,7 @@ class DeliveryClerk(object):
 		
 		default_options = DefaultHTCondorOptions()
 		self.default_options = default_options
-		self._schedd = kwargs.get("scheduler", None)
+		self._schedd = kwargs.get("scheduler")
 		self._query = None
 		
 		self.defaults = []
@@ -338,7 +338,6 @@ class DeliveryClerk(object):
 					
 			queryjob = self._query.getProcID(ProcID)
 			if queryjob is None:
-#				return "error"
 				return "notfound"
 			else:
 				status = queryjob["JobStatus"]
@@ -371,7 +370,7 @@ class DeliveryClerk(object):
 			ID = sj.jobid
 			if ID is None:
 				continue
-			elif not isinstance(ID, str):
+			if not isinstance(ID, str):
 				ID = str(ID)
 			ClusterID = int(ID.split(".")[0])
 			

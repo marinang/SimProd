@@ -330,12 +330,15 @@ class SimulationJob(object):
                 
             if not self._options["loginprod"]:
                 self._options["logdir"] = kwargs.get('logdir', os.getenv("LOG_SIMOUTPUT"))
+            
+        self.scheduler = kwargs.get("scheduler", None)
                 
         if IsHTCondor():
             self.htcondor = True
-            
-        self.scheduler = kwargs.get("scheduler", None)
-        
+            if self.scheduler is None:
+                self.scheduler = Scheduler()
+#                raise AttributeError("Scheduler not found!")
+       
         self.deliveryclerk = DeliveryClerk(inscreen=self._inscreen, scheduler=self.scheduler)
         
                             
@@ -662,6 +665,7 @@ class SimulationJob(object):
                     sj.reset()
 #            self._update_job_table(True)  
             self.deliveryclerk.send_job(self)
+            self.status
             self._update_job_table(True)            
             
         
@@ -743,11 +747,11 @@ class SimulationJob(object):
             return [self[n] for n in self.range_subjobs if self[n].last_status == status]
                 
     @property
-    def last_status( self):	
+    def last_status(self):	
         return self._status
         
     @property
-    def status( self):
+    def status(self):
         
         if DEBUG > 0:
             print("in SimulationJob.status, jobnumber:{0}".format(self.jobnumber))
@@ -800,6 +804,9 @@ class SimulationJob(object):
                 elif status == "failed":
                     nfailed    += 1
                     nsubmitted += 1
+                    
+#            print("A")
+#            print(self.nsubjobs, ncompleted, nfailed, nsubmitted, nrunning)
                                         
             if nsubmitted == 0:
                 _status = "new"	
