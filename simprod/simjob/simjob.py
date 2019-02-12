@@ -337,7 +337,6 @@ class SimulationJob(object):
             self.htcondor = True
             if self.scheduler is None:
                 self.scheduler = Scheduler()
-#                raise AttributeError("Scheduler not found!")
        
         self.deliveryclerk = DeliveryClerk(inscreen=self._inscreen, scheduler=self.scheduler)
         
@@ -663,7 +662,6 @@ class SimulationJob(object):
             if len(failedsubjobs) > 0:
                 for sj in failedsubjobs:
                     sj.reset()
-            self._update_job_table(True)  
             self.deliveryclerk.send_job(self)
             self.status
             self._update_job_table(True)            
@@ -755,6 +753,9 @@ class SimulationJob(object):
         
         if DEBUG > 0:
             print("in SimulationJob.status, jobnumber:{0}".format(self.jobnumber))
+            
+        if self.last_status == "new":
+            self._update_job_table(True)
 
         if not(self.last_status == "completed"):
             
@@ -804,10 +805,7 @@ class SimulationJob(object):
                 elif status == "failed":
                     nfailed    += 1
                     nsubmitted += 1
-                    
-#            print("A")
-#            print(self.nsubjobs, ncompleted, nfailed, nsubmitted, nrunning)
-                                        
+
             if nsubmitted == 0:
                 _status = "new"	
             elif nsubmitted < self.nsubjobs and nsubmitted > 0:
@@ -819,7 +817,6 @@ class SimulationJob(object):
             elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted == self.nsubjobs and nfailed == 0:
                 _status = "completed"
             elif nsubmitted == self.nsubjobs and nrunning == 0 and ncompleted < self.nsubjobs and nfailed > 0:
-#                print(self.nsubjobs, ncompleted, nfailed)
                 if ncompleted + nfailed == self.nsubjobs:
                     _status = "failed"
                 else:
@@ -917,6 +914,10 @@ class SimulationJob(object):
             for n in self.range_subjobs:
                 
                 job = self[n]
+                
+                if job.status == "new" and isinstance(job.jobid, int):
+                    job._status = Status("submitted", job.output)
+                    continue
                 
                 if job._status.isvalid and not job.status == "submitted":
                     continue
@@ -1426,6 +1427,11 @@ class SimulationSubJob(object):
                "status": repr(self._status),
                "infiles": self.infiles
                }
+            
+        if DEBUG > 0:
+            print("in SimulationSubJob.outdict")
+            print(outdict)
+            print()
             
         if not self.send_options["loginprod"]:
             outdict["logjobdir"] = self.logjobdir

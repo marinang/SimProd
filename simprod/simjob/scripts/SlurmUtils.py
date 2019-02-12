@@ -313,9 +313,8 @@ class DeliveryClerk(object):
 			subjob.jobid = subjobid
 			
 			if subjob.jobid:
-				self._status = Status("submitted", subjob.output)
-				
-							
+				subjob._status = Status("submitted", subjob.output)
+					
 				time.sleep(0.07)
 				print(blue("{0}/{1} jobs submitted!".format(subjob.subjobnumber, subjob.parent.nsubjobs)))
 				time.sleep(0.07)				
