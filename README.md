@@ -1,4 +1,4 @@
-# Simulation production
+# SimProd
 
 Mini framework to send LHCb simulation jobs on a batch system (HTCondor, LSF or Slurm)!
 
