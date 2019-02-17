@@ -10,7 +10,7 @@ import os
 import shutil
 import sys
 
-def getevttype( evttype, decfiles = "v30r25" ):
+def getevttype(evttype, decfiles = "v30r25"):
 	
 	Options = {"evttype": evttype, "decfiles": decfiles}
 	
@@ -23,8 +23,8 @@ def getevttype( evttype, decfiles = "v30r25" ):
 	
 	optfile = "{0}/options/{evttype}.py".format( decfiles_path , **Options )
 	
-	if not os.path.isfile( optfile ):
-		raise NotImplementedError( "This Evttype does not exist!" )
+	if not os.path.isfile(optfile):
+		raise NotImplementedError("The evttype {0} does not exist!".format(evttype))
 		
 	if not os.path.isdir("{0}/EvtTypes".format(moddir)):
 		os.makedirs("{0}/EvtTypes".format(moddir) )
@@ -38,10 +38,10 @@ def getevttype( evttype, decfiles = "v30r25" ):
 		
 	for i,l in enumerate(lines):
 		if "DECFILESROOT" in l:
-				decfile         = l.split("DECFILESROOT")[-1]
-				decfile         = decfile.split('"')[0] 
-				decfile         = decfile.replace( '"\n', '' )
-				decfileroot_files.append({"file":decfile, "index":i})
+			decfile         = l.split("DECFILESROOT")[-1]
+			decfile         = decfile.split('"')[0] 
+			decfile         = decfile.replace( '"\n', '' )
+			decfileroot_files.append({"file":decfile, "index":i})
 				
 	for f in decfileroot_files:
 		filename = f["file"].split('/')[-1]

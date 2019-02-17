@@ -683,12 +683,14 @@ class SimulationJob(object):
         print(info_msg)
         
         sjkill = self.deliveryclerk.kill(job=self)
-                
-        for n in self.range_subjobs:
-            sj = self[n]
+        
+        if len(self.keys) > 0:
             
-            if sj and sj.status == "running":
-                sj.kill(storeparent = False, sjkill=sjkill)
+            for n in self.range_subjobs:
+                sj = self[n]
+                
+                if sj and sj.status == "running":
+                    sj.kill(storeparent = False, sjkill=sjkill)
             
         self.database.purge_table("job_{}".format(self.jobnumber))
         self.database.table("jobs").remove(doc_ids=[self.jobnumber])
@@ -754,6 +756,9 @@ class SimulationJob(object):
         if DEBUG > 0:
             print("in SimulationJob.status, jobnumber:{0}".format(self.jobnumber))
             
+        if len(self.keys) == 0:
+            return "new"    
+        
         if self.last_status == "new":
             self._update_job_table(True)
 
