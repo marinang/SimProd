@@ -12,7 +12,6 @@ Simulations setups are taken from here [JIRA LHCb Gauss](https://its.cern.ch/jir
 
 * 2016: [JIRA 2016 Sim09b](https://its.cern.ch/jira/browse/LHCBGAUSS-968), Stripping: **28**, DDDBtag: **dddb-20150724**, CondDBtag: **sim-20161124-2-vc-mu100/sim-20161124-2-vc-md100**.
 
-* 2017: Not Implemented.
 
 ## Sim09c:
 
@@ -24,4 +23,12 @@ Simulations setups are taken from here [JIRA LHCb Gauss](https://its.cern.ch/jir
 
 * 2016: [JIRA 2016 Sim09c](https://its.cern.ch/jira/browse/LHCBGAUSS-1183), Stripping: **28r1/28r1p1**, DDDBtag: **dddb-20170721-3**, CondDBtag: **sim-20170721-2-vc-mu100/sim-20170721-2-vc-md100**.
 
-* 2017: Not Implemented.
+
+## [Sim09e](https://its.cern.ch/jira/browse/LHCBGAUSS-1547): 
+
+	
+* 2015: same as Sim09c, Stripping: **24r1/24r1p1**, DDDBtag: **dddb-20170721-3**, CondDBtag: **sim-20161124-vc-mu100/sim-20161124-vc-md100**.
+
+* 2016: same as Sim09c, Stripping: **28r1/28r1p1**, DDDBtag: **dddb-20170721-3**, CondDBtag: **sim-20170721-2-vc-mu100/sim-20170721-2-vc-md100**.
+
+* 2017: [JIRA 2017](https://its.cern.ch/jira/browse/LHCBGAUSS-1190), Stripping: **29r2**, DDDBtag: **dddb-20170721-3**, CondDBtag: **sim-20180411-vc-mu100/sim-20180411-vc-md100**.
