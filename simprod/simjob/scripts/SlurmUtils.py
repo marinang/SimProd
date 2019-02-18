@@ -421,7 +421,12 @@ def screencommandfile(job):
 	
 	f.write("job_dict = {}\n".format(job.outdict()))
 			
-	f.write("job = SimulationJob.from_dict(job_dict, {})\n".format(job.jobnumber))
+	f.write("while True:")
+	f.write("\ttry:\n")
+	f.write("\t\tjob = SimulationJob.from_dict(job_dict, {})\n".format(job.jobnumber))
+	f.write("\t\tbreak\n")
+	f.write("\texcept TypeError:\n")
+	f.write("\t\tcontinue\n")
 	f.write("job.database = DATABASE\n\n")
 	
 	if job.status == "new":
