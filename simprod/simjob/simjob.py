@@ -23,10 +23,10 @@ jobsfile = "{0}/simjobs.json".format(simprod)
 
 def getdatabase():
     storage = CachingMiddleware(JSONStorage)
-    storage.WRITE_CACHE_SIZE = 1000
-    return TinyDB(jobsfile, storage=storage)
+    storage.WRITE_CACHE_SIZE = 600
+    return TinyDB(jobsfile, storage=storage), storage
     
-DATABASE = getdatabase()
+DATABASE, STORAGE = getdatabase()
 
 DEBUG = 0
 
@@ -221,7 +221,7 @@ class JobCollection(object):
         return len(self.jobcollection)
                 
     def select(self, status):
-        return self.jobcollection.get(self.query.status == status)
+        return self.jobcollection.get(Query().status == status)
         
     def _update(self, in_init = False):
         
@@ -303,6 +303,7 @@ class SimulationJob(object):
         self._keeplogs = kwargs.get('keeplogs', True)
         self._keepxmls = kwargs.get('keepxmls', True)
         self._redecay = kwargs.get('redecay', False)
+        self._simmodel = kwargs.get('simmodel', "pythia8")
         self._status = "new"
                 
         self._evttype = kwargs.get('evttype', None)	
@@ -421,8 +422,21 @@ class SimulationJob(object):
     def simcond(self, value):
         if not isinstance(value, str):
             raise TypeError("simcond must be a str!")
-        if not value in ["Sim09b", "Sim09c"]:
-            raise ValueError("simcond must be Sim09b or Sim09c!")
+        if not value in ["Sim09b", "Sim09c", "Sim09e", "Sim09f"]:
+            raise ValueError("simcond must be Sim09b, Sim09c, Sim09d or Sim09f!")
+        self._simcond = value
+        
+    @property	
+    def simmodel(self):
+        return self._simmodel
+        
+        
+    @simmodel.setter	
+    def simmodel(self, value):
+        if not isinstance(value, str):
+            raise TypeError("simmodel must be a str!")
+        if not value in ["pythia8", "BcVegPy"]:
+            raise ValueError("simmodel must be pythia8 or BcVegPy!")
         self._simcond = value
         
     @property
@@ -662,12 +676,13 @@ class SimulationJob(object):
             if len(failedsubjobs) > 0:
                 for sj in failedsubjobs:
                     sj.reset()
-            self.deliveryclerk.send_job(self)
+            self.deliveryclerk.send_job(self, STORAGE)
             self.status
-            self._update_job_table(True)            
+            self._update_job_table(True) 
+            STORAGE.flush()           
             
         
-        
+    
     def cancelpreparation( self, **kwargs ):	
         for n in self.range_subjobs:				
             if self.subjobs.get(n, None):
@@ -1017,9 +1032,6 @@ class SimulationJob(object):
                                                                 
             if printlevel > 0:																		
                 t.close()
-                            
-    #        if to_store:
-    #            simjob._update_job_table(False)
                 
         return simjob
             
@@ -1037,7 +1049,7 @@ class SimulationJob(object):
     def _load_subjob( self, nsj, pbar = None, printlevel = 0, force_load = False ):
                 
         sj_doc = self.jobtable.get(doc_id=nsj)
-#        print(sj_doc)
+        
         status = sj_doc["status"]
         
         if status in ["completed", "failed"] and not force_load:
@@ -1332,6 +1344,7 @@ class SimulationSubJob(object):
         command["args"].append(self.parent.mudst)
         command["args"].append(self.parent.stripping)
         command["args"].append(self.parent.redecay)
+        command["args"].append(self.parent.simmodel)
         return command
         
 
@@ -1495,71 +1508,79 @@ def checksiminputs(job):
         args = list(args)
         with warnings.catch_warnings():
             warnings.simplefilter("always")	
-            if job._stripping == None:
-                job._stripping = args[0]
+            if job.stripping == None:
+                job.stripping = args[0]
                 if len(args) > 1:
                     warnings.warn( red("Default stripping version {0} used. {1} versions are available.".format( 
-                                    job._stripping, 
+                                    job.stripping, 
                                    	args)), 
                                    	stacklevel = 2)
             elif job._stripping not in args:
                 raise NotImplementedError( "Stripping version {0} is not available for {1} {2}! Only {3}!".format( 
-                                   	job._stripping, 
-                                   	job._year, 
-                                   	job._simcond, 
+                                   	job.stripping, 
+                                   	job.year, 
+                                   	job.simcond, 
                                    	args) )	
                     
-    if job._simcond == "Sim09b" and job._year in [2011, 2017, 2018]:
+    if job.simcond == "Sim09b" and job.year in [2011, 2017, 2018]:
+        raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
+                                    job.year, 
+                                    job.simcond) )
+        
+    elif job.simcond == "Sim09c" and job._year in [2017, 2018]:
         raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
                                     job._year, 
                                     job._simcond) )
         
-    elif job._simcond == "Sim09c" and job._year in [2017, 2018]:
+    elif job.simcond == "Sim09d" and job.year in [2011, 2012, 2015, 2016, 2017, 2018]:
         raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
-                                    job._year, 
-                                    job._simcond) )
-        
-    elif job._simcond == "Sim09d" and job._year in [2011, 2012, 2015, 2016, 2017, 2018]:
-        raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
-                                    job._year, 
-                                    job._simcond) )
+                                    job.year, 
+                                    job.simcond) )
                                     
-    elif job._simcond == "Sim09e" and job._year in [2011, 2012, 2018]:
+    elif job.simcond == "Sim09e" and job.year in [2011, 2012, 2018]:
         raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
-                                    job._year, 
-                                    job._simcond) )									
+                                    job.year, 
+                                    job.simcond) )									
     
                                     
-    if job._year == 2011:
-        if job._simcond == "Sim09c":
+    if job.year == 2011:
+        if job.simcond == "Sim09c":
             StrippingVersion("21r1")
     
-    if job._year == 2012:
-        if job._simcond == "Sim09b":
+    if job.year == 2012:
+        if job.simcond == "Sim09b":
             StrippingVersion("21")
-        elif job._simcond == "Sim09c":
+        elif job.simcond == "Sim09c":
             StrippingVersion("21")
         
-    elif job._year == 2015:
-        if job._simcond == "Sim09b":
+    elif job.year == 2015:
+        if job.simcond == "Sim09b":
             StrippingVersion("24")
-        if job._simcond in ["Sim09c", "Sim09e"]:
+        if job.simcond in ["Sim09c", "Sim09e"]:
             StrippingVersion("24r1", "24r1p1")
         
-    elif job._year == 2016:
-        if job._simcond == "Sim09b":
+    elif job.year == 2016:
+        if job.simcond == "Sim09b":
             StrippingVersion("28")
-        if job._simcond in ["Sim09c", "Sim09e"]:
+        if job.simcond in ["Sim09c", "Sim09e"]:
             StrippingVersion("28r1", "28r1p1")	
             
-    elif job._year == 2017:
+    elif job.year == 2017:
         StrippingVersion("29r2")
+        
+    if job.simmodel not in ["pythia8", "BcVegPy"]:
+        raise ValueError("simmodel must be pythia8 or BcVegPy!")
+    elif job.simmodel == "BcVegPy" and job.simcond != "Sim09e":
+        raise NotImplementedError("BcVegPy is not implemented for {0}!".format(job.simcond))
+        
+    if job.redecay and job._simcond != "Sim09b":
+        raise NotImplementedError("ReDecay is not implemented for {0}!".format(job.simcond))
                             
-    if job._mudst and ( job._year == 2012 or job._year == 2011 ):
-        raise NotImplementedError( "No micro DST output for {0}!".format(job._year) )
+    if job.mudst and ( job.year == 2012 or job.year == 2011 ):
+        raise NotImplementedError("No micro DST output for {0}!".format(job.year))
             
-    if job._turbo and ( job._year == 2012 or job._year == 2011 ):
-        raise NotImplementedError( "Turbo is not implemented for {0}!".format(job._year) )
+    if job.turbo and ( job.year == 2012 or job.year == 2011 ):
+        raise NotImplementedError("Turbo is not implemented for {0}!".format(job.year))
 
 
 

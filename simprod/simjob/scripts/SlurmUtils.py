@@ -243,12 +243,14 @@ class DeliveryClerk(object):
 		options["slurm"] = True
 		return options
 			
-	def send_job(self, job):
+	def send_job(self, job, storage, *args, **kwargs):
 		
 		if self.inscreen:
 			for n in job.range_subjobs:	
 				job[n].send()
 		else:
+			
+			storage.flush()
 		
 			cmdpy = screencommandfile(job)
 			
@@ -417,16 +419,21 @@ def screencommandfile(job):
 
 	f.write("storage = CachingMiddleware(JSONStorage)\n")
 	f.write("storage.WRITE_CACHE_SIZE = 20\n")
-	f.write("DATABASE = TinyDB('{}', storage=storage)\n".format(dbasefile)) 
+	f.write("jsonfile='{}'\n".format(dbasefile))
+	f.write("if os.path.isfile(jsonfile):\n")
+	f.write("\tos.remove(jsonfile)\n")
+	f.write("DATABASE = TinyDB(jsonfile, storage=storage)\n") 
 	
 	f.write("job_dict = {}\n".format(job.outdict()))
 			
-	f.write("while True:")
-	f.write("\ttry:\n")
-	f.write("\t\tjob = SimulationJob.from_dict(job_dict, {})\n".format(job.jobnumber))
-	f.write("\t\tbreak\n")
-	f.write("\texcept TypeError:\n")
-	f.write("\t\tcontinue\n")
+#	f.write("\nwhile True:\n")
+#	f.write("\ttry:\n")
+#	f.write("\t\tjob = SimulationJob.from_dict(job_dict, {})\n".format(job.jobnumber))
+	f.write("job = SimulationJob.from_dict(job_dict, {})\n".format(job.jobnumber))
+#	f.write("\t\tbreak\n")
+#	f.write("\texcept TypeError:\n")
+#	f.write("\t\ttime.sleep(5)\n\n")
+	
 	f.write("job.database = DATABASE\n\n")
 	
 	if job.status == "new":

@@ -150,7 +150,7 @@ class DeliveryClerk(object):
 		return deliveryclerk
 			
 						
-	def send_job(self, job):
+	def send_job(self, job, *args, **kwargs):
 		
 		logdir = job.options["logdestdir"]
 		

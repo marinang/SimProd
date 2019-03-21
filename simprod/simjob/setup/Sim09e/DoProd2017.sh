@@ -11,6 +11,8 @@ RunNumber=$4
 Turbo=$5
 muDST=$6
 Stripping=$7
+ReDecay=$8
+Model=${9:-"pythia8"}
 
 if [ "$Polarity" == "MagUp" ]; then
 	SimCond=Gauss/Beam6500GeV-mu100-2017-nu1.6.py
@@ -39,21 +41,32 @@ echo "LHCbApp().CondDBtag = '$DBtag'" >> $CONDITIONS
 GAUSSJOB=$PWD/Gauss-Job.py
 GAUSSOUTPUT=$PWD/Gauss.sim
 
+
+
 # Prepare files
 echo "from Gauss.Configuration import *" >> $GAUSSJOB
 echo "GaussGen = GenInit('GaussGen')"    >> $GAUSSJOB
 echo "GaussGen.FirstEventNumber = 1"     >> $GAUSSJOB
 echo "GaussGen.RunNumber = $RunNumber"   >> $GAUSSJOB
 echo "LHCbApp().EvtMax = $Nevents"       >> $GAUSSJOB
+
+if [ "$Model" == "pythia8" ]; then
+	echo 'importOptions("$LBPYTHIA8ROOT/options/Pythia8.py")' >> $GAUSSJOB
+elif [ "$Model" == "BcVegPy" ]; then
+	echo 'importOptions("$LBBCVEGPYROOT/options/BcVegPyPythia8.pyy")' >> $GAUSSJOB
+else
+	echo 'importOptions("$LBPYTHIA8ROOT/options/Pythia8.py")' >> $GAUSSJOB
+fi
+
 echo "from Configurables import OutputStream" >> $GAUSSJOB
 echo "OutputStream('GaussTape').Output = \"DATAFILE='PFN:$GAUSSOUTPUT' TYP='POOL_ROOTTREE' OPT='RECREATE'\"" >> $GAUSSJOB
 
 
 # Run
 if [ "$ReDecay" == "True" ]; then
-	lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r72" Gauss/v49r11 gaudirun.py \$APPCONFIGOPTS/$SimCond \$APPCONFIGOPTS/Gauss/EnableSpillover-25ns.py \$APPCONFIGOPTS/Gauss/DataType-2016.py \$APPCONFIGOPTS/Gauss/RICHRandomHits.py \$LBPYTHIA8ROOT/options/Pythia8.py \$APPCONFIGOPTS/Gauss/G4PL_FTFP_BERT_EmNoCuts.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py \$APPCONFIGOPTS/Gauss/ReDecay-100times.py \$APPCONFIGOPTS/Gauss/ReDecay-FullGenEventCutTool-fix.py $Optfile $CONDITIONS $GAUSSJOB
+	lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r72" Gauss/v49r11 gaudirun.py \$APPCONFIGOPTS/$SimCond \$APPCONFIGOPTS/Gauss/EnableSpillover-25ns.py \$APPCONFIGOPTS/Gauss/DataType-2016.py \$APPCONFIGOPTS/Gauss/RICHRandomHits.py \$APPCONFIGOPTS/Gauss/G4PL_FTFP_BERT_EmNoCuts.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py \$APPCONFIGOPTS/Gauss/ReDecay-100times.py \$APPCONFIGOPTS/Gauss/ReDecay-FullGenEventCutTool-fix.py $Optfile $CONDITIONS $GAUSSJOB
 else
-	lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r372" Gauss/v49r11 gaudirun.py \$APPCONFIGOPTS/$SimCond \$APPCONFIGOPTS/Gauss/EnableSpillover-25ns.py \$APPCONFIGOPTS/Gauss/DataType-2016.py \$APPCONFIGOPTS/Gauss/RICHRandomHits.py \$LBPYTHIA8ROOT/options/Pythia8.py \$APPCONFIGOPTS/Gauss/G4PL_FTFP_BERT_EmNoCuts.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py $Optfile $CONDITIONS $GAUSSJOB
+	lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r372" Gauss/v49r11 gaudirun.py \$APPCONFIGOPTS/$SimCond \$APPCONFIGOPTS/Gauss/EnableSpillover-25ns.py \$APPCONFIGOPTS/Gauss/DataType-2016.py \$APPCONFIGOPTS/Gauss/RICHRandomHits.py \$APPCONFIGOPTS/Gauss/G4PL_FTFP_BERT_EmNoCuts.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py $Optfile $CONDITIONS $GAUSSJOB
 fi
 
 rm $GAUSSJOB

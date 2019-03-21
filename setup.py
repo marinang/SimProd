@@ -53,16 +53,7 @@ def IsHTCondor():
 		return True
 	else:
 		return False
-	
-#	### HTCondor
-#	try:
-#		P = Popen(['condor_q'], stdout=PIPE)
-#		_, _ = P.communicate()
-#	except OSError:
-#		return False
-#	else:
-#		return True
-		
+			
 		
 def pathprint():
 	
@@ -76,6 +67,9 @@ install_list = [ 'ipython>=5.0,<6.0;python_version<="2.7"',
 			     'tqdm',
 			     'colorama',
 			     'tinydb>=v3.12.1']
+			
+if IsHTCondor():
+	install_list.append("htcondor")
 			
 dependency = []
 
@@ -106,9 +100,6 @@ class PostInstallSetting(install):
 					valid_answer = True
 				else:
 					valid_answer = False
-					
-			if IsHTCondor():
-				install_list.append("htcondor")
 					
 			if answer == "yes":
 				
@@ -199,6 +190,7 @@ class PostInstallSetting(install):
 			self.do_egg_install()
 
 		os.system("rm -rf ./simprod.egg-info")
+
 
 setup(name = 'simprod',
 	  version = '1.0',
