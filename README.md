@@ -1,6 +1,6 @@
 # SimProd
 
-Mini framework to send LHCb simulation jobs on a batch system (HTCondor, LSF or Slurm)!
+Mini framework to send LHCb simulation jobs on a batch system (HTCondor, Slurm)!
 
 ## Installation
 
@@ -17,8 +17,6 @@ You will be asked to enter some directories where you want to find your simulate
 * [IPython](https://ipython.org)
 
 * [TinyDB](https://tinydb.readthedocs.io/en/latest/index.html)
-
-* [PySlurm](https://github.com/PySlurm/pyslurm/wiki/Installing-PySlurm)  (Optionnal, only if in a Slurm batch system).
 
 * [UltraJSON](https://github.com/esnme/ultrajson)  (Optionnal, Recommended).
 
@@ -50,43 +48,40 @@ j.send()
 <img width="750" height="300" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/submission.png">
 </p>
 
-You can also launch a job by doing:
-
-```
-simprod --evttype EVTTYPE --year YEAR --nevents NEVENTS
-```
 
 ### Options
 
 Your have other options by default that you can change:
 
-* polarity: Magnet conditions to simulate [MagUp or MagDown, default: half MagUp, half MagDown].
+* `j.polarity`: Magnet conditions to simulate [MagUp or MagDown, default: half MagUp, half MagDown].
 
-* neventsjob: Number of events per jobs [default: 50]. 
+* `j.neventsjob`: Number of events per jobs [default: 50]. 
 
-* runnumber: Run number for simulation in Gauss.
+* `j.runnumber`: Run number for simulation in Gauss.
 
-* simcond: Simulation condition [Sim09b, Sim09c, Sim09e, default: Sim09e].
+* `j.simcond`: Simulation condition [Sim09b, Sim09c, Sim09e, default: Sim09e].
 
-* stripping: Version of the stripping (default = '').
+* `j.stripping`: Version of the stripping (default = '').
 
-* turbo: Run the Turbo step (output not tested).
+* `j.turbo`: Run the Turbo step (output not tested).
 
-* mudst: Produce a muDST output.
+* `j.mudst`: Produce a muDST output.
 
-* decfiles: Version of the DecFiles package (default = v30r25).
+* `j.decfiles`: Version of the DecFiles package (default = v30r25).
 
-* infiles: External files to provide for generation (for example LHE or HepMC files).
+* `j.infiles`: External files to provide for generation (for example LHE or HepMC files).
 
-* cpu: Number of CPU memory (in MB) per simulation job.
+* `j.cpu`: Number of CPU memory (in MB) per simulation job.
 
-* keeplogs: keeps the log files even if the jobs is marked as completed (default = True).
+* `j.keeplogs`: keeps the log files even if the jobs is marked as completed (default = True).
 
-* keepxmls: keeps the generator log xml files (default = True).
+* `j.keepxmls`: keeps the generator log xml files (default = True).
 
-* redecay: use redecay at generation (default = False).
+* `j.redecay`: use redecay at generation (default = False).
+
+* `j.simmodel`: "pythia8" or "BcVegPy" (default = "pythia8").
 	
-These argument are all available at instantiation of a SimulationJob but also as property, i.e:
+These argument are also available at instantiation of a SimulationJob but also as property, i.e:
 
 ```python 
 j = SimulationJob(evttype=EVTTYPE, year=YEAR, nevents=NEVENTS, neventsjob=NEVENTSJOB)
@@ -99,25 +94,53 @@ j = SimulationJob(evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)
 j.neventsjob = NEVENTSJOB
 ```
 
-### Slurm options
+you can also modify options for the scheduler you are using through
+```
+j.deliveryclerk
+```
 
-You have additionnal options for slurm batch system with default values designed for EPFL usage.
+#### HTCondor options
 
-* time: Maximum running time per simulation job in hours.
+Options for htcondor batch system:
 
-* nsimjobs: Maximum number of simultaneous simulation jobs running.
+* `j.deliveryclerk.jobflavour`: flavour of a job correspoinding to a maximum runtume (default = "workday").
+
+The available job flavours are as follows:
+
+```
+    espresso     = 20 minutes
+    microcentury = 1 hour
+    longlunch    = 2 hours
+    workday      = 8 hours
+    tomorrow     = 1 day
+    testmatch    = 3 days
+    nextweek     = 1 week
+```
+
+#### Slurm options
+
+Options for slurm batch system with default values designed for EPFL usage:
+
+* `j.deliveryclerk.time`: Maximum running time per simulation job in hours.
+
+* `j.deliveryclerk.nsimjobs`: Maximum number of simultaneous simulation jobs running.
 		
-* nsimuserjobs: Maximum number of simultaneous simulation jobs running for the user.
+* `j.deliveryclerk.nsimuserjobs`: Maximum number of simultaneous simulation jobs running for the user.
 												
-* nuserjobs: Maximum number of simultaneous jobs running for the user.
+* `j.deliveryclerk.nuserjobs`: Maximum number of simultaneous jobs running for the user.
 												
-* npendingjobs: Maximum number of pending jobs for the user.
+* `j.deliveryclerk.npendingjobs`: Maximum number of pending jobs for the user.
 
-* nfreenodes: Number of nodes to be free of user's simulation jobs.
+* `j.deliveryclerk.nfreenodes`: Number of nodes to be free of user's simulation jobs.
 		
-* subtime: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 6pm).
+* `j.deliveryclerk.subtime`: Time interval when the jobs are sent (e.g. 16 18 means from 4pm to 6pm).
 
 If using the EPFL cluster, please avoid using these options, a configuration file is read with agreed values for these options.
+
+An optionnal package might consider for faster monitoring of the jobs:
+
+    [PySlurm](https://github.com/PySlurm/pyslurm/wiki/Installing-PySlurm)
+
 
 ## Monitoring
 
