@@ -454,7 +454,7 @@ class SimulationJob(object):
             raise TypeError("simcond must be a str!")
         if not value in ["21", "24", "28", "24r1", "24r1p1", "28r1", "28r1p1", "29r2"]:
             raise ValueError("stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1' or '29r2!")
-        self._simcond = value
+        self._stripping = value
         
         
     @property	
@@ -1529,10 +1529,10 @@ def checksiminputs(job):
                                     job.year, 
                                     job.simcond) )
         
-    elif job.simcond == "Sim09c" and job._year in [2017, 2018]:
+    elif job.simcond == "Sim09c" and job.year in [2017, 2018]:
         raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
-                                    job._year, 
-                                    job._simcond) )
+                                    job.year, 
+                                    job.simcond) )
         
     elif job.simcond == "Sim09d" and job.year in [2011, 2012, 2015, 2016, 2017, 2018]:
         raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
@@ -1575,7 +1575,7 @@ def checksiminputs(job):
     elif job.simmodel == "BcVegPy" and job.simcond != "Sim09e":
         raise NotImplementedError("BcVegPy is not implemented for {0}!".format(job.simcond))
         
-    if job.redecay and job._simcond != "Sim09b":
+    if job.redecay and job.simcond != "Sim09b":
         raise NotImplementedError("ReDecay is not implemented for {0}!".format(job.simcond))
                             
     if job.mudst and ( job.year == 2012 or job.year == 2011 ):
