@@ -437,7 +437,7 @@ class SimulationJob(object):
             raise TypeError("simmodel must be a str!")
         if not value in ["pythia8", "BcVegPy"]:
             raise ValueError("simmodel must be pythia8 or BcVegPy!")
-        self._simcond = value
+        self._simmodel = value
         
     @property
     def doprod(self):
@@ -882,6 +882,7 @@ class SimulationJob(object):
                    "simcond": self.simcond,
                    "polarities": self._polarities,
                    "stripping": self.stripping,
+                   "simmodel": self.simmodel,
                    "mudst": self.mudst,
                    "turbo": self.turbo,
                    "basedir": self.options["basedir"],
@@ -988,6 +989,7 @@ class SimulationJob(object):
                     polarities=dict.get("polarities", None),
                     simcond=dict["simcond"],
                     stripping=dict["stripping"],
+                    simmodel=dict["simmodel"],
                     mudst=dict["mudst"],
                     turbo=dict["turbo"],	
                     basedir=dict["basedir"],
