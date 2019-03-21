@@ -103,7 +103,7 @@ j.deliveryclerk
 
 Options for htcondor batch system:
 
-* `j.deliveryclerk.jobflavour`: flavour of a job correspoinding to a maximum runtume (default = "workday").
+* `j.deliveryclerk.jobflavour`: flavour of a job correspoinding to a maximum runtime (default = "workday").
 
 The available job flavours are as follows:
 
@@ -137,11 +137,9 @@ Options for slurm batch system with default values designed for EPFL usage:
 
 If using the EPFL cluster, please avoid using these options, a configuration file is read with agreed values for these options.
 
-An optionnal package might consider for faster monitoring of the jobs:
+[PySlurm](https://github.com/PySlurm/pyslurm/wiki/Installing-PySlurm) can be installed for faster monitoring of the jobs.
 
-    [PySlurm](https://github.com/PySlurm/pyslurm/wiki/Installing-PySlurm)
-
-
+    
 ## Monitoring
 
 Just after the lauching the program type `jobs` and you can see the status of submitted jobs:
