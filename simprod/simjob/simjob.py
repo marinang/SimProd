@@ -221,7 +221,7 @@ class JobCollection(object):
         return len(self.jobcollection)
                 
     def select(self, status):
-        return self.jobcollection.get(Query().status == status)
+        return self.jobcollection.search(Query().status == status)
         
     def _update(self, in_init = False):
         
@@ -989,7 +989,7 @@ class SimulationJob(object):
                     polarities=dict.get("polarities", None),
                     simcond=dict["simcond"],
                     stripping=dict["stripping"],
-                    simmodel=dict.get("simmodel", "pythia8"),
+                    simmodel=dict["simmodel"],
                     mudst=dict["mudst"],
                     turbo=dict["turbo"],	
                     basedir=dict["basedir"],
