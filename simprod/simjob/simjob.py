@@ -989,7 +989,7 @@ class SimulationJob(object):
                     polarities=dict.get("polarities", None),
                     simcond=dict["simcond"],
                     stripping=dict["stripping"],
-                    simmodel=dict["simmodel"],
+                    simmodel=dict.get("simmodel", "pythia8"),
                     mudst=dict["mudst"],
                     turbo=dict["turbo"],	
                     basedir=dict["basedir"],
