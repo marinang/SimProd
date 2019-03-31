@@ -432,7 +432,7 @@ def create_runfile(namefile, doprod):
 	runscript.write("#!/bin/bash\n")
 	runscript.write("shopt -s expand_aliases\n")
 	runscript.write('export PATH="/bin:/usr/local/bin:/usr/bin:$PATH"\n')
-	runscript.write('export HOME="/home/{username}"\n'.format(username=user))
+	runscript.write('export HOME="{}"\n'.format(os.environ["HOME"]))
 	runscript.write('export USER="{user}"\n'.format(user=user))
 	runscript.write('source /cvmfs/lhcb.cern.ch/group_login.sh\n')
 	runscript.write('{doprod} $1 $2 $3 $4 $5 $6 $7 $8\n'.format(doprod=doprod))
