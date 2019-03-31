@@ -221,7 +221,7 @@ class JobCollection(object):
         return len(self.jobcollection)
                 
     def select(self, status):
-        return self.jobcollection.get(Query().status == status)
+        return self.jobcollection.search(Query().status == status)
         
     def _update(self, in_init = False):
         
