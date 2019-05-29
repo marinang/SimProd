@@ -32,7 +32,7 @@ You need to to know:
 
 * the EvtType of the process you want to generate ([DecFiles webpage](http://lhcbdoc.web.cern.ch/lhcbdoc/decfiles/))	
 
-* Year of data taking to simulate (Run I: 2011, 2012, Run II: 2015, 2016, 2017)
+* Year of data taking to simulate (Run I: 2011, 2012, Run II: 2015, 2016, 2017, 2018)
 
 * Number of events you want to produce.
 
