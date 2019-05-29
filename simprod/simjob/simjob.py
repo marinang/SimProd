@@ -214,7 +214,7 @@ class JobCollection(object):
                 
     def __iter__(self):
         printlevel = -1
-        for k in self._keys:
+        for k in self.keys:
             yield self.__geti__(k, printlevel)		
         
     def __len__(self):
