@@ -452,8 +452,8 @@ class SimulationJob(object):
     def stripping(self, value):
         if not isinstance(value, str):
             raise TypeError("simcond must be a str!")
-        if not value in ["21", "24", "28", "24r1", "24r1p1", "28r1", "28r1p1", "29r2"]:
-            raise ValueError("stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1' or '29r2!")
+        if not value in ["21", "24", "28", "24r1", "24r1p1", "28r1", "28r1p1", "29r2", "34"]:
+            raise ValueError("stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1', '29r2' or '34'!")
         self._stripping = value
         
         
