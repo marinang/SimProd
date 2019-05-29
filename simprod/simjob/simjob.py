@@ -293,7 +293,7 @@ class SimulationJob(object):
         if self._year is None:
             raise ValueError("Please set year!")
         self._polarities = kwargs.get('polarities', None)
-        self._simcond = kwargs.get('simcond', "Sim09e")
+        self._simcond = kwargs.get('simcond', "Sim09g")
         self._stripping = kwargs.get('stripping', None)
         self._turbo = kwargs.get('turbo', False)
         self._mudst = kwargs.get('mudst', False)
@@ -1542,6 +1542,11 @@ def checksiminputs(job):
     elif job.simcond == "Sim09e" and job.year in [2011, 2012, 2018]:
         raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
                                     job.year, 
+                                    job.simcond) )	
+               
+    elif job.simcond == "Sim09g" and job.year in [2011, 2012, 2015]:
+        raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
+                                    job.year, 
                                     job.simcond) )									
     
                                     
@@ -1564,15 +1569,18 @@ def checksiminputs(job):
     elif job.year == 2016:
         if job.simcond == "Sim09b":
             StrippingVersion("28")
-        if job.simcond in ["Sim09c", "Sim09e"]:
+        if job.simcond in ["Sim09c", "Sim09e", "Sim09g"]:
             StrippingVersion("28r1", "28r1p1")	
             
     elif job.year == 2017:
         StrippingVersion("29r2")
         
+    elif job.year == 2018:
+        StrippingVersion("34")
+        
     if job.simmodel not in ["pythia8", "BcVegPy"]:
         raise ValueError("simmodel must be pythia8 or BcVegPy!")
-    elif job.simmodel == "BcVegPy" and job.simcond != "Sim09e":
+    elif job.simmodel == "BcVegPy" and job.simcond not in ["Sim09e", "Sim09g"]:
         raise NotImplementedError("BcVegPy is not implemented for {0}!".format(job.simcond))
         
     if job.redecay and job.simcond != "Sim09b":
