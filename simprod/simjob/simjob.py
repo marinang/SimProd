@@ -203,9 +203,9 @@ class JobCollection(object):
             if self.jobs[i] is None:
                 if printlevel > 0:
                     print(green("Loading Job {0}:".format(i)))
-                    job_i_doc = self.jobcollection.get(doc_id=i)
-                    job_i = SimulationJob.from_doc(job_i_doc,  **self.cwargs)
-                    self.jobs[i] = job_i
+                job_i_doc = self.jobcollection.get(doc_id=i)
+                job_i = SimulationJob.from_doc(job_i_doc,  **self.cwargs)
+                self.jobs[i] = job_i
                 
         return self.jobs[i]
                     
