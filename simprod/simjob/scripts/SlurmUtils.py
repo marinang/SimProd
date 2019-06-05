@@ -133,6 +133,7 @@ def DefaultSlurmConfig( ):
 	config["nodestoexclude"] = []
 	config["cpumemory"] = 2800
 	config["totmemory"] = 4140
+	config["time"] = 20
 			
 	return config
 	
@@ -199,8 +200,8 @@ class DeliveryClerk(object):
 				
 		options["subtime"] = kwargs.get("subtime", [0, 23])
 		
-		parameters = ["nsimjobs", "nsimjobs", "nuserjobs", "nuserjobs", "npendingjobs", "nfreenodes", "nodestoexclude",
-					  "cpumemory", "totmemory", "nsimuserjobs"]
+		parameters = ["nsimjobs", "nuserjobs", "npendingjobs", "nfreenodes", "nodestoexclude",
+					  "cpumemory", "totmemory", "nsimuserjobs", "time"]
 					
 		for p in parameters:
 			options[p] = kwargs.get(p, self.default_options[p])
@@ -236,6 +237,7 @@ class DeliveryClerk(object):
 			
 	def new_send_options(self, options):
 		options = dict(options)
+		options["time"] = self.options["time"]
 		options["cpumemory"] = self.options["cpumemory"]
 		options["totmemory"] = self.options["totmemory"]
 		options["nfreenodes"] = self.options["nfreenodes"]
@@ -391,7 +393,6 @@ def getdatabase(file):
 	storage = CachingMiddleware(JSONStorage)
 	storage.WRITE_CACHE_SIZE = 20
 	return TinyDB(file, storage=storage)
-#	return TinyDB(file)
 			
 def screencommandfile(job):
 	
@@ -426,13 +427,7 @@ def screencommandfile(job):
 	
 	f.write("job_dict = {}\n".format(job.outdict()))
 			
-#	f.write("\nwhile True:\n")
-#	f.write("\ttry:\n")
-#	f.write("\t\tjob = SimulationJob.from_dict(job_dict, {})\n".format(job.jobnumber))
 	f.write("job = SimulationJob.from_dict(job_dict, {})\n".format(job.jobnumber))
-#	f.write("\t\tbreak\n")
-#	f.write("\texcept TypeError:\n")
-#	f.write("\t\ttime.sleep(5)\n\n")
 	
 	f.write("job.database = DATABASE\n\n")
 	
