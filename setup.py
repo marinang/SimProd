@@ -47,9 +47,9 @@ def IsSlurm():
 		
 def IsHTCondor():
 	
-	out = os.popen("which condor_q").read()
+	out = os.popen("condor_q").read()
 
-	if "condor_q" in out:
+	if out:
 		return True
 	else:
 		return False
