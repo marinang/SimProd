@@ -12,6 +12,7 @@ modulepath = os.path.dirname(os.path.realpath(__file__))
 
 py3 = sys.version_info[0] > 2 #creates boolean value for test that Python major version > 2
 
+
 def _input( question, default_answer = None ):
 
 	if py3:
@@ -22,6 +23,7 @@ def _input( question, default_answer = None ):
 	result = func(question) or default_answer
 	
 	return result
+			
 			
 def canmkdir(folder):
 	try:
@@ -35,26 +37,20 @@ def canmkdir(folder):
 			print(e.strerror)
 			return False
 			
-def IsSlurm():
-	
+			
+def testcommand(cmd):
 	try:
-		P = Popen(['squeue'], stdout=PIPE)
+		P = Popen([cmd], stdout=PIPE)
 		_, _ = P.communicate()
 	except OSError:
 		return False
 	else:
 		return True
 		
-def IsHTCondor():
-	
-	out = os.popen("condor_q").read()
-
-	if out:
-		return True
-	else:
-		return False
+IsSlurm = lambda: testcommand('squeue')
+IsHTCondor = lambda: testcommand('condor_version')
 			
-		
+					
 def pathprint():
 	
 	print("\n\t- Press ENTER to confirm the location")
