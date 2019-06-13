@@ -218,7 +218,7 @@ fi
 
 ## Run
 
-lb-run --use="AppConfig v3r376" --use="TMVAWeights v1r10" DaVinci/v44r7 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping34-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2018.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py $CONDITIONS $DAVINCIFILES
+lb-run -c x86_64-slc6-gcc62-opt --use="AppConfig v3r376" --use="TMVAWeights v1r10" DaVinci/v44r7 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping34-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2018.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py $CONDITIONS $DAVINCIFILES
 
 rm $TURBOOUTPUT
 rm $DAVINCIFILES
