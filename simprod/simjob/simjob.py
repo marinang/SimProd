@@ -452,8 +452,8 @@ class SimulationJob(object):
     def stripping(self, value):
         if not isinstance(value, str):
             raise TypeError("simcond must be a str!")
-        if not value in ["21", "24", "28", "24r1", "24r1p1", "28r1", "28r1p1", "29r2", "34"]:
-            raise ValueError("stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1', '29r2' or '34'!")
+        if not value in ["21", "24", "28", "24r1", "24r1p1", "28r1", "28r1p1", "29r2", "34", "34r0p1"]:
+            raise ValueError("stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1', '29r2', '34' or '34r0p1'!")
         self._stripping = value
         
         
@@ -1576,7 +1576,10 @@ def checksiminputs(job):
         StrippingVersion("29r2")
         
     elif job.year == 2018:
-        StrippingVersion("34")
+        if job.simcond == "Sim09g":
+            StrippingVersion("34", "34r0p1")
+        else:
+            StrippingVersion("34")
         
     if job.simmodel not in ["pythia8", "BcVegPy"]:
         raise ValueError("simmodel must be pythia8 or BcVegPy!")
