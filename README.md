@@ -25,7 +25,8 @@ You will be asked to enter some directories where you want to find your simulate
 To launch the module just type `simprod`.
 
 <p align="center">
-<img width="600" height="200" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/begin_interface.png">
+<img width="600" height="200"
+src="https://github.com/marinang/SimulationProduction/blob/master/etc/begin_interface.png">
 </p>
 
 You need to to know:
@@ -45,7 +46,7 @@ j.send()
 ```
 
 <p align="center">
-<img width="750" height="300" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/submission.png">
+<img width="750" height="300" src="https://github.com/marinang/SimulationProduction/blob/master/etc/submission.png">
 </p>
 
 
@@ -145,7 +146,7 @@ If using the EPFL cluster, please avoid using these options, a configuration fil
 Just after the lauching the program type `jobs` and you can see the status of submitted jobs:
 
 <p align="center">
-<img width="540" height="500" src="https://github.com/marinang/SimulationProduction/blob/userinterface/etc/monitor.png">
+<img width="540" height="500" src="https://github.com/marinang/SimulationProduction/blob/master/etc/monitor.png">
 </p>
 
 ### Resend failed subjobs
