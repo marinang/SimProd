@@ -153,7 +153,7 @@ Just after the lauching the program type `jobs` and you can see the status of su
 
 Use the SimulationJob method **send**:
 ```python 
-jobs[JOBNUMBER].resend()
+jobs[JOBNUMBER].send()
 ```
 This will send only unsubmitted and failed jobs.
 
