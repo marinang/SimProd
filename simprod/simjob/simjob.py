@@ -1368,7 +1368,7 @@ class SimulationSubJob(object):
         self._status = Status("failed", self.output)
         self._update_subjob_table()
         if storeparent:
-            self.parent._store_job_table()
+            self.parent._update_job_table()
         self._empty_proddir()
        
          
