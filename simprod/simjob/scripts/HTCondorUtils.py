@@ -198,6 +198,9 @@ class DeliveryClerk(object):
 				if os.path.isdir(sj.jobdir):
 					shutil.rmtree(sj.jobdir, ignore_errors = True)
 				os.makedirs(sj.jobdir)
+				
+				if sj.infiles:
+					condor.write("transfer_input_files = {0}\n".format(",".join(sj.infiles))
 					
 				condor.write("subjob_log_dir={sjlogdir}\n".format(sjlogdir=sjlogdir))
 				args = " ".join(str(a) for a in sj.command()["args"])
@@ -277,6 +280,9 @@ class DeliveryClerk(object):
 			if os.path.isdir(subjob.jobdir):
 				shutil.rmtree(subjob.jobdir, ignore_errors = True)
 			os.makedirs(subjob.jobdir)
+			
+			if subjob.infiles:
+				condor.write("transfer_input_files = {0}\n".format(",".join(subjob.infiles))
 				
 			condor.write("subjob_log_dir={sjlogdir}\n".format(sjlogdir=sjlogdir))
 			args = " ".join(str(a) for a in subjob.command()["args"])
