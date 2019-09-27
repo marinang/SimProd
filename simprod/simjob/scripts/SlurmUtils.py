@@ -17,6 +17,8 @@ from tinydb.middlewares import CachingMiddleware
 from random import randint
 from .Status import Status
 
+DEBUG = 0
+
 try:
 	import pyslurm
 	haspyslurm = True
@@ -71,10 +73,16 @@ def GetStatus( ID ):
 	return status
 	
 def GetConfig():
+	if DEBUG > 1:
+		print("In GetConfig")
 		
 	def_config = DefaultSlurmConfig() 
 	
 	if "lphe" in os.getenv("HOSTNAME"):
+		
+		if DEBUG > 1:
+			print("LPHE")
+		
 		configfile = "/share/lphe/home/marinang/SimulationLPHEConfig.py"
 		configdir  = "/share/lphe/home/marinang/"
 		if os.path.isfile(configfile):
@@ -93,7 +101,12 @@ def GetConfig():
 			config = def_config		
 	else:
 		config = def_config
-			
+		
+	if DEBUG > 1:
+		print("New config:")
+		print(config)
+		print("Out of GetConfig\n")
+					
 	return config
 			
 def DefaultSlurmConfig( ):
@@ -142,9 +155,13 @@ def DefaultSlurmOptions( ):
 	config = GetConfig()
 	return config
 				
-def SubCondition( Options ):
+def SubCondition(Options):
 	
+	print("In SubCondition")
 	user = getpass.getuser()
+	
+	if DEBUG > 0:
+		print(Options)
 		
 	#additionnal submission conditions for SLURM batch system 
 		
@@ -187,6 +204,8 @@ def SubCondition( Options ):
 		Submission = False
 	elif time and not simjobs_user and not simjobs_total and not jobs_user and not pendjobs_user:
 		Submission = True
+		
+	print("Out of SubCondition\n")
 				
 	return Submission
 	
@@ -194,6 +213,9 @@ def SubCondition( Options ):
 class DeliveryClerk(object):
 	
 	def __init__(self, **kwargs):
+		
+		if DEBUG > 1:
+			print("In DeliveryClerk.__init__:")
 		
 		self.defaults = []
 		options = {}
@@ -205,8 +227,13 @@ class DeliveryClerk(object):
 					
 		for p in parameters:
 			options[p] = kwargs.get(p, self.default_options[p])
-			if options[p] == self.default_options[p]:
+			if DEBUG > 1:
+				print(p, options[p], self.default_options[p])
+			if options[p] != self.default_options[p]:
 				self.defaults.append(p)
+				
+		if DEBUG > 1:
+			print("defaults", self.defaults)
 		
 		self.screensessions = []
 		
@@ -216,6 +243,9 @@ class DeliveryClerk(object):
 		
 		for var in self.options.keys():
 			self.addvar(var)
+			
+		if DEBUG > 1:
+			print("Out of DeliveryClerk.__init__: \n")
 			
 	@property
 	def default_options(self):
@@ -232,8 +262,14 @@ class DeliveryClerk(object):
 		return deliveryclerk
 		
 	def updateoptions(self):
+		if DEBUG > 0:
+			print("In DeliveryClerk.updateoptions")
+			print(self.options)
 		for opt in self.defaults:
 			self.options[opt] = self.default_options[opt]
+		if DEBUG > 0:
+			print(self.options)
+			print("Out DeliveryClerk.updateoptions\n")
 			
 	def new_send_options(self, options):
 		options = dict(options)
@@ -291,6 +327,9 @@ class DeliveryClerk(object):
 			return subjobid		
 			
 	def send_subjob_inscreen(self, subjob, storage):
+		
+		if DEBUG > 1:
+			print("In DeliveryClerk.send_subjob_inscreen:")
 		
 		subjobid = None
 
