@@ -1233,8 +1233,8 @@ class SimulationSubJob(object):
     def infiles(self, files):
         if not isinstance(files, (list, tuple)):
             raise TypeError("A list/tuple with infiles must me provided.")
-            
-        if not all(isinstance(f, str) for f in files):
+  
+        if not all(isinstance(f, (str, unicode)) for f in files):
             raise TypeError("Infiles must be str.")
             
         self._infiles = files
