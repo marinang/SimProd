@@ -229,7 +229,7 @@ class DeliveryClerk(object):
 			options[p] = kwargs.get(p, self.default_options[p])
 			if DEBUG > 1:
 				print(p, options[p], self.default_options[p])
-			if options[p] != self.default_options[p]:
+			if kwargs.get(p, None) is None:
 				self.defaults.append(p)
 				
 		if DEBUG > 1:
@@ -237,7 +237,7 @@ class DeliveryClerk(object):
 		
 		self.screensessions = []
 		
-		self.options = options
+		self._options = options
 		
 		self.inscreen = kwargs.get("inscreen", False)
 		
@@ -246,6 +246,22 @@ class DeliveryClerk(object):
 			
 		if DEBUG > 1:
 			print("Out of DeliveryClerk.__init__: \n")
+			
+	@property
+	def options(self):
+		if DEBUG > 0:
+			print("In DeliveryClerk.options update")
+			print(self._options)
+		for opt in self.defaults:
+			self._options[opt] = self.default_options[opt]
+		if DEBUG > 0:
+			print(self._options)
+			print("Out DeliveryClerk.options update\n")
+		return self._options
+		
+	@options.setter
+	def options(self, dict):
+		self._options = dict
 			
 	@property
 	def default_options(self):
@@ -258,18 +274,9 @@ class DeliveryClerk(object):
 	def from_dict(cls, dict, **kwargs):
 		deliveryclerk = cls(**dict["options"])	
 		deliveryclerk.screensessions = dict["screensessions"]	
+		deliveryclerk.defaults = dict["defaults"]
 		
 		return deliveryclerk
-		
-	def updateoptions(self):
-		if DEBUG > 0:
-			print("In DeliveryClerk.updateoptions")
-			print(self.options)
-		for opt in self.defaults:
-			self.options[opt] = self.default_options[opt]
-		if DEBUG > 0:
-			print(self.options)
-			print("Out DeliveryClerk.updateoptions\n")
 			
 	def new_send_options(self, options):
 		options = dict(options)
@@ -303,11 +310,9 @@ class DeliveryClerk(object):
 			
 					
 	def send_subjob(self, subjob):
-		
-		self.updateoptions()
-		
+
 		SUBMIT = False
-		while SUBMIT is False:
+		while SUBMIT is False:	
 			SUBMIT = SubCondition(self.options)
 			if not SUBMIT:
 				time.sleep(randint(0, 20) * 60)
@@ -332,8 +337,7 @@ class DeliveryClerk(object):
 			print("In DeliveryClerk.send_subjob_inscreen:")
 		
 		subjobid = None
-
-		self.updateoptions()		
+	
 		SUBMIT = False
 		while SUBMIT is False:
 			SUBMIT = SubCondition(self.options)
