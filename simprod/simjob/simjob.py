@@ -1586,7 +1586,7 @@ def checksiminputs(job):
     elif job.simmodel == "BcVegPy" and job.simcond not in ["Sim09e", "Sim09g"]:
         raise NotImplementedError("BcVegPy is not implemented for {0}!".format(job.simcond))
         
-    if job.redecay and job.simcond != "Sim09b":
+    if job.redecay and job.simcond == "Sim09b":
         raise NotImplementedError("ReDecay is not implemented for {0}!".format(job.simcond))
                             
     if job.mudst and ( job.year == 2012 or job.year == 2011 ):
