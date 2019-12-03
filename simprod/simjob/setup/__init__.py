@@ -3,7 +3,10 @@
 import os
 import glob
 
-sim_path = os.getenv("SIMPRODPATH")+"/simprod/simjob/setup/"
+#print(os.path.realpath(__file__))
+#sim_path = os.getenv("SIMPRODPATH")+"/simprod/simjob/setup/"
+
+sim_path = os.path.realpath(__file__)
 
 def DoProd( SimCond, Year ):
 	

@@ -77,11 +77,11 @@ class PostInstallSetting(install):
 			
 		print("\n##### Setting up Simulation Production! #####\n")
 		
-		basesimprod = open( "./simprod/scripts/base_simprod.py", "r")
-		_basesimprod = basesimprod.read()
-		basesimprod.close()
 		
-		_basesimprod = _basesimprod.replace("modulepath = None","modulepath = '{0}'".format(modulepath))
+		with open("./simprod/base__init__.py", "r") as f:
+			base__init__ = f.read()
+		
+		base__init__ = base__init__.replace("modulepath = None","modulepath = '{0}'".format(modulepath))
 		
 		if "lxplus" in os.getenv("HOSTNAME"):
 			
@@ -110,7 +110,7 @@ class PostInstallSetting(install):
 					eospath = _input("[{0}] >>> ".format(eospath),eospath)
 					valid_path = canmkdir(eospath)
 					
-				_basesimprod = _basesimprod.replace("simoutput = None","simoutput = '{0}'".format(eospath))
+				base__init__ = base__init__.replace("simoutput = None","simoutput = '{0}'".format(eospath))
 				
 				workpath = "/afs/cern.ch/work/{0}/{1}/SimulationJobs".format( user[0], user )
 					
@@ -123,8 +123,8 @@ class PostInstallSetting(install):
 					workpath = _input("[{0}] >>> ".format(workpath),workpath)
 					valid_path = canmkdir(workpath)
 					
-				_basesimprod = _basesimprod.replace("#_","")
-				_basesimprod = _basesimprod.replace("log_simoutput_ = None","log_simoutput = '{0}'".format(workpath))
+				base__init__ = base__init__.replace("#_","")
+				base__init__ = base__init__.replace("log_simoutput_ = None","log_simoutput = '{0}'".format(workpath))
 				
 			elif answer == "no":
 				
@@ -139,7 +139,7 @@ class PostInstallSetting(install):
 					prodpath = _input("[{0}] >>> ".format(prodpath),prodpath)
 					valid_path = canmkdir(prodpath)
 					
-				_basesimprod = _basesimprod.replace("simoutput = None","simoutput = '{0}'".format(prodpath))
+				base__init__ = base__init__.replace("simoutput = None","simoutput = '{0}'".format(prodpath))
 				
 		elif "lphe" in os.getenv("HOSTNAME"):
 			
@@ -154,7 +154,7 @@ class PostInstallSetting(install):
 					prodpath = _input("[{0}] >>> ".format(prodpath),prodpath)
 					valid_path = canmkdir(prodpath)
 					
-				_basesimprod = _basesimprod.replace("simoutput = None","simoutput = '{0}'".format(prodpath))
+				base__init__ = base__init__.replace("simoutput = None","simoutput = '{0}'".format(prodpath))
 			
 			
 		else:
@@ -165,11 +165,10 @@ class PostInstallSetting(install):
 				prodpath = _input("path:")
 				valid_path = canmkdir(prodpath)
 				
-			_basesimprod = _basesimprod.replace("simoutput = None","simoutput = '{0}'".format(prodpath))
+			base__init__ = base__init__.replace("simoutput = None","simoutput = '{0}'".format(prodpath))
 			
-		simprod = open( "./simprod/scripts/simprod", "w")
-		simprod.write(_basesimprod)
-		simprod.close()
+		with open("./simprod/__init__.py", "w") as f:
+			f.write(base__init__)
 			
 		print("\nDone.\n")
 					
