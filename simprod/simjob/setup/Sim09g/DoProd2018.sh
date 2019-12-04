@@ -222,7 +222,7 @@ fi
 if [ "$Stripping" == "34" ]; then
 	lb-run -c x86_64-slc6-gcc62-opt --use="AppConfig v3r376" --use="TMVAWeights v1r10" DaVinci/v44r7 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping34-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2018.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py $CONDITIONS $DAVINCIFILES
 elif [ "$Stripping" == "34r0p1" ]; then
-	lb-run -c x86_64-slc6-gcc62-opt --use="AppConfig v3r376" --use="TMVAWeights v1r10" v44r10p2 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping34r0p1-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2018.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py $CONDITIONS $DAVINCIFILES
+	lb-run -c x86_64-slc6-gcc62-opt --use="AppConfig v3r376" --use="TMVAWeights v1r10" DaVinci/v44r10p2 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping34r0p1-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2018.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py $CONDITIONS $DAVINCIFILES
 fi
 
 
