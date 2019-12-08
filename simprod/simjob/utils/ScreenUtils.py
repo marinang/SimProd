@@ -1,11 +1,13 @@
 #!/usr/bin/python
-
 ## Author: Matthieu Marinangeli
 ## Mail: matthieu.marinangeli@cern.ch
 
-import screenutils, os, time
+import os, time
+from .dependencies import LazyModule
 
-def SendInScreen( screename, py_file ):
+screenutils = LazyModule("screenutils")
+
+def SendInScreen(screename, py_file):
 	
 	s = screenutils.Screen(screename, True )
 	
@@ -27,19 +29,19 @@ def SendInScreen( screename, py_file ):
 	
 	return s.id
 		
-def OpenScreenSession( screename ):	
+def OpenScreenSession(screename):	
 
 	s = screenutils.Screen( screename, True )
 
 	os.system("screen -r {0}".format(s.id) )
 	
-def KillScreenSession( screename ):	
+def KillScreenSession(screename):	
 	
 	s = screenutils.Screen( screename )
 	if s.exists:
 		s.kill()
 	
-def ScreenExist( screename ):
+def ScreenExist(screename):
 	
 	s = screenutils.Screen( screename )
 	

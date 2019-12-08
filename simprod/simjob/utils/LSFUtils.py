@@ -6,7 +6,7 @@
 from subprocess import Popen, PIPE
 from datetime import datetime
 import os
-from .utils import *
+from .utilities import *
 import sys
 from .submit import main as submit
 from .Status import Status

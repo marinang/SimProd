@@ -1,4 +1,10 @@
 #!/usr/bin/python
+import os
+
+from .utils import baserunnumber
+from .setup import DoProd, checksiminputs
+
+DEBUG = 0
 
 class GangaSimJob(object):
     """
@@ -7,8 +13,7 @@ class GangaSimJob(object):
     
     def __init__(self, **kwargs):		
         self.subjobs = {}
-        self._options = {}
-                                
+       
         self._nevents = kwargs.get('nevents', None)
         if self._nevents is None:
             raise ValueError("Please set nevents!")
@@ -35,7 +40,6 @@ class GangaSimJob(object):
         else:
             self.__setoptfile()
         
-
     @property
     def range_subjobs(self):
         for n in range(self.nsubjobs):
@@ -109,7 +113,6 @@ class GangaSimJob(object):
     def stripping(self):
         return self._stripping
             
-            
     @stripping.setter	
     def stripping(self, value):
         if not isinstance(value, str):
@@ -117,7 +120,6 @@ class GangaSimJob(object):
         if not value in ["21", "24", "28", "24r1", "24r1p1", "28r1", "28r1p1", "29r2", "34", "34r0p1"]:
             raise ValueError("stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1', '29r2', '34' or '34r0p1'!")
         self._stripping = value
-            
             
     @property	
     def year(self):
@@ -134,29 +136,7 @@ class GangaSimJob(object):
     @property
     def keys(self):
         return self.subjobs.keys()
-            
-    @property	
-    def options(self):
-        return self._options
-            
-    def subdir(self):
-        subdir = "simProd_{0}_{1}".format(self.evttype, self.simcond)
-        if self.turbo:
-            subdir += "_Turbo"
-        if self.mudst:
-            subdir += "_muDST"
-        if self.redecay: 
-            subdir += "_ReDecay"
-        
-        self.options["subdir"] = subdir
-        
-        return subdir
-            
-    @property	
-    def proddir(self):
-        self._proddir  = "{0}/{1}".format(self.options["basedir"], self.subdir())
-        return self._proddir
-            
+                        
     @property	
     def destdir(self):
         self._destdir = "{0}/{1}/{2}/{3}".format(self.options["basedir"], self.evttype, self.year, self.simcond)
@@ -288,21 +268,20 @@ class GangaSimJob(object):
             self._preparesubjobs(n, infiles=infiles)
 
     def _preparesubjobs( self, sjn, **kwargs ):
-            
-            if DEBUG > 2:
-                    print(sjn)
-                                            
-            if self._polarities:	
-                    polarity  = self._polarities[sjn-1]
-            else:
-                    if sjn <= int(self.nsubjobs/2):
-                            polarity = "MagUp"
-                    else:
-                            polarity = "MagDown"
-                            
-            if sjn not in self.keys:
-                    runnumber = self.getrunnumber(sjn)
-                    self.subjobs[sjn] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, subjobnumber=sjn, **kwargs )	
+        if DEBUG > 2:
+            print(sjn)
+                                        
+        if self._polarities:	
+                polarity  = self._polarities[sjn-1]
+        else:
+                if sjn <= int(self.nsubjobs/2):
+                        polarity = "MagUp"
+                else:
+                        polarity = "MagDown"
+                        
+        if sjn not in self.keys:
+                runnumber = self.getrunnumber(sjn)
+                self.subjobs[sjn] = SimulationSubJob( parent=self, polarity=polarity, runnumber=runnumber, subjobnumber=sjn, **kwargs )	
     
     def cancelpreparation( self, **kwargs ):	
         for n in self.range_subjobs:				
@@ -310,40 +289,9 @@ class GangaSimJob(object):
                 del self.subjobs[n]
 
     def __getitem__(self, sjob_number):
-            
-        if DEBUG > 0:
-            msg = "in SimulationJob.__getitem__, jobnumber:{0}, sjobnumber={1}"
-            print(msg.format(self.jobnumber, sjob_number))
-
-        if not isinstance(sjob_number, int):
-            msg = "Job number must be a 'int'. Got a '{0}' instead!"
-            raise TypeError(msg.format(sjob_number.__class__.__name__))
-        
-        if len(self.keys) == 0:
-            raise ValueError("Please 'prepare' the job before doing this!")
-            
-        if not sjob_number in self.keys:
-            print("WARNING\tsubjob {0}.{1} has been lost!".format(self.jobnumber, sjob_number))
-            self.subjobs[sjob_number] = self._load_subjob(sjob_number, force_load = True)
-                                                
-        subjob = self.subjobs[sjob_number]
-        
-        if subjob is None:
-            self.subjobs[sjob_number] = self._load_subjob(sjob_number, force_load = True)
-
         return self.subjobs[sjob_number]
             
     def __setitem__(self, sjob_number, subjob):
-            
-        if not isinstance(sjob_number, int):
-            msg = "Job number must be a 'int'. Got a '{0}' instead!"
-            raise TypeError(msg.format(sjob_number.__class__.__name__))
-        
-        if subjob:
-            if not isinstance(subjob, SimulationSubJob):
-                msg = "Must receive a SimulationSubJob. Got a '{0}' instead!"
-                raise TypeError(msg.format(subjob.__class__.__name__))
-                
         self.subjobs[sjob_number] = subjob
             
     def __iter__(self):

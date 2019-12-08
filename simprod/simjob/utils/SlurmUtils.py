@@ -7,7 +7,7 @@ from subprocess import Popen, PIPE
 from datetime import datetime
 import os
 import getpass
-from .utils import *
+from .utilities import *
 import time
 import sys
 from .submit import main as submit
@@ -16,6 +16,7 @@ from tinydb import TinyDB, JSONStorage
 from tinydb.middlewares import CachingMiddleware
 from random import randint
 from .Status import Status
+from .ScreenUtils import SendInScreen, KillScreenSession
 
 DEBUG = 0
 

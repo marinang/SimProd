@@ -4,18 +4,20 @@
 ## Mail: matthieu.marinangeli@cern.ch
 
 from subprocess import Popen, PIPE
-from datetime import datetime
 import os
-from .utils import *
 import sys
-from .submit import SendCommand
-import htcondor
 import getpass
 import datetime
-from .Status import Status
 import re
 import shutil
 import subprocess as sub
+
+from .dependencies import LazyModule
+from .utilities import *
+from .submit import SendCommand
+from .Status import Status
+
+htcondor = LazyModule("htcondor")
 
 DEBUG = 0
 

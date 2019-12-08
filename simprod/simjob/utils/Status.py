@@ -6,7 +6,7 @@
 
 import glob
 import os
-from .utils import *
+from .utilities import *
 import time
 import subprocess
 import datetime
@@ -113,7 +113,7 @@ class Status(object):
 	def __repr__(self):
 		return self.status
 
-def GetStatus( Job ):
+def GetStatus(Job):
 	
 	JobID = Job["jobid"]
 	
@@ -148,7 +148,7 @@ def GetStatus( Job ):
 		return NotImplemented
 		
 					
-def SetStatus ( Jobs ):
+def SetStatus(Jobs):
 	
 	nthisjob  = Jobs['nthisjob']
 	njobs     = Jobs['njobs']
@@ -171,7 +171,7 @@ def SetStatus ( Jobs ):
 		WriteStatus( job )
 			
 			
-def WriteStatus ( Job ):
+def WriteStatus(Job):
 	
 	JobDirectory = Job["production_folder"]
 	

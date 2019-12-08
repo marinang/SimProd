@@ -1,15 +1,18 @@
 #!/usr/bin/python
 
+#from .dependencies import softimport
 from .GetEvtType import getevttype
-from .utils import * 
-from .Status import *
-from .MoveJobs import *
-from .ScreenUtils import *
+from .utilities import * 
+from .Status import Status
+from .MoveJobs import Move, EosMove
+from .dependencies import softimport
 import os
 import subprocess
+import time
+
+#__all__ = ["getevttype", "Status", "Move", "EosMove", "IsSlurm", "IsHTCondor", "IsLSF", "softimport"]
 
 def IsSlurm():
-	
 	### Slurm
 	try:
 		P = subprocess.Popen(['squeue'], stdout=subprocess.PIPE)
@@ -20,7 +23,6 @@ def IsSlurm():
 		return True
 		
 def IsLSF():
-	
 	### LSF
 	try:
 		P = subprocess.Popen(['bjobs'], stdout=subprocess.PIPE)
@@ -31,7 +33,6 @@ def IsLSF():
 		return True
 		
 def IsHTCondor():
-	
 	### HTCondor
 	
 	command = ["which condor_q"]
@@ -44,8 +45,6 @@ def IsHTCondor():
 	time.sleep(0.03)
 	out, _ = process.communicate()
 	
-#	out = os.popen("which condor_q").read()
-	
 	if "condor_q" in out:
 		return True
 	else:
@@ -53,13 +52,13 @@ def IsHTCondor():
 		
 		
 if IsSlurm():
-	from .SlurmUtils import *
+	from .SlurmUtils import DeliveryClerk
 	
 elif IsHTCondor():
-	from .HTCondorUtils import *
+	from .HTCondorUtils import DeliveryClerk, Scheduler
 	
 elif IsLSF():
-	from .LSFUtils import *
-
+	from .LSFUtils import DeliveryClerk
+	
 
 
