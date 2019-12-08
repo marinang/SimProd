@@ -17,7 +17,7 @@ def DoProd( SimCond, Year ):
 	simconds = [p.split("/")[-1] for p in paths]
 	
 	if SimCond in simconds:
-		doprod = "{0}/{1}".format( sim_path + SimCond, doprod ) 
+		doprod = "{0}/{1}/{2}".format(sim_path, SimCond, doprod) 
 		return doprod
 	else:
 		raise ValueError("Error {0} {1} not found.".format(SimCond, Year))

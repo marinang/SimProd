@@ -158,10 +158,10 @@ def DefaultSlurmOptions( ):
 				
 def SubCondition(Options):
 	
-	print("In SubCondition")
 	user = getpass.getuser()
 	
 	if DEBUG > 0:
+		print("In SubCondition")
 		print(Options)
 		
 	#additionnal submission conditions for SLURM batch system 
@@ -206,7 +206,8 @@ def SubCondition(Options):
 	elif time and not simjobs_user and not simjobs_total and not jobs_user and not pendjobs_user:
 		Submission = True
 		
-	print("Out of SubCondition\n")
+	if DEBUG > 0:
+		print("Out of SubCondition\n")
 				
 	return Submission
 	
