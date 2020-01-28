@@ -4,6 +4,8 @@
 #from https://its.cern.ch/jira/browse/LHCBGAUSS-968
 #Stripping 26
 
+. /cvmfs/lhcb.cern.ch/lib/LbEnv
+
 Optfile=$1
 Nevents=$2
 Polarity=$3

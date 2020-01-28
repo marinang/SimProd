@@ -3,6 +3,8 @@
 #from https://its.cern.ch/jira/browse/LHCBGAUSS-964
 #Stripping 24
 
+. /cvmfs/lhcb.cern.ch/lib/LbEnv
+
 # 1 = EvtType
 # 2 = nbr of evts
 # 3 = Polarity
