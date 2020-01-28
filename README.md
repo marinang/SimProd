@@ -60,7 +60,7 @@ Your have other options by default that you can change:
 
 * `j.runnumber`: Run number for simulation in Gauss.
 
-* `j.simcond`: Simulation condition [Sim09b, Sim09c, Sim09e, Sim09g, default: Sim09g].
+* `j.simcond`: Simulation condition [Sim09b, Sim09c, Sim09e, Sim09g, Sim09h default: Sim09h].
 
 * `j.stripping`: Version of the stripping (default = '').
 

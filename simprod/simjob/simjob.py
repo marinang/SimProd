@@ -294,7 +294,7 @@ class SimulationJob(object):
         if self._year is None:
             raise ValueError("Please set year!")
         self._polarities = kwargs.get('polarities', None)
-        self._simcond = kwargs.get('simcond', "Sim09g")
+        self._simcond = kwargs.get('simcond', "Sim09h")
         self._stripping = kwargs.get('stripping', None)
         self._turbo = kwargs.get('turbo', False)
         self._mudst = kwargs.get('mudst', False)

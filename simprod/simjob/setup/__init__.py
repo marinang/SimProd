@@ -62,11 +62,12 @@ def checksiminputs(job):
 		raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
 									job.year, 
 									job.simcond) )	
-			   
-	elif job.simcond == "Sim09g" and job.year in [2011, 2012, 2015]:
+	
+	elif job.simcond in ["Sim09g", "Sim09h"] and job.year in [2011, 2012, 2015]:
 		raise NotImplementedError( "{0} setup is not (yet) implemented for {1}!".format(
 									job.year, 
-									job.simcond) )									
+									job.simcond) )		
+																
 	
 									
 	if job.year == 2011:
@@ -88,21 +89,21 @@ def checksiminputs(job):
 	elif job.year == 2016:
 		if job.simcond == "Sim09b":
 			StrippingVersion("28")
-		if job.simcond in ["Sim09c", "Sim09e", "Sim09g"]:
+		if job.simcond in ["Sim09c", "Sim09e", "Sim09g", "Sim09h"]:
 			StrippingVersion("28r1", "28r1p1")	
 			
 	elif job.year == 2017:
 		StrippingVersion("29r2")
 		
 	elif job.year == 2018:
-		if job.simcond == "Sim09g":
+		if job.simcond in ["Sim09g", "Sim09h"]:
 			StrippingVersion("34", "34r0p1")
 		else:
 			StrippingVersion("34")
 		
 	if job.simmodel not in ["pythia8", "BcVegPy"]:
 		raise ValueError("simmodel must be pythia8 or BcVegPy!")
-	elif job.simmodel == "BcVegPy" and job.simcond not in ["Sim09e", "Sim09g"]:
+	elif job.simmodel == "BcVegPy" and job.simcond not in ["Sim09e", "Sim09g", "Sim09h"]:
 		raise NotImplementedError("BcVegPy is not implemented for {0}!".format(job.simcond))
 		
 	if job.redecay and job.simcond == "Sim09b":
