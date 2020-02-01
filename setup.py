@@ -187,9 +187,11 @@ class PostInstallSetting(install):
 		os.system("rm -rf ./simprod.egg-info")
 
 
+print(find_packages())
+
 setup(name = 'simprod',
 	  version = '1.0',
-	  packages = find_packages(),
+	  packages = find_packages("."),
 	  scripts = ['./simprod/scripts/simprod'],
 	  description = 'Mini framework to send LHCb simulation jobs into lxplus or a slurm batch system (with access to cvmfs)!',
 	  author = 'Matthieu Marinangeli',
@@ -208,6 +210,7 @@ setup(name = 'simprod',
 			'Programming Language :: Python :: 3.7',
 	  ],
 	  platforms = 'Any',
-	  cmdclass={ 'install': PostInstallSetting}
+	  cmdclass={ 'install': PostInstallSetting},
+	  package_data={"simprod": ["simjob/setup/*/*.sh"]}
 	  )
 	  
