@@ -222,7 +222,13 @@ fi
 
 ## Run
 
-lb-run -c x86_64-slc6-gcc62-opt --use="AppConfig v3r356" --use="TMVAWeights v1r9" DaVinci/v42r7p3 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping29r2-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2017.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py $CONDITIONS $DAVINCIFILES
+if [ "$Stripping" == "29r2" ]; then
+	lb-run -c x86_64-slc6-gcc62-opt --use="AppConfig v3r356" --use="TMVAWeights v1r9" DaVinci/v42r7p3 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping29r2-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2017.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py $CONDITIONS $DAVINCIFILES
+elif [ "$Stripping" == "29r2p1" ]; then
+	lb-run -c x86_64-slc6-gcc62-opt --use="AppConfig v3r395" --use="TMVAWeights v1r16" DaVinci/v42r9p2 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping29r2p1-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2017.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py $CONDITIONS $DAVINCIFILES
+fi
+
+
 
 rm $TURBOOUTPUT
 rm $DAVINCIFILES

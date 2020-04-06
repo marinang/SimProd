@@ -89,11 +89,16 @@ def checksiminputs(job):
 	elif job.year == 2016:
 		if job.simcond == "Sim09b":
 			StrippingVersion("28")
-		if job.simcond in ["Sim09c", "Sim09e", "Sim09g", "Sim09h"]:
+		elif job.simcond in ["Sim09c", "Sim09e", "Sim09g"]:
 			StrippingVersion("28r1", "28r1p1")	
-			
+		elif job.simcond in ["Sim09h"]:
+			StrippingVersion("28r2", "28r1", "28r1p1")		
+					
 	elif job.year == 2017:
-		StrippingVersion("29r2")
+		if job.simcond in ["Sim09h"]:
+			StrippingVersion("29r2", "29r2p1")
+		else:
+			StrippingVersion("29r2")
 		
 	elif job.year == 2018:
 		if job.simcond in ["Sim09g", "Sim09h"]:

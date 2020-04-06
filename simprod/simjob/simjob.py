@@ -285,13 +285,13 @@ class SimulationJob(object):
     def __init__(self, **kwargs):		
         self.subjobs = {}
         self._options = {}
-                    
-        self._nevents = kwargs.get('nevents', None)
-        if self._nevents is None:
+        
+        self.nevents = kwargs.get('nevents', None)
+        if self.nevents is None:
             raise ValueError("Please set nevents!")
-        self._neventsjob = kwargs.get('neventsjob', 50)
-        self._year = kwargs.get('year', None)
-        if self._year is None:
+        self.neventsjob = kwargs.get('neventsjob', 50)
+        self.year = kwargs.get('year', None)
+        if self.year is None:
             raise ValueError("Please set year!")
         self._polarities = kwargs.get('polarities', None)
         self._simcond = kwargs.get('simcond', "Sim09h")
@@ -372,14 +372,15 @@ class SimulationJob(object):
             yield n + 1
                     
     @property
-    def nevents( self):
+    def nevents(self):
         return self._nevents
         
-        
     @nevents.setter
-    def nevents( self, value):
-        if isinstance(value, (int, float) ):
-            self._nevents = int( value )
+    def nevents(self, value):
+        if isinstance(value, (int, float)):
+            value = int(value)
+            self._nevents = value
+            
         else:
             raise TypeError("nevents must be a int!")
             
@@ -392,14 +393,21 @@ class SimulationJob(object):
     @neventsjob.setter
     def neventsjob( self, value):
         if isinstance(value, (int, float) ):
-            self._neventsjob = int( value )
+            value = int(value)
+            
+#            if value < 5:
+#                msg = " WARNING: minimum number of events allowed is 5."
+#                warnings.warn(blue(msg), stacklevel=2)
+#                value = 5  
+                          
+            self._neventsjob = value
         else:
             raise TypeError("nevents must be a int!")
             
         
     @property
     def nsubjobs(self):
-        self._nsubjobs = int( self.nevents/ self.neventsjob )		
+        self._nsubjobs = int(self.nevents/ self.neventsjob)		
         return self._nsubjobs
         
         
@@ -423,8 +431,8 @@ class SimulationJob(object):
     def simcond(self, value):
         if not isinstance(value, str):
             raise TypeError("simcond must be a str!")
-        if not value in ["Sim09b", "Sim09c", "Sim09e", "Sim09f"]:
-            raise ValueError("simcond must be Sim09b, Sim09c, Sim09d or Sim09f!")
+        if not value in ["Sim09b", "Sim09c", "Sim09e", "Sim09f", "Sim09h"]:
+            raise ValueError("simcond must be Sim09b, Sim09c, Sim09d, Sim09f or Sim09h!")
         self._simcond = value
         
     @property	
@@ -453,8 +461,8 @@ class SimulationJob(object):
     def stripping(self, value):
         if not isinstance(value, str):
             raise TypeError("simcond must be a str!")
-        if not value in ["21", "24", "28", "24r1", "24r1p1", "28r1", "28r1p1", "29r2", "34", "34r0p1"]:
-            raise ValueError("stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1', '29r2', '34' or '34r0p1'!")
+        if not value in ["21", "24", "28", "24r1", "24r1p1", "28r1", "28r1p1", "28r2", "29r2", "29r2p1", "34", "34r0p1"]:
+            raise ValueError("stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1', '28r2', '29r2', '29r2p1', '34' or '34r0p1'!")
         self._stripping = value
         
         

@@ -44,9 +44,9 @@ class Status(object):
 			self.submitted = True
 							
 		if output != "" and os.path.isfile(output):							
-			if os.path.isfile(output) and os.path.getsize(output) > 900000:
+			if os.path.isfile(output) and os.path.getsize(output) >= 700000:
 				self.completed = True
-			elif os.path.isfile(output) and os.path.getsize(output) < 900000:
+			elif os.path.isfile(output) and os.path.getsize(output) < 700000:
 				self.failed = True	
 			elif self.output == "":
 				self.failed = True
@@ -186,6 +186,7 @@ def WriteStatus(Job):
 	status_file.write("completed: {0}\n".format( Job["completed"] ) )
 	status_file.write("failed: {0}\n".format( Job["failed"] ) )
 	status_file.close()
+			
 								
 def IsRunning( Job ):
 	
@@ -194,6 +195,7 @@ def IsRunning( Job ):
 			Job["running"] = True
 		else:
 			Job["running"] = False
+		
 		
 def IsCompleted( Job ):
 	
@@ -208,6 +210,7 @@ def IsCompleted( Job ):
 		
 		elif IsMoved( Job ):
 			Job["completed"] = True
+	
 		
 def IsFailed( Job ):
 	
@@ -221,6 +224,7 @@ def IsFailed( Job ):
 				Job["failed"] = True
 			elif not os.path.isfile( dst ):
 				Job["failed"] = True
+		
 				
 def IsFinished( Job ):
 	
@@ -233,6 +237,7 @@ def IsFinished( Job ):
 			return True
 		else:
 			return False
+		
 		
 def IsMoved( Job ):
 	

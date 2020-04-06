@@ -2,7 +2,7 @@
 
 #2016
 #from https://its.cern.ch/jira/browse/LHCBGAUSS-1183
-#Stripping 28r1/28r1p1
+#Stripping 28r1/28r1p1/28r2
 
 . /cvmfs/lhcb.cern.ch/lib/LbEnv
 
@@ -223,6 +223,8 @@ if [ "$Stripping" == "28r1" ]; then
   lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r348" --use="TMVAWeights v1r9" DaVinci/v41r4p4 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping28r1-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2016.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py $CONDITIONS $DAVINCIFILES
 elif [ "$Stripping" == "28r1p1" ]; then
   lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r350" --use="TMVAWeights v1r9" DaVinci/v41r4p5 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping28r1p1-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DataType-2016.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py $CONDITIONS $DAVINCIFILES
+elif [ "$Stripping" == "28r2" ]; then
+  lb-run -c "best" --use="AppConfig v3r394" --use="TMVAWeights v1r16" DaVinci/v44r10p5 gaudirun.py \$APPCONFIGOPTS/DaVinci/DV-Stripping28r2-Stripping-MC-NoPrescaling-DST.py \$APPCONFIGOPTS/DaVinci/DV-RedoCaloPID-Stripping_28_24.py \$APPCONFIGOPTS/DaVinci/DataType-2016.py \$APPCONFIGOPTS/DaVinci/InputType-DST.py $CONDITIONS $DAVINCIFILES
 fi
 
 rm $TURBOOUTPUT
