@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/109375742.svg)](https://zenodo.org/badge/latestdoi/109375742)
+
 # SimProd
 
 Mini framework to send LHCb simulation jobs on a batch system (HTCondor, Slurm)!
