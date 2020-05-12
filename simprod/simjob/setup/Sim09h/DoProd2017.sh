@@ -4,8 +4,6 @@
 #from https://its.cern.ch/jira/browse/LHCBGAUSS-1190
 #Stripping 29r2
 
-. /cvmfs/lhcb.cern.ch/lib/LbEnv
-
 Optfile=$1
 Nevents=$2
 Polarity=$3
@@ -15,6 +13,8 @@ muDST=$6
 Stripping=$7
 ReDecay=$8
 Model=${9:-"pythia8"}
+
+. /cvmfs/lhcb.cern.ch/lib/LbEnv --quiet
 
 if [ "$Polarity" == "MagUp" ]; then
 	SimCond=Gauss/Beam6500GeV-mu100-2017-nu1.6.py
