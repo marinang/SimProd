@@ -20,7 +20,9 @@ You will be asked to enter some directories where you want to find your simulate
 
 * [TinyDB](https://tinydb.readthedocs.io/en/latest/index.html)
 
-* [UltraJSON](https://github.com/esnme/ultrajson)  (Optionnal, Recommended).
+* [UltraJSON](https://github.com/esnme/ultrajson) (Optionnal, Recommended)
+
+* [setuptools](https://setuptools.readthedocs.io/en/latest/) (Optionnal, Recommended)
 
 ## Usage
 
