@@ -57,12 +57,17 @@ def pathprint():
 	print("\t- Press CTRL-C to abort the installation")
 	print("\t- Or specify a different location below\n")
 				
-install_list = [ 'ipython>=5.0,<6.0;python_version<="2.7"', 
-			     'ipython>=5.0;python_version>="3.4"',
-			     'screenutils',
-			     'tqdm',
-			     'colorama',
-			     'tinydb>=v3.12.1']
+install_list = ['ipython>=5.0,<6.0;python_version<="2.7"', 
+				'ipython>=5.0;python_version>="3.4"',
+				'screenutils',
+				'tqdm',
+				'colorama']
+				
+if py3:
+	install_list.append('tinydb')
+else:
+	install_list.append('tinydb>=v3.12.1,<4.0')
+	
 			
 if IsHTCondor():
 	install_list.append("htcondor")
