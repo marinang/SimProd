@@ -4,7 +4,7 @@
 #from https://its.cern.ch/jira/browse/LHCBGAUSS-1183
 #Stripping 28r1/28r1p1/28r2
 
-. /cvmfs/lhcb.cern.ch/lib/LbEnv
+. /cvmfs/lhcb.cern.ch/lib/LbEnv --quiet
 
 Optfile=$1
 Nevents=$2

@@ -14,7 +14,7 @@ Stripping=$7
 ReDecay=$8
 Model=${9:-"pythia8"}
 
-. /cvmfs/lhcb.cern.ch/lib/LbEnv --quiet
+#. /cvmfs/lhcb.cern.ch/lib/LbEnv --quiet
 
 if [ "$Polarity" == "MagUp" ]; then
 	SimCond=Gauss/Beam6500GeV-mu100-2017-nu1.6.py
