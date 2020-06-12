@@ -68,7 +68,7 @@ Your have other options by default that you can change:
 
 * `j.stripping`: Version of the stripping (default = '').
 
-* `j.turbo`: Run the Turbo step (output not tested).
+* `j.turbo`: Run the Turbo step.
 
 * `j.mudst`: Produce a muDST output.
 
