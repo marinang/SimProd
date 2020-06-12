@@ -172,9 +172,12 @@ class DeliveryClerk(object):
 			os.remove(runfile)
 			
 		doprod = "{0}/{1}".format(logdir, os.path.basename(job.doprod))
-		if not os.path.isfile(doprod):
-			shutil.copyfile(job.doprod, doprod)
-			sub.call(['chmod', '775', doprod])
+		
+		if os.path.isfile(doprod):
+			os.remove(doprod)
+	
+		shutil.copyfile(job.doprod, doprod)
+		sub.call(['chmod', '775', doprod])
 			
 		create_runfile(runfile, doprod)
 		 
