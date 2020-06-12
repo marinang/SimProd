@@ -15,7 +15,8 @@ if __name__ == "__main__" :
 	banner1 += '\n'
 	banner1 += green(' author: Matthieu Marinangeli, matthieu.marinangeli@cern.ch.\n')
 	banner1 += '\n'
-	banner1 += green(' Report any issues in https://github.com/marinang/SimProd/issues.\n')
+	banner1 += blue(' Report any issues in https://github.com/marinang/SimProd/issues\n')
+	banner1 += blue(' or in the SimProd LHCb mattermost channel.\n')
 	
 	banner2  = 'production directory: {0}\n'.format(simoutput)
 
