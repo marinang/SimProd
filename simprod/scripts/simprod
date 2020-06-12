@@ -14,6 +14,8 @@ if __name__ == "__main__" :
 	banner1 += green(' Welcome on the mini LHCb simulation production framework!\n')
 	banner1 += '\n'
 	banner1 += green(' author: Matthieu Marinangeli, matthieu.marinangeli@cern.ch.\n')
+	banner1 += '\n'
+	banner1 += green(' Report any issues in https://github.com/marinang/SimProd/issues.\n')
 	
 	banner2  = 'production directory: {0}\n'.format(simoutput)
 
@@ -21,7 +23,6 @@ if __name__ == "__main__" :
 	
 	config.TerminalInteractiveShell.banner1 = banner1
 	config.TerminalInteractiveShell.banner2 = banner2
-		
 		
 	jobs = JobCollection()
 		
