@@ -299,7 +299,7 @@ class SimulationJob(object):
         self._turbo = kwargs.get('turbo', False)
         self._mudst = kwargs.get('mudst', False)
         self._runnumber = kwargs.get('runnumber', baserunnumber())
-        self._decfiles = kwargs.get('decfiles', 'v30r25')
+        self._decfiles = kwargs.get('decfiles', 'v30r46')
         self._inscreen = kwargs.get('inscreen', False)
         self._keeplogs = kwargs.get('keeplogs', True)
         self._keepxmls = kwargs.get('keepxmls', True)

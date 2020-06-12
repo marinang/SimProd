@@ -72,7 +72,7 @@ Your have other options by default that you can change:
 
 * `j.mudst`: Produce a muDST output.
 
-* `j.decfiles`: Version of the DecFiles package (default = v30r25).
+* `j.decfiles`: Version of the DecFiles package (default = v30r46).
 
 * `j.infiles`: External files to provide for generation (for example LHE or HepMC files).
 
