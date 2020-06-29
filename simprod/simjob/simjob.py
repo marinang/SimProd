@@ -1061,12 +1061,15 @@ class SimulationJob(object):
                 
         sj_doc = self.jobtable.get(doc_id=nsj)
         
-        status = sj_doc["status"]
+        if sj_doc is not None:
+            status = sj_doc["status"]
         
-        if status in ["completed", "failed"] and not force_load:
-            sj = None
+            if status in ["completed", "failed"] and not force_load:
+                sj = None
+            else:
+                sj = SimulationSubJob.from_doc( self, sj_doc)
         else:
-            sj = SimulationSubJob.from_doc( self, sj_doc)
+            sj = None
             
         if printlevel > 0:			
             pbar.update(1)
