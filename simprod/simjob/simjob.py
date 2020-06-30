@@ -22,10 +22,19 @@ from .utils import *
 simprod = os.getenv("SIMPRODPATH")	
 jobsfile = "{0}/simjobs.json".format(simprod)
 
+class CorruptedDB(Exception):
+    """Exception class for corrupted database."""
+    pass
+
 def getdatabase():
-    storage = CachingMiddleware(JSONStorage)
-    storage.WRITE_CACHE_SIZE = 600
-    return TinyDB(jobsfile, storage=storage), storage
+    try:
+        storage = CachingMiddleware(JSONStorage)
+        storage.WRITE_CACHE_SIZE = 600
+        return TinyDB(jobsfile, storage=storage), storage
+    except ValueError:
+        msg = "The database is corrupted. Please open an issue in https://github.com/marinang/SimProd/issues"
+        msg += " with the 'simjobs.json' file attached."
+        raise CorruptedDB(red(msg))
     
 DATABASE, STORAGE = getdatabase()
 
