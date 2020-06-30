@@ -10,8 +10,6 @@ import os
 import subprocess
 import time
 
-#__all__ = ["getevttype", "Status", "Move", "EosMove", "IsSlurm", "IsHTCondor", "IsLSF", "softimport"]
-
 def IsSlurm():
 	### Slurm
 	try:

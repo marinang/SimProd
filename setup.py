@@ -61,7 +61,8 @@ install_list = ['ipython>=5.0,<6.0;python_version<="2.7"',
 				'ipython>=5.0;python_version>="3.4"',
 				'screenutils',
 				'tqdm',
-				'colorama']
+				'colorama',
+				'pyparsing']
 				
 if py3:
 	install_list.append('tinydb')

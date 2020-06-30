@@ -8,33 +8,16 @@
 import os
 import time
 from random import randint, shuffle
-from .setup import DoProd, checksiminputs
 import warnings
 import glob
 from tqdm import tqdm
 from colorama import Fore
 
-from tinydb import JSONStorage, TinyDB, Query
-from tinydb.middlewares import CachingMiddleware
-
+from .setup import DoProd, checksiminputs
 from .utils import *
+from .utils.Database import getdatabase
 
-simprod = os.getenv("SIMPRODPATH")	
-jobsfile = "{0}/simjobs.json".format(simprod)
-
-class CorruptedDB(Exception):
-    """Exception class for corrupted database."""
-    pass
-
-def getdatabase():
-    try:
-        storage = CachingMiddleware(JSONStorage)
-        storage.WRITE_CACHE_SIZE = 600
-        return TinyDB(jobsfile, storage=storage), storage
-    except ValueError:
-        msg = "The database is corrupted. Please open an issue in https://github.com/marinang/SimProd/issues"
-        msg += " with the 'simjobs.json' file attached."
-        raise CorruptedDB(red(msg))
+from tinydb import Query
     
 DATABASE, STORAGE = getdatabase()
 
