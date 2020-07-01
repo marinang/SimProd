@@ -55,7 +55,7 @@ echo "LHCbApp().EvtMax = $Nevents"       >> $GAUSSJOB
 if [ "$Model" == "pythia8" ]; then
   echo 'importOptions("$LBPYTHIA8ROOT/options/Pythia8.py")' >> $GAUSSJOB
 elif [ "$Model" == "BcVegPy" ]; then
-  echo 'importOptions("$LBBCVEGPYROOT/options/BcVegPyPythia8.pyy")' >> $GAUSSJOB
+  echo 'importOptions("$LBBCVEGPYROOT/options/BcVegPyPythia8.py")' >> $GAUSSJOB
 else
   echo 'importOptions("$LBPYTHIA8ROOT/options/Pythia8.py")' >> $GAUSSJOB
 fi
