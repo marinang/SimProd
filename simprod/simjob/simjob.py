@@ -650,7 +650,6 @@ class SimulationJob(object):
         
                             
     def _preparesubjobs( self, sjn, **kwargs ):
-        
         if DEBUG > 2:
             print(sjn)
                         
@@ -691,14 +690,15 @@ class SimulationJob(object):
         self.jobtable.purge()
         
         
-    def remove( self ):
+    def remove(self):
         if self.jobnumber:
             info_msg = "INFO\tremoving job {0}".format(self.jobnumber)
         else:
             info_msg = "INFO\tremoving job"
         print(info_msg)
         
-        sjkill = self.deliveryclerk.kill(job=self)
+        if self.status != "new":
+            sjkill = self.deliveryclerk.kill(job=self)
         
         if len(self.keys) > 0:
             
@@ -1278,11 +1278,11 @@ class SimulationSubJob(object):
         if DEBUG > 0:
             print("in SimulationSubJob.status")
         
-        _previous = self.last_status
+        previous_status = self.last_status
         
         toprint = ""
                 
-        if not(_previous == "failed" or _previous == "completed"):
+        if not(previous_status == "failed" or previous_status == "completed"):
             
             if DEBUG > 0:
                 toprint += " A"
@@ -1307,17 +1307,20 @@ class SimulationSubJob(object):
                 elif self._status.failed:
                     self._empty_proddir(keep_log = True)
                     
-            if _previous != self._status:
+            if previous_status != self._status:
+                
+                if self._status == "failed" and previous_status == "new":
+                    self._status = Status("new", self.output)
                 
                 if self.parent.jobnumber:
                     info_msg = "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'"
                     info_msg = info_msg.format(self.parent.jobnumber, self.subjobnumber,
-                                                _previous, self._status)
+                                                previous_status, self._status)
                 else:
                     info_msg = "INFO\tstatus of job (evttype {0}, year {1}, run number {2})"
                     info_msg += " changed from '{3}' to '{4}'."
                     info_msg = info_msg.format(self.parent.evttype, self.parent.year,
-                                                self.runnumber, _previous, self._status)
+                                                self.runnumber, previous_status, self._status)
                                                                                                                                                                     
                 print(info_msg)	
                 self._update_subjob_table()
