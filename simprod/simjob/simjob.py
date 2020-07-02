@@ -292,6 +292,7 @@ class SimulationJob(object):
                             
         self.nevents = nevents
         self.year = year
+        self.decfiles = decfiles
         self.evttype = evttype
         self.neventsjob = neventsjob
         self.polarities = polarities
@@ -300,7 +301,6 @@ class SimulationJob(object):
         self.turbo = turbo
         self.mudst = mudst
         self._runnumber = runnumber
-        self.decfiles = decfiles
         self.redecay = redecay
         self.simmodel = simmodel
         self.keeplogs = keeplogs
@@ -862,12 +862,12 @@ class SimulationJob(object):
             
         return self._status
         
-    def _setoptfile( self ):
+    def _setoptfile(self):
         moddir = os.getenv("SIMPRODPATH")
         self._optfile = "{0}/EvtTypes/{1}/{1}.py".format( moddir, self._evttype )
     
         if not os.path.isfile( self._optfile ):
-            getevttype( evttype = self._evttype, decfiles = self._decfiles )
+            getevttype(evttype=self._evttype, decfiles=self.decfiles)
             
                     
     def outdict(self):
