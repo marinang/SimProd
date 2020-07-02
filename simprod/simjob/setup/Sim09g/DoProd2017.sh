@@ -14,7 +14,7 @@ Turbo=$5
 muDST=$6
 Stripping=$7
 ReDecay=$8
-Model=${9:-"pythia8"}
+Model=$9
 
 if [ "$Polarity" == "MagUp" ]; then
 	SimCond=Gauss/Beam6500GeV-mu100-2017-nu1.6.py

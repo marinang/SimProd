@@ -12,7 +12,7 @@ Turbo=$5
 muDST=$6
 Stripping=$7
 ReDecay=$8
-Model=${9:-"pythia8"}
+Model=$9
 
 #. /cvmfs/lhcb.cern.ch/lib/LbEnv --quiet
 
