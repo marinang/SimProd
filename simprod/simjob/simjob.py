@@ -278,6 +278,14 @@ class SimulationJob(object):
         self.subjobs = {}
         self._options = {}
         
+        non_supported_kws = [{"supported": "polarities", "non_supported": ["polarity"]}]
+        for nkws in non_supported_kws:
+            for ns in nkws["non_supported"]:
+                if ns in kwargs:
+                    msg = "The keyword {kw_ns} is not supported, use {kw_s} instead."
+                    msg = msg.format(kw_ns=ns, kw_s=nkws["supported"])
+                    warnings.warn(blue(msg))
+        
         self.nevents = kwargs.get('nevents', None)
         if self.nevents is None:
             raise ValueError("Please set nevents!")
@@ -386,12 +394,7 @@ class SimulationJob(object):
     def neventsjob( self, value):
         if isinstance(value, (int, float) ):
             value = int(value)
-            
-#            if value < 5:
-#                msg = " WARNING: minimum number of events allowed is 5."
-#                warnings.warn(blue(msg), stacklevel=2)
-#                value = 5  
-                          
+                                      
             self._neventsjob = value
         else:
             raise TypeError("nevents must be a int!")
@@ -469,6 +472,24 @@ class SimulationJob(object):
         if not value in [2011,2012,2015,2016,2017,2018]:
             raise ValueError("year must be 2011, 2012, 2015, 2016, 2017 or 2018!")
         self._year = value
+        
+    @property	
+    def polarities(self):
+        return self._polarities
+        
+    @polarities.setter	
+    def polarities(self, value):
+        if value is None:
+            self._polarities = value
+        elif isinstance(value, str):
+            if value not in ["MagUp", "MagDown"]:
+                msg = "Invalid value '{}' for polarities. Valid choices are ['MagUp', 'MagDown'].".format(value)
+                raise ValueError(msg)
+            else:
+                self._polarities = value
+        else:
+            msg = "Invalid {} type for polarities. A None value or a str equals to 'MagUp' or 'MagDown' is required.".format(type(value))
+            raise TypeError(msg)
         
     @property
     def keys(self):
@@ -630,12 +651,12 @@ class SimulationJob(object):
                 elif self._polarities in ["MagUp", "MagDown"]:
                     self._polarities = [self._polarities for i in self.range_subjobs]
                 else:
-                    raise ValueError()
+                    raise ValueError("Invalid value '{}' for polarities. Valid choices are ['MagUp', 'MagDown']".format(self._polarities))
             else:
                 if len(self._polarities) != self.nsubjobs:
                     self._polarities = sample_polarities()
                 elif not all(p in ["MagUp", "MagDown"] for p in self._polarities):
-                    raise ValueError()
+                    raise ValueError("Invalid values for polarities.")
                                                                         
         infiles = kwargs.get('infiles', [])
                 
