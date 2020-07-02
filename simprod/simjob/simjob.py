@@ -12,6 +12,7 @@ import warnings
 import glob
 from tqdm import tqdm
 from colorama import Fore
+import sys
 
 from .setup import DoProd, checksiminputs
 from .utils import *
@@ -27,6 +28,8 @@ TIME_NEW = 20 #minutes, time between check of status if status is new
 TIME_RUNNING = 5
 TIME_FAILED = 5
 TIME_SUBMITTED = 1
+
+py3 = sys.version_info[0] > 2 #creates boolean value for test that Python major version > 2
 
 class JobCollection(object):
     """
@@ -274,7 +277,8 @@ class SimulationJob(object):
     Simulation job
     """
     
-    def __init__(self, **kwargs):		
+    def __init__(self, nevents, year, evttype, neventsjob=50, polarities=None, simcond="Sim09h", stripping=None, turbo=False, mudst=False, 
+                 runnumber=baserunnumber(), decfiles="v30r46", redecay=False, simmodel="pythia8", keeplogs=True, keepxmls=True, **kwargs):		
         self.subjobs = {}
         self._options = {}
         
@@ -285,34 +289,25 @@ class SimulationJob(object):
                     msg = "The keyword {kw_ns} is not supported, use {kw_s} instead."
                     msg = msg.format(kw_ns=ns, kw_s=nkws["supported"])
                     warnings.warn(blue(msg))
-        
-        self.nevents = kwargs.get('nevents', None)
-        if self.nevents is None:
-            raise ValueError("Please set nevents!")
-        self.neventsjob = kwargs.get('neventsjob', 50)
-        self.year = kwargs.get('year', None)
-        if self.year is None:
-            raise ValueError("Please set year!")
-        self._polarities = kwargs.get('polarities', None)
-        self._simcond = kwargs.get('simcond', "Sim09h")
-        self._stripping = kwargs.get('stripping', None)
-        self._turbo = kwargs.get('turbo', False)
-        self._mudst = kwargs.get('mudst', False)
-        self._runnumber = kwargs.get('runnumber', baserunnumber())
-        self._decfiles = kwargs.get('decfiles', 'v30r46')
+                            
+        self.nevents = nevents
+        self.year = year
+        self.evttype = evttype
+        self.neventsjob = neventsjob
+        self.polarities = polarities
+        self.simcond = simcond
+        self.stripping = stripping
+        self.turbo = turbo
+        self.mudst = mudst
+        self._runnumber = runnumber
+        self.decfiles = decfiles
+        self.redecay = redecay
+        self.simmodel = simmodel
+        self.keeplogs = keeplogs
+        self.keepxmls = keepxmls
         self._inscreen = kwargs.get('inscreen', False)
-        self._keeplogs = kwargs.get('keeplogs', True)
-        self._keepxmls = kwargs.get('keepxmls', True)
-        self._redecay = kwargs.get('redecay', False)
-        self._simmodel = kwargs.get('simmodel', "pythia8")
         self._status = "new"
-                
-        self._evttype = kwargs.get('evttype', None)	
-        if self._evttype is None:
-            raise ValueError("Please set evttype!")
-        else:
-            self.__setoptfile()
-        
+                        
         _basedir = os.getenv("SIMOUTPUT")
         if not _basedir:
             _basedir = os.getenv("HOME")+"/SimulationJobs"
@@ -342,7 +337,6 @@ class SimulationJob(object):
        
         self.deliveryclerk = DeliveryClerk(inscreen=self._inscreen, scheduler=self.scheduler)
         
-                            
         if not self.options.get("loginprod", True):						
                 self._options["logdestdir"]  = "{0}/{1}".format( self.options["logdir"], self.subdir())
                 
@@ -360,7 +354,6 @@ class SimulationJob(object):
                 print("newjob:", self.jobnumber)
         else:
             self.jobnumber = kwargs.get("jobnumber", None)
-            
             
     @property
     def jobtable(self):
@@ -384,48 +377,40 @@ class SimulationJob(object):
         else:
             raise TypeError("nevents must be a int!")
             
-                
     @property
     def neventsjob( self):
         return self._neventsjob
-        
         
     @neventsjob.setter
     def neventsjob( self, value):
         if isinstance(value, (int, float) ):
             value = int(value)
-                                      
             self._neventsjob = value
         else:
             raise TypeError("nevents must be a int!")
             
-        
     @property
     def nsubjobs(self):
         self._nsubjobs = int(self.nevents/ self.neventsjob)		
         return self._nsubjobs
         
-        
     @property
     def evttype(self):
         return self._evttype
         
-        
     @evttype.setter
     def evttype(self, value ):
         self._evttype = value		
-        self.__setoptfile()
-        
+        self._setoptfile()
         
     @property	
     def simcond(self):
         return self._simcond
         
-        
     @simcond.setter	
     def simcond(self, value):
         if not isinstance(value, str):
-            raise TypeError("simcond must be a str!")
+            raise TypeError("{0} has a non valid {1} type for simcond, must be a str!".format(value, type(value)))
         if not value in ["Sim09b", "Sim09c", "Sim09e", "Sim09f", "Sim09h"]:
             raise ValueError("simcond must be Sim09b, Sim09c, Sim09d, Sim09f or Sim09h!")
         self._simcond = value
@@ -434,11 +419,10 @@ class SimulationJob(object):
     def simmodel(self):
         return self._simmodel
         
-        
     @simmodel.setter	
     def simmodel(self, value):
         if not isinstance(value, str):
-            raise TypeError("simmodel must be a str!")
+            raise TypeError("{0} has a non valid {1} type for simmodel, must be a str!".format(value, type(value)))
         if not value in ["pythia8", "BcVegPy"]:
             raise ValueError("simmodel must be pythia8 or BcVegPy!")
         self._simmodel = value
@@ -451,15 +435,13 @@ class SimulationJob(object):
     def stripping(self):
         return self._stripping
         
-        
     @stripping.setter	
     def stripping(self, value):
         if not isinstance(value, str):
-            raise TypeError("simcond must be a str!")
+            raise TypeError("{0} has a non valid {1} type for stripping, must be a str!".format(value, type(value)))
         if not value in ["21", "24", "28", "24r1", "24r1p1", "28r1", "28r1p1", "28r2", "29r2", "29r2p1", "34", "34r0p1"]:
             raise ValueError("stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1', '28r2', '29r2', '29r2p1', '34' or '34r0p1'!")
         self._stripping = value
-        
         
     @property	
     def year(self):
@@ -468,7 +450,7 @@ class SimulationJob(object):
     @year.setter
     def year(self, value):
         if not isinstance(value, int):
-            raise TypeError("nevents must be a int!")
+            raise TypeError("{0} has a non valid {1} type for year, must be a int!".format(value, type(value)))
         if not value in [2011,2012,2015,2016,2017,2018]:
             raise ValueError("year must be 2011, 2012, 2015, 2016, 2017 or 2018!")
         self._year = value
@@ -512,12 +494,10 @@ class SimulationJob(object):
         
         return subdir
         
-    
     @property	
     def proddir(self):
         self._proddir  = "{0}/{1}".format(self.options["basedir"], self.subdir())
         return self._proddir
-        
         
     @property	
     def destdir(self):
@@ -529,77 +509,76 @@ class SimulationJob(object):
             self._destdir += "_ReDecay"
         return self._destdir
         
-    
     @property	
     def optfile(self):
         return self._optfile
         
-        
     @property	
     def turbo(self):
         return self._turbo
-        
         
     @turbo.setter	
     def turbo(self, value):
         if isinstance(value, bool):
             self._turbo = value
         else:
-            raise TypeError("turbo must be set to True/False!")
+            raise TypeError("{0} has a non valid {1} type for turbo, must be a bool!".format(value, type(value)))
             
-    
     @property	
     def mudst(self):
         return self._mudst
-        
         
     @mudst.setter	
     def mudst(self, value):
         if isinstance(value, bool):
             self._mudst = value
         else:
-            raise TypeError("mudst must be set to True/False!")
+            raise TypeError("{0} has a non valid {1} type for mudst, must be a bool!".format(value, type(value)))
             
+    @property	
+    def decfiles(self):
+        return self._decfiles
+        
+    @decfiles.setter	
+    def decfiles(self, value):
+        if isinstance(value, str):
+            self._decfiles = value
+        else:
+            raise TypeError("{0} has a non valid {1} type for decfiles, must be a str!".format(value, type(value)))
+            
+    @property
+    def redecay(self):
+        return self._redecay
+    
+    @redecay.setter	
+    def redecay(self, value):
+        if isinstance(value, bool):
+            self._redecay = value
+        else:
+            raise TypeError("{0} has a non valid {1} type for redecay, must be a bool!".format(value, type(value)))
             
     @property
     def keeplogs(self):
         return self._keeplogs
-        
         
     @keeplogs.setter	
     def keeplogs(self, value):
         if isinstance(value, bool):
             self._keeplogs = value			
         else:
-            raise TypeError("keeplogs must be set to True/False!")
-            
+            raise TypeError("{0} has a non valid {1} type for keeplogs, must be a bool!".format(value, type(value)))
             
     @property
     def keepxmls(self):
         return self._keepxmls
-        
         
     @keepxmls.setter	
     def keepxmls(self, value):
         if isinstance(value, bool):
             self._keepxmls = value			
         else:
-            raise TypeError("keepxmls must be set to True/False!")
+            raise TypeError("{0} has a non valid {1} type for keepxmls, must be a bool!".format(value, type(value)))
             
-            
-    @property
-    def redecay(self):
-        return self._redecay
-        
-        
-    @redecay.setter	
-    def redecay(self, value):
-        if isinstance(value, bool):
-            self._redecay = value
-        else:
-            raise TypeError("redecay must be set to True/False!")
-            
-
     def getrunnumber(self, job_number = None ):
         if job_number != None and not isinstance(job_number, int):
             raise TypeError("Job number must be a 'int'. Got a '{0}' instead!".format(job_number.__class__.__name__))
@@ -883,7 +862,7 @@ class SimulationJob(object):
             
         return self._status
         
-    def __setoptfile( self ):
+    def _setoptfile( self ):
         moddir = os.getenv("SIMPRODPATH")
         self._optfile = "{0}/EvtTypes/{1}/{1}.py".format( moddir, self._evttype )
     
@@ -902,7 +881,7 @@ class SimulationJob(object):
                    "nsubjobs": self.nsubjobs,
                    "runnumber": self._runnumber,
                    "simcond": self.simcond,
-                   "polarities": self._polarities,
+                   "polarities": self.polarities,
                    "stripping": self.stripping,
                    "simmodel": self.simmodel,
                    "mudst": self.mudst,
@@ -914,9 +893,9 @@ class SimulationJob(object):
                    "loginprod": self.options["loginprod"],    
                    "screensessions": self.screensessions,
                    "status": status,
-                   "keeplogs": self._keeplogs,
-                   "keepxmls": self._keepxmls,
-                   "redecay": self._redecay,
+                   "keeplogs": self.keeplogs,
+                   "keepxmls": self.keepxmls,
+                   "redecay": self.redecay,
                    "deliveryclerk": self.deliveryclerk.outdict()
                    } 
           
@@ -1001,6 +980,11 @@ class SimulationJob(object):
         
         if DEBUG > 1:
             print("in SimulationJob.from_dict")
+            
+        if not py3:
+            for k in dict.keys():
+                if isinstance(dict[k], unicode):
+                    dict[k] = dict[k].encode("utf-8")
                 
         simjob = cls( 
                     evttype=dict["evttype"],
