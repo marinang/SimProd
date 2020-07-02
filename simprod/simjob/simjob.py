@@ -1309,9 +1309,6 @@ class SimulationSubJob(object):
                     
             if previous_status != self._status:
                 
-                if self._status == "failed" and previous_status == "new":
-                    self._status = Status("new", self.output)
-                
                 if self.parent.jobnumber:
                     info_msg = "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'"
                     info_msg = info_msg.format(self.parent.jobnumber, self.subjobnumber,

@@ -356,11 +356,11 @@ class DeliveryClerk(object):
 			else:
 				status = queryjob["JobStatus"]
 				
-				if status in [0, 3, 5, 6]:
+				if status in [0, 3, 7]:
 					return "failed"
-				elif status == 1:
+				elif status in [1, 5]:
 					return "submitted"
-				elif status == 2:
+				elif status in [2, 6]:
 					return "running"
 				elif status == 4:
 					return "completed"
@@ -449,7 +449,7 @@ def create_runfile(namefile, doprod):
 	runscript.write('export HOME="{}"\n'.format(os.environ["HOME"]))
 	runscript.write('export USER="{user}"\n'.format(user=user))
 	runscript.write('source /cvmfs/lhcb.cern.ch/group_login.sh\n')
-	runscript.write('{doprod} $1 $2 $3 $4 $5 $6 $7 $8\n'.format(doprod=doprod))
+	runscript.write('{doprod} $1 $2 $3 $4 $5 $6 $7 $8 $9\n'.format(doprod=doprod))
 	runscript.close()
 	
 	sub.call(['chmod', '775', namefile])
