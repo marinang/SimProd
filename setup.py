@@ -144,8 +144,8 @@ class PostInstallSetting(install):
                     while valid_path is False:
                         workpath = _input("[{0}] >>> ".format(workpath), workpath)
                         valid_path = canmkdir(workpath)
-
-                    base__init__ = base__init__.replace("#_", "")
+                        
+                    base__init__ = base__init__.replace("# _", "")
                     base__init__ = base__init__.replace(
                         "log_simoutput_ = None",
                         "log_simoutput = '{0}'".format(workpath),
