@@ -33,6 +33,11 @@ py3 = (
     sys.version_info[0] > 2
 )  # creates boolean value for test that Python major version > 2
 
+if py3:
+    from importlib import reload
+else:
+    from imp import reload    
+
 
 def Kill(ID):
 
@@ -100,9 +105,6 @@ def GetConfig():
 
             if "SimulationLPHEConfig" in sys.modules:
                 import SimulationLPHEConfig
-
-                if py3:
-                    from importlib import reload
                 reload(SimulationLPHEConfig)
             else:
                 try:
