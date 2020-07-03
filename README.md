@@ -28,7 +28,7 @@ You will be asked to enter some directories where you want to find your simulate
 
 ## Usage
 
-To launch the module just type `simprod`.
+To launch the module just type `SimProd`.
 
 <p align="center">
 <img width="600" height="200"
@@ -46,9 +46,9 @@ You need to to know:
 Description of simulation setups can be found [here](https://github.com/marinang/SimulationProduction/tree/master/simprod/simjob/setup). To start a new simulation job do:
 
 ```python
-j = SimulationJob( evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)
-j.prepare()
-j.send()
+>>> j = SimulationJob(evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)
+>>> j.prepare()
+>>> j.send()
 ```
 
 <p align="center">
@@ -91,19 +91,19 @@ Your have other options by default that you can change:
 These argument are also available at instantiation of a SimulationJob but also as property, i.e:
 
 ```python
-j = SimulationJob(evttype=EVTTYPE, year=YEAR, nevents=NEVENTS, neventsjob=NEVENTSJOB)
+>>> j = SimulationJob(evttype=EVTTYPE, year=YEAR, nevents=NEVENTS, neventsjob=NEVENTSJOB)
 ```
 
 is equivalent to
 
 ```python
-j = SimulationJob(evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)
-j.neventsjob = NEVENTSJOB
+>>> j = SimulationJob(evttype=EVTTYPE, year=YEAR, nevents=NEVENTS)
+>>> j.neventsjob = NEVENTSJOB
 ```
 
 you can also modify options for the scheduler you are using through
 ```
-j.deliveryclerk
+>>> j.deliveryclerk
 ```
 
 #### HTCondor options
@@ -159,14 +159,14 @@ Just after the lauching the program type `jobs` and you can see the status of su
 
 Use the SimulationJob method **send**:
 ```python
-jobs[JOBNUMBER].send()
+>>> jobs[JOBNUMBER].send()
 ```
 This will send only unsubmitted and failed jobs.
 
 ### Kill a subjob
 
 ```python
-jobs[JOBNUMBER][SUBJOBNUMBER].kill()
+>>> jobs[JOBNUMBER][SUBJOBNUMBER].kill()
 ```
 
 ### Remove jobs from the collection
@@ -174,27 +174,79 @@ jobs[JOBNUMBER][SUBJOBNUMBER].kill()
 If you wish to remove a job from the `jobs` container do
 
 ```python
-jobs[JOBNUMBER].remove()
+>>> jobs[JOBNUMBER].remove()
 ```
 and the simulation job will not be seen anymore when typing `jobs`. Note that if subjobs are still running they will be killed.
 
 If you wish to remove only completed jobs do
 
 ```python
-for j in jobs.select("completed"):
-    j.remove()
+>>> for j in jobs.select("completed"):
+>>>     j.remove()
 ```
 The log files are also with removed with the job.
 
 ## Evttypes
 
-For generation Gauss needs an option file callled EVTTYPE.py which is stored in a folder called **Evttypes**. In you need to modify your option file prior to submission you can type in the simprod prompt
+For generation Gauss needs an option file callled EVTTYPE.py which is stored in a folder called **Evttypes**. In you need to modify your option file prior to submission you can type in the `SimProd` prompt
 
 ```python
-getevttype(EVTTYPE)
+>>> getevttype(EVTTYPE)
 ```
 
 and all option files related to this EVTTYPE should be downloaded into the **Evttypes** directory.
+
+## Where are the simulated samples stored?
+One the jobs are marked as successfully completed you should find the simulated `dst` files in the production directory written when you start `SimProd`.
+You can also retrieve the production directory by typing in the prompt
+
+```python
+>>> simoutput
+'/eos/lhcb/user/m/mmarinan/SimulationJobs'
+```
+
+The `dst` are then stored in `EVTTYPE/YEAR/SIMCOND/POLARITY`, see for instance the following example of the tree of the directories in the production directory:
+```markdown
+- SimulationJobs
+    - EVTTYPE_1
+        - 2016
+            - Sim09h
+                - MagUp
+                    - xml
+                        - 1234567.xml
+                        - ...
+                        - 1891234.dst
+                    - 50evts_s28r2_1234567.dst
+                    - ...
+                    - 50evts_s28r2_1891234.dst
+                - MagDown
+                    - xml
+                        - 2345671.xml
+                        - ...
+                        - 8912342.dst
+                    - 50evts_s28r2_2345671.dst
+                    - ...
+                    - 50evts_s28r2_8912342.dst
+
+    - EVTTYPE_2
+        - 2018
+            - Sim09g
+                - MagUp
+                    - xml
+                    - 50evts_s34_3456712.dst
+                    - ...
+                    - 50evts_s34_9123418.dst
+                - MagDown
+                    - xml
+                    - 50evts_s34_5345671.dst
+                    - ...
+                    - 50evts_s34_6912342.dst
+```
+
+The `dst` files are named `NEVENTSJOBevts_STRIPPING_RUNNUMBER.(m)dst`. In the `xml` directory are stored the `RUNNUMBER.xml` files which contain informations of event generation such as the generator level efficiency. The generator level informations of your jobs are stored only if `j.keepxmls == True`.
+
+To analyse your simulated samples you can create ROOT ntuples using the `dst` files. The [LHCb starterkit](https://lhcb.github.io/starterkit-lessons/first-analysis-steps/minimal-dv-job.html) explains how to do a local `DaVinci` job with local `dst` files.
+
 
 ## Contributing
 

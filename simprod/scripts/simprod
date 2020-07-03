@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, getpass
+import os
 
 from simprod.simjob import *
 from IPython import start_ipython
@@ -8,32 +8,31 @@ from traitlets.config.loader import Config
 
 simoutput = os.environ["SIMOUTPUT"]
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
+    banner1 = '\n\n'
+    banner1 += green(' Welcome on the mini LHCb simulation production framework!\n')
+    banner1 += '\n'
+    banner1 += green(' author: Matthieu Marinangeli, matthieu.marinangeli@cern.ch.\n')
+    banner1 += '\n'
+    banner1 += blue(' Report any issues in https://github.com/marinang/SimProd/issues\n')
+    banner1 += blue(' or in the SimProd LHCb mattermost channel.\n')
 
-	banner1  = '\n\n'
-	banner1 += green(' Welcome on the mini LHCb simulation production framework!\n')
-	banner1 += '\n'
-	banner1 += green(' author: Matthieu Marinangeli, matthieu.marinangeli@cern.ch.\n')
-	banner1 += '\n'
-	banner1 += blue(' Report any issues in https://github.com/marinang/SimProd/issues\n')
-	banner1 += blue(' or in the SimProd LHCb mattermost channel.\n')
+    banner2 = 'production directory: {0}\n'.format(simoutput)
 
-	banner2  = 'production directory: {0}\n'.format(simoutput)
+    config = Config()
 
-	config = Config()
+    config.TerminalInteractiveShell.banner1 = banner1
+    config.TerminalInteractiveShell.banner2 = banner2
 
-	config.TerminalInteractiveShell.banner1 = banner1
-	config.TerminalInteractiveShell.banner2 = banner2
+    jobs = JobCollection()
 
-	jobs = JobCollection()
+    _vars = globals().copy()
+    _vars.update(locals())
 
-	_vars = globals().copy()
-	_vars.update( locals() )
+    start_ipython(argv=[], user_ns=_vars, config=config)
 
-	start_ipython ( argv = [] , user_ns = _vars, config= config )
+    jobs._update()
 
-	jobs._update()
+    DATABASE.close()
 
-	DATABASE.close()
-
-	print(blue("\n\t Bye Bye.\n"))
+    print(blue("\n\t Bye Bye.\n"))
