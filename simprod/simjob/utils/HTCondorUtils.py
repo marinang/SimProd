@@ -41,46 +41,41 @@ class Scheduler():
 	
 	def __init__(self):
 		self._schedd = htcondor.Schedd()
-		self.query = None
-	
-	def getquery(self):
+				
+	def getcluster(self, ClusterID):
+		
+		msg = red("Failed to query job status... Try later!")
+		
 		user = getpass.getuser()
 		try:
 			query = self._schedd.query('User=="{0}@cern.ch"'.format(user), ["ClusterID", "JobStatus", "ProcID"])
-			self.query = QueryResult(query)
-			return True
+			queryresult = QueryResult(query)
 		except (RuntimeError, IOError):
-			print(red("Failed to query job status. Thank you HTCondor ... Try later!"))
-			return False
-			
-	def getcluster(self, ClusterID):
-		if self.query is None:
-			if not self.getquery():
-				return BadQuery()
+			print(msg)
+			return BadQuery()
+		
+		if not queryresult.isvalid:
+			print(msg)
+			return BadQuery()
 		else:
-			if not self.query.isvalid:
-				if not self.getquery():
-					return BadQuery()
-				
-		if self.query is None:
-			return None
-		else:
-			ret = []
-			for q in self.query:
-				if q["ClusterID"] == ClusterID:
-					ret.append(q)
-			return QueryResult(ret)
-			
+			return queryresult
+
 	def act(self, *args, **kwargs):
 		self._schedd.act(*args, **kwargs)
 			
 	def renew(self):
 		self._schedd = htcondor.Schedd()
+	
 		
 class BadQuery(object):
 	
 	def __init__(self, *args, **kwargs):
 		pass
+		
+	@property
+	def isvalid(self):
+		return False
+	
 			
 class QueryResult(object):
 	
@@ -92,13 +87,16 @@ class QueryResult(object):
 
 	@property
 	def isvalid(self):
-		now = datetime.datetime.now()
-		elapsedTime = now - self.creation_time
-		minutes = divmod(elapsedTime.total_seconds(), 60)[0]
-		if minutes > 3:
-			return False
+		if self.query:
+			now = datetime.datetime.now()
+			elapsedTime = now - self.creation_time
+			minutes = divmod(elapsedTime.total_seconds(), 60)[0]
+			if minutes > 3:
+				return False
+			else:
+				return True
 		else:
-			return True
+			return False
 		
 	def __iter__(self):
 		for q in self.query:
@@ -125,7 +123,7 @@ class DeliveryClerk(object):
 		default_options = DefaultHTCondorOptions()
 		self.default_options = default_options
 		self._schedd = kwargs.get("scheduler")
-		self._query = None
+		self._queryresult = None
 		
 		self.defaults = []
 		options = {}
@@ -332,29 +330,33 @@ class DeliveryClerk(object):
 			print("ProcID: ", ProcID)
 			
 		if DEBUG > 0:	
-			print(self._query)
+			print(self._queryresult)
 		
-		if self._query is None:
-			self._query = self._schedd.getcluster(ClusterID)
+		if self._queryresult is None:
+			self._queryresult = self._schedd.getcluster(ClusterID)
 		if DEBUG > 0:	
-			print(self._query)
+			print("QueryResult: ", self._queryresult)
+			print("IsValid: ", self._queryresult.isvalid)
 			
-		if self._query is None:
+		if self._queryresult is None:
 			return "new"
-		elif isinstance(self._query, BadQuery):
+		elif isinstance(self._queryresult, BadQuery):
 			return "error"
 		else:	
-			if not self._query.isvalid:
-				self._query = self._schedd.getcluster(ClusterID)
+			if not self._queryresult.isvalid:
+				self._queryresult = self._schedd.getcluster(ClusterID)
 				
-			if isinstance(self._query, BadQuery):
+			if isinstance(self._queryresult, BadQuery):
 				return "error"
 					
-			queryjob = self._query.getProcID(ProcID)
+			queryjob = self._queryresult.getProcID(ProcID)
 			if queryjob is None:
 				return "notfound"
 			else:
-				status = queryjob["JobStatus"]
+				status = int(queryjob["JobStatus"])
+				
+				if DEBUG > 0:
+					print("Status code: ",  status)	
 				
 				if status in [0, 3, 5, 7]:
 					return "failed"
