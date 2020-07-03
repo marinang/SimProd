@@ -197,7 +197,7 @@ For generation Gauss needs an option file callled EVTTYPE.py which is stored in 
 and all option files related to this EVTTYPE should be downloaded into the **Evttypes** directory.
 
 ## Where are the simulated samples stored?
-One the jobs are marked as successfully completed you should find the simulated `dst` files in the production directory written when you start `SimProd`.
+One the jobs are marked as successfully completed you should find the simulated `dst` files in the production directory printed when you start `SimProd`.
 You can also retrieve the production directory by typing in the prompt
 
 ```python
