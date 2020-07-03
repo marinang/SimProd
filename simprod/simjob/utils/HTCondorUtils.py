@@ -356,13 +356,13 @@ class DeliveryClerk(object):
 			else:
 				status = queryjob["JobStatus"]
 				
-				if status in [0, 3, 7]:
+				if status in [0, 3, 5, 7]:
 					return "failed"
-				elif status in [1, 5]:
+				elif status in [1]:
 					return "submitted"
 				elif status in [2, 6]:
 					return "running"
-				elif status == 4:
+				elif status in [4]:
 					return "completed"
 				else:
 					return "notfound"
