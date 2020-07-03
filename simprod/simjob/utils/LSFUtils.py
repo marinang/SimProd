@@ -1,12 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-## Author: Matthieu Marinangeli
-## Mail: matthieu.marinangeli@cern.ch
+# Author: Matthieu Marinangeli
+# Mail: matthieu.marinangeli@cern.ch
+
+# DEPRECATED
 
 from subprocess import Popen, PIPE
-from datetime import datetime
-import os
 from .utilities import *
 import sys
 from .submit import main as submit
@@ -130,7 +130,7 @@ class DeliveryClerk(object):
                 return self.options[var]
 
             def setter(self, value):
-                if type(value) != type(self.default_options[var]):
+                if not isinstance(value, self.default_options[var]):
                     msg = "A {} is required!".format(type(self.default_options[var]))
                     raise TypeError(msg)
 

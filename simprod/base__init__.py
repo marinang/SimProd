@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import os, getpass
+import os
 
 modulepath = None
 os.environ["SIMPRODPATH"] = modulepath

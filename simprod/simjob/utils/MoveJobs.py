@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import os, shutil
+import os
+import shutil
 
 
 def Move(initial_file, destination_file):

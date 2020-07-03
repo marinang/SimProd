@@ -1,23 +1,24 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-## Author: Matthieu Marinangeli
-## Mail: matthieu.marinangeli@cern.ch
+# Author: Matthieu Marinangeli
+# Mail: matthieu.marinangeli@cern.ch
 
 from subprocess import Popen, PIPE
 from datetime import datetime
+from random import randint
 import os
 import getpass
-from .utilities import *
 import time
 import sys
-from .submit import main as submit
-from .ScreenUtils import *
+
 from tinydb import TinyDB, JSONStorage
 from tinydb.middlewares import CachingMiddleware
-from random import randint
-from .Status import Status
+
+from .utilities import red, blue
+from .submit import main as submit
 from .ScreenUtils import SendInScreen, KillScreenSession
+from .Status import Status
 
 DEBUG = 0
 
@@ -27,6 +28,10 @@ try:
     haspyslurm = True
 except ImportError:
     haspyslurm = False
+
+py3 = (
+    sys.version_info[0] > 2
+)  # creates boolean value for test that Python major version > 2
 
 
 def Kill(ID):
@@ -96,6 +101,8 @@ def GetConfig():
             if "SimulationLPHEConfig" in sys.modules:
                 import SimulationLPHEConfig
 
+                if py3:
+                    from importlib import reload
                 reload(SimulationLPHEConfig)
             else:
                 try:
@@ -125,7 +132,7 @@ def DefaultSlurmConfig():
 
     config = {}
 
-    ### During the day less job submission
+    # During the day less job submission
 
     if hour > 5 and hour < 22:
         nsimjobs = 400
@@ -481,7 +488,7 @@ class DeliveryClerk(object):
                 return self.options[var]
 
             def setter(self, value):
-                if type(value) != type(self.default_options[var]):
+                if not isinstance(value, self.default_options[var]):
                     msg = "A {} is required!".format(type(self.default_options[var]))
                     raise TypeError(msg)
 

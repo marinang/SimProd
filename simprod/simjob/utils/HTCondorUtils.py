@@ -1,20 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-## Author: Matthieu Marinangeli
-## Mail: matthieu.marinangeli@cern.ch
+# Author: Matthieu Marinangeli
+# Mail: matthieu.marinangeli@cern.ch
 
 from subprocess import Popen, PIPE
 import os
-import sys
 import getpass
 import datetime
-import re
 import shutil
 import subprocess as sub
 
 from .dependencies import LazyModule
-from .utilities import *
+from .utilities import red, blue
 from .submit import SendCommand
 from .Status import Status
 
@@ -298,8 +296,6 @@ class DeliveryClerk(object):
                 )
             )
 
-            submitted_jobs = []
-
             ext = "mdst" if job.mudst else "dst"
             nevts = job.neventsjob
 
@@ -344,7 +340,7 @@ class DeliveryClerk(object):
                 ClusterID = None
 
             if ClusterID is not None:
-                subjob.jobid = "{0}.{1}".format(ClusterID, n)
+                subjob.jobid = "{0}.{1}".format(ClusterID, subjob.subjobnumber)
                 subjob._status = Status("submitted", subjob.output)
 
     def getstatus(self, ID):
@@ -452,7 +448,7 @@ class DeliveryClerk(object):
                 return self.options[var]
 
             def setter(self, value):
-                if type(value) != type(self.default_options[var]):
+                if not isinstance(value, self.default_options[var]):
                     msg = "A {} is required!".format(type(self.default_options[var]))
                     raise TypeError(msg)
 

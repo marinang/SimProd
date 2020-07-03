@@ -1,15 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-## Author: Matthieu Marinangeli
-## Mail: matthieu.marinangeli@cern.ch
-## Description: copy the all options files related to an EvtType in a directory called EvtTypes.
-## The users can they modify as they want these options files.
+# Author: Matthieu Marinangeli
+# Mail: matthieu.marinangeli@cern.ch
+# Description: copy the all options files related to an EvtType in a directory called EvtTypes.
+# The users can they modify as they want these options files.
 
-import argparse
 import os
 import shutil
-import sys
 
 
 def getevttype(evttype, decfiles="v30r25"):

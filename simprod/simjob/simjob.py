@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-## Author: Matthieu Marinangeli
-## Mail: matthieu.marinangeli@cern.ch
-## Description: simulation job class
+# Author: Matthieu Marinangeli
+# Mail: matthieu.marinangeli@cern.ch
+# Description: simulation job class
 
 import os
 import time
@@ -16,7 +16,20 @@ import sys
 
 from .setup import DoProd, checksiminputs
 from .utils import *
+from .utils.utilities import (
+    green,
+    red,
+    blue,
+    cyan,
+    magenta,
+    cdefault,
+    baserunnumber,
+    silentrm,
+)
 from .utils.Database import getdatabase
+from .utils.Status import Status
+from .utils.GetEvtType import getevttype
+from .utils.MoveJobs import Move, EosMove
 
 from tinydb import Query
 
@@ -47,6 +60,8 @@ class JobCollection(object):
         jobs = self.jobcollection
 
         if IsHTCondor():
+            from utils.HTCondorUtils import Scheduler
+
             self.htcondor = True
             self.scheduler = Scheduler()
             self.cwargs = {"scheduler": self.scheduler}
@@ -114,7 +129,7 @@ class JobCollection(object):
             h_failed,
         ]
         header = "|".join(tojoin) + "|"
-        line = "".join(["-" for i in xrange(len(header) - 2)])
+        line = "".join(["-" for i in range(len(header) - 2)])
 
         toprint.append(line)
         toprint.append(header)
@@ -420,7 +435,7 @@ class SimulationJob(object):
 
     @property
     def range_subjobs(self):
-        for n in xrange(self.nsubjobs):
+        for n in range(self.nsubjobs):
             yield n + 1
 
     @property
@@ -474,7 +489,7 @@ class SimulationJob(object):
                     value, type(value)
                 )
             )
-        if not value in ["Sim09b", "Sim09c", "Sim09e", "Sim09f", "Sim09h"]:
+        if value not in ["Sim09b", "Sim09c", "Sim09e", "Sim09f", "Sim09h"]:
             raise ValueError(
                 "simcond must be Sim09b, Sim09c, Sim09d, Sim09f or Sim09h!"
             )
@@ -492,7 +507,7 @@ class SimulationJob(object):
                     value, type(value)
                 )
             )
-        if not value in ["pythia8", "BcVegPy"]:
+        if value not in ["pythia8", "BcVegPy"]:
             raise ValueError("simmodel must be pythia8 or BcVegPy!")
         self._simmodel = value
 
@@ -512,7 +527,7 @@ class SimulationJob(object):
                     value, type(value)
                 )
             )
-        if not value in [
+        if value not in [
             "21",
             "24",
             "28",
@@ -543,7 +558,7 @@ class SimulationJob(object):
                     value, type(value)
                 )
             )
-        if not value in [2011, 2012, 2015, 2016, 2017, 2018]:
+        if value not in [2011, 2012, 2015, 2016, 2017, 2018]:
             raise ValueError("year must be 2011, 2012, 2015, 2016, 2017 or 2018!")
         self._year = value
 
@@ -564,10 +579,8 @@ class SimulationJob(object):
             else:
                 self._polarities = value
         else:
-            msg = "Invalid {} type for polarities. A None value or a str equals to 'MagUp' or 'MagDown' is required.".format(
-                type(value)
-            )
-            raise TypeError(msg)
+            msg = "Invalid {} type for polarities. A None value or a str equals to 'MagUp' or 'MagDown' is required."
+            raise TypeError(msg.format(type(value)))
 
     @property
     def keys(self):
@@ -699,14 +712,14 @@ class SimulationJob(object):
             )
 
     def getrunnumber(self, job_number=None):
-        if job_number != None and not isinstance(job_number, int):
+        if job_number is not None and not isinstance(job_number, int):
             raise TypeError(
                 "Job number must be a 'int'. Got a '{0}' instead!".format(
                     job_number.__class__.__name__
                 )
             )
 
-        if job_number == None:
+        if job_number is None:
             return self._runnumber
         else:
             return self._runnumber + job_number
@@ -742,9 +755,9 @@ class SimulationJob(object):
                 p1 = polarities.pop(i)
                 p2 = polarities[0]
 
-                polarity = [p1 for i in xrange(1, int(self.nsubjobs / 2) + 1)]
+                polarity = [p1 for i in range(1, int(self.nsubjobs / 2) + 1)]
                 polarity += [
-                    p2 for i in xrange(int(self.nsubjobs / 2) + 1, self.nsubjobs + 1)
+                    p2 for i in range(int(self.nsubjobs / 2) + 1, self.nsubjobs + 1)
                 ]
                 return shuffle(polarity)
 
@@ -853,7 +866,7 @@ class SimulationJob(object):
         if len(self.keys) == 0:
             raise ValueError("Please 'prepare' the job before doing this!")
 
-        if not sjob_number in self.keys:
+        if sjob_number not in self.keys:
             print(
                 "WARNING\tsubjob {0}.{1} has been lost!".format(
                     self.jobnumber, sjob_number
@@ -1106,7 +1119,6 @@ class SimulationJob(object):
                         if DEBUG > 0:
                             print(n, doc["runnumber"], self.getrunnumber(n))
                         assert doc["runnumber"] == self.getrunnumber(n)
-                        _dict = {}
 
                         if doc["jobid"] != job.jobid:
                             job.jobid = doc["jobid"]
@@ -1253,7 +1265,7 @@ class SimulationJob(object):
 
             header = [h_job, h_jobID, h_status, h_runnumber, h_polarity, h_nevents]
             header = "|".join(header) + "|"
-            line = "".join(["-" for i in xrange(len(header) - 2)])
+            line = "".join(["-" for i in range(len(header) - 2)])
 
             toprint.append(line)
             toprint.append(header)
@@ -1418,7 +1430,11 @@ class SimulationSubJob(object):
         if not isinstance(files, (list, tuple)):
             raise TypeError("A list/tuple with infiles must me provided.")
 
-        if not all(isinstance(f, (str, unicode)) for f in files):
+        types = [str]
+        if not py3:
+            types.append(unicode)
+
+        if not all(isinstance(f, types) for f in files):
             raise TypeError("Infiles must be str.")
 
         self._infiles = files

@@ -1,20 +1,23 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-## Author: Luca Pescatore, modified by Matthieu Marinangeli
-## Mail: pluca@cern.ch
-## Description: script to submit jobs (mostly done for lxplus but for local submissions works anywhere)
-## N.B.: Needs an environment variable "JOBDIR" which is the location to put jobs outputs
+#  Author: Luca Pescatore, modified by Matthieu Marinangeli
+# Mail: pluca@cern.ch
+# Description: script to submit jobs (mostly done for lxplus but for local submissions works anywhere)
+# N.B.: Needs an environment variable "JOBDIR" which is the location to put jobs outputs
 
-import os, sys, shutil
+import os
+import sys
+import shutil
 from string import *
 import re
-from argparse import ArgumentParser
 import subprocess as sub
 import random
 from datetime import datetime
 import time
 import getpass
 import warnings
+
+from .utilities import red
 
 DEBUG = 0
 
@@ -23,7 +26,6 @@ def PrepareLSFJob(**kwargs):
 
     user = getpass.getuser()
 
-    time = kwargs.get("time", 7)  # Maximum time of the job in hours (Slurm).
     subdir = kwargs.get("subdir", "")
     jobname = kwargs.get("jobname", "")
     dirname = kwargs.get("dirname")
@@ -136,13 +138,13 @@ def PrepareSlurmJob(**kwargs):
 
         n2exclude = int(exclude) + len(nodestoexclude)
 
-        #### check if nodes exit
+        # check if nodes exit
         exists = all(n in nodes for n in nodestoexclude)
 
         if not exists:
             _nodestoexclude = []
             for n in nodestoexclude:
-                if not n in nodes:
+                if n not in nodes:
                     warnings.warn(
                         red(
                             " WARNING: node {0} does not exist. \
@@ -210,7 +212,7 @@ def main(**kwargs):
         exe = commands[0]
         args = commands[2:]
 
-        if not "." in execname:
+        if "." not in execname:
             execname = ""
             args = commands[1:]
 
@@ -221,7 +223,7 @@ def main(**kwargs):
         jobname = re.sub(r"\..*", "", execname.replace("./", ""))
 
     ########################################################################################
-    ## Make the needed folders and copy the executable and everything else needed in them
+    # Make the needed folders and copy the executable and everything else needed in them
     ########################################################################################
 
     try:
@@ -256,7 +258,7 @@ def main(**kwargs):
             shutil.copyfile(arg, "{0}/{1}".format(dirname, os.path.basename(arg)))
 
         ########################################################################################
-        ## Create the run.sh file containing the information about how the executable is run
+        # Create the run.sh file containing the information about how the executable is run
         ########################################################################################
 
         runfile = open(dirname + "/run.sh", "w")
@@ -285,14 +287,14 @@ def main(**kwargs):
         sub.call(["chmod", "775", dirname + "/run.sh"])
 
         ########################################################################################
-        ## Run executable in local, interactive or batch mode and send
+        # Run executable in local, interactive or batch mode and send
         ########################################################################################
 
         if subdir != "":
             subdir = re.sub("^.*/", "", subdir) + "_"
 
         if "lxplus" in os.getenv("HOSTNAME"):
-            if lsf:  ## Batch for lxplus
+            if lsf:  # Batch for lxplus
                 command = PrepareLSFJob(**kwargs)
                 out = SendCommand(command)
                 try:

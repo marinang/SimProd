@@ -49,11 +49,13 @@ def getdatabase():
 
 def debug_json(jsfile):
 
+    error = None
+
     with open(jsfile, "r") as f:
         try:
             js.load(f)
         except ValueError as e:
-            pass
+            error = e
 
     parser = (
         Suppress(OneOrMore(Word(alphas)) + Literal(":") + Word(alphas))
@@ -62,26 +64,28 @@ def debug_json(jsfile):
         + number.setResultsName("column")
     )
 
-    try:
-        parsed_error_msg = dict(parser.parseString(e.message))
-        parsed_error_msg = {k: int(v) - 1 for k, v in parsed_error_msg.items()}
+    if error is not None:
 
-        assert all(key in parsed_error_msg for key in ["column", "line"])
+        try:
+            parsed_error_msg = dict(parser.parseString(error.message))
+            parsed_error_msg = {k: int(v) - 1 for k, v in parsed_error_msg.items()}
 
-        with open(jsfile, "r") as f:
-            lines = f.readlines()
+            assert all(key in parsed_error_msg for key in ["column", "line"])
 
-        new_lines = []
-        for i, l in enumerate(lines):
-            if i == parsed_error_msg["line"]:
-                new_lines.append(l[0 : parsed_error_msg["column"]])
-            else:
-                new_lines.append(l)
+            with open(jsfile, "r") as f:
+                lines = f.readlines()
 
-        with open(jsfile, "w") as f:
-            f.writelines(new_lines)
+            new_lines = []
+            for i, l in enumerate(lines):
+                if i == parsed_error_msg["line"]:
+                    new_lines.append(l[0 : parsed_error_msg["column"]])
+                else:
+                    new_lines.append(l)
 
-    except pyparsing.ParseException:
-        pass
+            with open(jsfile, "w") as f:
+                f.writelines(new_lines)
+
+        except pyparsing.ParseException:
+            pass
 
     return jsfile

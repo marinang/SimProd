@@ -1,9 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-## Author: Matthieu Marinangeli
-## Mail: matthieu.marinangeli@cern.ch
+# Author: Matthieu Marinangeli
+# Mail: matthieu.marinangeli@cern.ch
 
-import os, time
+import os
+import time
 from .dependencies import LazyModule
 
 screenutils = LazyModule("screenutils")
