@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 
 class DelayedImportError(object):
     # When a module is strictly softimported but is not available, this

@@ -22,7 +22,7 @@ elif [ "$Polarity" == "MagDown" ]; then
   SimCond=Gauss/Beam6500GeV-md100-2016-nu1.6.py
   DBtag="sim-20170721-2-vc-md100"
 else
-  echo "Error, Polarity '$Polarity' is not valid!" 
+  echo "Error, Polarity '$Polarity' is not valid!"
   exit 1
 fi
 
@@ -35,7 +35,7 @@ echo "from Configurables import LHCbApp" >> $CONDITIONS
 echo "LHCbApp().DDDBtag   = '$DDDBtag'" >> $CONDITIONS
 echo "LHCbApp().CondDBtag = '$DBtag'" >> $CONDITIONS
 
-#-------------# 
+#-------------#
 #   GAUSS     #
 #-------------#
 
@@ -78,7 +78,7 @@ if [ "$Turbo" == "True" ]; then
 else
   BOOLEOUTPUT=$PWD/Boole.digi
 fi
-  
+
 # Run
 lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r338" Boole/v30r2p1 gaudirun.py \$APPCONFIGOPTS/Boole/Default.py \$APPCONFIGOPTS/Boole/EnableSpillover.py \$APPCONFIGOPTS/Boole/DataType-2015.py \$APPCONFIGOPTS/Boole/Boole-SetOdinRndTrigger.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py $CONDITIONS $BOOLEFILES
 
@@ -173,7 +173,7 @@ if [ "$Turbo" == "True" ]; then
   #-------------#
   #    TURBO    #
   #-------------#
-  
+
   TESLAFILES=$PWD/Tesla-Files.py
 
   # Prepare files
@@ -181,15 +181,15 @@ if [ "$Turbo" == "True" ]; then
   echo "EventSelector().Input = [\"DATAFILE='PFN:$BRUNELOUTPUT' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> $TESLAFILES
   if [ "$muDST" == "True" ]; then
     echo 'importOptions("$APPCONFIGOPTS/Turbo/Tesla_FilterMC.py")' >> $TESLAFILES
-  fi  
-    
+  fi
+
   #run
-  lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r322" --use="TurboStreamProd v4r1p4" DaVinci/v41r4p3 gaudirun.py \$APPCONFIGOPTS/Turbo/Tesla_2016_LinesFromStreams_MC.py \$APPCONFIGOPTS/Turbo/Tesla_PR_Truth_2016.py \$APPCONFIGOPTS/Turbo/Tesla_Simulation_2016.py $CONDITIONS $TESLAFILES 
+  lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r322" --use="TurboStreamProd v4r1p4" DaVinci/v41r4p3 gaudirun.py \$APPCONFIGOPTS/Turbo/Tesla_2016_LinesFromStreams_MC.py \$APPCONFIGOPTS/Turbo/Tesla_PR_Truth_2016.py \$APPCONFIGOPTS/Turbo/Tesla_Simulation_2016.py $CONDITIONS $TESLAFILES
 
   rm $BrunelOutput
   rm $TESLAFILES
-  
-  TURBOOUTPUT=$PWD/Tesla.dst	
+
+  TURBOOUTPUT=$PWD/Tesla.dst
 else
   TURBOOUTPUT=$BRUNELOUTPUT
 fi

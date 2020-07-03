@@ -23,7 +23,7 @@ elif [ "$Polarity" == "MagDown" ]; then
 	SimCond=Gauss/Beam6500GeV-md100-2018-nu1.6.py
 	DBtag="sim-20190430-vc-md100"
 else
-	echo "Error, Polarity '$Polarity' is not valid!" 
+	echo "Error, Polarity '$Polarity' is not valid!"
 	exit 1
 fi
 
@@ -36,7 +36,7 @@ echo "from Configurables import LHCbApp" >> $CONDITIONS
 echo "LHCbApp().DDDBtag   = '$DDDBtag'" >> $CONDITIONS
 echo "LHCbApp().CondDBtag = '$DBtag'" >> $CONDITIONS
 
-#-------------# 
+#-------------#
 #   GAUSS     #
 #-------------#
 
@@ -89,7 +89,7 @@ if [ "$Turbo" == "True" ]; then
 else
 	BOOLEOUTPUT=$PWD/Boole.digi
 fi
-	
+
 # Run
 lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r374" Boole/v30r4 gaudirun.py \$APPCONFIGOPTS/Boole/Default.py \$APPCONFIGOPTS/Boole/EnableSpillover.py \$APPCONFIGOPTS/Boole/DataType-2015.py \$APPCONFIGOPTS/Boole/Boole-SetOdinRndTrigger.py $CONDITIONS $BOOLEFILES
 
@@ -184,7 +184,7 @@ if [ "$Turbo" == "True" ]; then
 	#-------------#
 	#    TURBO    #
 	#-------------#
-	
+
 	TESLAFILES=$PWD/Tesla-Files.py
 
 	# Prepare files
@@ -192,15 +192,15 @@ if [ "$Turbo" == "True" ]; then
 	echo "EventSelector().Input = [\"DATAFILE='PFN:$BRUNELOUTPUT' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> $TESLAFILES
 	if [ "$muDST" == "True" ]; then
 		echo 'importOptions("$APPCONFIGOPTS/Turbo/Tesla_FilterMC.py")' >> $TESLAFILES
-	fi  
-		
+	fi
+
 	#run
-	lb-run -c x86_64-slc6-gcc62-opt --use="AppConfig v3r374" --use="TurboStreamProd v4r2p10" DaVinci/v44r7 gaudirun.py \$APPCONFIGOPTS/Turbo/Tesla_2018_LinesFromStreamsAndTurCal_MC.py \$APPCONFIGOPTS/Turbo/Tesla_Simulation_2018.py $CONDITIONS $TESLAFILES 
+	lb-run -c x86_64-slc6-gcc62-opt --use="AppConfig v3r374" --use="TurboStreamProd v4r2p10" DaVinci/v44r7 gaudirun.py \$APPCONFIGOPTS/Turbo/Tesla_2018_LinesFromStreamsAndTurCal_MC.py \$APPCONFIGOPTS/Turbo/Tesla_Simulation_2018.py $CONDITIONS $TESLAFILES
 
 	rm $BrunelOutput
 	rm $TESLAFILES
-	
-	TURBOOUTPUT=$PWD/Tesla.dst	
+
+	TURBOOUTPUT=$PWD/Tesla.dst
 else
 	TURBOOUTPUT=$BRUNELOUTPUT
 fi

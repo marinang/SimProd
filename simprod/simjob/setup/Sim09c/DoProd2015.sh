@@ -21,7 +21,7 @@ elif [ "$Polarity" == "MagDown" ]; then
 	SimCond=Gauss/Beam6500GeV-md100-2015-nu1.6.py
 	DBtag="sim-20161124-vc-md100"
 else
-	echo "Error, Polarity '$3' is not valid!" 
+	echo "Error, Polarity '$3' is not valid!"
 	exit 1
 fi
 
@@ -34,7 +34,7 @@ echo "from Configurables import LHCbApp" >> $CONDITIONS
 echo "LHCbApp().DDDBtag   = '$DDDBtag'" >> $CONDITIONS
 echo "LHCbApp().CondDBtag = '$DBtag'" >> $CONDITIONS
 
-#-------------# 
+#-------------#
 #   GAUSS     #
 #-------------#
 
@@ -149,7 +149,7 @@ if [ "$Turbo" == "True" ]; then
 	#-------------#
 	#    TURBO    #
 	#-------------#
-	
+
 	TESLAFILES=$PWD/Tesla-Files.py
 
 	# Prepare files
@@ -161,11 +161,11 @@ if [ "$Turbo" == "True" ]; then
 
 	#run
 	lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r232" --use="TurboStreamProd v2r0" DaVinci/v40r1p3 gaudirun.py \$APPCONFIGOPTS/Turbo/Tesla_AllHlt2Lines_v10r0_0x00fa0051.py \$APPCONFIGOPTS/Turbo/Tesla_Simulation_2015_PVHLT2.py $CONDITIONS $TESLAFILES
-	
+
 	rm $BRUNELOUTPUT
 	rm $TESLAFILES
-	
-	TURBOOUTPUT=$PWD/Tesla.dst	
+
+	TURBOOUTPUT=$PWD/Tesla.dst
 else
 	TURBOOUTPUT=$BRUNELOUTPUT
 fi
@@ -210,5 +210,3 @@ fi
 # Finish
 
 # EOF
-
-

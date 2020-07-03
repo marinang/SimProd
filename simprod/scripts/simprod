@@ -17,23 +17,23 @@ if __name__ == "__main__" :
 	banner1 += '\n'
 	banner1 += blue(' Report any issues in https://github.com/marinang/SimProd/issues\n')
 	banner1 += blue(' or in the SimProd LHCb mattermost channel.\n')
-	
+
 	banner2  = 'production directory: {0}\n'.format(simoutput)
 
 	config = Config()
-	
+
 	config.TerminalInteractiveShell.banner1 = banner1
 	config.TerminalInteractiveShell.banner2 = banner2
-		
+
 	jobs = JobCollection()
-		
+
 	_vars = globals().copy()
 	_vars.update( locals() )
 
 	start_ipython ( argv = [] , user_ns = _vars, config= config )
 
 	jobs._update()
-		
+
 	DATABASE.close()
-		
+
 	print(blue("\n\t Bye Bye.\n"))

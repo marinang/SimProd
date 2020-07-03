@@ -20,7 +20,7 @@ elif [ "$Polarity" == "MagDown" ]; then
   SimCond=Gauss/Sim08-Beam4000GeV-md100-2012-nu2.5.py
   DBtag="sim-20160321-2-vc-md100"
 else
-  echo "Error, Polarity '$Polarity' is not valid!" 
+  echo "Error, Polarity '$Polarity' is not valid!"
   exit 1
 fi
 
@@ -31,7 +31,7 @@ echo "from Configurables import LHCbApp" >> Conditions.py
 echo "LHCbApp().DDDBtag   = '$DDDBtag'" >> Conditions.py
 echo "LHCbApp().CondDBtag = '$DBtag'" >> Conditions.py
 
-#-------------# 
+#-------------#
 #   GAUSS     #
 #-------------#
 

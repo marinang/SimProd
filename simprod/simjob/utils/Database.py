@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import os
 import json as js
@@ -16,17 +17,18 @@ alphas = pyparsing.alphas
 number = Word(pyparsing.nums)
 OneOrMore = pyparsing.OneOrMore
 
-simprod = os.getenv("SIMPRODPATH")	
+simprod = os.getenv("SIMPRODPATH")
 jobsfile = "{0}/simjobs.json".format(simprod)
 
 
 class CorruptedDB(Exception):
     """Exception class for corrupted database."""
+
     pass
 
 
 def getdatabase():
-    
+
     for ntry in range(3):
         try:
             storage = CachingMiddleware(JSONStorage)
@@ -53,7 +55,12 @@ def debug_json(jsfile):
         except ValueError as e:
             pass
 
-    parser = Suppress(OneOrMore(Word(alphas)) + Literal(":") + Word(alphas)) + number.setResultsName("line") + Suppress(Word(alphas)) + number.setResultsName("column")
+    parser = (
+        Suppress(OneOrMore(Word(alphas)) + Literal(":") + Word(alphas))
+        + number.setResultsName("line")
+        + Suppress(Word(alphas))
+        + number.setResultsName("column")
+    )
 
     try:
         parsed_error_msg = dict(parser.parseString(e.message))
@@ -67,10 +74,10 @@ def debug_json(jsfile):
         new_lines = []
         for i, l in enumerate(lines):
             if i == parsed_error_msg["line"]:
-                new_lines.append(l[0: parsed_error_msg["column"]])
+                new_lines.append(l[0 : parsed_error_msg["column"]])
             else:
                 new_lines.append(l)
-                
+
         with open(jsfile, "w") as f:
             f.writelines(new_lines)
 
@@ -78,7 +85,3 @@ def debug_json(jsfile):
         pass
 
     return jsfile
-        
-            
-        
-    

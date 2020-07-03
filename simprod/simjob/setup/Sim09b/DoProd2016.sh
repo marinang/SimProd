@@ -20,7 +20,7 @@ elif [ "$Polarity" == "MagDown" ]; then
   SimCond=Gauss/Beam6500GeV-md100-2016-nu1.6.py
   DBtag="sim-20161124-2-vc-md100"
 else
-  echo "Error, Polarity '$Polarity' is not valid!" 
+  echo "Error, Polarity '$Polarity' is not valid!"
   exit 1
 fi
 
@@ -31,7 +31,7 @@ echo "from Configurables import LHCbApp" >> Conditions.py
 echo "LHCbApp().DDDBtag   = '$DDDBtag'" >> Conditions.py
 echo "LHCbApp().CondDBtag = '$DBtag'" >> Conditions.py
 
-#-------------# 
+#-------------#
 #   GAUSS     #
 #-------------#
 
@@ -158,15 +158,15 @@ if [ "$Turbo" == "True" ]; then
   echo "EventSelector().Input = [\"DATAFILE='PFN:./$BrunelOutput' TYP='POOL_ROOTTREE' OPT='READ'\"]" >> Tesla-Files.py
   if [ "$muDST" == "True" ]; then
     echo 'importOptions("$APPCONFIGOPTS/Turbo/Tesla_FilterMC.py")' >> Tesla-Files.py
-  fi  
+  fi
 
   #run
   lb-run -c x86_64-slc6-gcc48-opt --use="AppConfig v3r322" --use="TurboStreamProd v4r1p4" DaVinci/v41r2p5 gaudirun.py \$APPCONFIGOPTS/Turbo/Tesla_2016_LinesFromStreams_MC.py \$APPCONFIGOPTS/Turbo/Tesla_PR_Truth_2016.py \$APPCONFIGOPTS/Turbo/Tesla_Simulation_2016.py Conditions.py Tesla-Files.py
 
   rm $BrunelOutput
   rm Tesla-Files.py
-  
-  TurboOutput=Tesla.dst	
+
+  TurboOutput=Tesla.dst
 else
   TurboOutput=$BrunelOutput
 fi
