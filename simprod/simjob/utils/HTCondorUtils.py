@@ -56,9 +56,8 @@ class Scheduler:
             print(msg)
             return BadQuery()
 
-        if not queryresult.isvalid:
-            print(msg)
-            return BadQuery()
+        if not query:
+            return NoneQuery()
         else:
             return queryresult
 
@@ -70,6 +69,15 @@ class Scheduler:
 
 
 class BadQuery(object):
+    def __init__(self, *args, **kwargs):
+        pass
+
+    @property
+    def isvalid(self):
+        return False
+        
+        
+class NoneQuery(object):
     def __init__(self, *args, **kwargs):
         pass
 
@@ -123,7 +131,7 @@ class DeliveryClerk(object):
         default_options = DefaultHTCondorOptions()
         self.default_options = default_options
         self._schedd = kwargs.get("scheduler")
-        self._queryresult = None
+        self._queryresult = NoneQuery()
 
         self.defaults = []
         options = {}
@@ -359,15 +367,13 @@ class DeliveryClerk(object):
         if DEBUG > 0:
             print(self._queryresult)
 
-        if self._queryresult is None:
+        if isinstance(self._queryresult, NoneQuery):
             self._queryresult = self._schedd.getcluster(ClusterID)
         if DEBUG > 0:
             print("QueryResult: ", self._queryresult)
             print("IsValid: ", self._queryresult.isvalid)
 
-        if self._queryresult is None:
-            return "new"
-        elif isinstance(self._queryresult, BadQuery):
+        if isinstance(self._queryresult, BadQuery):
             return "error"
         else:
             if not self._queryresult.isvalid:
@@ -375,11 +381,11 @@ class DeliveryClerk(object):
 
             if isinstance(self._queryresult, BadQuery):
                 return "error"
-
-            queryjob = self._queryresult.getProcID(ProcID)
-            if queryjob is None:
+            elif isinstance(self._queryresult, NoneQuery):
                 return "notfound"
             else:
+                queryjob = self._queryresult.getProcID(ProcID)
+                
                 status = int(queryjob["JobStatus"])
 
                 if DEBUG > 0:
