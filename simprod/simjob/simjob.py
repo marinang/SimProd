@@ -365,7 +365,7 @@ class SimulationJob(object):
         self.neventsjob = neventsjob
         self.polarities = polarities
         self.simcond = simcond
-        self.stripping = stripping
+        self._stripping = stripping
         self.turbo = turbo
         self.mudst = mudst
         self._runnumber = runnumber
