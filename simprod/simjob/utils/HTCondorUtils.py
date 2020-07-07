@@ -386,21 +386,24 @@ class DeliveryClerk(object):
             else:
                 queryjob = self._queryresult.getProcID(ProcID)
                 
-                status = int(queryjob["JobStatus"])
-
-                if DEBUG > 0:
-                    print("Status code: ", status)
-
-                if status in [0, 3, 5, 7]:
-                    return "failed"
-                elif status in [1]:
-                    return "submitted"
-                elif status in [2, 6]:
-                    return "running"
-                elif status in [4]:
-                    return "completed"
-                else:
+                if queryjob is None:
                     return "notfound"
+                else:
+                    status = int(queryjob["JobStatus"])
+
+                    if DEBUG > 0:
+                        print("Status code: ", status)
+
+                    if status in [0, 3, 5, 7]:
+                        return "failed"
+                    elif status in [1]:
+                        return "submitted"
+                    elif status in [2, 6]:
+                        return "running"
+                    elif status in [4]:
+                        return "completed"
+                    else:
+                        return "notfound"
 
     def get_update_subjobs(self, job):
         return None
