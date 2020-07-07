@@ -89,13 +89,12 @@ class NoneQuery(object):
 class QueryResult(object):
     def __init__(self, query):
 
-        self.query = query
+        self._result = {int(q["ProcID"]): int(q["JobStatus"]) for q in query}
         self.creation_time = datetime.datetime.now()
-        self._cache = {}
 
     @property
     def isvalid(self):
-        if self.query:
+        if self._result:
             now = datetime.datetime.now()
             elapsedTime = now - self.creation_time
             minutes = divmod(elapsedTime.total_seconds(), 60)[0]
@@ -105,25 +104,13 @@ class QueryResult(object):
                 return True
         else:
             return False
-
-    def __iter__(self):
-        for q in self.query:
-            yield q
-
-    def getProcID(self, ID):
-        ret = None
-
-        if ID in self._cache.keys():
-            ret = self._cache[ID]
-        else:
-            querys = list(self.query)
-            for q in querys:
-                if ID == q["ProcID"]:
-                    ret = q
-                    self._cache[ID] = q
-                    self.query.remove(q)
-        return ret
-
+            
+    def __getitem__(self, procid):
+        try:
+            return self._result[procid]
+        except KeyError:
+            return None
+        
 
 class DeliveryClerk(object):
     def __init__(self, **kwargs):
@@ -384,23 +371,21 @@ class DeliveryClerk(object):
             elif isinstance(self._queryresult, NoneQuery):
                 return "notfound"
             else:
-                queryjob = self._queryresult.getProcID(ProcID)
+                status_code = self._queryresult[ProcID]
                 
-                if queryjob is None:
+                if status_code is None:
                     return "notfound"
                 else:
-                    status = int(queryjob["JobStatus"])
-
                     if DEBUG > 0:
-                        print("Status code: ", status)
+                        print("Status code: ", status_code)
 
-                    if status in [0, 3, 5, 7]:
+                    if status_code in [0, 3, 5, 7]:
                         return "failed"
-                    elif status in [1]:
+                    elif status_code in [1]:
                         return "submitted"
-                    elif status in [2, 6]:
+                    elif status_code in [2, 6]:
                         return "running"
-                    elif status in [4]:
+                    elif status_code in [4]:
                         return "completed"
                     else:
                         return "notfound"
