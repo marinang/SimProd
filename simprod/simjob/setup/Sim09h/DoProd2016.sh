@@ -175,7 +175,7 @@ else
 fi
 
 # Run
-lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r314" --use="SQLDDDB v7r10" Brunel/v50r2 gaudirun.py \$APPCONFIGOPTS/Brunel/DataType-2016.py \$APPCONFIGOPTS/Brunel/MC-WithTruth.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py $BRUNELFILES $CONDITIONS
+lb-run -c x86_64-slc6-gcc49-opt --use="AppConfig v3r314" --use="Det/SQLDDDB v7r10" Brunel/v50r2 gaudirun.py \$APPCONFIGOPTS/Brunel/DataType-2016.py \$APPCONFIGOPTS/Brunel/MC-WithTruth.py \$APPCONFIGOPTS/Persistency/Compression-ZLIB-1.py $BRUNELFILES $CONDITIONS
 
 rm $HLT2OUTPUT
 rm $BRUNELFILES
