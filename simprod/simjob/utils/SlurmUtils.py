@@ -446,7 +446,7 @@ class DeliveryClerk(object):
 
             subjob._update_subjob_table()
 
-    def get_update_subjobs(self, job):
+    def get_update_subjobs_in_database(self, job):
 
         simprod = os.getenv("SIMPRODPATH")
         name = "job_{0}".format(job.jobnumber)

@@ -390,7 +390,7 @@ class DeliveryClerk(object):
                     else:
                         return "notfound"
 
-    def get_update_subjobs(self, job):
+    def get_update_subjobs_in_database(self, job):
         return None
 
     def clear(self, job):
