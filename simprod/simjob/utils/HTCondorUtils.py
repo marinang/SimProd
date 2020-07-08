@@ -40,32 +40,38 @@ def run(command):
 
 class Scheduler:
     def __init__(self):
-        self._schedd = htcondor.Schedd()
+        self._htcondor = htcondor.Schedd()
+        self._cached_query = NoneQuery()
 
-    def getcluster(self, ClusterID):
+    def getquery(self):
+        
+        if not self._cached_query.isvalid:
+            msg = red("Failed to query job status... Try later!")
 
-        msg = red("Failed to query job status... Try later!")
-
-        user = getpass.getuser()
-        try:
-            query = self._schedd.query(
-                'User=="{0}@cern.ch"'.format(user), ["ClusterID", "JobStatus", "ProcID"]
-            )
-            queryresult = QueryResult(query)
-        except (RuntimeError, IOError):
-            print(msg)
-            return BadQuery()
-
-        if not query:
-            return NoneQuery()
-        else:
-            return queryresult
+            user = getpass.getuser()
+            try:
+                query = self._htcondor.query(
+                    'User=="{0}@cern.ch"'.format(user), ["ClusterID", "JobStatus", "ProcID"]
+                )
+                
+                if not query:
+                    queryresult = NoneQuery()
+                else:
+                    queryresult = QueryResult(query)
+                    
+            except (RuntimeError, IOError):
+                print(msg)
+                queryresult = BadQuery()
+                
+            self._cached_query = queryresult
+                
+        return self._cached_query
 
     def act(self, *args, **kwargs):
-        self._schedd.act(*args, **kwargs)
+        self._htcondor.act(*args, **kwargs)
 
     def renew(self):
-        self._schedd = htcondor.Schedd()
+        self._htcondor = htcondor.Schedd()
 
 
 class BadQuery(object):
@@ -88,8 +94,13 @@ class NoneQuery(object):
 
 class QueryResult(object):
     def __init__(self, query):
-
-        self._result = {int(q["ProcID"]): int(q["JobStatus"]) for q in query}
+        
+        self._result = {}
+        for q in query:
+            if q["ClusterID"] not in self._result:
+                self._result[q["ClusterID"]] = {}
+            self._result[q["ClusterID"]][q["ProcID"]] = q["JobStatus"]
+        
         self.creation_time = datetime.datetime.now()
 
     @property
@@ -105,9 +116,9 @@ class QueryResult(object):
         else:
             return False
             
-    def __getitem__(self, procid):
+    def getstatuscode(self, clusterID, procID):
         try:
-            return self._result[procid]
+            return self._result[clusterID][procID]
         except KeyError:
             return None
         
@@ -118,7 +129,6 @@ class DeliveryClerk(object):
         default_options = DefaultHTCondorOptions()
         self.default_options = default_options
         self._schedd = kwargs.get("scheduler")
-        self._queryresult = NoneQuery()
 
         self.defaults = []
         options = {}
@@ -142,6 +152,10 @@ class DeliveryClerk(object):
                 "nextweek",
             ],
         )
+        
+    @property
+    def schedd(self):
+        return self._schedd
 
     def outdict(self):
         return {"options": self.options}
@@ -337,14 +351,20 @@ class DeliveryClerk(object):
             if ClusterID is not None:
                 subjob.jobid = "{0}.{1}".format(ClusterID, subjob.subjobnumber)
                 subjob._status = Status("submitted", subjob.output)
-
-    def getstatus(self, ID):
-
+                
+    def parseID(self, ID):
         if not isinstance(ID, str):
             ID = str(ID)
 
         ClusterID = int(ID.split(".")[0])
         ProcID = int(ID.split(".")[1])
+        return ClusterID, ProcID
+                
+    def getstatus(self, ID):
+        
+        ClusterID, ProcID = self.parseID(ID)
+        
+        queryresult = self.schedd.getquery()
 
         if DEBUG > 0:
             print("in HTCondorUtils.DeliveryClerk.getstatus")
@@ -352,43 +372,32 @@ class DeliveryClerk(object):
             print("ProcID: ", ProcID)
 
         if DEBUG > 0:
-            print(self._queryresult)
+            print("QueryResult: ", queryresult)
+            print("IsValid: ", queryresult.isvalid)
 
-        if isinstance(self._queryresult, NoneQuery):
-            self._queryresult = self._schedd.getcluster(ClusterID)
-        if DEBUG > 0:
-            print("QueryResult: ", self._queryresult)
-            print("IsValid: ", self._queryresult.isvalid)
-
-        if isinstance(self._queryresult, BadQuery):
+        if isinstance(queryresult, BadQuery):
             return "error"
+        elif isinstance(queryresult, NoneQuery):
+            return "notfound"
         else:
-            if not self._queryresult.isvalid:
-                self._queryresult = self._schedd.getcluster(ClusterID)
-
-            if isinstance(self._queryresult, BadQuery):
-                return "error"
-            elif isinstance(self._queryresult, NoneQuery):
+            status_code = queryresult.getstatuscode(ClusterID, ProcID)
+                
+            if status_code is None:
                 return "notfound"
             else:
-                status_code = self._queryresult[ProcID]
-                
-                if status_code is None:
-                    return "notfound"
-                else:
-                    if DEBUG > 0:
-                        print("Status code: ", status_code)
+                if DEBUG > 0:
+                    print("Status code: ", status_code)
 
-                    if status_code in [0, 3, 5, 7]:
-                        return "failed"
-                    elif status_code in [1]:
-                        return "submitted"
-                    elif status_code in [2, 6]:
-                        return "running"
-                    elif status_code in [4]:
-                        return "completed"
-                    else:
-                        return "notfound"
+                if status_code in [0, 3, 5, 7]:
+                    return "failed"
+                elif status_code in [1]:
+                    return "submitted"
+                elif status_code in [2, 6]:
+                    return "running"
+                elif status_code in [4]:
+                    return "completed"
+                else:
+                    return "notfound"
 
     def get_update_subjobs_in_database(self, job):
         return None
@@ -404,16 +413,14 @@ class DeliveryClerk(object):
             ID = sj.jobid
             if ID is None:
                 continue
-            if not isinstance(ID, str):
-                ID = str(ID)
-            ClusterID = int(ID.split(".")[0])
+            ClusterID, ProcID = self.parseID(ID)
 
             if ClusterID not in cluster_ids:
                 cluster_ids.append(ClusterID)
 
         for cid in cluster_ids:
             try:
-                self._schedd.act(
+                self.schedd.act(
                     htcondor.JobAction.Remove, "ClusterId=={0}".format(cid)
                 )
             except RuntimeError:
@@ -424,11 +431,8 @@ class DeliveryClerk(object):
 
     def killsubjob(self, ID):
         try:
-            if not isinstance(ID, str):
-                ID = str(ID)
-            ClusterID = int(ID.split(".")[0])
-            ProcID = int(ID.split(".")[1])
-            self._schedd.act(
+            ClusterID, ProcID = self.parseID(ID)
+            self.schedd.act(
                 htcondor.JobAction.Remove,
                 "ClusterId=={0} && ProcID=={1}".format(ClusterID, ProcID),
             )
