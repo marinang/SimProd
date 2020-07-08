@@ -1457,8 +1457,6 @@ class SimulationSubJob(object):
 
             if self.jobid:
                 self._status = Status("submitted", self.output)
-
-                time.sleep(0.07)
                 print(
                     blue(
                         "{0}/{1} jobs submitted!".format(
@@ -1466,7 +1464,6 @@ class SimulationSubJob(object):
                         )
                     )
                 )
-                time.sleep(0.07)
             else:
                 print(
                     red(
@@ -1489,55 +1486,39 @@ class SimulationSubJob(object):
 
         previous_status = self.last_status
         
-        if previous_status == "completed":
-            if not self.output == self.destfile and not self.output == "":
-                self._move_jobs()
-        if previous_status == "failed":
-            self._empty_proddir(keep_log=True)
+        if previous_status == "failed" or previous_status == "completed":
             
-        
-        if not (previous_status == "failed" or previous_status == "completed"):
+            if previous_status == "completed":
+                if not self.output == self.destfile and not self.output == "":
+                    self._move_jobs()
+            if previous_status == "failed":
+                self._empty_proddir(keep_log=True)
+            
+        else:
             if not self._status.finished and self._status.submitted:
+                # update status
                 if not self._status.isvalid:
                     status = self.parent.deliveryclerk.getstatus(self.jobid)
                     if status != "error":
                         self._status = Status(status, self.output)
 
-            elif (
-                self._status.submitted
-                and not self._status.running
-                and self._status.finished
-            ):
-                if self._status.completed:
-                    if not self.output == self.destfile and not self.output == "":
-                        self._move_jobs()
-                elif self._status.failed:
-                    self._empty_proddir(keep_log=True)
+            if self._status.completed:
+                if not self.output == self.destfile and not self.output == "":
+                    self._move_jobs()
+            elif self._status.failed:
+                self._empty_proddir(keep_log=True)
 
             if previous_status != self._status:
 
-                if self.parent.jobnumber:
-                    info_msg = (
-                        "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'"
-                    )
-                    info_msg = info_msg.format(
-                        self.parent.jobnumber,
-                        self.subjobnumber,
-                        previous_status,
-                        self._status,
-                    )
-                else:
-                    info_msg = (
-                        "INFO\tstatus of job (evttype {0}, year {1}, run number {2})"
-                    )
-                    info_msg += " changed from '{3}' to '{4}'."
-                    info_msg = info_msg.format(
-                        self.parent.evttype,
-                        self.parent.year,
-                        self.runnumber,
-                        previous_status,
-                        self._status,
-                    )
+                info_msg = (
+                    "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'"
+                )
+                info_msg = info_msg.format(
+                    self.parent.jobnumber,
+                    self.subjobnumber,
+                    previous_status,
+                    self._status,
+                )
 
                 print(info_msg)
                 self._update_subjob_in_database()
@@ -1579,12 +1560,8 @@ class SimulationSubJob(object):
 
     def kill(self, storeparent=True, sjkill=True):
 
-        if self.parent.jobnumber:
-            info_msg = "INFO\tkilling subjob {0}.{1}"
-            info_msg = info_msg.format(self.parent.jobnumber, self.subjobnumber)
-        else:
-            info_msg = "INFO\tkilling subjob {0}".format(self.subjobnumber)
-
+        info_msg = "INFO\tkilling subjob {0}.{1}"
+        info_msg = info_msg.format(self.parent.jobnumber, self.subjobnumber)
         print(info_msg)
 
         if sjkill:
@@ -1638,17 +1615,10 @@ class SimulationSubJob(object):
                 self.runnumber
             )
 
-            if self.parent.jobnumber:
-                info_msg = "INFO\tMoving subjob {0}.{1} to final destination!"
-                info_msg = info_msg.format(self.parent.jobnumber, self.subjobnumber)
-            else:
-                info_msg = "INFO\tMoving subjob (evttype {0}, year {1}, run number {2}) to final destination!"
-                info_msg = info_msg.format(
-                    self.parent.evttype, self.parent.year, self.runnumber
-                )
-
+            info_msg = "INFO\tMoving output of subjob {0}.{1} to {2}!"
+            info_msg = info_msg.format(self.parent.jobnumber, self.subjobnumber, dst_destfile)
             print(info_msg)
-
+            
             if os.path.isfile(dst_prodfile):
                 mover(dst_prodfile, dst_destfile)
             else:
@@ -1658,6 +1628,11 @@ class SimulationSubJob(object):
                 print(warn_msg)
 
             if self.keepxml:
+                
+                info_msg = "INFO\tMoving generator informations of subjob {0}.{1} to {2}!"
+                info_msg = info_msg.format(self.parent.jobnumber, self.subjobnumber, xml_destfile)
+                print(info_msg)
+                
                 if os.path.isfile(xml_prodfile):
                     mover(xml_prodfile, xml_destfile)
                 else:
@@ -1731,4 +1706,3 @@ class SimulationSubJob(object):
         return simsubjob
 
 
-# utilities
