@@ -1486,28 +1486,14 @@ class SimulationSubJob(object):
 
         previous_status = self.last_status
         
-        if previous_status == "failed" or previous_status == "completed":
-            
-            if previous_status == "completed":
-                if not self.output == self.destfile and not self.output == "":
-                    self._move_jobs()
-            if previous_status == "failed":
-                self._empty_proddir(keep_log=True)
-            
-        else:
+        if previous_status != "failed" and previous_status != "completed":
             if not self._status.finished and self._status.submitted:
                 # update status
                 if not self._status.isvalid:
                     status = self.parent.deliveryclerk.getstatus(self.jobid)
                     if status != "error":
                         self._status = Status(status, self.output)
-
-            if self._status.completed:
-                if not self.output == self.destfile and not self.output == "":
-                    self._move_jobs()
-            elif self._status.failed:
-                self._empty_proddir(keep_log=True)
-
+                        
             if previous_status != self._status:
 
                 info_msg = (
@@ -1522,6 +1508,12 @@ class SimulationSubJob(object):
 
                 print(info_msg)
                 self._update_subjob_in_database()
+
+        if self._status.completed:
+            if not self.output == self.destfile and not self.output == "":
+                self._move_jobs()
+        elif self._status.failed:
+            self._empty_proddir(keep_log=True)
 
         return repr(self._status)
 
