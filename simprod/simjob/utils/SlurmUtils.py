@@ -444,7 +444,7 @@ class DeliveryClerk(object):
                     )
                 )
 
-            subjob._update_subjob_table()
+            subjob._update_subjob_in_database()
 
     def get_update_subjobs_in_database(self, job):
 
