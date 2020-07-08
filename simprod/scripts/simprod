@@ -2,7 +2,9 @@
 
 import os
 
-from simprod.simjob import *
+from simprod.simjob import JobCollection, SimulationJob, DATABASE
+from simprod.simjob.utils.utilities import blue, green
+from simprod.simjob.utils.GetEvtType import getevttype
 from IPython import start_ipython
 from traitlets.config.loader import Config
 
@@ -31,7 +33,7 @@ if __name__ == "__main__":
 
     start_ipython(argv=[], user_ns=_vars, config=config)
 
-    jobs._update()
+    jobs.update()
 
     DATABASE.close()
 

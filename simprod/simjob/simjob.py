@@ -50,24 +50,25 @@ py3 = (
 
 class JobCollection(object):
     """
-    Simulation job collection.
+    Container class of the SimulationJob
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self):
 
         self.jobs = {}
-        jobs = self.collection
+        n_jobs = len(self.collection)
 
         if IsHTCondor():
             from utils.HTCondorUtils import Scheduler
+
             self._job_kwargs = {"scheduler": Scheduler()}
         else:
             self._job_kwargs = {"scheduler": None}
 
-        if len(jobs) > 0:
+        if n_jobs > 0:
 
             print(red("\nLoading Jobs:"))
-            t = tqdm(total=len(jobs))
+            t = tqdm(total=n_jobs)
 
             for k in self.keys:
 
@@ -82,22 +83,38 @@ class JobCollection(object):
 
             t.close()
 
-        self._update(in_init=True)
+        self.update()
 
     @property
     def collection(self):
+        """
+        Returns the table 'jobs' in the databse
+        """
         return DATABASE.table("jobs")
 
     @property
     def keys(self):
+        """
+        Returns keys of SimulationJob in the collection
+        """
         return sorted([j.doc_id for j in self.collection.all()], key=int)
 
     def __str__(self):
+        """
+        Returns the str representation of the JobCollection, which is a str with
+        one line per SimulationJob in the collection with the following description:
+            * number/key
+            * status
+            * evttype
+            * year
+            * number of events
+            * number of SimulationSubJob's
+            * number of running SimulationSubJob's
+            * number of completed SimulationSubJob's
+            * number of failed SimulationSubJob's
+        """
 
-        if DEBUG > 1:
-            print("In JobCollection.__str__")
-
-        self._update()
+        self.update()
 
         toprint = []
         toprint.append("{0} jobs".format(len(self.jobs)))
@@ -227,21 +244,38 @@ class JobCollection(object):
 
         toprint = "\n".join(toprint)
 
-        if DEBUG > 1:
-            print("Out of JobCollection.__str__")
-
         return toprint
 
     def _repr_pretty_(self, p, cycle):
+        """
+        Method called in IPython to print the representation of the JobCollection
+        """
         if cycle:
-            p.text("job collection...")
+            p.text(self.__str__())
             return
         p.text(self.__str__())
 
     def __geti__(self, i, printlevel=1):
+        """
+        Methods to access the i-th SimulationJob in the collection. If the SimulationJob with key i is
+        in the collection but not loaded it will be loaded. If the key is larger than the maximum key in the
+        in the collection, the database gets updated to fetch newly created SimulationJob's in the simprod
+        prompt.
+
+        Args:
+            * i (int): key of the SimulationJob to access
+            * printlevel (int, default=1): if 1 the loading the of the SimulationJob is printed, if 0 nothing
+                is printed
+
+        Returns:
+            SimulationJob
+
+        Raises:
+            KeyError if a SimulationJob with key = i is not in the collection
+        """
 
         if i not in self.keys and i > max(self.keys):
-            self._update()
+            self.update()
         if i not in self.keys:
             raise KeyError("job {0} not found!".format(i))
         else:
@@ -251,49 +285,88 @@ class JobCollection(object):
                 job_i_doc = self.collection.get(doc_id=i)
                 job_i = SimulationJob.from_doc(job_i_doc, **self._job_kwargs)
                 self.jobs[i] = job_i
-                
-            new_to_prepared = self.jobs[i].status == "new" and len(self.jobs[i].jobtable) > 0
-            prepared_to_new = self.jobs[i].status == "prepared" and len(self.jobs[i].jobtable) == 0
-            
+
+            new_to_prepared = (
+                self.jobs[i].status == "new" and len(self.jobs[i].jobtable) > 0
+            )
+            prepared_to_new = (
+                self.jobs[i].status == "prepared" and len(self.jobs[i].jobtable) == 0
+            )
+
             if new_to_prepared or prepared_to_new:
                 job_i_doc = self.collection.get(doc_id=i)
                 self.jobs[i] = SimulationJob.from_doc(job_i_doc, **self._job_kwargs)
-                
+
         return self.jobs[i]
 
     def __getitem__(self, i):
+        """
+        Methods to access the i-th SimulationJob in the collection.
+
+        Args:
+            * i (int): key of the SimulationJob to access
+
+        Returns:
+            SimulationJob
+
+        Raises:
+            KeyError if a SimulationJob with key = i is not in the collection
+        """
         return self.__geti__(i, printlevel=1)
 
     def __iter__(self):
-        printlevel = -1
+        """
+        Iterates over the SimulationJob's in the collection
+        """
         for k in self.keys:
-            yield self.__geti__(k, printlevel)
+            yield self.__geti__(k, printlevel=-1)
 
     def __len__(self):
+        """
+        Returns the number of SimulationJob in the collection
+        """
         return len(self.collection)
 
     def select(self, status):
+        """
+        Selects all the SimulationJob's with the status given as arguments.
+
+        Args:
+            * status (str): the status of interest
+
+        Returns:
+            List[SimulationJob]
+        """
         return [j for j in self.__iter__() if j.status == status]
 
-    def _update(self, in_init=False):
-
-        if DEBUG > 0:
-            print("In JobCollection._udpate")
+    def update(self):
+        """
+        Method to update the table 'jobs' in the database.
+        """
 
         if len(self.collection) > 0:
             condition = (Query().status == "new") | (Query().status == "submitting")
-            condition = condition | (Query().status == "submitted") | (Query().status == "prepared")
+            condition = (
+                condition
+                | (Query().status == "submitted")
+                | (Query().status == "prepared")
+            )
             to_update = self.collection.search(condition)
         else:
             to_update = []
-            
+
         for j in to_update:
             if j.doc_id not in self.jobs.keys():
                 self.jobs[j.doc_id] = SimulationJob.from_doc(j, **self._job_kwargs)
-            elif len(self.jobs[j.doc_id].subjobs) == 0 or len(self.jobs[j.doc_id].jobtable) == 0:
+            elif (
+                len(self.jobs[j.doc_id].subjobs) == 0
+                or len(self.jobs[j.doc_id].jobtable) == 0
+            ):
                 self.jobs[j.doc_id] = SimulationJob.from_doc(j, **self._job_kwargs)
             else:
-                self.jobs[j.doc_id]._update_job_in_database(update_subjobs_in_database=True)
+                self.jobs[j.doc_id]._update_job_in_database(
+                    update_subjobs_in_database=True
+                )
 
         if len(self.jobs) > len(self.keys):
             for k in self.jobs.keys():
@@ -301,8 +374,6 @@ class JobCollection(object):
                     del self.jobs[k]
 
         for k in self.keys:
-            if DEBUG > 0:
-                print("In JobCollection._udpate, keys={}".format(k))
 
             job_doc = self.collection.get(doc_id=k)
 
@@ -322,9 +393,6 @@ class JobCollection(object):
 
             if status in ["completed", "failed"]:
                 self.jobs[k] = None
-
-        if DEBUG > 0:
-            print("Out of JobCollection._udpate")
 
 
 class SimulationJob(object):
@@ -789,9 +857,9 @@ class SimulationJob(object):
                 continue
 
             self._preparesubjobs(n, infiles=infiles)
-            
+
         self._status == "prepared"
-            
+
         if update_table:
             self._update_job_in_database(update_subjobs_in_database=True)
 
@@ -943,7 +1011,7 @@ class SimulationJob(object):
                 if n in keys:
                     sj_doc = self.jobtable.get(doc_id=n)
                     subjob = self.subjobs[n]
-                    
+
                     if sj_doc is None:
                         status = "notfound"
                     elif subjob is None:
@@ -1283,7 +1351,7 @@ class SimulationJob(object):
             for n in self.range_subjobs:
 
                 sj_doc = self.jobtable.get(doc_id=n)
-                
+
                 if self.subjobs[n] is None:
                     status = sj_doc["status"]
                     jobID = sj_doc["jobid"]
@@ -1485,7 +1553,7 @@ class SimulationSubJob(object):
             print("in SimulationSubJob.status")
 
         previous_status = self.last_status
-        
+
         if previous_status != "failed" and previous_status != "completed":
             if not self._status.finished and self._status.submitted:
                 # update status
@@ -1493,12 +1561,10 @@ class SimulationSubJob(object):
                     status = self.parent.deliveryclerk.getstatus(self.jobid)
                     if status != "error":
                         self._status = Status(status, self.output)
-                        
+
             if previous_status != self._status:
 
-                info_msg = (
-                    "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'"
-                )
+                info_msg = "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'"
                 info_msg = info_msg.format(
                     self.parent.jobnumber,
                     self.subjobnumber,
@@ -1608,9 +1674,11 @@ class SimulationSubJob(object):
             )
 
             info_msg = "INFO\tMoving output of subjob {0}.{1} to {2}!"
-            info_msg = info_msg.format(self.parent.jobnumber, self.subjobnumber, dst_destfile)
+            info_msg = info_msg.format(
+                self.parent.jobnumber, self.subjobnumber, dst_destfile
+            )
             print(info_msg)
-            
+
             if os.path.isfile(dst_prodfile):
                 mover(dst_prodfile, dst_destfile)
             else:
@@ -1620,11 +1688,15 @@ class SimulationSubJob(object):
                 print(warn_msg)
 
             if self.keepxml:
-                
-                info_msg = "INFO\tMoving generator informations of subjob {0}.{1} to {2}!"
-                info_msg = info_msg.format(self.parent.jobnumber, self.subjobnumber, xml_destfile)
+
+                info_msg = (
+                    "INFO\tMoving generator informations of subjob {0}.{1} to {2}!"
+                )
+                info_msg = info_msg.format(
+                    self.parent.jobnumber, self.subjobnumber, xml_destfile
+                )
                 print(info_msg)
-                
+
                 if os.path.isfile(xml_prodfile):
                     mover(xml_prodfile, xml_destfile)
                 else:
@@ -1656,7 +1728,7 @@ class SimulationSubJob(object):
         return outdict
 
     def _update_subjob_in_database(self):
-        
+
         self.parenttable.update(self.outdict(), Query().runnumber == self.runnumber)
 
     @classmethod
@@ -1696,5 +1768,3 @@ class SimulationSubJob(object):
         simsubjob = cls.from_dict(parent, doc, subjobnumber, to_store)
 
         return simsubjob
-
-
