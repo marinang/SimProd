@@ -50,7 +50,7 @@ py3 = (
 
 class JobCollection(object):
     """
-    Container class of the SimulationJob
+    Container class of the SimulationJob.
     """
 
     def __init__(self):
@@ -88,14 +88,14 @@ class JobCollection(object):
     @property
     def collection(self):
         """
-        Returns the table 'jobs' in the databse
+        Returns the table 'jobs' in the databse.
         """
         return DATABASE.table("jobs")
 
     @property
     def keys(self):
         """
-        Returns keys of SimulationJob in the collection
+        Returns keys of SimulationJob in the collection.
         """
         return sorted([j.doc_id for j in self.collection.all()], key=int)
 
@@ -103,15 +103,15 @@ class JobCollection(object):
         """
         Returns the str representation of the JobCollection, which is a str with
         one line per SimulationJob in the collection with the following description:
-            * number/key
-            * status
-            * evttype
-            * year
-            * number of events
-            * number of SimulationSubJob's
-            * number of running SimulationSubJob's
-            * number of completed SimulationSubJob's
-            * number of failed SimulationSubJob's
+            * number/key.
+            * status.
+            * evttype.
+            * year.
+            * number of events.
+            * number of SimulationSubJob's.
+            * number of running SimulationSubJob's.
+            * number of completed SimulationSubJob's.
+            * number of failed SimulationSubJob's.
         """
 
         self.update()
@@ -248,7 +248,7 @@ class JobCollection(object):
 
     def _repr_pretty_(self, p, cycle):
         """
-        Method called in IPython to print the representation of the JobCollection
+        Method called in IPython to print the representation of the JobCollection.
         """
         if cycle:
             p.text(self.__str__())
@@ -271,7 +271,7 @@ class JobCollection(object):
             SimulationJob
 
         Raises:
-            KeyError if a SimulationJob with key = i is not in the collection
+            * KeyError if a SimulationJob with key = i is not in the collection.
         """
 
         if i not in self.keys and i > max(self.keys):
@@ -310,20 +310,20 @@ class JobCollection(object):
             SimulationJob
 
         Raises:
-            KeyError if a SimulationJob with key = i is not in the collection
+            * KeyError if a SimulationJob with key = i is not in the collection.
         """
         return self.__geti__(i, printlevel=1)
 
     def __iter__(self):
         """
-        Iterates over the SimulationJob's in the collection
+        Iterates over the SimulationJob's in the collection.
         """
         for k in self.keys:
             yield self.__geti__(k, printlevel=-1)
 
     def __len__(self):
         """
-        Returns the number of SimulationJob in the collection
+        Returns the number of SimulationJob in the collection.
         """
         return len(self.collection)
 
@@ -332,7 +332,7 @@ class JobCollection(object):
         Selects all the SimulationJob's with the status given as arguments.
 
         Args:
-            * status (str): the status of interest
+            * status (str): the status of interest.
 
         Returns:
             List[SimulationJob]
@@ -397,7 +397,29 @@ class JobCollection(object):
 
 class SimulationJob(object):
     """
-    Simulation job
+    Class for simulation jobs. It is a container of SimulationSubJob's.
+
+    Args:
+        * nevents (int): number of events to simulate.
+        * year (int): data taking year to simulate.
+        * evttype (int): evttype to generate.
+        * neventsjob (int, defautl=50): number of events in each SimulationSubJob
+        * polarities (str, default=None): polarities ,'MagUp' or 'MagDown', of the LHCb magnet to simulate.
+            By default half of the subjobs have 'MagUp' and the other half have 'MagDown'.
+        * simcond (str, default='Sim09h'): version of the simulation conditions.
+        * stripping (str/int, default=None): version of the stripping selection, by default it is the latest full
+            stripping version (without "r" standing for incremental restripping).
+        * turbo (bool, default=False): flag to indicate if the Turbo should be run.
+        * mdst (bool, default=False): flag to indicate if the output should a 'mdst' instead of a 'dst'.
+        * runnumber (int, optionnal): seed used to generated the events, by default it is computed from the date.
+        * decfiles (str, default="v30r46"): version of the DecFiles package.
+        * redecay (bool, default=False): flag to indicate wether the signal in the simulated events should be
+            redecayed for faster simulation.
+        * simmodel (str, default="pythia8"): indicates the event generator. By the default it is 'pythia8' but
+        'BcVegPy' is available.
+        * keeplogs (bool, default=False): flag to indicate if the output and error logs of the jobs should be
+            kept even in the job has been completed successfully.
+        * keepxmls: (bool, default=False): flag to indicate if the xml file produced by Gauss should be kept.
     """
 
     def __init__(
@@ -503,103 +525,193 @@ class SimulationJob(object):
 
     @property
     def jobtable(self):
+        """
+        Returns the table of the SimulationJob in the database.
+        """
         return self.database.table("job_{}".format(self.jobnumber))
 
     @property
     def range_subjobs(self):
+        """
+        Returns a generator of the keys of the SimulationSubJob's.
+        """
         for n in range(self.nsubjobs):
             yield n + 1
 
     @property
     def nevents(self):
+        """
+        Returns the number of events simulated.
+        """
         return self._nevents
 
     @nevents.setter
-    def nevents(self, value):
-        if isinstance(value, (int, float)):
-            value = int(value)
-            self._nevents = value
+    def nevents(self, nevents):
+        """
+        Sets the number of events simulated.
 
+        Args:
+            * nevents (int/flaot): if it is float it will be converted to an int.
+
+        Raises:
+            * TypeError is nevents is not a float/int.
+        """
+        if isinstance(nevents, (int, float)):
+            nevents = int(nevents)
+            self._nevents = nevents
         else:
             raise TypeError("nevents must be a int!")
 
     @property
     def neventsjob(self):
+        """
+        Returns the number of events for each subjob.
+        """
         return self._neventsjob
 
     @neventsjob.setter
-    def neventsjob(self, value):
-        if isinstance(value, (int, float)):
-            value = int(value)
-            self._neventsjob = value
+    def neventsjob(self, nevents):
+        """
+        Sets the number of events for each subjob.
+
+        Args:
+            * nevents (int/flaot): if it is float it will be converted to an int.
+
+        Raises:
+            * TypeError is nevents is not a float/int.
+        """
+        if isinstance(nevents, (int, float)):
+            nevents = int(nevents)
+            self._neventsjob = nevents
         else:
             raise TypeError("nevents must be a int!")
 
     @property
     def nsubjobs(self):
+        """
+        Returns the number SimulationSubJob's.
+        """
         self._nsubjobs = int(self.nevents / self.neventsjob)
         return self._nsubjobs
 
     @property
     def evttype(self):
+        """
+        Returns the evttype simulated.
+        """
         return self._evttype
 
     @evttype.setter
-    def evttype(self, value):
-        self._evttype = value
-        self._setoptfile()
+    def evttype(self, evttype):
+        """
+        Sets the evttype simulated.
+        """
+        self._evttype = evttype
+        optfile = "{0}/EvtTypes/{1}/{1}.py".format(os.getenv("SIMPRODPATH"), evttype)
+
+        if not os.path.isfile(optfile):
+            getevttype(evttype=evttype, decfiles=self.decfiles)
+
+        self._optfile = optfile
+
+    @property
+    def optfile(self):
+        """
+        Returns the options file where the evttype is defined.
+        """
+        return self._optfile
 
     @property
     def simcond(self):
+        """
+        Returns the version of the simulation condittions.
+        """
         return self._simcond
 
     @simcond.setter
-    def simcond(self, value):
-        if not isinstance(value, str):
+    def simcond(self, version):
+        """
+        Sets the version of the simulation conditions.
+
+        Args:
+            * version (str): version of the simulation conditions.
+
+        Raises:
+            * ValueError if version is not in [Sim09b, Sim09c, Sim09e, Sim09f, Sim09h].
+        """
+        if not isinstance(version, str):
             raise TypeError(
                 "{0} has a non valid {1} type for simcond, must be a str!".format(
-                    value, type(value)
+                    version, type(version)
                 )
             )
-        if value not in ["Sim09b", "Sim09c", "Sim09e", "Sim09f", "Sim09h"]:
+        if version not in ["Sim09b", "Sim09c", "Sim09e", "Sim09f", "Sim09h"]:
             raise ValueError(
                 "simcond must be Sim09b, Sim09c, Sim09d, Sim09f or Sim09h!"
             )
-        self._simcond = value
+        self._simcond = version
 
     @property
     def simmodel(self):
+        """
+        Returns the event generator.
+        """
         return self._simmodel
 
     @simmodel.setter
-    def simmodel(self, value):
-        if not isinstance(value, str):
+    def simmodel(self, model):
+        """
+        Sets the event generator.
+
+        Args:
+            * model (str): name of the event generator.
+
+        Raises:
+            * ValueError if model is not in [pythia8, BcVegPy].
+        """
+        if not isinstance(model, str):
             raise TypeError(
                 "{0} has a non valid {1} type for simmodel, must be a str!".format(
-                    value, type(value)
+                    model, type(model)
                 )
             )
-        if value not in ["pythia8", "BcVegPy"]:
+        if model not in ["pythia8", "BcVegPy"]:
             raise ValueError("simmodel must be pythia8 or BcVegPy!")
-        self._simmodel = value
+        self._simmodel = model
 
     @property
     def doprod(self):
+        """
+        Returns the bash script that is send to the batch system to run the simulation.abs
+        """
         return DoProd(self.simcond, self.year)
 
     @property
     def stripping(self):
+        """
+        Returns stripping version.
+        """
         return self._stripping
 
     @stripping.setter
-    def stripping(self, value):
-        if not isinstance(value, str):
+    def stripping(self, version):
+        """
+        Sets the stripping version.
+
+        Args:
+            * version (str): the stripping version.
+
+        Raises:
+            * ValueError if model is not in [21, 24, 28, 24r1, 24r1p1, 28r1, 28r1p1, 28r2,
+                29r2, 29r2p1, 34, 34r0p1].
+        """
+        if not isinstance(version, str):
             raise TypeError(
                 "{0} has a non valid {1} type for stripping, must be a str!".format(
-                    value, type(value)
+                    version, type(version)
                 )
             )
-        if value not in [
+        if version not in [
             "21",
             "24",
             "28",
@@ -616,43 +728,70 @@ class SimulationJob(object):
             raise ValueError(
                 "stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1', '28r2', '29r2', '29r2p1', '34' or '34r0p1'!"
             )
-        self._stripping = value
+        self._stripping = version
 
     @property
     def year(self):
+        """
+        Returns the data taking year to simulate.
+        """
         return self._year
 
     @year.setter
-    def year(self, value):
-        if not isinstance(value, int):
+    def year(self, year):
+        """
+        Sets the data taking year to simulate.
+
+        Args:
+            * year (int): year to simulate.
+
+        Raises:
+            * TypeError if year is not an int.
+            * ValueError if year is not in [2011, 2012, 2015, 2016, 2017, 2018].
+        """
+        if not isinstance(year, int):
             raise TypeError(
                 "{0} has a non valid {1} type for year, must be a int!".format(
-                    value, type(value)
+                    year, type(year)
                 )
             )
-        if value not in [2011, 2012, 2015, 2016, 2017, 2018]:
+        if year not in [2011, 2012, 2015, 2016, 2017, 2018]:
             raise ValueError("year must be 2011, 2012, 2015, 2016, 2017 or 2018!")
-        self._year = value
+        self._year = year
 
     @property
     def polarities(self):
+        """
+        Returns the polarities of the LHCb magnet to simulate. If None is returned it means that half
+        of the subjobs have MagUp and the other subjobs have MagDown.
+        """
         return self._polarities
 
     @polarities.setter
-    def polarities(self, value):
-        if value is None:
-            self._polarities = value
-        elif isinstance(value, str):
-            if value not in ["MagUp", "MagDown"]:
+    def polarities(self, polarity):
+        """
+        Sets the polarities of the LHCb magnet to simulate.
+
+        Args:
+            * polarity (str): the polarity.
+
+        Raises:
+            * TypeError if polarity is not a str.
+            * ValueError if polarity is not in [MagUp, MagDown].
+        """
+        if polarity is None:
+            self._polarities = polarity
+        elif isinstance(polarity, str):
+            if polarity not in ["MagUp", "MagDown"]:
                 msg = "Invalid value '{}' for polarities. Valid choices are ['MagUp', 'MagDown'].".format(
-                    value
+                    polarity
                 )
                 raise ValueError(msg)
             else:
-                self._polarities = value
+                self._polarities = polarity
         else:
             msg = "Invalid {} type for polarities. A None value or a str equals to 'MagUp' or 'MagDown' is required."
-            raise TypeError(msg.format(type(value)))
+            raise TypeError(msg.format(type(polarity)))
 
     @property
     def keys(self):
@@ -688,10 +827,6 @@ class SimulationJob(object):
         if self._redecay:
             self._destdir += "_ReDecay"
         return self._destdir
-
-    @property
-    def optfile(self):
-        return self._optfile
 
     @property
     def turbo(self):
@@ -798,21 +933,6 @@ class SimulationJob(object):
 
     def prepare(self, update_table=True, **kwargs):
         if len(self.subjobs) < 1:
-
-            if not self._evttype:
-                raise ValueError("Evttype not defined!")
-
-            if not self._nevents:
-                raise ValueError("nevents not defined!")
-
-            if not self._neventsjob:
-                raise ValueError("neventsjob not defined!")
-
-            if not self._year:
-                raise ValueError("year not defined!")
-
-            if not self._simcond:
-                raise ValueError("simcond not defined!")
 
             checksiminputs(self)
 
@@ -988,9 +1108,6 @@ class SimulationJob(object):
     @property
     def status(self):
 
-        if DEBUG > 0:
-            print("in SimulationJob.status, jobnumber:{0}".format(self.jobnumber))
-
         if len(self.keys) == 0:
             return "new"
 
@@ -1092,17 +1209,7 @@ class SimulationJob(object):
 
             self._status = _status
 
-        if DEBUG > 0:
-            print("Out of SimulationJob.status, jobnumber:{0}".format(self.jobnumber))
-
         return self._status
-
-    def _setoptfile(self):
-        moddir = os.getenv("SIMPRODPATH")
-        self._optfile = "{0}/EvtTypes/{1}/{1}.py".format(moddir, self._evttype)
-
-        if not os.path.isfile(self._optfile):
-            getevttype(evttype=self._evttype, decfiles=self.decfiles)
 
     def outdict(self):
 
