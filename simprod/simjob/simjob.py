@@ -1678,17 +1678,7 @@ class SimulationJob(object):
 
         Returns:
             SimulationJob
-
-        Raises:
-            * TypeError if doc is not a tinydb.Document.
         """
-
-        if not isinstance(doc, Document):
-            raise TypeError(
-                "{0} has a non valid {1} type for doc, must be a tinydb.table.Document!".format(
-                    doc, type(doc)
-                )
-            )
 
         jobnumber = doc.doc_id
         simjob = cls.from_dict(doc, jobnumber, inscreen, printlevel, **kwargs)
