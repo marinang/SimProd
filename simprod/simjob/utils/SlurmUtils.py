@@ -381,8 +381,8 @@ class DeliveryClerk(object):
             if not SUBMIT:
                 time.sleep(randint(0, 20) * 60)
 
-        if not subjob._status.submitted or subjob._status.failed:
-            if subjob._status.failed:
+        if subjob._status == "new" or subjob._status == "failed":
+            if subjob._status == "failed":
                 subjob.reset()
 
             send_options = subjob.send_options
@@ -397,9 +397,6 @@ class DeliveryClerk(object):
 
     def send_subjob_inscreen(self, subjob, storage):
 
-        if DEBUG > 1:
-            print("In DeliveryClerk.send_subjob_inscreen:")
-
         subjobid = None
 
         SUBMIT = False
@@ -409,8 +406,8 @@ class DeliveryClerk(object):
                 storage.flush()
                 time.sleep(randint(0, 10) * 60)
 
-        if not subjob._status.submitted or subjob._status.failed:
-            if subjob._status.failed:
+        if subjob._status == "new" or subjob._status == "failed":
+            if subjob._status == "failed":
                 subjob.reset()
 
             send_options = subjob.send_options
@@ -531,7 +528,7 @@ def screencommandfile(job):
     f.write("from tinydb.middlewares import CachingMiddleware\n")
     f.write("os.environ['SIMPRODPATH'] = '{0}'\n".format(os.getenv("SIMPRODPATH")))
     f.write("os.environ['SIMOUTPUT'] = '{0}'\n".format(os.getenv("SIMOUTPUT")))
-    f.write("from simprod import *\n\n")
+    f.write("from simprod import SimulationJob, SimulationSubJob\n\n")
 
     f.write("time.sleep(1.5)\n\n")
 
@@ -542,16 +539,18 @@ def screencommandfile(job):
     f.write("\tos.remove(jsonfile)\n")
     f.write("DATABASE = TinyDB(jsonfile, storage=storage)\n")
 
-    f.write("job_dict = {}\n".format(job.outdict()))
+    f.write("job_dict = {}\n".format(job.dump()))
 
     f.write("job = SimulationJob.from_dict(job_dict, {})\n".format(job.jobnumber))
 
     f.write("job.database = DATABASE\n\n")
+    
+    f.write("query = Query()\n\n")
 
     if job.status == "new":
         f.write("job.prepare(update_table=False)\n")
         f.write("for n in job.range_subjobs:\n")
-        f.write("\tjob_dict = job[n].outdict()\n")
+        f.write("\tjob_dict = job[n].dump()\n")
         f.write("\tjob_dict['subjobnumber'] = n\n")
         towrite = "\tjob.jobtable.upsert(job_dict, Query().runnumber"
         towrite += " == job.getrunnumber(n))\n"
@@ -562,12 +561,12 @@ def screencommandfile(job):
         for sj in job.select("new", update=False):
             sjnum = sj.subjobnumber
             towrite = "job_dict_{0} = {1}\n"
-            f.write(towrite.format(sjnum, sj.outdict()))
+            f.write(towrite.format(sjnum, sj.dump()))
             towrite = "job_dict_{0}['subjobnumber'] = {0}\n"
             f.write(towrite.format(sjnum))
             towrite = "job[{0}] = SimulationSubJob.from_dict(job, job_dict_{0}, {0}, to_store=False)\n"
             f.write(towrite.format(sjnum))
-            towrite = "job.jobtable.upsert(job_dict_{0}, Query().runnumber"
+            towrite = "job.jobtable.upsert(job_dict_{0}, query.runnumber"
             towrite += " == job.getrunnumber({0}))\n"
             f.write(towrite.format(sjnum))
             towrite = "job.deliveryclerk.send_subjob_inscreen(job[{}], storage)\n\n"
