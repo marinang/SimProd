@@ -41,7 +41,7 @@ from .type_checkers import (
     check_polarities,
     check_flag,
     check_str,
-    check_infiles
+    check_infiles,
 )
 
 from tinydb import Query
@@ -288,14 +288,12 @@ class JobCollection(object):
                 job_i_doc = self.collection.get(doc_id=i)
                 job_i = SimulationJob.from_doc(job_i_doc, **self._job_kwargs)
                 self.jobs[i] = job_i
-                
+
             status = self.jobs[i].status
 
-            new_to_prepared = (
-               status == "new" and len(self.jobs[i].jobtable) > 0
-            )
+            new_to_prepared = status == "new" and len(self.jobs[i].jobtable) > 0
             prepared_to_new = (
-               status in ["prepared", "corrupted"] and len(self.jobs[i].jobtable) == 0
+                status in ["prepared", "corrupted"] and len(self.jobs[i].jobtable) == 0
             )
 
             if new_to_prepared or prepared_to_new:
@@ -348,10 +346,10 @@ class JobCollection(object):
         """
         Method to update the table 'jobs' in the database.
         """
-                
+
         for job_doc in self.collection.all():
             key = job_doc.doc_id
-            
+
             if key not in self.jobs:
                 print("A", key)
                 for ntry in range(2):
@@ -360,20 +358,26 @@ class JobCollection(object):
                         break
                     time.sleep(1)
                 continue
-                
+
             job = self.jobs[key]
-                        
+
             if job is None:
                 continue
-            
+
             status = job.status
-            
+
             if not job.subjobs or len(job.jobtable) == 0:
                 print("B", key)
                 self.jobs[key] = SimulationJob.from_doc(job_doc, **self._job_kwargs)
                 continue
-                
-            elif job_doc["status"] in ["new", "prepared", "submitting", "submitted", "corrupted"]:
+
+            elif job_doc["status"] in [
+                "new",
+                "prepared",
+                "submitting",
+                "submitted",
+                "corrupted",
+            ]:
                 if status != job_doc["status"]:
                     print("C", key, job_doc["status"], status)
                     self.jobs[key] = SimulationJob.from_doc(job_doc, **self._job_kwargs)
@@ -381,19 +385,18 @@ class JobCollection(object):
                 else:
                     job._update_job_in_database(update_subjobs_in_database=True)
                 continue
-            
+
             if status != job_doc["status"]:
                 print("DDD")
                 self.collection.update(dict(status=status), doc_ids=[key])
 
             if status in ["completed", "failed"]:
                 self.jobs[key] = None
-                
+
         if len(self.jobs) > len(self.keys):
             for k in self.jobs.keys():
                 if k not in self.keys:
                     del self.jobs[k]
-                
 
 
 class SimulationJob(object):
@@ -1123,7 +1126,6 @@ class SimulationJob(object):
 
         if update_table:
             self._update_job_in_database(update_subjobs_in_database=True)
-            
 
     def _preparesubjobs(self, sjn, infiles=None):
         """
@@ -1356,7 +1358,7 @@ class SimulationJob(object):
 
             status_counts, counts = np.unique(status_list, return_counts=True)
             sc = dict(zip(status_counts, counts))
-            
+
             if sc.get("notfound", 0) > 0:
                 status = "corrupted"
             else:
@@ -1460,18 +1462,18 @@ class SimulationJob(object):
             table = self.deliveryclerk.get_update_subjobs_in_database(self)
 
             for n in self.range_subjobs:
-                
+
                 job = self[n]
                 status = job._status
 
                 if job is None:
                     continue
 
-                if  status == "new" and isinstance(job.jobid, int):
+                if status == "new" and isinstance(job.jobid, int):
                     job._status = Status("submitted", job.output)
                     continue
 
-                if  status.isvalid and not status == "submitted":
+                if status.isvalid and not status == "submitted":
                     continue
 
                 if status == "completed":
@@ -1568,7 +1570,8 @@ class SimulationJob(object):
                 t = None
 
             simjob.subjobs = {
-                n: simjob._load_subjob(n, t, printlevel, False) for n in simjob.range_subjobs
+                n: simjob._load_subjob(n, t, printlevel, False)
+                for n in simjob.range_subjobs
             }
 
             if printlevel > 0:
@@ -1887,7 +1890,7 @@ class SimulationSubJob(object):
     def status(self):
 
         previous_status = self.last_status
-        
+
         if previous_status != "failed" and previous_status != "completed":
             if not self._status.finished and self._status.submitted:
                 # update status
@@ -2068,7 +2071,7 @@ class SimulationSubJob(object):
             runnumber=dict["runnumber"],
             subjobnumber=subjobnumber,
             newsubjob=False,
-            infiles=dict.get("infiles", None)
+            infiles=dict.get("infiles", None),
         )
 
         simsubjob.jobid = dict["jobid"]
