@@ -407,7 +407,7 @@ class DeliveryClerk(object):
             SUBMIT = SubCondition(self.options)
             if not SUBMIT:
                 storage.flush()
-                time.sleep(randint(0, 20) * 60)
+                time.sleep(randint(0, 10) * 60)
 
         if not subjob._status.submitted or subjob._status.failed:
             if subjob._status.failed:
