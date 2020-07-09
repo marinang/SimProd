@@ -32,7 +32,16 @@ from .utils.Status import Status
 from .utils.GetEvtType import getevttype
 from .utils.MoveJobs import Move, EosMove
 from .exceptions import NotPreparedError, SubmittedError, PreparedError
-from .type_checkers import check_nevents
+from .type_checkers import (
+    check_int,
+    check_year,
+    check_simcond,
+    check_simmodel,
+    check_stripping,
+    check_polarities,
+    check_flag,
+    check_str,
+)
 
 from tinydb import Query
 
@@ -446,21 +455,21 @@ class SimulationJob(object):
                     warnings.warn(blue(msg))
 
         self._status = "new"
-        self._nevents = check_nevents(nevents)
-        self.year = year
-        self.decfiles = decfiles
-        self.evttype = evttype
-        self._neventsjob = check_nevents(neventsjob)
-        self.polarities = polarities
-        self.simcond = simcond
-        self._stripping = stripping
-        self.turbo = turbo
-        self.mudst = mudst
-        self._runnumber = runnumber
-        self.redecay = redecay
-        self.simmodel = simmodel
-        self.keeplogs = keeplogs
-        self.keepxmls = keepxmls
+        self._nevents = check_int(nevents, "nevents")
+        self._year = check_year(year)
+        self._decfiles = check_str(decfiles, "decfiles")
+        self.evttype = check_int(evttype, "evttype")
+        self._neventsjob = check_int(neventsjob, "neventsjob")
+        self._polarities = check_polarities(polarities)
+        self._simcond = check_simcond(simcond)
+        self._stripping = check_stripping(stripping)
+        self._turbo = check_flag(turbo, "turbo")
+        self._mudst = check_flag(mudst, "mudst")
+        self._runnumber = check_int(runnumber, "runnumber")
+        self._redecay = check_flag(redecay, "redecay")
+        self._simmodel = check_simmodel(simmodel)
+        self._keeplogs = check_flag(keeplogs, "keeplogs")
+        self._keepxmls = check_flag(keepxmls, "keepxmls")
         self._inscreen = kwargs.get("inscreen", False)
 
         _basedir = os.getenv("SIMOUTPUT")
@@ -576,7 +585,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        self._nevents = check_nevents(nevents)
+        self._nevents = check_int(nevents, "nevents")
 
     @property
     def neventsjob(self):
@@ -606,7 +615,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        self._neventsjob = check_nevents(nevents)
+        self._neventsjob = check_int(nevents, "neventsjob")
 
     @property
     def nsubjobs(self):
@@ -633,7 +642,7 @@ class SimulationJob(object):
             msg = "This property cannot be modified once the job is submitted."
             raise SubmittedError(msg)
 
-        self._evttype = evttype
+        self._evttype = check_int(evttype, "evttype")
         optfile = "{0}/EvtTypes/{1}/{1}.py".format(os.getenv("SIMPRODPATH"), evttype)
 
         if not os.path.isfile(optfile):
@@ -676,17 +685,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        if not isinstance(version, str):
-            raise TypeError(
-                "{0} has a non valid {1} type for simcond, must be a str!".format(
-                    version, type(version)
-                )
-            )
-        if version not in ["Sim09b", "Sim09c", "Sim09e", "Sim09f", "Sim09h"]:
-            raise ValueError(
-                "simcond must be Sim09b, Sim09c, Sim09d, Sim09f or Sim09h!"
-            )
-        self._simcond = version
+        self._simcond = check_simcond(version)
 
     @property
     def simmodel(self):
@@ -716,15 +715,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        if not isinstance(model, str):
-            raise TypeError(
-                "{0} has a non valid {1} type for simmodel, must be a str!".format(
-                    model, type(model)
-                )
-            )
-        if model not in ["pythia8", "BcVegPy"]:
-            raise ValueError("simmodel must be pythia8 or BcVegPy!")
-        self._simmodel = model
+        self._simmodel = check_simmodel(model)
 
     @property
     def doprod(self):
@@ -762,30 +753,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        if not isinstance(version, str):
-            raise TypeError(
-                "{0} has a non valid {1} type for stripping, must be a str!".format(
-                    version, type(version)
-                )
-            )
-        if version not in [
-            "21",
-            "24",
-            "28",
-            "24r1",
-            "24r1p1",
-            "28r1",
-            "28r1p1",
-            "28r2",
-            "29r2",
-            "29r2p1",
-            "34",
-            "34r0p1",
-        ]:
-            raise ValueError(
-                "stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1', '28r2', '29r2', '29r2p1', '34' or '34r0p1'!"
-            )
-        self._stripping = version
+        self._stripping = check_stripping(version)
 
     @property
     def year(self):
@@ -816,15 +784,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        if not isinstance(year, int):
-            raise TypeError(
-                "{0} has a non valid {1} type for year, must be a int!".format(
-                    year, type(year)
-                )
-            )
-        if year not in [2011, 2012, 2015, 2016, 2017, 2018]:
-            raise ValueError("year must be 2011, 2012, 2015, 2016, 2017 or 2018!")
-        self._year = year
+        self._year = check_year(year)
 
     @property
     def polarities(self):
@@ -856,19 +816,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        if polarity is None:
-            self._polarities = polarity
-        elif isinstance(polarity, str):
-            if polarity not in ["MagUp", "MagDown"]:
-                msg = "Invalid value '{}' for polarities. Valid choices are ['MagUp', 'MagDown'].".format(
-                    polarity
-                )
-                raise ValueError(msg)
-            else:
-                self._polarities = polarity
-        else:
-            msg = "Invalid {} type for polarities. A None value or a str equals to 'MagUp' or 'MagDown' is required."
-            raise TypeError(msg.format(type(polarity)))
+        self._polarities = check_polarities(polarity)
 
     @property
     def keys(self):
@@ -949,14 +897,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        if isinstance(boolean, bool):
-            self._turbo = boolean
-        else:
-            raise TypeError(
-                "{0} has a non valid {1} type for turbo, must be a bool!".format(
-                    boolean, type(boolean)
-                )
-            )
+        self._turbo = check_flag(boolean, "turbo")
 
     @property
     def mudst(self):
@@ -986,14 +927,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        if isinstance(boolean, bool):
-            self._mudst = boolean
-        else:
-            raise TypeError(
-                "{0} has a non valid {1} type for mudst, must be a bool!".format(
-                    boolean, type(boolean)
-                )
-            )
+        self._mudst = check_flag(boolean, "mudst")
 
     @property
     def decfiles(self):
@@ -1023,14 +957,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        if isinstance(version, str):
-            self._decfiles = version
-        else:
-            raise TypeError(
-                "{0} has a non valid {1} type for decfiles, must be a str!".format(
-                    version, type(version)
-                )
-            )
+        self._decfiles = check_str(version, "decfiles")
 
     @property
     def redecay(self):
@@ -1060,14 +987,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        if isinstance(boolean, bool):
-            self._redecay = boolean
-        else:
-            raise TypeError(
-                "{0} has a non valid {1} type for redecay, must be a bool!".format(
-                    boolean, type(boolean)
-                )
-            )
+        self._redecay = check_flag(boolean, "redecay")
 
     @property
     def keeplogs(self):
@@ -1094,14 +1014,7 @@ class SimulationJob(object):
             msg = "This property cannot be modified once the job is submitted."
             raise SubmittedError(msg)
 
-        if isinstance(boolean, bool):
-            self._keeplogs = boolean
-        else:
-            raise TypeError(
-                "{0} has a non valid {1} type for keeplogs, must be a bool!".format(
-                    boolean, type(boolean)
-                )
-            )
+        self._keeplogs = check_flag(boolean, "keeplogs")
 
     @property
     def keepxmls(self):
@@ -1126,14 +1039,7 @@ class SimulationJob(object):
             msg = "This property cannot be modified once the job is submitted."
             raise SubmittedError(msg)
 
-        if isinstance(boolean, bool):
-            self._keepxmls = boolean
-        else:
-            raise TypeError(
-                "{0} has a non valid {1} type for keepxmls, must be a bool!".format(
-                    boolean, type(boolean)
-                )
-            )
+        self._keepxmls = check_flag(boolean, "keepxmls")
 
     def getrunnumber(self, sjn=0):
         """
@@ -1273,13 +1179,15 @@ class SimulationJob(object):
         """
         Unprepares the SimulationJob.
         """
-        
+
         if not self.is_prepared:
-            raise NotPreparedError("The job needs to be prepared before being unprepared.")
-            
+            raise NotPreparedError(
+                "The job needs to be prepared before being unprepared."
+            )
+
         if self.is_submitted:
             raise SubmittedError("Cannot unprepare once the job is submitted.")
-            
+
         for n in self.range_subjobs:
             if self.subjobs.get(n, None):
                 del self.subjobs[n]
@@ -1386,14 +1294,13 @@ class SimulationJob(object):
 
         Returns:
             List[SimulationSubJob]
-            
+
         Raises:
             * NotPreparedError if the job is not prepared.
         """
 
         if not self.is_prepared:
-            raise NotPreparedError("Cannot use this method if the job is not prepared!")      
-        
+            raise NotPreparedError("Cannot use this method if the job is not prepared!")
         try:
             if update:
                 return [self[n] for n in self.range_subjobs if self[n].status == status]
@@ -1403,7 +1310,6 @@ class SimulationJob(object):
                 ]
         except AttributeError:
             return []
-            
 
     @property
     def last_status(self):
@@ -1423,46 +1329,45 @@ class SimulationJob(object):
 
         if not self.last_status == "completed":
             status_list = []
-            keys = self.keys
 
             for n in self.range_subjobs:
 
-                if n in keys:
-                    sj_doc = self.jobtable.get(doc_id=n)
-                    sj = self.subjobs[n]
+                sj_doc = self.jobtable.get(doc_id=n)
+                sj = self.subjobs[n]
 
-                    if sj is None:
-                        if sj_doc is None:
-                            status = "notfound"
-                        else:
-                            status = sj_doc["status"]
+                if sj is None:
+                    if sj_doc is None:
+                        status = "notfound"
                     else:
-                        status = sj.status
-                        jobid = sj.jobid
-
-                        if sj_doc["jobid"] != jobid or sj_doc["status"] != status:
-                            sj_doc["jobid"] = jobid
-                            sj_doc["status"] = status
-
-                            self.jobtable.update(sj_doc, doc_ids=[n])
-
-                        if status in ["completed", "failed"]:
-                            self.subjobs[n] = None
-
-                    status_list.append(status)
+                        status = sj_doc["status"]
                 else:
-                    status_list.append("new")
+                    status = sj.status
+                    jobid = sj.jobid
+
+                    if sj_doc["jobid"] != jobid or sj_doc["status"] != status:
+                        sj_doc["jobid"] = jobid
+                        sj_doc["status"] = status
+
+                        self.jobtable.update(sj_doc, doc_ids=[n])
+
+                    if status in ["completed", "failed"]:
+                        self.subjobs[n] = None
+
+                status_list.append(status)
 
             status_counts, counts = np.unique(status_list, return_counts=True)
             sc = dict(zip(status_counts, counts))
-            
+
             if sc.get("notfound", 0) > 0:
-                status = "corrupted" 
+                status = "corrupted"
             else:
                 if sc.get("submitted", 0) == 0:
                     status = "prepared"
-                    
-                if sc.get("submitted", 0) < self.nsubjobs and sc.get("submitted", 0) > 0:
+
+                if (
+                    sc.get("submitted", 0) < self.nsubjobs
+                    and sc.get("submitted", 0) > 0
+                ):
                     status = "submitting"
                 elif sc.get("running", 0) > 0:
                     status = "running"
@@ -1559,7 +1464,7 @@ class SimulationJob(object):
             for n in self.range_subjobs:
 
                 job = self[n]
-                
+
                 if job is None:
                     continue
 
@@ -1869,7 +1774,9 @@ class SimulationSubJob(object):
     Simulation subjob.
     """
 
-    def __init__(self, parent, polarity, runnumber, subjobnumber, infiles=None, **kwargs):
+    def __init__(
+        self, parent, polarity, runnumber, subjobnumber, infiles=None, **kwargs
+    ):
         self.parent = parent
         self.polarity = polarity
         self.runnumber = runnumber
@@ -1940,7 +1847,7 @@ class SimulationSubJob(object):
 
     @infiles.setter
     def infiles(self, files):
-  
+
         if files is not None:
             if not isinstance(files, (list, tuple)):
                 raise TypeError("A list/tuple with infiles must me provided.")
