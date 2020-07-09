@@ -194,7 +194,7 @@ def main(**kwargs):
     jobname = kwargs.get("jobname", "")
     clean = kwargs.get("clean", True)
     unique = kwargs.get("unique", True)
-    infiles = kwargs.get("infiles", [])
+    infiles = kwargs.get("infiles", None)
     command = kwargs.get("command", "")
     slurm = kwargs.get("slurm", False)
     lsf = kwargs.get("lsf", False)
@@ -254,8 +254,9 @@ def main(**kwargs):
         if "/" in execname:
             execname = execname.split("/")[-1]
 
-        for arg in infiles:
-            shutil.copyfile(arg, "{0}/{1}".format(dirname, os.path.basename(arg)))
+        if infiles is not None:
+            for arg in infiles:
+                shutil.copyfile(arg, "{0}/{1}".format(dirname, os.path.basename(arg)))
 
         ########################################################################################
         # Create the run.sh file containing the information about how the executable is run

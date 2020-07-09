@@ -31,18 +31,12 @@ from .utils.Database import getdatabase
 from .utils.Status import Status
 from .utils.GetEvtType import getevttype
 from .utils.MoveJobs import Move, EosMove
-from .exceptions import JobNotPreparedError, SubmittedError, PreparedError
+from .exceptions import NotPreparedError, SubmittedError, PreparedError
+from .type_checkers import check_nevents
 
 from tinydb import Query
 
 DATABASE, STORAGE = getdatabase()
-
-DEBUG = 0
-
-TIME_NEW = 20  # minutes, time between check of status if status is new
-TIME_RUNNING = 5
-TIME_FAILED = 5
-TIME_SUBMITTED = 1
 
 py3 = (
     sys.version_info[0] > 2
@@ -157,7 +151,7 @@ class JobCollection(object):
                 year = job.year
                 nevents = job.nevents
                 subjobs = job.nsubjobs
-                if status == "new":
+                if status in ["new", "prepared", "corrupted"]:
                     nrunning = 0
                     ncompleted = 0
                     nfailed = 0
@@ -178,10 +172,6 @@ class JobCollection(object):
 
             if status == "submitted":
                 color = cyan
-            elif status == "new":
-                color = cdefault
-            elif status == "prepared":
-                color = cdefault
             elif status == "submitting":
                 color = magenta
             elif status == "running":
@@ -190,6 +180,8 @@ class JobCollection(object):
                 color = blue
             elif status == "failed":
                 color = red
+            else:
+                color = cdefault
 
             p_job = "{n:{fill}{al}{w}} ".format(
                 w=(len(h_job) - 1), al=">", fill="", n=k
@@ -453,11 +445,12 @@ class SimulationJob(object):
                     msg = msg.format(kw_ns=ns, kw_s=nkws["supported"])
                     warnings.warn(blue(msg))
 
-        self.nevents = nevents
+        self._status = "new"
+        self._nevents = check_nevents(nevents)
         self.year = year
         self.decfiles = decfiles
         self.evttype = evttype
-        self.neventsjob = neventsjob
+        self._neventsjob = check_nevents(neventsjob)
         self.polarities = polarities
         self.simcond = simcond
         self._stripping = stripping
@@ -469,7 +462,6 @@ class SimulationJob(object):
         self.keeplogs = keeplogs
         self.keepxmls = keepxmls
         self._inscreen = kwargs.get("inscreen", False)
-        self._status = "new"
 
         _basedir = os.getenv("SIMOUTPUT")
         if not _basedir:
@@ -519,8 +511,6 @@ class SimulationJob(object):
             jobstable = self.database.table("jobs")
             jobstable.insert(self.dump())
             self.jobnumber = jobstable._last_id
-            if DEBUG > 0:
-                print("newjob:", self.jobnumber)
         else:
             self.jobnumber = kwargs.get("jobnumber", None)
 
@@ -541,7 +531,7 @@ class SimulationJob(object):
 
     @property
     def is_prepared(self):
-        status = self.status
+        status = self.last_status
 
         if status == "new":
             return False
@@ -550,9 +540,9 @@ class SimulationJob(object):
 
     @property
     def is_submitted(self):
-        status = self.status
+        status = self.last_status
 
-        if status in ["new", "prepared"]:
+        if status in ["new", "prepared", "corrupted"]:
             return False
         else:
             return True
@@ -586,11 +576,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        if isinstance(nevents, (int, float)):
-            nevents = int(nevents)
-            self._nevents = nevents
-        else:
-            raise TypeError("nevents must be a int!")
+        self._nevents = check_nevents(nevents)
 
     @property
     def neventsjob(self):
@@ -620,11 +606,7 @@ class SimulationJob(object):
             msg = " Call the method cancelpreparation to unprepare to the job."
             raise PreparedError(msg)
 
-        if isinstance(nevents, (int, float)):
-            nevents = int(nevents)
-            self._neventsjob = nevents
-        else:
-            raise TypeError("nevents must be a int!")
+        self._neventsjob = check_nevents(nevents)
 
     @property
     def nsubjobs(self):
@@ -1268,11 +1250,11 @@ class SimulationJob(object):
         Send the subjobs to the batch system.
 
         Raises:
-            * JobNotPreparedError if the job is not prepared.
+            * NotPreparedError if the job is not prepared.
         """
 
         if not self.is_prepared:
-            raise JobNotPreparedError("Please 'prepare' the job before sending it!")
+            raise NotPreparedError("Please 'prepare' the job before sending it!")
 
         if self.status == "completed":
             print("Job is completed. There is nothing to send.")
@@ -1291,6 +1273,13 @@ class SimulationJob(object):
         """
         Unprepares the SimulationJob.
         """
+        
+        if not self.is_prepared:
+            raise NotPreparedError("The job needs to be prepared before being unprepared.")
+            
+        if self.is_submitted:
+            raise SubmittedError("Cannot unprepare once the job is submitted.")
+            
         for n in self.range_subjobs:
             if self.subjobs.get(n, None):
                 del self.subjobs[n]
@@ -1336,7 +1325,7 @@ class SimulationJob(object):
         """
         if len(self.keys) == 0:
             msg = "Cannot access the subjobs is the job is unprepared. Please call the method 'prepare'."
-            raise JobNotPreparedError(msg)
+            raise NotPreparedError(msg)
 
         if sjn not in self.keys:
             if sjn < min(self.keys) or sjn > min(self.keys):
@@ -1397,13 +1386,24 @@ class SimulationJob(object):
 
         Returns:
             List[SimulationSubJob]
+            
+        Raises:
+            * NotPreparedError if the job is not prepared.
         """
-        if update:
-            return [self[n] for n in self.range_subjobs if self[n].status == status]
-        else:
-            return [
-                self[n] for n in self.range_subjobs if self[n].last_status == status
-            ]
+
+        if not self.is_prepared:
+            raise NotPreparedError("Cannot use this method if the job is not prepared!")      
+        
+        try:
+            if update:
+                return [self[n] for n in self.range_subjobs if self[n].status == status]
+            else:
+                return [
+                    self[n] for n in self.range_subjobs if self[n].last_status == status
+                ]
+        except AttributeError:
+            return []
+            
 
     @property
     def last_status(self):
@@ -1432,7 +1432,10 @@ class SimulationJob(object):
                     sj = self.subjobs[n]
 
                     if sj is None:
-                        status = sj_doc["status"]
+                        if sj_doc is None:
+                            status = "notfound"
+                        else:
+                            status = sj_doc["status"]
                     else:
                         status = sj.status
                         jobid = sj.jobid
@@ -1451,22 +1454,26 @@ class SimulationJob(object):
                     status_list.append("new")
 
             status_counts, counts = np.unique(status_list, return_counts=True)
-            sc = dict(status_counts, counts)
-
-            if sc["submitted"] == 0:
-                status = "prepared"
-            elif sc["submitted"] < self.nsubjobs and sc["submitted"] > 0:
-                status = "submitting"
-            elif sc["running"] > 0:
-                status = "running"
-            elif sc["completed"] == self.nsubjobs:
-                status = "completed"
-                self.deliveryclerk.clear(self)
+            sc = dict(zip(status_counts, counts))
+            
+            if sc.get("notfound", 0) > 0:
+                status = "corrupted" 
             else:
-                if sc["completed"] + sc["failed"] == self.nsubjobs:
-                    status = "failed"
+                if sc.get("submitted", 0) == 0:
+                    status = "prepared"
+                    
+                if sc.get("submitted", 0) < self.nsubjobs and sc.get("submitted", 0) > 0:
+                    status = "submitting"
+                elif sc.get("running", 0) > 0:
+                    status = "running"
+                elif sc.get("completed", 0) == self.nsubjobs:
+                    status = "completed"
+                    self.deliveryclerk.clear(self)
                 else:
-                    status = "submitted"
+                    if sc.get("completed", 0) + sc.get("failed", 0) == self.nsubjobs:
+                        status = "failed"
+                    else:
+                        status = "submitted"
 
             if status != self.last_status:
                 info_msg = "INFO\tstatus of job {0} changed from '{1}' to '{2}'"
@@ -1552,8 +1559,11 @@ class SimulationJob(object):
             for n in self.range_subjobs:
 
                 job = self[n]
+                
+                if job is None:
+                    continue
 
-                if job.status in ["prepared", "new"] and isinstance(job.jobid, int):
+                if job.status == "new" and isinstance(job.jobid, int):
                     job._status = Status("submitted", job.output)
                     continue
 
@@ -1566,8 +1576,6 @@ class SimulationJob(object):
                 else:
                     if table is not None:
                         doc = table.get(Query().subjobnumber == n)
-                        if DEBUG > 0:
-                            print(n, doc)
                     else:
                         doc = None
 
@@ -1861,14 +1869,14 @@ class SimulationSubJob(object):
     Simulation subjob.
     """
 
-    def __init__(self, parent, polarity, runnumber, subjobnumber, **kwargs):
+    def __init__(self, parent, polarity, runnumber, subjobnumber, infiles=None, **kwargs):
         self.parent = parent
         self.polarity = polarity
         self.runnumber = runnumber
         self.subjobnumber = subjobnumber
         self.jobid = None
         self.send_options = self.parent.options.copy()
-        self._infiles = kwargs.get("infiles", [])
+        self._infiles = infiles
         self.send_options["infiles"] = self._infiles
 
         self.jobname = "{0}_{1}_{2}evts_s{3}_{4}".format(
@@ -1932,15 +1940,17 @@ class SimulationSubJob(object):
 
     @infiles.setter
     def infiles(self, files):
-        if not isinstance(files, (list, tuple)):
-            raise TypeError("A list/tuple with infiles must me provided.")
+  
+        if files is not None:
+            if not isinstance(files, (list, tuple)):
+                raise TypeError("A list/tuple with infiles must me provided.")
 
-        types = [str]
-        if not py3:
-            types.append(unicode)
+            types = [str]
+            if not py3:
+                types.append(unicode)
 
-        if not all(isinstance(f, types) for f in files):
-            raise TypeError("Infiles must be str.")
+            if not all(isinstance(f, types) for f in files):
+                raise TypeError("Infiles must be str.")
 
         self._infiles = files
         self.send_options["infiles"] = files
@@ -1978,8 +1988,6 @@ class SimulationSubJob(object):
 
     @property
     def status(self):
-        if DEBUG > 0:
-            print("in SimulationSubJob.status")
 
         previous_status = self.last_status
 
@@ -2166,12 +2174,9 @@ class SimulationSubJob(object):
             newsubjob=False,
         )
 
-        if DEBUG > 1:
-            print("In SimulationSubJob.from_dict, subjob={0}.".format(subjobnumber))
-
         simsubjob.jobid = dict["jobid"]
-        simsubjob.infiles = dict.get("infiles", [])
-        simsubjob.send_options["infiles"] = dict.get("infiles", [])
+        simsubjob.infiles = dict.get("infiles", None)
+        simsubjob.send_options["infiles"] = dict.get("infiles", None)
 
         status = dict["status"]
 

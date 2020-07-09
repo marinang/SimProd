@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-class JobNotPreparedError(Exception):
+class NotPreparedError(Exception):
     """Exception class for jobs not prepared"""
 
     pass
