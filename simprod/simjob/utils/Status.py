@@ -12,7 +12,6 @@ TIME_NEW = 60  # minutes, time between check of status if status is new
 TIME_RUNNING = 15
 TIME_FAILED = 35
 TIME_SUBMITTED = 5
-DEBUG = 0
 
 
 class Status(object):
@@ -25,9 +24,6 @@ class Status(object):
         self.failed = False
         self.in_init = in_init
 
-        self.status = status
-        self.output = output
-
         if status in "submitted":
             self.submitted = True
 
@@ -35,25 +31,19 @@ class Status(object):
             self.running = True
             self.submitted = True
 
-        elif (
-            status == "completed"
-            or status == "cancelled"
-            or status == "failed"
-            or status == "notfound"
-        ):
+        if status in ["completed", "cancelled", "failed"]:
             self.running = False
             self.finished = True
             self.submitted = True
+            
+            if status == "failed":
+                self.failed = True
 
         if output != "" and os.path.isfile(output):
             if os.path.isfile(output) and os.path.getsize(output) >= 700000:
                 self.completed = True
             elif os.path.isfile(output) and os.path.getsize(output) < 700000:
                 self.failed = True
-            elif self.output == "":
-                self.failed = True
-        elif status == "notfound":
-            self.failed = True
 
         if not self.submitted:
             self.status = "new"
@@ -68,13 +58,6 @@ class Status(object):
                 self.status = "failed"
 
         self.creation_time = datetime.datetime.now()
-
-        if DEBUG > 0:
-            print(
-                "In Status.__init__, status={0}, time={1}".format(
-                    status, self.creation_time
-                )
-            )
 
     @property
     def isvalid(self):
@@ -98,13 +81,6 @@ class Status(object):
         minutes = divmod(elapsedTime.total_seconds(), 60)[0]
 
         valid = minutes < delta
-
-        if DEBUG > 0:
-            print(
-                "In Status.isvalid: Delta={0}; elapsed time={1}, valid={2}".format(
-                    delta, minutes, valid
-                )
-            )
 
         return valid
 
