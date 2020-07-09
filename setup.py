@@ -67,6 +67,7 @@ install_list = [
     "tqdm",
     "colorama",
     "pyparsing",
+    "numpy",
 ]
 
 if py3:
@@ -211,6 +212,7 @@ class PostInstallSetting(install):
             self.do_egg_install()
 
         os.system("rm -rf ./simprod.egg-info")
+
 
 setup(
     name="simprod",

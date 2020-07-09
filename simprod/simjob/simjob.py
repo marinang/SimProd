@@ -13,6 +13,7 @@ import glob
 from tqdm import tqdm
 from colorama import Fore
 import sys
+import numpy as np
 
 from .setup import DoProd, checksiminputs
 from .utils import *
@@ -30,18 +31,22 @@ from .utils.Database import getdatabase
 from .utils.Status import Status
 from .utils.GetEvtType import getevttype
 from .utils.MoveJobs import Move, EosMove
-from .exceptions import JobNotPreparedError
+from .exceptions import NotPreparedError, SubmittedError, PreparedError
+from .type_checkers import (
+    check_int,
+    check_year,
+    check_simcond,
+    check_simmodel,
+    check_stripping,
+    check_polarities,
+    check_flag,
+    check_str,
+    check_infiles,
+)
 
 from tinydb import Query
 
 DATABASE, STORAGE = getdatabase()
-
-DEBUG = 0
-
-TIME_NEW = 20  # minutes, time between check of status if status is new
-TIME_RUNNING = 5
-TIME_FAILED = 5
-TIME_SUBMITTED = 1
 
 py3 = (
     sys.version_info[0] > 2
@@ -156,14 +161,14 @@ class JobCollection(object):
                 year = job.year
                 nevents = job.nevents
                 subjobs = job.nsubjobs
-                if status == "new":
+                if status in ["new", "prepared", "corrupted"]:
                     nrunning = 0
                     ncompleted = 0
                     nfailed = 0
                 else:
-                    nrunning = len(job.select("running"))
-                    ncompleted = len(job.select("completed"))
-                    nfailed = len(job.select("failed"))
+                    nrunning = len(job.select("running", False))
+                    ncompleted = len(job.select("completed", False))
+                    nfailed = len(job.select("failed", False))
             else:
                 job_doc = self.collection.get(doc_id=k)
                 status = job_doc["status"]
@@ -177,10 +182,6 @@ class JobCollection(object):
 
             if status == "submitted":
                 color = cyan
-            elif status == "new":
-                color = cdefault
-            elif status == "prepared":
-                color = cdefault
             elif status == "submitting":
                 color = magenta
             elif status == "running":
@@ -189,6 +190,8 @@ class JobCollection(object):
                 color = blue
             elif status == "failed":
                 color = red
+            else:
+                color = cdefault
 
             p_job = "{n:{fill}{al}{w}} ".format(
                 w=(len(h_job) - 1), al=">", fill="", n=k
@@ -251,7 +254,7 @@ class JobCollection(object):
         Method called in IPython to print the representation of the JobCollection.
         """
         if cycle:
-            p.text(self.__str__())
+            p.text(self.__repr__())
             return
         p.text(self.__str__())
 
@@ -286,11 +289,11 @@ class JobCollection(object):
                 job_i = SimulationJob.from_doc(job_i_doc, **self._job_kwargs)
                 self.jobs[i] = job_i
 
-            new_to_prepared = (
-                self.jobs[i].status == "new" and len(self.jobs[i].jobtable) > 0
-            )
+            status = self.jobs[i].status
+
+            new_to_prepared = status == "new" and len(self.jobs[i].jobtable) > 0
             prepared_to_new = (
-                self.jobs[i].status == "prepared" and len(self.jobs[i].jobtable) == 0
+                status in ["prepared", "corrupted"] and len(self.jobs[i].jobtable) == 0
             )
 
             if new_to_prepared or prepared_to_new:
@@ -344,55 +347,54 @@ class JobCollection(object):
         Method to update the table 'jobs' in the database.
         """
 
-        if len(self.collection) > 0:
-            condition = (Query().status == "new") | (Query().status == "submitting")
-            condition = (
-                condition
-                | (Query().status == "submitted")
-                | (Query().status == "prepared")
-            )
-            to_update = self.collection.search(condition)
-        else:
-            to_update = []
+        for job_doc in self.collection.all():
+            key = job_doc.doc_id
 
-        for j in to_update:
-            if j.doc_id not in self.jobs.keys():
-                self.jobs[j.doc_id] = SimulationJob.from_doc(j, **self._job_kwargs)
-            elif (
-                len(self.jobs[j.doc_id].subjobs) == 0
-                or len(self.jobs[j.doc_id].jobtable) == 0
-            ):
-                self.jobs[j.doc_id] = SimulationJob.from_doc(j, **self._job_kwargs)
-            else:
-                self.jobs[j.doc_id]._update_job_in_database(
-                    update_subjobs_in_database=True
-                )
+            if key not in self.jobs:
+                for ntry in range(2):
+                    self.jobs[key] = SimulationJob.from_doc(job_doc, **self._job_kwargs)
+                    if self.jobs[key].status != "failed":
+                        break
+                    time.sleep(1)
+                continue
+
+            job = self.jobs[key]
+
+            if job is None:
+                continue
+
+            status = job.status
+
+            if not job.subjobs or len(job.jobtable) == 0:
+                self.jobs[key] = SimulationJob.from_doc(job_doc, **self._job_kwargs)
+                continue
+
+            elif status in [
+                "new",
+                "prepared",
+                "submitted",
+                "corrupted",
+            ]:
+                if status != job_doc["status"]:
+                    self.jobs[key] = SimulationJob.from_doc(job_doc, **self._job_kwargs)
+                    self.collection.update(dict(status=status), doc_ids=[key])
+                else:
+                    job._update_job_in_database(update_subjobs_in_database=True)
+                continue
+
+            if job_doc["status"] == "submitting" or status == "submitting":
+                job._update_job_in_database(update_subjobs_in_database=True)
+
+            if status != job_doc["status"]:
+                self.collection.update(dict(status=status), doc_ids=[key])
+
+            if status in ["completed", "failed"]:
+                self.jobs[key] = None
 
         if len(self.jobs) > len(self.keys):
             for k in self.jobs.keys():
                 if k not in self.keys:
                     del self.jobs[k]
-
-        for k in self.keys:
-
-            job_doc = self.collection.get(doc_id=k)
-
-            if k not in self.jobs.keys():
-                job = SimulationJob.from_doc(job_doc, **self._job_kwargs)
-                self.jobs[k] = job
-            else:
-                job = self.jobs[k]
-
-            if job is None:
-                continue
-
-            status = job.last_status
-            if status != job_doc["status"]:
-                _dict = dict(status=status)
-                self.collection.update(_dict, doc_ids=[k])
-
-            if status in ["completed", "failed"]:
-                self.jobs[k] = None
 
 
 class SimulationJob(object):
@@ -452,23 +454,23 @@ class SimulationJob(object):
                     msg = msg.format(kw_ns=ns, kw_s=nkws["supported"])
                     warnings.warn(blue(msg))
 
-        self.nevents = nevents
-        self.year = year
-        self.decfiles = decfiles
-        self.evttype = evttype
-        self.neventsjob = neventsjob
-        self.polarities = polarities
-        self.simcond = simcond
-        self._stripping = stripping
-        self.turbo = turbo
-        self.mudst = mudst
-        self._runnumber = runnumber
-        self.redecay = redecay
-        self.simmodel = simmodel
-        self.keeplogs = keeplogs
-        self.keepxmls = keepxmls
-        self._inscreen = kwargs.get("inscreen", False)
         self._status = "new"
+        self._nevents = check_int(nevents, "nevents")
+        self._year = check_year(year)
+        self._decfiles = check_str(decfiles, "decfiles")
+        self.evttype = check_int(evttype, "evttype")
+        self._neventsjob = check_int(neventsjob, "neventsjob")
+        self._polarities = check_polarities(polarities)
+        self._simcond = check_simcond(simcond)
+        self._stripping = check_stripping(stripping)
+        self._turbo = check_flag(turbo, "turbo")
+        self._mudst = check_flag(mudst, "mudst")
+        self._runnumber = check_int(runnumber, "runnumber")
+        self._redecay = check_flag(redecay, "redecay")
+        self._simmodel = check_simmodel(simmodel)
+        self._keeplogs = check_flag(keeplogs, "keeplogs")
+        self._keepxmls = check_flag(keepxmls, "keepxmls")
+        self._inscreen = kwargs.get("inscreen", False)
 
         _basedir = os.getenv("SIMOUTPUT")
         if not _basedir:
@@ -505,7 +507,7 @@ class SimulationJob(object):
 
         if not self.options.get("loginprod", True):
             self._options["logdestdir"] = "{0}/{1}".format(
-                self.options["logdir"], self.subdir()
+                self.options["logdir"], self.subdir
             )
 
         self.screensessions = []
@@ -516,10 +518,8 @@ class SimulationJob(object):
 
         if kwargs.get("newjob", True):
             jobstable = self.database.table("jobs")
-            jobstable.insert(self.outdict())
+            jobstable.insert(self.dump())
             self.jobnumber = jobstable._last_id
-            if DEBUG > 0:
-                print("newjob:", self.jobnumber)
         else:
             self.jobnumber = kwargs.get("jobnumber", None)
 
@@ -539,6 +539,24 @@ class SimulationJob(object):
             yield n + 1
 
     @property
+    def is_prepared(self):
+        status = self.status
+
+        if status == "new":
+            return False
+        else:
+            return True
+
+    @property
+    def is_submitted(self):
+        status = self.status
+
+        if status in ["new", "prepared", "corrupted"]:
+            return False
+        else:
+            return True
+
+    @property
     def nevents(self):
         """
         Returns the number of events simulated.
@@ -555,12 +573,19 @@ class SimulationJob(object):
 
         Raises:
             * TypeError is nevents is not a float/int.
+            * PreparedError if the job is prepared.
+            * SubmittedError if the job is submitted.
         """
-        if isinstance(nevents, (int, float)):
-            nevents = int(nevents)
-            self._nevents = nevents
-        else:
-            raise TypeError("nevents must be a int!")
+
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+        elif self.is_prepared:
+            msg = "This property cannot be modified once the job is prepared."
+            msg = " Call the method cancelpreparation to unprepare to the job."
+            raise PreparedError(msg)
+
+        self._nevents = check_int(nevents, "nevents")
 
     @property
     def neventsjob(self):
@@ -579,12 +604,18 @@ class SimulationJob(object):
 
         Raises:
             * TypeError is nevents is not a float/int.
+            * PreparedError if the job is prepared.
+            * SubmittedError if the job is submitted.
         """
-        if isinstance(nevents, (int, float)):
-            nevents = int(nevents)
-            self._neventsjob = nevents
-        else:
-            raise TypeError("nevents must be a int!")
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+        elif self.is_prepared:
+            msg = "This property cannot be modified once the job is prepared."
+            msg = " Call the method cancelpreparation to unprepare to the job."
+            raise PreparedError(msg)
+
+        self._neventsjob = check_int(nevents, "neventsjob")
 
     @property
     def nsubjobs(self):
@@ -606,7 +637,12 @@ class SimulationJob(object):
         """
         Sets the evttype simulated.
         """
-        self._evttype = evttype
+
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+
+        self._evttype = check_int(evttype, "evttype")
         optfile = "{0}/EvtTypes/{1}/{1}.py".format(os.getenv("SIMPRODPATH"), evttype)
 
         if not os.path.isfile(optfile):
@@ -638,18 +674,18 @@ class SimulationJob(object):
 
         Raises:
             * ValueError if version is not in [Sim09b, Sim09c, Sim09e, Sim09f, Sim09h].
+            * PreparedError if the job is prepared.
+            * SubmittedError if the job is submitted.
         """
-        if not isinstance(version, str):
-            raise TypeError(
-                "{0} has a non valid {1} type for simcond, must be a str!".format(
-                    version, type(version)
-                )
-            )
-        if version not in ["Sim09b", "Sim09c", "Sim09e", "Sim09f", "Sim09h"]:
-            raise ValueError(
-                "simcond must be Sim09b, Sim09c, Sim09d, Sim09f or Sim09h!"
-            )
-        self._simcond = version
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+        elif self.is_prepared:
+            msg = "This property cannot be modified once the job is prepared."
+            msg = " Call the method cancelpreparation to unprepare to the job."
+            raise PreparedError(msg)
+
+        self._simcond = check_simcond(version)
 
     @property
     def simmodel(self):
@@ -668,16 +704,18 @@ class SimulationJob(object):
 
         Raises:
             * ValueError if model is not in [pythia8, BcVegPy].
+            * PreparedError if the job is prepared.
+            * SubmittedError if the job is submitted.
         """
-        if not isinstance(model, str):
-            raise TypeError(
-                "{0} has a non valid {1} type for simmodel, must be a str!".format(
-                    model, type(model)
-                )
-            )
-        if model not in ["pythia8", "BcVegPy"]:
-            raise ValueError("simmodel must be pythia8 or BcVegPy!")
-        self._simmodel = model
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+        elif self.is_prepared:
+            msg = "This property cannot be modified once the job is prepared."
+            msg = " Call the method cancelpreparation to unprepare to the job."
+            raise PreparedError(msg)
+
+        self._simmodel = check_simmodel(model)
 
     @property
     def doprod(self):
@@ -704,31 +742,18 @@ class SimulationJob(object):
         Raises:
             * ValueError if model is not in [21, 24, 28, 24r1, 24r1p1, 28r1, 28r1p1, 28r2,
                 29r2, 29r2p1, 34, 34r0p1].
+            * PreparedError if the job is prepared.
+            * SubmittedError if the job is submitted.
         """
-        if not isinstance(version, str):
-            raise TypeError(
-                "{0} has a non valid {1} type for stripping, must be a str!".format(
-                    version, type(version)
-                )
-            )
-        if version not in [
-            "21",
-            "24",
-            "28",
-            "24r1",
-            "24r1p1",
-            "28r1",
-            "28r1p1",
-            "28r2",
-            "29r2",
-            "29r2p1",
-            "34",
-            "34r0p1",
-        ]:
-            raise ValueError(
-                "stripping must be '21, '24', '28', '24r1', '24r1p1', '28r1', '28r1p1', '28r2', '29r2', '29r2p1', '34' or '34r0p1'!"
-            )
-        self._stripping = version
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+        elif self.is_prepared:
+            msg = "This property cannot be modified once the job is prepared."
+            msg = " Call the method cancelpreparation to unprepare to the job."
+            raise PreparedError(msg)
+
+        self._stripping = check_stripping(version)
 
     @property
     def year(self):
@@ -748,16 +773,18 @@ class SimulationJob(object):
         Raises:
             * TypeError if year is not an int.
             * ValueError if year is not in [2011, 2012, 2015, 2016, 2017, 2018].
+            * PreparedError if the job is prepared.
+            * SubmittedError if the job is submitted.
         """
-        if not isinstance(year, int):
-            raise TypeError(
-                "{0} has a non valid {1} type for year, must be a int!".format(
-                    year, type(year)
-                )
-            )
-        if year not in [2011, 2012, 2015, 2016, 2017, 2018]:
-            raise ValueError("year must be 2011, 2012, 2015, 2016, 2017 or 2018!")
-        self._year = year
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+        elif self.is_prepared:
+            msg = "This property cannot be modified once the job is prepared."
+            msg = " Call the method cancelpreparation to unprepare to the job."
+            raise PreparedError(msg)
+
+        self._year = check_year(year)
 
     @property
     def polarities(self):
@@ -778,30 +805,38 @@ class SimulationJob(object):
         Raises:
             * TypeError if polarity is not a str.
             * ValueError if polarity is not in [MagUp, MagDown].
+            * PreparedError if the job is prepared.
+            * SubmittedError if the job is submitted.
         """
-        if polarity is None:
-            self._polarities = polarity
-        elif isinstance(polarity, str):
-            if polarity not in ["MagUp", "MagDown"]:
-                msg = "Invalid value '{}' for polarities. Valid choices are ['MagUp', 'MagDown'].".format(
-                    polarity
-                )
-                raise ValueError(msg)
-            else:
-                self._polarities = polarity
-        else:
-            msg = "Invalid {} type for polarities. A None value or a str equals to 'MagUp' or 'MagDown' is required."
-            raise TypeError(msg.format(type(polarity)))
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+        elif self.is_prepared:
+            msg = "This property cannot be modified once the job is prepared."
+            msg = " Call the method cancelpreparation to unprepare to the job."
+            raise PreparedError(msg)
+
+        self._polarities = check_polarities(polarity)
 
     @property
     def keys(self):
+        """
+        Returns the keys of the SimulationSubJob's.
+        """
         return self.subjobs.keys()
 
     @property
     def options(self):
+        """
+        Returns a dictionnary of options that is shared to the SimulationSubJob's.
+        """
         return self._options
 
+    @property
     def subdir(self):
+        """
+        Returns the sub-directory where the output of the subjobs will be produced.
+        """
         subdir = "simProd_{0}_{1}".format(self.evttype, self.simcond)
         if self.turbo:
             subdir += "_Turbo"
@@ -816,11 +851,17 @@ class SimulationJob(object):
 
     @property
     def proddir(self):
-        self._proddir = "{0}/{1}".format(self.options["basedir"], self.subdir())
+        """
+        Returns the directory where the output of the subjobs will be produced.
+        """
+        self._proddir = "{0}/{1}".format(self.options["basedir"], self.subdir)
         return self._proddir
 
     @property
     def destdir(self):
+        """
+        Returns the directory where the output of the subjobs will be stored.
+        """
         self._destdir = "{0}/{1}/{2}/{3}".format(
             self.options["basedir"], self.evttype, self.year, self.simcond
         )
@@ -830,108 +871,210 @@ class SimulationJob(object):
 
     @property
     def turbo(self):
+        """
+        Indicates if the Turbo step will be run or not.
+        """
         return self._turbo
 
     @turbo.setter
-    def turbo(self, value):
-        if isinstance(value, bool):
-            self._turbo = value
-        else:
-            raise TypeError(
-                "{0} has a non valid {1} type for turbo, must be a bool!".format(
-                    value, type(value)
-                )
-            )
+    def turbo(self, boolean):
+        """
+        Sets if the Turbo step will be run or not.
+
+        Args:
+            * boolean (bool): if True Turbo is run, if False it is not.
+
+        Raises:
+            * TypeError if boolean is not a bool.
+            * PreparedError if the job is prepared.
+            * SubmittedError if the job is submitted.
+        """
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+        elif self.is_prepared:
+            msg = "This property cannot be modified once the job is prepared."
+            msg = " Call the method cancelpreparation to unprepare to the job."
+            raise PreparedError(msg)
+
+        self._turbo = check_flag(boolean, "turbo")
 
     @property
     def mudst(self):
+        """
+        Indicates if the output of the subjobs will be `dst` or `mdst` files.
+        """
         return self._mudst
 
     @mudst.setter
-    def mudst(self, value):
-        if isinstance(value, bool):
-            self._mudst = value
-        else:
-            raise TypeError(
-                "{0} has a non valid {1} type for mudst, must be a bool!".format(
-                    value, type(value)
-                )
-            )
+    def mudst(self, boolean):
+        """
+        Sets the output format of the subjobs to `mdst` if True or `dst` if False.
+
+        Args:
+            * boolean (bool): if True `mdst` output is used, if False `dst` is used.
+
+        Raises:
+            * TypeError if boolean is not a bool.
+            * PreparedError if the job is prepared.
+            * SubmittedError if the job is submitted.
+        """
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+        elif self.is_prepared:
+            msg = "This property cannot be modified once the job is prepared."
+            msg = " Call the method cancelpreparation to unprepare to the job."
+            raise PreparedError(msg)
+
+        self._mudst = check_flag(boolean, "mudst")
 
     @property
     def decfiles(self):
+        """
+        Returns the version of the DecFiles package.
+        """
         return self._decfiles
 
     @decfiles.setter
-    def decfiles(self, value):
-        if isinstance(value, str):
-            self._decfiles = value
-        else:
-            raise TypeError(
-                "{0} has a non valid {1} type for decfiles, must be a str!".format(
-                    value, type(value)
-                )
-            )
+    def decfiles(self, version):
+        """
+        Sets the version of the DecFiles package.
+
+        Args:
+            * version (str): version of the DecFiles package.
+
+        Raises:
+            * TypeError if version is not a str.
+            * PreparedError if the job is prepared.
+            * SubmittedError if the job is submitted.
+        """
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+        elif self.is_prepared:
+            msg = "This property cannot be modified once the job is prepared."
+            msg = " Call the method cancelpreparation to unprepare to the job."
+            raise PreparedError(msg)
+
+        self._decfiles = check_str(version, "decfiles")
 
     @property
     def redecay(self):
+        """
+        Indicates if the simulated signal should be redecayed.
+        """
         return self._redecay
 
     @redecay.setter
-    def redecay(self, value):
-        if isinstance(value, bool):
-            self._redecay = value
-        else:
-            raise TypeError(
-                "{0} has a non valid {1} type for redecay, must be a bool!".format(
-                    value, type(value)
-                )
-            )
+    def redecay(self, boolean):
+        """
+        Sets if the simulated signal should be redecayed.
+
+        Args:
+            * boolean (bool): if True ReDecay used, if False ReDecay it is not used.
+
+        Raises:
+            * TypeError if boolean is not a bool.
+            * PreparedError if the job is prepared.
+            * SubmittedError if the job is submitted.
+        """
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+        elif self.is_prepared:
+            msg = "This property cannot be modified once the job is prepared."
+            msg = " Call the method cancelpreparation to unprepare to the job."
+            raise PreparedError(msg)
+
+        self._redecay = check_flag(boolean, "redecay")
 
     @property
     def keeplogs(self):
+        """
+        Indicates if the output and error log files should be kept even if the subjobs have been
+        completed successfully.
+        """
         return self._keeplogs
 
     @keeplogs.setter
-    def keeplogs(self, value):
-        if isinstance(value, bool):
-            self._keeplogs = value
-        else:
-            raise TypeError(
-                "{0} has a non valid {1} type for keeplogs, must be a bool!".format(
-                    value, type(value)
-                )
-            )
+    def keeplogs(self, boolean):
+        """
+        Sets if the output and error log files should be kept even if the subjobs have been
+        completed successfully.
+
+        Args:
+            * boolean (bool): if True logs are kept, if False they are not.
+
+        Raises:
+            * TypeError if boolean is not a bool.
+            * SubmittedError if the job is submitted.
+        """
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+
+        self._keeplogs = check_flag(boolean, "keeplogs")
 
     @property
     def keepxmls(self):
+        """
+        Indicates the generator level informations stored in xml files should be kept.
+        """
         return self._keepxmls
 
     @keepxmls.setter
-    def keepxmls(self, value):
-        if isinstance(value, bool):
-            self._keepxmls = value
-        else:
+    def keepxmls(self, boolean):
+        """
+        Sets if the generator level informations stored in xml files should be kept.
+
+        Args:
+            * boolean (bool): if True xml files are kept, if False they are not.
+
+        Raises:
+            * TypeError if boolean is not a bool.
+            * SubmittedError if the job is submitted.
+        """
+        if self.is_submitted:
+            msg = "This property cannot be modified once the job is submitted."
+            raise SubmittedError(msg)
+
+        self._keepxmls = check_flag(boolean, "keepxmls")
+
+    def getrunnumber(self, sjn=0):
+        """
+        Returns the runnumber for a given subjob:
+            self._runnumber + sjn
+
+        Args:
+            sjn (int, default=0)
+
+        Raise:
+            TypeError is sjn is not a int
+
+        Returns:
+            int
+        """
+        if not isinstance(sjn, int):
             raise TypeError(
-                "{0} has a non valid {1} type for keepxmls, must be a bool!".format(
-                    value, type(value)
+                "{0} has a non valid {1} type for sjn, must be a int!".format(
+                    sjn, type(sjn)
                 )
             )
 
-    def getrunnumber(self, job_number=None):
-        if job_number is not None and not isinstance(job_number, int):
-            raise TypeError(
-                "Job number must be a 'int'. Got a '{0}' instead!".format(
-                    job_number.__class__.__name__
-                )
-            )
-
-        if job_number is None:
+        if sjn is None:
             return self._runnumber
         else:
-            return self._runnumber + job_number
+            return self._runnumber + sjn
 
-    def prepare(self, update_table=True, **kwargs):
+    def prepare(self, update_table=True, infiles=None):
+        """
+        Prepare the job. Calls the method _preparesubjobs that creates the SimulationSubJob's.
+
+        Args:
+            update_table (bool, default=True): if True update the table 'jobs' in the database.
+            infiles (List[str], optionnal): list of files to needed for the subjobs.
+        """
         if len(self.subjobs) < 1:
 
             checksiminputs(self)
@@ -970,22 +1113,26 @@ class SimulationJob(object):
                 elif not all(p in ["MagUp", "MagDown"] for p in self._polarities):
                     raise ValueError("Invalid values for polarities.")
 
-        infiles = kwargs.get("infiles", [])
-
         for n in self.range_subjobs:
             if self.subjobs.get(n, None) is not None:
                 continue
 
             self._preparesubjobs(n, infiles=infiles)
 
-        self._status == "prepared"
+        # update status
+        self.status
 
         if update_table:
             self._update_job_in_database(update_subjobs_in_database=True)
 
-    def _preparesubjobs(self, sjn, **kwargs):
-        if DEBUG > 2:
-            print(sjn)
+    def _preparesubjobs(self, sjn, infiles=None):
+        """
+        Prepares the SimulationJob with subjob number sjn.
+
+        Args:
+            sjn (int): the subjob number
+            infiles (List[str], optionnal): list of files to needed for the subjobs.
+        """
 
         if self._polarities:
             polarity = self._polarities[sjn - 1]
@@ -1002,12 +1149,21 @@ class SimulationJob(object):
                 polarity=polarity,
                 runnumber=runnumber,
                 subjobnumber=sjn,
-                **kwargs
+                infiles=infiles,
             )
 
-    def send(self, job_number=None):
+    def send(self):
+        """
+        Send the subjobs to the batch system.
 
-        if self.status == "completed":
+        Raises:
+            * NotPreparedError if the job is not prepared.
+        """
+
+        if not self.is_prepared:
+            raise NotPreparedError("Please 'prepare' the job before sending it!")
+
+        if self.last_status == "completed":
             print("Job is completed. There is nothing to send.")
         else:
             failedsubjobs = self.select("failed")
@@ -1017,24 +1173,37 @@ class SimulationJob(object):
                     sj.reset()
             self.deliveryclerk.send_job(self, STORAGE)
             self.status
-            self._update_job_in_database(True)
+            self._update_job_in_database(update_subjobs_in_database=True)
             STORAGE.flush()
 
-    def cancelpreparation(self, **kwargs):
-        for n in self.range_subjobs:
-            if self.subjobs.get(n, None):
-                del self.subjobs[n]
+    def cancelpreparation(self):
+        """
+        Unprepares the SimulationJob.
+        """
+
+        if not self.is_prepared:
+            raise NotPreparedError(
+                "The job needs to be prepared before being unprepared."
+            )
+
+        if self.is_submitted:
+            raise SubmittedError("Cannot unprepare once the job is submitted.")
+
+        self.subjobs = {}
         self.jobtable.purge()
         self._status = "new"
 
     def remove(self):
+        """
+        Removes the SimulationJob from the database.
+        """
         if self.jobnumber:
             info_msg = "INFO\tremoving job {0}".format(self.jobnumber)
         else:
             info_msg = "INFO\tremoving job"
         print(info_msg)
 
-        if self.status != "new":
+        if self.status in ["running", "submitting"]:
             sjkill = self.deliveryclerk.kill(job=self)
 
         if len(self.keys) > 0:
@@ -1048,170 +1217,184 @@ class SimulationJob(object):
         self.database.purge_table("job_{}".format(self.jobnumber))
         self.database.table("jobs").remove(doc_ids=[self.jobnumber])
 
-    def __getitem__(self, sjob_number):
+    def __getitem__(self, sjn):
+        """
+        Methods to access the sjn-th SimulationSubJob.
 
-        if DEBUG > 0:
-            msg = "in SimulationJob.__getitem__, jobnumber:{0}, sjobnumber={1}"
-            print(msg.format(self.jobnumber, sjob_number))
+        Args:
+            * sjn (int): subjob number
 
-        if not isinstance(sjob_number, int):
-            msg = "Job number must be a 'int'. Got a '{0}' instead!"
-            raise TypeError(msg.format(sjob_number.__class__.__name__))
+        Returns:
+            SimulationSubJob
 
+        Raises:
+            * KeyError if a SimulationSubJob with key = i is not in the collection.
+        """
         if len(self.keys) == 0:
-            raise JobNotPreparedError("Please 'prepare' the job before doing this!")
+            msg = "Cannot access the subjobs is the job is unprepared. Please call the method 'prepare'."
+            raise NotPreparedError(msg)
 
-        if sjob_number not in self.keys:
-            print(
-                "WARNING\tsubjob {0}.{1} has been lost!".format(
-                    self.jobnumber, sjob_number
-                )
-            )
-            self.subjobs[sjob_number] = self._load_subjob(sjob_number, force_load=True)
+        if sjn not in self.keys:
+            if sjn < min(self.keys) or sjn > min(self.keys):
+                raise KeyError("SimulationSub {0} not found!".format(sjn))
+            else:
+                self.subjobs[sjn] = self._load_subjob(sjn, force_load=True)
 
-        subjob = self.subjobs[sjob_number]
+        subjob = self.subjobs[sjn]
 
         if subjob is None:
-            self.subjobs[sjob_number] = self._load_subjob(sjob_number, force_load=True)
+            self.subjobs[sjn] = self._load_subjob(sjn, force_load=True)
 
-        return self.subjobs[sjob_number]
+        return self.subjobs[sjn]
 
-    def __setitem__(self, sjob_number, subjob):
+    def __setitem__(self, sjn, subjob):
+        """
+        Sets the sjn-th SimulationSubJob.
 
-        if not isinstance(sjob_number, int):
-            msg = "Job number must be a 'int'. Got a '{0}' instead!"
-            raise TypeError(msg.format(sjob_number.__class__.__name__))
+        Args:
+            * sjn (int): subjob number
+            * subjob (SimulationSubJob): the subjob
 
-        if subjob:
-            if not isinstance(subjob, SimulationSubJob):
-                msg = "Must receive a SimulationSubJob. Got a '{0}' instead!"
-                raise TypeError(msg.format(subjob.__class__.__name__))
+        Raises:
+            * TypeError if sjn is not int or subjob is not a SimulationSubJob.
+        """
 
-        self.subjobs[sjob_number] = subjob
+        if not isinstance(sjn, int):
+            raise TypeError(
+                "{0} has a non valid {1} type for sjn, must be a int!".format(
+                    sjn, type(sjn)
+                )
+            )
+
+        if not isinstance(subjob, SimulationSubJob):
+            raise TypeError(
+                "{0} has a non valid {1} type for sjn, must be a SimulationSubJob!".format(
+                    subjob, type(subjob)
+                )
+            )
+
+        self.subjobs[sjn] = subjob
 
     def __iter__(self):
+        """
+        Iterates over the SimulationSubJob's.
+        """
         for n in self.range_subjobs:
             yield self[n]
 
     def select(self, status, update=True):
-        if update:
-            return [self[n] for n in self.range_subjobs if self[n].status == status]
-        else:
-            return [
-                self[n] for n in self.range_subjobs if self[n].last_status == status
-            ]
+        """
+        Selects all the SimulationSubJob's with the status given as arguments.
+
+        Args:
+            * status (str): the status of interest.
+            * update (bool, default=True): if True updated status are taken into account, otherwise the
+                previous status are.
+
+        Returns:
+            List[SimulationSubJob]
+
+        Raises:
+            * NotPreparedError if the job is not prepared.
+        """
+
+        if self.last_status in ["new", "corrupted"]:
+            raise NotPreparedError("Cannot use this method if the job is not prepared!")
+        try:
+            if update:
+                return [self[n] for n in self.range_subjobs if self[n].status == status]
+            else:
+                return [
+                    self[n] for n in self.range_subjobs if self[n].last_status == status
+                ]
+        except AttributeError:
+            return []
 
     @property
     def last_status(self):
+        """
+        Returns the non updated status of the SimulationJob.
+        """
         return self._status
 
     @property
     def status(self):
+        """
+        Returns the updated status of the SimulationJob.
+        """
 
         if len(self.keys) == 0:
             return "new"
 
-        if self.last_status == "prepared":
-            self._update_job_in_database(True)
-
         if not self.last_status == "completed":
-
-            nsubmitted = 0
-            nrunning = 0
-            ncompleted = 0
-            nfailed = 0
-
-            keys = self.keys
+            status_list = []
 
             for n in self.range_subjobs:
 
-                if n in keys:
-                    sj_doc = self.jobtable.get(doc_id=n)
-                    subjob = self.subjobs[n]
+                sj_doc = self.jobtable.get(doc_id=n)
+                sj = self.subjobs[n]
 
+                if sj is None:
                     if sj_doc is None:
                         status = "notfound"
-                    elif subjob is None:
-                        status = sj_doc["status"]
                     else:
-                        status = subjob.status
-                        jobid = subjob.jobid
-
-                        _dict = {}
-
-                        if sj_doc["jobid"] != jobid:
-                            _dict["jobid"] = jobid
-                        if sj_doc["status"] != status:
-                            _dict["status"] = status
-
-                        if len(_dict) > 0:
-                            self.jobtable.update(_dict, doc_ids=[n])
-
-                        if status in ["completed", "failed"]:
-                            self[n] = None
-
+                        status = sj_doc["status"]
                 else:
-                    status = "new"
+                    status = sj.status
+                    jobid = sj.jobid
 
-                if status == "submitted":
-                    nsubmitted += 1
-                elif status == "running":
-                    nrunning += 1
-                    nsubmitted += 1
-                elif status == "completed":
-                    ncompleted += 1
-                    nsubmitted += 1
-                elif status == "failed":
-                    nfailed += 1
-                    nsubmitted += 1
+                    if sj_doc["jobid"] != jobid or sj_doc["status"] != status:
+                        sj_doc["jobid"] = jobid
+                        sj_doc["status"] = status
 
-            if nsubmitted == 0:
-                _status = "prepared"
-            elif nsubmitted < self.nsubjobs and nsubmitted > 0:
-                _status = "submitting"
-            elif (
-                nsubmitted == self.nsubjobs
-                and nrunning == 0
-                and nfailed == 0
-                and ncompleted < self.nsubjobs
-            ):
-                _status = "submitted"
-            elif nsubmitted == self.nsubjobs and nrunning > 0:
-                _status = "running"
-            elif (
-                nsubmitted == self.nsubjobs
-                and nrunning == 0
-                and ncompleted == self.nsubjobs
-                and nfailed == 0
-            ):
-                _status = "completed"
-            elif (
-                nsubmitted == self.nsubjobs
-                and nrunning == 0
-                and ncompleted < self.nsubjobs
-                and nfailed > 0
-            ):
-                if ncompleted + nfailed == self.nsubjobs:
-                    _status = "failed"
+                        self.jobtable.update(sj_doc, doc_ids=[n])
+
+                    if status in ["completed", "failed"]:
+                        self.subjobs[n] = None
+
+                status_list.append(status)
+
+            status_counts, counts = np.unique(status_list, return_counts=True)
+            sc = dict(zip(status_counts, counts))
+
+            if sc.get("notfound", 0) > 0:
+                status = "corrupted"
+            else:
+                if sc.get("new", 0) == self.nsubjobs:
+                    status = "prepared"
+                elif (
+                    sc.get("submitted", 0) > 0 or sc.get("running", 0) > 0
+                ) and sc.get("new", 0) > 0:
+                    status = "submitting"
+                elif sc.get("running", 0) > 0:
+                    status = "running"
+                elif sc.get("completed", 0) == self.nsubjobs:
+                    status = "completed"
+                    self.deliveryclerk.clear(self)
                 else:
-                    _status = "submitted"
+                    if sc.get("completed", 0) + sc.get("failed", 0) == self.nsubjobs:
+                        status = "failed"
+                    else:
+                        status = "submitted"
 
-            if _status == "completed":
-                self.deliveryclerk.clear(self)
-
-            if _status != self._status:
+            if status != self.last_status:
                 info_msg = "INFO\tstatus of job {0} changed from '{1}' to '{2}'"
-                info_msg = info_msg.format(self.jobnumber, self._status, _status)
+                info_msg = info_msg.format(self.jobnumber, self.last_status, status)
 
                 print(info_msg)
-                self._status = _status
                 self._update_job_in_database(True)
 
-            self._status = _status
+            self._status = status
 
         return self._status
 
-    def outdict(self):
+    def dump(self):
+        """
+        Serialize the SimulationJob to a dictionnary.
+
+        Returns:
+            dictionnary
+        """
 
         status = self.last_status
 
@@ -1260,73 +1443,71 @@ class SimulationJob(object):
         return outdict
 
     def _update_job_in_database(self, update_subjobs_in_database=False):
+        """
+        Method to update the SimulationJob and the 'jobs' table in the database.
 
-        if DEBUG > 0:
-            print(
-                "in SimulationJob._update_job_in_database, jobnumber:{0}".format(
-                    self.jobnumber
-                )
-            )
+        Args:
+            update_subjobs_in_database (bool, default=False): Flag to indicate wheter or not to update the
+                subjobs in the database.
+        """
 
         jobstable = self.database.table("jobs")
 
-        jobstable.update(self.outdict(), doc_ids=[self.jobnumber])
+        jobstable.update(self.dump(), doc_ids=[self.jobnumber])
 
         if update_subjobs_in_database:
-            if DEBUG > 0:
-                print("in SimulationJob._update_job_in_database, update subjobs")
             table = self.deliveryclerk.get_update_subjobs_in_database(self)
 
             for n in self.range_subjobs:
 
                 job = self[n]
+                status = job._status
 
-                if job.status in ["prepared", "new"] and isinstance(job.jobid, int):
+                if job is None:
+                    continue
+
+                if status == "new" and isinstance(job.jobid, int):
                     job._status = Status("submitted", job.output)
                     continue
 
-                if job._status.isvalid and not job.status == "submitted":
+                if status.isvalid and not status == "submitted":
                     continue
 
-                if job.status == "completed":
+                if status == "completed":
                     continue
 
                 else:
                     if table is not None:
                         doc = table.get(Query().subjobnumber == n)
-                        if DEBUG > 0:
-                            print(n, doc)
                     else:
                         doc = None
 
                     if doc is not None:
-                        if DEBUG > 0:
-                            print(n, doc["runnumber"], self.getrunnumber(n))
                         assert doc["runnumber"] == self.getrunnumber(n)
 
                         if doc["jobid"] != job.jobid:
                             job.jobid = doc["jobid"]
-                        if doc["status"] != job.status and job.status == "prepared":
+                        if doc["status"] != status and status == "new":
                             job._status = Status(doc["status"], job.output)
-
-                        if doc["status"] != "prepared" and doc["jobid"] is not None:
-                            job._status.submitted = True
-
                     else:
                         job._update_subjob_in_database()
 
-        if DEBUG > 0:
-            print(
-                "Out of SimulationJob._update_job_in_database, jobnumber:{0}".format(
-                    self.jobnumber
-                )
-            )
-
     @classmethod
     def from_dict(cls, dict, jobnumber, inscreen=False, printlevel=1, **kwargs):
+        """
+        Construct the SimulationJob from a dictionnary.
 
-        if DEBUG > 1:
-            print("in SimulationJob.from_dict")
+        Args:
+            * dict (dictionnary)
+            * jobnumber (int)
+            * inscreen (bool, default=False): indicates wether or not this method is called in a screen
+                session.
+            * printlevel (int, default=1): if 1 the loading the of the SimulationJob is printed, if 0 nothing
+                is printed.
+
+        Returns:
+            SimulationJob
+        """
 
         if not py3:
             for k in dict.keys():
@@ -1370,9 +1551,6 @@ class SimulationJob(object):
 
         simjob.deliveryclerk = DeliveryClerk.from_dict(dict["deliveryclerk"], **kwargs)
 
-        if DEBUG > 1:
-            print(simjob.jobtable)
-
         if len(simjob.jobtable) > 0:
 
             if printlevel > 0:
@@ -1385,7 +1563,8 @@ class SimulationJob(object):
                 t = None
 
             simjob.subjobs = {
-                n: simjob._load_subjob(n, t, printlevel) for n in simjob.range_subjobs
+                n: simjob._load_subjob(n, t, printlevel, False)
+                for n in simjob.range_subjobs
             }
 
             if printlevel > 0:
@@ -1395,18 +1574,46 @@ class SimulationJob(object):
 
     @classmethod
     def from_doc(cls, doc, inscreen=False, printlevel=1, **kwargs):
+        """
+        Construct the SimulationJob from a TinyDB document.
 
-        if DEBUG > 1:
-            print("in SimulationJob.from_doc")
+        Args:
+            * doc (tinydb.Document)
+            * inscreen (bool, default=False): indicates wether or not this method is called in a screen
+                session.
+            * printlevel (int, default=1): if 1 the loading the of the SimulationJob is printed, if 0 nothing
+                is printed.
+
+        Returns:
+            SimulationJob
+        """
 
         jobnumber = doc.doc_id
         simjob = cls.from_dict(doc, jobnumber, inscreen, printlevel, **kwargs)
 
         return simjob
 
-    def _load_subjob(self, nsj, pbar=None, printlevel=0, force_load=False):
+    def _load_subjob(self, sjn, pbar=None, printlevel=0, force_load=False):
+        """
+        Load SimulationSubJob's from the SimulationJob table. By default completed or failed subjobs are
+        not loaded unless force_load is True.
 
-        sj_doc = self.jobtable.get(doc_id=nsj)
+        Args:
+            * sjn (int): subjob number.
+            * pbar (optional): progress bar.
+            * printlevel (int, default=1): if 1 the loading the of the SimulationJob is printed, if 0 nothing
+                is printed.
+            * force_load (bool, default=False): if True the subjob is loaded even if it is completed or
+                has failed.
+
+        Returns:
+            SimulationSubJob
+
+        Raises:
+            * TypeError if doc is not a tinydb.table.Document.
+        """
+
+        sj_doc = self.jobtable.get(doc_id=sjn)
 
         if sj_doc is not None:
             status = sj_doc["status"]
@@ -1424,6 +1631,19 @@ class SimulationJob(object):
         return sj
 
     def __str__(self):
+        """
+        Returns the str representation of the SimulationJob, which is a str with
+        one line per SimulationSubJob with the following description:
+            * number/key.
+            * job ID.
+            * status.
+            * runnumber.
+            * polarity.
+            * number of events.
+
+        Returns:
+            str
+        """
 
         if len(self.subjobs) > 0 and len(self.jobtable) > 0:
 
@@ -1535,8 +1755,11 @@ class SimulationJob(object):
         return toprint
 
     def _repr_pretty_(self, p, cycle):
+        """
+        Method called in IPython to print the representation of the SimulationJob.
+        """
         if cycle:
-            p.text("simulation job...")
+            p.text(self.__repr__())
             return
         p.text(self.__str__())
 
@@ -1546,17 +1769,17 @@ class SimulationSubJob(object):
     Simulation subjob.
     """
 
-    def __init__(self, parent, polarity, runnumber, subjobnumber, **kwargs):
+    def __init__(
+        self, parent, polarity, runnumber, subjobnumber, infiles=None, **kwargs
+    ):
         self.parent = parent
         self.polarity = polarity
         self.runnumber = runnumber
         self.subjobnumber = subjobnumber
         self.jobid = None
         self.send_options = self.parent.options.copy()
-        self._infiles = kwargs.get("infiles", [])
+        self._infiles = check_infiles(infiles)
         self.send_options["infiles"] = self._infiles
-        self.keeplog = self.parent.keeplogs
-        self.keepxml = self.parent.keepxmls
 
         self.jobname = "{0}_{1}_{2}evts_s{3}_{4}".format(
             self.parent.year,
@@ -1595,11 +1818,19 @@ class SimulationSubJob(object):
         self._status = Status(status="new", output=self.output)
 
         if kwargs.get("newsubjob", True):
-            self.parenttable.insert(self.outdict())
+            self.parenttable.insert(self.dump())
             assert self.parenttable._last_id == subjobnumber
 
         if kwargs.get("to_store", False):
             self._update_subjob_in_database()
+
+    @property
+    def keeplog(self):
+        return self.parent.keeplogs
+
+    @property
+    def keepxml(self):
+        return self.parent.keepxmls
 
     @property
     def parenttable(self):
@@ -1611,22 +1842,16 @@ class SimulationSubJob(object):
 
     @infiles.setter
     def infiles(self, files):
-        if not isinstance(files, (list, tuple)):
-            raise TypeError("A list/tuple with infiles must me provided.")
 
-        types = [str]
-        if not py3:
-            types.append(unicode)
-
-        if not all(isinstance(f, types) for f in files):
-            raise TypeError("Infiles must be str.")
+        files = check_infiles(files)
 
         self._infiles = files
         self.send_options["infiles"] = files
+        self._update_subjob_in_database()
 
     def send(self):
 
-        if not self._status.submitted:
+        if self._status == "new":
 
             self.jobid = self.parent.deliveryclerk.send_subjob(self)
 
@@ -1656,17 +1881,15 @@ class SimulationSubJob(object):
 
     @property
     def status(self):
-        if DEBUG > 0:
-            print("in SimulationSubJob.status")
 
         previous_status = self.last_status
 
         if previous_status != "failed" and previous_status != "completed":
-            if not self._status.finished and self._status.submitted:
+            if previous_status in ["submitted", "running"]:
                 # update status
                 if not self._status.isvalid:
                     status = self.parent.deliveryclerk.getstatus(self.jobid)
-                    if status != "error":
+                    if status not in ["error", "notfound"]:
                         self._status = Status(status, self.output)
 
             if previous_status != self._status:
@@ -1682,10 +1905,10 @@ class SimulationSubJob(object):
                 print(info_msg)
                 self._update_subjob_in_database()
 
-        if self._status.completed:
+        if self._status == "completed":
             if not self.output == self.destfile and not self.output == "":
                 self._move_jobs()
-        elif self._status.failed:
+        elif self._status == "failed":
             self._empty_proddir(keep_log=True)
 
         return repr(self._status)
@@ -1701,7 +1924,7 @@ class SimulationSubJob(object):
 
     def reset(self):
 
-        if self._status == "running":
+        if self.last_status == "running":
             self.kill()
 
         self._empty_proddir()
@@ -1730,7 +1953,7 @@ class SimulationSubJob(object):
         print(info_msg)
 
         if sjkill:
-            if self._status.submitted:
+            if self._status != "new":
                 self.parent.deliveryclerk.killsubjob(self.jobid)
 
         self._status = Status("failed", self.output)
@@ -1814,7 +2037,7 @@ class SimulationSubJob(object):
 
             self._empty_proddir(self.keeplog)
 
-    def outdict(self):
+    def dump(self):
 
         outdict = {
             "runnumber": self.runnumber,
@@ -1824,22 +2047,16 @@ class SimulationSubJob(object):
             "infiles": self.infiles,
         }
 
-        if DEBUG > 0:
-            print("in SimulationSubJob.outdict")
-            print(outdict)
-            print()
-
         if not self.send_options["loginprod"]:
             outdict["logjobdir"] = self.logjobdir
 
         return outdict
 
     def _update_subjob_in_database(self):
-
-        self.parenttable.update(self.outdict(), Query().runnumber == self.runnumber)
+        self.parenttable.update(self.dump(), Query().runnumber == self.runnumber)
 
     @classmethod
-    def from_dict(cls, parent, dict, subjobnumber, to_store=True):
+    def from_dict(cls, parent, dict, subjobnumber, to_store=False):
 
         simsubjob = cls(
             parent=parent,
@@ -1847,14 +2064,11 @@ class SimulationSubJob(object):
             runnumber=dict["runnumber"],
             subjobnumber=subjobnumber,
             newsubjob=False,
+            infiles=dict.get("infiles", None),
         )
 
-        if DEBUG > 1:
-            print("In SimulationSubJob.from_dict, subjob={0}.".format(subjobnumber))
-
         simsubjob.jobid = dict["jobid"]
-        simsubjob.infiles = dict.get("infiles", [])
-        simsubjob.send_options["infiles"] = dict.get("infiles", [])
+        simsubjob.send_options["infiles"] = dict.get("infiles", None)
 
         status = dict["status"]
 
@@ -1869,7 +2083,7 @@ class SimulationSubJob(object):
         return simsubjob
 
     @classmethod
-    def from_doc(cls, parent, doc, to_store=True):
+    def from_doc(cls, parent, doc, to_store=False):
 
         subjobnumber = doc.doc_id
         simsubjob = cls.from_dict(parent, doc, subjobnumber, to_store)

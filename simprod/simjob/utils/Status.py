@@ -7,74 +7,36 @@
 
 import os
 import datetime
+import sys
 
 TIME_NEW = 60  # minutes, time between check of status if status is new
 TIME_RUNNING = 15
 TIME_FAILED = 35
 TIME_SUBMITTED = 5
-DEBUG = 0
+
+
+py3 = (
+    sys.version_info[0] > 2
+)  # creates boolean value for test that Python major version > 2
 
 
 class Status(object):
     def __init__(self, status, output, in_init=False):
 
-        self.submitted = False
-        self.running = False
-        self.finished = False
-        self.completed = False
-        self.failed = False
         self.in_init = in_init
+        self.status = "new"
 
-        self.status = status
-        self.output = output
-
-        if status in "submitted":
-            self.submitted = True
-
-        if status == "running":
-            self.running = True
-            self.submitted = True
-
-        elif (
-            status == "completed"
-            or status == "cancelled"
-            or status == "failed"
-            or status == "notfound"
-        ):
-            self.running = False
-            self.finished = True
-            self.submitted = True
-
-        if output != "" and os.path.isfile(output):
-            if os.path.isfile(output) and os.path.getsize(output) >= 700000:
-                self.completed = True
-            elif os.path.isfile(output) and os.path.getsize(output) < 700000:
-                self.failed = True
-            elif self.output == "":
-                self.failed = True
-        elif status == "notfound":
-            self.failed = True
-
-        if not self.submitted:
-            self.status = "new"
-        elif self.submitted and not self.running and not self.finished:
-            self.status = "submitted"
-        elif self.submitted and self.running and not self.finished:
-            self.status = "running"
-        elif self.submitted and not self.running and self.finished:
-            if self.completed:
+        if os.path.isfile(output):
+            if os.path.getsize(output) >= 700000:
                 self.status = "completed"
-            elif self.failed:
+            else:
                 self.status = "failed"
 
-        self.creation_time = datetime.datetime.now()
+        else:
+            if status in ["submitted", "running"]:
+                self.status = status
 
-        if DEBUG > 0:
-            print(
-                "In Status.__init__, status={0}, time={1}".format(
-                    status, self.creation_time
-                )
-            )
+        self.creation_time = datetime.datetime.now()
 
     @property
     def isvalid(self):
@@ -99,22 +61,22 @@ class Status(object):
 
         valid = minutes < delta
 
-        if DEBUG > 0:
-            print(
-                "In Status.isvalid: Delta={0}; elapsed time={1}, valid={2}".format(
-                    delta, minutes, valid
-                )
-            )
-
         return valid
 
     def __eq__(self, other):
+
+        types = [str]
+        if not py3:
+            types.append(unicode)
+
         if isinstance(other, Status):
             return self.status == other.status
-        elif isinstance(other, str):
+        elif isinstance(other, tuple(types)):
             return self.status == other
         else:
-            raise ValueError()
+            raise ValueError(
+                "Cannot compare {0} and {1}.".format(type(self), type(other))
+            )
 
     def __ne__(self, other):
         return not self.__eq__(other)
