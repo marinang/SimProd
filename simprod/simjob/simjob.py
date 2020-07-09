@@ -351,7 +351,6 @@ class JobCollection(object):
             key = job_doc.doc_id
 
             if key not in self.jobs:
-                print("A", key)
                 for ntry in range(2):
                     self.jobs[key] = SimulationJob.from_doc(job_doc, **self._job_kwargs)
                     if self.jobs[key].status != "failed":
@@ -367,27 +366,26 @@ class JobCollection(object):
             status = job.status
 
             if not job.subjobs or len(job.jobtable) == 0:
-                print("B", key)
                 self.jobs[key] = SimulationJob.from_doc(job_doc, **self._job_kwargs)
                 continue
 
             elif job_doc["status"] in [
                 "new",
                 "prepared",
-                "submitting",
                 "submitted",
                 "corrupted",
             ]:
                 if status != job_doc["status"]:
-                    print("C", key, job_doc["status"], status)
                     self.jobs[key] = SimulationJob.from_doc(job_doc, **self._job_kwargs)
                     self.collection.update(dict(status=status), doc_ids=[key])
                 else:
                     job._update_job_in_database(update_subjobs_in_database=True)
                 continue
+                
+            if job_doc["status"] == "submitting":
+                job._update_job_in_database(update_subjobs_in_database=True)
 
             if status != job_doc["status"]:
-                print("DDD")
                 self.collection.update(dict(status=status), doc_ids=[key])
 
             if status in ["completed", "failed"]:
@@ -1358,15 +1356,14 @@ class SimulationJob(object):
 
             status_counts, counts = np.unique(status_list, return_counts=True)
             sc = dict(zip(status_counts, counts))
-
+            
             if sc.get("notfound", 0) > 0:
                 status = "corrupted"
             else:
                 if sc.get("new", 0) == self.nsubjobs:
                     status = "prepared"
                 elif (
-                    sc.get("submitted", 0) < self.nsubjobs
-                    and sc.get("submitted", 0) > 0
+                    (sc.get("submitted", 0) > 0 or sc.get("running", 0) > 0) and sc.get("new", 0)  > 0
                 ):
                     status = "submitting"
                 elif sc.get("running", 0) > 0:
@@ -1485,17 +1482,13 @@ class SimulationJob(object):
                     else:
                         doc = None
 
-                    if doc is not None:
+                    if doc is not None:                        
                         assert doc["runnumber"] == self.getrunnumber(n)
 
                         if doc["jobid"] != job.jobid:
                             job.jobid = doc["jobid"]
-                        if doc["status"] != status and status == "prepared":
+                        if doc["status"] != status and status  == "new":
                             job._status = Status(doc["status"], job.output)
-
-                        if doc["status"] != "prepared" and doc["jobid"] is not None:
-                            job._status.submitted = True
-
                     else:
                         job._update_subjob_in_database()
 
@@ -1858,7 +1851,7 @@ class SimulationSubJob(object):
 
     def send(self):
 
-        if not self._status.submitted:
+        if self._status == "new":
 
             self.jobid = self.parent.deliveryclerk.send_subjob(self)
 
@@ -1892,7 +1885,7 @@ class SimulationSubJob(object):
         previous_status = self.last_status
 
         if previous_status != "failed" and previous_status != "completed":
-            if not self._status.finished and self._status.submitted:
+            if previous_status in ["submitted", "running"]:
                 # update status
                 if not self._status.isvalid:
                     status = self.parent.deliveryclerk.getstatus(self.jobid)
@@ -1912,10 +1905,10 @@ class SimulationSubJob(object):
                 print(info_msg)
                 self._update_subjob_in_database()
 
-        if self._status.completed:
+        if self._status == "completed":
             if not self.output == self.destfile and not self.output == "":
                 self._move_jobs()
-        elif self._status.failed:
+        elif self._status == "failed":
             self._empty_proddir(keep_log=True)
 
         return repr(self._status)
@@ -1960,7 +1953,7 @@ class SimulationSubJob(object):
         print(info_msg)
 
         if sjkill:
-            if self._status.submitted:
+            if self._status != "new":
                 self.parent.deliveryclerk.killsubjob(self.jobid)
 
         self._status = Status("failed", self.output)
