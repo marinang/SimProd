@@ -21,7 +21,7 @@ def check_int(n, what):
 
 
 def check_str(string, what):
-    
+
     types = [str]
     if not py3:
         types.append(unicode)

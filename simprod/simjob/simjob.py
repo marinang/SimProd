@@ -364,7 +364,7 @@ class JobCollection(object):
                 continue
 
             status = job.status
-            
+
             if not job.subjobs or len(job.jobtable) == 0:
                 self.jobs[key] = SimulationJob.from_doc(job_doc, **self._job_kwargs)
                 continue
@@ -381,7 +381,7 @@ class JobCollection(object):
                 else:
                     job._update_job_in_database(update_subjobs_in_database=True)
                 continue
-                
+
             if job_doc["status"] == "submitting" or status == "submitting":
                 job._update_job_in_database(update_subjobs_in_database=True)
 
@@ -1356,15 +1356,15 @@ class SimulationJob(object):
 
             status_counts, counts = np.unique(status_list, return_counts=True)
             sc = dict(zip(status_counts, counts))
-            
+
             if sc.get("notfound", 0) > 0:
                 status = "corrupted"
             else:
                 if sc.get("new", 0) == self.nsubjobs:
                     status = "prepared"
                 elif (
-                    (sc.get("submitted", 0) > 0 or sc.get("running", 0) > 0) and sc.get("new", 0)  > 0
-                ):
+                    sc.get("submitted", 0) > 0 or sc.get("running", 0) > 0
+                ) and sc.get("new", 0) > 0:
                     status = "submitting"
                 elif sc.get("running", 0) > 0:
                     status = "running"
@@ -1482,12 +1482,12 @@ class SimulationJob(object):
                     else:
                         doc = None
 
-                    if doc is not None:                        
+                    if doc is not None:
                         assert doc["runnumber"] == self.getrunnumber(n)
 
                         if doc["jobid"] != job.jobid:
                             job.jobid = doc["jobid"]
-                        if doc["status"] != status and status  == "new":
+                        if doc["status"] != status and status == "new":
                             job._status = Status(doc["status"], job.output)
                     else:
                         job._update_subjob_in_database()

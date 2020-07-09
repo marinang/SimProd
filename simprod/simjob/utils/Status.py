@@ -25,13 +25,13 @@ class Status(object):
 
         self.in_init = in_init
         self.status = "new"
-        
+
         if os.path.isfile(output):
             if os.path.getsize(output) >= 700000:
                 self.status = "completed"
             else:
                 self.status = "failed"
-        
+
         else:
             if status in ["submitted", "running"]:
                 self.status = status
@@ -64,17 +64,19 @@ class Status(object):
         return valid
 
     def __eq__(self, other):
-        
-        types = [str] 
+
+        types = [str]
         if not py3:
-            types.append(unicode)     
-         
+            types.append(unicode)
+
         if isinstance(other, Status):
             return self.status == other.status
         elif isinstance(other, tuple(types)):
             return self.status == other
         else:
-            raise ValueError("Cannot compare {0} and {1}.".format(type(self), type(other)))
+            raise ValueError(
+                "Cannot compare {0} and {1}.".format(type(self), type(other))
+            )
 
     def __ne__(self, other):
         return not self.__eq__(other)

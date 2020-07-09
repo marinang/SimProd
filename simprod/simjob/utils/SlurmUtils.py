@@ -36,7 +36,7 @@ py3 = (
 if py3:
     from importlib import reload
 else:
-    from imp import reload    
+    from imp import reload
 
 
 def Kill(ID):
@@ -105,6 +105,7 @@ def GetConfig():
 
             if "SimulationLPHEConfig" in sys.modules:
                 import SimulationLPHEConfig
+
                 reload(SimulationLPHEConfig)
             else:
                 try:
@@ -544,7 +545,7 @@ def screencommandfile(job):
     f.write("job = SimulationJob.from_dict(job_dict, {})\n".format(job.jobnumber))
 
     f.write("job.database = DATABASE\n\n")
-    
+
     f.write("query = Query()\n\n")
 
     if job.status == "new":
