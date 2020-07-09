@@ -364,12 +364,12 @@ class JobCollection(object):
                 continue
 
             status = job.status
-
+            
             if not job.subjobs or len(job.jobtable) == 0:
                 self.jobs[key] = SimulationJob.from_doc(job_doc, **self._job_kwargs)
                 continue
 
-            elif job_doc["status"] in [
+            elif status in [
                 "new",
                 "prepared",
                 "submitted",
@@ -382,7 +382,7 @@ class JobCollection(object):
                     job._update_job_in_database(update_subjobs_in_database=True)
                 continue
                 
-            if job_doc["status"] == "submitting":
+            if job_doc["status"] == "submitting" or status == "submitting":
                 job._update_job_in_database(update_subjobs_in_database=True)
 
             if status != job_doc["status"]:
