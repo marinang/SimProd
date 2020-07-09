@@ -118,7 +118,7 @@ def check_flag(boolean, what):
 
 
 def check_infiles(files):
-    
+
     if files is not None:
         if not isinstance(files, (list, tuple)):
             raise TypeError("A list/tuple with infiles must me provided.")
@@ -129,8 +129,5 @@ def check_infiles(files):
 
         for f in files:
             check_str(f, "files")
-            
+
     return files
-            
-            
-        
