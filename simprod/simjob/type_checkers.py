@@ -1,6 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import sys
+
+py3 = (
+    sys.version_info[0] > 2
+)  # creates boolean value for test that Python major version > 2
+
 
 def check_int(n, what):
 
@@ -109,3 +115,22 @@ def check_flag(boolean, what):
                 boolean, type(boolean), what
             )
         )
+
+
+def check_infiles(files):
+    
+    if files is not None:
+        if not isinstance(files, (list, tuple)):
+            raise TypeError("A list/tuple with infiles must me provided.")
+
+        types = [str]
+        if not py3:
+            types.append(unicode)
+
+        for f in files:
+            check_str(f, "files")
+            
+    return files
+            
+            
+        
