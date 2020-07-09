@@ -212,7 +212,7 @@ class DeliveryClerk(object):
 
         for n in job.range_subjobs:
             sj = job[n]
-            if not sj._status.submitted:
+            if sj._status == "new":
                 sjlogdir = "{logdir}/{sjname}".format(logdir=logdir, sjname=sj.jobname)
                 if os.path.isdir(sjlogdir):
                     shutil.rmtree(sjlogdir, ignore_errors=True)
@@ -258,8 +258,8 @@ class DeliveryClerk(object):
                 sj._status = Status("submitted", sj.output)
 
     def send_subjob(self, subjob):
-        if not subjob._status.submitted or subjob._status.failed:
-            if subjob._status.failed:
+        if subjob._status == "new" or subjob._status == "failed":
+            if subjob._status == "failed":
                 subjob.reset()
 
             job = subjob.parent
