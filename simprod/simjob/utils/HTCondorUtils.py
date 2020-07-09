@@ -18,8 +18,6 @@ from .Status import Status
 
 htcondor = LazyModule("htcondor")
 
-DEBUG = 0
-
 
 def DefaultHTCondorOptions():
 
@@ -44,27 +42,28 @@ class Scheduler:
         self._cached_query = NoneQuery()
 
     def getquery(self):
-        
+
         if not self._cached_query.isvalid:
             msg = red("Failed to query job status... Try later!")
 
             user = getpass.getuser()
             try:
                 query = self._htcondor.query(
-                    'User=="{0}@cern.ch"'.format(user), ["ClusterID", "JobStatus", "ProcID"]
+                    'User=="{0}@cern.ch"'.format(user),
+                    ["ClusterID", "JobStatus", "ProcID"],
                 )
-                
+
                 if not query:
                     queryresult = NoneQuery()
                 else:
                     queryresult = QueryResult(query)
-                    
+
             except (RuntimeError, IOError):
                 print(msg)
                 queryresult = BadQuery()
-                
+
             self._cached_query = queryresult
-                
+
         return self._cached_query
 
     def act(self, *args, **kwargs):
@@ -81,8 +80,8 @@ class BadQuery(object):
     @property
     def isvalid(self):
         return False
-        
-        
+
+
 class NoneQuery(object):
     def __init__(self, *args, **kwargs):
         pass
@@ -94,13 +93,13 @@ class NoneQuery(object):
 
 class QueryResult(object):
     def __init__(self, query):
-        
+
         self._result = {}
         for q in query:
             if q["ClusterID"] not in self._result:
                 self._result[q["ClusterID"]] = {}
             self._result[q["ClusterID"]][q["ProcID"]] = q["JobStatus"]
-        
+
         self.creation_time = datetime.datetime.now()
 
     @property
@@ -115,13 +114,13 @@ class QueryResult(object):
                 return True
         else:
             return False
-            
+
     def getstatuscode(self, clusterID, procID):
         try:
             return self._result[clusterID][procID]
         except KeyError:
             return None
-        
+
 
 class DeliveryClerk(object):
     def __init__(self, **kwargs):
@@ -152,7 +151,7 @@ class DeliveryClerk(object):
                 "nextweek",
             ],
         )
-        
+
     @property
     def schedd(self):
         return self._schedd
@@ -351,7 +350,7 @@ class DeliveryClerk(object):
             if ClusterID is not None:
                 subjob.jobid = "{0}.{1}".format(ClusterID, subjob.subjobnumber)
                 subjob._status = Status("submitted", subjob.output)
-                
+
     def parseID(self, ID):
         if not isinstance(ID, str):
             ID = str(ID)
@@ -359,11 +358,10 @@ class DeliveryClerk(object):
         ClusterID = int(ID.split(".")[0])
         ProcID = int(ID.split(".")[1])
         return ClusterID, ProcID
-                
+
     def getstatus(self, ID):
-        
+
         ClusterID, ProcID = self.parseID(ID)
-        
         queryresult = self.schedd.getquery()
 
         if isinstance(queryresult, BadQuery):
@@ -372,7 +370,7 @@ class DeliveryClerk(object):
             return "notfound"
         else:
             status_code = queryresult.getstatuscode(ClusterID, ProcID)
-                
+
             if status_code is None:
                 return "notfound"
             else:
@@ -408,9 +406,7 @@ class DeliveryClerk(object):
 
         for cid in cluster_ids:
             try:
-                self.schedd.act(
-                    htcondor.JobAction.Remove, "ClusterId=={0}".format(cid)
-                )
+                self.schedd.act(htcondor.JobAction.Remove, "ClusterId=={0}".format(cid))
             except RuntimeError:
                 kill = Popen(["condor_rm", str(cid)], stdout=PIPE, stderr=PIPE)
                 out, err = kill.communicate()
