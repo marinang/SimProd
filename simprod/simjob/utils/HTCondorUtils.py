@@ -366,15 +366,6 @@ class DeliveryClerk(object):
         
         queryresult = self.schedd.getquery()
 
-        if DEBUG > 0:
-            print("in HTCondorUtils.DeliveryClerk.getstatus")
-            print("ClusterID: ", ClusterID)
-            print("ProcID: ", ProcID)
-
-        if DEBUG > 0:
-            print("QueryResult: ", queryresult)
-            print("IsValid: ", queryresult.isvalid)
-
         if isinstance(queryresult, BadQuery):
             return "error"
         elif isinstance(queryresult, NoneQuery):
@@ -385,9 +376,6 @@ class DeliveryClerk(object):
             if status_code is None:
                 return "notfound"
             else:
-                if DEBUG > 0:
-                    print("Status code: ", status_code)
-
                 if status_code in [0, 3, 5, 7]:
                     return "failed"
                 elif status_code in [1]:
