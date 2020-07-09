@@ -21,8 +21,12 @@ def check_int(n, what):
 
 
 def check_str(string, what):
+    
+    types = [str]
+    if not py3:
+        types.append(unicode)
 
-    if isinstance(string, str):
+    if isinstance(string, tuple(types)):
         return string
     else:
         raise TypeError(
@@ -122,10 +126,6 @@ def check_infiles(files):
     if files is not None:
         if not isinstance(files, (list, tuple)):
             raise TypeError("A list/tuple with infiles must me provided.")
-
-        types = [str]
-        if not py3:
-            types.append(unicode)
 
         for f in files:
             check_str(f, "files")

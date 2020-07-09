@@ -7,11 +7,17 @@
 
 import os
 import datetime
+import sys
 
 TIME_NEW = 60  # minutes, time between check of status if status is new
 TIME_RUNNING = 15
 TIME_FAILED = 35
 TIME_SUBMITTED = 5
+
+
+py3 = (
+    sys.version_info[0] > 2
+)  # creates boolean value for test that Python major version > 2
 
 
 class Status(object):
@@ -85,12 +91,17 @@ class Status(object):
         return valid
 
     def __eq__(self, other):
+        
+        types = [str] 
+        if not py3:
+            types.append(unicode)     
+         
         if isinstance(other, Status):
             return self.status == other.status
-        elif isinstance(other, str):
+        elif isinstance(other, tuple(types)):
             return self.status == other
         else:
-            raise ValueError()
+            raise ValueError("Cannot compare {0} and {1}.".format(type(self), type(other)))
 
     def __ne__(self, other):
         return not self.__eq__(other)
