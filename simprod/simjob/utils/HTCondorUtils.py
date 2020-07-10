@@ -14,7 +14,6 @@ import subprocess as sub
 from .dependencies import LazyModule
 from .utilities import red, blue
 from .submit import SendCommand
-from .Status import Status
 
 htcondor = LazyModule("htcondor")
 
@@ -255,7 +254,7 @@ class DeliveryClerk(object):
         if ClusterID is not None:
             for n, sj in enumerate(submitted_jobs):
                 sj.jobid = "{0}.{1}".format(ClusterID, n)
-                sj._status = Status("submitted", sj.output)
+                sj._status = "submitted"
 
     def send_subjob(self, subjob):
         if subjob._status == "new" or subjob._status == "failed":
@@ -349,7 +348,7 @@ class DeliveryClerk(object):
 
             if ClusterID is not None:
                 subjob.jobid = "{0}.{1}".format(ClusterID, subjob.subjobnumber)
-                subjob._status = Status("submitted", subjob.output)
+                subjob._status = "submitted"
 
     def parseID(self, ID):
         if not isinstance(ID, str):

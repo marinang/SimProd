@@ -19,37 +19,43 @@ py3 = (
     sys.version_info[0] > 2
 )  # creates boolean value for test that Python major version > 2
 
+"""
+Allowed status for subjobs:
+    * new
+    * submitted
+    * running
+    * completed
+    * failed
+    * notfound
+    * error
+"""
 
-class Status(object):
-    def __init__(self, status, output, in_init=False):
 
-        self.in_init = in_init
-        
-        if status in ["new", "submitted", "running", "failed"]:
-            self.status = status
-        else:
-            if os.path.isfile(output) and os.path.getsize(output) >= 700000:
-                self.status = "completed"
+def valid_output(output):
+    if os.path.isfile(output) and os.path.getsize(output) >= 700000:
+        return True
+    else:
+        return False
+
+
+def resolve_status(previous_status, status, output):
+
+    if previous_status == "new":
+        allowed_status = ["submitted", "running"]
+        if status in allowed_status:
+            return status
+        if status == "completed":
+            if valid_output(output):
+                return status
             else:
-                self.status = "failed"
-
-    def __eq__(self, other):
-
-        types = [str]
-        if not py3:
-            types.append(unicode)
-
-        if isinstance(other, Status):
-            return self.status == other.status
-        elif isinstance(other, tuple(types)):
-            return self.status == other
+                return "failed"
         else:
-            raise ValueError(
-                "Cannot compare {0} and {1}.".format(type(self), type(other))
-            )
-
-    def __ne__(self, other):
-        return not self.__eq__(other)
-
-    def __repr__(self):
-        return self.status
+            return previous_status
+    else:
+        if status in ["completed", "notfound", "error", "failed"]:
+            if valid_output(output):
+                return status
+            else:
+                return "failed"
+        else:
+            return status

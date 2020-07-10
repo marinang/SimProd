@@ -28,7 +28,7 @@ from .utils.utilities import (
     silentrm,
 )
 from .utils.Database import getdatabase
-from .utils.Status import Status
+from .utils.Status import resolve_status
 from .utils.GetEvtType import getevttype
 from .utils.MoveJobs import Move, EosMove
 from .exceptions import NotPreparedError, SubmittedError, PreparedError
@@ -1168,7 +1168,7 @@ class SimulationJob(object):
             failedsubjobs = self.select("failed")
             for sj in failedsubjobs:
                 sj.reset()
-               
+
             self.status
             self.deliveryclerk.send_job(self, STORAGE)
             self._update_job_in_database(update_subjobs_in_database=True)
@@ -1325,16 +1325,16 @@ class SimulationJob(object):
             return "new"
 
         if not self.last_status == "completed":
-            
+
             table_from_clerk = self.deliveryclerk.get_update_subjobs_in_database(self)
-            
+
             status_list = []
 
             for n in self.range_subjobs:
 
                 sj_doc = self.jobtable.get(doc_id=n)
                 sj = self.subjobs[n]
-                
+
                 if table_from_clerk is not None:
                     sj_doc_from_clerk = table_from_clerk.get(Query().subjobnumber == n)
                 else:
@@ -1348,29 +1348,33 @@ class SimulationJob(object):
                 else:
                     status = sj.status
                     jobid = sj.jobid
-                        
+
                     if sj_doc_from_clerk is not None:
                         assert sj_doc_from_clerk["runnumber"] == self.getrunnumber(n)
                         states = ["error", "notfound", "failed"]
-                    
-                        if (sj_doc_from_clerk["jobid"] != status 
-                            and status == "new" 
-                            and self.deliveryclerk.getstatus(sj_doc_from_clerk["jobid"]) not in states
-                            ):
-                            
+
+                        if (
+                            sj_doc_from_clerk["jobid"] != status
+                            and status == "new"
+                            and self.deliveryclerk.getstatus(sj_doc_from_clerk["jobid"])
+                            not in states
+                        ):
+
                             jobid = sj_doc_from_clerk["jobid"]
-                            status = sj_doc_from_clerk["status"]
                             sj.jobid = jobid
-                            sj._status = Status(status, sj.output)
-                                    
+                            sj._status = resolve_status(
+                                status, sj_doc_from_clerk["status"], sj.output
+                            )
+                            status = sj_doc_from_clerk["status"]
+
                     if sj_doc["jobid"] != jobid or sj_doc["status"] != status:
                         sj_doc["jobid"] = jobid
                         sj_doc["status"] = status
 
                         self.jobtable.update(sj_doc, doc_ids=[n])
 
-#                    if status in ["completed", "failed"]:
-#                        self.subjobs[n] = None
+                #                    if status in ["completed", "failed"]:
+                #                        self.subjobs[n] = None
 
                 status_list.append(status)
 
@@ -1400,7 +1404,7 @@ class SimulationJob(object):
             if status != self.last_status:
                 info_msg = "INFO\tstatus of job {0} changed from '{1}' to '{2}'"
                 info_msg = info_msg.format(self.jobnumber, self.last_status, status)
-                
+
                 print(info_msg)
                 self._update_job_in_database(True)
 
@@ -1485,7 +1489,7 @@ class SimulationJob(object):
                     continue
 
                 if status == "new" and isinstance(job.jobid, int):
-                    job._status = Status("submitted", job.output)
+                    job._status = resolve_status(status, "submitted", job.output)
                     continue
 
                 if status != "submitted":
@@ -1819,7 +1823,7 @@ class SimulationSubJob(object):
                 self.send_options["logdestdir"], self.jobname
             )
 
-        self._status = Status(status="new", output=self.output)
+        self._status = "new"
 
         if kwargs.get("newsubjob", True):
             self.parenttable.insert(self.dump())
@@ -1827,15 +1831,17 @@ class SimulationSubJob(object):
 
         if kwargs.get("to_store", False):
             self._update_subjob_in_database()
-            
+
     @property
     def jobid(self):
         return self._jobid
-    
+
     @jobid.setter
     def jobid(self, jobid):
         if self.last_status in ["submitted", "running"]:
-            raise SubmittedError("Cannot change the jobid of the subjob once submitted.") 
+            raise SubmittedError(
+                "Cannot change the jobid of the subjob once submitted."
+            )
         self._jobid = jobid
 
     @property
@@ -1872,7 +1878,7 @@ class SimulationSubJob(object):
             self.jobid = self.parent.deliveryclerk.send_subjob(self)
 
             if self.jobid:
-                self._status = Status("submitted", self.output)
+                self._status = "submitted"
                 print(
                     blue(
                         "{0}/{1} jobs submitted!".format(
@@ -1901,17 +1907,19 @@ class SimulationSubJob(object):
         if self.jobid is not None:
 
             previous_status = self.last_status
-            
+
             if previous_status not in ["failed", "completed"]:
                 status = self.parent.deliveryclerk.getstatus(self.jobid)
-                if status not in ["error", "notfound"]:
-                    self._status = Status(status, self.output)
+                self._status = resolve_status(previous_status, status, self.output)
 
             if previous_status != self._status:
 
                 info_msg = "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'"
                 info_msg = info_msg.format(
-                    self.parent.jobnumber, self.subjobnumber, previous_status, self._status,
+                    self.parent.jobnumber,
+                    self.subjobnumber,
+                    previous_status,
+                    self._status,
                 )
 
                 print(info_msg)
@@ -1922,13 +1930,13 @@ class SimulationSubJob(object):
                     self._move_jobs()
             elif self._status == "failed":
                 self._empty_proddir(keep_log=True)
-                
+
         else:
             if self._status != "new":
                 print("PROBLEM")
                 print(self._status)
                 print(self.parent.jobnumber, self.subjobnumber)
-                self._status = Status("new", self.output)
+                self._status = "new"
 
         return repr(self._status)
 
@@ -1948,9 +1956,8 @@ class SimulationSubJob(object):
 
         self._empty_proddir()
         self.jobid = None
-        self._status = Status("new", self.output)
+        self._status = "new"
         self._update_subjob_in_database()
-
 
     def command(self):
         command = dict(doprod=self.parent.doprod)
@@ -1976,7 +1983,7 @@ class SimulationSubJob(object):
             if self._status != "new":
                 self.parent.deliveryclerk.killsubjob(self.jobid)
 
-        self._status = Status("failed", self.output)
+        self._status = "failed"
         self._update_subjob_in_database()
         if storeparent:
             self.parent._update_job_in_database()
@@ -2092,7 +2099,7 @@ class SimulationSubJob(object):
 
         status = dict["status"]
 
-        simsubjob._status = Status(status, simsubjob.output, in_init=True)
+        simsubjob._status = status
 
         if not simsubjob.send_options["loginprod"]:
             simsubjob.logjobdir = dict["logjobdir"]

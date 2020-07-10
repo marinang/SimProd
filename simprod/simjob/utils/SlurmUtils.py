@@ -18,7 +18,6 @@ from tinydb.middlewares import CachingMiddleware
 from .utilities import red, blue
 from .submit import main as submit
 from .ScreenUtils import SendInScreen, KillScreenSession
-from .Status import Status
 
 DEBUG = 0
 
@@ -36,7 +35,7 @@ py3 = (
 if py3:
     from importlib import reload
 else:
-    from imp import reload    
+    from imp import reload
 
 
 def Kill(ID):
@@ -110,6 +109,7 @@ def GetConfig():
 
             if "SimulationLPHEConfig" in sys.modules:
                 import SimulationLPHEConfig
+
                 reload(SimulationLPHEConfig)
             else:
                 try:
@@ -426,7 +426,7 @@ class DeliveryClerk(object):
             subjob.jobid = subjobid
 
             if subjob.jobid:
-                subjob._status = Status("submitted", subjob.output)
+                subjob._status = "submitted"
 
                 time.sleep(0.07)
                 print(
@@ -549,7 +549,7 @@ def screencommandfile(job):
     f.write("job = SimulationJob.from_dict(job_dict, {})\n".format(job.jobnumber))
 
     f.write("job.database = DATABASE\n\n")
-    
+
     f.write("query = Query()\n\n")
 
     if job.status == "new":
