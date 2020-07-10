@@ -1352,12 +1352,15 @@ class SimulationJob(object):
                     if sj_doc_from_clerk is not None:
                         assert sj_doc_from_clerk["runnumber"] == self.getrunnumber(n)
                         states = ["error", "notfound", "failed"]
-                        
+
                         if (
                             sj_doc_from_clerk["jobid"] != status
                             and status == "new"
-                            and (self.deliveryclerk.getstatus(sj_doc_from_clerk["jobid"])
-                            not in states or valid_output(sj.output))
+                            and (
+                                self.deliveryclerk.getstatus(sj_doc_from_clerk["jobid"])
+                                not in states
+                                or valid_output(sj.output)
+                            )
                         ):
 
                             jobid = sj_doc_from_clerk["jobid"]
