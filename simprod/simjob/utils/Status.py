@@ -40,11 +40,10 @@ def valid_output(output):
 
 def resolve_status(previous_status, status, output):
 
-    if previous_status == "new":
-        allowed_status = ["submitted", "running"]
-        if status in allowed_status:
+    if previous_status in ["new", "submitted"]:
+        if status == "running":
             return status
-        if status == "completed":
+        elif status == "completed":
             if valid_output(output):
                 return "completed"
             else:
