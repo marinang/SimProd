@@ -9,10 +9,10 @@ import os
 import datetime
 import sys
 
-TIME_NEW = 60  # minutes, time between check of status if status is new
-TIME_RUNNING = 15
-TIME_FAILED = 35
-TIME_SUBMITTED = 5
+TIME_NEW = 1  # minutes, time between check of status if status is new
+TIME_RUNNING = 5
+TIME_FAILED = 10
+TIME_SUBMITTED = 1
 
 
 py3 = (
@@ -31,9 +31,8 @@ class Status(object):
                 self.status = "completed"
             else:
                 self.status = "failed"
-
         else:
-            if status in ["submitted", "running"]:
+            if status in ["submitted", "running", "failed"]:
                 self.status = status
 
         self.creation_time = datetime.datetime.now()
