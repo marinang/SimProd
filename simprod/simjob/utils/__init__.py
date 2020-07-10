@@ -4,7 +4,6 @@
 # from .dependencies import softimport
 from .GetEvtType import getevttype
 from .utilities import *
-from .Status import Status
 from .MoveJobs import Move, EosMove
 from .dependencies import softimport
 import os
