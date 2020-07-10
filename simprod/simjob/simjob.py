@@ -28,7 +28,7 @@ from .utils.utilities import (
     silentrm,
 )
 from .utils.Database import getdatabase
-from .utils.Status import resolve_status
+from .utils.Status import resolve_status, valid_output
 from .utils.GetEvtType import getevttype
 from .utils.MoveJobs import Move, EosMove
 from .exceptions import NotPreparedError, SubmittedError, PreparedError
@@ -1352,12 +1352,12 @@ class SimulationJob(object):
                     if sj_doc_from_clerk is not None:
                         assert sj_doc_from_clerk["runnumber"] == self.getrunnumber(n)
                         states = ["error", "notfound", "failed"]
-
+                        
                         if (
                             sj_doc_from_clerk["jobid"] != status
                             and status == "new"
-                            and self.deliveryclerk.getstatus(sj_doc_from_clerk["jobid"])
-                            not in states
+                            and (self.deliveryclerk.getstatus(sj_doc_from_clerk["jobid"])
+                            not in states or valid_output(sj.output))
                         ):
 
                             jobid = sj_doc_from_clerk["jobid"]

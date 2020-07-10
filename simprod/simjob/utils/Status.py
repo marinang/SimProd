@@ -43,13 +43,11 @@ def resolve_status(previous_status, status, output):
     if previous_status in ["new", "submitted"]:
         if status == "running":
             return status
-        elif status == "completed":
+        else:
             if valid_output(output):
                 return "completed"
             else:
-                return "failed"
-        else:
-            return previous_status
+                return previous_status
     else:
         if status in ["completed", "notfound", "error", "failed"]:
             if valid_output(output):
