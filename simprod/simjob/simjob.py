@@ -1891,18 +1891,22 @@ class SimulationSubJob(object):
                     if status not in ["error", "notfound"]:
                         self._status = Status(status, self.output)
 
-            if previous_status != self._status:
+        if (
+            (previous_status == "new" or self._status == "new")
+            and self.jobid is not None
+            and not os.path.isfile(self.output)
+        ):
+            self._status = Status("failed", self.output)
 
-                info_msg = "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'"
-                info_msg = info_msg.format(
-                    self.parent.jobnumber,
-                    self.subjobnumber,
-                    previous_status,
-                    self._status,
-                )
+        if previous_status != self._status:
 
-                print(info_msg)
-                self._update_subjob_in_database()
+            info_msg = "INFO\tstatus of subjob {0}.{1} changed from '{2}' to '{3}'"
+            info_msg = info_msg.format(
+                self.parent.jobnumber, self.subjobnumber, previous_status, self._status,
+            )
+
+            print(info_msg)
+            self._update_subjob_in_database()
 
         if self._status == "completed":
             if not self.output == self.destfile and not self.output == "":
