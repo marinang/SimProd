@@ -1940,7 +1940,7 @@ class SimulationSubJob(object):
                 print(self.parent.jobnumber, self.subjobnumber)
                 self._status = "new"
 
-        return repr(self._status)
+        return self._status
 
     @property
     def output(self):
