@@ -2070,7 +2070,7 @@ class SimulationSubJob(object):
             "runnumber": self.runnumber,
             "polarity": self.polarity,
             "jobid": self.jobid,
-            "status": repr(self._status),
+            "status": self._status,
             "infiles": self.infiles,
         }
 
