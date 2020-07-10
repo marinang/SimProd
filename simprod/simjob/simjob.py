@@ -372,7 +372,6 @@ class JobCollection(object):
             elif status in [
                 "new",
                 "prepared",
-                "submitted",
                 "corrupted",
             ]:
                 if status != job_doc["status"]:
