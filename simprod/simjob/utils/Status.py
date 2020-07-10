@@ -46,7 +46,7 @@ def resolve_status(previous_status, status, output):
             return status
         if status == "completed":
             if valid_output(output):
-                return status
+                return "completed"
             else:
                 return "failed"
         else:
@@ -54,7 +54,7 @@ def resolve_status(previous_status, status, output):
     else:
         if status in ["completed", "notfound", "error", "failed"]:
             if valid_output(output):
-                return status
+                return "completed"
             else:
                 return "failed"
         else:

@@ -1721,6 +1721,8 @@ class SimulationJob(object):
                     color = blue
                 elif status == "failed":
                     color = red
+                else:
+                    color = cdefault
 
                 p_job = "{n:{fill}{al}{w}} ".format(
                     w=(len(h_job) - 1), al=">", fill="", n=n
