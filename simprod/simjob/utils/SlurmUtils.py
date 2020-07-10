@@ -36,7 +36,7 @@ py3 = (
 if py3:
     from importlib import reload
 else:
-    from imp import reload
+    from imp import reload    
 
 
 def Kill(ID):
@@ -73,7 +73,7 @@ def GetStatus(ID):
                 status = out.split("\n")[1].replace("'", "").lower()
 
                 if status == "pending":
-                    status = "pending"
+                    status = "submitted"
                 elif status in ["runnning", "completing"]:
                     status = "running"
                 elif status == "completed":
@@ -83,7 +83,12 @@ def GetStatus(ID):
                 elif status in ["failed", "timeout"]:
                     status = "failed"
             except IndexError:
-                status = "pending"
+                status = "submitted"
+
+    if status == "pending":
+        status = "submitted"
+    if status == "cancelled":
+        status = "failed"
 
     return status
 
@@ -105,7 +110,6 @@ def GetConfig():
 
             if "SimulationLPHEConfig" in sys.modules:
                 import SimulationLPHEConfig
-
                 reload(SimulationLPHEConfig)
             else:
                 try:
@@ -534,7 +538,7 @@ def screencommandfile(job):
     f.write("time.sleep(1.5)\n\n")
 
     f.write("storage = CachingMiddleware(JSONStorage)\n")
-    f.write("storage.WRITE_CACHE_SIZE = 20\n")
+    f.write("storage.WRITE_CACHE_SIZE = 10\n")
     f.write("jsonfile='{}'\n".format(dbasefile))
     f.write("if os.path.isfile(jsonfile):\n")
     f.write("\tos.remove(jsonfile)\n")
@@ -545,7 +549,7 @@ def screencommandfile(job):
     f.write("job = SimulationJob.from_dict(job_dict, {})\n".format(job.jobnumber))
 
     f.write("job.database = DATABASE\n\n")
-
+    
     f.write("query = Query()\n\n")
 
     if job.status == "new":
@@ -559,7 +563,7 @@ def screencommandfile(job):
         towrite = "\tjob.deliveryclerk.send_subjob_inscreen(job[n], storage)\n"
         f.write(towrite)
     else:
-        for sj in job.select("new", update=False):
+        for sj in job.select("new", update=True):
             sjnum = sj.subjobnumber
             towrite = "job_dict_{0} = {1}\n"
             f.write(towrite.format(sjnum, sj.dump()))
