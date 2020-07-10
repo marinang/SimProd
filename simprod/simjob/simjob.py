@@ -1386,7 +1386,10 @@ class SimulationJob(object):
             else:
                 if sc.get("new", 0) == self.nsubjobs:
                     status = "prepared"
-                elif sc.get("new", 0) < self.nsubjobs:
+                elif (
+                    sc.get("new", 0) < self.nsubjobs
+                    and sc.get("new", 0) < self.nsubjobs > 0
+                ):
                     status = "submitting"
                 elif sc.get("running", 0) > 0:
                     status = "running"
