@@ -64,7 +64,7 @@ class JobCollection(object):
         n_jobs = len(self.collection)
 
         if IsHTCondor():
-            from utils.HTCondorUtils import Scheduler
+            from .utils.HTCondorUtils import Scheduler
 
             self._job_kwargs = {"scheduler": Scheduler()}
         else:
