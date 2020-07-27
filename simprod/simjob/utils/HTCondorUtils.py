@@ -429,7 +429,7 @@ class DeliveryClerk(object):
                 return self.options[var]
 
             def setter(self, value):
-                if not isinstance(value, self.default_options[var]):
+                if not isinstance(value, type(self.default_options[var])):
                     msg = "A {} is required!".format(type(self.default_options[var]))
                     raise TypeError(msg)
 
