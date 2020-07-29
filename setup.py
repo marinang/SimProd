@@ -67,7 +67,7 @@ install_list = [
     "tqdm",
     "colorama",
     "pyparsing",
-    "numpy",
+    "numpy>=1.14",
 ]
 
 if py3:
