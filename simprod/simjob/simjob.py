@@ -517,8 +517,12 @@ class SimulationJob(object):
 
         if kwargs.get("newjob", True):
             jobstable = self.database.table("jobs")
-            jobstable.insert(self.dump())
-            self.jobnumber = jobstable._last_id
+            jobnumber = jobstable.insert(self.dump())
+            
+            if py3:
+                self.jobnumber = jobnumber
+            else:
+                self.jobnumber = jobstable._last_id
         else:
             self.jobnumber = kwargs.get("jobnumber", None)
 
@@ -1829,8 +1833,11 @@ class SimulationSubJob(object):
         self._status = "new"
 
         if kwargs.get("newsubjob", True):
-            self.parenttable.insert(self.dump())
-            assert self.parenttable._last_id == subjobnumber
+            id = self.parenttable.insert(self.dump())
+            if py3:
+                id == subjobnumber
+            else:
+                assert self.parenttable._last_id == subjobnumber
 
         if kwargs.get("to_store", False):
             self._update_subjob_in_database()
