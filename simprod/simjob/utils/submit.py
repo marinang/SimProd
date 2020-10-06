@@ -21,6 +21,10 @@ from .utilities import red
 
 DEBUG = 0
 
+py3 = (
+    sys.version_info[0] > 2
+)  # creates boolean value for test that Python major version > 2
+
 
 def PrepareLSFJob(**kwargs):
 
@@ -104,6 +108,9 @@ def PrepareSlurmJob(**kwargs):
 
         cmd = sub.Popen(["sinfo", "-N"], stdout=sub.PIPE)
         cmd_out, _ = cmd.communicate()
+        if py3:
+            cmd_out = cmd_out.decode()
+        
         output = cmd_out.split("\n")
         output.remove(output[0])
 
