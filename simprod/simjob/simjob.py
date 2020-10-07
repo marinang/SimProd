@@ -1736,6 +1736,9 @@ class SimulationJob(object):
                 p_job = "{n:{fill}{al}{w}} ".format(
                     w=(len(h_job) - 1), al=">", fill="", n=n
                 )
+                
+                if not jobID:
+                    jobID = "None"
 
                 p_jobID = "{n:{fill}{al}{w}} ".format(
                     w=(len(h_jobID) - 1), al=">", fill="", n=jobID
