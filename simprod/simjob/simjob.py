@@ -1329,8 +1329,8 @@ class SimulationJob(object):
             return "new"
 
         if not self.last_status == "completed":
-
-            table_from_clerk, db_clerk = self.deliveryclerk.get_update_subjobs_in_database(self)
+            
+            from_clerk = self.deliveryclerk.get_update_subjobs_in_database(self)
 
             status_list = []
 
@@ -1339,7 +1339,8 @@ class SimulationJob(object):
                 sj_doc = self.jobtable.get(doc_id=n)
                 sj = self.subjobs[n]
                 
-                if table_from_clerk is not None:
+                if from_clerk is not None:
+                    table_from_clerk, db_clerk = from_clerk
                     sj_doc_from_clerk = table_from_clerk.get(Query().subjobnumber == n)
                 else:
                     sj_doc_from_clerk = None
@@ -1373,6 +1374,8 @@ class SimulationJob(object):
                                 status, sj_doc_from_clerk["status"], sj.output
                             )
                             status = sj_doc_from_clerk["status"]
+                            
+                        db_clerk.close()
 
                     if sj_doc["jobid"] != jobid or sj_doc["status"] != status:
                         sj_doc["jobid"] = jobid
@@ -1383,7 +1386,6 @@ class SimulationJob(object):
                 #                    if status in ["completed", "failed"]:
                 #                        self.subjobs[n] = None
                 
-                    db_clerk.close()
 
                 status_list.append(status)
 
