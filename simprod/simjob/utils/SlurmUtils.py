@@ -457,8 +457,8 @@ class DeliveryClerk(object):
         if os.path.isfile(fname):
             DATABASE = getdatabase(fname)
             table = DATABASE.table(name)
-            DATABASE.close()
-            return table
+            #DATABASE.close()
+            return table, DATABASE
         else:
             return None
 
