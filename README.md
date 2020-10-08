@@ -6,7 +6,7 @@ Mini framework to send LHCb simulation jobs on a batch system (HTCondor, Slurm)!
 
 A LHCb mattermost channel called `SimProd` is available for discussing any issues.
 
-A new maintainer is needed for the near future,.
+**A new maintainer is needed for the near future.**
 
 ## Installation
 
